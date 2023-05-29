@@ -1,0 +1,67 @@
+(:action cut_stalks
+:parameters (?plant - papyrus_tree ?knife - knife ?player - player ?loc - location)
+:precondition (and
+(at ?plant ?loc)
+(inventory ?player ?knife)
+)
+:effect (and
+(not (at ?plant ?loc))
+(at ?papyrus_stalks ?loc)
+)
+)
+
+(:action papyrus_strips
+:parameters (?stalks - papyrus_stalks ?strips - papyrus_strips ?knife - knife ?player - player ?loc - location)
+:precondition (and
+(at ?stalks ?loc)
+(inventory ?player ?knife)
+)
+:effect (and
+(not (at ?stalks ?loc))
+(at ?strips ?loc)
+)
+)
+
+(:action flatten_papyrus
+:parameters (?strips - papyrus_strips ?boards - wooden_boards ?player - player ?loc - location)
+:precondition (and
+(at ?strips ?loc)
+(at ?boards ?loc)
+(strips_between_boards)
+)
+:effect (flattened ?strips)
+)
+
+(:action place_strips_between_boards
+:parameters (?strips - papyrus_strips ?boards - wooden_boards ?player - player ?loc - location)
+:precondition (and
+(at ?strips ?loc)
+(at ?boards ?loc)
+(not (strips_between_boards))
+)
+:effect (strips_between_boards)
+)
+
+(:action cut_papyrus
+:parameters (?papyrus - papyrus ?scissors - scissors ?player - player ?loc - location)
+:precondition (and
+(at ?papyrus ?loc)
+(inventory ?player ?scissors)
+)
+:effect (and
+(not (at ?papyrus ?loc))
+(at ?smaller_papyrus ?loc)
+)
+)
+
+(:action polish_papyrus
+:parameters (?papyrus - papyrus ?stone - smooth_stone ?player - player ?loc - location)
+:precondition (and
+(at ?papyrus ?loc)
+(inventory ?player ?stone)
+)
+:effect (polished ?papyrus)
+)
+
+
+)

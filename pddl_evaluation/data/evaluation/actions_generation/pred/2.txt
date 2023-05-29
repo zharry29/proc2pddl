@@ -1,0 +1,42 @@
+ (:action pour_water ; pour water into bowl
+     :parameters (?player ?water)
+     :precondition (and (inventory ?player ?water) (at ?player location))
+     :effect (and (inventory ?player ?water))
+   )
+
+   (:action place_strips_between_boards ; place papyrus strips between two wooden boards
+     :parameters (?player ?papyrus_strips)
+     :precondition (and (inventory ?player ?papyrus_strips) (at ?player location))
+     :effect (and (at ?papyrus_strips location))
+   )
+
+   (:action cut_stalks ; cut stalks
+     :parameters (?player ?papyrus_tree)
+     :precondition (and (inventory ?player ?papyrus_tree) (at ?player location))
+     :effect (and (at ?papyrus_tree location))
+   )
+
+   (:action papyrus_strips ; cut strips from stalks
+     :parameters (?player ?papyrus_strips)
+     :precondition (and (inventory ?player ?papyrus_strips) (at ?player location))
+     :effect (and (at ?papyrus_strips location))
+   )
+
+   (:action polish_papyrus ; Use a stone to polish the papyrus.
+     :parameters (?player ?papyrus)
+     :precondition (and (inventory ?player ?papyrus) (at ?player location))
+     :effect (and (inventory ?player ?papyrus))
+   )
+
+   (:action flatten_papyrus ; Use a roller to make the papyrus flat.
+     :parameters (?player ?papyrus)
+     :precondition (and (inventory ?player ?papyrus) (at ?player location))
+     :effect (and (at ?papyrus location))
+   )
+
+   (:action cut_paprus ; Use a scissor to cut the papryus.
+     :parameters (?player ?papyrus)
+     :precondition (and (inventory ?player ?papyrus) (at ?player location))
+     :effect (and (at ?papyrus location))
+   )
+)

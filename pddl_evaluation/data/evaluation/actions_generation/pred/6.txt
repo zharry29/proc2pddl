@@ -1,0 +1,36 @@
+(:action cut_stalks
+:parameters (?stalk - papyrus_stalks ?knife - knife)
+:precondition (and (at ?stalk ?loc - location) (inventory player ?knife))
+:effect (and (not (at ?stalk ?loc)) (at ?knife ?loc)))
+
+(:action papyrus_strips
+:parameters (?stalk - papyrus_stalks ?strips - papyrus_strips ?knife - knife)
+:precondition (and (at ?stalk ?loc - location) (inventory player ?knife))
+:effect (and (not (at ?stalk ?loc)) (at ?strips ?loc) (strips_woven ?strips)))
+
+(:action place_strips_between_boards
+:parameters (?strips - papyrus_strips ?board1 - wooden_boards ?board2 - wooden_boards)
+:precondition (and (at ?strips ?loc) (at ?board1 ?loc) (at ?board2 ?loc) (not (strips_between_boards)))
+:effect (strips_between_boards))
+
+(:action flatten_papyrus
+:parameters (?board1 - wooden_boards ?board2 - wooden_boards ?papyrus - papyrus)
+:precondition (and (strips_between_boards) (at ?board1 ?loc) (at ?board2 ?loc))
+:effect (and (not (strips_between_boards)) (flattened ?papyrus)))
+
+(:action cut_paprus
+:parameters (?papyrus - papyrus ?scissors - scissors)
+:precondition (and (flattened ?papyrus) (inventory player ?scissors))
+:effect (and (not (flattened ?papyrus)) (at ?scissors ?loc) (cut ?papyrus)))
+
+(:action measure_papyrus
+:parameters (?papyrus - papyrus ?linen - linen_cloth)
+:precondition (and (cut ?papyrus) (inventory player ?linen))
+:effect (and (not (cut ?papyrus)) (at ?linen ?loc)))
+
+(:action make_notebook
+:parameters (?papyrus - papyrus ?linen - linen_cloth)
+:precondition (and (at ?linen ?loc) (cut ?papyrus))
+:effect (and (not (at ?linen ?loc)) (inventory player ?papyrus)))
+
+)
