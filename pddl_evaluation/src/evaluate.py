@@ -120,75 +120,78 @@ class Tester:
     def eval_action_generation(self, true_dir, pred_dir):
         self.true_dir = true_dir
         self.pred_dir = pred_dir
-        self.meta_data = json.load(open(pred_dir + 'meta_data.json'))
+        #self.meta_data = json.load(open(pred_dir + 'meta_data.json'))
         
         eval_results = {}
-        for test_case in self.meta_data:
-            case_results_raw = {}
+        #for output_action_file in self.meta_data[test_case]:
+        case_results_raw = {}
+        for proc_id in range(1):
+            proc_id += 1
 
             domain_header_fp = '{true_dir}/{test_case}/domain_header.pddl'.format(
                 true_dir = true_dir,
-                test_case = test_case
+                test_case = proc_id
             )
             domain_header = ''.join(open(domain_header_fp).readlines())
+            output_action_file = f"gpt4_p1_{proc_id}.txt"
+            case_results_raw[output_action_file] = {
+                'intrinsic': 'pass',
+                'extrinsic': None
+            }
+            # 0. getting the domain file
+            output_actions = ''.join(open('{pred_dir}/{action_file}'.format(
+                pred_dir = pred_dir,
+                action_file = output_action_file
+            )).readlines())
+            pred_domain = domain_header + output_actions
             
-            for output_action_file in self.meta_data[test_case]:
-                case_results_raw[output_action_file] = {
-                    'intrinsic': 'pass',
-                    'extrinsic': None
-                }
-                # 0. getting the domain file
-                output_actions = ''.join(open('{pred_dir}/{action_file}'.format(
-                    pred_dir = pred_dir,
-                    action_file = output_action_file
-                )).readlines())
-                pred_domain = domain_header + output_actions
-                
-                # 1. Intrinsic check domain file
-                tmp_domain_file = cache_dir + 'tmp_action_generation.pddl'
-                with open(cache_dir + 'tmp_action_generation.pddl', 'w') as file:
-                    file.write(pred_domain)
-                # 1.1 check if parse-able
-                parser = PDDL_Parser()
-                try:
-                    parser.parse_domain(tmp_domain_file)
-                except:
-                    case_results_raw[output_action_file]['intrinsic'] = 'parsing_error'
-                    continue
-                # 1.2 check if actions are all found
-                action_found, action_total = self.check_action_list(true_dir, test_case, output_actions)
+            # 1. Intrinsic check domain file
+            tmp_domain_file = cache_dir + 'tmp_action_generation.pddl'
+            with open(cache_dir + 'tmp_action_generation.pddl', 'w') as file:
+                file.write(pred_domain)
+            # 1.1 check if parse-able
+            parser = PDDL_Parser()
+            intrinsic_done = False
+            try:
+                parser.parse_domain(tmp_domain_file)
+            except:
+                case_results_raw[output_action_file]['intrinsic'] = 'parsing_error'
+                #continue
+                intrinsic_done = True
+            # 1.2 check if actions are all found
+            if not intrinsic_done:
+                action_found, action_total = self.check_action_list(true_dir, proc_id, output_actions)
                 if action_total > action_found:
                     case_results_raw[output_action_file]['intrinsic'] = 'action_incomplete'
+                    #continue
+            # 2. Extrinsic evaluations
+            case_results_raw[output_action_file]['extrinsic'] = {}
+            problem_dir = '{true_dir}/{test_case}/problems/'.format(
+                true_dir = true_dir,
+                test_case = proc_id
+            )
+            for problem in os.listdir(problem_dir):
+                if '.pddl' not in problem:
                     continue
-                
-                # 2. Extrinsic evaluations
-                case_results_raw[output_action_file]['extrinsic'] = {}
-                problem_dir = '{true_dir}/{test_case}/problems/'.format(
+                problem_file = '{true_dir}/{test_case}/problems/{problem}'.format(
                     true_dir = true_dir,
-                    test_case = test_case
+                    test_case = proc_id,
+                    problem = problem
                 )
-                for problem in os.listdir(problem_dir):
-                    if '.pddl' not in problem:
-                        continue
-                    problem_file = '{true_dir}/{test_case}/problems/{problem}'.format(
-                        true_dir = true_dir,
-                        test_case = test_case,
-                        problem = problem
-                    )
 
-                    plan = self.eval_unit_action_generation(tmp_domain_file, problem_file)
-                    if plan:
-                            case_results_raw[output_action_file]['extrinsic'][problem] = 'solved'
-                    else:
-                        case_results_raw[output_action_file]['extrinsic'][problem] = 'unsolved'
+                plan = self.eval_unit_action_generation(tmp_domain_file, problem_file)
+                if plan:
+                        case_results_raw[output_action_file]['extrinsic'][problem] = 'solved'
+                else:
+                    case_results_raw[output_action_file]['extrinsic'][problem] = 'unsolved'
             
-            summary = self.eval_summary_stat(case_results_raw)
-            eval_results[test_case] = {
-                'summary': summary,
-                'raw': case_results_raw
-            }
+            #summary = self.eval_summary_stat(case_results_raw)
+            #eval_results[proc_id] = {
+            #    'summary': summary,
+            #    'raw': case_results_raw
+            #}
             
-        return eval_results
+        return case_results_raw
 
 
     def eval_unit_action_generation(self, domain_file, problem_file):
@@ -201,5 +204,5 @@ class Tester:
         
 T = Tester(cache_dir)
 
-eval_results = T.eval_action_generation(true_dir, pred_dir)['1']
+eval_results = T.eval_action_generation(true_dir, pred_dir)#['1']
 print(eval_results)
