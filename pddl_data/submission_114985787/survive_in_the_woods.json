@@ -1,0 +1,557 @@
+{
+    "survive_in_the_woods": {
+        "problems": {
+            "build_shelter": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "1,2,3,4,5,6,7",
+                "step_contents": "1. Search for a dry, flat area between 2 trees with splits in their trunks.\u00a0Look around the area to find a relatively flat area with a tree that has a trunk that splits about 3\u20135 feet (0.91\u20131.52\u00a0m) off of the ground. If possible, try to find 2 trees that have a split in their trunks about 3\u20135 feet (0.91\u20131.52\u00a0m) off of the ground and are about 10 feet (3.0\u00a0m) apart from each other.  2. Find a branch 10 feet (3.0\u00a0m) long and 3\u20136 inches (7.6\u201315.2\u00a0cm) thick.\u00a0To form your shelter you need a support beam, so look for a sturdy tree branch that isn't rotting. The straighter the branch, the better it will be for forming the structure of your shelter. Clear off any critters or spiders that may be on the branch. 3. Insert 1 end of the branch into the split of 1 of the trees.\u00a0Where the tree splits and forms a \u201cV\u201d shape, place 1 end of the branch to hold it up as a support beam. If the tree doesn't have a split, use a log that ends in a \u201cV\u201d shape and lean it against a tree so the branch is supported by the tree. 5. Lean branches against the main branch to form the structure of your shelter.\u00a0Gather a bunch of branches that are long enough to be propped up against the main branch of your shelter. Think about forming ribs with the branches. Try to keep them as close together as you can.  6. Lay twigs and leaves over the branches to form a layer of insulation.\u00a0Once you've formed the structure of your shelter, use smaller, leafy branches, brush, or leaves to create a layer of insulation that will help retain heat and provide cover from the wind and rain. Lay the leaves and small branches over the frame in order of decreasing size to create a thick layer.  7. Use leaves to make a bed inside of the shelter.\u00a0Try to make your shelter as comfortable as you can by finding soft material like leaves or pine needles and laying them on the ground inside of your shelter. Check for any insects or spiders on the material before you put it in your shelter.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [],
+                        "tree": [
+                            "trees",
+                            "a tree"
+                        ],
+                        "branch": [
+                            "a branch 10 feet (3.0 m) long and 3\u20136 inches (7.6\u201315.2 cm) thick",
+                            "The straighter the branch",
+                            "on the branch",
+                            "1 end of the branch",
+                            "the main branch"
+                        ],
+                        "branches": [
+                            "branches",
+                            "a bunch of branches that are long enough"
+                        ],
+                        "twigs": [
+                            "twigs",
+                            "smaller, leafy branches",
+                            "small branches"
+                        ],
+                        "leaves": [
+                            "leaves",
+                            "soft material like leaves or pine needles",
+                            "the material"
+                        ],
+                        "beam": [
+                            "a support beam"
+                        ],
+                        "frame": [
+                            "the structure of your shelter",
+                            "ribs"
+                        ],
+                        "shelter": [
+                            "shelter"
+                        ],
+                        "flowers": [],
+                        "wire": [],
+                        "snare": [],
+                        "bar": [],
+                        "player": [
+                            "you",
+                            "your"
+                        ],
+                        "direction": [],
+                        "location": [
+                            "a dry, flat area",
+                            "the area",
+                            "a relatively flat area"
+                        ]
+                    },
+                    "predicates": {
+                        "has_water_source": [],
+                        "treated": [],
+                        "at": [
+                            "a relatively flat area with a tree"
+                        ],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": [],
+                        "dry": [
+                            "a dry, flat area"
+                        ],
+                        "flat": [
+                            "a dry, flat area"
+                        ],
+                        "has_split_in_trunk": [
+                            "trees with splits in their trunks",
+                            "has a trunk that splits",
+                            "trees that have a split in their trunks"
+                        ],
+                        "long": [
+                            "a branch 10 feet (3.0 m) long"
+                        ],
+                        "thick": [
+                            "a branch 10 feet (3.0 m) long and 3\u20136 inches (7.6\u201315.2 cm) thick"
+                        ],
+                        "has_bug": [
+                            "any critters or spiders that may be on the branch",
+                            "any insects or spiders on the material"
+                        ],
+                        "edible": [],
+                        "unwashed": [],
+                        "hungry": [],
+                        "made_by_animal": [],
+                        "hanged": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "find",
+                            "look for",
+                            "gather",
+                            "finding"
+                        ],
+                        "get_water": [],
+                        "drop": [],
+                        "clear_spider": [
+                            "Check for any insects or spiders",
+                            "Clear off any critters or spiders"
+                        ],
+                        "insert_beam": [
+                            "Insert 1 end of the branch into the split of 1 of the trees",
+                            "place 1 end of the branch to hold it up as a support beam"
+                        ],
+                        "lean_branches": [
+                            "Lean branches against the main branch to form the structure of your shelter.",
+                            "propped up against the main branch of your shelter",
+                            "forming ribs with the branches"
+                        ],
+                        "layer": [
+                            "Lay twigs and leaves over the branches to form a layer of insulation",
+                            "use smaller, leafy branches, brush, or leaves to create a layer of insulation",
+                            "Lay the leaves and small branches over the frame",
+                            "Add layers of insulation",
+                            "add as many layers as you can",
+                            "Use leaves to make a bed inside of the shelter",
+                            "laying them on the ground inside of your shelter",
+                            "put it in your shelter"
+                        ],
+                        "wash": [],
+                        "eat": [],
+                        "make_snare": [],
+                        "make_horizontal_bar": [],
+                        "hang_snare": []
+                    }
+                }
+            },
+            "eat_plants": {
+                "part_number": "3",
+                "method_number": "4",
+                "step_number": "0",
+                "step_contents": "Forge for edible wild plants.\u00a0There are lots of wild plants in the woods that you can eat, but you need to make sure you're gathering ones that aren't toxic. Look for dandelion leaves, the green leaves of chickweed and wood sorrel, and the tender young flowers of primrose and wild violets. If you're not sure what plant you're picking, don't eat it. Wash off any edible plants that you find.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [
+                            "Wash off any edible plants that you find"
+                        ],
+                        "tree": [],
+                        "branch": [],
+                        "branches": [],
+                        "twigs": [],
+                        "leaves": [
+                            "dandelion leaves, the green leaves of chickweed and wood sorrel"
+                        ],
+                        "beam": [],
+                        "frame": [],
+                        "shelter": [],
+                        "flowers": [
+                            "the tender young flowers of primrose and wild violets"
+                        ],
+                        "wire": [],
+                        "snare": [],
+                        "bar": [],
+                        "player": [],
+                        "direction": [],
+                        "location": [
+                            "wild plants in the woods"
+                        ]
+                    },
+                    "predicates": {
+                        "has_water_source": [],
+                        "treated": [],
+                        "at": [
+                            "wild plants in the woods"
+                        ],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": [],
+                        "dry": [],
+                        "flat": [],
+                        "has_split_in_trunk": [],
+                        "long": [],
+                        "thick": [],
+                        "has_bug": [],
+                        "edible": [
+                            "aren't toxic",
+                            "edible plants"
+                        ],
+                        "unwashed": [
+                            "Wash off any edible plants that you find"
+                        ],
+                        "hungry": [],
+                        "made_by_animal": [],
+                        "hanged": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "gathering",
+                            "look for",
+                            "picking",
+                            "find"
+                        ],
+                        "get_water": [],
+                        "drop": [],
+                        "clear_spider": [],
+                        "insert_beam": [],
+                        "lean_branches": [],
+                        "layer": [],
+                        "wash": [
+                            "Wash off"
+                        ],
+                        "eat": [
+                            "eat it"
+                        ],
+                        "make_snare": [],
+                        "make_horizontal_bar": [],
+                        "hang_snare": []
+                    }
+                }
+            },
+            "build_snare": {
+                "part_number": "3",
+                "method_number": "5",
+                "step_number": "0",
+                "step_contents": "Build a snare\u00a0if you have string or wire.\u00a0A snare is a safe and relatively easy way to catch small game like rabbits and squirrels. Take a piece of wire or string about 2.5 feet (0.76\u00a0m) long, make a loop at one end and\u00a0tie a slip knot. Then push the opposite end of the string or wire through the slip knot to form a large circle. Hang the circle of the snare over a footpath or a trail in the woods. Make a horizontal bar over the ground with a branch to hang your snare. Look for a small, beaten path that was made by an animal to place your snare.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [],
+                        "tree": [],
+                        "branch": [
+                            "a branch"
+                        ],
+                        "branches": [],
+                        "twigs": [],
+                        "leaves": [],
+                        "beam": [],
+                        "frame": [],
+                        "shelter": [],
+                        "flowers": [],
+                        "wire": [
+                            "wire",
+                            "string"
+                        ],
+                        "snare": [
+                            "snare",
+                            "a large circle",
+                            "circle of the snare"
+                        ],
+                        "bar": [
+                            "a horizontal bar"
+                        ],
+                        "player": [
+                            "you"
+                        ],
+                        "direction": [],
+                        "location": [
+                            "footpath",
+                            "trail",
+                            "woods",
+                            "path"
+                        ]
+                    },
+                    "predicates": {
+                        "has_water_source": [],
+                        "treated": [],
+                        "at": [
+                            "over a footpath or a trail in the woods",
+                            "over the ground"
+                        ],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": [],
+                        "dry": [],
+                        "flat": [],
+                        "has_split_in_trunk": [],
+                        "long": [],
+                        "thick": [],
+                        "has_bug": [],
+                        "edible": [],
+                        "unwashed": [],
+                        "hungry": [],
+                        "made_by_animal": [
+                            "a small, beaten path that was made by an animal"
+                        ],
+                        "hanged": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "catch"
+                        ],
+                        "get_water": [],
+                        "drop": [],
+                        "clear_spider": [],
+                        "insert_beam": [],
+                        "lean_branches": [],
+                        "layer": [],
+                        "wash": [],
+                        "eat": [],
+                        "make_snare": [
+                            "Take a piece of wire or string about 2.5 feet (0.76 m) long, make a loop at one end and tie a slip knot. Then push the opposite end of the string or wire through the slip knot to form a large circle"
+                        ],
+                        "make_horizontal_bar": [
+                            "Make a horizontal bar over the ground with a branch to hang your snare"
+                        ],
+                        "hang_snare": [
+                            "Hang the circle of the snare",
+                            "hang your snare",
+                            "Set up as many snares as you can",
+                            "place your snare"
+                        ]
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Survive-in-the-Woods",
+        "wikihow_title": "How to Survive in the Woods",
+        "types": [
+            "item",
+            "water",
+            "tree",
+            "branch",
+            "branches",
+            "twigs",
+            "leaves",
+            "beam",
+            "frame",
+            "shelter",
+            "flowers",
+            "wire",
+            "snare",
+            "bar",
+            "player",
+            "direction",
+            "location"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "get_water",
+            "drop",
+            "clear_spider",
+            "insert_beam",
+            "lean_branches",
+            "layer",
+            "wash",
+            "eat",
+            "make_snare",
+            "make_horizontal_bar",
+            "hang_snare"
+        ],
+        "predicates": [
+            "has_water_source",
+            "treated",
+            "at",
+            "inventory",
+            "connected",
+            "blocked",
+            "dry",
+            "flat",
+            "has_split_in_trunk",
+            "long",
+            "thick",
+            "has_bug",
+            "edible",
+            "unwashed",
+            "hungry",
+            "made_by_animal",
+            "hanged"
+        ],
+        "natural_language_descriptions": {
+            "types": {
+                "item": {
+                    "description": "a general type of things that are essential to solve a problem"
+                },
+                "water": {
+                    "description": "water that can be collected from the environment and used to wash things"
+                },
+                "tree": {
+                    "description": "a tree that can support a shelter"
+                },
+                "branch": {
+                    "description": "a sturdy tree branch that isn't rotting"
+                },
+                "branches": {
+                    "description": "a bunch of branches that are long enough to be propped up against the main branch"
+                },
+                "twigs": {
+                    "description": "leafy branches used to create a layer of insulation that will help retain heat and provide cover from the wind and rain"
+                },
+                "leaves": {
+                    "description": "leaves of tree or plant"
+                },
+                "beam": {
+                    "description": "a long, sturdy branch inserted into the split of tree that supports the roof of shelter"
+                },
+                "frame": {
+                    "description": "ribs of the shelter forming the structure"
+                },
+                "shelter": {
+                    "description": "a completed shelter"
+                },
+                "flowers": {
+                    "description": "flowers of wild plant"
+                },
+                "wire": {
+                    "description": "a piece of wire or string about 2.5 feet (0.76 m) long"
+                },
+                "snare": {
+                    "description": "a trap for catching birds or animals"
+                },
+                "bar": {
+                    "description": "a horizontal wooden bar"
+                },
+                "player": {
+                    "description": "character in game"
+                },
+                "direction": {
+                    "description": "a course along which character moves"
+                },
+                "location": {
+                    "description": "a particular place or position in game"
+                }
+            },
+            "actions": {
+                "go": {
+                    "description": "navigate to an adjacent location",
+                    "prerequisites": "The player is at location 1. Location 1 is connected to location 2 in the direction and this connection is not blocked.",
+                    "results": "The player is no longer at location 1 and is at location 2 now."
+                },
+                "get": {
+                    "description": "pick up an item and put it in the inventory",
+                    "prerequisites": "The player and item are in same location.",
+                    "results": "Item appears in the player's inventory and no longer in the location environment."
+                },
+                "get_water": {
+                    "description": "get water from a location that has a water source like a lake",
+                    "prerequisites": "Player is at a location that has a water source.",
+                    "results": "The player's inventory has untreated water."
+                },
+                "drop": {
+                    "description": "drop down an item and remove it from the inventory",
+                    "prerequisites": "The player is at a location where the item does not exist. The player's inventory contains the item.",
+                    "results": "The item is no longer in player's inventory and is at the location."
+                },
+                "clear_spider": {
+                    "description": "clear off any critters or spiders that may be on the branch or leaves",
+                    "prerequisites": "The item in player's inventory has a bug on it.",
+                    "results": "This inventory item does not have bug on it."
+                },
+                "insert_beam": {
+                    "description": "insert end(s) of the branch into the split(s) of the tree(s)",
+                    "prerequisites": "The player is at a  flat and dry area with a tree that has a split in its trunk. The player has a long and thick branch in their inventory with bugs removed.",
+                    "results": "The player and a beam are at this area and the branch is no longer in inventory."
+                },
+                "lean_branches": {
+                    "description": "Lean branches against the main branch to form the structure of your shelter.",
+                    "prerequisites": "The player is at the location where the beam is at and has a bunch of branches in their inventory.",
+                    "results": "A frame of shelter appears at the location where player stands. The"
+                },
+                "layer": {
+                    "description": "Lay twigs and leaves",
+                    "prerequisites": "The player is at the location where the frame is at and has twigs and leaves in their inventory. Leaves are clean without bugs.",
+                    "results": "A shelter appears at the location where player stands. The twigs and leaves are no longer in inventory."
+                },
+                "wash": {
+                    "description": "Wash off plants that you find.",
+                    "prerequisites": "Player has item and water in inventory and the item is unwashed.",
+                    "results": "The item in inventory is washed."
+                },
+                "eat": {
+                    "description": "Eat anything you find edible",
+                    "prerequisites": "The player is hungry and has something edible in inventory. The item is washed.",
+                    "results": "The item is no longer in inventory and the player is not hungry."
+                },
+                "make_snare": {
+                    "description": "Take a piece of wire and make a large circle",
+                    "prerequisites": "The player has wire in inventory.",
+                    "results": "The wire is no longer in inventory. An snare that has not been hanged is in inventory."
+                },
+                "make_horizontal_bar": {
+                    "description": "Make a horizontal bar with a branch to hang your snare",
+                    "prerequisites": "The player has a branch in inventory.",
+                    "results": "The branch is no longer in inventory and the bar is in inventory."
+                },
+                "hang_snare": {
+                    "description": "Hang the circle of the snare over a path",
+                    "prerequisites": "The snare has not been hanged and is in inventory. The wooden bar is in inventory as well. The player is at a location where there is a small, beaten path that made by an animal.",
+                    "results": "The snare is hanged over the path made by animal."
+                }
+            },
+            "predicates": {
+                "has_water_source": {
+                    "description": "this location has a source of fresh water"
+                },
+                "treated": {
+                    "description": "the water has been decontaminated by boiling it"
+                },
+                "at": {
+                    "description": "an object is at a location"
+                },
+                "inventory": {
+                    "description": "an item is in the player's inventory"
+                },
+                "connected": {
+                    "description": "location 1 is connected to location 2 in the direction"
+                },
+                "blocked": {
+                    "description": "the connection between location 1 and 2 in currently blocked"
+                },
+                "dry": {
+                    "description": "this location is dry"
+                },
+                "flat": {
+                    "description": "this location is flat"
+                },
+                "has_split_in_trunk": {
+                    "description": "this tree has split in its trunk"
+                },
+                "long": {
+                    "description": "the branch is 10 feet long"
+                },
+                "thick": {
+                    "description": "the branch is 6 inches thick"
+                },
+                "has_bug": {
+                    "description": "the branch or leaves has bugs"
+                },
+                "edible": {
+                    "description": "the item is edible"
+                },
+                "unwashed": {
+                    "description": "the item has not been washed off"
+                },
+                "hungry": {
+                    "description": "the player is hungry"
+                },
+                "made_by_animal": {
+                    "description": "this is a small, beaten path that made by an animal"
+                },
+                "hanged": {
+                    "description": "this snare is hanged"
+                }
+            }
+        }
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "yes",
+        "name": "Anonymous",
+        "problems": {}
+    }
+}

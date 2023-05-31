@@ -1,0 +1,423 @@
+{
+    "survive_nuclear_attack": {
+        "problems": {
+            "get_essential_items": {
+                "part_number": "1",
+                "method_number": "0",
+                "step_number": "1, 2, 5",
+                "step_contents": " Make a plan. If a nuclear attack does happen, it won't be safe to venture outside for food \u2014 you should stay sheltered for at least 48 hours, preferably longer. Having food and medical supplies on-hand can put your mind at-ease, and allow you to focus on other aspects of survival. Stock up on non-perishable food. Non-perishables can last several years, whether it's in storage or in sustaining you after an attack. Choose items that contain a lot of carbohydrates, so you get more caloric bang for your buck, and store them in a cool, dry place. Stock up on medical supplies. Having a few medical items available could be the difference between life and death if you're injured in the attack.\n\n",
+                "mentions": {
+                    "types": {
+                        "player": [
+                            "you"
+                        ],
+                        "location": [
+                            "outside",
+                            "sheltered"
+                        ],
+                        "direction": [
+                            "outside"
+                        ],
+                        "item": [
+                            "plan",
+                            "food",
+                            "medical supplies",
+                            "non-perishable food",
+                            "items that contain a lot of carbohydrates",
+                            "medical items"
+                        ],
+                        "plan": [
+                            "Make a plan"
+                        ]
+                    },
+                    "predicates": {
+                        "is_supermarket": [
+                            "Having food and medical supplies on-hand",
+                            "Stock up on non-perishable food"
+                        ],
+                        "is_nonperishable": [
+                            "Non-perishables can last several years",
+                            "store them in a cool, dry place"
+                        ],
+                        "is_medicine": [
+                            "Stock up on medical supplies",
+                            "Having a few medical items available could be the difference between life and death if you're injured in the attack",
+                            "Having food and medical supplies on-hand"
+                        ],
+                        "is_construction_material": [
+                            "stay sheltered"
+                        ],
+                        "is_home": [
+                            "venture outside"
+                        ],
+                        "is_pharmacy": [
+                            "Stock up on medical supplies"
+                        ],
+                        "is_car": [
+                            "venture outside"
+                        ],
+                        "is_underground": [
+                            "stay sheltered"
+                        ],
+                        "sheltered": [
+                            "stay sheltered",
+                            "stay sheltered for at least 48 hours, preferably longer"
+                        ],
+                        "driving": [],
+                        "at": [
+                            "stay sheltered"
+                        ],
+                        "inventory": [
+                            "Having food and medical supplies on-hand",
+                            "Stock up on non-perishable food",
+                            "Stock up on medical supplies"
+                        ],
+                        "has_plan": [
+                            "Make a plan",
+                            "Choose items that contain a lot of carbohydrates"
+                        ],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "drive": [
+                            "venture outside"
+                        ],
+                        "walk": [
+                            "venture outside"
+                        ],
+                        "get_food": [
+                            "Stock up on non-perishable food"
+                        ],
+                        "get": [
+                            "Stock up on non-perishable food",
+                            "Stock up",
+                            "Having"
+                        ],
+                        "drop": [],
+                        "make_plan": [
+                            "Make a plan"
+                        ],
+                        "get_medicine": [
+                            "Stock up on medical supplies"
+                        ],
+                        "reinforce": [],
+                        "stay_in_shelter": [
+                            "stay sheltered for at least 48 hours"
+                        ],
+                        "get_in_car": []
+                    }
+                }
+            },
+            "reinforce_basement": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "4",
+                "step_contents": " Begin reinforcing your shelter from the inside by stacking dirt around the walls or anything else you can find. If in a trench, then create a roof, but only if materials are nearby; don't expose yourself when not necessary. Canvas from a parachute or tent will help stop fallout debris from piling on you, though it will not stop Gamma rays. It is impossible, at a very fundamental physical level, to completely shield from all radiation. It can only be reduced to a tolerable level. Use the following to help you determine the amount of material you'll need to reduce radiation penetration to 1/1000:[10] Steel: 21 cm (0.7 feet) Rock: 70-100 cm (2-3 ft) Concrete: 66 cm (2.2 ft) Wood: 2.6 m (8.8 ft) Soil: 1 m (3.3 ft) Ice: 2 m (6.6 ft) Snow: 6 m (20-22 ft)",
+                "mentions": {
+                    "types": {
+                        "player": [
+                            "you",
+                            "yourself"
+                        ],
+                        "location": [
+                            "shelter",
+                            "the walls",
+                            "trench"
+                        ],
+                        "direction": [],
+                        "item": [
+                            "dirt",
+                            "roof",
+                            "canvas",
+                            "parachute",
+                            "tent",
+                            "material",
+                            "Wood",
+                            "Steel",
+                            "Rock",
+                            "Concrete"
+                        ],
+                        "plan": []
+                    },
+                    "predicates": {
+                        "is_supermarket": [],
+                        "is_nonperishable": [],
+                        "is_medicine": [],
+                        "is_construction_material": [
+                            "Steel: 21 cm (0.7 feet) Rock: 70-100 cm (2-3 ft) Concrete: 66 cm (2.2 ft) Wood: 2.6 m (8.8 ft)"
+                        ],
+                        "is_home": [],
+                        "is_pharmacy": [],
+                        "is_car": [],
+                        "is_underground": [],
+                        "sheltered": [
+                            "shield from all radiation"
+                        ],
+                        "driving": [],
+                        "at": [],
+                        "inventory": [
+                            "nearby",
+                            "need"
+                        ],
+                        "has_plan": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "drive": [],
+                        "walk": [],
+                        "get_food": [],
+                        "get": [
+                            "you'll need",
+                            "you can find",
+                            "find"
+                        ],
+                        "drop": [],
+                        "make_plan": [],
+                        "get_medicine": [],
+                        "reinforce": [
+                            "reinforcing your shelter",
+                            "stacking dirt around the walls",
+                            "create a roof"
+                        ],
+                        "stay_in_shelter": [],
+                        "get_in_car": []
+                    }
+                }
+            },
+            "stay_sheltered_with_food": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "5",
+                "step_contents": "Plan on staying in your shelter for a minimum of 48 hours (2 days). Under no circumstances leave the shelter in the first forty-eight hours.[11] The reason for this is to avoid the \"fission products\" created by a nuclear blast. The most deadly of these is radioactive iodine. Fortunately, radio-iodine has a relatively short half-life of eight days (the time it takes for half to naturally decay into safer isotopes). Keep in mind that even after 8-9 days, there will still be a lot of radio-iodine around so limit your exposure. It may take up to 90 days for the amount of radio-iodine to decay to 0.1% of the initial amount. The other major products of nuclear fission are Cesium and Strontium. These have longer half lives of 30 years and 28 years respectively. They also are very well absorbed by living things and can make food products dangerous for decades. These materials can be carried by the wind thousands of miles, so if think you are safe in a remote area, you are not.",
+                "mentions": {
+                    "types": {
+                        "player": [
+                            "you"
+                        ],
+                        "location": [
+                            "shelter",
+                            "remote area"
+                        ],
+                        "direction": [],
+                        "item": [
+                            "food products",
+                            "materials",
+                            "radio-iodine"
+                        ],
+                        "plan": [
+                            "Plan on staying in your shelter",
+                            "Under no circumstances leave the shelter in the first forty-eight hours"
+                        ]
+                    },
+                    "predicates": {
+                        "is_supermarket": [],
+                        "is_nonperishable": [],
+                        "is_medicine": [],
+                        "is_construction_material": [],
+                        "is_home": [],
+                        "is_pharmacy": [],
+                        "is_car": [],
+                        "is_underground": [],
+                        "sheltered": [
+                            "staying in your shelter",
+                            "staying in your shelter for a minimum of 48 hours (2 days)",
+                            "Under no circumstances leave the shelter in the first forty-eight hours"
+                        ],
+                        "driving": [],
+                        "at": [
+                            "in",
+                            "in a"
+                        ],
+                        "inventory": [],
+                        "has_plan": [
+                            "Plan on staying in your shelter"
+                        ],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "drive": [],
+                        "walk": [],
+                        "get_food": [],
+                        "get": [],
+                        "drop": [],
+                        "make_plan": [
+                            "Plan on",
+                            "Plan on staying in your shelter for a minimum of 48 hours"
+                        ],
+                        "get_medicine": [],
+                        "reinforce": [],
+                        "stay_in_shelter": [
+                            "Under no circumstances leave the shelter in the first forty-eight hours",
+                            "staying in your shelter"
+                        ],
+                        "get_in_car": []
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Survive-a-Nuclear-Attack",
+        "wikihow_title": "How to Survive a Nuclear Attack",
+        "types": [
+            "player",
+            "location",
+            "direction",
+            "item",
+            "plan"
+        ],
+        "actions": [
+            "drive",
+            "walk",
+            "get_food",
+            "get",
+            "drop",
+            "make_plan",
+            "get_medicine",
+            "reinforce",
+            "stay_in_shelter",
+            "get_in_car"
+        ],
+        "predicates": [
+            "is_supermarket",
+            "is_nonperishable",
+            "is_medicine",
+            "is_construction_material",
+            "is_home",
+            "is_pharmacy",
+            "is_car",
+            "is_underground",
+            "sheltered",
+            "driving",
+            "at",
+            "inventory",
+            "has_plan",
+            "connected",
+            "blocked"
+        ],
+        "natural_language_descriptions": {
+            "types": {
+                "player": {
+                    "description": "A person or the player in the game"
+                },
+                "location": {
+                    "description": "A place"
+                },
+                "direction": {
+                    "description": "North, South, East, West, etc - a direction that connects one location to another"
+                },
+                "item": {
+                    "description": "Something that you can pick up or use"
+                },
+                "plan": {
+                    "description": "A way of doing or achieving something"
+                }
+            },
+            "actions": {
+                "drive": {
+                    "description": "Travel from one direction to another with a car",
+                    "prerequisites": "The player has a car and is driving it",
+                    "results": "The player travels to another location"
+                },
+                "walk": {
+                    "description": "Travel to another location on foot",
+                    "prerequisites": "The destination is connected to the player's location and it is not blocked",
+                    "results": "The player travels to another location"
+                },
+                "get_food": {
+                    "description": "Collect food",
+                    "prerequisites": "The player must be at supermarket and has a plan to purchase nonperishable food",
+                    "results": "The player now owns the food"
+                },
+                "get": {
+                    "description": "Pick up an item",
+                    "prerequisites": "The player must be at the same location at the item, and the item must be gettable. ",
+                    "results": "The object is now in the player's inventory"
+                },
+                "drop": {
+                    "description": "Discard an item",
+                    "prerequisites": "The item must be in the player's inventory",
+                    "results": "The item is removed from the player's inventory and found at the current location"
+                },
+                "make_plan": {
+                    "description": "Make a plan about what food to purchase",
+                    "prerequisites": "The player is at home",
+                    "results": "The player now has the plan"
+                },
+                "get_medicine": {
+                    "description": "Collect or buy medicine",
+                    "prerequisites": "The player must have a plan and is at the pharmacy",
+                    "results": "The medicine is now in the player's inventory"
+                },
+                "reinforce": {
+                    "description": "Reinforce a shelter or building",
+                    "prerequisites": "The player must have a plan and has construction material in the player's inventory",
+                    "results": "The player's location is reinforced"
+                },
+                "stay_in_shelter": {
+                    "description": "Stay in a protected building",
+                    "prerequisites": "The player has a plan and has nonperishable food while locating at a underground  and reinforced building",
+                    "results": "The player is now sheltered"
+                },
+                "get_in_car": {
+                    "description": "Enter a car",
+                    "prerequisites": "The player must have a car in the player's inventory",
+                    "results": "The player is now driving and still has the car"
+                }
+            },
+            "predicates": {
+                "is_supermarket": {
+                    "description": "this location sells grocery"
+                },
+                "is_nonperishable": {
+                    "description": "The food does not go rot or bad over time if not frozen"
+                },
+                "is_medicine": {
+                    "description": "The item is medicine that can treat certain diseases"
+                },
+                "is_construction_material": {
+                    "description": "The item can be used to construct houses"
+                },
+                "is_home": {
+                    "description": "The building is where one lives permanently"
+                },
+                "is_pharmacy": {
+                    "description": "The place is a pharmacy that sells medicine"
+                },
+                "is_car": {
+                    "description": "an item is a vehicle to move through blockade"
+                },
+                "is_underground": {
+                    "description": "The place is beneath the ground"
+                },
+                "sheltered": {
+                    "description": "The player stays safely in a protected building"
+                },
+                "driving": {
+                    "description": "The player is going somewhere with a car"
+                },
+                "at": {
+                    "description": "Located at a place"
+                },
+                "inventory": {
+                    "description": "A collection of items that the player has"
+                },
+                "has_plan": {
+                    "description": "The player has made a plan "
+                },
+                "connected": {
+                    "description": "One location is connected to another location"
+                },
+                "blocked": {
+                    "description": "Travel from one location to another is currently blocked"
+                }
+            }
+        }
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "yes",
+        "name": "Yukai Yang",
+        "problems": {}
+    }
+}

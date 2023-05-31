@@ -1,0 +1,598 @@
+{
+    "survive_in_the_woods": {
+        "problems": {
+            "find_tinder": {
+                "part_number": "4",
+                "method_number": "0",
+                "step_number": "1",
+                "step_contents": "Find small, dry material to use as tinder. Look for dry grass, leaves, tree bark, pine needles, or any other small flammable materials you can find in the area. Tinder needs to be material that is easy to light and will produce a large flame so you can start your fire. If you find trash or paper in the area, that can make for great tinder as well.\n",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Find small, dry material to use as tinder. Look for dry grass, leaves, tree bark, pine needles, or any other small flammable materials you can find in the area."
+                        ],
+                        "grass": [
+                            "Look for dry grass, leaves, tree bark, pine needles, or any other small flammable materials you can find in the area."
+                        ],
+                        "branch": [],
+                        "log": [],
+                        "tinder": [
+                            "Find small, dry material to use as tinder.",
+                            "Tinder needs to be material that is easy to light and will produce a large flame so you can start your fire.",
+                            "If you find trash or paper in the area, that can make for great tinder as well."
+                        ],
+                        "kindling": [],
+                        "fuel": [],
+                        "teepee": [],
+                        "wood": [],
+                        "water": [],
+                        "pot": [],
+                        "player": [
+                            "Look for dry grass, leaves, tree bark, pine needles, or any other small flammable materials you can find in the area.",
+                            "If you find trash or paper in the area, that can make for great tinder as well."
+                        ],
+                        "direction": [],
+                        "location": [
+                            "Look for dry grass, leaves, tree bark, pine needles, or any other small flammable materials you can find in the area.",
+                            "If you find trash or paper in the area, that can make for great tinder as well."
+                        ]
+                    },
+                    "predicates": {
+                        "has_large_dry_branch": [],
+                        "has_dry_oak": [],
+                        "has_dry_even_area": [],
+                        "has_pond": [],
+                        "dry": [
+                            "Find small, dry material to use as tinder.",
+                            "Look for dry grass, leaves, tree bark, pine needles, or any other small flammable materials you can find in the area."
+                        ],
+                        "ignited": [],
+                        "boiled": [],
+                        "at": [
+                            "Look for dry grass, leaves, tree bark, pine needles, or any other small flammable materials you can find in the area.",
+                            "If you find trash or paper in the area, that can make for great tinder as well."
+                        ],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [
+                            "Look for dry grass, leaves, tree bark, pine needles, or any other small flammable materials you can find in the area."
+                        ],
+                        "get": [
+                            "Find small, dry material to use as tinder.",
+                            "Look for dry grass, leaves, tree bark, pine needles, or any other small flammable materials you can find in the area."
+                        ],
+                        "get_grass": [],
+                        "dry_grass": [],
+                        "cluster_grass": [],
+                        "break_branch": [],
+                        "log_oak": [],
+                        "get_log": [],
+                        "stack_log": [],
+                        "build_teepee": [],
+                        "get_wood": [],
+                        "get_branch": [],
+                        "ignite_wood": [],
+                        "ignite_teepee": [],
+                        "get_pot": [],
+                        "get_water": [],
+                        "boil_water": []
+                    }
+                }
+            },
+            "gather_kindling": {
+                "part_number": "4",
+                "method_number": "0",
+                "step_number": "2",
+                "step_contents": "Gather small twigs and branches to use for kindling. Kindling needs to be material that will catch easily when you light your tinder. Use dry sticks, branches, or tree bark to serve as your kindling. You can break larger branches into smaller pieces to use for kindling as well.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Gather small twigs and branches to use for kindling.",
+                            "Kindling needs to be material that will catch easily when you light your tinder.",
+                            "Use dry sticks, branches, or tree bark to serve as your kindling."
+                        ],
+                        "grass": [],
+                        "branch": [
+                            "Gather small twigs and branches to use for kindling.",
+                            "Use dry sticks, branches, or tree bark to serve as your kindling.",
+                            "You can break larger branches into smaller pieces to use for kindling as well."
+                        ],
+                        "log": [],
+                        "tinder": [],
+                        "kindling": [
+                            "Gather small twigs and branches to use for kindling.",
+                            "Kindling needs to be material that will catch easily when you light your tinder.",
+                            "Use dry sticks, branches, or tree bark to serve as your kindling.",
+                            "You can break larger branches into smaller pieces to use for kindling as well."
+                        ],
+                        "fuel": [],
+                        "teepee": [],
+                        "wood": [],
+                        "water": [],
+                        "pot": [],
+                        "player": [
+                            "Kindling needs to be material that will catch easily when you light your tinder.",
+                            "You can break larger branches into smaller pieces to use for kindling as well."
+                        ],
+                        "direction": [],
+                        "location": [
+                            "Gather small twigs and branches to use for kindling.",
+                            "Use dry sticks, branches, or tree bark to serve as your kindling."
+                        ]
+                    },
+                    "predicates": {
+                        "has_large_dry_branch": [
+                            "Gather small twigs and branches to use for kindling.",
+                            "You can break larger branches into smaller pieces to use for kindling as well."
+                        ],
+                        "has_dry_oak": [],
+                        "has_dry_even_area": [],
+                        "has_pond": [],
+                        "dry": [
+                            "Use dry sticks, branches, or tree bark to serve as your kindling."
+                        ],
+                        "ignited": [],
+                        "boiled": [],
+                        "at": [
+                            "Gather small twigs and branches to use for kindling.",
+                            "Use dry sticks, branches, or tree bark to serve as your kindling.",
+                            "You can break larger branches into smaller pieces to use for kindling as well."
+                        ],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [
+                            "Gather small twigs and branches to use for kindling."
+                        ],
+                        "get": [
+                            "Gather small twigs and branches to use for kindling."
+                        ],
+                        "get_grass": [],
+                        "dry_grass": [],
+                        "cluster_grass": [],
+                        "break_branch": [
+                            "You can break larger branches into smaller pieces to use for kindling as well."
+                        ],
+                        "log_oak": [],
+                        "get_log": [],
+                        "stack_log": [],
+                        "build_teepee": [],
+                        "get_wood": [],
+                        "get_branch": [],
+                        "ignite_wood": [],
+                        "ignite_teepee": [],
+                        "get_pot": [],
+                        "get_water": [],
+                        "boil_water": []
+                    }
+                }
+            },
+            "collect_fuel": {
+                "part_number": "4",
+                "method_number": "0",
+                "step_number": "3",
+                "step_contents": "Collect larger logs for fuel. Before you start your fire, you should collect enough fuel to keep it going. Look for dry wood in the area and stack near where you plan to start your fire so you can easily add more fuel when you need it. Look for dry, brittle wood because fresh or green wood will take longer to catch. Hardwoods like oak and maple will burn for a long period of time. Dry tree stumps work great as fuel for a fire.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Collect larger logs for fuel.",
+                            "Look for dry wood in the area and stack near where you plan to start your fire so you can easily add more fuel when you need it.",
+                            "Look for dry, brittle wood because fresh or green wood will take longer to catch.",
+                            "Hardwoods like oak and maple will burn for a long period of time.",
+                            "Dry tree stumps work great as fuel for a fire."
+                        ],
+                        "grass": [],
+                        "branch": [],
+                        "log": [
+                            "Collect larger logs for fuel."
+                        ],
+                        "tinder": [],
+                        "kindling": [],
+                        "fuel": [
+                            "Collect larger logs for fuel.",
+                            "Before you start your fire, you should collect enough fuel to keep it going.",
+                            "Look for dry wood in the area and stack near where you plan to start your fire so you can easily add more fuel when you need it.",
+                            "Dry tree stumps work great as fuel for a fire."
+                        ],
+                        "teepee": [],
+                        "wood": [],
+                        "water": [],
+                        "pot": [],
+                        "player": [
+                            "Before you start your fire, you should collect enough fuel to keep it going.",
+                            "Look for dry wood in the area and stack near where you plan to start your fire so you can easily add more fuel when you need it."
+                        ],
+                        "direction": [],
+                        "location": [
+                            "Look for dry wood in the area and stack near where you plan to start your fire so you can easily add more fuel when you need it.",
+                            "Look for dry, brittle wood because fresh or green wood will take longer to catch.",
+                            "Hardwoods like oak and maple will burn for a long period of time.",
+                            "Dry tree stumps work great as fuel for a fire."
+                        ]
+                    },
+                    "predicates": {
+                        "has_large_dry_branch": [],
+                        "has_dry_oak": [
+                            "Look for dry, brittle wood because fresh or green wood will take longer to catch.",
+                            "Hardwoods like oak and maple will burn for a long period of time."
+                        ],
+                        "has_dry_even_area": [],
+                        "has_pond": [],
+                        "dry": [
+                            "Look for dry wood in the area and stack near where you plan to start your fire so you can easily add more fuel when you need it.",
+                            "Look for dry, brittle wood because fresh or green wood will take longer to catch.",
+                            "Dry tree stumps work great as fuel for a fire."
+                        ],
+                        "ignited": [],
+                        "boiled": [],
+                        "at": [
+                            "Look for dry, brittle wood because fresh or green wood will take longer to catch.",
+                            "Hardwoods like oak and maple will burn for a long period of time.",
+                            "Dry tree stumps work great as fuel for a fire."
+                        ],
+                        "inventory": [
+                            "Collect larger logs for fuel."
+                        ],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [
+                            "Look for dry wood in the area and stack near where you plan to start your fire so you can easily add more fuel when you need it.",
+                            "Look for dry, brittle wood because fresh or green wood will take longer to catch."
+                        ],
+                        "get": [
+                            "Collect larger logs for fuel.",
+                            "Before you start your fire, you should collect enough fuel to keep it going."
+                        ],
+                        "get_grass": [],
+                        "dry_grass": [],
+                        "cluster_grass": [],
+                        "break_branch": [],
+                        "log_oak": [
+                            "Collect larger logs for fuel.",
+                            "Look for dry, brittle wood because fresh or green wood will take longer to catch.",
+                            "Hardwoods like oak and maple will burn for a long period of time."
+                        ],
+                        "get_log": [
+                            "Collect larger logs for fuel.",
+                            "Before you start your fire, you should collect enough fuel to keep it going."
+                        ],
+                        "stack_log": [
+                            "Before you start your fire, you should collect enough fuel to keep it going.",
+                            "Look for dry wood in the area and stack near where you plan to start your fire so you can easily add more fuel when you need it."
+                        ],
+                        "build_teepee": [],
+                        "get_wood": [],
+                        "get_branch": [],
+                        "ignite_wood": [],
+                        "ignite_teepee": [],
+                        "get_pot": [],
+                        "get_water": [],
+                        "boil_water": []
+                    }
+                }
+            },
+            "build_teepee": {
+                "part_number": "4",
+                "method_number": "0",
+                "step_number": "4",
+                "step_contents": "Build a teepee structure with the tinder and kindling. Clear a dry, even area of leaves, branches, or other items that could catch and spread the fire. Form a teepee structure by bunching up your tinder material and stacking the kindling together around it. Then take your larger fuel logs and lean them against each other to form a frame around the tinder and kindling. Leave a small opening so you can light the tinder.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Build a teepee structure with the tinder and kindling. ",
+                            "Form a teepee structure by bunching up your tinder material and stacking the kindling together around it.",
+                            "Then take your larger fuel logs and lean them against each other to form a frame around the tinder and kindling."
+                        ],
+                        "grass": [],
+                        "branch": [
+                            "Clear a dry, even area of leaves, branches, or other items that could catch and spread the fire."
+                        ],
+                        "log": [
+                            "Then take your larger fuel logs and lean them against each other to form a frame around the tinder and kindling."
+                        ],
+                        "tinder": [
+                            "Form a teepee structure by bunching up your tinder material and stacking the kindling together around it."
+                        ],
+                        "kindling": [
+                            "Form a teepee structure by bunching up your tinder material and stacking the kindling together around it."
+                        ],
+                        "fuel": [
+                            "Then take your larger fuel logs and lean them against each other to form a frame around the tinder and kindling."
+                        ],
+                        "teepee": [
+                            "Form a teepee structure by bunching up your tinder material and stacking the kindling together around it.",
+                            "Then take your larger fuel logs and lean them against each other to form a frame around the tinder and kindling."
+                        ],
+                        "wood": [],
+                        "water": [],
+                        "pot": [],
+                        "player": [
+                            "Clear a dry, even area of leaves, branches, or other items that could catch and spread the fire.",
+                            "Form a teepee structure by bunching up your tinder material and stacking the kindling together around it.",
+                            "Then take your larger fuel logs and lean them against each other to form a frame around the tinder and kindling."
+                        ],
+                        "direction": [],
+                        "location": [
+                            "Clear a dry, even area of leaves, branches, or other items that could catch and spread the fire."
+                        ]
+                    },
+                    "predicates": {
+                        "has_large_dry_branch": [],
+                        "has_dry_oak": [],
+                        "has_dry_even_area": [
+                            "Clear a dry, even area of leaves, branches, or other items that could catch and spread the fire."
+                        ],
+                        "has_pond": [],
+                        "dry": [],
+                        "ignited": [],
+                        "boiled": [],
+                        "at": [
+                            "Form a teepee structure by bunching up your tinder material and stacking the kindling together around it.",
+                            "Then take your larger fuel logs and lean them against each other to form a frame around the tinder and kindling."
+                        ],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "get_grass": [],
+                        "dry_grass": [],
+                        "cluster_grass": [],
+                        "break_branch": [],
+                        "log_oak": [],
+                        "get_log": [],
+                        "stack_log": [],
+                        "build_teepee": [
+                            "Form a teepee structure by bunching up your tinder material and stacking the kindling together around it.",
+                            "Then take your larger fuel logs and lean them against each other to form a frame around the tinder and kindling."
+                        ],
+                        "get_wood": [],
+                        "get_branch": [],
+                        "ignite_wood": [],
+                        "ignite_teepee": [],
+                        "get_pot": [],
+                        "get_water": [],
+                        "boil_water": []
+                    }
+                }
+            },
+            "start_fire": {
+                "part_number": "4",
+                "method_number": "0",
+                "step_number": "5",
+                "step_contents": "Create a fire plough to ignite the kindling and start the fire. Take a flat piece of wood and scrape a small groove into the center of it. Use another branch to plough up and down the groove to use the friction to build up heat. After a few minutes of work, the heat will ignite the wood. Act fast and light your tinder to start the rest of the fire. Use a dry piece of wood to make your fire plough. Anchor the fire plough by kneeling on it to keep it still.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Take a flat piece of wood and scrape a small groove into the center of it.",
+                            "Use another branch to plough up and down the groove to use the friction to build up heat.",
+                            "After a few minutes of work, the heat will ignite the wood.",
+                            "Act fast and light your tinder to start the rest of the fire.",
+                            "Use a dry piece of wood to make your fire plough.",
+                            "Anchor the fire plough by kneeling on it to keep it still."
+                        ],
+                        "grass": [],
+                        "branch": [
+                            "Use another branch to plough up and down the groove to use the friction to build up heat."
+                        ],
+                        "log": [],
+                        "tinder": [
+                            "Act fast and light your tinder to start the rest of the fire."
+                        ],
+                        "kindling": [],
+                        "fuel": [],
+                        "teepee": [
+                            "Act fast and light your tinder to start the rest of the fire."
+                        ],
+                        "wood": [
+                            " Take a flat piece of wood and scrape a small groove into the center of it.",
+                            "Use another branch to plough up and down the groove to use the friction to build up heat.",
+                            "After a few minutes of work, the heat will ignite the wood."
+                        ],
+                        "water": [],
+                        "pot": [],
+                        "player": [
+                            "Take a flat piece of wood and scrape a small groove into the center of it.",
+                            "Use another branch to plough up and down the groove to use the friction to build up heat.",
+                            "After a few minutes of work, the heat will ignite the wood.",
+                            "Act fast and light your tinder to start the rest of the fire.",
+                            "Use a dry piece of wood to make your fire plough.",
+                            "Anchor the fire plough by kneeling on it to keep it still."
+                        ],
+                        "direction": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "has_large_dry_branch": [],
+                        "has_dry_oak": [],
+                        "has_dry_even_area": [],
+                        "has_pond": [],
+                        "dry": [],
+                        "ignited": [
+                            "After a few minutes of work, the heat will ignite the wood.",
+                            "Act fast and light your tinder to start the rest of the fire.",
+                            "Anchor the fire plough by kneeling on it to keep it still."
+                        ],
+                        "boiled": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "Take a flat piece of wood and scrape a small groove into the center of it.",
+                            "Use another branch to plough up and down the groove to use the friction to build up heat."
+                        ],
+                        "get_grass": [],
+                        "dry_grass": [],
+                        "cluster_grass": [],
+                        "break_branch": [],
+                        "log_oak": [],
+                        "get_log": [],
+                        "stack_log": [],
+                        "build_teepee": [],
+                        "get_wood": [
+                            "Take a flat piece of wood and scrape a small groove into the center of it."
+                        ],
+                        "get_branch": [
+                            "Use another branch to plough up and down the groove to use the friction to build up heat."
+                        ],
+                        "ignite_wood": [
+                            "Use another branch to plough up and down the groove to use the friction to build up heat.",
+                            "After a few minutes of work, the heat will ignite the wood."
+                        ],
+                        "ignite_teepee": [
+                            "Act fast and light your tinder to start the rest of the fire."
+                        ],
+                        "get_pot": [],
+                        "get_water": [],
+                        "boil_water": []
+                    }
+                }
+            },
+            "boil_water": {
+                "part_number": "4",
+                "method_number": "0",
+                "step_number": "6",
+                "step_contents": "Use a fire to keep warm, cook your food, and purify your water. A fire is going to make it much easier for you to survive in the woods. Use it to keep warm so you don't get hypothermia. Cook your food on the fire and use the heat to boil water to kill any contaminants. Once you get your fire started, try to keep it from going out. When you go to sleep, place a large log on it so the coals will last until morning.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Use a fire to keep warm, cook your food, and purify your water.",
+                            "Cook your food on the fire and use the heat to boil water to kill any contaminants.",
+                            "Once you get your fire started, try to keep it from going out. When you go to sleep, place a large log on it so the coals will last until morning."
+                        ],
+                        "grass": [],
+                        "branch": [],
+                        "log": [],
+                        "tinder": [],
+                        "kindling": [],
+                        "fuel": [],
+                        "teepee": [],
+                        "wood": [],
+                        "water": [
+                            "Use a fire to keep warm, cook your food, and purify your water.",
+                            "Cook your food on the fire and use the heat to boil water to kill any contaminants."
+                        ],
+                        "pot": [],
+                        "player": [
+                            "Use a fire to keep warm, cook your food, and purify your water.",
+                            "A fire is going to make it much easier for you to survive in the woods.",
+                            "Use it to keep warm so you don't get hypothermia.",
+                            "Cook your food on the fire and use the heat to boil water to kill any contaminants.",
+                            "Once you get your fire started, try to keep it from going out. When you go to sleep, place a large log on it so the coals will last until morning."
+                        ],
+                        "direction": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "has_large_dry_branch": [],
+                        "has_dry_oak": [],
+                        "has_dry_even_area": [],
+                        "has_pond": [],
+                        "dry": [],
+                        "ignited": [
+                            "Use a fire to keep warm, cook your food, and purify your water.",
+                            "A fire is going to make it much easier for you to survive in the woods."
+                        ],
+                        "boiled": [
+                            "Cook your food on the fire and use the heat to boil water to kill any contaminants."
+                        ],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "get_grass": [],
+                        "dry_grass": [],
+                        "cluster_grass": [],
+                        "break_branch": [],
+                        "log_oak": [],
+                        "get_log": [],
+                        "stack_log": [],
+                        "build_teepee": [],
+                        "get_wood": [],
+                        "get_branch": [],
+                        "ignite_wood": [],
+                        "ignite_teepee": [],
+                        "get_pot": [],
+                        "get_water": [
+                            "Cook your food on the fire and use the heat to boil water to kill any contaminants."
+                        ],
+                        "boil_water": [
+                            "Cook your food on the fire and use the heat to boil water to kill any contaminants."
+                        ]
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Survive-in-the-Woods",
+        "wikihow_title": "How to Survive in the Woods",
+        "types": [
+            "item",
+            "grass",
+            "branch",
+            "log",
+            "tinder",
+            "kindling",
+            "fuel",
+            "teepee",
+            "wood",
+            "water",
+            "pot",
+            "player",
+            "direction",
+            "location"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "get_grass",
+            "dry_grass",
+            "cluster_grass",
+            "break_branch",
+            "log_oak",
+            "get_log",
+            "stack_log",
+            "build_teepee",
+            "get_wood",
+            "get_branch",
+            "ignite_wood",
+            "ignite_teepee",
+            "get_pot",
+            "get_water",
+            "boil_water"
+        ],
+        "predicates": [
+            "has_large_dry_branch",
+            "has_dry_oak",
+            "has_dry_even_area",
+            "has_pond",
+            "dry",
+            "ignited",
+            "boiled",
+            "at",
+            "inventory",
+            "connected",
+            "blocked"
+        ]
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "Yes",
+        "name": "Zach Li, Zhihua Zhang"
+    }
+}

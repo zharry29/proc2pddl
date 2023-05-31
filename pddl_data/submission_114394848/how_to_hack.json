@@ -1,0 +1,1342 @@
+{
+    "how_to_hack": {
+        "problems": {
+            "build_foundation": {
+                "part_number": "1",
+                "method_number": "0",
+                "step_number": "12345",
+                "step_contents": "1 Understand what hacking is\n2 Understand the ethics of hacking.\n3 Learn how to use the internet and HTML.\n4 Learn how to program.\n5 Get an open-sourced Unix-based system and learn to use it.\n",
+                "mentions": {
+                    "types": {
+                        "digital_system": [
+                            "Broadly speaking, hacking refers to a variety of techniques that are used to compromise or gain access to a digital system."
+                        ],
+                        "computer": [
+                            "This can be a computer, mobile phone or tablet, or an entire network."
+                        ],
+                        "mobile_phone": [
+                            "This can be a computer, mobile phone or tablet, or an entire network."
+                        ],
+                        "tablet": [
+                            "This can be a computer, mobile phone or tablet, or an entire network."
+                        ],
+                        "network": [
+                            "This can be a computer, mobile phone or tablet, or an entire network."
+                        ],
+                        "item": [],
+                        "player": [
+                            "In truth, a hacker is simply someone who has a vast understanding of computer systems and networks."
+                        ],
+                        "direction": [],
+                        "location": [],
+                        "concept": [
+                            " Understand the ethics of hacking",
+                            "Focus on similar concepts in all programming languages."
+                        ],
+                        "skill": [
+                            "If you choose to use your hacking skills for such purposes, be aware that there are other hackers out there who use their skills for good (they are called white hat hackers).",
+                            "You can use your skills as a hacker to find solutions to problems, or you can use your skills to create problems and engage in illegal activity.",
+                            "To hack, you must need a system to practice your great hacking skills."
+                        ],
+                        "all_information": [
+                            "The following is some information you want to gather:"
+                        ],
+                        "permission": [
+                            "You can either attack your network, ask for written permission, or set up your laboratory with virtual machines. "
+                        ],
+                        "ping_succeed": [
+                            "While you can use the ping utility (which is included in most operating systems) to see if the target is active, you cannot always trust the results \u2014 it relies on the ICMP protocol, which can be easily shut off by paranoid system administrators. "
+                        ],
+                        "server_checked": [
+                            "You can also use tools to check an email to see what email server it uses."
+                        ],
+                        "network_scanner": [
+                            "You can use a network scanner to run a port scan."
+                        ],
+                        "tcp_udp_ports": [
+                            " Try other TCP and UDP ports that may have been forgotten, such as Telnet and various UDP ports left open for LAN gaming."
+                        ],
+                        "password": [
+                            "There are several methods for cracking a password."
+                        ],
+                        "memory_layout": [
+                            "If you know the memory layout of a system, you can feed it input the buffer cannot store. "
+                        ],
+                        "malware": [
+                            "To create a backdoor, you need to install a piece of malware on an important system service, such as the SSH server."
+                        ],
+                        "track": [
+                            "Cover your tracks.",
+                            "Don't let the administrator know that the system is compromised. Don't make any changes to the website. Don't create more files than you need. Do not create any additional users. "
+                        ],
+                        "usernames": [
+                            "Usernames and group names."
+                        ],
+                        "hostnames": [
+                            "Hostnames"
+                        ],
+                        "ip": [
+                            "IP tables and routing tables."
+                        ],
+                        "settings": [
+                            "Service settings and audit configurations."
+                        ],
+                        "applications": [
+                            "Applications and banners."
+                        ],
+                        "snmp_and_dns": [
+                            "SNMP and DNS details."
+                        ],
+                        "search": [
+                            "You can find hacking tools by searching hacker forums.[",
+                            "Not just how to use a web browser, but also how to use advanced search engine techniques. "
+                        ],
+                        "html": [
+                            "You will also need to know how to create internet content using HTML. Learning HTML will also teach you some good mental habits that will help you with learning to program"
+                        ],
+                        "cpp": [],
+                        "py": [
+                            "Python and Ruby are high-level, powerful scripting languages that can be used to automate various tasks."
+                        ],
+                        "php": [
+                            "PHP is worth learning because the majority of web applications use PHP. Perl is a reasonable choice in this field as well."
+                        ],
+                        "bash": [
+                            "Bash scripting is a must. That is how to easily manipulate Unix/Linux systems. You can use Bash to write scripts, which will do most of the job for you."
+                        ],
+                        "assembly": [
+                            "Assembly language is a must-know. It is the basic language that your processor understands, and there are multiple variations of it. You can't truly exploit a program if you don't know assembly."
+                        ],
+                        "unix": [
+                            "There is a wide family of operating systems that are based on Unix, including Linux. The vast majority of web servers on the internet are Unix-based.",
+                            "So you'll need to learn Unix if you want to hack the internet.",
+                            "There are many different distributions of Unix and Linux. "
+                        ],
+                        "hacking": [
+                            "It (along with assembly language) teaches something very important in hacking: how memory works.",
+                            "To hack, you must need a system to practice your great hacking skills.",
+                            "You can practice hacking these systems.[4]"
+                        ],
+                        "ethics": [
+                            "Understand the ethics of hacking."
+                        ]
+                    },
+                    "predicates": {
+                        "at": [],
+                        "connected": [],
+                        "blocked": [],
+                        "inventory": [],
+                        "know": [
+                            "If you are going to hack, you'll need to know how to use the internet. ",
+                            "You will also need to know how to create internet content using HTML. Learning HTML will also teach you some good mental habits that will help you with learning to program"
+                        ],
+                        "learned": [
+                            "Learning HTML will also teach you some good mental habits that will help you with learning to program.",
+                            "Learning a programming language might take time, so you need to be patient. Focus on learning to think like a programmer instead of learning individual languages."
+                        ],
+                        "authorized": [
+                            "However, make sure you have the authorization to attack your target."
+                        ],
+                        "collected_all_info": [
+                            "The following is some information you want to gather",
+                            "The process of gathering information about your target is known as enumeration."
+                        ],
+                        "port_scanned": [
+                            "You can use a network scanner to run a port scan. "
+                        ],
+                        "password_cracked": [
+                            "There are several methods for cracking a password. "
+                        ],
+                        "tricked_user_password": [
+                            "For this technique, a hacker will contact a user and trick them into giving out their password. "
+                        ],
+                        "user_trusted_fake_email": [
+                            "In this technique, a hacker sends a fake email to a user that appears to be from a person or company the user trusts. The email may contain an attachment that installs spyware or a keylogger."
+                        ],
+                        "people_use_unencrypted_connection": [
+                            "If they sign in to an account using a username and password over an unencrypted connection, the app will store that data and give the hacker access."
+                        ],
+                        "is_root_user": [
+                            "To see all the files on a computer you need super-user privileges\u2014a user account that is given the same privileges as the \"root\" user in Linux and BSD operating systems. "
+                        ],
+                        "administrator_know_compromised": [
+                            "Don't let the administrator know that the system is compromised."
+                        ],
+                        "website_unchanged": [
+                            "Don't make any changes to the website."
+                        ],
+                        "create_more_file_than_need": [
+                            "Don't create more files than you need."
+                        ],
+                        "additional_users": [
+                            "Do not create any additional users. "
+                        ],
+                        "hardcoded_secret_password": [
+                            "If you patched a server like SSHD, make sure it has your secret password hard-coded."
+                        ],
+                        "know_programming": [
+                            " Learning a programming language might take time, so you need to be patient. Focus on learning to think like a programmer instead of learning individual languages. Focus on similar concepts in all programming languages."
+                        ],
+                        "know_hacking": [
+                            "Hacking involves a variety of specialized skills."
+                        ],
+                        "know_ethics": [
+                            "If you choose to use your hacking skills for such purposes, be aware that there are other hackers out there who use their skills for good (they are called white hat hackers)",
+                            "Understand the ethics of hacking. Despite the ways hackers are depicted in popular culture, hacking is neither good nor bad."
+                        ],
+                        "know_unix": [
+                            "There is a wide family of operating systems that are based on Unix, including Linux. The vast majority of web servers on the internet are Unix-based.",
+                            "So you'll need to learn Unix if you want to hack the internet.",
+                            "There are many different distributions of Unix and Linux."
+                        ],
+                        "know_internet": [
+                            "If you are going to hack, you'll need to know how to use the internet. "
+                        ]
+                    },
+                    "actions": {
+                        "go": [],
+                        "understand": [
+                            "In truth, a hacker is simply someone who has a vast understanding of computer systems and networks.",
+                            " Understand what hacking is.",
+                            "Understand the ethics of hacking."
+                        ],
+                        "learn": [
+                            "\tLearning the Skills Needed to Hack",
+                            "Learn how to use the internet and HTML"
+                        ],
+                        "get": [],
+                        "machine_secured": [
+                            " Secure your machine first."
+                        ],
+                        "enumeration": [
+                            "The process of gathering information about your target is known as enumeration"
+                        ],
+                        "got_all_info": [
+                            "The following is some information you want to gather"
+                        ],
+                        "ping": [
+                            "While you can use the ping utility (which is included in most operating systems) to see if the target is active, you cannot always trust the results \u2014 it relies on the ICMP protocol, which can be easily shut off by paranoid system administrators. "
+                        ],
+                        "check_email_server": [
+                            "You can also use tools to check an email to see what email server it uses."
+                        ],
+                        "reached_the_remote_system": [
+                            "Can you reach the remote system?"
+                        ],
+                        "run_port_scan": [
+                            "You can use a network scanner to run a port scan. This will show you the ports that are open on the machine, the OS, and can even tell you what type of firewall or router they are using so you can plan a course of action."
+                        ],
+                        "found_path_in_system": [
+                            "Find a path or open port in the system."
+                        ],
+                        "contact_and_trick_a_user": [
+                            "Social Engineering: For this technique, a hacker will contact a user and trick them into giving out their password. "
+                        ],
+                        "crack_password_by_social_engineering": [
+                            "Social Engineering: For this technique, a hacker will contact a user and trick them into giving out their password. "
+                        ],
+                        "send_fake_email": [
+                            "Phishing: In this technique, a hacker sends a fake email to a user that appears to be from a person or company the user trusts."
+                        ],
+                        "crack_password_by_phishing": [
+                            "Phishing: In this technique, a hacker sends a fake email to a user that appears to be from a person or company the user trusts."
+                        ],
+                        "create_fake_wifi_access": [
+                            "ARP Spoofing: In this technique, a hacker uses an app on his smartphone to create a fake Wi-Fi access point that anyone in a public location can sign into."
+                        ],
+                        "crack_password_by_arp_spoofing": [
+                            "ARP Spoofing: In this technique, a hacker uses an app on his smartphone to create a fake Wi-Fi access point that anyone in a public location can sign into."
+                        ],
+                        "crack_password_by_brute_force": [
+                            "Brute Force: A brute force attack simply tries to guess the user's password. This is useful for gaining access to easily-guessed passwords "
+                        ],
+                        "gain_access_with_password": [
+                            "There are several methods for cracking a password. They include some of the following"
+                        ],
+                        "create_buffer_overflow": [
+                            "Buffer Overflow: If you know the memory layout of a system, you can feed it input the buffer cannot store."
+                        ],
+                        "take_control_of_system": [
+                            "You can overwrite the code stored in the memory with your code and take control of the system."
+                        ],
+                        "install_malware": [
+                            "To create a backdoor, you need to install a piece of malware on an important system service, such as the SSH server. "
+                        ],
+                        "bypass_standard_authentication_system": [
+                            "This will allow you to bypass the standard authentication system. "
+                        ],
+                        "not_let_administrator_know": [
+                            "Don't let the administrator know that the system is compromised."
+                        ],
+                        "make_no_change_to_website": [
+                            "Don't make any changes to the website. "
+                        ],
+                        "create_fewest_file": [
+                            "Don't create more files than you need. "
+                        ],
+                        "delete_additional_users": [
+                            " Do not create any additional users."
+                        ],
+                        "hardcode_password": [
+                            "If you patched a server like SSHD, make sure it has your secret password hard-coded."
+                        ],
+                        "track_covered": [
+                            "Cover your tracks."
+                        ],
+                        "learn_concepts": [
+                            "Focus on similar concepts in all programming languages."
+                        ],
+                        "learn_internet": [
+                            "So you'll need to learn Unix if you want to hack the internet"
+                        ],
+                        "learn_programming": [
+                            "Learning a programming language might take time, so you need to be patient. Focus on learning to think like a programmer instead of learning individual languages. Focus on similar concepts in all programming languages."
+                        ],
+                        "learn_unix": [
+                            "There is a wide family of operating systems that are based on Unix, including Linux. The vast majority of web servers on the internet are Unix-based. "
+                        ],
+                        "become_skilled": [
+                            " Hackers are simply people who are skilled in technology who like to solve problems and overcome limitations. "
+                        ]
+                    }
+                }
+            },
+            "hacking1": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "1",
+                "step_contents": "1 Secure your machine first. \n",
+                "mentions": {
+                    "types": {
+                        "digital_system": [
+                            "Broadly speaking, hacking refers to a variety of techniques that are used to compromise or gain access to a digital system"
+                        ],
+                        "computer": [
+                            "This can be a computer, mobile phone or tablet, or an entire network."
+                        ],
+                        "mobile_phone": [
+                            "This can be a computer, mobile phone or tablet, or an entire network."
+                        ],
+                        "tablet": [
+                            "This can be a computer, mobile phone or tablet, or an entire network."
+                        ],
+                        "network": [
+                            "This can be a computer, mobile phone or tablet, or an entire network.",
+                            "Network shares and services"
+                        ],
+                        "item": [],
+                        "player": [],
+                        "direction": [],
+                        "location": [],
+                        "concept": [
+                            " Understand the ethics of hacking"
+                        ],
+                        "skill": [
+                            "If you choose to use your hacking skills for such purposes, be aware that there are other hackers out there who use their skills for good (they are called white hat hackers)."
+                        ],
+                        "all_information": [
+                            "The following is some information you want to gather:"
+                        ],
+                        "permission": [
+                            "You can either attack your network, ask for written permission, or set up your laboratory with virtual machines. "
+                        ],
+                        "ping_succeed": [
+                            "While you can use the ping utility (which is included in most operating systems) to see if the target is active, you cannot always trust the results \u2014 it relies on the ICMP protocol, which can be easily shut off by paranoid system administrators. "
+                        ],
+                        "server_checked": [
+                            "You can also use tools to check an email to see what email server it uses."
+                        ],
+                        "network_scanner": [
+                            "You can use a network scanner to run a port scan."
+                        ],
+                        "tcp_udp_ports": [
+                            " Try other TCP and UDP ports that may have been forgotten, such as Telnet and various UDP ports left open for LAN gaming."
+                        ],
+                        "password": [
+                            "There are several methods for cracking a password."
+                        ],
+                        "memory_layout": [
+                            "If you know the memory layout of a system, you can feed it input the buffer cannot store. "
+                        ],
+                        "malware": [
+                            "To create a backdoor, you need to install a piece of malware on an important system service, such as the SSH server."
+                        ],
+                        "track": [
+                            "Cover your tracks."
+                        ],
+                        "usernames": [
+                            "Usernames and group names."
+                        ],
+                        "hostnames": [
+                            "Hostnames"
+                        ],
+                        "ip": [
+                            "IP tables and routing tables."
+                        ],
+                        "settings": [
+                            "Service settings and audit configurations."
+                        ],
+                        "applications": [
+                            "Applications and banners."
+                        ],
+                        "snmp_and_dns": [
+                            "SNMP and DNS details."
+                        ],
+                        "search": [
+                            "You can find hacking tools by searching hacker forums.["
+                        ],
+                        "html": [
+                            "You will also need to know how to create internet content using HTML. Learning HTML will also teach you some good mental habits that will help you with learning to program"
+                        ],
+                        "cpp": [
+                            "C and C++ are the languages that Linux and Windows were built with. It (along with assembly language) teaches something very important in hacking: how memory works.",
+                            "Python and Ruby are high-level, powerful scripting languages that can be used to automate various tasks."
+                        ],
+                        "py": [
+                            "PHP is worth learning because the majority of web applications use PHP. Perl is a reasonable choice in this field as well."
+                        ],
+                        "php": [
+                            "Bash scripting is a must. That is how to easily manipulate Unix/Linux systems. You can use Bash to write scripts, which will do most of the job for you."
+                        ],
+                        "bash": [
+                            "Bash scripting is a must. That is how to easily manipulate Unix/Linux systems. You can use Bash to write scripts, which will do most of the job for you."
+                        ],
+                        "assembly": [
+                            "Assembly language is a must-know. It is the basic language that your processor understands, and there are multiple variations of it. You can't truly exploit a program if you don't know assembly."
+                        ],
+                        "unix": [
+                            "There is a wide family of operating systems that are based on Unix, including Linux. The vast majority of web servers on the internet are Unix-based."
+                        ],
+                        "hacking": [
+                            "It (along with assembly language) teaches something very important in hacking: how memory works."
+                        ],
+                        "ethics": [
+                            "Understand the ethics of hacking."
+                        ]
+                    },
+                    "predicates": {
+                        "at": [],
+                        "connected": [],
+                        "blocked": [],
+                        "inventory": [],
+                        "know": [
+                            "If you are going to hack, you'll need to know how to use the internet. "
+                        ],
+                        "learned": [
+                            "Learning HTML will also teach you some good mental habits that will help you with learning to program."
+                        ],
+                        "authorized": [
+                            "However, make sure you have the authorization to attack your target."
+                        ],
+                        "collected_all_info": [
+                            "The following is some information you want to gather"
+                        ],
+                        "port_scanned": [
+                            "You can use a network scanner to run a port scan. "
+                        ],
+                        "password_cracked": [
+                            "There are several methods for cracking a password. "
+                        ],
+                        "tricked_user_password": [
+                            "For this technique, a hacker will contact a user and trick them into giving out their password. "
+                        ],
+                        "user_trusted_fake_email": [
+                            "In this technique, a hacker sends a fake email to a user that appears to be from a person or company the user trusts. The email may contain an attachment that installs spyware or a keylogger."
+                        ],
+                        "people_use_unencrypted_connection": [
+                            "If they sign in to an account using a username and password over an unencrypted connection, the app will store that data and give the hacker access."
+                        ],
+                        "is_root_user": [
+                            "To see all the files on a computer you need super-user privileges\u2014a user account that is given the same privileges as the \"root\" user in Linux and BSD operating systems. "
+                        ],
+                        "administrator_know_compromised": [
+                            "Don't let the administrator know that the system is compromised."
+                        ],
+                        "website_unchanged": [],
+                        "create_more_file_than_need": [
+                            "Don't make any changes to the website.",
+                            "Don't create more files than you need."
+                        ],
+                        "additional_users": [
+                            "Do not create any additional users. "
+                        ],
+                        "hardcoded_secret_password": [
+                            "If you patched a server like SSHD, make sure it has your secret password hard-coded."
+                        ],
+                        "know_programming": [
+                            " Learning a programming language might take time, so you need to be patient. Focus on learning to think like a programmer instead of learning individual languages. Focus on similar concepts in all programming languages."
+                        ],
+                        "know_hacking": [
+                            "Hacking involves a variety of specialized skills."
+                        ],
+                        "know_ethics": [
+                            "If you choose to use your hacking skills for such purposes, be aware that there are other hackers out there who use their skills for good (they are called white hat hackers)"
+                        ],
+                        "know_unix": [
+                            "There is a wide family of operating systems that are based on Unix, including Linux. The vast majority of web servers on the internet are Unix-based."
+                        ],
+                        "know_internet": [
+                            "If you are going to hack, you'll need to know how to use the internet. "
+                        ]
+                    },
+                    "actions": {
+                        "go": [],
+                        "understand": [
+                            "In truth, a hacker is simply someone who has a vast understanding of computer systems and networks."
+                        ],
+                        "learn": [
+                            "\tLearning the Skills Needed to Hack"
+                        ],
+                        "get": [],
+                        "machine_secured": [
+                            " Secure your machine first."
+                        ],
+                        "enumeration": [
+                            "The process of gathering information about your target is known as enumeration"
+                        ],
+                        "got_all_info": [
+                            "The following is some information you want to gather"
+                        ],
+                        "ping": [],
+                        "check_email_server": [
+                            "You can also use tools to check an email to see what email server it uses."
+                        ],
+                        "reached_the_remote_system": [
+                            "Can you reach the remote system?"
+                        ],
+                        "run_port_scan": [
+                            "You can use a network scanner to run a port scan. This will show you the ports that are open on the machine, the OS, and can even tell you what type of firewall or router they are using so you can plan a course of action."
+                        ],
+                        "found_path_in_system": [
+                            "Find a path or open port in the system."
+                        ],
+                        "contact_and_trick_a_user": [],
+                        "crack_password_by_social_engineering": [
+                            "Social Engineering: For this technique, a hacker will contact a user and trick them into giving out their password. "
+                        ],
+                        "send_fake_email": [
+                            "Phishing: In this technique, a hacker sends a fake email to a user that appears to be from a person or company the user trusts."
+                        ],
+                        "crack_password_by_phishing": [
+                            "Phishing: In this technique, a hacker sends a fake email to a user that appears to be from a person or company the user trusts."
+                        ],
+                        "create_fake_wifi_access": [
+                            "ARP Spoofing: In this technique, a hacker uses an app on his smartphone to create a fake Wi-Fi access point that anyone in a public location can sign into."
+                        ],
+                        "crack_password_by_arp_spoofing": [
+                            "ARP Spoofing: In this technique, a hacker uses an app on his smartphone to create a fake Wi-Fi access point that anyone in a public location can sign into."
+                        ],
+                        "crack_password_by_brute_force": [
+                            "Brute Force: A brute force attack simply tries to guess the user's password. This is useful for gaining access to easily-guessed passwords "
+                        ],
+                        "gain_access_with_password": [
+                            "There are several methods for cracking a password. They include some of the following"
+                        ],
+                        "create_buffer_overflow": [
+                            "Buffer Overflow: If you know the memory layout of a system, you can feed it input the buffer cannot store."
+                        ],
+                        "take_control_of_system": [
+                            "You can overwrite the code stored in the memory with your code and take control of the system."
+                        ],
+                        "install_malware": [
+                            "To create a backdoor, you need to install a piece of malware on an important system service, such as the SSH server. "
+                        ],
+                        "bypass_standard_authentication_system": [
+                            "This will allow you to bypass the standard authentication system. "
+                        ],
+                        "not_let_administrator_know": [
+                            "Don't let the administrator know that the system is compromised."
+                        ],
+                        "make_no_change_to_website": [
+                            "Don't make any changes to the website. "
+                        ],
+                        "create_fewest_file": [
+                            "Don't create more files than you need. "
+                        ],
+                        "delete_additional_users": [
+                            " Do not create any additional users."
+                        ],
+                        "hardcode_password": [
+                            "If you patched a server like SSHD, make sure it has your secret password hard-coded."
+                        ],
+                        "track_covered": [
+                            "Cover your tracks."
+                        ],
+                        "learn_concepts": [
+                            "Focus on similar concepts in all programming languages."
+                        ],
+                        "learn_internet": [
+                            "So you'll need to learn Unix if you want to hack the internet"
+                        ],
+                        "learn_programming": [
+                            "Learning a programming language might take time, so you need to be patient. Focus on learning to think like a programmer instead of learning individual languages. Focus on similar concepts in all programming languages."
+                        ],
+                        "learn_unix": [
+                            "There is a wide family of operating systems that are based on Unix, including Linux. The vast majority of web servers on the internet are Unix-based. "
+                        ],
+                        "become_skilled": [
+                            " Hackers are simply people who are skilled in technology who like to solve problems and overcome limitations. "
+                        ]
+                    }
+                }
+            },
+            "hacking2": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "23456789",
+                "step_contents": "2 Know your target.\n3 Test the target.\n4 Run a scan of the ports.\n5 Find a path or open port in the system.\n6 Crack the password or authentication process.\n7 Get super-user privileges.\n8 Create a backdoor.\n9 Cover your tracks.\n",
+                "mentions": {
+                    "types": {
+                        "digital_system": [
+                            "Broadly speaking, hacking refers to a variety of techniques that are used to compromise or gain access to a digital system."
+                        ],
+                        "computer": [
+                            "This can be a computer, mobile phone or tablet, or an entire network."
+                        ],
+                        "mobile_phone": [
+                            "This can be a computer, mobile phone or tablet, or an entire network."
+                        ],
+                        "tablet": [
+                            "This can be a computer, mobile phone or tablet, or an entire network."
+                        ],
+                        "network": [
+                            "This can be a computer, mobile phone or tablet, or an entire network.",
+                            "Network shares and services"
+                        ],
+                        "item": [],
+                        "player": [],
+                        "direction": [],
+                        "location": [],
+                        "concept": [
+                            " Understand the ethics of hacking",
+                            "Focus on similar concepts in all programming languages."
+                        ],
+                        "skill": [
+                            "If you choose to use your hacking skills for such purposes, be aware that there are other hackers out there who use their skills for good (they are called white hat hackers).",
+                            "To hack, you must need a system to practice your great hacking skills."
+                        ],
+                        "all_information": [
+                            "The following is some information you want to gather:"
+                        ],
+                        "permission": [],
+                        "ping_succeed": [
+                            "While you can use the ping utility (which is included in most operating systems) to see if the target is active, you cannot always trust the results \u2014 it relies on the ICMP protocol, which can be easily shut off by paranoid system administrators. "
+                        ],
+                        "server_checked": [
+                            "You can also use tools to check an email to see what email server it uses."
+                        ],
+                        "network_scanner": [
+                            "You can use a network scanner to run a port scan."
+                        ],
+                        "tcp_udp_ports": [
+                            " Try other TCP and UDP ports that may have been forgotten, such as Telnet and various UDP ports left open for LAN gaming."
+                        ],
+                        "password": [
+                            "There are several methods for cracking a password."
+                        ],
+                        "memory_layout": [
+                            "If you know the memory layout of a system, you can feed it input the buffer cannot store. "
+                        ],
+                        "malware": [
+                            "To create a backdoor, you need to install a piece of malware on an important system service, such as the SSH server."
+                        ],
+                        "track": [
+                            "Cover your tracks."
+                        ],
+                        "usernames": [
+                            "Usernames and group names."
+                        ],
+                        "hostnames": [
+                            "Hostnames"
+                        ],
+                        "ip": [
+                            "IP tables and routing tables."
+                        ],
+                        "settings": [
+                            "Service settings and audit configurations."
+                        ],
+                        "applications": [
+                            "Applications and banners."
+                        ],
+                        "snmp_and_dns": [
+                            "SNMP and DNS details."
+                        ],
+                        "search": [
+                            "You can find hacking tools by searching hacker forums."
+                        ],
+                        "html": [
+                            "You will also need to know how to create internet content using HTML. Learning HTML will also teach you some good mental habits that will help you with learning to program"
+                        ],
+                        "cpp": [
+                            "C and C++ are the languages that Linux and Windows were built with. It (along with assembly language) teaches something very important in hacking: how memory works."
+                        ],
+                        "py": [
+                            "Python and Ruby are high-level, powerful scripting languages that can be used to automate various tasks."
+                        ],
+                        "php": [
+                            "PHP is worth learning because the majority of web applications use PHP. Perl is a reasonable choice in this field as well."
+                        ],
+                        "bash": [
+                            "Bash scripting is a must. That is how to easily manipulate Unix/Linux systems. You can use Bash to write scripts, which will do most of the job for you."
+                        ],
+                        "assembly": [
+                            "Assembly language is a must-know. It is the basic language that your processor understands, and there are multiple variations of it. You can't truly exploit a program if you don't know assembly."
+                        ],
+                        "unix": [
+                            "There is a wide family of operating systems that are based on Unix, including Linux. The vast majority of web servers on the internet are Unix-based."
+                        ],
+                        "hacking": [
+                            "It (along with assembly language) teaches something very important in hacking: how memory works."
+                        ],
+                        "ethics": [
+                            "Understand the ethics of hacking."
+                        ]
+                    },
+                    "predicates": {
+                        "at": [],
+                        "connected": [],
+                        "blocked": [],
+                        "inventory": [],
+                        "know": [
+                            "If you are going to hack, you'll need to know how to use the internet. "
+                        ],
+                        "learned": [
+                            "Learning HTML will also teach you some good mental habits that will help you with learning to program."
+                        ],
+                        "authorized": [
+                            "However, make sure you have the authorization to attack your target."
+                        ],
+                        "collected_all_info": [
+                            "The following is some information you want to gather"
+                        ],
+                        "port_scanned": [
+                            "You can use a network scanner to run a port scan. "
+                        ],
+                        "password_cracked": [
+                            "There are several methods for cracking a password. "
+                        ],
+                        "tricked_user_password": [
+                            "For this technique, a hacker will contact a user and trick them into giving out their password. "
+                        ],
+                        "user_trusted_fake_email": [
+                            "In this technique, a hacker sends a fake email to a user that appears to be from a person or company the user trusts. The email may contain an attachment that installs spyware or a keylogger."
+                        ],
+                        "people_use_unencrypted_connection": [
+                            "If they sign in to an account using a username and password over an unencrypted connection, the app will store that data and give the hacker access."
+                        ],
+                        "is_root_user": [
+                            "To see all the files on a computer you need super-user privileges\u2014a user account that is given the same privileges as the \"root\" user in Linux and BSD operating systems. "
+                        ],
+                        "administrator_know_compromised": [
+                            "Don't let the administrator know that the system is compromised."
+                        ],
+                        "website_unchanged": [
+                            "Don't make any changes to the website."
+                        ],
+                        "create_more_file_than_need": [
+                            "Don't create more files than you need."
+                        ],
+                        "additional_users": [
+                            "Do not create any additional users. "
+                        ],
+                        "hardcoded_secret_password": [
+                            "If you patched a server like SSHD, make sure it has your secret password hard-coded."
+                        ],
+                        "know_programming": [
+                            " Learning a programming language might take time, so you need to be patient. Focus on learning to think like a programmer instead of learning individual languages. Focus on similar concepts in all programming languages."
+                        ],
+                        "know_hacking": [
+                            "Hacking involves a variety of specialized skills."
+                        ],
+                        "know_ethics": [
+                            "If you choose to use your hacking skills for such purposes, be aware that there are other hackers out there who use their skills for good (they are called white hat hackers)"
+                        ],
+                        "know_unix": [
+                            "There is a wide family of operating systems that are based on Unix, including Linux. The vast majority of web servers on the internet are Unix-based."
+                        ],
+                        "know_internet": [
+                            "If you are going to hack, you'll need to know how to use the internet. "
+                        ]
+                    },
+                    "actions": {
+                        "go": [],
+                        "understand": [
+                            "In truth, a hacker is simply someone who has a vast understanding of computer systems and networks."
+                        ],
+                        "learn": [
+                            "\tLearning the Skills Needed to Hack"
+                        ],
+                        "get": [],
+                        "machine_secured": [],
+                        "enumeration": [
+                            "The process of gathering information about your target is known as enumeration"
+                        ],
+                        "got_all_info": [
+                            "The following is some information you want to gather"
+                        ],
+                        "ping": [
+                            "While you can use the ping utility (which is included in most operating systems) to see if the target is active, you cannot always trust the results \u2014 it relies on the ICMP protocol, which can be easily shut off by paranoid system administrators. "
+                        ],
+                        "check_email_server": [
+                            "You can also use tools to check an email to see what email server it uses."
+                        ],
+                        "reached_the_remote_system": [
+                            "Can you reach the remote system?"
+                        ],
+                        "run_port_scan": [
+                            "You can use a network scanner to run a port scan. This will show you the ports that are open on the machine, the OS, and can even tell you what type of firewall or router they are using so you can plan a course of action."
+                        ],
+                        "found_path_in_system": [
+                            "Find a path or open port in the system."
+                        ],
+                        "contact_and_trick_a_user": [],
+                        "crack_password_by_social_engineering": [
+                            "Social Engineering: For this technique, a hacker will contact a user and trick them into giving out their password. "
+                        ],
+                        "send_fake_email": [
+                            "Phishing: In this technique, a hacker sends a fake email to a user that appears to be from a person or company the user trusts."
+                        ],
+                        "crack_password_by_phishing": [
+                            "Phishing: In this technique, a hacker sends a fake email to a user that appears to be from a person or company the user trusts."
+                        ],
+                        "create_fake_wifi_access": [
+                            "ARP Spoofing: In this technique, a hacker uses an app on his smartphone to create a fake Wi-Fi access point that anyone in a public location can sign into."
+                        ],
+                        "crack_password_by_arp_spoofing": [
+                            "ARP Spoofing: In this technique, a hacker uses an app on his smartphone to create a fake Wi-Fi access point that anyone in a public location can sign into."
+                        ],
+                        "crack_password_by_brute_force": [
+                            "Brute Force: A brute force attack simply tries to guess the user's password. This is useful for gaining access to easily-guessed passwords "
+                        ],
+                        "gain_access_with_password": [
+                            "There are several methods for cracking a password. They include some of the following"
+                        ],
+                        "create_buffer_overflow": [
+                            "Buffer Overflow: If you know the memory layout of a system, you can feed it input the buffer cannot store."
+                        ],
+                        "take_control_of_system": [
+                            "You can overwrite the code stored in the memory with your code and take control of the system."
+                        ],
+                        "install_malware": [
+                            "To create a backdoor, you need to install a piece of malware on an important system service, such as the SSH server. "
+                        ],
+                        "bypass_standard_authentication_system": [
+                            "This will allow you to bypass the standard authentication system. "
+                        ],
+                        "not_let_administrator_know": [
+                            "Don't let the administrator know that the system is compromised."
+                        ],
+                        "make_no_change_to_website": [
+                            "Don't make any changes to the website. "
+                        ],
+                        "create_fewest_file": [
+                            "Don't create more files than you need. "
+                        ],
+                        "delete_additional_users": [
+                            " Do not create any additional users."
+                        ],
+                        "hardcode_password": [
+                            "If you patched a server like SSHD, make sure it has your secret password hard-coded."
+                        ],
+                        "track_covered": [
+                            "Cover your tracks."
+                        ],
+                        "learn_concepts": [
+                            "Focus on similar concepts in all programming languages."
+                        ],
+                        "learn_internet": [
+                            "So you'll need to learn Unix if you want to hack the internet"
+                        ],
+                        "learn_programming": [
+                            "Learning a programming language might take time, so you need to be patient. Focus on learning to think like a programmer instead of learning individual languages. Focus on similar concepts in all programming languages."
+                        ],
+                        "learn_unix": [
+                            "There is a wide family of operating systems that are based on Unix, including Linux. The vast majority of web servers on the internet are Unix-based. "
+                        ],
+                        "become_skilled": [
+                            " Hackers are simply people who are skilled in technology who like to solve problems and overcome limitations. "
+                        ]
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Hack",
+        "wikihow_title": "How to Hack",
+        "types": [
+            "digital_system",
+            "computer",
+            "mobile_phone",
+            "tablet",
+            "network",
+            "item",
+            "player",
+            "direction",
+            "location",
+            "concept",
+            "skill",
+            "all_information",
+            "permission",
+            "ping_succeed",
+            "server_checked",
+            "network_scanner",
+            "tcp_udp_ports",
+            "password",
+            "memory_layout",
+            "malware",
+            "track",
+            "usernames",
+            "hostnames",
+            "network",
+            "ip",
+            "settings",
+            "applications",
+            "snmp_and_dns",
+            "skill",
+            "search",
+            "html",
+            "cpp",
+            "py",
+            "php",
+            "bash",
+            "assembly",
+            "unix",
+            "concept",
+            "hacking",
+            "ethics"
+        ],
+        "actions": [
+            "go",
+            "understand",
+            "learn",
+            "get",
+            "machine_secured",
+            "enumeration",
+            "got_all_info",
+            "ping",
+            "check_email_server",
+            "reached_the_remote_system",
+            "run_port_scan",
+            "found_path_in_system",
+            "contact_and_trick_a_user",
+            "crack_password_by_social_engineering",
+            "send_fake_email",
+            "crack_password_by_phishing",
+            "create_fake_wifi_access",
+            "crack_password_by_arp_spoofing",
+            "crack_password_by_brute_force",
+            "gain_access_with_password",
+            "create_buffer_overflow",
+            "take_control_of_system",
+            "install_malware",
+            "bypass_standard_authentication_system",
+            "not_let_administrator_know",
+            "make_no_change_to_website",
+            "create_fewest_file",
+            "delete_additional_users",
+            "hardcode_password",
+            "track_covered",
+            "learn_concepts",
+            "learn_internet",
+            "learn_programming",
+            "learn_unix",
+            "become_skilled"
+        ],
+        "predicates": [
+            "at",
+            "connected",
+            "blocked",
+            "inventory",
+            "know",
+            "learned",
+            "authorized",
+            "collected_all_info",
+            "port_scanned",
+            "password_cracked",
+            "tricked_user_password",
+            "user_trusted_fake_email",
+            "people_use_unencrypted_connection",
+            "is_root_user",
+            "administrator_know_compromised",
+            "website_unchanged",
+            "create_more_file_than_need",
+            "additional_users",
+            "hardcoded_secret_password",
+            "know_programming",
+            "know_hacking",
+            "know_ethics",
+            "know_unix",
+            "know_internet"
+        ],
+        "natural_language_descriptions": {
+            "types": {
+                "digital_system": {
+                    "description": "digital system"
+                },
+                "computer": {
+                    "description": "computer"
+                },
+                "mobile_phone": {
+                    "description": "mobile phone"
+                },
+                "tablet": {
+                    "description": "tablet"
+                },
+                "network": {
+                    "description": "network"
+                },
+                "item": {
+                    "description": "item, objects"
+                },
+                "player": {
+                    "description": "people, the main character"
+                },
+                "direction": {
+                    "description": "direction"
+                },
+                "location": {
+                    "description": "location, places"
+                },
+                "concept": {
+                    "description": "Some concept you can understand"
+                },
+                "skill": {
+                    "description": "skill"
+                },
+                "all_information": {
+                    "description": "informations like user names"
+                },
+                "permission": {
+                    "description": "permission"
+                },
+                "ping_succeed": {
+                    "description": "successfully pinged a webpage"
+                },
+                "server_checked": {
+                    "description": "checked email servers"
+                },
+                "network_scanner": {
+                    "description": "network scanner"
+                },
+                "tcp_udp_ports": {
+                    "description": "TCP ports and UDP ports"
+                },
+                "password": {
+                    "description": "password"
+                },
+                "memory_layout": {
+                    "description": "memory layout"
+                },
+                "malware": {
+                    "description": "malware"
+                },
+                "track": {
+                    "description": "track"
+                },
+                "usernames": {
+                    "description": "user name"
+                },
+                "hostnames": {
+                    "description": "hostname"
+                },
+                "ip": {
+                    "description": "ip"
+                },
+                "settings": {
+                    "description": "setting"
+                },
+                "applications": {
+                    "description": "applications"
+                },
+                "snmp_and_dns": {
+                    "description": "SNMP and DNS"
+                },
+                "search": {
+                    "description": "advanced search engine techniques"
+                },
+                "html": {
+                    "description": "HTML"
+                },
+                "cpp": {
+                    "description": "programming language "
+                },
+                "py": {
+                    "description": "programming language "
+                },
+                "php": {
+                    "description": "programming language "
+                },
+                "bash": {
+                    "description": "script-level language"
+                },
+                "assembly": {
+                    "description": "programming language "
+                },
+                "unix": {
+                    "description": "operating system"
+                },
+                "hacking": {
+                    "description": "the action that invade a system"
+                },
+                "ethics": {
+                    "description": "right concepts"
+                }
+            },
+            "actions": {
+                "go": {
+                    "description": "Travel from one location to another",
+                    "prerequisites": "The player must be at the \"from\" location",
+                    "results": "The player is at the \"to\" location"
+                },
+                "understand": {
+                    "description": "comprehend a concept",
+                    "prerequisites": "the player doesn't know the concept",
+                    "results": "the player understand the concept"
+                },
+                "learn": {
+                    "description": "learn a new skill",
+                    "prerequisites": "the player doesn't have the skill",
+                    "results": "the player has the skill"
+                },
+                "get": {
+                    "description": "Pick up an item",
+                    "prerequisites": "The player must be at the same location at the item, and the item must be gettable. ",
+                    "results": "The object is now in the player's inventory "
+                },
+                "machine_secured": {
+                    "description": "secure a machine",
+                    "prerequisites": "machine is not secured",
+                    "results": "The player has permission to attack a target"
+                },
+                "enumeration": {
+                    "description": "gathering information about the target",
+                    "prerequisites": "the player doesn't have information about the target",
+                    "results": "the player gathered all information needed for the target"
+                },
+                "got_all_info": {
+                    "description": "confirm the player have all information for next step",
+                    "prerequisites": "the player has all information",
+                    "results": "unblock next step and continue to test the target"
+                },
+                "ping": {
+                    "description": "use the ping utility",
+                    "prerequisites": "the player hasn't ping yet, and has gathered information about the target",
+                    "results": "the player pinged successfully"
+                },
+                "check_email_server": {
+                    "description": "use tools to check an email to see what email server the target uses",
+                    "prerequisites": "the player hasn't checked the email server of the target",
+                    "results": "the player found out what email server the target uses"
+                },
+                "reached_the_remote_system": {
+                    "description": "test whether the player can reach the remote system",
+                    "prerequisites": "the player has pinged successfully and found out what email server the target uses",
+                    "results": "the player reaches the remote system"
+                },
+                "run_port_scan": {
+                    "description": "Run a scan of the ports",
+                    "prerequisites": "the player has a scanner and hasn't run a scan",
+                    "results": "the player runs the scan"
+                },
+                "found_path_in_system": {
+                    "description": " Find a path or open port in the system",
+                    "prerequisites": "the player hasn't tried to exploits TCP or UDP ports",
+                    "results": "the player exploits TCP or UDP ports and finds a path in the system"
+                },
+                "contact_and_trick_a_user": {
+                    "description": "contact and trick a user",
+                    "prerequisites": "the player is trying to acquire a password",
+                    "results": "the player tricks users into giving out their password"
+                },
+                "crack_password_by_social_engineering": {
+                    "description": "the player crack password by social engineering",
+                    "prerequisites": "the player contact and trick user's password",
+                    "results": "the player cracked the password"
+                },
+                "send_fake_email": {
+                    "description": "send a fake email to a user that appears to be from a person or company the user trusts",
+                    "prerequisites": "the player is trying to acquire a password",
+                    "results": "the user trusted the email and give out their information"
+                },
+                "crack_password_by_phishing": {
+                    "description": "the player cracks password by phishing",
+                    "prerequisites": "the player sends out fake email and tricked people",
+                    "results": "the player cracked the password"
+                },
+                "create_fake_wifi_access": {
+                    "description": "a hacker uses an app on his smartphone to create a fake Wi-Fi access point that anyone in a public location can sign into.",
+                    "prerequisites": "the player is trying to acquire a password",
+                    "results": "people sign in to an account using a username and password over an unencrypted connection, the app will store that data and give the hacker access."
+                },
+                "crack_password_by_arp_spoofing": {
+                    "description": "the player cracks password by ARP spoofing",
+                    "prerequisites": "the player create fake wifi and get user's passwords",
+                    "results": "the player cracked the password"
+                },
+                "crack_password_by_brute_force": {
+                    "description": "the player guess the user's password",
+                    "prerequisites": "the player is trying to acquire a password",
+                    "results": "the player guessed the password"
+                },
+                "gain_access_with_password": {
+                    "description": "the player use cracked password to gain access",
+                    "prerequisites": "the player cracked the password",
+                    "results": "the player have access to the system and can continue to hack"
+                },
+                "create_buffer_overflow": {
+                    "description": "create buffer overflow to take control of the system",
+                    "prerequisites": "the player know the memory layout of a system",
+                    "results": "the player overwrite the code stored in the memory with your code and take control of the system"
+                },
+                "take_control_of_system": {
+                    "description": "take control of the system",
+                    "prerequisites": "the player has super-user privileges",
+                    "results": "the player can control the system"
+                },
+                "install_malware": {
+                    "description": "install a piece of malware on an important system service",
+                    "prerequisites": "the player has the malware",
+                    "results": "the player installed the malware"
+                },
+                "bypass_standard_authentication_system": {
+                    "description": "the malware allows the player to bypass standard authentication system via backdoor",
+                    "prerequisites": "the player installed the malware",
+                    "results": "the user bypass standard authentication system"
+                },
+                "not_let_administrator_know": {
+                    "description": "Don't let the administrator know that the system is compromised",
+                    "prerequisites": "the player leaves track in the hacked system",
+                    "results": "the player cleared the track so that the administrator doesn't know that the system is compromised"
+                },
+                "make_no_change_to_website": {
+                    "description": "Don't make any changes to the website",
+                    "prerequisites": "the player leaves track in the hacked system by changing the website",
+                    "results": "the player cleared the track so that the website is unchanges"
+                },
+                "create_fewest_file": {
+                    "description": "Don't create more files than you need",
+                    "prerequisites": "the player leaves track in the hacked system",
+                    "results": "the player cleared the track so that no additional files are created"
+                },
+                "delete_additional_users": {
+                    "description": "Do not create any additional users",
+                    "prerequisites": "the player leaves track in the hacked system by creating additional users",
+                    "results": "the player delete additional users"
+                },
+                "hardcode_password": {
+                    "description": "the player has his secret password hard-coded",
+                    "prerequisites": "the player hasn't had his secret password hard-coded",
+                    "results": "the player's password is hardcoded"
+                },
+                "track_covered": {
+                    "description": "cover tracks",
+                    "prerequisites": "the player haven't covered all tracks",
+                    "results": "the player covered all tracks"
+                },
+                "learn_concepts": {
+                    "description": "Learn all basic concepts about hacking",
+                    "prerequisites": "The player must know what is hacking and the ethics of hacking",
+                    "results": "The player now knows all basic concepts about hacking"
+                },
+                "learn_internet": {
+                    "description": "Learn advanced internet skills",
+                    "prerequisites": "The player must know HTML and advanced search engine skills",
+                    "results": "The player now acquired advanced internet skills"
+                },
+                "learn_programming": {
+                    "description": "Learn all required programming languages for hacking",
+                    "prerequisites": "The player must have learned cpp, python, php, bash, and assembly language",
+                    "results": "The player now learned all required programming languages for hacking"
+                },
+                "learn_unix": {
+                    "description": "Learn unix system skills",
+                    "prerequisites": "The player must learn how to use unix",
+                    "results": "The player now learned how to use unix"
+                },
+                "become_skilled": {
+                    "description": "Unblock pathway from rookie stage to skilled stage",
+                    "prerequisites": "The player must know basic concepts about hacking, learn advanced internet skills, how to program, and how to use unix systems",
+                    "results": "Pathway from rookie stage to skilled stage is unblocked"
+                }
+            },
+            "predicates": {
+                "at": {
+                    "description": "someone or something is present at some place"
+                },
+                "connected": {
+                    "description": "One location is connected to another location "
+                },
+                "blocked": {
+                    "description": "Travel from one location to another is temporarily blocked"
+                },
+                "inventory": {
+                    "description": "A collection of items that the player has"
+                },
+                "know": {
+                    "description": "comprehend a concept or learned a skill"
+                },
+                "learned": {
+                    "description": "understand concept or get skill"
+                },
+                "authorized": {
+                    "description": "have permission to do something"
+                },
+                "collected_all_info": {
+                    "description": "got all information one need"
+                },
+                "port_scanned": {
+                    "description": "scanned a port"
+                },
+                "password_cracked": {
+                    "description": "cracked a password"
+                },
+                "tricked_user_password": {
+                    "description": "contact a user and trick them into giving out their password"
+                },
+                "user_trusted_fake_email": {
+                    "description": "user trusted a fake email sent by hacker"
+                },
+                "people_use_unencrypted_connection": {
+                    "description": "people sign in to an account using a username and password over an unencrypted connection"
+                },
+                "is_root_user": {
+                    "description": "is root user"
+                },
+                "administrator_know_compromised": {
+                    "description": "the administrator know that the system is compromised"
+                },
+                "website_unchanged": {
+                    "description": "make any changes to the website"
+                },
+                "create_more_file_than_need": {
+                    "description": "create more files than you need"
+                },
+                "additional_users": {
+                    "description": "create any additional users"
+                },
+                "hardcoded_secret_password": {
+                    "description": "have your secret password hard-coded"
+                },
+                "know_programming": {
+                    "description": "Learned how to program"
+                },
+                "know_hacking": {
+                    "description": "Learned what is hacking"
+                },
+                "know_ethics": {
+                    "description": "Learned ethics about hacking"
+                },
+                "know_unix": {
+                    "description": "Learned how to use unix-like operating systems"
+                },
+                "know_internet": {
+                    "description": "Learned advanced search engine and internet skills"
+                }
+            }
+        }
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "Yes",
+        "name": "Yixuan Meng, Yuxuan Wang",
+        "problems": {}
+    }
+}

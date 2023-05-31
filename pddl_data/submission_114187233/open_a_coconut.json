@@ -1,0 +1,423 @@
+{
+    "open_a_coconut": {
+        "problems": {
+            "get_coconut_meat_without_oven": {
+                "part_number": "0",
+                "method_number": "1, 3",
+                "step_number": "1-1,2,3/3-1,2,3,4,5,6",
+                "step_contents": "1 Poke a hole in the top of the coconut. At the top of the coconut, there are three eyes or indentations. One of these is usually the weakest, so use a sharp knife to poke each one. When you find the eye that gives most easily, insert the knife into it to create a \u00bd-inch (1.27-cm) hole.[1] You can also use a metal skewer or screwdriver to poke a hole in the top of the coconut. 2 Turn the coconut upside down over a glass. To collect the water from the coconut, you\u2019ll need a glass. Place the coconut upside down over it so the hole that you\u2019ve punched in it is directly over the glass.[2] You can also place the coconut over a bowl to collect the water. However, using a glass that the coconut just fits over the top of means that you don\u2019t have to hold the coconut as it drips. A measuring cup also works well for collecting the liquid. 3 Allow the coconut to drain completely. After you\u2019ve placed the coconut upside down over the glass, let it sit for several minutes or until all of the liquid drains out. You may need to shake the coconut a few times to get last bit of water out of it.[3] If you are planning to put the coconut in the oven to help open it, you must drain it first. A coconut that hasn't been drained may explode in the oven if it's heated too long. If you plan to use a mallet to open the coconut, you don't necessarily have to drain it first. However, you can wind up making a mess in your kitchen if you don't, so it's best to start with a drained coconut. You should collect approximately \u00bd to \u00be cup (118 to 177 ml) of water from the coconut. The water from a fresh, young coconut should be sweet. If the liquid has an oily consistency, the coconut likely isn\u2019t good and should be thrown away. 1 Wrap the coconut in a towel and hold it. After you\u2019ve drained the coconut, place a folded kitchen towel around one side of the coconut. Use your non-dominant hand to hold it so the part of the coconut not covered with the towel is in front of you.[11] If you prefer, you can steady the coconut against a table or countertop. However, you\u2019ll have to adjust it as you work so you can crack it all the way around. 2 Turn the coconut and tap it with a mallet until it cracks. Holding the coconut with the towel, use a mallet to firmly tap it. Turn the coconut as you go so you can tap against the entire exterior of until it begins to crack in half.[12] A metal mallet tends to work best for opening the coconut. If you don\u2019t have a mallet, you can use a hammer to tap the coconut.  3 Split the coconut shell and place it cut side down. When the coconut has cracked around the entire exterior, use your fingers to split it in two. Set the coconut down on the table or countertop with the cut side facing down.[13] If you find that the coconut doesn\u2019t split easily, repeat the previous step of tapping around the outside with the mallet. There may be some spots where the coconut hasn\u2019t fully cracked.  4 Hit the coconut with the mallet to loosen the meat. With the coconut halves facing down, use the mallet to tap against each piece. That will help loosen the meat from the shell so you can separate the two more easily.[14] Make sure to tap the mallet all over the coconut halves to ensure that the meat is loosened everywhere. It\u2019s fine if the coconut halves split into smaller pieces when you hit it with the mallet. That can actually make it easier when it\u2019s time to separate the shell and the meat. 5 Run a knife between the shell and the meat to free it. After you\u2019ve hit the coconut halves with the mallet to loosen the meat, wedge a butter knife between the shell and the meat. Use the knife to carefully pry the meat away from the shell until it\u2019s completely separated. Repeat with all of the coconut pieces.[15] Be sure to use a butter knife so you don\u2019t have to worry about cutting yourself as you work. 6 Remove the fiber from the meat. Once you\u2019ve separated the meat from the shell, there will still be a thin, brown, fibrous skin on the outside. Use a vegetable peeler to carefully remove the skin so just the meat of the coconut is left.[16] After the meat of the coconut is separated from the skin, you\u2019re ready to eat or cook with it.",
+                "mentions": {
+                    "types": {
+                        "location": [
+                            "oven"
+                        ],
+                        "appliance": [
+                            "oven"
+                        ],
+                        "item": [
+                            "knife",
+                            "coconut",
+                            "towel",
+                            "mallet",
+                            "coconut meat"
+                        ],
+                        "player": [],
+                        "direction": []
+                    },
+                    "predicates": {
+                        "on": [
+                            "Preheat the oven"
+                        ],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "wrapped": [
+                            "Place the coconut in a garbage bag",
+                            "Wrap the coconut in a towel"
+                        ],
+                        "wrapped_with": [
+                            "Place the coconut in a garbage bag",
+                            "Wrap the coconut in a towel"
+                        ],
+                        "burnt": [
+                            "Place the coconut on a pan and bake it for 10 minutes"
+                        ],
+                        "pierced": [
+                            "Poke a hole in the top of the coconut"
+                        ],
+                        "smashed": [
+                            "hit it against a hard surface",
+                            " Hit the coconut with the mallet"
+                        ],
+                        "empty": [
+                            "Allow the coconut to drain completely"
+                        ],
+                        "peeled": [
+                            "Remove the fiber from the meat"
+                        ],
+                        "test": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "drop": [],
+                        "pierce": [
+                            "Poke a hole in the top of the coconut"
+                        ],
+                        "drain": [
+                            "Turn the coconut upside down over a glass"
+                        ],
+                        "turn_on_oven": [
+                            "Preheat the oven"
+                        ],
+                        "burn_item": [
+                            " Place the coconut on a pan and bake it for 10 minutes"
+                        ],
+                        "turn_off_oven": [],
+                        "wrap_coconut": [
+                            "Place the coconut in a garbage bag ",
+                            "Wrap the coconut in a towel"
+                        ],
+                        "unwrap_coconut": [],
+                        "smash_with_hands": [
+                            "hit it against a hard surface"
+                        ],
+                        "separate": [
+                            "Split the coconut shell"
+                        ],
+                        "peel": [
+                            "Remove the fiber from the meat"
+                        ],
+                        "smash_with_mallet": [
+                            "Hit the coconut with the mallet"
+                        ]
+                    }
+                }
+            },
+            "get_coconut_meat_with_oven": {
+                "part_number": "0",
+                "method_number": "1, 2",
+                "step_number": "1-1,2,3/2-1,2,3,4,5,6",
+                "step_contents": "1 Poke a hole in the top of the coconut. At the top of the coconut, there are three eyes or indentations. One of these is usually the weakest, so use a sharp knife to poke each one. When you find the eye that gives most easily, insert the knife into it to create a \u00bd-inch (1.27-cm) hole.[1] You can also use a metal skewer or screwdriver to poke a hole in the top of the coconut. 2 Turn the coconut upside down over a glass. To collect the water from the coconut, you\u2019ll need a glass. Place the coconut upside down over it so the hole that you\u2019ve punched in it is directly over the glass.[2] You can also place the coconut over a bowl to collect the water. However, using a glass that the coconut just fits over the top of means that you don\u2019t have to hold the coconut as it drips. A measuring cup also works well for collecting the liquid. 3 Allow the coconut to drain completely. After you\u2019ve placed the coconut upside down over the glass, let it sit for several minutes or until all of the liquid drains out. You may need to shake the coconut a few times to get last bit of water out of it.[3] If you are planning to put the coconut in the oven to help open it, you must drain it first. A coconut that hasn't been drained may explode in the oven if it's heated too long. If you plan to use a mallet to open the coconut, you don't necessarily have to drain it first. However, you can wind up making a mess in your kitchen if you don't, so it's best to start with a drained coconut. You should collect approximately \u00bd to \u00be cup (118 to 177 ml) of water from the coconut. The water from a fresh, young coconut should be sweet. If the liquid has an oily consistency, the coconut likely isn\u2019t good and should be thrown away.  1 Preheat the oven. To use heat to help open the coconut, it\u2019s important to ensure that your oven is warm enough. Set the temperature to 375 degrees Fahrenheit (190 degrees Celsius), and allow it to fully heat.[4] 2 Place the coconut on a pan and bake it for 10 minutes. Put the drained coconut on a baking sheet, and set it in the oven. Allow the coconut to bake for approximately 10 minutes or until you see a crack develop in the shell.[5] If the coconut hasn't cracked after 10 minutes, continue to bake it until you notice that the shell is starting to split. Check the coconut every few minutes, though, to ensure that you don't heat it longer than necessary. If you\u2019re in a hurry, you can also microwave the coconut. Place it on a microwave-safe plate, and heat it on medium-high power for three minutes.[6] 3 Remove the coconut and wrap it in a towel. When the coconut has started to crack, remove the baking sheet from the oven. Allow it to cool for two to three minutes. Next, wrap the coconut in a small kitchen towel or rag.[7] 4 Place the coconut in a garbage bag and hit it against a hard surface. With the coconut still wrapped in the towel, set it inside a large plastic garbage bag. Twist the bag closed, and whack the coconut against a hard surface several times until you feel it break into pieces.[8] The harder the surface that you hit the coconut against, the easier it will be to break. A concrete surface works especially well. 5 Place a knife between the shell and meat to separate them. When the coconut is broken into pieces, remove it from the garbage bag and unwrap the towel. Take each piece, and wedge a knife between the shell and the white meat of the coconut to carefully separate the two.[9] You don\u2019t necessarily have to use a sharp knife to separate the coconut meat and shell. It\u2019s best to start with a butter knife and only move onto a sharp knife if you\u2019re having trouble. Steady the pieces of coconut as you\u2019re separating the coconut shell and meat by bracing it against your table or counter. 6 Peel the fiber away from the coconut meat. After you\u2019ve separated the coconut, there may still be some light brown fiber covering the white meat. Use a vegetable peeler to remove the fiber as you would the skin from a potato or other vegetable. Once you\u2019ve removed the fiber from the meat, you\u2019re ready to eat or cook with your coconut.[10] If you don\u2019t have a vegetable peeler, you can use a sharp knife to carefully peel away the fiber from the meat.",
+                "mentions": {
+                    "types": {
+                        "location": [
+                            "oven"
+                        ],
+                        "appliance": [
+                            "oven"
+                        ],
+                        "item": [
+                            "coconut",
+                            "knife",
+                            "mallet",
+                            "towel",
+                            "bag"
+                        ],
+                        "player": [],
+                        "direction": []
+                    },
+                    "predicates": {
+                        "on": [
+                            "Preheat the oven"
+                        ],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "wrapped": [
+                            "Place the coconut in a garbage bag",
+                            "Wrap the coconut in a towel"
+                        ],
+                        "wrapped_with": [
+                            "Place the coconut in a garbage bag",
+                            "Wrap the coconut in a towel"
+                        ],
+                        "burnt": [
+                            "Place the coconut on a pan and bake it for 10 minutes"
+                        ],
+                        "pierced": [
+                            "Poke a hole in the top of the coconut"
+                        ],
+                        "smashed": [
+                            " Turn the coconut and tap it with a mallet until it cracks"
+                        ],
+                        "empty": [
+                            "Allow the coconut to drain completely."
+                        ],
+                        "peeled": [
+                            "Remove the fiber from the meat"
+                        ],
+                        "test": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "drop": [],
+                        "pierce": [
+                            "Poke a hole in the top of the coconut"
+                        ],
+                        "drain": [
+                            "Turn the coconut upside down over a glass."
+                        ],
+                        "turn_on_oven": [
+                            "Preheat the oven"
+                        ],
+                        "burn_item": [
+                            "Place the coconut on a pan and bake it for 10 minutes"
+                        ],
+                        "turn_off_oven": [],
+                        "wrap_coconut": [
+                            "wrap it in a towel",
+                            "Place the coconut in a garbage bag"
+                        ],
+                        "unwrap_coconut": [],
+                        "smash_with_hands": [
+                            "hit it against a hard surface"
+                        ],
+                        "separate": [
+                            "Place a knife between the shell and meat to separate them"
+                        ],
+                        "peel": [
+                            "Peel the fiber away from the coconut meat",
+                            "Remove the fiber from the meat"
+                        ],
+                        "smash_with_mallet": [
+                            "Hit the coconut with the mallet",
+                            "Turn the coconut and tap it with a mallet"
+                        ]
+                    }
+                }
+            },
+            "get_coconut_juice": {
+                "part_number": "0",
+                "method_number": "1",
+                "step_number": "1-1,2,3",
+                "step_contents": "1 Poke a hole in the top of the coconut. At the top of the coconut, there are three eyes or indentations. One of these is usually the weakest, so use a sharp knife to poke each one. When you find the eye that gives most easily, insert the knife into it to create a \u00bd-inch (1.27-cm) hole.[1] You can also use a metal skewer or screwdriver to poke a hole in the top of the coconut. 2 Turn the coconut upside down over a glass. To collect the water from the coconut, you\u2019ll need a glass. Place the coconut upside down over it so the hole that you\u2019ve punched in it is directly over the glass.[2] You can also place the coconut over a bowl to collect the water. However, using a glass that the coconut just fits over the top of means that you don\u2019t have to hold the coconut as it drips. A measuring cup also works well for collecting the liquid. 3 Allow the coconut to drain completely. After you\u2019ve placed the coconut upside down over the glass, let it sit for several minutes or until all of the liquid drains out. You may need to shake the coconut a few times to get last bit of water out of it.[3] If you are planning to put the coconut in the oven to help open it, you must drain it first. A coconut that hasn't been drained may explode in the oven if it's heated too long. If you plan to use a mallet to open the coconut, you don't necessarily have to drain it first. However, you can wind up making a mess in your kitchen if you don't, so it's best to start with a drained coconut. You should collect approximately \u00bd to \u00be cup (118 to 177 ml) of water from the coconut. The water from a fresh, young coconut should be sweet. If the liquid has an oily consistency, the coconut likely isn\u2019t good and should be thrown away. ",
+                "mentions": {
+                    "types": {
+                        "location": [],
+                        "appliance": [],
+                        "item": [
+                            "knife",
+                            "coconut",
+                            "glass"
+                        ],
+                        "player": [],
+                        "direction": []
+                    },
+                    "predicates": {
+                        "on": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "wrapped": [],
+                        "wrapped_with": [],
+                        "burnt": [],
+                        "pierced": [
+                            "Poke a hole in the top of the coconut"
+                        ],
+                        "smashed": [],
+                        "empty": [
+                            "Allow the coconut to drain completely."
+                        ],
+                        "peeled": [],
+                        "test": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "drop": [],
+                        "pierce": [
+                            "Poke a hole in the top of the coconut"
+                        ],
+                        "drain": [
+                            "Turn the coconut upside down over a glass"
+                        ],
+                        "turn_on_oven": [],
+                        "burn_item": [],
+                        "turn_off_oven": [],
+                        "wrap_coconut": [],
+                        "unwrap_coconut": [],
+                        "smash_with_hands": [],
+                        "separate": [],
+                        "peel": [],
+                        "smash_with_mallet": []
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Open-a-Coconut",
+        "wikihow_title": "How to Open a Coconut",
+        "types": [
+            "location",
+            "appliance",
+            "item",
+            "player",
+            "direction"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "drop",
+            "pierce",
+            "drain",
+            "turn_on_oven",
+            "burn_item",
+            "turn_off_oven",
+            "wrap_coconut",
+            "unwrap_coconut",
+            "smash_with_hands",
+            "separate",
+            "peel",
+            "smash_with_mallet"
+        ],
+        "predicates": [
+            "on",
+            "at",
+            "inventory",
+            "connected",
+            "wrapped",
+            "wrapped_with",
+            "burnt",
+            "pierced",
+            "smashed",
+            "empty",
+            "peeled",
+            "test"
+        ],
+        "natural_language_descriptions": {
+            "types": {
+                "location": {
+                    "description": "location where different items are distributed"
+                },
+                "appliance": {
+                    "description": "something we can turn on and off"
+                },
+                "item": {
+                    "description": "all items in this game"
+                },
+                "player": {
+                    "description": "its you!"
+                },
+                "direction": {
+                    "description": "connection where you can move from one location to others"
+                }
+            },
+            "actions": {
+                "go": {
+                    "description": "move player's location from one place to other",
+                    "prerequisites": "you need to be in one place, and the target location should be connected with current place",
+                    "results": "moved to the target location"
+                },
+                "get": {
+                    "description": "pick up an item",
+                    "prerequisites": "the item and the player should be in the same place",
+                    "results": "item is put in the inventory, and there is no this item in this place anymore"
+                },
+                "drop": {
+                    "description": "drop an item from inventory",
+                    "prerequisites": "the item should be in the inventory",
+                    "results": "the item is not exist in the inventory anymore, and the current location has that item"
+                },
+                "pierce": {
+                    "description": "make a hole on an item",
+                    "prerequisites": "the item has no hole, and the player should have a knife",
+                    "results": "the item has a hole"
+                },
+                "drain": {
+                    "description": "drain liquid out of an item",
+                    "prerequisites": "a glass and a pierced item with liquid is needed",
+                    "results": "the glass is full with liquid, and the item is empty"
+                },
+                "turn_on_oven": {
+                    "description": "turn oven on ",
+                    "prerequisites": "oven is off",
+                    "results": "oven is on"
+                },
+                "burn_item": {
+                    "description": "burn an item with oven",
+                    "prerequisites": "the item is not burnt, and the oven is on",
+                    "results": "the item is burnt"
+                },
+                "turn_off_oven": {
+                    "description": "turn oven off",
+                    "prerequisites": "the oven is on ",
+                    "results": "the oven is off"
+                },
+                "wrap_coconut": {
+                    "description": "wrap coconut with an item",
+                    "prerequisites": "the coconut is not wrapped, you should have item to wrap, the coconut should be empty",
+                    "results": "coconut is wrapped with the item"
+                },
+                "unwrap_coconut": {
+                    "description": "unwrap the coconut",
+                    "prerequisites": "the coconut is wrapped",
+                    "results": "the coconut is not wrapped anymore, you have the item that wrapped the coconut"
+                },
+                "smash_with_hands": {
+                    "description": "smash burnt coconut with hands",
+                    "prerequisites": "the coconut is burnt, the oven is off(for safety), the coconut is wrapped",
+                    "results": "the coconut is smashed"
+                },
+                "separate": {
+                    "description": "separate smashed coconut to coconut meat and shell ",
+                    "prerequisites": "you should have a knife, the coconut is smashed",
+                    "results": "you separate coconut into shells and meats"
+                },
+                "peel": {
+                    "description": "peel the coconut fiber",
+                    "prerequisites": "you should have coconut meat and a knife",
+                    "results": "you have peeled coconut meat"
+                },
+                "smash_with_mallet": {
+                    "description": "smashed uncooked coconut with mallet",
+                    "prerequisites": "you should have a mallet, you should have empty coconut",
+                    "results": "the coconut is smashed"
+                }
+            },
+            "predicates": {
+                "on": {
+                    "description": "turn on some devices"
+                },
+                "at": {
+                    "description": "something at a location"
+                },
+                "inventory": {
+                    "description": "holding items by player"
+                },
+                "connected": {
+                    "description": "two locations can travel to each other"
+                },
+                "wrapped": {
+                    "description": "item being covered by something"
+                },
+                "wrapped_with": {
+                    "description": "the item that covers another item"
+                },
+                "burnt": {
+                    "description": "status of an item that have been cooked with oven"
+                },
+                "pierced": {
+                    "description": "status of an item that have been made a hole"
+                },
+                "smashed": {
+                    "description": "status of an item that have been smashed and fractured"
+                },
+                "empty": {
+                    "description": "status of an item is empty inside"
+                },
+                "peeled": {
+                    "description": "status of an item that has been peeled"
+                },
+                "test": {
+                    "description": "test status for debugging (not using)"
+                }
+            }
+        }
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "yes",
+        "name": "Young-Min Cho & Josh Ludan",
+        "problems": {}
+    }
+}

@@ -1,0 +1,285 @@
+{
+    "survive_in_jungle": {
+        "problems": {
+            "drink_water": {
+                "part_number": "0",
+                "method_number": "1",
+                "step_number": "1 and 2",
+                "step_contents": " Collect rainfall from leaves and bamboo stalks. Look for large leaves that collect rainfall and bend them into a funnel to pour the water into a bottle or straight into your mouth. Bend bamboo stalks to let the water that collects in the compartments flow out into a container or break the bamboo compartment off at the line that goes across the stalk to use it as a water bottle.[1] You could also look for rock formations that form natural pools and collect rainwater, but it is best to do this after a fresh rainfall to avoid pools that have been sitting for a long time and may be contaminated with bacteria. If you don\u2019t have a water bottle or other container to collect water, try to find other natural containers in the jungle such as a coconut shell or piece of wood shaped like a bowl. You can also leave these items out when it rains to collect the fresh water.  Boil water from streams to kill any bacteria. Look for running streams to find fresh water.[2] Filter out any particles through a sock, shirt, or other fabric, then start a fire and boil the water to kill bacteria that can make you sick.[3] If you don\u2019t have a pot to boil water in, then you can use a tin can, single-walled stainless steel water bottle, or any other metal container. If you have no way of making a fire or boiling the water, then you should avoid drinking water from streams. It can be contaminated with many types of bacteria from animals that will make you very sick. Always avoid drinking water from stagnant pools as the water is likely contaminated.\n",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "eatable": [
+                            "avoid drinking water"
+                        ],
+                        "container": [
+                            "if you don't have a pot",
+                            "tin can",
+                            "single-walled stainless steel water bottle",
+                            "metal container",
+                            "water bottle",
+                            "other container to collect water",
+                            "natural containers",
+                            "coconut shell",
+                            "piece of wood shaped like a bowl"
+                        ],
+                        "igniter": [
+                            "start a fire"
+                        ],
+                        "sticks": [
+                            "start a fire"
+                        ],
+                        "leaves": [],
+                        "water": [
+                            "fresh water",
+                            "water",
+                            "rainfall",
+                            "boil water"
+                        ],
+                        "food": [
+                            "fruits",
+                            "plants",
+                            "safe to eat",
+                            "tropical fruits",
+                            "edible plants",
+                            "don't try eating",
+                            "bananas",
+                            "pineapples",
+                            "oranges",
+                            "passion fruit",
+                            "coconuts",
+                            "mangos",
+                            "avocados",
+                            "edible \"heart\"",
+                            "harvest"
+                        ],
+                        "player": [],
+                        "location": [],
+                        "direction": []
+                    },
+                    "predicates": {
+                        "has_water_source": [
+                            "collect rainfall from leaves and bamboo stalks",
+                            "water from streams",
+                            "running streams"
+                        ],
+                        "has_fire": [],
+                        "has_tree": [
+                            "lean it against a tree"
+                        ],
+                        "has_shelter": [],
+                        "contains": [
+                            "container"
+                        ],
+                        "is_full": [],
+                        "is_contaminated": [
+                            "bacteria that can make you sick"
+                        ],
+                        "is_poisonous": [
+                            "could be poisonous"
+                        ],
+                        "is_sick": [
+                            "make you very sick"
+                        ],
+                        "is_hungry": [],
+                        "is_thirsty": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "collect_water": [
+                            "collect rainfall",
+                            "pour the water into a bottle",
+                            "use it as a water bottle"
+                        ],
+                        "make_fire": [
+                            "start a fire"
+                        ],
+                        "boil_water": [
+                            "boil water",
+                            "boiling the water"
+                        ],
+                        "cook_food": [],
+                        "eat_poisoned_food": [
+                            "don't try eating any plants that you don't recognize"
+                        ],
+                        "eat_contaminated_food": [],
+                        "eat_food": [],
+                        "drink_contaminated_water": [
+                            "avoid drinking water from streams. It can be contaminated"
+                        ],
+                        "drink_water": [
+                            "avoid drinking water from stagnant pools",
+                            "avoid drinking water from streams"
+                        ],
+                        "build_shelter": [
+                            "building shelter",
+                            "create a lean-to",
+                            "build a shelter each night",
+                            "protect you from the elements"
+                        ]
+                    }
+                }
+            },
+            "sleep_in_shelter": {
+                "part_number": "0",
+                "method_number": "3",
+                "step_number": "1, 2, and 3",
+                "step_contents": "Find a long, straight stick and lean it against a tree to create a lean-to. Make sure the stick is long enough that you will fit under it to sleep. Place one end against the trunk of a tree, high enough that you can fit under it, and the other end against the ground.[8] Check around the tree and look in any cracks with a flashlight, if you have one, to make sure there are no snakes, large spiders, or other animals.\n Place shorter sticks and branches against the sides of the center pole. Line the length of the middle stick with branches going outward towards the ground at a 45-degree angle. The more sticks you can find to place along the sides, the easier it will be to cover your shelter.[9] You can tie the sticks to the center pole and to each other where they meet in the middle with pieces of vine to make a more stable shelter.\nCover the sides with leaves and foliage to cover the lean-to shelter. Find large leaves and lay them over top of the frame you built. Cover the shelter as well as you can to protect you from the elements and keep animals out.[10] Make sure to build a shelter each night before it gets dark and always sleep at night to rest.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "eatable": [],
+                        "container": [],
+                        "igniter": [],
+                        "sticks": [],
+                        "leaves": [],
+                        "water": [],
+                        "food": [],
+                        "player": [],
+                        "location": [],
+                        "direction": []
+                    },
+                    "predicates": {
+                        "has_water_source": [],
+                        "has_fire": [],
+                        "has_tree": [],
+                        "has_shelter": [],
+                        "contains": [],
+                        "is_full": [],
+                        "is_contaminated": [],
+                        "is_poisonous": [],
+                        "is_sick": [],
+                        "is_hungry": [],
+                        "is_thirsty": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "collect_water": [],
+                        "make_fire": [],
+                        "boil_water": [],
+                        "cook_food": [],
+                        "eat_poisoned_food": [],
+                        "eat_contaminated_food": [],
+                        "eat_food": [],
+                        "drink_contaminated_water": [],
+                        "drink_water": [],
+                        "build_shelter": []
+                    }
+                }
+            },
+            "do_everything": {
+                "part_number": "0",
+                "method_number": "1, 2, 3",
+                "step_number": "0",
+                "step_contents": " Collect rainfall from leaves and bamboo stalks. Look for large leaves that collect rainfall and bend them into a funnel to pour the water into a bottle or straight into your mouth. Bend bamboo stalks to let the water that collects in the compartments flow out into a container or break the bamboo compartment off at the line that goes across the stalk to use it as a water bottle.[1] You could also look for rock formations that form natural pools and collect rainwater, but it is best to do this after a fresh rainfall to avoid pools that have been sitting for a long time and may be contaminated with bacteria. If you don\u2019t have a water bottle or other container to collect water, try to find other natural containers in the jungle such as a coconut shell or piece of wood shaped like a bowl. You can also leave these items out when it rains to collect the fresh water.  Boil water from streams to kill any bacteria. Look for running streams to find fresh water.[2] Filter out any particles through a sock, shirt, or other fabric, then start a fire and boil the water to kill bacteria that can make you sick.[3] If you don\u2019t have a pot to boil water in, then you can use a tin can, single-walled stainless steel water bottle, or any other metal container. If you have no way of making a fire or boiling the water, then you should avoid drinking water from streams. It can be contaminated with many types of bacteria from animals that will make you very sick. Always avoid drinking water from stagnant pools as the water is likely contaminated.  Make a solar water still with a container and a plastic sheet. Dig a hole in an area that receives at least some direct sunlight and put a container, such as a water bottle or can, in the middle of the hole. Fill the space between the sides of the hole and the container with wet leaves. Place a plastic sheet over the top of the hole and put rocks or other heavy objects around the edges to hold it in place. Put a small stone in the middle of the sheet above the container.[4] The plastic sheet will accumulate condensation that will drip down the underside of the sheet and into the container. This water is distilled and safe to drink. You can use natural containers such as bamboo or a coconut shell if you don\u2019t have a bottle or can. A solar still does not collect large amounts of water. It should be used as a supplemental source of water rather than a primary source\n Look for fruits and plants that you recognize and are safe to eat. Jungles are full of tropical fruits and edible plants if you know what to look for. Don\u2019t try eating any plants that you don\u2019t recognize because they could be poisonous.[5] Look for common jungle fruits you have eaten before such as bananas, pineapples, oranges, passion fruit, coconuts, mangos, and avocados. Bamboo and palms are also safe to eat and commonly found in jungles. Almost all types of palm trees have an edible \"heart\" that you can harvest from the inside of the tree. You can eat bamboo shoots, in other words bamboo that is just starting to grow, but you should boil them before eating them as they are quite tough.  Find a long, straight stick and lean it against a tree to create a lean-to. Make sure the stick is long enough that you will fit under it to sleep. Place one end against the trunk of a tree, high enough that you can fit under it, and the other end against the ground.[8] Check around the tree and look in any cracks with a flashlight, if you have one, to make sure there are no snakes, large spiders, or other animals. 2 Place shorter sticks and branches against the sides of the center pole. Line the length of the middle stick with branches going outward towards the ground at a 45-degree angle. The more sticks you can find to place along the sides, the easier it will be to cover your shelter.[9] You can tie the sticks to the center pole and to each other where they meet in the middle with pieces of vine to make a more stable shelter. Cover the sides with leaves and foliage to cover the lean-to shelter. Find large leaves and lay them over top of the frame you built. Cover the shelter as well as you can to protect you from the elements and keep animals out.[10] Make sure to build a shelter each night before it gets dark and always sleep at night to rest.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "eatable": [],
+                        "container": [],
+                        "igniter": [],
+                        "sticks": [],
+                        "leaves": [],
+                        "water": [],
+                        "food": [],
+                        "player": [],
+                        "location": [],
+                        "direction": []
+                    },
+                    "predicates": {
+                        "has_water_source": [],
+                        "has_fire": [],
+                        "has_tree": [],
+                        "has_shelter": [],
+                        "contains": [],
+                        "is_full": [],
+                        "is_contaminated": [],
+                        "is_poisonous": [],
+                        "is_sick": [],
+                        "is_hungry": [],
+                        "is_thirsty": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "collect_water": [],
+                        "make_fire": [],
+                        "boil_water": [],
+                        "cook_food": [],
+                        "eat_poisoned_food": [],
+                        "eat_contaminated_food": [],
+                        "eat_food": [],
+                        "drink_contaminated_water": [],
+                        "drink_water": [],
+                        "build_shelter": []
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Survive-in-the-Jungle",
+        "wikihow_title": "How to survive in the Jungle",
+        "types": [
+            "item",
+            "eatable",
+            "container",
+            "igniter",
+            "sticks",
+            "leaves",
+            "eatable",
+            "water",
+            "food",
+            "player",
+            "location",
+            "direction"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "collect_water",
+            "make_fire",
+            "boil_water",
+            "cook_food",
+            "eat_poisoned_food",
+            "eat_contaminated_food",
+            "eat_food",
+            "drink_contaminated_water",
+            "drink_water",
+            "build_shelter"
+        ],
+        "predicates": [
+            "has_water_source",
+            "has_fire",
+            "has_tree",
+            "has_shelter",
+            "contains",
+            "is_full",
+            "is_contaminated",
+            "is_poisonous",
+            "is_sick",
+            "is_hungry",
+            "is_thirsty",
+            "at",
+            "inventory",
+            "connected",
+            "blocked"
+        ]
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "Yes",
+        "name": "Anonymous"
+    }
+}

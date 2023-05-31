@@ -1,0 +1,613 @@
+{
+    "survive_on_a_deserted_island_with_nothing": {
+        "problems": {
+            "find_drinkable_water": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "1",
+                "step_contents": "Find drinkable water. The very first thing you will want to do is find a drinkable source of water.[8] Water is critical when maintaining health and surviving. Dehydration can kill a person very quickly, sometimes in as little as three days. For this reason, it's important that you quickly locate water that is safe to drink. Keep some of these ideas in mind while locating drinking water on the island:[9] [10]      Streams or rivers will usually have fresh water in them. Keep in mind that although there is no salt in this water, it may still contain parasites or diseases.     It's always a good idea to boil water you plan on drinking.     Do not drink salt water. Salt water will only cause further dehydration and health issues.     If there is no water available, you may need to build a water still.     You can drink rain or dew that has collected in leaves.     If you find plants, there is a good chance that water is nearby. Try looking ahead for a pool of water or digging down into the ground to find the source of water.     Some thicker vines can be cut open to reveal water. Most water carrying vines will look thick and wooden. Cut a vine open and examine the water. If it looks milky or discolored, don't drink it.     Many foods contain water. If you find something like a coconut or fruit, you can enjoy the meal and get some hydration.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Find drinkable water."
+                        ],
+                        "water": [
+                            "Find drinkable water."
+                        ],
+                        "wood": [],
+                        "sharp_stone": [],
+                        "weapon": [],
+                        "saltwater": [
+                            "Do not drink salt water.",
+                            "Salt water will only cause further dehydration and health issues."
+                        ],
+                        "freshwater": [
+                            "Streams or rivers will usually have fresh water in them."
+                        ],
+                        "softwood": [],
+                        "hardwood_stick": [],
+                        "tinder": [],
+                        "spear": [],
+                        "scenery": [],
+                        "plant": [],
+                        "campfire": [],
+                        "container": [],
+                        "bag": [],
+                        "canteen": [],
+                        "food": [],
+                        "fish": [],
+                        "player": [],
+                        "direction": [],
+                        "location": [
+                            "Streams or rivers will usually have fresh water in them."
+                        ]
+                    },
+                    "predicates": {
+                        "has_water": [
+                            "Streams or rivers will usually have fresh water in them."
+                        ],
+                        "has_freshwater_source": [
+                            "Streams or rivers will usually have fresh water in them."
+                        ],
+                        "treated": [
+                            "Keep in mind that although there is no salt in this water, it may still contain parasites or diseases.",
+                            "It's always a good idea to boil water you plan on drinking."
+                        ],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": [],
+                        "bagged": [],
+                        "has_tinder": [],
+                        "lit": [],
+                        "has_fish": [],
+                        "cooked": [],
+                        "wet": [],
+                        "signaling": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "get_water": [],
+                        "bag_plant": [],
+                        "wait_and_gather_bagged_plant": [],
+                        "gather_tinder": [],
+                        "build_campfire": [],
+                        "light_campfire": [],
+                        "make_spear": [],
+                        "spear_fish": [],
+                        "cook_fish": [],
+                        "wet_tinder": [],
+                        "make_smoke_signal": []
+                    }
+                }
+            },
+            "build_fire": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "3",
+                "step_contents": "3 Build a fire. After you've found water and built a shelter, it's time to keep warm. Building a fire can be done without any tools. All you will need is some natural material and a fire-starting technique. There are many techniques that you can use to actually start the fire. As an example, take a look at these steps to get an idea of how you can start a fire without tools:[12] [13] [14]      Find small pieces of wood, tinder, dry leaves or twigs and arrange them in a small tepee.     Having good tinder is important. Try using dry grass, pine resin, birch tree bark or any other dry material that will easily take a flame.     Locate a length of soft wood. Ideally this will have a small groove in it already. However, you could also make a grove by cutting the wood with a sharp stone.     Find a hardwood stick and gather your tinder together.     Put the tinder in the groove. Rub the hardwood stick up and down the groove quickly to create friction.     Eventually the tinder will ignite. Place this tinder in your small kindling tepee to start the fire.     Add larger pieces of wood to build the fire higher.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "you've found water",
+                            "All you will need is some natural material",
+                            "Find small pieces of wood, tinder, dry leaves or twigs",
+                            "Locate a length of soft wood.",
+                            "Find a hardwood stick"
+                        ],
+                        "water": [
+                            "After you've found water"
+                        ],
+                        "wood": [
+                            "Find small pieces of wood, tinder, dry leaves or twigs",
+                            "Locate a length of soft wood.",
+                            "Find a hardwood stick and gather your tinder together. "
+                        ],
+                        "sharp_stone": [],
+                        "weapon": [],
+                        "saltwater": [],
+                        "freshwater": [],
+                        "softwood": [
+                            "Locate a length of soft wood.",
+                            "Ideally this will have a small groove in it already.",
+                            "However, you could also make a grove by cutting the wood with a sharp stone."
+                        ],
+                        "hardwood_stick": [
+                            "Find a hardwood stick and gather your tinder together.",
+                            "Rub the hardwood stick up and down the groove quickly to create friction."
+                        ],
+                        "tinder": [
+                            "Find small pieces of wood, tinder, dry leaves or twigs and arrange them in a small tepee.",
+                            "Having good tinder is important.",
+                            "Try using dry grass, pine resin, birch tree bark or any other dry material that will easily take a flame.",
+                            "Put the tinder in the groove. ",
+                            "Eventually the tinder will ignite. Place this tinder in your small kindling tepee to start the fire."
+                        ],
+                        "spear": [],
+                        "scenery": [],
+                        "plant": [],
+                        "campfire": [
+                            "arrange them in a small tepee.",
+                            "Place this tinder in your small kindling tepee to start the fire."
+                        ],
+                        "container": [],
+                        "bag": [],
+                        "canteen": [],
+                        "food": [],
+                        "fish": [],
+                        "player": [],
+                        "direction": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "has_water": [],
+                        "has_freshwater_source": [],
+                        "treated": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": [],
+                        "bagged": [],
+                        "has_tinder": [
+                            "Find small pieces of wood, tinder, dry leaves or twigs"
+                        ],
+                        "lit": [
+                            "Eventually the tinder will ignite. Place this tinder in your small kindling tepee to start the fire."
+                        ],
+                        "has_fish": [],
+                        "cooked": [],
+                        "wet": [],
+                        "signaling": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "get_water": [],
+                        "bag_plant": [],
+                        "wait_and_gather_bagged_plant": [],
+                        "gather_tinder": [
+                            "Find small pieces of wood, tinder, dry leaves or twigs"
+                        ],
+                        "build_campfire": [
+                            "arrange them in a small tepee."
+                        ],
+                        "light_campfire": [
+                            "Place this tinder in your small kindling tepee to start the fire."
+                        ],
+                        "make_spear": [],
+                        "spear_fish": [],
+                        "cook_fish": [],
+                        "wet_tinder": [],
+                        "make_smoke_signal": []
+                    }
+                }
+            },
+            "get_food": {
+                "part_number": "3",
+                "method_number": "0",
+                "step_number": "1",
+                "step_contents": " Find food. Once you've taken care of the immediate survival needs, you can focus on other important aspects. Locating, obtaining, and preparing food is one of these critical survival needs. Although you can survive for a while without food, eating will help keep your energy levels up and increase your chances of survival overall. When looking for food, keep these tips in mind:[18] [19]\nThere will likely be fish that you can eat in the shallow water around the island.\nMaking a simple spear out of a sharp stick can allow you to go spear-fishing.\nThere may be edible fruit around the island. Try looking for bananas or coconuts to eat.\nYou can usually eat seaweed if you find it growing nearby. Make sure you find it growing in the island shallows or tidal pools. Seaweed that has drifted to the island may be dangerous to eat.\nYou should cook any food that you find to reduce the chances of eating a parasite or contracting a disease.\nIf you aren't sure if something is poisonous, start by rubbing the food on your hand. If you don't get a rash or reaction, try rubbing it on your lips. If you don't notice anything, try holding it in your mouth for a few minutes before removing it. If you don't feel ill, you can try to eat it.\nCheck out this guide to learn more about testing potentially poisonous plants.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [
+                            "shallow water around the island."
+                        ],
+                        "wood": [
+                            "Making a simple spear out of a sharp stick"
+                        ],
+                        "sharp_stone": [],
+                        "weapon": [
+                            "Making a simple spear out of a sharp stick can allow you to go spear-fishing."
+                        ],
+                        "saltwater": [],
+                        "freshwater": [],
+                        "softwood": [],
+                        "hardwood_stick": [
+                            "Making a simple spear out of a sharp stick can allow you to go spear-fishing."
+                        ],
+                        "tinder": [],
+                        "spear": [
+                            "Making a simple spear out of a sharp stick can allow you to go spear-fishing."
+                        ],
+                        "scenery": [],
+                        "plant": [],
+                        "campfire": [
+                            "You should cook any food that you find to reduce the chances of eating a parasite or contracting a disease."
+                        ],
+                        "container": [],
+                        "bag": [],
+                        "canteen": [],
+                        "food": [
+                            "Locating, obtaining, and preparing food is one of these critical survival needs",
+                            "Although you can survive for a while without food, eating will help keep your energy levels up and increase your chances of survival overall.",
+                            "When looking for food,",
+                            "here will likely be fish that you can eat",
+                            "You can usually eat seaweed if you find it growing nearby.",
+                            "You should cook any food that you find",
+                            "If you aren't sure if something is poisonous, start by rubbing the food on your hand"
+                        ],
+                        "fish": [
+                            "There will likely be fish that you can eat in the shallow water around the island.",
+                            "Making a simple spear out of a sharp stick can allow you to go spear-fishing."
+                        ],
+                        "player": [],
+                        "direction": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "has_water": [
+                            "shallow water around the island."
+                        ],
+                        "has_freshwater_source": [],
+                        "treated": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": [],
+                        "bagged": [],
+                        "has_tinder": [],
+                        "lit": [],
+                        "has_fish": [
+                            "There will likely be fish that you can eat in the shallow water around the island."
+                        ],
+                        "cooked": [
+                            "You should cook any food that you find to reduce the chances of eating a parasite or contracting a disease."
+                        ],
+                        "wet": [],
+                        "signaling": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "get_water": [],
+                        "bag_plant": [],
+                        "wait_and_gather_bagged_plant": [],
+                        "gather_tinder": [],
+                        "build_campfire": [],
+                        "light_campfire": [],
+                        "make_spear": [
+                            "Making a simple spear out of a sharp stick can allow you to go spear-fishing."
+                        ],
+                        "spear_fish": [
+                            "Making a simple spear out of a sharp stick can allow you to go spear-fishing."
+                        ],
+                        "cook_fish": [
+                            "You should cook any food that you find to reduce the chances of eating a parasite or contracting a disease."
+                        ],
+                        "wet_tinder": [],
+                        "make_smoke_signal": []
+                    }
+                }
+            },
+            "make_smoke_signal": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "4",
+                "step_contents": "4 Create a rescue signal. If you hope to be rescued, it's a good idea to leave rescuers with a signal. The signal you create will help search parties find your location and get you home more quickly than you would otherwise. You might try making some of these rescue signals to make you more visible:[15]      Burning damp or wet wood can produce a lot of smoke. Tree fires or flares arranged in a triangle is also recognized internationally as a distress signal.     Piling large rocks on the beach can be effective. Try to spell out S.O.S. or HELP with them.     You can also spell messages by drawing in the sand or using large sticks to spell the message out.     If you move locations, use stones to draw an arrow on the ground, indicating which direction you went.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [],
+                        "wood": [
+                            "Burning damp or wet wood can produce a lot of smoke."
+                        ],
+                        "sharp_stone": [],
+                        "weapon": [],
+                        "saltwater": [],
+                        "freshwater": [],
+                        "softwood": [],
+                        "hardwood_stick": [],
+                        "tinder": [],
+                        "spear": [],
+                        "scenery": [],
+                        "plant": [],
+                        "campfire": [
+                            "Burning damp or wet wood can produce a lot of smoke."
+                        ],
+                        "container": [],
+                        "bag": [],
+                        "canteen": [],
+                        "food": [],
+                        "fish": [],
+                        "player": [],
+                        "direction": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "has_water": [],
+                        "has_freshwater_source": [],
+                        "treated": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": [],
+                        "bagged": [],
+                        "has_tinder": [],
+                        "lit": [],
+                        "has_fish": [],
+                        "cooked": [],
+                        "wet": [
+                            "Burning damp or wet wood can produce a lot of smoke."
+                        ],
+                        "signaling": [
+                            "Burning damp or wet wood can produce a lot of smoke."
+                        ]
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "get_water": [],
+                        "bag_plant": [],
+                        "wait_and_gather_bagged_plant": [],
+                        "gather_tinder": [],
+                        "build_campfire": [],
+                        "light_campfire": [],
+                        "make_spear": [],
+                        "spear_fish": [],
+                        "cook_fish": [],
+                        "wet_tinder": [
+                            "Burning damp or wet wood can produce a lot of smoke."
+                        ],
+                        "make_smoke_signal": [
+                            "Burning damp or wet wood can produce a lot of smoke."
+                        ]
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Survive-on-a-Deserted-Island-With-Nothing",
+        "wikihow_title": "How to Survive on a Deserted Island with Nothing",
+        "types": [
+            "item",
+            "water",
+            "wood",
+            "sharp_stone",
+            "weapon",
+            "water",
+            "saltwater",
+            "freshwater",
+            "wood",
+            "softwood",
+            "hardwood_stick",
+            "tinder",
+            "weapon",
+            "spear",
+            "scenery",
+            "plant",
+            "campfire",
+            "container",
+            "bag",
+            "canteen",
+            "food",
+            "fish",
+            "player",
+            "direction",
+            "location"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "get_water",
+            "bag_plant",
+            "wait_and_gather_bagged_plant",
+            "gather_tinder",
+            "build_campfire",
+            "light_campfire",
+            "make_spear",
+            "spear_fish",
+            "cook_fish",
+            "wet_tinder",
+            "make_smoke_signal"
+        ],
+        "predicates": [
+            "has_water",
+            "has_freshwater_source",
+            "treated",
+            "at",
+            "inventory",
+            "connected",
+            "blocked",
+            "bagged",
+            "has_tinder",
+            "lit",
+            "has_fish",
+            "cooked",
+            "wet",
+            "signaling"
+        ],
+        "natural_language_descriptions": {
+            "types": {
+                "water": {
+                    "description": "water"
+                },
+                "wood": {
+                    "description": "wood"
+                },
+                "sharp_stone-": {
+                    "description": "A sharp stone"
+                },
+                "item": {
+                    "description": "gettable items that can be added to inventory"
+                },
+                "saltwater": {
+                    "description": "saltwater"
+                },
+                "freshwater": {
+                    "description": "freshwater"
+                },
+                "weapon": {
+                    "description": ""
+                },
+                "softwood": {
+                    "description": "soft wood, usable for starting a fire with a stick"
+                },
+                "hardwood_stick": {
+                    "description": "stick made of hardwood"
+                },
+                "tinder-": {
+                    "description": "leaves, branches, etc. to be used for starting a fire"
+                },
+                "sharp_stone": {
+                    "description": "a stone with a shard edge"
+                },
+                "tinder": {
+                    "description": "leaves, branches, etc., to be ignited "
+                },
+                "spear": {
+                    "description": "a spear, can be used to catch fish"
+                },
+                "scenery": {
+                    "description": "things in the environment that are not gettable"
+                },
+                "plant": {
+                    "description": "a plant with leaves"
+                },
+                "campfire": {
+                    "description": "a campfire, made of a pile of tinder"
+                },
+                "container": {
+                    "description": "a container, such as for holding water"
+                },
+                "bag": {
+                    "description": "a bag"
+                },
+                "canteen": {
+                    "description": "a canteen for water"
+                },
+                "food": {
+                    "description": "edibles"
+                },
+                "fish": {
+                    "description": "a fish"
+                },
+                "player": {
+                    "description": "an actor in the scenario"
+                },
+                "direction": {
+                    "description": "a direction to go"
+                },
+                "location": {
+                    "description": "a location "
+                }
+            },
+            "actions": {
+                "go": {
+                    "description": "go to a location",
+                    "prerequisites": "player must be in a location connected to the target location, and it must not be blocked",
+                    "results": "player changes location"
+                },
+                "get": {
+                    "description": "add an item to inventory",
+                    "prerequisites": "item must be in the same location as player",
+                    "results": "item is removed from location and added to inventory"
+                },
+                "get_water": {
+                    "description": "player adds water to inventory",
+                    "prerequisites": "water must be available at the player's location",
+                    "results": "water is added to player's inventory"
+                },
+                "bag_plant": {
+                    "description": "player affixes a bag to a plant to collect water",
+                    "prerequisites": "player must have a bag and be in the same location as a plant",
+                    "results": "plant becomes bagged"
+                },
+                "wait_and_gather_bagged_plant": {
+                    "description": "player waits for water to gather in bagged plant and takes water",
+                    "prerequisites": "player must be in same location as bagged plant",
+                    "results": "player adds water to inventory, plant is no longer bagged"
+                },
+                "gather_tinder": {
+                    "description": "player gathers tinder",
+                    "prerequisites": "there must be tinder in the player's location",
+                    "results": "player adds tinder to inventory"
+                },
+                "build_campfire": {
+                    "description": "player builds a campfire",
+                    "prerequisites": "player must have tinder in inventory",
+                    "results": "player loses tinder, campfire is added to player's location"
+                },
+                "light_campfire": {
+                    "description": "player uses softwood and a stick to ignite the campfire",
+                    "prerequisites": "player must have softwood, a stick, and be in the same location as a campfire",
+                    "results": "campfire becomes lit"
+                },
+                "make_spear": {
+                    "description": "player uses a sharp stone to sharpen a stick into a spear",
+                    "prerequisites": "player must have a sharp stone and a stick",
+                    "results": "player loses stick, gains spear"
+                },
+                "spear_fish": {
+                    "description": "player uses spear to catch fish",
+                    "prerequisites": "player must have spear, must be in location with fish",
+                    "results": "player adds fish to inventory"
+                },
+                "cook_fish": {
+                    "description": "player cooks fish over a campfire",
+                    "prerequisites": "player must have fish and be in the same location as a campfire",
+                    "results": "player loses fish, gains cooked fish"
+                },
+                "wet_tinder": {
+                    "description": "player wets tinder with water",
+                    "prerequisites": "player must have tinder and be in a locationm with water",
+                    "results": "player's tinder becomes wet"
+                },
+                "make_smoke_signal": {
+                    "description": "player uses wet tinder to make smoke with a campfire",
+                    "prerequisites": "player must have wet tinder and be in same location as a campfire",
+                    "results": "player loses tinder, fire starts signaling"
+                }
+            },
+            "predicates": {
+                "has_water": {
+                    "description": "the location has a water source"
+                },
+                "has_freshwater_source": {
+                    "description": "the location has a freshwater source"
+                },
+                "treated": {
+                    "description": "the water is safe to drink"
+                },
+                "at": {
+                    "description": "the item is at the location"
+                },
+                "inventory": {
+                    "description": "the player has the item in their inventory"
+                },
+                "connected": {
+                    "description": "there is a path from one location to the other"
+                },
+                "blocked": {
+                    "description": "the connection between the locations is inaccessible"
+                },
+                "bagged": {
+                    "description": "the plant has a bag on it to gather water"
+                },
+                "has_tinder": {
+                    "description": "the location has tinder that can be foraged"
+                },
+                "lit": {
+                    "description": "the campfire is lit. it is on fire."
+                },
+                "has_fish": {
+                    "description": "there are fish in the location"
+                },
+                "cooked": {
+                    "description": "the food has been cooked and is safe to eat"
+                },
+                "wet": {
+                    "description": "the tinder is wet and will produce smoke when ignited"
+                },
+                "signaling": {
+                    "description": "the campfire is producing enough smoke to constitute a signal"
+                }
+            }
+        }
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "Yes",
+        "name": "Alex Feng",
+        "problems": {}
+    }
+}

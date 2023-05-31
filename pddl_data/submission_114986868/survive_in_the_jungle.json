@@ -1,0 +1,636 @@
+{
+    "survive_in_the_jungle": {
+        "problems": {
+            "drink_water": {
+                "part_number": "0",
+                "method_number": "1",
+                "step_number": "2",
+                "step_contents": "Boil water from streams to kill any bacteria. Look for running streams to find fresh water.[2] Filter out any particles through a sock, shirt, or other fabric, then start a fire and boil the water to kill bacteria that can make you sick.[3] If you don\u2019t have a pot to boil water in, then you can use a tin can, single-walled stainless steel water bottle, or any other metal container. If you have no way of making a fire or boiling the water, then you should avoid drinking water from streams. It can be contaminated with many types of bacteria from animals that will make you very sick. Always avoid drinking water from stagnant pools as the water is likely contaminated.\n",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "water, container, wood, drill"
+                        ],
+                        "water": [
+                            "water"
+                        ],
+                        "wood": [
+                            "start a fire"
+                        ],
+                        "container": [
+                            "a tin can, single-walled stainless steel water bottle, or any other metal container"
+                        ],
+                        "drill": [
+                            "start a fire"
+                        ],
+                        "spear": [],
+                        "fish": [],
+                        "foliage": [],
+                        "player": [
+                            "you"
+                        ],
+                        "direction": [],
+                        "location": [
+                            "Look for running streams"
+                        ]
+                    },
+                    "predicates": {
+                        "has_water": [
+                            "Look for running streams to find fresh water."
+                        ],
+                        "has_tree": [
+                            "start a fire"
+                        ],
+                        "has_fish": [],
+                        "has_fire": [
+                            "start a fire"
+                        ],
+                        "has_shelter": [],
+                        "boiled": [
+                            "Boil water"
+                        ],
+                        "filtered": [
+                            "Filter out any particles through a sock, shirt, or other fabric"
+                        ],
+                        "cooked": [],
+                        "thirsty": [],
+                        "hungry": [],
+                        "safe": [],
+                        "at": [],
+                        "inventory": [
+                            "If you don\u2019t have a pot to boil water in"
+                        ],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "find fresh water"
+                        ],
+                        "drop": [],
+                        "collect_water": [
+                            "find fresh water"
+                        ],
+                        "filter_water": [
+                            "Filter out any particles through a sock, shirt, or other fabric"
+                        ],
+                        "boil_water": [
+                            "Boil water from streams to kill any bacteria",
+                            "boil the water to kill bacteria"
+                        ],
+                        "drink_water": [
+                            "avoid drinking water from stagnant pools",
+                            "f you have no way of making a fire or boiling the water, then you should avoid drinking water from streams."
+                        ],
+                        "get_wood": [],
+                        "make_drill": [
+                            "start a fire"
+                        ],
+                        "make_fire": [
+                            "start a fire"
+                        ],
+                        "make_spear": [],
+                        "catch_fish": [],
+                        "cook_fish": [],
+                        "eat_fish": [],
+                        "get_foliage": [],
+                        "build_shelter": [],
+                        "survive": [
+                            "make you very sick"
+                        ]
+                    }
+                }
+            },
+            "eat_fish": {
+                "part_number": "0",
+                "method_number": "2",
+                "step_number": "3",
+                "step_contents": "Make a 4-pronged bamboo spear to fish with. Find a 6-ft (1.8 m) stalk of bamboo and cut 4 6-in (15.24 cm) slits into 1 end of it with a knife or sharp rock. Weave a piece of vine into the slits to separate the tip of the bamboo into 4 prongs and sharpen them with a knife or a sharp rock.[7] To fish with your spear, stand on a rock in the middle of a stream or wade into knee-deep water. Stand still and wait until you see a fish, then spear it with the pronged end of the bamboo and pin it to the ground of the stream.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "spear",
+                            "fish"
+                        ],
+                        "water": [
+                            "middle of a stream",
+                            "knee-deep water"
+                        ],
+                        "wood": [
+                            "bamboo spear",
+                            "stalk of bamboo",
+                            "bamboo ",
+                            "spear"
+                        ],
+                        "container": [],
+                        "drill": [],
+                        "spear": [
+                            "bamboo spear",
+                            "sharpen them",
+                            "spear it with the pronged end of the bamboo"
+                        ],
+                        "fish": [
+                            "fish ",
+                            "see a fish"
+                        ],
+                        "foliage": [],
+                        "player": [
+                            "you"
+                        ],
+                        "direction": [],
+                        "location": [
+                            "in the middle of a stream"
+                        ]
+                    },
+                    "predicates": {
+                        "has_water": [
+                            "in the middle of a stream",
+                            "knee-deep water"
+                        ],
+                        "has_tree": [],
+                        "has_fish": [
+                            "see a fish",
+                            "Make a 4-pronged bamboo spear to fish with",
+                            "To fish with your spear"
+                        ],
+                        "has_fire": [],
+                        "has_shelter": [],
+                        "boiled": [],
+                        "filtered": [],
+                        "cooked": [],
+                        "thirsty": [],
+                        "hungry": [],
+                        "safe": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [
+                            "wade into knee-deep water"
+                        ],
+                        "get": [
+                            "Find a 6-ft (1.8 m) stalk of bamboo"
+                        ],
+                        "drop": [],
+                        "collect_water": [],
+                        "filter_water": [],
+                        "boil_water": [],
+                        "drink_water": [],
+                        "get_wood": [
+                            "Find a 6-ft (1.8 m) stalk of bamboo"
+                        ],
+                        "make_drill": [],
+                        "make_fire": [],
+                        "make_spear": [
+                            "Make a 4-pronged bamboo spear",
+                            "sharpen them with a knife or a sharp rock"
+                        ],
+                        "catch_fish": [
+                            "Make a 4-pronged bamboo spear to fish with",
+                            "spear it with the pronged end of the bamboo",
+                            "pin it to the ground of the stream",
+                            "Stand still and wait until you see a fish"
+                        ],
+                        "cook_fish": [],
+                        "eat_fish": [],
+                        "get_foliage": [],
+                        "build_shelter": [],
+                        "survive": []
+                    }
+                }
+            },
+            "make_fire": {
+                "part_number": "0",
+                "method_number": "1",
+                "step_number": "2",
+                "step_contents": "Boil water from streams to kill any bacteria. Look for running streams to find fresh water.[2] Filter out any particles through a sock, shirt, or other fabric, then start a fire and boil the water to kill bacteria that can make you sick.[3] If you don\u2019t have a pot to boil water in, then you can use a tin can, single-walled stainless steel water bottle, or any other metal container. If you have no way of making a fire or boiling the water, then you should avoid drinking water from streams. It can be contaminated with many types of bacteria from animals that will make you very sick. Always avoid drinking water from stagnant pools as the water is likely contaminated.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [
+                            "Boil water",
+                            "streams ",
+                            "fresh water",
+                            "water",
+                            "water bottle"
+                        ],
+                        "wood": [],
+                        "container": [
+                            "a pot to boil water in",
+                            "a tin can",
+                            "single-walled stainless steel water bottle",
+                            "metal container"
+                        ],
+                        "drill": [
+                            "start a fire"
+                        ],
+                        "spear": [],
+                        "fish": [],
+                        "foliage": [],
+                        "player": [
+                            "you"
+                        ],
+                        "direction": [],
+                        "location": [
+                            "streams ",
+                            "stagnant pools"
+                        ]
+                    },
+                    "predicates": {
+                        "has_water": [
+                            "Look for running streams to find fresh water",
+                            "water from stagnant pools"
+                        ],
+                        "has_tree": [],
+                        "has_fish": [],
+                        "has_fire": [],
+                        "has_shelter": [],
+                        "boiled": [
+                            "Boil water",
+                            "boil the water",
+                            "boiling the water"
+                        ],
+                        "filtered": [
+                            "Filter out any particles"
+                        ],
+                        "cooked": [],
+                        "thirsty": [],
+                        "hungry": [],
+                        "safe": [],
+                        "at": [],
+                        "inventory": [
+                            "have a pot"
+                        ],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "find fresh water"
+                        ],
+                        "drop": [],
+                        "collect_water": [
+                            "find fresh water"
+                        ],
+                        "filter_water": [
+                            "Filter out any particles"
+                        ],
+                        "boil_water": [
+                            "Boil water",
+                            "boil the water",
+                            "boiling the water"
+                        ],
+                        "drink_water": [
+                            "drinking water from streams",
+                            "drinking water from stagnant pools"
+                        ],
+                        "get_wood": [],
+                        "make_drill": [],
+                        "make_fire": [],
+                        "make_spear": [],
+                        "catch_fish": [],
+                        "cook_fish": [],
+                        "eat_fish": [],
+                        "get_foliage": [],
+                        "build_shelter": [],
+                        "survive": []
+                    }
+                }
+            },
+            "safe_in_cave": {
+                "part_number": "0",
+                "method_number": "3",
+                "step_number": "1, 2, 3",
+                "step_contents": " Find a long, straight stick and lean it against a tree to create a lean-to. Make sure the stick is long enough that you will fit under it to sleep. Place one end against the trunk of a tree, high enough that you can fit under it, and the other end against the ground.[8] Check around the tree and look in any cracks with a flashlight, if you have one, to make sure there are no snakes, large spiders, or other animals.\nPlace shorter sticks and branches against the sides of the center pole. Line the length of the middle stick with branches going outward towards the ground at a 45-degree angle. The more sticks you can find to place along the sides, the easier it will be to cover your shelter.[9] You can tie the sticks to the center pole and to each other where they meet in the middle with pieces of vine to make a more stable shelter.\nCover the sides with leaves and foliage to cover the lean-to shelter. Find large leaves and lay them over top of the frame you built. Cover the shelter as well as you can to protect you from the elements and keep animals out.[10] Make sure to build a shelter each night before it gets dark and always sleep at night to rest.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [],
+                        "wood": [
+                            "stick ",
+                            "tree ",
+                            "trunk of a tree",
+                            "tree ",
+                            "sticks ",
+                            "branches"
+                        ],
+                        "container": [],
+                        "drill": [],
+                        "spear": [],
+                        "fish": [],
+                        "foliage": [
+                            "leaves ",
+                            "foliage ",
+                            "large leaves"
+                        ],
+                        "player": [],
+                        "direction": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "has_water": [],
+                        "has_tree": [
+                            "tree ",
+                            "trunk of a tree",
+                            "leaves and foliage",
+                            "large leaves"
+                        ],
+                        "has_fish": [],
+                        "has_fire": [],
+                        "has_shelter": [
+                            "make a more stable shelter.",
+                            "lean-to shelter",
+                            "Cover the shelter",
+                            "build a shelter"
+                        ],
+                        "boiled": [],
+                        "filtered": [],
+                        "cooked": [],
+                        "thirsty": [],
+                        "hungry": [],
+                        "safe": [
+                            "make sure there are no snakes, large spiders, or other animals",
+                            "build a shelter each night before it gets dark",
+                            "always sleep at night to rest"
+                        ],
+                        "at": [],
+                        "inventory": [
+                            "Find a long, straight stick",
+                            "Find large leaves"
+                        ],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "Find a long, straight stick",
+                            "Find large leaves"
+                        ],
+                        "drop": [],
+                        "collect_water": [],
+                        "filter_water": [],
+                        "boil_water": [],
+                        "drink_water": [],
+                        "get_wood": [
+                            "Find a long, straight stick",
+                            "Place shorter sticks and branches",
+                            "tie the sticks"
+                        ],
+                        "make_drill": [],
+                        "make_fire": [],
+                        "make_spear": [],
+                        "catch_fish": [],
+                        "cook_fish": [],
+                        "eat_fish": [],
+                        "get_foliage": [
+                            "leaves and foliage to cover the lean-to shelter",
+                            "Find large leaves"
+                        ],
+                        "build_shelter": [
+                            "make a more stable shelter",
+                            "build a shelter each night"
+                        ],
+                        "survive": [
+                            "there are no snakes, large spiders, or other animals",
+                            "protect you from the elements and keep animals out",
+                            "build a shelter each night before it gets dark",
+                            "sleep at night to rest"
+                        ]
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Survive-in-the-Jungle",
+        "wikihow_title": "How to Survive in the Jungle",
+        "types": [
+            "item",
+            "water",
+            "wood",
+            "container",
+            "drill",
+            "spear",
+            "fish",
+            "foliage",
+            "player",
+            "direction",
+            "location"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "drop",
+            "collect_water",
+            "filter_water",
+            "boil_water",
+            "drink_water",
+            "get_wood",
+            "make_drill",
+            "make_fire",
+            "make_spear",
+            "catch_fish",
+            "cook_fish",
+            "eat_fish",
+            "get_foliage",
+            "build_shelter",
+            "survive"
+        ],
+        "predicates": [
+            "has_water",
+            "has_tree",
+            "has_fish",
+            "has_fire",
+            "has_shelter",
+            "boiled",
+            "filtered",
+            "cooked",
+            "thirsty",
+            "hungry",
+            "safe",
+            "at",
+            "inventory",
+            "connected",
+            "blocked"
+        ],
+        "natural_language_descriptions": {
+            "types": {
+                "item": {
+                    "description": "Type ITEM is the general type for items."
+                },
+                "water": {
+                    "description": "Water is a subtype of ITEM. It can be collected, filtered, boiled, and drunk."
+                },
+                "wood": {
+                    "description": "WOOD is a subtype of ITEM. It can be used to make tools, build shelter and so on."
+                },
+                "container": {
+                    "description": "CONTAINER is a subtype of ITEM. It is used to collect water."
+                },
+                "drill": {
+                    "description": "DRILL is a subtype of ITEM. It is made of wood and can be used to create fire."
+                },
+                "spear": {
+                    "description": "SPEAR is a subtype of ITEM. It is made of wood and can be used to catch fish."
+                },
+                "fish": {
+                    "description": "FISH is a subtype of ITEM. It can be caught using a spear."
+                },
+                "foliage": {
+                    "description": "FOLIAGE is a subtype of ITEM. It can be collected to build shelter."
+                },
+                "player": {
+                    "description": "PLAYER is the player character."
+                },
+                "direction": {
+                    "description": "DIRECTION is a set of directions that the player can go."
+                },
+                "location": {
+                    "description": "LOCATION is a set of name places."
+                }
+            },
+            "actions": {
+                "go": {
+                    "description": "navigate to an adjacent location",
+                    "prerequisites": "The player is at location 1, and location 1 and location 2 are connected and not blocked.",
+                    "results": "The player is at location 2, and not at location 1."
+                },
+                "get": {
+                    "description": "pick up an item and put it in the inventory",
+                    "prerequisites": "The player is at this location and this location has this item.",
+                    "results": "The player has this item in the inventory and this location no longer has this item."
+                },
+                "drop": {
+                    "description": "drop an item in the inventory",
+                    "prerequisites": "The player has this item in the inventory at a location.",
+                    "results": "The player no long has this item in the inventory, and this location now has this item."
+                },
+                "collect_water": {
+                    "description": "use container to collect water from a location that has water",
+                    "prerequisites": "The player currently do not have water in the inventory. And the player is at a location that has water. And the player has a container.",
+                    "results": "The player has water in the inventory. The water is not yet filtered and boiled."
+                },
+                "filter_water": {
+                    "description": "filter water to remove any particles",
+                    "prerequisites": "The player has water in the inventory and the water is not filtered.",
+                    "results": "The water is now filtered."
+                },
+                "boil_water": {
+                    "description": "boil water to kill any bacteria",
+                    "prerequisites": "The player has water in the inventory. The water is filtered, but not boiled. The player is at a location that has fire.",
+                    "results": "The water is now boiled."
+                },
+                "drink_water": {
+                    "description": "drink boiled water",
+                    "prerequisites": "The player has water in the inventory and the water is boiled.",
+                    "results": "The player is no longer thirsty."
+                },
+                "get_wood": {
+                    "description": "get wood from a location that has trees",
+                    "prerequisites": "The player do not have wood in the inventory. And the player is at location that has trees.",
+                    "results": "The player now have wood in the inventory."
+                },
+                "make_drill": {
+                    "description": "make a drill using wood to create fire",
+                    "prerequisites": "The player has wood but not drill in the inventory.",
+                    "results": "The player now have drill in the inventory."
+                },
+                "make_fire": {
+                    "description": "make fire at a location",
+                    "prerequisites": "The player has drill in the inventory. The player is at a location that does not has fire.",
+                    "results": "This location now has fire."
+                },
+                "make_spear": {
+                    "description": "make a spear using wood to catch fish or defend against predators",
+                    "prerequisites": "The player has wood, but not spear in the inventory.",
+                    "results": "The player now has spear in the inventory."
+                },
+                "catch_fish": {
+                    "description": "catch a fish using spear",
+                    "prerequisites": "The player does not have fish in the inventory. The player has spear and is at a location that has fish.",
+                    "results": "The player has fish in the inventory."
+                },
+                "cook_fish": {
+                    "description": "grill fish using fire",
+                    "prerequisites": "The player has fish and is at a location that has fire. The fish is not cooked.",
+                    "results": "The fish is cooked."
+                },
+                "eat_fish": {
+                    "description": "eat cooked fish",
+                    "prerequisites": "The player has fish and fish is cooked.",
+                    "results": "The player is no longer hungry."
+                },
+                "get_foliage": {
+                    "description": "get foliage from a location that has trees",
+                    "prerequisites": "The player is at a location that has trees and does not have foliage in the inventory.",
+                    "results": "The player has foliage in the inventory."
+                },
+                "build_shelter": {
+                    "description": "build a shelter using wood and foliage",
+                    "prerequisites": "The player has wood and foliage. The player is at a location that does not have shelter.",
+                    "results": "The location now has a shelter."
+                },
+                "survive": {
+                    "description": "live safely in the shelter with weapon and fire on",
+                    "prerequisites": "The player is at a location that has fire and shelter. The player has a spear. And the player is not safe currently.",
+                    "results": "The player is now safe at this location."
+                }
+            },
+            "predicates": {
+                "has_water": {
+                    "description": "HAS_WATER indicates whether this location has a source of fresh water."
+                },
+                "has_tree": {
+                    "description": "HAS_TREE indicates whether this location has trees."
+                },
+                "has_fish": {
+                    "description": "HAS_FISH indicates whether this location has fish."
+                },
+                "has_fire": {
+                    "description": "HAS_FIRE indicates whether a fire is created by the player at this location."
+                },
+                "has_shelter": {
+                    "description": "HAS_SHELTER indicates whether a shelter has been built by the player at this location."
+                },
+                "boiled": {
+                    "description": "BOILED indicates whether the water has been boiled."
+                },
+                "filtered": {
+                    "description": "FILTERED indicates whether the water has been filtered."
+                },
+                "cooked": {
+                    "description": "COOKED indicates whether the fish has been cooked on fire."
+                },
+                "thirsty": {
+                    "description": "THIRSTY indicates whether the player is thirsty."
+                },
+                "hungry": {
+                    "description": "HUNGRY indicates whether the player is hungry."
+                },
+                "safe": {
+                    "description": "SAFE indicates whether the player is safely living in shelter with weapon and fire on at this location."
+                },
+                "at": {
+                    "description": "AT indicates an object is at a location."
+                },
+                "inventory": {
+                    "description": "INVENTORY indicates whether an item is in the player's inventory."
+                },
+                "connected": {
+                    "description": "CONNECTED indicates 2 places are connected in a certain direction."
+                },
+                "blocked": {
+                    "description": "BLOCKED indicates that the connection between 2 places is blocked."
+                }
+            }
+        }
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "yes",
+        "name": "Hongyu Zhang",
+        "problems": {}
+    }
+}

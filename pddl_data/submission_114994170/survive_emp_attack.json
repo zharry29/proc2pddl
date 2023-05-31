@@ -1,0 +1,347 @@
+{
+    "survive_emp_attack": {
+        "problems": {
+            "turn_on_radio": {
+                "part_number": "0",
+                "method_number": "1",
+                "step_number": "1",
+                "step_contents": "Most electronics are going to stop functioning as soon as the EMP goes off. However, depending on the type of EMP, there is a good chance that radios will continue to work\u2014at least for a short while. Turn the radio on and tune in to any news source with a decent signal. Keep it on as long as possible and pay attention while you take the next steps to ensure that you get as much information as you can.[1]      Most EMPs emit gamma rays that overload tiny circuits in modern electronics. Computers, phones, and electrical grids will likely go out, but rudimentary electronics that rely on radio waves are unlikely to be affected.[2]     Try not to panic. An EMP may be catastrophic to the electrical systems in the area, but the electromagnetic signal itself will not harm you. There is a very good chance everything will be fine.[3]     This will likely only work if you have a battery-operated radio.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "This will likely only work if you have a battery- operated radio."
+                        ],
+                        "player": [
+                            "Keep it on as long as possible and pay attention while you take the next steps to ensure that you get as much information as you can.",
+                            "Try not to panic.",
+                            "An EMP may be catastrophic to the electrical systems in the area, but the electromagnetic signal itself will not harm you.",
+                            "This will likely only work if you have a battery- operated radio."
+                        ],
+                        "direction": [],
+                        "location": [
+                            " An EMP may be catastrophic to the electrical systems in the area, but the electromagnetic signal itself will not harm you."
+                        ],
+                        "radio": [
+                            "Most electronics are going to stop functioning as soon as the EMP goes off.",
+                            "However, depending on the type of EMP, there is a good chance that radios will continue to work\u2014at least for a short while.",
+                            "Turn the radio on and tune in to any news source with a decent signal",
+                            "Most EMPs emit gamma rays that overload tiny circuits in modern electronics. Computers, phones, and electrical grids will likely go out, but rudimentary electronics that rely on radio waves are unlikely to be affected.",
+                            "This will likely only work if you have a battery- operated radio."
+                        ],
+                        "farraday_cage": [
+                            "ost EMPs emit gamma rays that overload tiny circuits in modern electronics. Computers, phones, and electrical grids will likely go out, but rudimentary electronics that rely on radio waves are unlikely to be affected."
+                        ]
+                    },
+                    "predicates": {
+                        "has_batteries": [
+                            "This will likely only work if you have a battery- operated radio."
+                        ],
+                        "on": [
+                            "Turn the radio on and tune in to any news source with a decent signal. Keep it on as long as possible and pay attention while you take the next steps to ensure that you get as much information as you can.",
+                            "Most EMPs emit gamma rays that overload tiny circuits in modern electronics. Computers, phones, and electrical grids will likely go out, but rudimentary electronics that rely on radio waves are unlikely to be affected."
+                        ],
+                        "full": [],
+                        "can_be_filled": [],
+                        "has_stopper": [],
+                        "cage_closed": [],
+                        "in_cage": [],
+                        "purified": [],
+                        "can_be_sealed": [],
+                        "sealed": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "get": [],
+                        "drop": [],
+                        "put_in_stopper": [],
+                        "fill": [],
+                        "purify": [],
+                        "seal": [],
+                        "wait": [],
+                        "go": [],
+                        "put_batteries_in": [],
+                        "turn_on_radio": [
+                            "Turn the radio on ",
+                            "tune in to any news source with a decent signal."
+                        ],
+                        "create_cage": [],
+                        "close_cage": [],
+                        "put_in_cage": []
+                    }
+                }
+            },
+            "shelter_in_place": {
+                "part_number": "0",
+                "method_number": "1",
+                "step_number": "2",
+                "step_contents": "If all of the electronics suddenly stop working, the immediate loss of electricity will cause a lot of sudden confusion and chaos. If you aren\u2019t home, wait 30-45 minutes for all of the abrupt danger to pass. Then, go home if you\u2019re within a few miles or kilometers. If you\u2019re already home, stay there and do not go outside.[4]      If the radio mentions a nuclear blast, stay where you are. Do not leave under any condition and get as low as you can in the building you\u2019re in. Go to the basement, lowest level, or a room underground. The air is thinner the higher up you are and the nuclear gamma rays will impact you more easily if you\u2019re up high.[5]     If you have a family, your first thought is likely how to find them and keep them safe. If your family has no emergency plan in place, nobody can fault you for making a break for your child\u2019s school or your partner\u2019s workplace. Once you have everyone, go home.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            " If you have a family, your first thought is likely how to find them and keep them safe.",
+                            "If your family has no emergency plan in place, nobody can fault you for making a break for your child\u2019s school or your partner\u2019s workplace. Once you have everyone, go home"
+                        ],
+                        "player": [
+                            "If the radio mentions a nuclear blast, stay where you are.",
+                            " If you have a family, your first thought is likely how to find them and keep them safe. If your family has no emergency plan in place, nobody can fault you for making a break for your child\u2019s school or your partner\u2019s workplace. Once you have everyone, go home."
+                        ],
+                        "direction": [
+                            "go home",
+                            "If your family has no emergency plan in place, nobody can fault you for making a break for your child\u2019s school or your partner\u2019s workplace",
+                            " If you have a family, your first thought is likely how to find them and keep them safe.",
+                            "Go to the basement, lowest level, or a room underground.",
+                            "Do not leave under any condition and get as low as you can in the building you\u2019re in",
+                            "Then, go home if you\u2019re within a few miles or kilometers",
+                            " nuclear blast, stay where you are"
+                        ],
+                        "location": [
+                            "If you aren\u2019t home, wait 30-45 minutes for all of the abrupt danger to pass. Then, go home if you\u2019re within a few miles or kilometers.",
+                            "If you\u2019re already home, stay there and do not go outside.",
+                            "stay where you are",
+                            "Do not leave under any condition and get as low as you can in the building you\u2019re in",
+                            "Go to the basement, lowest level, or a room underground.",
+                            "The air is thinner the higher up you are and the nuclear gamma rays will impact you more easily if you\u2019re up high"
+                        ],
+                        "radio": [
+                            "If all of the electronics suddenly stop working",
+                            "If the radio mentions a nuclear blast, stay where you are."
+                        ],
+                        "farraday_cage": []
+                    },
+                    "predicates": {
+                        "has_batteries": [],
+                        "on": [],
+                        "full": [],
+                        "can_be_filled": [],
+                        "has_stopper": [],
+                        "cage_closed": [],
+                        "in_cage": [],
+                        "purified": [],
+                        "can_be_sealed": [],
+                        "sealed": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "get": [],
+                        "drop": [],
+                        "put_in_stopper": [],
+                        "fill": [],
+                        "purify": [],
+                        "seal": [],
+                        "wait": [
+                            "If you aren\u2019t home, wait 30-45 minutes for all of the abrupt danger to pass"
+                        ],
+                        "go": [
+                            "Then, go home if you\u2019re within a few miles or kilometers. If you\u2019re already home, stay there and do not go outside",
+                            "Go to the basement, lowest level, or a room underground",
+                            "Once you have everyone, go home."
+                        ],
+                        "put_batteries_in": [],
+                        "turn_on_radio": [
+                            " If the radio mentions a nuclear blast, stay where you are."
+                        ],
+                        "create_cage": [],
+                        "close_cage": [],
+                        "put_in_cage": []
+                    }
+                }
+            },
+            "prepare_for_attack": {
+                "part_number": "2",
+                "method_number": "2",
+                "step_number": "3",
+                "step_contents": "A Faraday cage is a box that will block external gamma rays and EMP waves. It\u2019s a perfect way to store an emergency cell phone, radio, and other electronic goods. You can either buy a Faraday cage, or make your own by lining a stainless steel trash can with aluminum foil and closing it with an airtight lid.[16]      There are Faraday bags you can buy that will protect electronics on the go.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "It\u2019s a perfect way to store an emergency cell phone",
+                            "It\u2019s a perfect way to store an emergency cell phone, radio, and other electronic goods.",
+                            "stainless steel trash can with aluminum foil and closing it with an airtight lid"
+                        ],
+                        "player": [
+                            "ou can either buy a Faraday cage",
+                            "make your own by lining a stainless steel trash can with aluminum foil and closing it with an airtight lid",
+                            "There are Faraday bags you can buy that will protect electronics on the go."
+                        ],
+                        "direction": [],
+                        "location": [],
+                        "radio": [],
+                        "farraday_cage": [
+                            "A Faraday cage is a box that will block external gamma rays and EMP waves",
+                            "It\u2019s a perfect way to store an emergency cell phone, radio, and other electronic goods",
+                            "You can either buy a Faraday cage, or make your own by lining a stainless steel trash can with aluminum foil and closing it with an airtight lid.",
+                            "There are Faraday bags you can buy that will protect electronics on the go."
+                        ]
+                    },
+                    "predicates": {
+                        "has_batteries": [
+                            " There are Faraday bags you can buy that will protect electronics on the go."
+                        ],
+                        "on": [],
+                        "full": [],
+                        "can_be_filled": [],
+                        "has_stopper": [],
+                        "cage_closed": [
+                            "ake your own by lining a stainless steel trash can with aluminum foil and closing it with an airtight lid. There are Faraday bags you can buy that will protect electronics on the go."
+                        ],
+                        "in_cage": [
+                            "You can either buy a Faraday cage, or make your own by lining a stainless steel trash can with aluminum foil and closing it with an airtight lid."
+                        ],
+                        "purified": [],
+                        "can_be_sealed": [],
+                        "sealed": [
+                            "lining a stainless steel trash can with aluminum foil and closing it with an airtight lid"
+                        ],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "get": [
+                            "There are Faraday bags you can buy that will protect electronics on the go."
+                        ],
+                        "drop": [],
+                        "put_in_stopper": [],
+                        "fill": [],
+                        "purify": [],
+                        "seal": [],
+                        "wait": [],
+                        "go": [],
+                        "put_batteries_in": [],
+                        "turn_on_radio": [],
+                        "create_cage": [
+                            "make your own by lining a stainless steel trash can with aluminum"
+                        ],
+                        "close_cage": [
+                            "closing it with an airtight lid"
+                        ],
+                        "put_in_cage": [
+                            "It\u2019s a perfect way to store an emergency cell phone, radio, and other electronic goods. You can either buy a Faraday cage, or make your own by lining a stainless steel trash can with aluminum foil and closing it with an airtight lid",
+                            "There are Faraday bags you can buy that will protect electronics on the go."
+                        ]
+                    }
+                }
+            },
+            "collect_water": {
+                "part_number": "0",
+                "method_number": "1",
+                "step_number": "4",
+                "step_contents": "Many municipal water systems rely on electronics. While the water may work now, it may go out within a few hours as the pressure empties out. Put a stopper in your tub and fill it up with water to create a reserve. Then, fill every pitcher, bottle, bucket, and glass with water. This way you won\u2019t need to worry about dehydration for at least a few weeks.[10]      Cover any open glasses or pitchers with flat objects to keep contaminants out of you water and keep the water out of direct sunlight as best as you can.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Put a stopper in your tub",
+                            "Then, fill every pitcher, bottle, bucket, and glass with water.",
+                            " open glasses or pitchers with flat objects"
+                        ],
+                        "player": [
+                            "Cover any open glasses or pitchers with flat objects to keep contaminants out of you water ",
+                            "and keep the water out of direct sunlight as best as you can."
+                        ],
+                        "direction": [],
+                        "location": [],
+                        "radio": [],
+                        "farraday_cage": []
+                    },
+                    "predicates": {
+                        "has_batteries": [],
+                        "on": [],
+                        "full": [
+                            "Put a stopper in your tub and fill it up with water to create a reserve",
+                            "hen, fill every pitcher, bottle, bucket, and glass with water"
+                        ],
+                        "can_be_filled": [
+                            "Put a stopper in your tub and fill it up with water to create a reserve.",
+                            "Then, fill every pitcher",
+                            " bottle,",
+                            "bucket, ",
+                            "glass",
+                            "er any open glasses or pitchers with flat objects to keep contaminants out of you water "
+                        ],
+                        "has_stopper": [
+                            "Put a stopper in your tub"
+                        ],
+                        "cage_closed": [],
+                        "in_cage": [],
+                        "purified": [],
+                        "can_be_sealed": [],
+                        "sealed": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "get": [],
+                        "drop": [],
+                        "put_in_stopper": [],
+                        "fill": [
+                            "Then, fill every pitcher, bottle, bucket, and glass with water."
+                        ],
+                        "purify": [],
+                        "seal": [],
+                        "wait": [],
+                        "go": [],
+                        "put_batteries_in": [],
+                        "turn_on_radio": [],
+                        "create_cage": [],
+                        "close_cage": [],
+                        "put_in_cage": []
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Survive-an-EMP#Reacting-to-a-Sudden-EMP-Attack",
+        "wikihow_title": "How to Survive an EMP",
+        "types": [
+            "item",
+            "player",
+            "direction",
+            "location",
+            "radio",
+            "farraday_cage"
+        ],
+        "actions": [
+            "get",
+            "drop",
+            "put_in_stopper",
+            "fill",
+            "purify",
+            "seal",
+            "wait",
+            "go",
+            "put_batteries_in",
+            "turn_on_radio",
+            "create_cage",
+            "close_cage",
+            "put_in_cage"
+        ],
+        "predicates": [
+            "has_batteries",
+            "on",
+            "full",
+            "can_be_filled",
+            "has_stopper",
+            "cage_closed",
+            "in_cage",
+            "purified",
+            "can_be_sealed",
+            "sealed",
+            "at",
+            "inventory",
+            "connected",
+            "blocked"
+        ]
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "Yes",
+        "name": "Elizabeth Dinella"
+    }
+}

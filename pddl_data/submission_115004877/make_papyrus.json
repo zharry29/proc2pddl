@@ -1,0 +1,440 @@
+{
+    "make_papyrus": {
+        "problems": {
+            "get_papyrus_plant_strips": {
+                "part_number": "1",
+                "method_number": "0",
+                "step_number": "1, 2, 3, 4",
+                "step_contents": "Obtain a papyrus plant. Papyrus paper is created from the Cyperus papyrus plant, which is a light but strong reed. You can buy them online or in nurseries. A nursery that specializes in papyrus would be your best bet, however. You can also make the paper out of wide grasses, like river reeds. Choose a papyrus plant with a strong, healthy stalk, as this is what you'll turn into paper. Cut the stalks. About 12 inches (30 cm) of papyrus plant will make a large piece of paper that will be nearly 24 inches (61 cm) in length. Cut off as many stalks as you will need to make the amount of paper you want. The cuts must be diagonally made. Then, cut the tips of the papyrus. You will not use the tips, which are the thinner, grass-like end of the plant. Use strong scissors or pruners. Peel away the outer layer of the papyrus plant. Only the inner part of the plant is used for the paper. You will need to remove the outer green part of the plant. Use a sharp knife and slice down the length of the plant until the entire outer layer is removed. The inside of the plant should be a white or slightly greenish color. You can also use scissors if you don't have a sharp knife available. Have someone help you with the peeling process if you are uncomfortable with using a sharp knife for slicing. Cut up the inner portion into strips. Use the knife you used to cut off the outer portion to cut the inner layers of the papyrus plant (pith) into thin strips. Hold the plant in your hand and cut towards you vertically. Make sure that all of the strips have the same size and thickness. The best strips typically come from the center of the plant. The lowest quality comes from the outermost layers. It is also an option to cut away from your body if you don't feel comfortable cutting towards your body. You can cut the strips into smaller pieces if you want to make smaller sized paper.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "plant, strips, scissors"
+                        ],
+                        "plant": [
+                            "papyrus plant",
+                            "Cyperus papyrus plant"
+                        ],
+                        "stalk": [
+                            "a strong, healthy stalk"
+                        ],
+                        "strip": [
+                            "Cut up the inner portion into strips"
+                        ],
+                        "sheet": [],
+                        "papyrus": [
+                            "Papyrus paper"
+                        ],
+                        "scissors": [
+                            "Scissors"
+                        ],
+                        "wooden_board": [],
+                        "shell": [],
+                        "player": [],
+                        "direction": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "peeled": [
+                            "the peeling process",
+                            "peel away"
+                        ],
+                        "clean": [],
+                        "flat": [],
+                        "very_flat": [],
+                        "smooth": [],
+                        "dry": [],
+                        "has_water": [],
+                        "has_hard_surface": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "cut_plant": [
+                            "cut the tips of the papyrus",
+                            "cut the plant"
+                        ],
+                        "peel_stalk": [
+                            "Peel away the outer layer"
+                        ],
+                        "cut_stalk_into_strips": [
+                            "cut the inner layers of the papyrus plant (pith) into thin strips"
+                        ],
+                        "soak_strips": [],
+                        "dry_out_strips": [],
+                        "weave_strips_into_sheet": [],
+                        "press_sheet": [],
+                        "flatten_sheet": [],
+                        "polish_sheet": [],
+                        "cut_sheet": []
+                    }
+                }
+            },
+            "process_papyrus_plant_strips": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "1,3,4,5",
+                "step_contents": "Place the papyrus plant strips in water. There are some natural glue-like chemicals within the plant that need to be released before you can turn it into papyrus. Let them soak in the water for at least 3 days. Try to lay them out flat in a tray of water to soak. Set the tray in a place where the water won't evaporate quickly. The strips should turn flexible and transparent.\nRoll the excess water and sugar out of the plant. Grab a rolling pin and use it to roll the strips flat. The rolling pin should be squeezing the water out of them and flattening the strips into sheets. In the past, papyrus strips were pounded with a hard object to remove the excess water.\nWeave the strips together. Lay the strips on the cloth. Get a dry sheet of linen cloth or felt. Then, begin to weave them together. You want to create 2 layers of strips, with the top layer strips being perpendicular to the bottom layer strips. It should resemble a placemat. The strips should slightly overlap one another to prevent the papyrus from falling apart later. Cover the papyrus strips with a second sheet of linen cloth once you have weaved them together.\nPlace the bundle between 2 wooden boards. Make sure that the wooden boards are somewhat heavy. The pressure is necessary to flatten the papyrus strips together. Once the strips have been placed between the boards, press them together. Lay the sandwiched papyrus sheet on a flat surface and allow the wooden boards to flatten the sheet using gravity. You can put heavy books on top of the boards if the boards aren't very heavy.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "strips, plant, wooden boards"
+                        ],
+                        "plant": [
+                            "papyrus plant strips"
+                        ],
+                        "stalk": [
+                            "papyrus plant strips"
+                        ],
+                        "strip": [
+                            "papyrus plant strips"
+                        ],
+                        "sheet": [
+                            "papyrus sheet",
+                            "flatten the sheet"
+                        ],
+                        "papyrus": [
+                            "papyrus plant strips",
+                            "papyrus sheet"
+                        ],
+                        "scissors": [],
+                        "wooden_board": [
+                            "wooden boards"
+                        ],
+                        "shell": [],
+                        "player": [],
+                        "direction": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "peeled": [],
+                        "clean": [
+                            "soak in the water",
+                            "Roll the excess water and sugar out of the plant"
+                        ],
+                        "flat": [
+                            "flatten the sheet using gravity",
+                            "flatten the papyrus strips together"
+                        ],
+                        "very_flat": [],
+                        "smooth": [],
+                        "dry": [
+                            "remove the excess water"
+                        ],
+                        "has_water": [
+                            "in water"
+                        ],
+                        "has_hard_surface": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "cut_plant": [],
+                        "peel_stalk": [],
+                        "cut_stalk_into_strips": [],
+                        "soak_strips": [
+                            "Let them soak in the water"
+                        ],
+                        "dry_out_strips": [
+                            "remove the excess water",
+                            "Roll the excess water and sugar out of the plant"
+                        ],
+                        "weave_strips_into_sheet": [
+                            "Weave the strips together",
+                            "once you have weaved them together"
+                        ],
+                        "press_sheet": [
+                            "press them together",
+                            "the pressure"
+                        ],
+                        "flatten_sheet": [
+                            "flatten the sheet using gravity",
+                            "flatten the papyrus strips together"
+                        ],
+                        "polish_sheet": [],
+                        "cut_sheet": []
+                    }
+                }
+            },
+            "obtain_papyrus": {
+                "part_number": "3",
+                "method_number": "0",
+                "step_number": "1,2,3",
+                "step_contents": "Flatten the sheet. The paper may not be completely flat after you remove it from the wooden boards. Put the paper under a stone slab for up to 6 days to make it completely flat. During this time, the sugars within the papyrus will fuse together. If you are pressed for time, you can use the rolling pin to flatten the paper. Polish the papyrus. This step isn't absolutely necessary, but it will make the papyrus look nicer and more finished. Use a shell or smooth piece of ivory. Any type of shell that is smooth and without ridges will do. Rub the shell or ivory over the sheet of paper until it appears to be shinier than it was. A smooth stone will work as well. Do not rub with too much force or you could rip the paper. Cut the paper. The sheet may be larger than you want when it is finished. Use a razor, scissors, or paper cutter to cut the papyrus into smaller sheets. Measure the sizes you are cutting so you will have multiple sheets of the same size. You can make a notebook out of the sheets of paper you've just made.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "sheet",
+                            "paper",
+                            "shell"
+                        ],
+                        "plant": [
+                            "papyrus"
+                        ],
+                        "stalk": [],
+                        "strip": [],
+                        "sheet": [
+                            "flatten the sheet"
+                        ],
+                        "papyrus": [
+                            "papyrus"
+                        ],
+                        "scissors": [
+                            "scissors",
+                            "cut the paper",
+                            "cutting"
+                        ],
+                        "wooden_board": [],
+                        "shell": [
+                            "shell",
+                            "polish"
+                        ],
+                        "player": [],
+                        "direction": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "peeled": [],
+                        "clean": [],
+                        "flat": [
+                            "Flatten the sheet",
+                            "completely flat",
+                            "flatten the paper"
+                        ],
+                        "very_flat": [
+                            "make it completely flat"
+                        ],
+                        "smooth": [
+                            "Polish the papyrus",
+                            "appeared to be shineier",
+                            "A smooth stone",
+                            "rub"
+                        ],
+                        "dry": [],
+                        "has_water": [],
+                        "has_hard_surface": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "cut_plant": [],
+                        "peel_stalk": [],
+                        "cut_stalk_into_strips": [],
+                        "soak_strips": [],
+                        "dry_out_strips": [],
+                        "weave_strips_into_sheet": [],
+                        "press_sheet": [],
+                        "flatten_sheet": [
+                            "Flatten the sheet",
+                            "make it completely flat",
+                            "flatten the paper"
+                        ],
+                        "polish_sheet": [
+                            "Polish the papyrus",
+                            "appeared to be shineier",
+                            "rub"
+                        ],
+                        "cut_sheet": [
+                            "cut the papyrus into smaller sheets",
+                            "cut paper"
+                        ]
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Make-Papyrus",
+        "wikihow_title": "How to Make Papyrus",
+        "types": [
+            "item",
+            "plant",
+            "stalk",
+            "strip",
+            "sheet",
+            "papyrus",
+            "scissors",
+            "wooden_board",
+            "shell",
+            "player",
+            "direction",
+            "location"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "cut_plant",
+            "peel_stalk",
+            "cut_stalk_into_strips",
+            "soak_strips",
+            "dry_out_strips",
+            "weave_strips_into_sheet",
+            "press_sheet",
+            "flatten_sheet",
+            "polish_sheet",
+            "cut_sheet"
+        ],
+        "predicates": [
+            "peeled",
+            "clean",
+            "flat",
+            "very_flat",
+            "smooth",
+            "dry",
+            "has_water",
+            "has_hard_surface",
+            "at",
+            "inventory",
+            "connected"
+        ],
+        "natural_language_descriptions": {
+            "types": {
+                "item": {
+                    "description": "tools, intermediate product of papyrus"
+                },
+                "plant": {
+                    "description": "papyrus plant"
+                },
+                "stalk": {
+                    "description": "stalk of papyrus plant"
+                },
+                "strip": {
+                    "description": "cut papyrus plant stalk to get stalk strips"
+                },
+                "sheet": {
+                    "description": "weave papyrus plant stalk strips to get papyrus sheet"
+                },
+                "papyrus": {
+                    "description": "the final product"
+                },
+                "scissors": {
+                    "description": "tool used to cut plant, stalk and sheet"
+                },
+                "wooden_board": {
+                    "description": "tool used to press sheet"
+                },
+                "shell": {
+                    "description": "tool used to polish sheet"
+                },
+                "player": {
+                    "description": "the player"
+                },
+                "direction": {
+                    "description": "direction"
+                },
+                "location": {
+                    "description": "location, including garage, nursery and work station"
+                }
+            },
+            "actions": {
+                "go": {
+                    "description": "navigate to an adjacent location ",
+                    "prerequisites": "locations are connected",
+                    "results": "npc at the target location "
+                },
+                "get": {
+                    "description": "pick up an item and put it in the inventory",
+                    "prerequisites": "item is at current location",
+                    "results": "item added to inventory and item removed from location"
+                },
+                "cut_plant": {
+                    "description": "cut papyrus plant",
+                    "prerequisites": "inventory contains plant and scissors",
+                    "results": "remove plant from inventory and add stalk to inventory"
+                },
+                "peel_stalk": {
+                    "description": "peel the outer layer of stalk",
+                    "prerequisites": "inventory contains stalk",
+                    "results": "stalk becomes peeled"
+                },
+                "cut_stalk_into_strips": {
+                    "description": "cut stalk into strips",
+                    "prerequisites": "inventory contains stalk and scissors",
+                    "results": "remove stalk and add strip to inventory"
+                },
+                "soak_strips": {
+                    "description": "put strips into water and clean it",
+                    "prerequisites": "current location has access to water and inventory contains strip",
+                    "results": "strip becomes clean"
+                },
+                "dry_out_strips": {
+                    "description": "dry out soaked strips",
+                    "prerequisites": "strip is clean",
+                    "results": "strip becomes dry"
+                },
+                "weave_strips_into_sheet": {
+                    "description": "weave strips into sheet",
+                    "prerequisites": "inventory contains strips and strips are dry",
+                    "results": "remove strip from inventory and add sheet"
+                },
+                "press_sheet": {
+                    "description": "press sheet with wooden boards",
+                    "prerequisites": "inventory contains sheet and wooden boards, location has hard surface",
+                    "results": "sheet becomes flat"
+                },
+                "flatten_sheet": {
+                    "description": "flatten sheet really hard",
+                    "prerequisites": "sheet is flat, location has hard surface",
+                    "results": "sheet becomes really really flat"
+                },
+                "polish_sheet": {
+                    "description": "inventory contains sheet, sheet is really really flat, inventory contains shell",
+                    "prerequisites": "sheet becomes smooth",
+                    "results": "sheet becomes smooth"
+                },
+                "cut_sheet": {
+                    "description": "cut the sheet",
+                    "prerequisites": "sheet has been polished",
+                    "results": "get final product papyrus"
+                }
+            },
+            "predicates": {
+                "peeled": {
+                    "description": "True if the outer layer of the stalk has been removed"
+                },
+                "clean": {
+                    "description": "True if the strips have been soaked"
+                },
+                "flat": {
+                    "description": "True if the papyrus sheet has been pressed"
+                },
+                "very_flat": {
+                    "description": "True if the papyrus sheet has been flattened really hard"
+                },
+                "smooth": {
+                    "description": "True if the papyrus sheet has been polished"
+                },
+                "dry": {
+                    "description": "True if the object been dried out"
+                },
+                "has_water": {
+                    "description": " True if location has water"
+                },
+                "has_hard_surface": {
+                    "description": "True if location has hard surface"
+                },
+                "at": {
+                    "description": "an object is at a location "
+                },
+                "inventory": {
+                    "description": "an item is in the player's inventory"
+                },
+                "connected": {
+                    "description": "location 1 is connected to location 2 in the direction"
+                }
+            }
+        }
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "Yes",
+        "name": "Anonymous",
+        "problems": {}
+    }
+}

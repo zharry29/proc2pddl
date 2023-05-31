@@ -1,0 +1,422 @@
+{
+    "open_a_coconut": {
+        "problems": {
+            "poke_eyes": {
+                "part_number": "0",
+                "method_number": "1",
+                "step_number": "1",
+                "step_contents": "Poke a hole in the top of the coconut. At the top of the coconut, there are three eyes or indentations. One of these is usually the weakest, so use a sharp knife to poke each one. When you find the eye that gives most easily, insert the knife into it to create a \u00bd-inch (1.27-cm) hole.[1] You can also use a metal skewer or screwdriver to poke a hole in the top of the coconut.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "the coconut.",
+                            "so use a sharp knife to poke each one.",
+                            "poke a hole in the top of the coconut",
+                            "metal skewer",
+                            "screwdriver"
+                        ],
+                        "coconut": [
+                            "Poke a hole in the top of the coconut."
+                        ],
+                        "coconut_wrapped": [],
+                        "coconut_broken": [],
+                        "coconut_meat": [],
+                        "coconut_meat_peeled": [],
+                        "tool": [
+                            "metal skewer",
+                            "screwdriver"
+                        ],
+                        "container_without_water": [],
+                        "container_with_water": [],
+                        "towel": [],
+                        "mallet": [],
+                        "peeler": []
+                    },
+                    "predicates": {
+                        "inventory": [],
+                        "has_eyes_poked": [
+                            " use a sharp knife to poke each one. "
+                        ],
+                        "is_item_container_with_water": [],
+                        "is_item_wrapped_coconut": [],
+                        "is_item_broken_coconut": [],
+                        "is_item_coconut_meat": [],
+                        "is_item_coconut_meat_peeled": []
+                    },
+                    "actions": {
+                        "get": [
+                            "insert the knife "
+                        ],
+                        "poke": [
+                            " use a sharp knife to poke each one."
+                        ],
+                        "flip": [],
+                        "wrap": [],
+                        "hit": [],
+                        "free": [],
+                        "remove_fiber": []
+                    }
+                }
+            },
+            "fill_the_glass": {
+                "part_number": "0",
+                "method_number": "1",
+                "step_number": "2",
+                "step_contents": "Turn the coconut upside down over a glass. To collect the water from the coconut, you\u2019ll need a glass. Place the coconut upside down over it so the hole that you\u2019ve punched in it is directly over the glass.[2] You can also place the coconut over a bowl to collect the water. However, using a glass that the coconut just fits over the top of means that you don\u2019t have to hold the coconut as it drips. A measuring cup also works well for collecting the liquid.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "coconut",
+                            "glass",
+                            "A measuring cup"
+                        ],
+                        "coconut": [
+                            "Turn the coconut upside down",
+                            "To collect the water from the coconut,",
+                            "Place the coconut upside down ",
+                            "You can also place the coconut over a bowl to collect the water.",
+                            "using a glass that the coconut just fits "
+                        ],
+                        "coconut_wrapped": [],
+                        "coconut_broken": [],
+                        "coconut_meat": [],
+                        "coconut_meat_peeled": [],
+                        "tool": [],
+                        "container_without_water": [
+                            " To collect the water from the coconut, you\u2019ll need a glass"
+                        ],
+                        "container_with_water": [],
+                        "towel": [],
+                        "mallet": [],
+                        "peeler": []
+                    },
+                    "predicates": {
+                        "inventory": [
+                            "you\u2019ll need a glass."
+                        ],
+                        "has_eyes_poked": [
+                            "so the hole that you\u2019ve punched in it is directly over the glass."
+                        ],
+                        "is_item_container_with_water": [],
+                        "is_item_wrapped_coconut": [],
+                        "is_item_broken_coconut": [],
+                        "is_item_coconut_meat": [],
+                        "is_item_coconut_meat_peeled": []
+                    },
+                    "actions": {
+                        "get": [
+                            "you\u2019ll need a glass."
+                        ],
+                        "poke": [],
+                        "flip": [
+                            ". Place the coconut upside down over it so the hole that you\u2019ve punched in it is directly over the glass",
+                            "You can also place the coconut over a bowl to collect the water.",
+                            "using a glass that the coconut just fits over the top of means that you don\u2019t have to hold the coconut as it drips.",
+                            "A measuring cup also works well for collecting the liquid."
+                        ],
+                        "wrap": [],
+                        "hit": [],
+                        "free": [],
+                        "remove_fiber": []
+                    }
+                }
+            },
+            "wrap_the_coconut_in_towel": {
+                "part_number": "0",
+                "method_number": "3",
+                "step_number": "1",
+                "step_contents": " Wrap the coconut in a towel and hold it. After you\u2019ve drained the coconut, place a folded kitchen towel around one side of the coconut. Use your non-dominant hand to hold it so the part of the coconut not covered with the towel is in front of you.[11] If you prefer, you can steady the coconut against a table or countertop. However, you\u2019ll have to adjust it as you work so you can crack it all the way around.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            " After you\u2019ve drained the coconut,",
+                            "place a folded kitchen towel",
+                            "you can steady the coconut against a table "
+                        ],
+                        "coconut": [
+                            " After you\u2019ve drained the coconut,",
+                            "you can steady the coconut against a table ",
+                            "you\u2019ll have to adjust it as you work so you can crack it all the way around."
+                        ],
+                        "coconut_wrapped": [
+                            " part of the coconut not covered with the towel "
+                        ],
+                        "coconut_broken": [],
+                        "coconut_meat": [],
+                        "coconut_meat_peeled": [],
+                        "tool": [],
+                        "container_without_water": [],
+                        "container_with_water": [],
+                        "towel": [
+                            "place a folded kitchen towel"
+                        ],
+                        "mallet": [],
+                        "peeler": []
+                    },
+                    "predicates": {
+                        "inventory": [
+                            "place a folded kitchen towel"
+                        ],
+                        "has_eyes_poked": [],
+                        "is_item_container_with_water": [],
+                        "is_item_wrapped_coconut": [
+                            "Use your non-dominant hand to hold it so the part of the coconut not covered with the towel is in front of you."
+                        ],
+                        "is_item_broken_coconut": [],
+                        "is_item_coconut_meat": [],
+                        "is_item_coconut_meat_peeled": []
+                    },
+                    "actions": {
+                        "get": [
+                            "place a folded kitchen towel "
+                        ],
+                        "poke": [],
+                        "flip": [],
+                        "wrap": [
+                            "After you\u2019ve drained the coconut, place a folded kitchen towel around one side of the coconut."
+                        ],
+                        "hit": [],
+                        "free": [],
+                        "remove_fiber": []
+                    }
+                }
+            },
+            "hit_coconut_with_mallet": {
+                "part_number": "0",
+                "method_number": "3",
+                "step_number": "2",
+                "step_contents": "Turn the coconut and tap it with a mallet until it cracks. Holding the coconut with the towel, use a mallet to firmly tap it. Turn the coconut as you go so you can tap against the entire exterior of until it begins to crack in half.[12] A metal mallet tends to work best for opening the coconut. If you don\u2019t have a mallet, you can use a hammer to tap the coconut.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "tap it with a mallet ",
+                            "Turn the coconut",
+                            "Holding the coconut with the towel",
+                            "use a mallet to firmly tap it.",
+                            " Turn the coconut as you go",
+                            "A metal mallet tends to work best for opening the coconut.",
+                            "If you don\u2019t have a mallet, you can use a hammer to tap the coconut."
+                        ],
+                        "coconut": [
+                            "Turn the coconut",
+                            "Holding the coconut with the towel",
+                            " Turn the coconut as you go"
+                        ],
+                        "coconut_wrapped": [
+                            "Holding the coconut with the towel,"
+                        ],
+                        "coconut_broken": [],
+                        "coconut_meat": [],
+                        "coconut_meat_peeled": [],
+                        "tool": [],
+                        "container_without_water": [],
+                        "container_with_water": [],
+                        "towel": [
+                            "Holding the coconut with the towel,"
+                        ],
+                        "mallet": [
+                            "Turn the coconut and tap it with a mallet until it cracks",
+                            " use a mallet to firmly tap it.",
+                            "A metal mallet tends to work best for opening the coconut.",
+                            "If you don\u2019t have a mallet"
+                        ],
+                        "peeler": []
+                    },
+                    "predicates": {
+                        "inventory": [],
+                        "has_eyes_poked": [],
+                        "is_item_container_with_water": [],
+                        "is_item_wrapped_coconut": [
+                            " Holding the coconut with the towel,"
+                        ],
+                        "is_item_broken_coconut": [],
+                        "is_item_coconut_meat": [],
+                        "is_item_coconut_meat_peeled": []
+                    },
+                    "actions": {
+                        "get": [
+                            "use a mallet ",
+                            " you can use a hammer"
+                        ],
+                        "poke": [],
+                        "flip": [],
+                        "wrap": [],
+                        "hit": [
+                            "use a mallet to firmly tap it.",
+                            "A metal mallet tends to work best ",
+                            "you can use a hammer to tap the coconut."
+                        ],
+                        "free": [],
+                        "remove_fiber": []
+                    }
+                }
+            },
+            "free_the_meat_from_coconut": {
+                "part_number": "0",
+                "method_number": "3",
+                "step_number": "5",
+                "step_contents": "Run a knife between the shell and the meat to free it. After you\u2019ve hit the coconut halves with the mallet to loosen the meat, wedge a butter knife between the shell and the meat. Use the knife to carefully pry the meat away from the shell until it\u2019s completely separated. Repeat with all of the coconut pieces.[15] Be sure to use a butter knife so you don\u2019t have to worry about cutting yourself as you work.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            " Run a knife",
+                            " the shell and the meat to free it. ",
+                            "After you\u2019ve hit the coconut",
+                            "wedge a butter knife",
+                            "Use the knife to carefully pry the meat away",
+                            "Be sure to use a butter knife"
+                        ],
+                        "coconut": [
+                            "After you\u2019ve hit the coconut",
+                            "Repeat with all of the coconut pieces"
+                        ],
+                        "coconut_wrapped": [],
+                        "coconut_broken": [
+                            " After you\u2019ve hit the coconut halves with the mallet "
+                        ],
+                        "coconut_meat": [
+                            "to loosen the meat",
+                            "between the shell and the meat",
+                            "Use the knife to carefully pry the meat away"
+                        ],
+                        "coconut_meat_peeled": [],
+                        "tool": [],
+                        "container_without_water": [],
+                        "container_with_water": [],
+                        "towel": [],
+                        "mallet": [],
+                        "peeler": []
+                    },
+                    "predicates": {
+                        "inventory": [],
+                        "has_eyes_poked": [],
+                        "is_item_container_with_water": [],
+                        "is_item_wrapped_coconut": [],
+                        "is_item_broken_coconut": [
+                            "After you\u2019ve hit the coconut halves with the mallet"
+                        ],
+                        "is_item_coconut_meat": [],
+                        "is_item_coconut_meat_peeled": []
+                    },
+                    "actions": {
+                        "get": [
+                            "wedge a butter knife"
+                        ],
+                        "poke": [],
+                        "flip": [],
+                        "wrap": [],
+                        "hit": [],
+                        "free": [
+                            "wedge a butter knife between the shell and the meat.",
+                            "pry the meat away from the shell "
+                        ],
+                        "remove_fiber": []
+                    }
+                }
+            },
+            "remove_fibre_from_coconut_meat": {
+                "part_number": "0",
+                "method_number": "3",
+                "step_number": "6",
+                "step_contents": "Remove the fiber from the meat. Once you\u2019ve separated the meat from the shell, there will still be a thin, brown, fibrous skin on the outside. Use a vegetable peeler to carefully remove the skin so just the meat of the coconut is left.[16] After the meat of the coconut is separated from the skin, you\u2019re ready to eat or cook with it.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            " from the meat.",
+                            "Once you\u2019ve separated the meat from the shell,",
+                            "Use a vegetable peeler",
+                            "just the meat of the coconut is left.",
+                            "After the meat of the coconut is separated from the skin"
+                        ],
+                        "coconut": [],
+                        "coconut_wrapped": [],
+                        "coconut_broken": [],
+                        "coconut_meat": [
+                            "Remove the fiber from the meat.",
+                            "Once you\u2019ve separated the meat from the shell,",
+                            "just the meat of the coconut is left",
+                            "After the meat of the coconut is separated from the skin"
+                        ],
+                        "coconut_meat_peeled": [
+                            "After the meat of the coconut is separated from the skin"
+                        ],
+                        "tool": [],
+                        "container_without_water": [],
+                        "container_with_water": [],
+                        "towel": [],
+                        "mallet": [],
+                        "peeler": [
+                            " Use a vegetable peeler "
+                        ]
+                    },
+                    "predicates": {
+                        "inventory": [],
+                        "has_eyes_poked": [],
+                        "is_item_container_with_water": [],
+                        "is_item_wrapped_coconut": [],
+                        "is_item_broken_coconut": [],
+                        "is_item_coconut_meat": [
+                            "Once you\u2019ve separated the meat from the shell,",
+                            " just the meat of the coconut is left."
+                        ],
+                        "is_item_coconut_meat_peeled": [
+                            "After the meat of the coconut is separated from the skin, "
+                        ]
+                    },
+                    "actions": {
+                        "get": [
+                            " Use a vegetable peeler"
+                        ],
+                        "poke": [],
+                        "flip": [],
+                        "wrap": [],
+                        "hit": [],
+                        "free": [],
+                        "remove_fiber": [
+                            ". Use a vegetable peeler to carefully remove the skin so just the meat of the coconut is left",
+                            "After the meat of the coconut is separated from the skin"
+                        ]
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Open-a-Coconut",
+        "wikihow_title": "How to Open a Coconut",
+        "types": [
+            "item",
+            "coconut",
+            "coconut_wrapped",
+            "coconut_broken",
+            "coconut_meat",
+            "coconut_meat_peeled",
+            "tool",
+            "container_without_water",
+            "container_with_water",
+            "towel",
+            "mallet",
+            "peeler"
+        ],
+        "actions": [
+            "get",
+            "poke",
+            "flip",
+            "wrap",
+            "hit",
+            "free",
+            "remove_fiber"
+        ],
+        "predicates": [
+            "inventory",
+            "has_eyes_poked",
+            "is_item_container_with_water",
+            "is_item_wrapped_coconut",
+            "is_item_broken_coconut",
+            "is_item_coconut_meat",
+            "is_item_coconut_meat_peeled"
+        ]
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "yes",
+        "name": "Anshul Wadhawan"
+    }
+}

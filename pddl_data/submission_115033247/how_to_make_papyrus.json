@@ -1,0 +1,395 @@
+{
+    "how_to_make_papyrus": {
+        "problems": {
+            "preparing_papyrus": {
+                "part_number": "1",
+                "method_number": "4",
+                "step_number": "4",
+                "step_contents": "Cut up the inner portion into strips. Use the knife you used to cut off the outer portion to cut the inner layers of the papyrus plant (pith) into thin strips. Hold the plant in your hand and cut towards you vertically. Make sure that all of the strips have the same size and thickness.[5] The best strips typically come from the center of the plant. The lowest quality comes from the outermost layers. It is also an option to cut away from your body if you don't feel comfortable cutting towards your body. You can cut the strips into smaller pieces if you want to make smaller sized paper.\n",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Use the knife you used to cut off the outer portion to cut the inner layers of the papyrus plant (pith) into thin strips"
+                        ],
+                        "papyrus": [],
+                        "papyrus_tree": [],
+                        "papyrus_stalks": [
+                            "Use the knife you used to cut off the outer portion to cut the inner layers of the papyrus plant (pith) into thin strips"
+                        ],
+                        "papyrus_strips": [
+                            "Make sure that all of the strips have the same size and thickness",
+                            "You can cut the strips into smaller pieces if you want to make smaller sized paper."
+                        ],
+                        "pruner": [],
+                        "scissors": [],
+                        "knife": [
+                            "Use the knife you used to cut off the outer portion to cut the inner layers of the papyrus plant (pith) into thin strips"
+                        ],
+                        "water": [],
+                        "bowl": [],
+                        "roller": [],
+                        "linen_cloth": [],
+                        "wooden_boards": [],
+                        "shell": [],
+                        "ivory": [],
+                        "smooth_stone": [],
+                        "bowl_of_water": [],
+                        "player": [
+                            "It is also an option to cut away from your body if you don't feel comfortable cutting towards your body."
+                        ],
+                        "direction": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "at": [],
+                        "inventory": [
+                            "Use the knife you used to cut off the outer portion to cut the inner layers of the papyrus plant (pith) into thin strips. ",
+                            "Hold the plant in your hand and cut towards you vertically."
+                        ],
+                        "connected": [],
+                        "strips_between_boards": [],
+                        "strips_woven": [],
+                        "polished": [],
+                        "flattened": [],
+                        "cut": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "pour_water": [],
+                        "place_strips_between_boards": [],
+                        "cut_stalks": [],
+                        "papyrus_strips": [
+                            "Cut up the inner portion into strips. Use the knife you used to cut off the outer portion to cut the inner layers of the papyrus plant (pith) into thin strips."
+                        ],
+                        "polish_papyrus": [],
+                        "flatten_papyrus": [],
+                        "cut_paprus": []
+                    }
+                }
+            },
+            "soak_and_flatten_papyrus_strips": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "5",
+                "step_contents": "Place the bundle between 2 wooden boards. Make sure that the wooden boards are somewhat heavy. The pressure is necessary to flatten the papyrus strips together. Once the strips have been placed between the boards, press them together. Lay the sandwiched papyrus sheet on a flat surface and allow the wooden boards to flatten the sheet using gravity.[10]",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Place the bundle between 2 wooden boards",
+                            "Make sure that the wooden boards are somewhat heavy"
+                        ],
+                        "papyrus": [],
+                        "papyrus_tree": [],
+                        "papyrus_stalks": [],
+                        "papyrus_strips": [
+                            "Place the bundle between 2 wooden boards",
+                            "The pressure is necessary to flatten the papyrus strips together",
+                            "Once the strips have been placed between the boards, press them together. "
+                        ],
+                        "pruner": [],
+                        "scissors": [],
+                        "knife": [],
+                        "water": [],
+                        "bowl": [],
+                        "roller": [],
+                        "linen_cloth": [],
+                        "wooden_boards": [
+                            "Place the bundle between 2 wooden boards. Make sure that the wooden boards are somewhat heavy."
+                        ],
+                        "shell": [],
+                        "ivory": [],
+                        "smooth_stone": [],
+                        "bowl_of_water": [],
+                        "player": [],
+                        "direction": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "at": [],
+                        "inventory": [
+                            "Place the bundle between 2 wooden boards. Make sure that the wooden boards are somewhat heavy"
+                        ],
+                        "connected": [],
+                        "strips_between_boards": [
+                            "Once the strips have been placed between the boards, press them together",
+                            "Lay the sandwiched papyrus sheet on a flat surface and allow the wooden boards to flatten the sheet using gravity."
+                        ],
+                        "strips_woven": [
+                            "The pressure is necessary to flatten the papyrus strips together"
+                        ],
+                        "polished": [],
+                        "flattened": [],
+                        "cut": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "pour_water": [],
+                        "place_strips_between_boards": [],
+                        "cut_stalks": [],
+                        "papyrus_strips": [],
+                        "polish_papyrus": [],
+                        "flatten_papyrus": [],
+                        "cut_paprus": []
+                    }
+                }
+            },
+            "finishing_papyrus": {
+                "part_number": "3",
+                "method_number": "0",
+                "step_number": "3",
+                "step_contents": "Cut the paper. The sheet may be larger than you want when it is finished. Use a razor, scissors, or paper cutter to cut the papyrus into smaller sheets. Measure the sizes you are cutting so you will have multiple sheets of the same size. You can make a notebook out of the sheets of paper you've just made.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Cut the paper",
+                            "Use a razor, scissors, or paper cutter to cut the papyrus into smaller sheets'"
+                        ],
+                        "papyrus": [
+                            "Cut the paper",
+                            "The sheet may be larger than you want when it is finished"
+                        ],
+                        "papyrus_tree": [],
+                        "papyrus_stalks": [],
+                        "papyrus_strips": [],
+                        "pruner": [],
+                        "scissors": [
+                            "Use a razor, scissors, or paper cutter to cut the papyrus into smaller sheets"
+                        ],
+                        "knife": [],
+                        "water": [],
+                        "bowl": [],
+                        "roller": [],
+                        "linen_cloth": [],
+                        "wooden_boards": [],
+                        "shell": [],
+                        "ivory": [],
+                        "smooth_stone": [],
+                        "bowl_of_water": [],
+                        "player": [],
+                        "direction": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "at": [],
+                        "inventory": [
+                            "Cut the paper. The sheet may be larger than you want when it is finished. Use a razor, scissors, or paper cutter to cut the papyrus into smaller sheets. "
+                        ],
+                        "connected": [],
+                        "strips_between_boards": [],
+                        "strips_woven": [],
+                        "polished": [],
+                        "flattened": [],
+                        "cut": [
+                            "You can make a notebook out of the sheets of paper you've just made. Measure the sizes you are cutting so you will have multiple sheets of the same size.",
+                            "Cut the paper. "
+                        ]
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "pour_water": [],
+                        "place_strips_between_boards": [],
+                        "cut_stalks": [],
+                        "papyrus_strips": [],
+                        "polish_papyrus": [],
+                        "flatten_papyrus": [],
+                        "cut_paprus": [
+                            "Cut the paper. ",
+                            "Use a razor, scissors, or paper cutter to cut the papyrus into smaller sheets. ",
+                            "Measure the sizes you are cutting so you will have multiple sheets of the same size."
+                        ]
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Make-Papyrus",
+        "wikihow_title": "How to Make Papyrus",
+        "types": [
+            "item",
+            "papyrus",
+            "papyrus_tree",
+            "papyrus_stalks",
+            "papyrus_strips",
+            "pruner",
+            "scissors",
+            "knife",
+            "water",
+            "bowl",
+            "roller",
+            "linen_cloth",
+            "wooden_boards",
+            "shell",
+            "ivory",
+            "smooth_stone",
+            "bowl_of_water",
+            "player",
+            "direction",
+            "location"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "pour_water",
+            "place_strips_between_boards",
+            "cut_stalks",
+            "papyrus_strips",
+            "polish_papyrus",
+            "flatten_papyrus",
+            "cut_paprus"
+        ],
+        "predicates": [
+            "at",
+            "inventory",
+            "connected",
+            "strips_between_boards",
+            "strips_woven",
+            "polished",
+            "flattened",
+            "cut"
+        ],
+        "natural_language_descriptions": {
+            "types": {
+                "item": {
+                    "description": "a generic item"
+                },
+                "papyrus": {
+                    "description": "A completed papyrus strip"
+                },
+                "papyrus_tree": {
+                    "description": "a papyrus tree"
+                },
+                "papyrus_stalks": {
+                    "description": "papyrus stacks, cut from papyrus tree"
+                },
+                "papyrus_strips": {
+                    "description": "papyrus strips, cut from stalks"
+                },
+                "pruner": {
+                    "description": "an object that prunes the tree"
+                },
+                "scissors": {
+                    "description": "scissors to cut things"
+                },
+                "knife": {
+                    "description": "knife to slice thingw"
+                },
+                "water": {
+                    "description": "Water, or H2O"
+                },
+                "bowl": {
+                    "description": "A bowl that can put things in"
+                },
+                "roller": {
+                    "description": "A roller that can flatten things"
+                },
+                "linen_cloth": {
+                    "description": "A piece of cloth"
+                },
+                "wooden_boards": {
+                    "description": "Two boards that can be squeezed together"
+                },
+                "shell": {
+                    "description": "A shell"
+                },
+                "ivory": {
+                    "description": "A piece of ivory"
+                },
+                "smooth_stone": {
+                    "description": "A smooth stone"
+                },
+                "bowl_of_water": {
+                    "description": "A bowl filled with water"
+                },
+                "player": {
+                    "description": "The player of this task"
+                },
+                "direction": {
+                    "description": "Direction in where other locations are located"
+                },
+                "location": {
+                    "description": "A concrete place"
+                }
+            },
+            "actions": {
+                "go": {
+                    "description": "Go to a certain location",
+                    "prerequisites": "needs direction, player, starting and ending location",
+                    "results": "Move player from one location to another."
+                },
+                "get": {
+                    "description": "Fetch an item",
+                    "prerequisites": "the item, player and location",
+                    "results": "Removes the item from the location and adds it to the player's inventory"
+                },
+                "pour_water": {
+                    "description": "Pour water onto a bowl",
+                    "prerequisites": "player and bowl, and there must be water",
+                    "results": "The bowl now has water."
+                },
+                "place_strips_between_boards": {
+                    "description": "Place papyrus strips between two boards.",
+                    "prerequisites": "strips must be woven, there must exist boards and there must exist strips",
+                    "results": "The strips are placed between boards to solidify."
+                },
+                "cut_stalks": {
+                    "description": "Cut stalks of the papyrus tree",
+                    "prerequisites": "The location has a papyrus tree and the player has a scissor.",
+                    "results": "Add stalks to the player's inventory."
+                },
+                "papyrus_strips": {
+                    "description": "Cut papyrus strips from stalks",
+                    "prerequisites": "Must have both scissors and papyrus stalks",
+                    "results": "Adds papyrus strips to the player's inventory"
+                },
+                "polish_papyrus": {
+                    "description": "Polish the papyrus",
+                    "prerequisites": "Must have papyrus and must have a polishing tool",
+                    "results": "The papyrus is polished."
+                },
+                "flatten_papyrus": {
+                    "description": "Flatten the papyrus",
+                    "prerequisites": "Must have papyrus and roller to flatten the papyrus",
+                    "results": "The papyrus is flattened"
+                },
+                "cut_paprus": {
+                    "description": "Cut the rough edges of the papyrus",
+                    "prerequisites": "The papyrus and scissors are in player's inventory",
+                    "results": "The papyrus edges are cut off"
+                }
+            },
+            "predicates": {
+                "at": {
+                    "description": "This object is at this location."
+                },
+                "inventory": {
+                    "description": "This item is in the player's inventory"
+                },
+                "connected": {
+                    "description": "The two locations are connected by a direction."
+                },
+                "strips_between_boards": {
+                    "description": "There are papyrus strips between boards"
+                },
+                "strips_woven": {
+                    "description": "The papryus strips are interwoven with each other"
+                },
+                "polished": {
+                    "description": "The papyrus is polished by an object."
+                },
+                "flattened": {
+                    "description": "The papyrus is flattened by an object"
+                },
+                "cut": {
+                    "description": "The papyrus has it's edges cut out"
+                }
+            }
+        }
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "Yes",
+        "name": "Andrew Zhao, Paul Scott",
+        "problems": {}
+    }
+}

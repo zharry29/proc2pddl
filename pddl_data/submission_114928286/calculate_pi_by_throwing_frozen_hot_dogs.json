@@ -1,0 +1,694 @@
+{
+    "calculate_pi_by_throwing_frozen_hot_dogs": {
+        "problems": {
+            "get_materials": {
+                "part_number": "0",
+                "method_number": "0",
+                "step_number": "1, 4, 5, 6",
+                "step_contents": " Select a food item to throw. There are a couple of qualifications. First, it must be long, thin, hard, and straight, like a frozen hot dog, for example. Second, it must be a reasonably stiff item. Third, it should be somewhere between 15 and 20 cm (6-8 inches) long; the experiment can be performed otherwise, but read on, and you will see why this size is optimal. There are lots of other items that fit these criteria including Otter Pops, celery, and churros. (If you simply can't come to grips with throwing perfectly good food, see the Tips section for some additional ideas.)\nMeasure the length of your projectile. A tape measure should do the trick. Be as accurate as you can, even down to the millimeter, for best results. Since length is a factor, it\u2019s best to choose food items that are all the same size. If you\u2019ve chosen something that isn\u2019t naturally uniform, such as celery sticks, cut them evenly beforehand. \n Lay down masking tape in parallel strips across the floor as far apart as your projectile is long. The strips should be perpendicular to the direction you will be throwing. If your item is 15-45 cm (6-18 inches) long, lay down about 6-10 strips; lay down fewer if longer and more if shorter.[1]\n On a piece of paper, make a column for \u201cTosses\u201d and another column for \"Crosses.\" The \"Tosses\" column is where you\u2019ll keep track of how many times you throw your food item. The \"Crosses\" column is where you\u2019ll keep track of how many times your item lands across one of the lines. (Note that landing is not the same thing as bouncing.)[2]",
+                "mentions": {
+                    "types": {
+                        "items": [
+                            "item",
+                            "frozen hot dog",
+                            "stiff item",
+                            "items",
+                            "Otter  pops",
+                            "celery",
+                            "churros",
+                            "food",
+                            "projectile",
+                            "tape measure",
+                            "food items",
+                            "celery sticks",
+                            "them",
+                            "masking tape",
+                            "parallel strips",
+                            "rojectile",
+                            "strips",
+                            "paper",
+                            "food item"
+                        ],
+                        "masking_tape": [
+                            "masking tape",
+                            "parallel strips",
+                            "strips",
+                            "6-10 strips",
+                            "fewer",
+                            "more",
+                            "one of the lines"
+                        ],
+                        "paper": [
+                            "piece of paper"
+                        ],
+                        "pen": [
+                            "make a column",
+                            "another column",
+                            "keep track"
+                        ],
+                        "player": [
+                            "Select",
+                            "Measure",
+                            "Be as accurate as you can",
+                            "make a column",
+                            "you throw ",
+                            "your item"
+                        ],
+                        "direction": [
+                            "strips should be perpendicular to the direction you will be throwing"
+                        ],
+                        "location": [
+                            "floor ",
+                            "across one of the lines"
+                        ]
+                    },
+                    "predicates": {
+                        "is_gettable": [
+                            "item",
+                            "frozen hot dog",
+                            "stiff item",
+                            "items",
+                            "Otter  pops",
+                            "celery",
+                            "churros",
+                            "food",
+                            "projectile",
+                            "tape measure",
+                            "food items",
+                            "celery stick",
+                            "them",
+                            "maskign tape",
+                            "parallel strips",
+                            "strips",
+                            "paper",
+                            "food item"
+                        ],
+                        "is_food_item": [
+                            "frozen hot dog",
+                            "long, thin, hard, and straight",
+                            "stiff item",
+                            "items",
+                            "Otter pops",
+                            "celery",
+                            "churros",
+                            "food",
+                            "projectile",
+                            "celery stick",
+                            "food item"
+                        ],
+                        "is_long": [
+                            "item",
+                            "frozen hot dog",
+                            "stiff item",
+                            "items",
+                            "Otter pops",
+                            "celery",
+                            "churros",
+                            "food",
+                            "food items",
+                            "food item"
+                        ],
+                        "is_thin": [
+                            "item",
+                            "frozen hotdog",
+                            "stiff item",
+                            "items",
+                            "Otter pops",
+                            "celery",
+                            "churros",
+                            "food",
+                            "food items",
+                            "food item"
+                        ],
+                        "is_hard": [
+                            "item",
+                            "frozen hotdog",
+                            "stiff item",
+                            "items",
+                            "Otter pops",
+                            "celery",
+                            "churros",
+                            "food",
+                            "food items",
+                            "food item"
+                        ],
+                        "is_straight": [
+                            "item",
+                            "frozen hotdog",
+                            "stiff item",
+                            "items",
+                            "Otter pops",
+                            "celery",
+                            "churros",
+                            "food",
+                            "food items",
+                            "food item"
+                        ],
+                        "is_stiff": [
+                            "item",
+                            "frozen hotdog",
+                            "stiff item",
+                            "items",
+                            "Otter pops",
+                            "celery",
+                            "churros",
+                            "food",
+                            "food items",
+                            "food item"
+                        ],
+                        "has_throwing_distance": [
+                            "lay down about 6-10 strips",
+                            "crosses"
+                        ],
+                        "is_clear": [
+                            "floor "
+                        ],
+                        "are_same_size": [
+                            "food item",
+                            "frozen hot dog",
+                            "stiff item",
+                            "15 and 20 cm (6-8 inches)",
+                            "Otter Pops",
+                            "celery sticks",
+                            "celery",
+                            "churros",
+                            "measure",
+                            "accurate",
+                            "even down to the millimeter",
+                            "length is a factor",
+                            "cut them beforehand"
+                        ],
+                        "has_ten_strips": [
+                            "masking tape in parallel strips",
+                            "as far apart as your projectile is long",
+                            "strips should be pependicular to the direction you will be throwing",
+                            "6-10 strips",
+                            "fewer if longer",
+                            "more if shorter",
+                            "one of the lines"
+                        ],
+                        "at": [
+                            "parallel strips across the floor",
+                            "as far apart as your projectile is long",
+                            "perpendicular to the direction you will be throwing",
+                            "on a piece of paper"
+                        ],
+                        "inventory": [
+                            "food item",
+                            "hot dog",
+                            "Otter vPops",
+                            "celery",
+                            "celery sticks",
+                            "churros",
+                            "food",
+                            "projectile",
+                            "tape measure",
+                            "masking tape",
+                            "6-10 strips",
+                            "fewer",
+                            "more",
+                            "piece of paper"
+                        ],
+                        "connected": [
+                            "masking tape in parallel strips across the floor",
+                            "strips should be perpendicular to the direction you are throwing",
+                            "If you\u2019ve chosen something that isn\u2019t naturally uniform, such as celery sticks, cut them evenly beforehand",
+                            "Lay down masking tape in parallel strips across the floor as far apart as your projectile is long",
+                            "parallel strips across the floor as far apart as your projectile is long",
+                            "Measure the length of your projectile",
+                            "trips should be perpendicular to the direction you will be throwing",
+                            "\"Tosses\" column is where you\u2019ll keep track of how many times you throw your food item",
+                            "Crosses\" column is where you\u2019ll keep track of how many times your item lands across one of the lines"
+                        ],
+                        "blocked": [],
+                        "thrown_food_items": [
+                            "long, thin, hard, and straight",
+                            "frozen hot dog",
+                            "stiff item",
+                            "15 and 20 cm (6-8 inches)",
+                            "items",
+                            "Otter Pops",
+                            "churros",
+                            "celery",
+                            "projectile",
+                            "items all the same size",
+                            "uniform",
+                            "food item"
+                        ],
+                        "tosses_column": [
+                            "on a piece of paper",
+                            "where you'll keep track of how many times you throw your food item"
+                        ],
+                        "crosses_column": [
+                            "where you'll keep track of how many times your item lands across one of the lines"
+                        ],
+                        "tosses_recorded": [
+                            "on a piece of paper",
+                            "where you'll keep track of how many times you throw your food item"
+                        ],
+                        "crosses_recorded": [
+                            "on a piece of paper",
+                            "where you'll keep track of how many times your item lands across one of the lines"
+                        ],
+                        "crosses_divided": [],
+                        "calculated_pi": [],
+                        "amazed": [],
+                        "frozen": [
+                            "hot dog"
+                        ]
+                    },
+                    "actions": {
+                        "go": [
+                            "Select a food item to throw",
+                            "Lay down masking tape",
+                            "Measure the length of your projectile",
+                            "Choose food items that are the same size",
+                            "Make a column",
+                            "keep track"
+                        ],
+                        "get": [
+                            "food item",
+                            "frozen hot dog",
+                            "stiff item",
+                            "items",
+                            "Otter Pops",
+                            "celery",
+                            "churros",
+                            "food",
+                            "celery sticks",
+                            "them",
+                            "projectiles",
+                            "tape measure",
+                            "projectile",
+                            "them",
+                            "masking tape",
+                            "parralel strips",
+                            "strips",
+                            "paper"
+                        ],
+                        "lay_masking_tape": [
+                            "parallel strips",
+                            "6-10 strips",
+                            "lay down fewer if longer",
+                            "more if shorter"
+                        ],
+                        "make_tosses_column": [
+                            "column",
+                            "where you'll keep track of how many times you throw your food item"
+                        ],
+                        "make_crosses_column": [
+                            "column",
+                            "where you'll keep track of how many times your iten lands across one of the lines"
+                        ],
+                        "thaw_food": [],
+                        "throw": [
+                            "food item ",
+                            "frozen hot dog",
+                            "Otter Pops",
+                            "celery",
+                            "celery sticks",
+                            "churros",
+                            "projectile"
+                        ],
+                        "record_tosses": [
+                            "on a piece of paper",
+                            "where you'll keep track of how many times you throw your food item"
+                        ],
+                        "record_crosses": [
+                            "on a piece of paper",
+                            "where you'll keep track of how many times your iten lands across one of the lines"
+                        ],
+                        "divide_crosses": [],
+                        "calculate_pi": [],
+                        "be_amazed": []
+                    }
+                }
+            },
+            "throw_hotdogs": {
+                "part_number": "2, 3, 5, 7",
+                "method_number": "Select the spot from which to throw your mathematical cuisine. You will probably need about 180-300 cm (6-10 feet) in front of you, as you will be throwing straight ahead. ",
+                "step_number": " Clear the area. The place at which you are throwing should be devoid of objects that your food item could possibly run in to. So, if you are throwing in your kitchen, consider moving the table into another room or at least throwing in such a way that your food won't hit the table during its flight. ",
+                "step_contents": "Lay down masking tape in parallel strips across the floor as far apart as your projectile is long. The strips should be perpendicular to the direction you will be throwing. If your item is 15-45 cm (6-18 inches) long, lay down about 6-10 strips; lay down fewer if longer and more if shorter.[1]\nGet into position and THROW YOUR FOOD! Throw just one item at a time. Once it is at rest, observe whether or not it is crossing one of the lines. If it is, put a tick under \"Crosses\" and a tick under \"Tosses.\" If it isn't, just put a tick under \"Tosses.\" When you\u2019ve run out of hot dogs, pick them up and re-use them, making sure to throw from the same position. Repeat this as many times as you like. You should start seeing some interesting results by around 100 to 200 throws. (This doesn't take as long as it sounds.)[3]",
+                "mentions": {
+                    "types": {
+                        "items": [
+                            "parallel strips",
+                            "parallel strips",
+                            "parallel strips",
+                            "masking tape",
+                            "projectile",
+                            "strips",
+                            "food",
+                            "item",
+                            "hot dogs"
+                        ],
+                        "masking_tape": [
+                            "lay down masking tape",
+                            "parallel strips",
+                            "as far apart as your projectile is long",
+                            "6-10 strips",
+                            "fewer if longer",
+                            "more if shorter",
+                            "one of the lines"
+                        ],
+                        "paper": [
+                            "put a tick under \"Crosses\" and a tick under \"Tosses.\" ",
+                            "If it isn't, just put a tick under \"Tosses.\""
+                        ],
+                        "pen": [],
+                        "player": [
+                            "Lay down masking tape",
+                            " your item",
+                            "Get into position and THROW YOUR FOOD",
+                            "Throw just one item at a time",
+                            "observe whether or not it is crossing one of the lines",
+                            "put a tick under \"Crosses\" and a tick under \"Tosses.",
+                            "just put a tick under \"Tosses.\"",
+                            "When you\u2019ve run out of hot dogs, pick them up and re-use them, making sure to throw from the same position",
+                            "Repeat this as many times as you like.",
+                            "Repeat this as many times as you like. You should start seeing some interesting results by around 100 to 200 throws. "
+                        ],
+                        "direction": [
+                            "Get into position and THROW YOUR FOOD!",
+                            "making sure to throw from the same position"
+                        ],
+                        "location": [
+                            "floor"
+                        ]
+                    },
+                    "predicates": {
+                        "is_gettable": [
+                            "projectile",
+                            "strps",
+                            "masking tape",
+                            "food",
+                            "hot dogs"
+                        ],
+                        "is_food_item": [
+                            "one item at a time",
+                            "if it is",
+                            "if it isn't",
+                            "hot dogs"
+                        ],
+                        "is_long": [
+                            "item",
+                            "hot dog",
+                            "15-45 cm (6-18 inches)",
+                            "food",
+                            "one item at a time"
+                        ],
+                        "is_thin": [],
+                        "is_hard": [],
+                        "is_straight": [],
+                        "is_stiff": [],
+                        "has_throwing_distance": [],
+                        "is_clear": [],
+                        "are_same_size": [],
+                        "has_ten_strips": [
+                            "lay down 6-10 strips",
+                            "masking tape",
+                            "parallel strips"
+                        ],
+                        "at": [
+                            "Get into position",
+                            "whether or not it is crossing one of the lines"
+                        ],
+                        "inventory": [
+                            "masking tape",
+                            "parallel strips",
+                            "one itemn",
+                            "hot dogs"
+                        ],
+                        "connected": [
+                            "Lay down making tape in parallel strips across the floor",
+                            "strips across the floor as far apart as your projectile is long",
+                            "lay down fewer if longer and more if shorter",
+                            "Get into position and THROW YOUR FOOD!",
+                            "If it is, put a tick under \"Crosses\" and a tick under \"Tosses.\"",
+                            "If it isn't, just put a tick under \"Tosses.\"",
+                            "When you've run out of hot dogs, pick them up and resue them, making sure to throw from the same position.",
+                            "Repeat as many times as you like."
+                        ],
+                        "blocked": [],
+                        "thrown_food_items": [
+                            "your food",
+                            "hot dogs"
+                        ],
+                        "tosses_column": [
+                            "If it isn't, just put a tick under \"Tosses.\""
+                        ],
+                        "crosses_column": [
+                            "If it is, put a tick under \"Crosses\" and a tick under \"Tosses.\""
+                        ],
+                        "tosses_recorded": [
+                            "You should start seeing some interesting results around 100 to 200 throws."
+                        ],
+                        "crosses_recorded": [
+                            "If it is, put a tick under \"Crosses\" and a tick under \"Tosses.\"",
+                            "If it isn't, just put a tick under \"Tosses.\""
+                        ],
+                        "crosses_divided": [],
+                        "calculated_pi": [],
+                        "amazed": [],
+                        "frozen": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "masking tape",
+                            "parallel strips",
+                            "projectile",
+                            "item",
+                            "hot dogs",
+                            "6-10 strips"
+                        ],
+                        "lay_masking_tape": [
+                            "maksing tape",
+                            "parallel strips",
+                            "6-10 strips",
+                            "lay down fewer if longer and more if shorter"
+                        ],
+                        "make_tosses_column": [
+                            "If it isn't, just put a tick under \"Tosses.\"",
+                            "If it is, put a tick under \"Crosses\" and a tick under \"Tosses.\"",
+                            "If it isn't, just put a tick under \"Tosses.\""
+                        ],
+                        "make_crosses_column": [
+                            "If it is, put a tick under \"Crosses\" and a tick under \"Tosses.\""
+                        ],
+                        "thaw_food": [],
+                        "throw": [
+                            "THROW YOUR FOOD",
+                            "throw from the same position",
+                            "results by around 100 to 200 throws"
+                        ],
+                        "record_tosses": [
+                            "If it is, put a tick under \"Crosses\" and a tick under \"Tosses.\"",
+                            "If it isn't, just put a tick under \"Tosses.\""
+                        ],
+                        "record_crosses": [
+                            "If it is, put a tick under \"Crosses\" and a tick under \"Tosses.\""
+                        ],
+                        "divide_crosses": [],
+                        "calculate_pi": [],
+                        "be_amazed": []
+                    }
+                }
+            },
+            "be_amazed": {
+                "part_number": "6, 8",
+                "method_number": "0",
+                "step_number": "5, 8",
+                "step_contents": "On a piece of paper, make a column for \u201cTosses\u201d and another column for \"Crosses.\" The \"Tosses\" column is where you\u2019ll keep track of how many times you throw your food item. The \"Crosses\" column is where you\u2019ll keep track of how many times your item lands across one of the lines. (Note that landing is not the same thing as bouncing.)[2]\nWhen you\u2019re done, divide the number of crosses by 2 and divide the number of tosses by that. For example, if you threw 300 times, and it crossed 191 times, you would calculate 300/(191/2). And, to your amazement, you will now have an approximation for pi![4]",
+                "mentions": {
+                    "types": {
+                        "items": [
+                            "piece of paper",
+                            "food items",
+                            "food item",
+                            "item"
+                        ],
+                        "masking_tape": [
+                            "one of the lines"
+                        ],
+                        "paper": [
+                            "On a piece of paper",
+                            "make a column for \u201cTosses\u201d and another column for \"Crosses.\"",
+                            "The \"Tosses\" column is where you\u2019ll keep track of how many times you throw your food item.",
+                            "he \"Crosses\" column is where you\u2019ll keep track of how many times your item lands across one of the lines."
+                        ],
+                        "pen": [],
+                        "player": [
+                            "make a column",
+                            "When you\u2019re done",
+                            "if you threw ",
+                            "you would calculate",
+                            "to your amazement, you will now have an approximation for pi"
+                        ],
+                        "direction": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "is_gettable": [
+                            "piece of paper",
+                            "food items",
+                            "food item",
+                            "item"
+                        ],
+                        "is_food_item": [
+                            "food item",
+                            "item"
+                        ],
+                        "is_long": [],
+                        "is_thin": [],
+                        "is_hard": [],
+                        "is_straight": [],
+                        "is_stiff": [],
+                        "has_throwing_distance": [
+                            "food item",
+                            "item"
+                        ],
+                        "is_clear": [],
+                        "are_same_size": [],
+                        "has_ten_strips": [],
+                        "at": [],
+                        "inventory": [
+                            "piece of paper",
+                            "food items",
+                            "food item",
+                            "item"
+                        ],
+                        "connected": [],
+                        "blocked": [],
+                        "thrown_food_items": [
+                            "food items",
+                            "food item",
+                            "item"
+                        ],
+                        "tosses_column": [
+                            "make a column for \u201cTosses\u201d and another column for \"Crosses.\"",
+                            "The \"Tosses\" column is where you\u2019ll keep track of how many times you throw your food item."
+                        ],
+                        "crosses_column": [
+                            "The \"Crosses\" column is where you\u2019ll keep track of how many times your item lands across one of the lines."
+                        ],
+                        "tosses_recorded": [
+                            "The \"Tosses\" column is where you\u2019ll keep track of how many times you throw your food item.",
+                            "When you\u2019re done, divide the number of crosses by 2 and divide the number of tosses by that. "
+                        ],
+                        "crosses_recorded": [
+                            "When you\u2019re done, divide the number of crosses by 2 and divide the number of tosses by that. "
+                        ],
+                        "crosses_divided": [
+                            "divide the number of crosses by 2 and divide the number of tosses by that"
+                        ],
+                        "calculated_pi": [
+                            "For example, if you threw 300 times, and it crossed 191 times, you would calculate 300/(191/2).",
+                            "And, to your amazement, you will now have an approximation for pi!"
+                        ],
+                        "amazed": [
+                            "And, to your amazement, you will now have an approximation for pi!"
+                        ],
+                        "frozen": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "lay_masking_tape": [],
+                        "make_tosses_column": [
+                            "make a column for \u201cTosses\u201d and another column for \"Crosses.\"",
+                            "The \"Tosses\" column is where you\u2019ll keep track of how many times you throw your food item."
+                        ],
+                        "make_crosses_column": [
+                            "The \"Crosses\" column is where you\u2019ll keep track of how many times your item lands across one of the lines.",
+                            "make a column for \u201cTosses\u201d and another column for \"Crosses.\"",
+                            "When you\u2019re done, divide the number of crosses by 2 and divide the number of tosses by that",
+                            "When you\u2019re done, divide the number of crosses by 2 and divide the number of tosses by that."
+                        ],
+                        "thaw_food": [],
+                        "throw": [
+                            "if you threw 300 times",
+                            "throw your food items"
+                        ],
+                        "record_tosses": [
+                            "On a piece of paper, make a column for \u201cTosses\u201d and another column for \"Crosses.\"",
+                            "The \"Tosses\" column is where you\u2019ll keep track of how many times you throw your food item. ",
+                            "The \"Crosses\" column is where you\u2019ll keep track of how many times your item lands across one of the lines.",
+                            "When you\u2019re done, divide the number of crosses by 2 and divide the number of tosses by that. "
+                        ],
+                        "record_crosses": [
+                            "On a piece of paper, make a column for \u201cTosses\u201d and another column for \"Crosses.\"",
+                            "When you\u2019re done, divide the number of crosses by 2 and divide the number of tosses by that. "
+                        ],
+                        "divide_crosses": [
+                            "When you\u2019re done, divide the number of crosses by 2 and divide the number of tosses by that. "
+                        ],
+                        "calculate_pi": [
+                            "When you\u2019re done, divide the number of crosses by 2 and divide the number of tosses by that. ",
+                            "to your amazement, you will now have an approximation for pi"
+                        ],
+                        "be_amazed": [
+                            "to your amazement, you will now have an approximation for pi"
+                        ]
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Calculate-Pi-by-Throwing-Frozen-Hot-Dogs",
+        "wikihow_title": "How to Calculate Pi by Throwing Frozen Hot Dogs",
+        "types": [
+            "items",
+            "masking_tape",
+            "paper",
+            "pen",
+            "player",
+            "direction",
+            "location"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "lay_masking_tape",
+            "make_tosses_column",
+            "make_crosses_column",
+            "thaw_food",
+            "throw",
+            "record_tosses",
+            "record_crosses",
+            "divide_crosses",
+            "calculate_pi",
+            "be_amazed"
+        ],
+        "predicates": [
+            "is_gettable",
+            "is_food_item",
+            "is_long",
+            "is_thin",
+            "is_hard",
+            "is_straight",
+            "is_stiff",
+            "has_throwing_distance",
+            "is_clear",
+            "are_same_size",
+            "has_ten_strips",
+            "at",
+            "inventory",
+            "connected",
+            "blocked",
+            "thrown_food_items",
+            "tosses_column",
+            "crosses_column",
+            "tosses_recorded",
+            "crosses_recorded",
+            "crosses_divided",
+            "calculated_pi",
+            "amazed",
+            "frozen"
+        ]
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "yes",
+        "name": "Matthew Burke",
+        "problems": {}
+    }
+}

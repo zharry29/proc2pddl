@@ -1,0 +1,160 @@
+{
+    "survive_in_the_woods": {
+        "problems": {
+            "collect_water": {
+                "part_number": "1",
+                "method_number": "1",
+                "step_number": "1",
+                "step_contents": "",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [],
+                        "player": [],
+                        "direction": [],
+                        "location": [],
+                        "cloth": [],
+                        "container": [],
+                        "long_branch": [],
+                        "propped_branches": [],
+                        "logs": [],
+                        "twigs_leaves": [],
+                        "teepee": []
+                    },
+                    "predicates": {
+                        "has_water_source": [
+                            "this location has a source of fresh water"
+                        ],
+                        "has_branches": [
+                            "this locations has a bunch of branches"
+                        ],
+                        "has_twigs_leaves": [
+                            "this locations has a twigs and leaves"
+                        ],
+                        "has_logs": [
+                            "this locations has logs"
+                        ],
+                        "has_shelter": [
+                            "the player has built the shelter"
+                        ],
+                        "has_fire": [
+                            "the player has started a fire"
+                        ],
+                        "strained": [
+                            "True if the water has been strained by using cloth"
+                        ],
+                        "treated": [
+                            "True if the water has been decontaimated by boiling it"
+                        ],
+                        "at": [
+                            "an object is at a location "
+                        ],
+                        "inventory": [
+                            "an item is in the player's inventory"
+                        ],
+                        "connected": [
+                            "location 1 is connected to location 2 in the direction"
+                        ],
+                        "blocked": [
+                            "the connection between location 1 and 2 in currently blocked"
+                        ]
+                    },
+                    "actions": {
+                        "go": [
+                            "navigate to an adjacent location"
+                        ],
+                        "get": [
+                            "pick up an item and put it in the inventory"
+                        ],
+                        "get_water": [
+                            "get water from a location that has a water source like a lake"
+                        ],
+                        "strain_water": [
+                            "strain water using cloth"
+                        ],
+                        "boil_water": [
+                            "boil water using container"
+                        ],
+                        "purify_in_sunlight": [
+                            "purify water in sunlight"
+                        ],
+                        "get_long_branch": [
+                            "get long branch for shelter"
+                        ],
+                        "get_propped_branches": [
+                            "get branches to prop up the main one"
+                        ],
+                        "get_twigs_leaves": [
+                            "get twigs and leaves"
+                        ],
+                        "build_shelter": [
+                            "built shelter"
+                        ],
+                        "get_logs": [
+                            "get logs"
+                        ],
+                        "get_dry_materials": [
+                            "get dry materials"
+                        ],
+                        "build_teepee": [
+                            "build teepee structure"
+                        ],
+                        "start_fire": [
+                            "start_fire"
+                        ]
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Survive-in-the-Woods",
+        "wikihow_title": "How to Survive in the Woods",
+        "types": [
+            "item",
+            "water",
+            "player",
+            "direction",
+            "location",
+            "cloth",
+            "container",
+            "long_branch",
+            "propped_branches",
+            "logs",
+            "twigs_leaves",
+            "teepee"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "get_water",
+            "strain_water",
+            "boil_water",
+            "purify_in_sunlight",
+            "get_long_branch",
+            "get_propped_branches",
+            "get_twigs_leaves",
+            "build_shelter",
+            "get_logs",
+            "get_dry_materials",
+            "build_teepee",
+            "start_fire"
+        ],
+        "predicates": [
+            "has_water_source",
+            "has_branches",
+            "has_twigs_leaves",
+            "has_logs",
+            "has_shelter",
+            "has_fire",
+            "strained",
+            "treated",
+            "at",
+            "inventory",
+            "connected",
+            "blocked"
+        ]
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "Yes",
+        "name": "Anonymous"
+    }
+}

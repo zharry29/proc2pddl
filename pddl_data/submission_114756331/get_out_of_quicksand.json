@@ -1,0 +1,271 @@
+{
+    "get_out_of_quicksand": {
+        "problems": {
+            "get_out_deep": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "1,2,3,4",
+                "step_contents": "Relax. Quicksand usually isn't more than a couple feet deep, but if you do happen to come across a particularly deep spot, you could very well sink quite quickly down to your waist or chest. If you panic you can sink further, but if you relax, your body's buoyancy will cause you to float.\nGet on your back and \"swim.\" If you sink up to your hips or higher, bend backward. The more you spread out your weight, the harder it will be to sink. Float on your back while you slowly and carefully extricate your legs. Once your legs are free you can inch yourself to safety by using your arms to slowly and smoothly propel yourself backward with your arms in a sweeping motion, as if you were swimming. When you get near the edge of the quicksand, you can roll to hard ground.\n Use a stick. Carry a walking stick any time you're in quicksand country. As soon as you feel your ankles sink, lay the pole on the surface of the quicksand horizontally behind you. Flop onto your back on top of the pole. After a minute or two, you will achieve balance in the quicksand, and you'll stop sinking. Work the pole towards a new position; move it under your hips. The pole will prevent your hips from sinking, so you can slowly pull one leg free, then the other.\nake frequent breaks. The work of extracting yourself can be exhausting, so you need to work judiciously, conserving your energy before you become too tired.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Use a stick"
+                        ],
+                        "stick": [
+                            "arry a walking stick any time you're in quicksand country. As soon as you feel your ankles sink, lay the pole on the surface of the quicksand horizontally behind you. Flop onto your back on top of the pole",
+                            "Work the pole towards a new position; move it under your hips. The pole will prevent your hips from sinking, so you can slowly pull one leg free, then the other"
+                        ],
+                        "player": [
+                            "you could very well sink quite quickly down to your waist or chest",
+                            "Get on your back and \"swim.\"",
+                            "Float on your back while you slowly and carefully extricate your legs",
+                            "using your arms to slowly and smoothly propel yourself backward with your arms in a sweeping motion, as if you were swimming. When you get near the edge of the quicksand, you can roll to hard ground",
+                            "Flop onto your back on top of the pole",
+                            "The work of extracting yourself can be exhausting, so you need to work judiciously, conserving your energy before you become too tired."
+                        ],
+                        "direction": [],
+                        "location": [
+                            "Quicksand usually isn't more than a couple feet deep,"
+                        ],
+                        "quicksand": [
+                            "Quicksand usually isn't more than a couple feet deep",
+                            "Carry a walking stick any time you're in quicksand country"
+                        ]
+                    },
+                    "predicates": {
+                        "at": [],
+                        "inventory": [
+                            "Carry a walking stick"
+                        ],
+                        "connected": [],
+                        "blocked": [],
+                        "calm": [
+                            "Relax",
+                            "If you panic you can sink further, but if you relax, your body's buoyancy will cause you to float."
+                        ],
+                        "laying": [
+                            "Get on your back"
+                        ],
+                        "tired": [
+                            "The work of extracting yourself can be exhausting, so you need to work judiciously, conserving your energy before you become too tired."
+                        ],
+                        "stuck": [
+                            "if you do happen to come across a particularly deep spot, you could very well sink quite quickly down to your waist or chest."
+                        ],
+                        "deep": [],
+                        "has_ripples": [],
+                        "aware": [],
+                        "has_quicksand": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "breathe": [
+                            "if you relax, your body's buoyancy will cause you to float."
+                        ],
+                        "liedown": [
+                            " Flop onto your back on top of the pole."
+                        ],
+                        "swim": [
+                            "Get on your back and \"swim.\" If you sink up to your hips or higher, bend backward. The more you spread out your weight, the harder it will be to sink"
+                        ],
+                        "usestick": [
+                            " Work the pole towards a new position; move it under your hips. The pole will prevent your hips from sinking, so you can slowly pull one leg free, then the other."
+                        ],
+                        "rest": [
+                            "take frequent breaks"
+                        ],
+                        "drop": [],
+                        "check_ripples": [],
+                        "test_ground": [],
+                        "research": [],
+                        "move_horizontally": []
+                    }
+                }
+            },
+            "get_feet_out": {
+                "part_number": "1",
+                "method_number": "0",
+                "step_number": "1,2,3,4",
+                "step_contents": " Drop everything. If you step into quicksand and you're wearing a backpack or carrying something heavy, immediately take off your backpack or drop what you're carrying. Because your body is less dense than quicksand, you can't fully sink unless you panic and struggle too much or you're weighed down by something heavy.\n Move horizontally. If you feel your feet getting stuck, take a quick couple of steps backward before the quicksand takes hold. It usually takes a minute for the mix to liquify, which means the best method of getting yourself unstuck is to not get stuck in the first place.\n Lay back. Sit down and lean back if your feet are stuck fast. Creating a larger \"footprint\" should free your feet by removing the pressure they create, allowing them to float. When you feel them start to come free, roll to your side away from the quicksand and free of its grip. You'll get dirty, but its the quickest and safest way to free yourself.\nTake your time. If you're stuck in quicksand, frantic movements will only hurt your cause. Whatever you do, do it slowly. Slow movements will prevent you from agitating the quicksand; vibrations caused by rapid movements can turn otherwise relatively firm ground into more quicksand.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "stick": [],
+                        "player": [
+                            "immediately take off your backpack or drop what you're carrying",
+                            "your body is less dense than quicksand, you can't fully sink unless you panic and struggle too much or you're weighed down by something heavy",
+                            "If you feel your feet getting stuck, take a quick couple of steps backward before the quicksand takes hold",
+                            "If you're stuck in quicksand, frantic movements will only hurt your cause."
+                        ],
+                        "direction": [
+                            "take a quick couple of steps backward "
+                        ],
+                        "location": [],
+                        "quicksand": [
+                            " If you step into quicksand and you're wearing a backpack or carrying something heavy, immediately take off your backpack or drop what you're carrying.",
+                            "If you're stuck in quicksand, frantic movements will only hurt your cause.",
+                            " vibrations caused by rapid movements can turn otherwise relatively firm ground into more quicksand."
+                        ]
+                    },
+                    "predicates": {
+                        "at": [],
+                        "inventory": [
+                            "Drop everything"
+                        ],
+                        "connected": [],
+                        "blocked": [],
+                        "calm": [
+                            "Take your time. If you're stuck in quicksand, frantic movements will only hurt your cause."
+                        ],
+                        "laying": [
+                            "Lay back. "
+                        ],
+                        "tired": [
+                            "Take your time"
+                        ],
+                        "stuck": [
+                            " If you're stuck in quicksand, frantic movements will only hurt your cause.",
+                            "If you feel your feet getting stuck, take a quick couple of steps backward before the quicksand takes hold."
+                        ],
+                        "deep": [],
+                        "has_ripples": [],
+                        "aware": [
+                            " If you step into quicksand"
+                        ],
+                        "has_quicksand": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "breathe": [],
+                        "liedown": [],
+                        "swim": [
+                            "hen you feel them start to come free, roll to your side away from the quicksand and free of its grip"
+                        ],
+                        "usestick": [],
+                        "rest": [
+                            "Take your time"
+                        ],
+                        "drop": [
+                            "Drop everything.",
+                            "If you step into quicksand and you're wearing a backpack or carrying something heavy, immediately take off your backpack or drop what you're carrying."
+                        ],
+                        "check_ripples": [],
+                        "test_ground": [],
+                        "research": [],
+                        "move_horizontally": [
+                            " Move horizontally. If you feel your feet getting stuck, take a quick couple of steps backward before the quicksand takes hold."
+                        ]
+                    }
+                }
+            },
+            "avoid_quicksand": {
+                "part_number": "3",
+                "method_number": "0",
+                "step_number": "1,2,3",
+                "step_contents": " Recognize common quicksand areas. While quicksand is not a unique kind of soil, it can form anywhere groundwater mixes with sandy soil, creating a distinctive soupy mixture. Learning to anticipate places you might encounter quicksand is the best way to avoid becoming entangled in it. Quicksand most commonly occurs in.\n Look for ripples. Be on the lookout for ground that appears unstable and wet, or sand that has unnatural looking \"ripples\" in the texture. You should be able to see water seeping up from below the sand, making quicksand quite visible if you're on the lookout as you're hiking around.\nTest the ground in front of you with your walking stick. Always bring a hefty walking stick, both to use in case you become stuck, but also to tap the ground in front of you as you walk. A few seconds with a walking stick could be the difference between a messy wrestling match with a pool of quicksand and a safe hike.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "stick": [
+                            "Test the ground in front of you with your walking stick.",
+                            "Always bring a hefty walking stick, both to use in case you become stuck, but also to tap the ground in front of you as you walk",
+                            "A few seconds with a walking stick could be the difference between a messy wrestling match with a pool of quicksand and a safe hike."
+                        ],
+                        "player": [
+                            "You should be able to see water seeping up from below the sand, making quicksand quite visible if you're on the lookout as you're hiking around."
+                        ],
+                        "direction": [],
+                        "location": [
+                            "Test the ground in front of you with your walking stick."
+                        ],
+                        "quicksand": []
+                    },
+                    "predicates": {
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": [],
+                        "calm": [],
+                        "laying": [],
+                        "tired": [],
+                        "stuck": [],
+                        "deep": [],
+                        "has_ripples": [
+                            "Look for ripples. Be on the lookout for ground that appears unstable and wet, or sand that has unnatural looking \"ripples\" in the texture. You should be able to see water seeping up from below the sand, making quicksand quite visible if you're on the lookout as you're hiking around."
+                        ],
+                        "aware": [
+                            "making quicksand quite visible if you're on the lookout as you're hiking around."
+                        ],
+                        "has_quicksand": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "\\"
+                        ],
+                        "breathe": [],
+                        "liedown": [],
+                        "swim": [],
+                        "usestick": [],
+                        "rest": [],
+                        "drop": [],
+                        "check_ripples": [
+                            "Be on the lookout for ground that appears unstable and wet, or sand that has unnatural looking \"ripples\" in the texture"
+                        ],
+                        "test_ground": [
+                            "Always bring a hefty walking stick, both to use in case you become stuck, but also to tap the ground in front of you as you walk."
+                        ],
+                        "research": [
+                            "Recognize common quicksand areas. While quicksand is not a unique kind of soil, it can form anywhere groundwater mixes with sandy soil, creating a distinctive soupy mixture. Learning to anticipate places you might encounter quicksand is the best way to avoid becoming entangled in it. Quicksand most commonly occurs in."
+                        ],
+                        "move_horizontally": []
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Get-Out-of-Quicksand",
+        "wikihow_title": "How to Get Out of Quicksand",
+        "types": [
+            "item",
+            "stick",
+            "player",
+            "direction",
+            "location",
+            "quicksand"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "breathe",
+            "liedown",
+            "swim",
+            "usestick",
+            "rest",
+            "drop",
+            "check_ripples",
+            "test_ground",
+            "research",
+            "move_horizontally"
+        ],
+        "predicates": [
+            "at",
+            "inventory",
+            "connected",
+            "blocked",
+            "calm",
+            "laying",
+            "tired",
+            "stuck",
+            "deep",
+            "has_ripples",
+            "aware",
+            "has_quicksand"
+        ]
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "Yes",
+        "name": "Anonymous"
+    }
+}

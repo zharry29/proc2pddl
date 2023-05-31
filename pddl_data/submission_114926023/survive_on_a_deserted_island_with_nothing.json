@@ -1,0 +1,266 @@
+{
+    "survive_on_a_deserted_island_with_nothing": {
+        "problems": {
+            "build_raft": {
+                "part_number": "3",
+                "method_number": "0",
+                "step_number": "7",
+                "step_contents": " Consider building a raft. If the island is too harsh to survive on, you may need to create a raft and attempt to leave. You may also consider leaving the island if you think your rescuers believe you have died. However, sailing on a raft can be extremely dangerous and should be used only as a last resort. Try using these steps to build a simple raft, allowing you to self-rescue if need be.[25] [26] Find some larger logs to act as the base of the raft. Find many smaller logs to act as the braces and platform of the raft. If possible, try cutting small notches into the base logs for your support branches to fit inside of. Tie the smaller branches on top of the larger logs with vines. Make sure you loop the vines over and under each log before tying them off. Once the raft is complete, test in shallow waters before venturing further out. Bring extra logs and vines to make repairs if needed.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "raft",
+                            "log",
+                            "vines",
+                            "branches",
+                            "raft_dra fe",
+                            "raft_draft",
+                            "raft_finished"
+                        ],
+                        "sharp_stone": [],
+                        "log": [
+                            "logs",
+                            "log"
+                        ],
+                        "small_sticks": [],
+                        "leaves": [],
+                        "vines": [
+                            "vines",
+                            "vine"
+                        ],
+                        "raft": [
+                            "raft"
+                        ],
+                        "player": [],
+                        "direction": [],
+                        "location": [
+                            "waters",
+                            "shallow waters",
+                            "beach"
+                        ],
+                        "roof": [],
+                        "wall": [],
+                        "shelter": [],
+                        "animal": [],
+                        "raft_draft": [
+                            "raft"
+                        ],
+                        "raft_finished": [
+                            "raft is complete"
+                        ]
+                    },
+                    "predicates": {
+                        "at": [],
+                        "inventory": [
+                            "find"
+                        ],
+                        "connected": [],
+                        "treated": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "build_roof": [],
+                        "build_wall": [],
+                        "build_bed": [],
+                        "complete_shelter": [],
+                        "hunt_animal": [],
+                        "prepare_animal": [],
+                        "build_raft": [
+                            "building a raft",
+                            "create a raft",
+                            "test in shallow water",
+                            "build a simple raft"
+                        ],
+                        "test_raft": []
+                    }
+                }
+            },
+            "build_shelter": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "2",
+                "step_contents": "Create a shelter. Shelters are vital when it comes to keeping you safe and out of the elements. Shelters can also give you a place to rest and recover while you consider your next moves. There are many different types of shelters you can build. The natural material found on the island will dictate what kind of shelter you can create. As an example, you may try to create a simple lean-to shelter, using these steps:[11] Find a long and solid stick or branch. This log should be longer than you are tall. Lean this log up against a tree. The log will be your roof line, so find an angle that works for your height. Lay smaller branches or sticks over the main branch. These sticks should go down the length of the main log and will be placed at 45 degree angles. Cover these smaller sticks with branches and leaves to create the walls of your shelter. You might also want to put leaves or other plant matter on the inside floor of the shelter to create a bed.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "stick",
+                            "branch",
+                            "log",
+                            "smaller sticks",
+                            "leaves"
+                        ],
+                        "sharp_stone": [],
+                        "log": [
+                            "log"
+                        ],
+                        "small_sticks": [
+                            "smaller sticks"
+                        ],
+                        "leaves": [
+                            "leaves"
+                        ],
+                        "vines": [],
+                        "raft": [],
+                        "player": [
+                            "you"
+                        ],
+                        "direction": [],
+                        "location": [
+                            "tree"
+                        ],
+                        "roof": [
+                            "roof",
+                            "roof line"
+                        ],
+                        "wall": [
+                            "walls"
+                        ],
+                        "shelter": [
+                            "shelter",
+                            "shelters"
+                        ],
+                        "animal": [],
+                        "raft_draft": [],
+                        "raft_finished": []
+                    },
+                    "predicates": {
+                        "at": [],
+                        "inventory": [
+                            "find"
+                        ],
+                        "connected": [],
+                        "treated": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "find"
+                        ],
+                        "build_roof": [
+                            "the log should be your roof line"
+                        ],
+                        "build_wall": [
+                            "create the walls of your shelter"
+                        ],
+                        "build_bed": [
+                            "create a bed"
+                        ],
+                        "complete_shelter": [],
+                        "hunt_animal": [],
+                        "prepare_animal": [],
+                        "build_raft": [],
+                        "test_raft": []
+                    }
+                }
+            },
+            "prepare_meat": {
+                "part_number": "3",
+                "method_number": "0",
+                "step_number": "2",
+                "step_contents": "If you've successfully hunted an animal, you'll want to properly prepare it before eating it. Although animals are a good source of nutrition, they can also carry diseases and can become inedible if improperly prepared. Take a look at some of these basic steps when preparing an animal to eat:[20] Remove the skin or hide from the animal. Make sure the entire hide has been removed before proceeding. Take out the entrails. Carefully remove the organs from both the chest and stomach of the animal. Take special care with the digestive tract and bladder, as these can pose health risks if spilled. You can save and eat the heart and liver. You can roast or boil the meat, once it has been cleaned and prepared.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "animal"
+                        ],
+                        "sharp_stone": [],
+                        "log": [],
+                        "small_sticks": [],
+                        "leaves": [],
+                        "vines": [],
+                        "raft": [],
+                        "player": [
+                            "you"
+                        ],
+                        "direction": [],
+                        "location": [],
+                        "roof": [],
+                        "wall": [],
+                        "shelter": [],
+                        "animal": [
+                            "animal",
+                            "animals"
+                        ],
+                        "raft_draft": [],
+                        "raft_finished": []
+                    },
+                    "predicates": {
+                        "at": [],
+                        "inventory": [
+                            "hunted an animal",
+                            "roast or boil the meat"
+                        ],
+                        "connected": [],
+                        "treated": [
+                            "properly prepare",
+                            "preparing an animal to eat",
+                            "cleaned and prepared"
+                        ]
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "build_roof": [],
+                        "build_wall": [],
+                        "build_bed": [],
+                        "complete_shelter": [],
+                        "hunt_animal": [
+                            "hunted an animal"
+                        ],
+                        "prepare_animal": [
+                            "properly prepare",
+                            "preparing an animal to eat",
+                            "Remove the skin or hide from the animal",
+                            "remove the organs",
+                            "cleaned and prepared"
+                        ],
+                        "build_raft": [],
+                        "test_raft": []
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Survive-on-a-Deserted-Island-With-Nothing",
+        "wikihow_title": "How to Survive on a Deserted Island With Nothing",
+        "types": [
+            "item",
+            "sharp_stone",
+            "log",
+            "small_sticks",
+            "leaves",
+            "vines",
+            "raft_draft",
+            "raft_finished",
+            "player",
+            "direction",
+            "location",
+            "roof",
+            "wall",
+            "shelter",
+            "animal"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "build_roof",
+            "build_wall",
+            "build_bed",
+            "complete_shelter",
+            "hunt_animal",
+            "prepare_animal",
+            "build_raft",
+            "test_raft"
+        ],
+        "predicates": [
+            "at",
+            "inventory",
+            "connected",
+            "treated"
+        ]
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "ye s",
+        "name": "Joey"
+    }
+}

@@ -1,0 +1,333 @@
+{
+    "anime-party": {
+        "problems": {
+            "serve-drinks": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "2",
+                "step_contents": "Serve beverages. There are various Japanese-themed drinks you can serve at your party. If it\u2019s a kid\u2019s party, you\u2019ll of course want to stick to non-alcoholic options. If it\u2019s an adult party, you may want to include both alcoholic and non-alcoholic beverage choices.[6] Some examples of non-alcoholic beverages you can serve are green tea, cherry blossom tea, soy milk, and Japanese sodas from a local Asian grocer. Alcoholic options include sake, Japanese beer, and wine.\n",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "player": [],
+                        "location": [],
+                        "direction": [],
+                        "food": [],
+                        "drink": [
+                            "There are various Japanese-themed drinks you can serve at your party.",
+                            "If it\u2019s an adult party, you may want to include both alcoholic and non-alcoholic beverage choices.",
+                            "Some examples of non-alcoholic beverages you can serve are green tea, cherry blossom tea, soy milk, and Japanese sodas from a local Asian grocer.",
+                            "Alcoholic options include sake, Japanese beer, and wine."
+                        ]
+                    },
+                    "predicates": {
+                        "at": [
+                            "There are various Japanese-themed drinks you can serve at your party."
+                        ],
+                        "inventory": [],
+                        "has_kitchen": [],
+                        "has_fridge": [],
+                        "connected": [],
+                        "inflated": [],
+                        "hung": [],
+                        "opened": [],
+                        "on": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "drop": [],
+                        "cook": [],
+                        "order_sushi": [],
+                        "buy_sake": [
+                            "Alcoholic options include sake, Japanese beer, and wine."
+                        ],
+                        "serve": [
+                            "Some examples of non-alcoholic beverages you can serve are green tea, cherry blossom tea, soy milk, and Japanese sodas from a local Asian grocer.",
+                            "here are various Japanese-themed drinks you can serve at your party. "
+                        ],
+                        "brew": [
+                            "Some examples of non-alcoholic beverages you can serve are green tea, cherry blossom tea, soy milk, and Japanese sodas from a local Asian grocer."
+                        ],
+                        "get_beer": [
+                            "Alcoholic options include sake, Japanese beer, and wine."
+                        ],
+                        "open": [
+                            "There are various Japanese-themed drinks you can serve at your party."
+                        ],
+                        "hang_lantern": [],
+                        "blow_balloon": [],
+                        "turn_on_tv": []
+                    }
+                }
+            },
+            "decorate": {
+                "part_number": "3",
+                "method_number": "0",
+                "step_number": "1, 4",
+                "step_contents": " Put out anime balloons. Draw anime faces on balloons. Alternately, you can call local party supply stores to see if they have any relevant balloons. A third option is to purchase anime balloons online. You can have the balloons filled with helium, or blow them up yourself and place them around. Try asking, \u201cDo you have any anime or manga balloons, like Pok\u00e9mon, Dragon Ball or Naruto?\u201d These are well-recognized series and will help give the party store employee a better idea of what you\u2019re looking for.\nHang paper lanterns. Buy paper lanterns, in the color of your party theme, at a party supply store or online. You can also make paper lanterns using tissue paper and bendable metal wire.\nConsider playing anime on TV or DVD. You can play it with the sound low or off if you don\u2019t want it to compete with the music. If you have a projector you can use with a DVD player or computer, you can project anime onto the wall. You may want to watch some classic anime shows like Yu Yu Hakusho, Pok\u00e9mon or Dragon Ball Z.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "player": [],
+                        "location": [],
+                        "direction": [],
+                        "food": [],
+                        "drink": []
+                    },
+                    "predicates": {
+                        "at": [],
+                        "inventory": [],
+                        "has_kitchen": [],
+                        "has_fridge": [],
+                        "connected": [],
+                        "inflated": [
+                            "You can have the balloons filled with helium, or blow them up yourself and place them around."
+                        ],
+                        "hung": [
+                            "You can have the balloons filled with helium, or blow them up yourself and place them around.",
+                            "Hang paper lanterns."
+                        ],
+                        "opened": [],
+                        "on": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "drop": [],
+                        "cook": [],
+                        "order_sushi": [],
+                        "buy_sake": [],
+                        "serve": [],
+                        "brew": [],
+                        "get_beer": [],
+                        "open": [],
+                        "hang_lantern": [
+                            "Hang paper lanterns. Buy paper lanterns, in the color of your party theme, at a party supply store or online. You can also make paper lanterns using tissue paper and bendable metal wire."
+                        ],
+                        "blow_balloon": [
+                            " Draw anime faces on balloons. Alternately, you can call local party supply stores to see if they have any relevant balloons. A third option is to purchase anime balloons online. You can have the balloons filled with helium, or blow them up yourself and place them around."
+                        ],
+                        "turn_on_tv": [
+                            "Consider playing anime on TV or DVD. You can play it with the sound low or off if you don\u2019t want it to compete with the music. If you have a projector you can use with a DVD player or computer, you can project anime onto the wall. You may want to watch some classic anime shows like Yu Yu Hakusho, Pok\u00e9mon or Dragon Ball Z."
+                        ]
+                    }
+                }
+            },
+            "cook-food": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "1",
+                "step_contents": "Make or order main and side dishes. If you\u2019re planning to have a large party, it might be easier to order food than make it. Find Japanese restaurants in local directories online or in the yellow pages. Ideas for main dishes include teriyaki meat or salmon, and stir fry with chicken or beef, noodles, vegetables, and toasted sesame seed sauce.[4] Some examples of appetizers or side dishes are sushi, fried rice, soup, clams steamed in butter and sake, and fried shrimp with dipping sauces.[5]",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "player": [],
+                        "location": [],
+                        "direction": [],
+                        "food": [
+                            "Make or order main and side dishes.",
+                            "If you\u2019re planning to have a large party, it might be easier to order food than make it.",
+                            "Ideas for main dishes include teriyaki meat or salmon, and stir fry with chicken or beef, noodles, vegetables, and toasted sesame seed sauce.[4]",
+                            "Some examples of appetizers or side dishes are sushi, fried rice, soup, clams steamed in butter and sake, and fried shrimp with dipping sauces.[5]"
+                        ],
+                        "drink": []
+                    },
+                    "predicates": {
+                        "at": [],
+                        "inventory": [],
+                        "has_kitchen": [
+                            "Make or order main and side dishes."
+                        ],
+                        "has_fridge": [],
+                        "connected": [],
+                        "inflated": [],
+                        "hung": [],
+                        "opened": [],
+                        "on": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "drop": [],
+                        "cook": [
+                            "Make or order main and side dishes."
+                        ],
+                        "order_sushi": [
+                            "If you\u2019re planning to have a large party, it might be easier to order food than make it. ",
+                            "Find Japanese restaurants in local directories online or in the yellow pages.",
+                            "Some examples of appetizers or side dishes are sushi, fried rice, soup, clams steamed in butter and sake, and fried shrimp with dipping sauces.[5]"
+                        ],
+                        "buy_sake": [],
+                        "serve": [],
+                        "brew": [],
+                        "get_beer": [],
+                        "open": [],
+                        "hang_lantern": [],
+                        "blow_balloon": [],
+                        "turn_on_tv": []
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Throw-an-Anime-Party",
+        "wikihow_title": "How to Throw an Anime Party",
+        "types": [
+            "item",
+            "player",
+            "location",
+            "direction",
+            "food",
+            "drink"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "drop",
+            "cook",
+            "order_sushi",
+            "buy_sake",
+            "serve",
+            "brew",
+            "get_beer",
+            "open",
+            "hang_lantern",
+            "blow_balloon",
+            "turn_on_tv"
+        ],
+        "predicates": [
+            "at",
+            "inventory",
+            "has_kitchen",
+            "has_fridge",
+            "connected",
+            "inflated",
+            "hung",
+            "opened",
+            "on"
+        ],
+        "natural_language_descriptions": {
+            "types": {
+                "item": {
+                    "description": "Any kind of object"
+                },
+                "player": {
+                    "description": "A person/the main character"
+                },
+                "location": {
+                    "description": "A setting/location"
+                },
+                "direction": {
+                    "description": "A way you can travel between locations"
+                },
+                "food": {
+                    "description": "An edible, cookable item"
+                },
+                "drink": {
+                    "description": "A openable, drinkable item"
+                }
+            },
+            "actions": {
+                "go": {
+                    "description": "The player moves in a specific direction from his current location to another location",
+                    "prerequisites": "The player must move to a location reachable from his current location via the correct direction",
+                    "results": "The player ends up in the new location"
+                },
+                "get": {
+                    "description": "The player grabs an item that is present at the current location",
+                    "prerequisites": "The item needs to be at the current location that the player is at",
+                    "results": "The player obtains the item"
+                },
+                "drop": {
+                    "description": "The player drops an item from their inventory to the current location",
+                    "prerequisites": "The player needs to have the item in their inventory",
+                    "results": "The item is now at the player's current location instead of inside their inventory"
+                },
+                "cook": {
+                    "description": "The player cooks food",
+                    "prerequisites": "The player needs to be at an location with a kitchen",
+                    "results": "The player obtains the desired food"
+                },
+                "order_sushi": {
+                    "description": "The player uses their phone to order sushi",
+                    "prerequisites": "The player needs to have their phone and some money",
+                    "results": "The player obtains sushi"
+                },
+                "buy_sake": {
+                    "description": "The player buys sake using their phone and some money",
+                    "prerequisites": "The player needs their phone and some money",
+                    "results": "The player obtains sake"
+                },
+                "serve": {
+                    "description": "The player opens and serves the food item to their guests",
+                    "prerequisites": "The player needs to have the drink in their inventory",
+                    "results": "The drink is opened and left at the player's current location"
+                },
+                "brew": {
+                    "description": "The player brews some tea",
+                    "prerequisites": "The player needs a teabag in their inventoryh",
+                    "results": "The player obtains some tea"
+                },
+                "get_beer": {
+                    "description": "The player can pull beer from their fridge",
+                    "prerequisites": "The player needs to be in a location with a fridge",
+                    "results": "The player receives beer"
+                },
+                "open": {
+                    "description": "The player opens a drink",
+                    "prerequisites": "The player needs to have the drink in their inventory",
+                    "results": "The drink is opened"
+                },
+                "hang_lantern": {
+                    "description": "The player hangs the lantern",
+                    "prerequisites": "The player needs a lantern in their inventory",
+                    "results": "The lantern is hung up"
+                },
+                "blow_balloon": {
+                    "description": "The player blows up a balloon",
+                    "prerequisites": "The player needs a balloon in their inventory",
+                    "results": "The balloon is blown up and setup in the room"
+                },
+                "turn_on_tv": {
+                    "description": "The player turns on a tv",
+                    "prerequisites": "The player needs to be in the location the tv is at",
+                    "results": "The tv is turned on"
+                }
+            },
+            "predicates": {
+                "at": {
+                    "description": "An object is at a location"
+                },
+                "inventory": {
+                    "description": "An object is in the player's inventory"
+                },
+                "has_kitchen": {
+                    "description": "A location has a kitchen"
+                },
+                "has_fridge": {
+                    "description": "A location has a fridge"
+                },
+                "connected": {
+                    "description": "A location is connected to another location in one direction"
+                },
+                "inflated": {
+                    "description": "An item is inflated"
+                },
+                "hung": {
+                    "description": "An item is hung up"
+                },
+                "opened": {
+                    "description": "A drink is opened for consumption"
+                },
+                "on": {
+                    "description": "An item is turned on"
+                }
+            }
+        }
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "yes",
+        "name": "Anonymous",
+        "problems": {}
+    }
+}

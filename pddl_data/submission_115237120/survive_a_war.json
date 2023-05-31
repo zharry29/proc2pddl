@@ -1,0 +1,502 @@
+{
+    "survive_a_war": {
+        "problems": {
+            "feed-troll": {
+                "part_number": "0",
+                "method_number": "0",
+                "step_number": "9",
+                "step_contents": "asdf\nsad",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "player": [],
+                        "direction": [],
+                        "food": [],
+                        "bandage": [],
+                        "rock": [],
+                        "pot": [],
+                        "fishingpole": [],
+                        "fish": [],
+                        "water": [],
+                        "location": [],
+                        "car": []
+                    },
+                    "predicates": {
+                        "is_injured": [],
+                        "in_shelter": [],
+                        "outdoors": [],
+                        "has_water_source": [],
+                        "treated": [],
+                        "has_basement": [],
+                        "has_windows": [],
+                        "is_occupied": [],
+                        "at": [],
+                        "inventory": [],
+                        "haslake": [],
+                        "gettable": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "drop": [],
+                        "get_water": [],
+                        "boil_water": [],
+                        "collect_rain_water": [],
+                        "loot_shelter": [],
+                        "break_car_window": [],
+                        "gofish": [],
+                        "find_shelter": [],
+                        "clean_wound": [],
+                        "clean_others_wound": [],
+                        "barter_food_for_healing": []
+                    }
+                }
+            },
+            "get-supplies": {
+                "part_number": "3",
+                "method_number": "3",
+                "step_number": "1",
+                "step_contents": " Hoard all of your resources and valuable items as soon as war starts. There is often little advanced warning about a war breaking out, so you may not have the opportunity to stock up on supplies. Work quickly as soon as you get the news. Take all of your valuables, money, food, and water and store them safely. Hide valuables so even if your home is searched, they won\u2019t be stolen. If you're able to, go out and get as many supplies as you can. Don\u2019t delay or everything could be gone by the time you need it.[10]      Especially store your canned or wrapped food and bottled water. Save these resources for emergencies, in the event that clean water and fresh food become scarce.     Look for medicine and hygiene products as well. These are important for maintaining your health in stressful situations.     Remember to store all of your important documents as well. Hold onto birth certificates, marriage licenses, Social Security cards, and any other documents that prove your identification.     Withdraw money from the bank to have cash on hand. You may not have access to your bank electronically.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Take all of your valuables, money, food, and water and store them safely",
+                            "Hoard all of your resources and valuable items as soon as war starts",
+                            "Save these resources for emergencies, in the event that clean water and fresh food become scarce",
+                            "Look for medicine and hygiene products as well"
+                        ],
+                        "player": [
+                            "Work quickly as soon as you get the news",
+                            "Don\u2019t delay or everything could be gone by the time you need it"
+                        ],
+                        "direction": [],
+                        "food": [
+                            "Take all of your valuables, money, food, and water and store them safely",
+                            "Especially store your canned or wrapped food and bottled water",
+                            "Save these resources for emergencies, in the event that clean water and fresh food become scarce"
+                        ],
+                        "bandage": [
+                            "Look for medicine and hygiene products as well",
+                            "These are important for maintaining your health in stressful situations"
+                        ],
+                        "rock": [],
+                        "pot": [],
+                        "fishingpole": [],
+                        "fish": [],
+                        "water": [
+                            "Save these resources for emergencies, in the event that clean water and fresh food become scarce",
+                            "Take all of your valuables, money, food, and water and store them safely",
+                            "Especially store your canned or wrapped food and bottled water"
+                        ],
+                        "location": [
+                            "Hide valuables so even if your home is searched, they won\u2019t be stolen"
+                        ],
+                        "car": []
+                    },
+                    "predicates": {
+                        "is_injured": [
+                            "Look for medicine and hygiene products as well",
+                            "These are important for maintaining your health in stressful situations"
+                        ],
+                        "in_shelter": [
+                            "Hide valuables so even if your home is searched, they won\u2019t be stolen"
+                        ],
+                        "outdoors": [],
+                        "has_water_source": [],
+                        "treated": [],
+                        "has_basement": [],
+                        "has_windows": [],
+                        "is_occupied": [],
+                        "at": [],
+                        "inventory": [],
+                        "haslake": [],
+                        "gettable": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "drop": [],
+                        "get_water": [],
+                        "boil_water": [],
+                        "collect_rain_water": [],
+                        "loot_shelter": [],
+                        "break_car_window": [],
+                        "gofish": [],
+                        "find_shelter": [],
+                        "clean_wound": [
+                            "Look for medicine and hygiene products as well",
+                            "These are important for maintaining your health in stressful situations"
+                        ],
+                        "clean_others_wound": [
+                            "Look for medicine and hygiene products as well",
+                            "These are important for maintaining your health in stressful situations"
+                        ],
+                        "barter_food_for_healing": []
+                    }
+                }
+            },
+            "heal-old-man": {
+                "part_number": "0",
+                "method_number": "4",
+                "step_number": "1",
+                "step_contents": " Learn basic first-aid to treat minor injuries. Injuries are unfortunately inevitable, and they can range from minor to serious. Develop at least a basic knowledge of first aid to treat the injuries you or a partner may encounter. When searching for supplies, take any first aid gear you may find and build a basic first aid kit.[19]      Wash all wounds with clean water only. Never use dirty or unfiltered water.     Keep all wounds covered with clean bandages. If possible, replace the bandage with a clean one regularly.     Learning CPR can also save someone\u2019s life in an emergency situation.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "When searching for supplies, take any first aid gear you may find and build a basic first aid kit",
+                            "If possible, replace the bandage with a clean one regularly"
+                        ],
+                        "player": [
+                            "Learn basic first-aid to treat minor injuries"
+                        ],
+                        "direction": [],
+                        "food": [],
+                        "bandage": [
+                            "Keep all wounds covered with clean bandages",
+                            "If possible, replace the bandage with a clean one regularly"
+                        ],
+                        "rock": [],
+                        "pot": [],
+                        "fishingpole": [],
+                        "fish": [],
+                        "water": [
+                            "Wash all wounds with clean water only"
+                        ],
+                        "location": [],
+                        "car": []
+                    },
+                    "predicates": {
+                        "is_injured": [
+                            "Learn basic first-aid to treat minor injuries"
+                        ],
+                        "in_shelter": [],
+                        "outdoors": [],
+                        "has_water_source": [],
+                        "treated": [],
+                        "has_basement": [],
+                        "has_windows": [],
+                        "is_occupied": [],
+                        "at": [],
+                        "inventory": [
+                            "When searching for supplies, take any first aid gear you may find and build a basic first aid kit"
+                        ],
+                        "haslake": [],
+                        "gettable": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "drop": [],
+                        "get_water": [
+                            "Wash all wounds with clean water only. Never use dirty or unfiltered water"
+                        ],
+                        "boil_water": [
+                            "Wash all wounds with clean water only. Never use dirty or unfiltered water"
+                        ],
+                        "collect_rain_water": [
+                            "Wash all wounds with clean water only"
+                        ],
+                        "loot_shelter": [],
+                        "break_car_window": [],
+                        "gofish": [],
+                        "find_shelter": [],
+                        "clean_wound": [
+                            "Learn basic first-aid to treat minor injuries",
+                            "Injuries are unfortunately inevitable, and they can range from minor to serious",
+                            "Develop at least a basic knowledge of first aid to treat the injuries you or a partner may encounter"
+                        ],
+                        "clean_others_wound": [
+                            "Learn basic first-aid to treat minor injuries",
+                            "Injuries are unfortunately inevitable, and they can range from minor to serious",
+                            "Develop at least a basic knowledge of first aid to treat the injuries you or a partner may encounter"
+                        ],
+                        "barter_food_for_healing": [
+                            "Learning CPR can also save someone\u2019s life in an emergency situation"
+                        ]
+                    }
+                }
+            },
+            "find-shelter": {
+                "part_number": "0",
+                "method_number": "2",
+                "step_number": "1",
+                "step_contents": " Find a strong, brick building with a basement for shelter. These buildings types can withstand the most damage and remain standing. Look especially for a building with a basement. This provides added protection and a hiding place if you have to stay out of sight. Search your area for suitable buildings like these and move into one as soon as possible.[5]      Try to find a building that you can seal up in case there is a chemical leak or attack. Look for windows still intact that you can close and block off with damp towels.     If there are multiple suitable buildings in your area, make a list of all of them and their locations. This will help if you have to flee your current shelter and find a new one quickly.     If there are no buildings like this, then find any structure that has a basement to protect you from the fighting.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "player": [],
+                        "direction": [],
+                        "food": [],
+                        "bandage": [],
+                        "rock": [],
+                        "pot": [],
+                        "fishingpole": [],
+                        "fish": [],
+                        "water": [],
+                        "location": [
+                            "Find a strong, brick building with a basement for shelter",
+                            "Look especially for a building with a basement",
+                            "This provides added protection and a hiding place if you have to stay out of sight",
+                            "Try to find a building that you can seal up in case there is a chemical leak or attack",
+                            "If there are multiple suitable buildings in your area, make a list of all of them and their locations"
+                        ],
+                        "car": []
+                    },
+                    "predicates": {
+                        "is_injured": [],
+                        "in_shelter": [
+                            "If there are no buildings like this, then find any structure that has a basement to protect you from the fighting",
+                            "Look especially for a building with a basement",
+                            "Search your area for suitable buildings like these and move into one as soon as possible"
+                        ],
+                        "outdoors": [],
+                        "has_water_source": [],
+                        "treated": [],
+                        "has_basement": [
+                            "Find a strong, brick building with a basement for shelter"
+                        ],
+                        "has_windows": [],
+                        "is_occupied": [
+                            "If there are multiple suitable buildings in your area, make a list of all of them and their locations"
+                        ],
+                        "at": [],
+                        "inventory": [],
+                        "haslake": [],
+                        "gettable": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "drop": [],
+                        "get_water": [],
+                        "boil_water": [],
+                        "collect_rain_water": [],
+                        "loot_shelter": [],
+                        "break_car_window": [],
+                        "gofish": [],
+                        "find_shelter": [
+                            "Find a strong, brick building with a basement for shelter. These buildings types can withstand the most damage and remain standing.",
+                            " Look especially for a building with a basement",
+                            "Try to find a building that you can seal up in case there is a chemical leak or attack",
+                            "Look for windows still intact that you can close and block off with damp towels"
+                        ],
+                        "clean_wound": [],
+                        "clean_others_wound": [],
+                        "barter_food_for_healing": []
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Survive-a-War",
+        "wikihow_title": "How to Survive a War",
+        "types": [
+            "item",
+            "player",
+            "direction",
+            "food",
+            "bandage",
+            "rock",
+            "pot",
+            "fishingpole",
+            "fish",
+            "water",
+            "location",
+            "car"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "drop",
+            "get_water",
+            "boil_water",
+            "collect_rain_water",
+            "loot_shelter",
+            "break_car_window",
+            "gofish",
+            "find_shelter",
+            "clean_wound",
+            "clean_others_wound",
+            "barter_food_for_healing"
+        ],
+        "predicates": [
+            "is_injured",
+            "in_shelter",
+            "outdoors",
+            "has_water_source",
+            "treated",
+            "has_basement",
+            "has_windows",
+            "is_occupied",
+            "at",
+            "inventory",
+            "haslake",
+            "gettable",
+            "connected",
+            "blocked"
+        ],
+        "natural_language_descriptions": {
+            "types": {
+                "item": {
+                    "description": "A thing one can possess and manipulate"
+                },
+                "player": {
+                    "description": "a living being"
+                },
+                "direction": {
+                    "description": "movement"
+                },
+                "rock": {
+                    "description": "a medium sized stone"
+                },
+                "pot": {
+                    "description": "a metal container"
+                },
+                "fishingpole": {
+                    "description": "a tool for catching fish"
+                },
+                "fish": {
+                    "description": "an aquatic animal"
+                },
+                "water": {
+                    "description": "a liquid"
+                },
+                "location": {
+                    "description": "a place on a map"
+                },
+                "car": {
+                    "description": "an automobile"
+                },
+                "food": {
+                    "description": "an item that can be eaten"
+                },
+                "bandage": {
+                    "description": "an item used for healing wounds"
+                }
+            },
+            "actions": {
+                "go": {
+                    "description": "move to a location",
+                    "prerequisites": "the two locations are connected and not blocked, and the player is at one of the locations",
+                    "results": "a player moves from one location to the other"
+                },
+                "get": {
+                    "description": "the player picks up the item",
+                    "prerequisites": "both the player and item exist at the same location, and the item is gettable",
+                    "results": "the item is in the player's inventory"
+                },
+                "drop": {
+                    "description": "a player removed an item from their inventory",
+                    "prerequisites": "the item is in the player's inventory",
+                    "results": "the item is not in the player's inventory and now lives in a location"
+                },
+                "gofish": {
+                    "description": "go fishing at a pond",
+                    "prerequisites": "player is at a location with a lake and player has a fishingpole",
+                    "results": "the player has a fish"
+                },
+                "get_water": {
+                    "description": "add water to the player's inventory ",
+                    "prerequisites": "the player is at a location that has a water source",
+                    "results": "water is in the player's inventory"
+                },
+                "boil_water": {
+                    "description": "Boil water in order to clean it for drinking",
+                    "prerequisites": "the player has water and a pot",
+                    "results": "the water is drinkable"
+                },
+                "collect_rain_water": {
+                    "description": "the player collects rain water",
+                    "prerequisites": "the player has a pot and is outside",
+                    "results": "water is in the player's inventory"
+                },
+                "loot_shelter": {
+                    "description": "steal supplies from an occupied location ",
+                    "prerequisites": "the player is in an occupied location that contains food",
+                    "results": "food is in the player's inventory"
+                },
+                "break_car_window": {
+                    "description": "Smash a car window to get items inside the car",
+                    "prerequisites": "player has a rock, player is at the car, car has an item, and windows are not smashed",
+                    "results": "the car's windows are broken and the player has the item inside"
+                },
+                "clean_wound": {
+                    "description": "heal your own injury",
+                    "prerequisites": "player has clean water and bandages",
+                    "results": "the player has no water and no bandage, injury is healed"
+                },
+                "find_shelter": {
+                    "description": "find a location with a basement",
+                    "prerequisites": "play is at a location with a basement",
+                    "results": "player is sheltered and safe"
+                },
+                "clean_others_wound": {
+                    "description": "heal another players injury",
+                    "prerequisites": "player has water and a bandage, other player is injured ",
+                    "results": "water and bandage are lost, the other player is healed"
+                },
+                "barter_food_for_healing": {
+                    "description": "Treat another player's injury in exchange for food",
+                    "prerequisites": "player has water and bandages, other player has food and is injured",
+                    "results": "the player has food, no water, and no bandages. the other player is healed and has no food"
+                }
+            },
+            "predicates": {
+                "is_injured": {
+                    "description": "a player has an injury"
+                },
+                "outdoors": {
+                    "description": "a location is not enclosed"
+                },
+                "has_water_source": {
+                    "description": "a location has running water"
+                },
+                "treated": {
+                    "description": "the water is drinkable"
+                },
+                "has_basement": {
+                    "description": "a location has a basement"
+                },
+                "has_windows": {
+                    "description": "A car has non-broken windows"
+                },
+                "is_occupied": {
+                    "description": "a person is living in the location"
+                },
+                "at": {
+                    "description": "a player is in a location"
+                },
+                "inventory": {
+                    "description": "a player possesses an item "
+                },
+                "haslake": {
+                    "description": "a location has a lake"
+                },
+                "connected": {
+                    "description": "two locations are accessible from each other"
+                },
+                "blocked": {
+                    "description": "two locations are not accessible from each other"
+                },
+                "in_shelter": {
+                    "description": "a player is in a shelter"
+                },
+                "gettable": {
+                    "description": "the item can be picked up"
+                }
+            }
+        }
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "yes",
+        "name": "Anonymous",
+        "problems": {}
+    }
+}

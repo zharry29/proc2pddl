@@ -1,0 +1,169 @@
+{
+    "survive_comet_hitting_earth": {
+        "problems": {
+            "final": {
+                "part_number": "1,2",
+                "method_number": "0",
+                "step_number": "1,2,3,4,5",
+                "step_contents": "Pay attention to astronomers\u2019 predictions on any possible collisions with earth.\nMove away from coastal areas.\nMove into a bunker or fortified structure and outfit it with an energy source.\nPurchase enough food, water, medicine, and other supplies.\nBuy weapons and ammunition for after the impact.\nKeep your mind active and stay mentally healthy.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Move into a bunker or fortified structure and outfit it with an energy source.",
+                            "the best ones for a comet impact will have an air filtration system and be made of strong material.",
+                            "Purchase enough food, water, medicine, and other supplies.",
+                            "Buy weapons and ammunition for after the impact.",
+                            "make sure that you have things like food, water, and shelter before spending money on protection",
+                            "Move away from coastal areas",
+                            "Pay attention to astronomers\u2019 predictions on any possible collisions with earth.",
+                            "Keep your mind active and stay mentally healthy."
+                        ],
+                        "food": [
+                            "Purchase enough food, water, medicine, and other supplies."
+                        ],
+                        "water": [
+                            "Purchase enough food, water, medicine, and other supplies."
+                        ],
+                        "medicine": [
+                            "Purchase enough food, water, medicine, and other supplies."
+                        ],
+                        "weapon": [
+                            "Buy weapons and ammunition for after the impact.",
+                            "make sure that you have things like food, water, and shelter before spending money on protection"
+                        ],
+                        "location": [],
+                        "bunker": [
+                            "Move into a bunker or fortified structure and outfit it with an energy source.",
+                            "the best ones for a comet impact will have an air filtration system and be made of strong material."
+                        ],
+                        "player": [],
+                        "direction": [],
+                        "energy_source": [
+                            "When the comet hits, dust, soot, and water will shoot up into our atmosphere, making it cold for months to years.[7] For that reason, make sure you also outfit your bunker with an energy source for heat, like a generator and enough fuel to last while the dust in the atmosphere settles."
+                        ],
+                        "pistol": [
+                            "A semi-automatic rifle and a pistol with enough ammunition should be more than enough firepower."
+                        ],
+                        "ammunition": [
+                            "A semi-automatic rifle and a pistol with enough ammunition should be more than enough firepower."
+                        ],
+                        "city": [
+                            " Move away from coastal areas."
+                        ],
+                        "market": [
+                            " Purchase enough food, water, medicine, and other supplies."
+                        ],
+                        "weapon_market": [
+                            " Buy weapons and ammunition for after the impact."
+                        ]
+                    },
+                    "predicates": {
+                        "inventory": [],
+                        "at": [],
+                        "enough_supplies": [
+                            "Purchase enough food, water, medicine, and other supplies."
+                        ],
+                        "connected": [],
+                        "has_air_filtration_system": [
+                            "the best ones for a comet impact will have an air filtration system and be made of strong material."
+                        ],
+                        "has_strong_material": [
+                            "the best ones for a comet impact will have an air filtration system and be made of strong material."
+                        ],
+                        "in": [],
+                        "has_pc": [
+                            "has pc that connect to the outside"
+                        ],
+                        "listen_to_broadcast": [],
+                        "coastal": [],
+                        "inland": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "buy_supplies": [
+                            "Purchase enough food, water, medicine, and other supplies."
+                        ],
+                        "check_supplies": [
+                            "Purchase enough food, water, medicine, and other supplies.",
+                            "make sure that you have things like food, water, and shelter before spending money on protection"
+                        ],
+                        "buy_weapons": [
+                            "Buy weapons and ammunition for after the impact.",
+                            "make sure that you have things like food, water, and shelter before spending money on protection"
+                        ],
+                        "check_weapons": [
+                            "Buy weapons and ammunition for after the impact."
+                        ],
+                        "check_bunker": [
+                            "Move into a bunker or fortified structure and outfit it with an energy source.",
+                            "the best ones for a comet impact will have an air filtration system and be made of strong material."
+                        ],
+                        "listen_to_astronomers_predictions": [
+                            " Buy weapons and ammunition for after the impact."
+                        ],
+                        "move_away": [
+                            "Move away from coastal areas"
+                        ],
+                        "outfit_bunker_with_energy_source": [
+                            "Move into a bunker or fortified structure and outfit it with an energy source.",
+                            "make sure you also outfit your bunker with an energy source for heat"
+                        ],
+                        "enjoylife": [],
+                        "connect_through_social_media_with_family": []
+                    }
+                }
+            }
+        },
+        "wikihow_url": "How to Survive a Comet Hitting Earth",
+        "wikihow_title": "How to Survive a Comet Hitting Earth",
+        "types": [
+            "item",
+            "food",
+            "water",
+            "medicine",
+            "energy_source",
+            "weapon",
+            "weapon",
+            "pistol",
+            "ammunition",
+            "location",
+            "bunker",
+            "city",
+            "market",
+            "weapon_market",
+            "player",
+            "direction"
+        ],
+        "actions": [
+            "listen_to_astronomers_predictions",
+            "move_away",
+            "go",
+            "buy_supplies",
+            "check_supplies",
+            "buy_weapons",
+            "check_weapons",
+            "check_bunker",
+            "outfit_bunker_with_energy_source",
+            "enjoylife",
+            "connect_through_social_media_with_family"
+        ],
+        "predicates": [
+            "inventory",
+            "at",
+            "in",
+            "enough_supplies",
+            "connected",
+            "has_air_filtration_system",
+            "has_strong_material",
+            "has_pc",
+            "listen_to_broadcast",
+            "coastal",
+            "inland"
+        ]
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "yes",
+        "name": "Anonymous",
+        "problems": {}
+    }
+}

@@ -1,0 +1,384 @@
+{
+    "how_to_make_a_detective_kit": {
+        "problems": {
+            "buy_a_bag": {
+                "part_number": "1",
+                "method_number": "0",
+                "step_number": "1, 2, 3",
+                "step_contents": "Pick a large, sturdy bag. Choosing a bag big enough to carry all your detective gear is important--you can\u2019t leave anything behind when you\u2019re on the case! Try a duffel bag, laundry sack, or even a purse or briefcase. Make sure your bag has pockets. A detective needs to be able to grab their tools quickly, without rummaging around. Your bag should have pockets, compartments, or some other way of organizing your things. If you can\u2019t get a bag with pockets, try putting your things into smaller bags, like makeup or sandwich bags. Then, you can put the small bags into the larger one. Choose some backup bags for special missions. If you\u2019re undercover as a hula dancer in Hawaii, carrying a briefcase will ruin your disguise! It\u2019s a good idea to have a few extra bags as backup for undercover work. Try adding a beach bag, a purse, or even a paper grocery bag to your kit.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "bag": [
+                            "a large, sturdy bag",
+                            "bag big enough",
+                            "a duffel bag",
+                            "laundry sack",
+                            "purse",
+                            "briefcase",
+                            "bag",
+                            "bag with pockets",
+                            "smaller bags",
+                            "makeup or sandwich bags",
+                            "small bags",
+                            "backup bags",
+                            "few extra bags",
+                            "beach bag",
+                            "paper grocery bag"
+                        ],
+                        "gloves": [],
+                        "tape": [],
+                        "chalk": [],
+                        "magnifying_glass": [],
+                        "flashlights": [],
+                        "pen": [],
+                        "detective_notebook": [],
+                        "aluminium_foil": [],
+                        "cardboard": [],
+                        "player": [],
+                        "direction": [],
+                        "location": [],
+                        "costume": [],
+                        "notebook": [],
+                        "paper": [],
+                        "badge": [],
+                        "walkie_talkies": [],
+                        "detective_kit": [],
+                        "disguise": []
+                    },
+                    "predicates": {
+                        "sells_bags": [],
+                        "sells_stationery": [],
+                        "sells_costume": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": [],
+                        "sells_electronics": [],
+                        "wear": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "grab",
+                            "get",
+                            "adding"
+                        ],
+                        "get_bag": [
+                            "get a bag",
+                            "adding a beach bag"
+                        ],
+                        "get_stationery": [],
+                        "get_costume": [],
+                        "wear_detective_gear": [],
+                        "find_supplies_for_disguise": [],
+                        "wear_disguise": [],
+                        "make_badge": [],
+                        "prepare_detective_notebook": [],
+                        "get_walkie_talkies": [],
+                        "prepare_detective_kit": []
+                    }
+                }
+            },
+            "assembling_disguises": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "1, 2, 3, 4",
+                "step_contents": "Choose your regular detective gear. Every detective has a uniform that they wear every time they're on the job, except when they're undercover. Some detectives dress like police officers, while others dress in long coats like Sherlock Holmes. If you don\u2019t have any of these, don\u2019t worry--you can be a detective in any outfit you want![4] Darker clothes can help you blend in. Sunglasses or hats are a good way to hide your true identity when you\u2019re on the job. Pick two or three aliases. Every good detective has a few disguises they use over and over again. Choose two or three to be your regular aliases. They should all be different from each other. For example, try having a football player disguise, a grandma disguise, and an artist disguise.[5] If you\u2019re having trouble thinking of good disguises, use people you know as inspiration. Find supplies for each disguise. Each of your disguises should have at least three parts, so make sure you have enough supplies for each of your characters to have a full costume! The first part is something that goes on your head or over your face to hide your identity--wigs, sunglasses, or fake mustaches are a great choice. Each of your aliases should have their own costume. For an old man disguise, try suspenders and high pants. If you want to go incognito as a firefighter, get a yellow raincoat and black boots. Finally, your disguises will all need accessories. These will depend on your disguise. If you\u2019re an artist, try a paintbrush. For a famous movie star disguise, try a feather boa. Keep each disguise separated. You may need to hop into your disguise at a moment\u2019s notice. You can\u2019t be rummaging around in your bag or putting on the wrong disguise! Each disguise should have its own pocket in your bag. If your bag doesn\u2019t have enough pockets, keep each disguise in its own freezer or grocery bag.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "bag": [
+                            "bag"
+                        ],
+                        "gloves": [],
+                        "tape": [],
+                        "chalk": [],
+                        "magnifying_glass": [],
+                        "flashlights": [],
+                        "pen": [],
+                        "detective_notebook": [],
+                        "aluminium_foil": [],
+                        "cardboard": [],
+                        "player": [],
+                        "direction": [],
+                        "location": [],
+                        "costume": [],
+                        "notebook": [],
+                        "paper": [],
+                        "badge": [],
+                        "walkie_talkies": [],
+                        "detective_kit": [],
+                        "disguise": []
+                    },
+                    "predicates": {
+                        "sells_bags": [],
+                        "sells_stationery": [],
+                        "sells_costume": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": [],
+                        "sells_electronics": [],
+                        "wear": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "get"
+                        ],
+                        "get_bag": [],
+                        "get_stationery": [],
+                        "get_costume": [],
+                        "wear_detective_gear": [],
+                        "find_supplies_for_disguise": [],
+                        "wear_disguise": [],
+                        "make_badge": [],
+                        "prepare_detective_notebook": [],
+                        "get_walkie_talkies": [],
+                        "prepare_detective_kit": []
+                    }
+                }
+            },
+            "get_all_stationery": {
+                "part_number": "3",
+                "method_number": "0",
+                "step_number": "1, 2",
+                "step_contents": "Make your badge. Every detective needs a badge to prove their identity. You can make a detective badge out of paper or cardboard. It should have your name and the name of your detective agency on it. If you want, you can cover it with aluminum foil so it looks like it\u2019s made of metal.[6] Get a detective notebook. You\u2019ll need a notebook to keep track of your clues and solve your cases. You can use any notebook you want, but be sure not to label it! It\u2019s important that people don\u2019t know it\u2019s your detective notebook--you don't want suspects stealing it and looking at your secret evidence![7] Some detectives like to fill the first few pages of their notebook with random stuff, like drawings or math problems, and then start their detective notes in the middle. That way, anyone opening it won\u2019t see your detective notes. You\u2019ll also need a pen or pencil to write with.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "bag": [],
+                        "gloves": [],
+                        "tape": [],
+                        "chalk": [],
+                        "magnifying_glass": [],
+                        "flashlights": [],
+                        "pen": [
+                            "pen"
+                        ],
+                        "detective_notebook": [
+                            "detective notebook",
+                            "notebook",
+                            "notebook with random stuff"
+                        ],
+                        "aluminium_foil": [
+                            "aluminum foil"
+                        ],
+                        "cardboard": [
+                            "cardboard"
+                        ],
+                        "player": [],
+                        "direction": [],
+                        "location": [],
+                        "costume": [],
+                        "notebook": [],
+                        "paper": [],
+                        "badge": [],
+                        "walkie_talkies": [],
+                        "detective_kit": [],
+                        "disguise": []
+                    },
+                    "predicates": {
+                        "sells_bags": [],
+                        "sells_stationery": [],
+                        "sells_costume": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": [],
+                        "sells_electronics": [],
+                        "wear": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "get"
+                        ],
+                        "get_bag": [],
+                        "get_stationery": [],
+                        "get_costume": [],
+                        "wear_detective_gear": [],
+                        "find_supplies_for_disguise": [],
+                        "wear_disguise": [],
+                        "make_badge": [],
+                        "prepare_detective_notebook": [],
+                        "get_walkie_talkies": [],
+                        "prepare_detective_kit": []
+                    }
+                }
+            },
+            "assembling_a_detective_kit": {
+                "part_number": "1, 2, 3",
+                "method_number": "0",
+                "step_number": "1, 1, 3, 1, 2, 5, 6",
+                "step_contents": "Pick a large, sturdy bag. Choosing a bag big enough to carry all your detective gear is important--you can\u2019t leave anything behind when you\u2019re on the case! Try a duffel bag, laundry sack, or even a purse or briefcase. Choose your regular detective gear. Every detective has a uniform that they wear every time they're on the job, except when they're undercover. Some detectives dress like police officers, while others dress in long coats like Sherlock Holmes. If you don\u2019t have any of these, don\u2019t worry--you can be a detective in any outfit you want![4] Darker clothes can help you blend in. Sunglasses or hats are a good way to hide your true identity when you\u2019re on the job. Find supplies for each disguise. Each of your disguises should have at least three parts, so make sure you have enough supplies for each of your characters to have a full costume! The first part is something that goes on your head or over your face to hide your identity--wigs, sunglasses, or fake mustaches are a great choice. Each of your aliases should have their own costume. For an old man disguise, try suspenders and high pants. If you want to go incognito as a firefighter, get a yellow raincoat and black boots. Finally, your disguises will all need accessories. These will depend on your disguise. If you\u2019re an artist, try a paintbrush. For a famous movie star disguise, try a feather boa. Make your badge. Every detective needs a badge to prove their identity. You can make a detective badge out of paper or cardboard. It should have your name and the name of your detective agency on it. If you want, you can cover it with aluminum foil so it looks like it\u2019s made of metal. Get a detective notebook. You\u2019ll need a notebook to keep track of your clues and solve your cases. You can use any notebook you want, but be sure not to label it! It\u2019s important that people don\u2019t know it\u2019s your detective notebook--you don't want suspects stealing it and looking at your secret evidence![7] Some detectives like to fill the first few pages of their notebook with random stuff, like drawings or math problems, and then start their detective notes in the middle. That way, anyone opening it won\u2019t see your detective notes. You\u2019ll also need a pen or pencil to write with. Get walkie-talkies if you have a partner. If there are other detectives in your agency, get some walkie-talkies so you can communicate quickly when you're on the case! It's okay if you can't get them, but it will make detective work a lot more fun. Put everything together into your kit. Make sure that everything fits, and that you can find the things you need! If you use certain things more than others, like your notebook or magnifying glass, put them on the top.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "bag": [
+                            "large, sturdy bag",
+                            "bag big enough",
+                            "duffel bag",
+                            "laundry sack",
+                            "purse",
+                            "briefcase",
+                            "kit"
+                        ],
+                        "gloves": [],
+                        "tape": [],
+                        "chalk": [],
+                        "magnifying_glass": [
+                            "magnifying glass"
+                        ],
+                        "costume": [
+                            "uniform",
+                            "long coats",
+                            "Darker clothes",
+                            "Sunglasses",
+                            "hats",
+                            "wigs",
+                            "fake mustaches",
+                            "costume",
+                            "old man disguise",
+                            "suspenders and high pants",
+                            "yellow raincoat",
+                            "black boots",
+                            "accessories"
+                        ],
+                        "flashlights": [],
+                        "pen": [
+                            "pen",
+                            "pencil"
+                        ],
+                        "notebook": [
+                            "notebook",
+                            "detective notebook"
+                        ],
+                        "paper": [
+                            "paper"
+                        ],
+                        "detective_notebook": [
+                            "detective notebook"
+                        ],
+                        "aluminium_foil": [
+                            "aluminium foil"
+                        ],
+                        "cardboard": [
+                            "cardboard"
+                        ],
+                        "badge": [
+                            "badge",
+                            "detective badge"
+                        ],
+                        "walkie_talkies": [
+                            "walkie-talkies"
+                        ],
+                        "detective_kit": [
+                            "kit"
+                        ],
+                        "player": [],
+                        "direction": [],
+                        "location": [],
+                        "disguise": [
+                            "old man disguise",
+                            "firefighter",
+                            "famous movie star disguise"
+                        ]
+                    },
+                    "predicates": {
+                        "sells_bags": [],
+                        "sells_stationery": [],
+                        "sells_costume": [],
+                        "sells_electronics": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": [],
+                        "wear": [
+                            "wear"
+                        ]
+                    },
+                    "actions": {
+                        "go": [],
+                        "get_bag": [
+                            "Pick a large, sturdy bag"
+                        ],
+                        "get_stationery": [],
+                        "get_costume": [
+                            "get a yellow raincoat and black boots"
+                        ],
+                        "wear_detective_gear": [],
+                        "find_supplies_for_disguise": [],
+                        "wear_disguise": [],
+                        "make_badge": [
+                            "make a detective badge"
+                        ],
+                        "prepare_detective_notebook": [
+                            "You\u2019ll need a notebook to keep track of your clues"
+                        ],
+                        "get_walkie_talkies": [
+                            "Get walkie-talkies"
+                        ],
+                        "prepare_detective_kit": [
+                            "Put everything together into your kit"
+                        ]
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Make-a-Detective-Kit",
+        "wikihow_title": "How to Make a Detective Kit",
+        "types": [
+            "item",
+            "bag",
+            "gloves",
+            "tape",
+            "chalk",
+            "magnifying_glass",
+            "costume",
+            "flashlights",
+            "pen",
+            "notebook",
+            "paper",
+            "detective_notebook",
+            "aluminium_foil",
+            "cardboard",
+            "badge",
+            "walkie_talkies",
+            "detective_kit",
+            "player",
+            "direction",
+            "location",
+            "disguise"
+        ],
+        "actions": [
+            "go",
+            "get_bag",
+            "get_stationery",
+            "get_costume",
+            "wear_detective_gear",
+            "find_supplies_for_disguise",
+            "wear_disguise",
+            "make_badge",
+            "prepare_detective_notebook",
+            "get_walkie_talkies",
+            "prepare_detective_kit"
+        ],
+        "predicates": [
+            "sells_bags",
+            "sells_stationery",
+            "sells_costume",
+            "sells_electronics",
+            "at",
+            "inventory",
+            "connected",
+            "blocked",
+            "wear"
+        ]
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "y",
+        "name": "Anonymous"
+    }
+}

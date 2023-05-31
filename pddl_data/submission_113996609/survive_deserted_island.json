@@ -1,0 +1,489 @@
+{
+    "survive_deserted_island": {
+        "problems": {
+            "start_fire": {
+                "part_number": "0",
+                "method_number": "2",
+                "step_number": "4",
+                "step_contents": " Make a fire. A fire will is necessary during the cold nights, and to cook any fish or animals that you catch. If you've salvaged any matches or lighters, wait for them to dry before trying to use them. If you don't have any supplies to start a fire, then you may have to start one by rubbing a sharpened stick into a pile of kindling. Read Start-a-Fire-with-Sticks to learn how to do this.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "fire",
+                            "matches",
+                            "supplies",
+                            "stick"
+                        ],
+                        "water": [],
+                        "wood": [
+                            "stick",
+                            "kindling"
+                        ],
+                        "fire": [
+                            "fire"
+                        ],
+                        "rock": [],
+                        "leaves": [],
+                        "tinder": [
+                            "kindling"
+                        ],
+                        "raft": [],
+                        "vines": [],
+                        "spear": [
+                            "sharpened stick"
+                        ],
+                        "fish": [],
+                        "location": [],
+                        "beach": [],
+                        "jungle": [],
+                        "ocean": [],
+                        "treetop": [],
+                        "human": [
+                            "you"
+                        ],
+                        "player": [
+                            "you"
+                        ],
+                        "survivor": [
+                            "you"
+                        ]
+                    },
+                    "predicates": {
+                        "treated": [],
+                        "groove": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "has_water_source": [],
+                        "has_wood": [],
+                        "can_light_fire": [
+                            "start a fire"
+                        ],
+                        "has_fire": [],
+                        "has_shelter": [],
+                        "drank": [],
+                        "has_friend": [],
+                        "has_escaped": [],
+                        "at_ocean": [],
+                        "is_safe": [],
+                        "has_fish": [],
+                        "cooked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "get_water": [],
+                        "chop_wood": [],
+                        "carve_groove": [],
+                        "light_fire": [
+                            "start a fire"
+                        ],
+                        "build_shelter": [],
+                        "clean_water": [],
+                        "drink_water": [],
+                        "find_other_survivors": [],
+                        "build_raft": [],
+                        "make_weapon": [],
+                        "hunt_fish": [],
+                        "cook_fish": []
+                    }
+                }
+            },
+            "escape_island": {
+                "part_number": "0",
+                "method_number": "3",
+                "step_number": "3",
+                "step_contents": " Use a raft to leave the island yourself. Leaving the island yourself on a raft should be your last resort. At sea, you are susceptible to a multitude of problems including dehydration, starvation, or succumbing to the elements. You can use any salvaged rafts that you were able to recover, build one out of salvaged materials, or build one out of logs that you find in the area.[24]",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [
+                            "sea"
+                        ],
+                        "wood": [
+                            "logs"
+                        ],
+                        "fire": [],
+                        "rock": [],
+                        "leaves": [],
+                        "tinder": [],
+                        "raft": [
+                            "raft",
+                            "salvaged rafts"
+                        ],
+                        "vines": [],
+                        "spear": [],
+                        "fish": [],
+                        "location": [
+                            "the island"
+                        ],
+                        "beach": [],
+                        "jungle": [],
+                        "ocean": [
+                            "sea"
+                        ],
+                        "treetop": [],
+                        "human": [
+                            "you"
+                        ],
+                        "player": [
+                            "you"
+                        ],
+                        "survivor": [
+                            "you"
+                        ]
+                    },
+                    "predicates": {
+                        "treated": [],
+                        "groove": [],
+                        "at": [
+                            "At"
+                        ],
+                        "inventory": [],
+                        "connected": [],
+                        "has_water_source": [],
+                        "has_wood": [],
+                        "can_light_fire": [],
+                        "has_fire": [],
+                        "has_shelter": [],
+                        "drank": [],
+                        "has_friend": [],
+                        "has_escaped": [
+                            "Leaving the island",
+                            "leave the island"
+                        ],
+                        "at_ocean": [
+                            "At sea"
+                        ],
+                        "is_safe": [],
+                        "has_fish": [],
+                        "cooked": []
+                    },
+                    "actions": {
+                        "go": [
+                            "leave the island"
+                        ],
+                        "get": [
+                            "find",
+                            "recover",
+                            "salvaged"
+                        ],
+                        "get_water": [
+                            "dehydration"
+                        ],
+                        "chop_wood": [],
+                        "carve_groove": [],
+                        "light_fire": [],
+                        "build_shelter": [],
+                        "clean_water": [],
+                        "drink_water": [
+                            "dehydration"
+                        ],
+                        "find_other_survivors": [],
+                        "build_raft": [
+                            "build one out of salvaged materials",
+                            "build one out of logs that you find in the area"
+                        ],
+                        "make_weapon": [],
+                        "hunt_fish": [],
+                        "cook_fish": []
+                    }
+                }
+            },
+            "catch_cook_fish": {
+                "part_number": "0",
+                "method_number": "1",
+                "step_number": "3",
+                "step_contents": "Hunt for fish, insects, and small animals for food. The protein and nutrients from meat and fish will give you energy. Mollusks, clams, oysters, crabs, muscles, and fish are all things that you may be able to find in the shallow waters surrounding or on an island.[9] You can sharpen sticks and hunt small reptiles, fish, or birds in the isle as well.[10] If you're having trouble catching or trapping bigger game, locate slower moving insects that you can eat that live in the desert like beetles, spiders, and centipedes. (Edit : this is wrong. Do not eat centipedes as most are poisonous! The same goes for many spiders and beetles!)[11] Cook shellfish thoroughly before consuming it. Bacteria could cause you to become ill. If you cannot create a makeshift fishing pole, then sharpen a long branch or stick to make spears that you can use to go spearfishing.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [
+                            "shallow waters"
+                        ],
+                        "wood": [
+                            "sticks"
+                        ],
+                        "fire": [],
+                        "rock": [],
+                        "leaves": [],
+                        "tinder": [],
+                        "raft": [],
+                        "vines": [],
+                        "spear": [
+                            "spears",
+                            "sharpen a long branch or stick",
+                            "sharpen a long branch or stick to make spears that you can use to go spearfishing"
+                        ],
+                        "fish": [
+                            "fish",
+                            "shellfish"
+                        ],
+                        "location": [
+                            "isle"
+                        ],
+                        "beach": [
+                            "shallow waters surrounding or on an island"
+                        ],
+                        "jungle": [
+                            "isle"
+                        ],
+                        "ocean": [
+                            "waters"
+                        ],
+                        "treetop": [],
+                        "human": [
+                            "you"
+                        ],
+                        "player": [
+                            "you"
+                        ],
+                        "survivor": []
+                    },
+                    "predicates": {
+                        "treated": [],
+                        "groove": [],
+                        "at": [
+                            "on"
+                        ],
+                        "inventory": [],
+                        "connected": [],
+                        "has_water_source": [],
+                        "has_wood": [],
+                        "can_light_fire": [],
+                        "has_fire": [],
+                        "has_shelter": [],
+                        "drank": [],
+                        "has_friend": [],
+                        "has_escaped": [],
+                        "at_ocean": [],
+                        "is_safe": [],
+                        "has_fish": [
+                            "fish are all things that you may be able to find"
+                        ],
+                        "cooked": [
+                            " Cook shellfish thoroughly before consuming it"
+                        ]
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "catching or trapping"
+                        ],
+                        "get_water": [],
+                        "chop_wood": [],
+                        "carve_groove": [],
+                        "light_fire": [],
+                        "build_shelter": [],
+                        "clean_water": [],
+                        "drink_water": [],
+                        "find_other_survivors": [],
+                        "build_raft": [],
+                        "make_weapon": [],
+                        "hunt_fish": [
+                            "catching or trapping bigger game",
+                            "spearfishing",
+                            "create a makeshift fishing pole",
+                            "Hunt for fish"
+                        ],
+                        "cook_fish": [
+                            "Cook shellfish thoroughly before consuming it"
+                        ]
+                    }
+                }
+            },
+            "clean_water": {
+                "part_number": "0",
+                "method_number": "1",
+                "step_number": "1",
+                "step_contents": "Find a fresh water source. People can't survive for more than three or four days without fresh water. Go inland and try to find a water source from a stream or waterfall on the island. If it's completely barren, then you'll need to create a solar still and take advantage of rainfall when it occurs. A solar still uses the sun to create condensation. Dig a hole in the ground and put a container at the bottom. Surround the hole with wet leaves, then put a large piece of plastic down over the hole and weigh it down. Condensation will collect in your container and you'll be able to drink it. When it rains, make sure that you are filling up containers to catch the fresh water to keep you hydrated for the long run. Boil the water before you drink it. Check for water at the base of leaves or cacti, inside of caves, hollowed trees, or undercut banks.[1] You can also get water from coconuts, cacti, or other plants and fruits.[2] Collect rainwater in buckets, plastic containers, bins, or garbage cans. Heating the water above 185\u00b0 F (85\u00b0 C) for three minutes will kill all pathogens in your water.[3] Severe dehydration could cause low blood pressure, rapid heartbeat, rapid breathing, delirium, or unconsciousness.[4] Do not drink salt water from the ocean because it will dehydrate you.[5]",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [
+                            "fresh water",
+                            "stream",
+                            "waterfall",
+                            "rainfall",
+                            "water"
+                        ],
+                        "wood": [
+                            "hollowed trees"
+                        ],
+                        "fire": [
+                            "Boil"
+                        ],
+                        "rock": [],
+                        "leaves": [
+                            "leaves"
+                        ],
+                        "tinder": [],
+                        "raft": [],
+                        "vines": [],
+                        "spear": [],
+                        "fish": [],
+                        "location": [
+                            "source",
+                            "island"
+                        ],
+                        "beach": [],
+                        "jungle": [
+                            "waterfall",
+                            "inside of caves, hollowed trees, or undercut banks"
+                        ],
+                        "ocean": [
+                            "ocean"
+                        ],
+                        "treetop": [
+                            "base of leaves or cacti",
+                            "hollowed trees"
+                        ],
+                        "human": [
+                            "People",
+                            "you"
+                        ],
+                        "player": [
+                            "you"
+                        ],
+                        "survivor": [
+                            "People"
+                        ]
+                    },
+                    "predicates": {
+                        "treated": [
+                            "Boil the water",
+                            "Heating the water",
+                            "Heating the water above 185\u00b0 F (85\u00b0 C) for three minutes will kill all pathogens in your water"
+                        ],
+                        "groove": [],
+                        "at": [
+                            "on",
+                            "at"
+                        ],
+                        "inventory": [
+                            "container",
+                            "Collect rainwater in buckets, plastic containers, bins, or garbage cans"
+                        ],
+                        "connected": [],
+                        "has_water_source": [
+                            "stream",
+                            "waterfall",
+                            "solar still",
+                            "base of leaves or cacti",
+                            "inside of caves",
+                            "hollowed trees",
+                            "undercut banks",
+                            "coconuts",
+                            "cacti",
+                            "other plants and fruits"
+                        ],
+                        "has_wood": [],
+                        "can_light_fire": [],
+                        "has_fire": [],
+                        "has_shelter": [],
+                        "drank": [
+                            "drink"
+                        ],
+                        "has_friend": [],
+                        "has_escaped": [],
+                        "at_ocean": [],
+                        "is_safe": [],
+                        "has_fish": [],
+                        "cooked": []
+                    },
+                    "actions": {
+                        "go": [
+                            "Go inland"
+                        ],
+                        "get": [
+                            "collect"
+                        ],
+                        "get_water": [
+                            "collect",
+                            "get water"
+                        ],
+                        "chop_wood": [],
+                        "carve_groove": [],
+                        "light_fire": [],
+                        "build_shelter": [],
+                        "clean_water": [
+                            "Heating the water",
+                            "Boil the water"
+                        ],
+                        "drink_water": [
+                            "drink it",
+                            "drink salt water"
+                        ],
+                        "find_other_survivors": [],
+                        "build_raft": [],
+                        "make_weapon": [],
+                        "hunt_fish": [],
+                        "cook_fish": []
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Survive-on-a-Desert-Island",
+        "wikihow_title": "How to Survive on a Desert Island",
+        "types": [
+            "item",
+            "water",
+            "wood",
+            "fire",
+            "rock",
+            "leaves",
+            "tinder",
+            "raft",
+            "vines",
+            "spear",
+            "fish",
+            "location",
+            "beach",
+            "jungle",
+            "ocean",
+            "treetop",
+            "human",
+            "player",
+            "survivor"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "get_water",
+            "chop_wood",
+            "carve_groove",
+            "light_fire",
+            "build_shelter",
+            "clean_water",
+            "drink_water",
+            "find_other_survivors",
+            "build_raft",
+            "make_weapon",
+            "hunt_fish",
+            "cook_fish"
+        ],
+        "predicates": [
+            "treated",
+            "groove",
+            "at",
+            "inventory",
+            "connected",
+            "has_water_source",
+            "has_wood",
+            "can_light_fire",
+            "has_fire",
+            "has_shelter",
+            "drank",
+            "has_friend",
+            "has_escaped",
+            "at_ocean",
+            "is_safe",
+            "has_fish",
+            "cooked"
+        ]
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "Yes",
+        "name": "Marta Garcia Ferreiro & Stefan Papazov"
+    }
+}

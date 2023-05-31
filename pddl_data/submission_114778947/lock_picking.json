@@ -1,0 +1,354 @@
+{
+    "lock_picking": {
+        "problems": {
+            "pick_easy_lock": {
+                "part_number": "0",
+                "method_number": "4",
+                "step_number": "3",
+                "step_contents": "Slowly but firmly pull the card towards you while turning the handle. If you're lucky, the credit card will slide in between the beveled interior side of the bolt and the frame, and you'll be able to push the bolt all the way out of the frame by dragging the card towards you. The door will then open, as long as you keep the card in place between the bolt and the hole. Obviously, this trick will not work if the deadbolt has been set. Deadbolts don't have a beveled side. Fortunately, it's impossible to set your deadbolt from outside without your keys.\n",
+                "mentions": {
+                    "types": {
+                        "player": [
+                            "you"
+                        ],
+                        "direction": [],
+                        "location": [],
+                        "item": [
+                            "card",
+                            "credit card"
+                        ]
+                    },
+                    "predicates": {
+                        "has_easy_lock": [],
+                        "has_hard_lock": [],
+                        "wrench_in_lock": [],
+                        "pick_in_lock": [],
+                        "weatherstripping_removed": [],
+                        "coathanger_inserted": [],
+                        "latch_hooked": [],
+                        "locked_car": [],
+                        "at": [],
+                        "inventory": [
+                            "card",
+                            "credit card"
+                        ],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "pick_lock_with_card": [
+                            " If you're lucky, the credit card will slide in between the beveled interior side of the bolt and the frame, and you'll be able to push the bolt all the way out of the frame by dragging the card towards you. The door will then open"
+                        ],
+                        "file_key_into_wrench": [],
+                        "bend_paperclip_into_pick": [],
+                        "insert_wrench": [],
+                        "insert_pick": [],
+                        "push_pins_out_of_tumblers": [],
+                        "straighten_coathanger": [],
+                        "lift_weatherstripping": [],
+                        "insert_hanger": [],
+                        "hook_latch": [],
+                        "pull_coathanger": []
+                    }
+                }
+            },
+            "pick_hard_lock": {
+                "part_number": "2",
+                "method_number": "2",
+                "step_number": "1-4",
+                "step_contents": "Pick a lock with a tension pick set. This is a specialized skill that takes a lot of practice and is normally only taught to bona fide locksmiths. The sale of tension pick sets is likewise restricted to people with proper credentials, but with some creativity, you can roughly approximate this tool on your own.\n Make your tools. For weak locks, a pair of paper clips should work; tougher locks might require bobby pins, wire clippers, and a pair of pliers. The key is to use metal firm enough for your pick and your tension wrench, the two components of the tool. Spring steel is the best material to use because it doesn't crack as easily and can be made with a file. You can get these from hacksaw blades. Consider the thickness of the blade because this will restrict the size of the locks that your lock pick will be able to enter. The tension wrench is made in an \u201cL\u201d shape and is used to apply tension to the bottom of the lock. You can make this by getting an Allen key and filing it flat. The pick itself is made with a much shorter leg, like a lowercase \u201cr.\u201d It's used to push pins out of the tumbler so it can rotate.\n Insert the tension wrench. Press it in along the bottom of the lock, and apply constant tension on it the whole time as you work with your pick. If you don't it will take longer and you may have to start again. If you're not entirely certain which direction which way to turn the tension wrench, put it in the lock and turn it one way. Pull out the pick quickly while listening closely to the lock. When you turn in the right direction, you'll actually hear the pins drop.\n Insert the pick above the wrench. Use the leg of the pick to find and push each pin up and out of the tumbler. Once all pins have been moved, the lock should open. As previously noted, this skill takes a lot of practice to master, so have plenty of cheap practice locks on hand if you hope to get good at it.",
+                "mentions": {
+                    "types": {
+                        "player": [
+                            "you",
+                            "your"
+                        ],
+                        "direction": [],
+                        "location": [],
+                        "item": [
+                            "Allen key",
+                            "filing",
+                            "paper clips"
+                        ]
+                    },
+                    "predicates": {
+                        "has_easy_lock": [],
+                        "has_hard_lock": [
+                            "tougher locks might require bobby pins"
+                        ],
+                        "wrench_in_lock": [
+                            "Insert the tension wrench. Press it in along the bottom of the lock, and apply constant tension on it the whole time as you work with your pick."
+                        ],
+                        "pick_in_lock": [
+                            "Insert the pick above the wrench."
+                        ],
+                        "weatherstripping_removed": [],
+                        "coathanger_inserted": [],
+                        "latch_hooked": [],
+                        "locked_car": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "pick_lock_with_card": [],
+                        "file_key_into_wrench": [
+                            "The tension wrench is made in an \u201cL\u201d shape and is used to apply tension to the bottom of the lock. You can make this by getting an Allen key and filing it flat."
+                        ],
+                        "bend_paperclip_into_pick": [
+                            "The pick itself is made with a much shorter leg, like a lowercase \u201cr.\u201d"
+                        ],
+                        "insert_wrench": [
+                            "Insert the tension wrench. Press it in along the bottom of the lock, and apply constant tension on it the whole time as you work with your pick."
+                        ],
+                        "insert_pick": [
+                            "Insert the pick above the wrench."
+                        ],
+                        "push_pins_out_of_tumblers": [
+                            "Use the leg of the pick to find and push each pin up and out of the tumbler. Once all pins have been moved, the lock should open."
+                        ],
+                        "straighten_coathanger": [],
+                        "lift_weatherstripping": [],
+                        "insert_hanger": [],
+                        "hook_latch": [],
+                        "pull_coathanger": []
+                    }
+                }
+            },
+            "pick_car_lock": {
+                "part_number": "0",
+                "method_number": "5",
+                "step_number": "1-5",
+                "step_contents": "Jimmy a car door. Although \u201cslim jims\u201d (specialized metal tools for gaining entry to a locked car) are generally illegal, you can approximate the tool with a stiff metal coat hanger. If you've locked your keys in the car and a store or friend with coat hangers is close at hand, this can save you the hassle and waiting of calling a locksmith or roadside assistance service.\nUnravel and straighten the coat hanger. You can leave the hooked top section alone, but unwind it from itself at the \u201cneck\u201d and straighten the rest of the hanger out, giving you a long metal tool with a hooked tip.\n Lift the weather stripping from the bottom of the driver's-side window. Push the end of the hanger in through the soft rubber weather stripping and the bottom of the window. The hanger is now inside the wall of the door.[4]\n Scrape the hanger around and feel for a latch. The latch should be no more than a few inches below the window, near where the interior lock is.\n Hook and pull the latch. Hook the hanger around the latch and pull it towards the rear of the car. This should unlock any manually locked car door. If your door has a push-button electric unlocking mechanism, you can also slide the straight end of the hanger down from the top of the window instead, and use it like a finger to poke the button inside.",
+                "mentions": {
+                    "types": {
+                        "player": [
+                            "you",
+                            "your"
+                        ],
+                        "direction": [],
+                        "location": [],
+                        "item": [
+                            "coat hanger"
+                        ]
+                    },
+                    "predicates": {
+                        "has_easy_lock": [],
+                        "has_hard_lock": [],
+                        "wrench_in_lock": [],
+                        "pick_in_lock": [],
+                        "weatherstripping_removed": [
+                            "Lift the weather stripping from the bottom of the driver's-side window."
+                        ],
+                        "coathanger_inserted": [
+                            "Push the end of the hanger in through the soft rubber weather stripping and the bottom of the window."
+                        ],
+                        "latch_hooked": [
+                            "Hook and pull the latch. Hook the hanger around the latch and pull it towards the rear of the car."
+                        ],
+                        "locked_car": [
+                            "This should unlock any manually locked car door"
+                        ],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "pick_lock_with_card": [],
+                        "file_key_into_wrench": [],
+                        "bend_paperclip_into_pick": [],
+                        "insert_wrench": [],
+                        "insert_pick": [],
+                        "push_pins_out_of_tumblers": [],
+                        "straighten_coathanger": [
+                            "Unravel and straighten the coat hanger. You can leave the hooked top section alone, but unwind it from itself at the \u201cneck\u201d and straighten the rest of the hanger out, giving you a long metal tool with a hooked tip."
+                        ],
+                        "lift_weatherstripping": [
+                            "Lift the weather stripping from the bottom of the driver's-side window."
+                        ],
+                        "insert_hanger": [
+                            "Push the end of the hanger in through the soft rubber weather stripping and the bottom of the window. The hanger is now inside the wall of the door."
+                        ],
+                        "hook_latch": [
+                            "Scrape the hanger around and feel for a latch. The latch should be no more than a few inches below the window, near where the interior lock is.  Hook and pull the latch. Hook the hanger around the latch and pull it towards the rear of the car."
+                        ],
+                        "pull_coathanger": [
+                            "ook and pull the latch. Hook the hanger around the latch and pull it towards the rear of the car. This should unlock any manually locked car door."
+                        ]
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Open-a-Locked-Door",
+        "wikihow_title": "How to Open a Locked Door",
+        "types": [
+            "player",
+            "direction",
+            "location",
+            "item"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "pick_lock_with_card",
+            "file_key_into_wrench",
+            "bend_paperclip_into_pick",
+            "insert_wrench",
+            "insert_pick",
+            "push_pins_out_of_tumblers",
+            "straighten_coathanger",
+            "lift_weatherstripping",
+            "insert_hanger",
+            "hook_latch",
+            "pull_coathanger"
+        ],
+        "predicates": [
+            "has_easy_lock",
+            "has_hard_lock",
+            "wrench_in_lock",
+            "pick_in_lock",
+            "weatherstripping_removed",
+            "coathanger_inserted",
+            "latch_hooked",
+            "locked_car",
+            "at",
+            "inventory",
+            "connected",
+            "blocked"
+        ],
+        "natural_language_descriptions": {
+            "types": {
+                "player": {
+                    "description": "A person"
+                },
+                "direction": {
+                    "description": "A path between locations"
+                },
+                "location": {
+                    "description": "A setting"
+                },
+                "item": {
+                    "description": "An object that a player can interact with"
+                }
+            },
+            "actions": {
+                "go": {
+                    "description": "move to a certain location from a certain location",
+                    "prerequisites": "you must be at the first location and the path from the first to the second location is not blocked",
+                    "results": "the player moves to the second location"
+                },
+                "get": {
+                    "description": "it takes an item and puts it in inventory",
+                    "prerequisites": "the item and player must be in the same location",
+                    "results": "item is in inventory"
+                },
+                "pick_lock_with_card": {
+                    "description": "open a lock with a credit card",
+                    "prerequisites": "must have a credit card and be in the location of the lock ",
+                    "results": "the lock is removed "
+                },
+                "file_key_into_wrench": {
+                    "description": "turns an allen key into a lock picking wrench",
+                    "prerequisites": "need an allen key and file in inventory",
+                    "results": "a wrench is added to inventory"
+                },
+                "bend_paperclip_into_pick": {
+                    "description": "create a lock pick from a paper clip",
+                    "prerequisites": "a paperclip must be in inventory",
+                    "results": "adds a pick to inventory"
+                },
+                "insert_wrench": {
+                    "description": "inserts wrench in lock",
+                    "prerequisites": "must have wrench in inventory and be in the same room as the lock",
+                    "results": "the lock has a wrench in it "
+                },
+                "insert_pick": {
+                    "description": "inserts pick. into lock",
+                    "prerequisites": "must hhave a pick, lock must have wrench already inserted and player must be in the room with the lock",
+                    "results": "the pick is in the lock"
+                },
+                "push_pins_out_of_tumblers": {
+                    "description": "unlock a hard lock",
+                    "prerequisites": "must be in the same location as thhe lock and the wrench and pick must aalready be inserted",
+                    "results": "hard lock is removed"
+                },
+                "straighten_coathanger": {
+                    "description": "makes a coathanger into a tool",
+                    "prerequisites": "must have coathanger in inventory",
+                    "results": "adds straightened coathanger to inventory"
+                },
+                "lift_weatherstripping": {
+                    "description": "removes weather stripping from car",
+                    "prerequisites": "must be at the location of car",
+                    "results": "car no longer has weatherstripping"
+                },
+                "insert_hanger": {
+                    "description": "hanger is inserted into car",
+                    "prerequisites": "must haave a straightened coathanger in inventory and be in same location as car",
+                    "results": "hanger in car"
+                },
+                "hook_latch": {
+                    "description": "hook onto the car latch",
+                    "prerequisites": "must have straightened hanger in car and be in location of car",
+                    "results": "the latch is hooked"
+                },
+                "pull_coathanger": {
+                    "description": "unlocks the car",
+                    "prerequisites": "need to have the latch hooked and be in the same location as the car",
+                    "results": "car lock is removed"
+                }
+            },
+            "predicates": {
+                "has_easy_lock": {
+                    "description": "A location contains a lock that can be easily opened"
+                },
+                "has_hard_lock": {
+                    "description": "A location contains a lock that is difficult to open"
+                },
+                "wrench_in_lock": {
+                    "description": "There is a wrench in a lock "
+                },
+                "pick_in_lock": {
+                    "description": "There is a pick in a lock "
+                },
+                "weatherstripping_removed": {
+                    "description": "The weatherstripping of a car has been removed "
+                },
+                "coathanger_inserted": {
+                    "description": "A coathanger has been inserted into a car"
+                },
+                "latch_hooked": {
+                    "description": "A coathanger has been hooked to a car latch"
+                },
+                "locked_car": {
+                    "description": "The location is a locked car"
+                },
+                "at": {
+                    "description": "something is in a specified location"
+                },
+                "inventory": {
+                    "description": "an object is available to the player to use and can be carried to new locations"
+                },
+                "connected": {
+                    "description": "there is a path between two locations"
+                },
+                "blocked": {
+                    "description": "the path between two locations cannot be traversed"
+                }
+            }
+        }
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "yes",
+        "name": "Anonymous",
+        "problems": {}
+    }
+}

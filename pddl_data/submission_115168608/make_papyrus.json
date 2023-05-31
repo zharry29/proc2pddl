@@ -1,0 +1,464 @@
+{
+    "make_papyrus": {
+        "problems": {
+            "get_materials": {
+                "part_number": "1,2,3",
+                "method_number": "0",
+                "step_number": "1,2,3,4,5,6",
+                "step_contents": "Preparing to Make Papyrus Image titled Make Papyrus Step 1 1 Obtain a papyrus plant. Papyrus paper is created from the Cyperus papyrus plant, which is a light but strong reed. You can buy them online or in nurseries. A nursery that specializes in papyrus would be your best bet, however.[2] You can also make the paper out of wide grasses, like river reeds. Choose a papyrus plant with a strong, healthy stalk, as this is what you'll turn into paper. Image titled Make Papyrus Step 2 2 Cut the stalks. About 12 inches (30 cm) of papyrus plant will make a large piece of paper that will be nearly 24 inches (61 cm) in length. Cut off as many stalks as you will need to make the amount of paper you want. The cuts must be diagonally made. Then, cut the tips of the papyrus. You will not use the tips, which are the thinner, grass-like end of the plant.[3] Use strong scissors or pruners. Image titled Make Papyrus Step 3 3 Peel away the outer layer of the papyrus plant. Only the inner part of the plant is used for the paper. You will need to remove the outer green part of the plant. Use a sharp knife and slice down the length of the plant until the entire outer layer is removed. The inside of the plant should be a white or slightly greenish color.[4] You can also use scissors if you don't have a sharp knife available. Have someone help you with the peeling process if you are uncomfortable with using a sharp knife for slicing. Image titled Make Papyrus Step 4 4 Cut up the inner portion into strips. Use the knife you used to cut off the outer portion to cut the inner layers of the papyrus plant (pith) into thin strips. Hold the plant in your hand and cut towards you vertically. Make sure that all of the strips have the same size and thickness.[5] The best strips typically come from the center of the plant. The lowest quality comes from the outermost layers. It is also an option to cut away from your body if you don't feel comfortable cutting towards your body. You can cut the strips into smaller pieces if you want to make smaller sized paper.  Part 2 Making the Papyrus Image titled Make Papyrus Step 5 1 Place the papyrus plant strips in water. There are some natural glue-like chemicals within the plant that need to be released before you can turn it into papyrus. Let them soak in the water for at least 3 days. Try to lay them out flat in a tray of water to soak. Set the tray in a place where the water won't evaporate quickly.[6] The strips should turn flexible and transparent. Image titled Make Papyrus Step 6 2 Lay the papyrus plant strips on a hard, flat surface. The pattern doesn't matter at this point as you will be rearranging them later. Just lay them out on a hard, flat surface and make sure they don't overlap.[7] A smooth, non-tiled countertop or a sturdy table will work. Image titled Make Papyrus Step 7 3 Roll the excess water and sugar out of the plant. Grab a rolling pin and use it to roll the strips flat. The rolling pin should be squeezing the water out of them and flattening the strips into sheets.[8] In the past, papyrus strips were pounded with a hard object to remove the excess water. Image titled Make Papyrus Step 8 4 Weave the strips together. Lay the strips on the cloth. Get a dry sheet of linen cloth or felt. Then, begin to weave them together. You want to create 2 layers of strips, with the top layer strips being perpendicular to the bottom layer strips. It should resemble a placemat. The strips should slightly overlap one another to prevent the papyrus from falling apart later.[9] Cover the papyrus strips with a second sheet of linen cloth once you have weaved them together. Image titled Make Papyrus Step 9 5 Place the bundle between 2 wooden boards. Make sure that the wooden boards are somewhat heavy. The pressure is necessary to flatten the papyrus strips together. Once the strips have been placed between the boards, press them together. Lay the sandwiched papyrus sheet on a flat surface and allow the wooden boards to flatten the sheet using gravity.[10] You can put heavy books on top of the boards if the boards aren't very heavy. Image titled Make Papyrus Step 10 6 Replace the wet linen sheets with dry ones. You should do this every few hours. Be careful when removing the wet linen. Peel it off of the papyrus gently. The drying process should take approximately 72 hours.[11] Part 3 Finishing the Papyrus Image titled Make Papyrus Step 11 1 Flatten the sheet. The paper may not be completely flat after you remove it from the wooden boards. Put the paper under a stone slab for up to 6 days to make it completely flat.[12] During this time, the sugars within the papyrus will fuse together. If you are pressed for time, you can use the rolling pin to flatten the paper. Image titled Make Papyrus Step 12 2 Polish the papyrus. This step isn't absolutely necessary, but it will make the papyrus look nicer and more finished. Use a shell or smooth piece of ivory. Any type of shell that is smooth and without ridges will do. Rub the shell or ivory over the sheet of paper until it appears to be shinier than it was.[13] A smooth stone will work as well. Do not rub with too much force or you could rip the paper. Image titled Make Papyrus Step 13 3 Cut the paper. The sheet may be larger than you want when it is finished. Use a razor, scissors, or paper cutter to cut the papyrus into smaller sheets. Measure the sizes you are cutting so you will have multiple sheets of the same size.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "Obtain a papyrus plant"
+                        ],
+                        "papyrus_plant": [
+                            "Obtain a papyrus plant",
+                            "Papyrus paper is created from the Cyperus papyrus plant, which is a light but strong reed. You can buy them online or in nurseries. A nursery that specializes in papyrus would be your best bet, however",
+                            "Choose a papyrus plant with a strong, healthy stalk, as this is what you'll turn into paper."
+                        ],
+                        "papyrus_stalks": [
+                            "Choose a papyrus plant with a strong, healthy stalk, as this is what you'll turn into paper.",
+                            " Cut the stalks.",
+                            "Cut off as many stalks as you will need to make the amount of paper you want"
+                        ],
+                        "papyrus_strips": [
+                            "Cut up the inner portion into strip",
+                            "Make sure that all of the strips have the same size and thickness",
+                            "The best strips typically come from the center of the plant. The lowest quality comes from the outermost layers."
+                        ],
+                        "water": [
+                            "Place the papyrus plant strips in water.",
+                            "Let them soak in the water for at least 3 days. Try to lay them out flat in a tray of water to soak. "
+                        ],
+                        "linen_sheets": [
+                            "ay the strips on the cloth. Get a dry sheet of linen cloth or felt"
+                        ],
+                        "wooden_boards": [
+                            "Place the bundle between 2 wooden boards",
+                            "Make sure that the wooden boards are somewhat heavy. ",
+                            "Once the strips have been placed between the boards, press them together."
+                        ],
+                        "rolling_pin": [
+                            "Flatten the sheet.",
+                            "If you are pressed for time, you can use the rolling pin to flatten the paper."
+                        ],
+                        "knife": [
+                            "Cut the paper.",
+                            "Use a razor, scissors, or paper cutter to cut the papyrus into smaller sheets. ",
+                            "Cut up the inner portion into strips.",
+                            "Use the knife you used to cut off the outer portion to cut the inner layers of the papyrus plant (pith) into thin strips. ",
+                            "Cut the stalks",
+                            "Cut off as many stalks as you will need to make the amount of paper you want"
+                        ],
+                        "papyrus": [
+                            "Use a razor, scissors, or paper cutter to cut the papyrus into smaller sheets"
+                        ],
+                        "player": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "inventory": [],
+                        "soaked": [
+                            " Place the papyrus plant strips in water.",
+                            "Let them soak in the water for at least 3 days. ",
+                            "Try to lay them out flat in a tray of water to soak."
+                        ],
+                        "dried": [
+                            "Roll the excess water and sugar out of the plant. "
+                        ],
+                        "woven": [
+                            " Weave the strips together. "
+                        ],
+                        "at": [],
+                        "finished": [
+                            " Place the bundle between 2 wooden boards."
+                        ],
+                        "searched": [],
+                        "not_gettable": []
+                    },
+                    "actions": {
+                        "get": [],
+                        "travel": [],
+                        "search_location": [],
+                        "pluck_river_reeds": [
+                            "You can also make the paper out of wide grasses, like river reeds.",
+                            "Obtain a papyrus plant. "
+                        ],
+                        "cut_stalks": [
+                            "Cut the stalks.",
+                            "Cut off as many stalks as you will need to make the amount of paper you want."
+                        ],
+                        "cut_strips": [
+                            "Cut up the inner portion into strips. "
+                        ],
+                        "soak_strips": [
+                            "Place the papyrus plant strips in water",
+                            "et them soak in the water for at least 3 days. Try to lay them out flat in a tray of water to soak. "
+                        ],
+                        "roll_strips": [
+                            "Roll the excess water and sugar out of the plant",
+                            " Grab a rolling pin and use it to roll the strips flat.",
+                            "The rolling pin should be squeezing the water out of them and flattening the strips into sheets."
+                        ],
+                        "weave_strips": [
+                            "Weave the strips together."
+                        ],
+                        "bundle_strips": [
+                            "Place the bundle between 2 wooden boards"
+                        ],
+                        "cut_sheet": [
+                            " Cut the paper. "
+                        ]
+                    }
+                }
+            },
+            "get_papyrus_plant": {
+                "part_number": "1,2,3",
+                "method_number": "0",
+                "step_number": "1,2,3,4,5,6",
+                "step_contents": "Preparing to Make Papyrus Image titled Make Papyrus Step 1 1 Obtain a papyrus plant. Papyrus paper is created from the Cyperus papyrus plant, which is a light but strong reed. You can buy them online or in nurseries. A nursery that specializes in papyrus would be your best bet, however.[2] You can also make the paper out of wide grasses, like river reeds. Choose a papyrus plant with a strong, healthy stalk, as this is what you'll turn into paper. Image titled Make Papyrus Step 2 2 Cut the stalks. About 12 inches (30 cm) of papyrus plant will make a large piece of paper that will be nearly 24 inches (61 cm) in length. Cut off as many stalks as you will need to make the amount of paper you want. The cuts must be diagonally made. Then, cut the tips of the papyrus. You will not use the tips, which are the thinner, grass-like end of the plant.[3] Use strong scissors or pruners. Image titled Make Papyrus Step 3 3 Peel away the outer layer of the papyrus plant. Only the inner part of the plant is used for the paper. You will need to remove the outer green part of the plant. Use a sharp knife and slice down the length of the plant until the entire outer layer is removed. The inside of the plant should be a white or slightly greenish color.[4] You can also use scissors if you don't have a sharp knife available. Have someone help you with the peeling process if you are uncomfortable with using a sharp knife for slicing. Image titled Make Papyrus Step 4 4 Cut up the inner portion into strips. Use the knife you used to cut off the outer portion to cut the inner layers of the papyrus plant (pith) into thin strips. Hold the plant in your hand and cut towards you vertically. Make sure that all of the strips have the same size and thickness.[5] The best strips typically come from the center of the plant. The lowest quality comes from the outermost layers. It is also an option to cut away from your body if you don't feel comfortable cutting towards your body. You can cut the strips into smaller pieces if you want to make smaller sized paper.  Part 2 Making the Papyrus Image titled Make Papyrus Step 5 1 Place the papyrus plant strips in water. There are some natural glue-like chemicals within the plant that need to be released before you can turn it into papyrus. Let them soak in the water for at least 3 days. Try to lay them out flat in a tray of water to soak. Set the tray in a place where the water won't evaporate quickly.[6] The strips should turn flexible and transparent. Image titled Make Papyrus Step 6 2 Lay the papyrus plant strips on a hard, flat surface. The pattern doesn't matter at this point as you will be rearranging them later. Just lay them out on a hard, flat surface and make sure they don't overlap.[7] A smooth, non-tiled countertop or a sturdy table will work. Image titled Make Papyrus Step 7 3 Roll the excess water and sugar out of the plant. Grab a rolling pin and use it to roll the strips flat. The rolling pin should be squeezing the water out of them and flattening the strips into sheets.[8] In the past, papyrus strips were pounded with a hard object to remove the excess water. Image titled Make Papyrus Step 8 4 Weave the strips together. Lay the strips on the cloth. Get a dry sheet of linen cloth or felt. Then, begin to weave them together. You want to create 2 layers of strips, with the top layer strips being perpendicular to the bottom layer strips. It should resemble a placemat. The strips should slightly overlap one another to prevent the papyrus from falling apart later.[9] Cover the papyrus strips with a second sheet of linen cloth once you have weaved them together. Image titled Make Papyrus Step 9 5 Place the bundle between 2 wooden boards. Make sure that the wooden boards are somewhat heavy. The pressure is necessary to flatten the papyrus strips together. Once the strips have been placed between the boards, press them together. Lay the sandwiched papyrus sheet on a flat surface and allow the wooden boards to flatten the sheet using gravity.[10] You can put heavy books on top of the boards if the boards aren't very heavy. Image titled Make Papyrus Step 10 6 Replace the wet linen sheets with dry ones. You should do this every few hours. Be careful when removing the wet linen. Peel it off of the papyrus gently. The drying process should take approximately 72 hours.[11] Part 3 Finishing the Papyrus Image titled Make Papyrus Step 11 1 Flatten the sheet. The paper may not be completely flat after you remove it from the wooden boards. Put the paper under a stone slab for up to 6 days to make it completely flat.[12] During this time, the sugars within the papyrus will fuse together. If you are pressed for time, you can use the rolling pin to flatten the paper. Image titled Make Papyrus Step 12 2 Polish the papyrus. This step isn't absolutely necessary, but it will make the papyrus look nicer and more finished. Use a shell or smooth piece of ivory. Any type of shell that is smooth and without ridges will do. Rub the shell or ivory over the sheet of paper until it appears to be shinier than it was.[13] A smooth stone will work as well. Do not rub with too much force or you could rip the paper. Image titled Make Papyrus Step 13 3 Cut the paper. The sheet may be larger than you want when it is finished. Use a razor, scissors, or paper cutter to cut the papyrus into smaller sheets. Measure the sizes you are cutting so you will have multiple sheets of the same size.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "papyrus_plant": [
+                            " Obtain a papyrus plant. "
+                        ],
+                        "papyrus_stalks": [
+                            "Cut the stalks. "
+                        ],
+                        "papyrus_strips": [
+                            " Cut up the inner portion into strips"
+                        ],
+                        "water": [
+                            " Place the papyrus plant strips in water. "
+                        ],
+                        "linen_sheets": [
+                            " Place the bundle between 2 wooden boards. ",
+                            "Get a dry sheet of linen cloth or felt. "
+                        ],
+                        "wooden_boards": [
+                            "Place the bundle between 2 wooden boards."
+                        ],
+                        "rolling_pin": [
+                            "Roll the excess water and sugar out of the plant.",
+                            "Grab a rolling pin and use it to roll the strips flat."
+                        ],
+                        "knife": [
+                            "Cut up the inner portion into strips",
+                            "Cut the stalks",
+                            "Cut the paper. "
+                        ],
+                        "papyrus": [
+                            " Use a razor, scissors, or paper cutter to cut the papyrus into smaller sheets"
+                        ],
+                        "player": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "inventory": [],
+                        "soaked": [
+                            "Place the papyrus plant strips in water.",
+                            "Let them soak in the water for at least 3 days. Try to lay them out flat in a tray of water to soak."
+                        ],
+                        "dried": [
+                            "Roll the excess water and sugar out of the plant."
+                        ],
+                        "woven": [
+                            "Weave the strips together."
+                        ],
+                        "at": [],
+                        "finished": [
+                            "Finishing the Papyrus",
+                            "Place the bundle between 2 wooden boards"
+                        ],
+                        "searched": [],
+                        "not_gettable": []
+                    },
+                    "actions": {
+                        "get": [],
+                        "travel": [],
+                        "search_location": [],
+                        "pluck_river_reeds": [
+                            "Obtain a papyrus plant.",
+                            "You can also make the paper out of wide grasses, like river reeds."
+                        ],
+                        "cut_stalks": [
+                            "You can also make the paper out of wide grasses, like river reeds."
+                        ],
+                        "cut_strips": [
+                            " Cut up the inner portion into strips",
+                            "Use the knife you used to cut off the outer portion to cut the inner layers of the papyrus plant (pith) into thin strips"
+                        ],
+                        "soak_strips": [
+                            "Place the papyrus plant strips in water."
+                        ],
+                        "roll_strips": [
+                            " Roll the excess water and sugar out of the plant. "
+                        ],
+                        "weave_strips": [
+                            "Weave the strips together."
+                        ],
+                        "bundle_strips": [
+                            "Place the bundle between 2 wooden boards. "
+                        ],
+                        "cut_sheet": [
+                            " Cut the paper"
+                        ]
+                    }
+                }
+            },
+            "make_papyrus": {
+                "part_number": "0",
+                "method_number": "0",
+                "step_number": "1,2,3,4,5,6",
+                "step_contents": "Preparing to Make Papyrus Image titled Make Papyrus Step 1 1 Obtain a papyrus plant. Papyrus paper is created from the Cyperus papyrus plant, which is a light but strong reed. You can buy them online or in nurseries. A nursery that specializes in papyrus would be your best bet, however.[2] You can also make the paper out of wide grasses, like river reeds. Choose a papyrus plant with a strong, healthy stalk, as this is what you'll turn into paper. Image titled Make Papyrus Step 2 2 Cut the stalks. About 12 inches (30 cm) of papyrus plant will make a large piece of paper that will be nearly 24 inches (61 cm) in length. Cut off as many stalks as you will need to make the amount of paper you want. The cuts must be diagonally made. Then, cut the tips of the papyrus. You will not use the tips, which are the thinner, grass-like end of the plant.[3] Use strong scissors or pruners. Image titled Make Papyrus Step 3 3 Peel away the outer layer of the papyrus plant. Only the inner part of the plant is used for the paper. You will need to remove the outer green part of the plant. Use a sharp knife and slice down the length of the plant until the entire outer layer is removed. The inside of the plant should be a white or slightly greenish color.[4] You can also use scissors if you don't have a sharp knife available. Have someone help you with the peeling process if you are uncomfortable with using a sharp knife for slicing. Image titled Make Papyrus Step 4 4 Cut up the inner portion into strips. Use the knife you used to cut off the outer portion to cut the inner layers of the papyrus plant (pith) into thin strips. Hold the plant in your hand and cut towards you vertically. Make sure that all of the strips have the same size and thickness.[5] The best strips typically come from the center of the plant. The lowest quality comes from the outermost layers. It is also an option to cut away from your body if you don't feel comfortable cutting towards your body. You can cut the strips into smaller pieces if you want to make smaller sized paper.  Part 2 Making the Papyrus Image titled Make Papyrus Step 5 1 Place the papyrus plant strips in water. There are some natural glue-like chemicals within the plant that need to be released before you can turn it into papyrus. Let them soak in the water for at least 3 days. Try to lay them out flat in a tray of water to soak. Set the tray in a place where the water won't evaporate quickly.[6] The strips should turn flexible and transparent. Image titled Make Papyrus Step 6 2 Lay the papyrus plant strips on a hard, flat surface. The pattern doesn't matter at this point as you will be rearranging them later. Just lay them out on a hard, flat surface and make sure they don't overlap.[7] A smooth, non-tiled countertop or a sturdy table will work. Image titled Make Papyrus Step 7 3 Roll the excess water and sugar out of the plant. Grab a rolling pin and use it to roll the strips flat. The rolling pin should be squeezing the water out of them and flattening the strips into sheets.[8] In the past, papyrus strips were pounded with a hard object to remove the excess water. Image titled Make Papyrus Step 8 4 Weave the strips together. Lay the strips on the cloth. Get a dry sheet of linen cloth or felt. Then, begin to weave them together. You want to create 2 layers of strips, with the top layer strips being perpendicular to the bottom layer strips. It should resemble a placemat. The strips should slightly overlap one another to prevent the papyrus from falling apart later.[9] Cover the papyrus strips with a second sheet of linen cloth once you have weaved them together. Image titled Make Papyrus Step 9 5 Place the bundle between 2 wooden boards. Make sure that the wooden boards are somewhat heavy. The pressure is necessary to flatten the papyrus strips together. Once the strips have been placed between the boards, press them together. Lay the sandwiched papyrus sheet on a flat surface and allow the wooden boards to flatten the sheet using gravity.[10] You can put heavy books on top of the boards if the boards aren't very heavy. Image titled Make Papyrus Step 10 6 Replace the wet linen sheets with dry ones. You should do this every few hours. Be careful when removing the wet linen. Peel it off of the papyrus gently. The drying process should take approximately 72 hours.[11] Part 3 Finishing the Papyrus Image titled Make Papyrus Step 11 1 Flatten the sheet. The paper may not be completely flat after you remove it from the wooden boards. Put the paper under a stone slab for up to 6 days to make it completely flat.[12] During this time, the sugars within the papyrus will fuse together. If you are pressed for time, you can use the rolling pin to flatten the paper. Image titled Make Papyrus Step 12 2 Polish the papyrus. This step isn't absolutely necessary, but it will make the papyrus look nicer and more finished. Use a shell or smooth piece of ivory. Any type of shell that is smooth and without ridges will do. Rub the shell or ivory over the sheet of paper until it appears to be shinier than it was.[13] A smooth stone will work as well. Do not rub with too much force or you could rip the paper. Image titled Make Papyrus Step 13 3 Cut the paper. The sheet may be larger than you want when it is finished. Use a razor, scissors, or paper cutter to cut the papyrus into smaller sheets. Measure the sizes you are cutting so you will have multiple sheets of the same size.\n",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "papyrus_plant": [],
+                        "papyrus_stalks": [
+                            "Cut the stalks."
+                        ],
+                        "papyrus_strips": [
+                            "Cut up the inner portion into strips"
+                        ],
+                        "water": [
+                            "Place the papyrus plant strips in water."
+                        ],
+                        "linen_sheets": [
+                            " Place the bundle between 2 wooden boards."
+                        ],
+                        "wooden_boards": [
+                            " Place the bundle between 2 wooden boards."
+                        ],
+                        "rolling_pin": [
+                            " Roll the excess water and sugar out of the plant. "
+                        ],
+                        "knife": [
+                            "Cut the stalks",
+                            "Cut up the inner portion into strips.",
+                            "Cut the paper"
+                        ],
+                        "papyrus": [],
+                        "player": [],
+                        "location": []
+                    },
+                    "predicates": {
+                        "inventory": [],
+                        "soaked": [
+                            " Place the papyrus plant strips in water. "
+                        ],
+                        "dried": [
+                            "Roll the excess water and sugar out of the plant."
+                        ],
+                        "woven": [
+                            "Weave the strips together"
+                        ],
+                        "at": [],
+                        "finished": [
+                            "Place the bundle between 2 wooden boards."
+                        ],
+                        "searched": [],
+                        "not_gettable": []
+                    },
+                    "actions": {
+                        "get": [],
+                        "travel": [],
+                        "search_location": [],
+                        "pluck_river_reeds": [
+                            " Obtain a papyrus plant. "
+                        ],
+                        "cut_stalks": [
+                            "Cut the stalks. "
+                        ],
+                        "cut_strips": [
+                            "Cut up the inner portion into strips. "
+                        ],
+                        "soak_strips": [
+                            "Place the papyrus plant strips in water. "
+                        ],
+                        "roll_strips": [
+                            "Roll the excess water and sugar out of the plant"
+                        ],
+                        "weave_strips": [
+                            "Weave the strips together."
+                        ],
+                        "bundle_strips": [
+                            "Weave the strips together."
+                        ],
+                        "cut_sheet": [
+                            "Cut the paper."
+                        ]
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Make-Papyrus",
+        "wikihow_title": "How to Make Papyrus",
+        "types": [
+            "item",
+            "papyrus_plant",
+            "papyrus_stalks",
+            "papyrus_strips",
+            "water",
+            "linen_sheets",
+            "wooden_boards",
+            "rolling_pin",
+            "knife",
+            "papyrus",
+            "player",
+            "location"
+        ],
+        "actions": [
+            "get",
+            "travel",
+            "search_location",
+            "pluck_river_reeds",
+            "cut_stalks",
+            "cut_strips",
+            "soak_strips",
+            "roll_strips",
+            "weave_strips",
+            "bundle_strips",
+            "cut_sheet"
+        ],
+        "predicates": [
+            "inventory",
+            "soaked",
+            "dried",
+            "woven",
+            "at",
+            "finished",
+            "searched",
+            "not_gettable"
+        ],
+        "natural_language_descriptions": {
+            "types": {
+                "item": {
+                    "description": "Item"
+                },
+                "papyrus_plant": {
+                    "description": "Item"
+                },
+                "papyrus_stalks": {
+                    "description": "Item"
+                },
+                "papyrus_strips": {
+                    "description": "Item"
+                },
+                "water": {
+                    "description": "Item"
+                },
+                "linen_sheets": {
+                    "description": "Item"
+                },
+                "wooden_boards": {
+                    "description": "Item"
+                },
+                "rolling_pin": {
+                    "description": "Item"
+                },
+                "knife": {
+                    "description": "Item"
+                },
+                "papyrus": {
+                    "description": "Item"
+                },
+                "player": {
+                    "description": "player"
+                },
+                "location": {
+                    "description": "location"
+                }
+            },
+            "actions": {
+                "get": {
+                    "description": "pick up an item and put it in the inventory",
+                    "prerequisites": "player and item are both at location and item is gettable",
+                    "results": "item is added to inventory"
+                },
+                "travel": {
+                    "description": "player travels from one location to another",
+                    "prerequisites": "player is at the first location",
+                    "results": "player is at the second location and not at the first location"
+                },
+                "search_location": {
+                    "description": "player searches current location for interesting items",
+                    "prerequisites": "player is at given location",
+                    "results": "the item is searched for interesting items"
+                },
+                "pluck_river_reeds": {
+                    "description": "obtain the papyrus plant",
+                    "prerequisites": "player and papyrus plant are at given location and location has been searched",
+                    "results": "papyrus plant is added to inventory"
+                },
+                "cut_stalks": {
+                    "description": "the papyrus plant is cut into stalks",
+                    "prerequisites": "the player's inventory contains a knife and a papyrus plant",
+                    "results": "papyrus stalks are added to inventory and papyrus plant is removed"
+                },
+                "cut_strips": {
+                    "description": "the papyrus stalks are cut into strips",
+                    "prerequisites": "the inventory contains papyrus stalk and a knife",
+                    "results": "papyrus strips are added to the inventory and papyrus stalks are removed"
+                },
+                "soak_strips": {
+                    "description": "places papyrus strips in water and let them soak",
+                    "prerequisites": "inventory contains water and papyrus stirips",
+                    "results": "the papyrus strips are soaked"
+                },
+                "roll_strips": {
+                    "description": "roll excess water and sugar out of soaked papyrus strips to dry them",
+                    "prerequisites": "inventory contained soaked papyrus strips and a rolling pin",
+                    "results": "papyrus strips are dried"
+                },
+                "weave_strips": {
+                    "description": "dried papyrus strips are woven into a lattice",
+                    "prerequisites": "inventory contains dried papyrus strips",
+                    "results": "papyrus strips are woven"
+                },
+                "bundle_strips": {
+                    "description": "bundles the woven strips between linen sheets and wooden boards",
+                    "prerequisites": "the inventory contained woven papyrus strips, wooden boards, and linen sheets",
+                    "results": "the papyrus strips are finished"
+                },
+                "cut_sheet": {
+                    "description": "the finished papyrus sheet is cut to size to complete the papyrus",
+                    "prerequisites": "inventory contains finished papyrus strips and a knife",
+                    "results": "papyrus is added to the inventory and papyrus strips are removed"
+                }
+            },
+            "predicates": {
+                "inventory": {
+                    "description": "Indicates whether the player is holding the given item"
+                },
+                "soaked": {
+                    "description": "Indicates whether papyrus strips have been soaked in water"
+                },
+                "dried": {
+                    "description": "the soaked papyrus strips have been dried by the rolling pin"
+                },
+                "woven": {
+                    "description": "the dried papyrus strips have been woven together"
+                },
+                "at": {
+                    "description": "an object is at the given location"
+                },
+                "finished": {
+                    "description": "the woven papyrus strips were bundled between linen sheets and wooden boards"
+                },
+                "searched": {
+                    "description": "we have searched the location for interesting things"
+                },
+                "not_gettable": {
+                    "description": "true if player cannot get item with normal get"
+                }
+            }
+        }
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "Yes",
+        "name": "Anonymous",
+        "problems": {}
+    }
+}

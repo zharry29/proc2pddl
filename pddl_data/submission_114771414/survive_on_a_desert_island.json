@@ -1,0 +1,411 @@
+{
+    "survive_on_a_desert_island": {
+        "problems": {
+            "make_a_fire": {
+                "part_number": "0",
+                "method_number": "2",
+                "step_number": "4",
+                "step_contents": "Make a fire. A fire will is necessary during the cold nights, and to cook any fish or animals that you catch. If you've salvaged any matches or lighters, wait for them to dry before trying to use them. If you don't have any supplies to start a fire, then you may have to start one by rubbing a sharpened stick into a pile of kindling. Read Start-a-Fire-with-Sticks to learn how to do this.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "fire",
+                            "fish",
+                            "animals",
+                            "matches",
+                            "lighters",
+                            "stick",
+                            "kindling"
+                        ],
+                        "water": [],
+                        "stick": [
+                            "stick"
+                        ],
+                        "tarp": [],
+                        "leave": [],
+                        "animal": [
+                            "fish",
+                            "animals"
+                        ],
+                        "player": [
+                            "you"
+                        ],
+                        "direction": [],
+                        "location": [],
+                        "fish": [
+                            "fish"
+                        ],
+                        "bird": [],
+                        "insect": [],
+                        "shellfish": []
+                    },
+                    "predicates": {
+                        "has_water_source": [],
+                        "treated": [],
+                        "at": [],
+                        "inventory": [
+                            "have"
+                        ],
+                        "connected": [],
+                        "blocked": [],
+                        "edible": [],
+                        "has_fish": [],
+                        "has_bird": [],
+                        "has_insect": [],
+                        "has_shellfish": [],
+                        "has_fire": [],
+                        "sheltered": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [
+                            "catch",
+                            "salvaged"
+                        ],
+                        "get_water": [],
+                        "sharpen_stick": [
+                            "sharpened stick"
+                        ],
+                        "catch_fish": [
+                            "fish or animals that you catch"
+                        ],
+                        "hunt_bird": [],
+                        "hunt_insect": [],
+                        "get_shellfish": [],
+                        "cook": [
+                            "cook"
+                        ],
+                        "get_stick": [
+                            "salvaged any matches or lighters"
+                        ],
+                        "start_fire": [
+                            "start a fire",
+                            "rubbing a sharpened stick into a pile of kindling"
+                        ],
+                        "get_tarp": [],
+                        "get_leave": [],
+                        "construct_shelter": []
+                    }
+                }
+            },
+            "hunt_animal_for_food": {
+                "part_number": "0",
+                "method_number": "1",
+                "step_number": "3",
+                "step_contents": "Hunt for fish, insects, and small animals for food. The protein and nutrients from meat and fish will give you energy. Mollusks, clams, oysters, crabs, muscles, and fish are all things that you may be able to find in the shallow waters surrounding or on an island.[9] You can sharpen sticks and hunt small reptiles, fish, or birds in the isle as well.[10] If you're having trouble catching or trapping bigger game, locate slower moving insects that you can eat that live in the desert like beetles, spiders, and centipedes. (Edit : this is wrong. Do not eat centipedes as most are poisonous! The same goes for many spiders and beetles!)[11] Cook shellfish thoroughly before consuming it. Bacteria could cause you to become ill. If you cannot create a makeshift fishing pole, then sharpen a long branch or stick to make spears that you can use to go spearfishing.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "fish",
+                            "insects",
+                            "small animals",
+                            "food",
+                            "protein",
+                            "nutrients",
+                            "meat",
+                            "fish",
+                            "Mollusks",
+                            "clams",
+                            "oysters",
+                            "crabs",
+                            "muscles",
+                            "fish",
+                            "shallow waters",
+                            "sticks",
+                            "reptiles",
+                            "game",
+                            "slower moving insects",
+                            "beetles",
+                            "spiders",
+                            "centipedes",
+                            "shellfish",
+                            "makeshift fishing pole",
+                            "long branch",
+                            "stick",
+                            "spears"
+                        ],
+                        "water": [],
+                        "stick": [
+                            "stick",
+                            "sticks"
+                        ],
+                        "tarp": [],
+                        "leave": [],
+                        "animal": [
+                            "fish",
+                            "insects",
+                            "small animals",
+                            "food",
+                            "meat",
+                            "reptiles",
+                            "slower moving insects",
+                            "game",
+                            "beetles",
+                            "spiders",
+                            "centipedes",
+                            "shellfish"
+                        ],
+                        "player": [
+                            "you"
+                        ],
+                        "direction": [
+                            "on an island"
+                        ],
+                        "location": [
+                            "island",
+                            "shallow waters",
+                            "isle",
+                            "desert"
+                        ],
+                        "fish": [
+                            "fish"
+                        ],
+                        "bird": [
+                            "birds"
+                        ],
+                        "insect": [
+                            "insects",
+                            "beetles",
+                            "spiders",
+                            "centipedes"
+                        ],
+                        "shellfish": [
+                            "shellfish"
+                        ]
+                    },
+                    "predicates": {
+                        "has_water_source": [
+                            "shallow waters"
+                        ],
+                        "treated": [
+                            "Cook shellfish thoroughly"
+                        ],
+                        "at": [
+                            "in",
+                            "on"
+                        ],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": [],
+                        "edible": [
+                            "food",
+                            "protein and nutrients"
+                        ],
+                        "has_fish": [
+                            "may be able to find in the shallow waters"
+                        ],
+                        "has_bird": [],
+                        "has_insect": [],
+                        "has_shellfish": [],
+                        "has_fire": [],
+                        "sheltered": []
+                    },
+                    "actions": {
+                        "go": [
+                            "go"
+                        ],
+                        "get": [
+                            "Hunt",
+                            "find",
+                            "catching",
+                            "trapping"
+                        ],
+                        "get_water": [],
+                        "sharpen_stick": [
+                            "sharpen a long branch or stick"
+                        ],
+                        "catch_fish": [
+                            "go spearfishing",
+                            "hunt small reptiles, fish"
+                        ],
+                        "hunt_bird": [
+                            "hunt small reptiles, fish, or birds"
+                        ],
+                        "hunt_insect": [
+                            "Hunt for fish, insects"
+                        ],
+                        "get_shellfish": [
+                            "Mollusks, clams, oysters, crabs, muscles, and fish are all things that you may be able to find"
+                        ],
+                        "cook": [
+                            "Cook"
+                        ],
+                        "get_stick": [
+                            "sharpen a long branch"
+                        ],
+                        "start_fire": [],
+                        "get_tarp": [],
+                        "get_leave": [],
+                        "construct_shelter": []
+                    }
+                }
+            },
+            "construct_a_sturdy_shelter": {
+                "part_number": "0",
+                "method_number": "2",
+                "step_number": "3",
+                "step_contents": "Construct a sturdy shelter. You can build a place to sleep by leaning a large log against a tree, then setting smaller branches at a 45-degree angle on the wood. Put foliage and leaves over the top of your sticks and you've built a makeshift tent. If you're able to find a tarp or piece of plastic or cloth, then you can also construct a desert tarp. Drive four stakes in a square shape into the sand. Tie your tarp in place and then tie another tarp on top of it, leaving around 2 inches of distance between them. To ensure that the stakes stay in the ground, you can tie the top of them to logs, trees, or rocks in order to anchor them.[17] There are other shelters that you can construct from logs and leaves. Whatever you do, make sure that it protects you from the sun's rays. Salvaged plastic tarps are more efficient at keeping the elements out of your shelter.",
+                "mentions": {
+                    "types": {
+                        "item": [
+                            "shelter",
+                            "place",
+                            "log",
+                            "tree",
+                            "branches",
+                            "wood",
+                            "foliage",
+                            "leaves",
+                            "sticks",
+                            "tent",
+                            "makeshift tent",
+                            "tarp",
+                            "plastic",
+                            "cloth",
+                            "stakes",
+                            "sand",
+                            "logs",
+                            "trees",
+                            "rocks"
+                        ],
+                        "water": [],
+                        "stick": [
+                            "sticks",
+                            "wood"
+                        ],
+                        "tarp": [
+                            "tarp"
+                        ],
+                        "leave": [
+                            "leaves"
+                        ],
+                        "animal": [],
+                        "player": [
+                            "You",
+                            "you"
+                        ],
+                        "direction": [
+                            "against",
+                            "over",
+                            "into",
+                            "out of"
+                        ],
+                        "location": [
+                            "wood",
+                            "sand",
+                            "ground"
+                        ],
+                        "fish": [],
+                        "bird": [],
+                        "insect": [],
+                        "shellfish": []
+                    },
+                    "predicates": {
+                        "has_water_source": [],
+                        "treated": [],
+                        "at": [
+                            "on",
+                            "in"
+                        ],
+                        "inventory": [
+                            "your"
+                        ],
+                        "connected": [],
+                        "blocked": [],
+                        "edible": [],
+                        "has_fish": [],
+                        "has_bird": [],
+                        "has_insect": [],
+                        "has_shellfish": [],
+                        "has_fire": [],
+                        "sheltered": [
+                            "protects you",
+                            "keeping the elements out of your shelter"
+                        ]
+                    },
+                    "actions": {
+                        "go": [
+                            "find"
+                        ],
+                        "get": [
+                            "find",
+                            "Salvaged"
+                        ],
+                        "get_water": [],
+                        "sharpen_stick": [],
+                        "catch_fish": [],
+                        "hunt_bird": [],
+                        "hunt_insect": [],
+                        "get_shellfish": [],
+                        "cook": [],
+                        "get_stick": [
+                            "setting smaller branches"
+                        ],
+                        "start_fire": [],
+                        "get_tarp": [
+                            "find a tarp or piece of plastic or cloth"
+                        ],
+                        "get_leave": [
+                            "Put foliage and leaves"
+                        ],
+                        "construct_shelter": [
+                            "You can build a place to sleep by leaning a large log against a tree, then setting smaller branches at a 45-degree angle on the wood. Put foliage and leaves over the top of your sticks and you've built a makeshift tent. If you're able to find a tarp or piece of plastic or cloth, then you can also construct a desert tarp. Drive four stakes in a square shape into the sand. Tie your tarp in place and then tie another tarp on top of it, leaving around 2 inches of distance between them. To ensure that the stakes stay in the ground, you can tie the top of them to logs, trees, or rocks in order to anchor them."
+                        ]
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Survive-on-a-Desert-Island",
+        "wikihow_title": "How to Survive on a Desert Island",
+        "types": [
+            "item",
+            "water",
+            "stick",
+            "tarp",
+            "leave",
+            "animal",
+            "player",
+            "direction",
+            "location",
+            "fish",
+            "bird",
+            "insect",
+            "shellfish"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "get_water",
+            "sharpen_stick",
+            "catch_fish",
+            "hunt_bird",
+            "hunt_insect",
+            "get_shellfish",
+            "cook",
+            "get_stick",
+            "start_fire",
+            "get_tarp",
+            "get_leave",
+            "construct_shelter"
+        ],
+        "predicates": [
+            "has_water_source",
+            "treated",
+            "at",
+            "inventory",
+            "connected",
+            "blocked",
+            "edible",
+            "has_fish",
+            "has_bird",
+            "has_insect",
+            "has_shellfish",
+            "has_fire",
+            "sheltered"
+        ]
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "yes",
+        "name": "Anonymous"
+    }
+}

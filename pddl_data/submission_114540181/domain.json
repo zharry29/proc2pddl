@@ -1,0 +1,230 @@
+{
+    "survive_in_the_jungle": {
+        "problems": {
+            "hunger": {
+                "part_number": "0",
+                "method_number": "2",
+                "step_number": "1",
+                "step_contents": " Look for fruits and plants that you recognize and are safe to eat. Jungles are full of tropical fruits and edible plants if you know what to look for. Don\u2019t try eating any plants that you don\u2019t recognize because they could be poisonous.[5] Look for common jungle fruits you have eaten before such as bananas, pineapples, oranges, passion fruit, coconuts, mangos, and avocados. Bamboo and palms are also safe to eat and commonly found in jungles. Almost all types of palm trees have an edible \"heart\" that you can harvest from the inside of the tree. You can eat bamboo shoots, in other words bamboo that is just starting to grow, but you should boil them before eating them as they are quite tough.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "stone": [],
+                        "wood": [],
+                        "bamboo_container": [
+                            "Bamboo"
+                        ],
+                        "water": [],
+                        "fire": [],
+                        "sos_sign": [],
+                        "fruit": [
+                            "fruits",
+                            "tropical fruits",
+                            "bananas",
+                            "pineapples",
+                            "oranges",
+                            "passion fruit",
+                            "coconuts",
+                            "mangos",
+                            "avocados"
+                        ],
+                        "location": [
+                            "Jungles"
+                        ],
+                        "basecamp": [],
+                        "condition": [],
+                        "ill": [],
+                        "dehydrated": [],
+                        "hungry": [],
+                        "player": [],
+                        "direction": []
+                    },
+                    "predicates": {
+                        "has_bamboo": [],
+                        "has_rainfall": [],
+                        "has_fruit": [],
+                        "treated": [],
+                        "is": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "get_bamboo_container": [],
+                        "collect_rain_water": [],
+                        "create_fire": [],
+                        "treat_water": [],
+                        "drink_water": [],
+                        "drink_untreated_water": [],
+                        "create_sos_sign": [],
+                        "pick_fruit": [],
+                        "eat_fruit": [],
+                        "escape": []
+                    }
+                }
+            },
+            "dehydration": {
+                "part_number": "0",
+                "method_number": "1",
+                "step_number": "1, 2",
+                "step_contents": "Collect rainfall from leaves and bamboo stalks. Look for large leaves that collect rainfall and bend them into a funnel to pour the water into a bottle or straight into your mouth. Bend bamboo stalks to let the water that collects in the compartments flow out into a container or break the bamboo compartment off at the line that goes across the stalk to use it as a water bottle.[1] You could also look for rock formations that form natural pools and collect rainwater, but it is best to do this after a fresh rainfall to avoid pools that have been sitting for a long time and may be contaminated with bacteria. If you don\u2019t have a water bottle or other container to collect water, try to find other natural containers in the jungle such as a coconut shell or piece of wood shaped like a bowl. You can also leave these items out when it rains to collect the fresh water.  Boil water from streams to kill any bacteria. Look for running streams to find fresh water.[2] Filter out any particles through a sock, shirt, or other fabric, then start a fire and boil the water to kill bacteria that can make you sick.[3] If you don\u2019t have a pot to boil water in, then you can use a tin can, single-walled stainless steel water bottle, or any other metal container. If you have no way of making a fire or boiling the water, then you should avoid drinking water from streams. It can be contaminated with many types of bacteria from animals that will make you very sick. Always avoid drinking water from stagnant pools as the water is likely contaminated.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "stone": [],
+                        "wood": [],
+                        "bamboo_container": [
+                            "bamboo",
+                            "bamboo stalks"
+                        ],
+                        "water": [
+                            "rainfall"
+                        ],
+                        "fire": [
+                            "fire",
+                            "boil"
+                        ],
+                        "sos_sign": [],
+                        "fruit": [],
+                        "location": [],
+                        "basecamp": [],
+                        "condition": [],
+                        "ill": [],
+                        "dehydrated": [],
+                        "hungry": [],
+                        "player": [],
+                        "direction": []
+                    },
+                    "predicates": {
+                        "has_bamboo": [],
+                        "has_rainfall": [],
+                        "has_fruit": [],
+                        "treated": [],
+                        "is": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "get_bamboo_container": [],
+                        "collect_rain_water": [],
+                        "create_fire": [],
+                        "treat_water": [],
+                        "drink_water": [],
+                        "drink_untreated_water": [],
+                        "create_sos_sign": [],
+                        "pick_fruit": [],
+                        "eat_fruit": [],
+                        "escape": []
+                    }
+                }
+            },
+            "escape": {
+                "part_number": "0",
+                "method_number": "5",
+                "step_number": "3",
+                "step_contents": " Create a message that can be seen from the air if you're trying to get rescued. If you do not have a crash site, you can still look for clear areas and spell out \u201cSOS\u201d using sticks and stones so it can be seen from the air by any passing planes or helicopters. This will increase your chances of someone coming to look for you.",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "stone": [],
+                        "wood": [],
+                        "bamboo_container": [],
+                        "water": [],
+                        "fire": [],
+                        "sos_sign": [],
+                        "fruit": [],
+                        "location": [],
+                        "basecamp": [],
+                        "condition": [],
+                        "ill": [],
+                        "dehydrated": [],
+                        "hungry": [],
+                        "player": [],
+                        "direction": []
+                    },
+                    "predicates": {
+                        "has_bamboo": [],
+                        "has_rainfall": [],
+                        "has_fruit": [],
+                        "treated": [],
+                        "is": [],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "blocked": []
+                    },
+                    "actions": {
+                        "go": [],
+                        "get": [],
+                        "get_bamboo_container": [],
+                        "collect_rain_water": [],
+                        "create_fire": [],
+                        "treat_water": [],
+                        "drink_water": [],
+                        "drink_untreated_water": [],
+                        "create_sos_sign": [],
+                        "pick_fruit": [],
+                        "eat_fruit": [],
+                        "escape": []
+                    }
+                }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Survive-in-the-Jungle",
+        "wikihow_title": "How to Survive in the Jungle",
+        "types": [
+            "item",
+            "stone",
+            "wood",
+            "bamboo_container",
+            "water",
+            "fire",
+            "sos_sign",
+            "fruit",
+            "location",
+            "basecamp",
+            "condition",
+            "ill",
+            "dehydrated",
+            "hungry",
+            "player",
+            "direction"
+        ],
+        "actions": [
+            "go",
+            "get",
+            "get_bamboo_container",
+            "collect_rain_water",
+            "create_fire",
+            "treat_water",
+            "drink_water",
+            "drink_untreated_water",
+            "create_sos_sign",
+            "pick_fruit",
+            "eat_fruit",
+            "escape"
+        ],
+        "predicates": [
+            "has_bamboo",
+            "has_rainfall",
+            "has_fruit",
+            "treated",
+            "is",
+            "at",
+            "inventory",
+            "connected",
+            "blocked"
+        ]
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "y",
+        "name": "Anonymous"
+    }
+}
