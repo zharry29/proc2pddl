@@ -1,0 +1,13 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action get_water ; get water from a location that has a water source like a lake.
+(:action drop ; drop down an item and remove it from the inventory
+(:action clear_spider ; clear off any critters or spiders that may be on the branch or leaves
+(:action insert_beam ; insert end(s) of the branch into the split(s) of the tree(s)
+(:action lean_branches ; Lean branches against the main branch to form the structure of your shelter.
+(:action layer ; Lay twigs and leaves
+(:action wash ; Wash off plants that you find.
+(:action eat ; Eat anything you find edible
+(:action make_snare ; Take a piece of wire and make a large circle
+(:action make_horizontal_bar ; Make a horizontal bar with a branch to hang your snare
+(:action hang_snare ; Hang the circle of the snare over a path

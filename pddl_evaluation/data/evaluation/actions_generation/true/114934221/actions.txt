@@ -1,0 +1,11 @@
+(:action splash_swim ; swim with loud sounds - you don't get to monitor the shark!
+(:action swim ; swim normally till you reach safety!
+(:action get ; pick up an item and put it in the inventory
+(:action onboard ; get on to the ship
+(:action defend ; defend yourself
+(:action spot_ship ; spot ships that are nearby
+(:action spot_shark ; spot shark nearby
+(:action self_mobilize ; use your own body as weapons!
+(:action medicare ; get help from medicare, to deal with your wounds
+(:action attack_vulnerable ; attack shark on its eyes / gill / snout
+(:action knockout ; attack shark on its eyes / gill / snout

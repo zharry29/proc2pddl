@@ -1,0 +1,14 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action get_water ; get water from a location that has a water source like a lake.
+(:action sharpen_stick ; sharpen stick to hunt fish or bird or to use it to make a fire
+(:action catch_fish ; catch fish from a location that has fish.
+(:action hunt_bird ; catch a bird from a location that has birds.
+(:action hunt_insect ; catch an insect from a location that has insects.
+(:action get_shellfish ; catch shellfish from a location that has fish.
+(:action cook ; cook to make animal edible
+(:action get_stick ; get a stick from bosk
+(:action start_fire ; start a fire at a location
+(:action get_tarp ; get tarp for shelter construction
+(:action get_leave ; get leaves for shelter construction
+(:action construct_shelter ; construct a shelter with stick plus either tarp or leaves

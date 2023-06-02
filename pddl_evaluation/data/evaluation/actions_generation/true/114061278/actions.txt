@@ -1,0 +1,7 @@
+(:action get ; pick up a item and put it in the inventory
+(:action poke ; poke a hole in the top of the coconut
+(:action flip ; turn the coconut upside down
+(:action wrap ; wrap the coconut
+(:action hit ; hit the wrapped coconut with a mallet
+(:action free ; run a knife between the shell and the meat to free it
+(:action remove_fiber ; remove the fiber from the meat

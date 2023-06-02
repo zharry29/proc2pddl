@@ -1,0 +1,14 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action get_water ; get water from a location that has a water source like a lake.
+(:action chop_wood ; chop down wood from a nearby tree.
+(:action carve_groove ; create a grove in wood to light flint.
+(:action light_fire ; light a fire
+(:action build_shelter ; create a grove in wood to light flint.
+(:action clean_water ; boil water to clean it
+(:action drink_water ; drink water
+(:action find_other_survivors ; find other survivors on the deserted island
+(:action build_raft ; build a raft to escape the deserted island
+(:action make_weapon ; create a spear to hunt fish
+(:action hunt_fish ; catch fish with spear
+(:action cook_fish ; cook fish

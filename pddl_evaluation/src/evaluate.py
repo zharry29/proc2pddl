@@ -72,7 +72,7 @@ class Planner:
         return state.difference(negative).union(positive)
     
 true_dir = '../data/evaluation/actions_generation/true/'
-pred_dir = f'../data/evaluation/actions_generation/pred/{args.model}/{args.prompt}/'
+pred_dir = f'../data/evaluation/actions_generation/pred/{args.model}_{args.prompt}/'
 cache_dir = '../data/evaluation/cache/'
 
 class Tester:
@@ -126,20 +126,18 @@ class Tester:
     def eval_action_generation(self, true_dir, pred_dir):
         self.true_dir = true_dir
         self.pred_dir = pred_dir
-        #self.meta_data = json.load(open(pred_dir + 'meta_data.json'))
         
-        eval_results = {}
-        #for output_action_file in self.meta_data[test_case]:
         case_results_raw = {}
-        for proc_id in range(1):
-            proc_id += 1
+        for proc_id in os.listdir(pred_dir):
+            print(proc_id)
+            proc_id = proc_id.strip('.txt')
 
             domain_header_fp = '{true_dir}/{test_case}/domain_header.pddl'.format(
                 true_dir = true_dir,
                 test_case = proc_id
             )
             domain_header = ''.join(open(domain_header_fp).readlines())
-            output_action_file = f"gpt4_p1_{proc_id}.txt"
+            output_action_file = f"{proc_id}.txt"
             case_results_raw[output_action_file] = {
                 'intrinsic': 'pass',
                 'extrinsic': None

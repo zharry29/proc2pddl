@@ -1,0 +1,14 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action get_water ; get water from a location that has a water source like a lake.
+(:action strain_water ; strain water using cloth
+(:action boil_water ; boil water using container
+(:action purify_in_sunlight ; purify water in sunlight
+(:action get_long_branch ; get long branch for shelter
+(:action get_propped_branches ; get branches to prop up the main one
+(:action get_twigs_leaves ; get twigs and leaves
+(:action build_shelter ; built shelter
+(:action get_logs ; get logs
+(:action get_dry_materials ; get dry materials
+(:action build_teepee ; build teepee structure
+(:action start_fire ; start_fire

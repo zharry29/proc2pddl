@@ -1,0 +1,13 @@
+(:action go
+(:action get
+(:action drop
+(:action cook
+(:action order_sushi
+(:action buy_sake
+(:action serve
+(:action brew
+(:action get_beer
+(:action open
+(:action hang_lantern
+(:action blow_balloon
+(:action turn_on_tv

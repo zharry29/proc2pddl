@@ -1,0 +1,13 @@
+(:action go
+(:action get
+(:action drop
+(:action get_water ; get water from a location that has a water source like a lake.
+(:action boil_water ; boil water that has not been treated.
+(:action collect_rain_water ; collect rain water to be treated.
+(:action loot_shelter ; steal food from location that is occupied.
+(:action break_car_window ; steal food from car.
+(:action gofish
+(:action find_shelter
+(:action clean_wound ; heal injury.
+(:action clean_others_wound ; heal injury.
+(:action barter_food_for_healing ; get food in exchange for healing.

@@ -4,6 +4,10 @@ from pathlib import Path
 def get_domain_header(domain):
     return domain.split("(:action")[0].strip()
 
+def get_action_names(domain):
+    # return all lines that start with (:action
+    return '\n'.join([line.strip() for line in domain.split("\n") if line.strip().startswith("(:action")])
+
 for folder_name in os.listdir("../../pddl_data"):
     # Copy domain files
     with open(f"../../pddl_data/{folder_name}/domain.pddl", "r") as f:
@@ -14,6 +18,8 @@ for folder_name in os.listdir("../../pddl_data"):
         f.write(domain)
     with open(f"../data/evaluation/actions_generation/true/{stripped_folder_name}/domain_header.pddl", "w") as f:
         f.write(get_domain_header(domain))
+    with open(f"../data/evaluation/actions_generation/true/{stripped_folder_name}/actions.txt", "w") as f:
+        f.write(get_action_names(domain))
     # Copy problem files
     Path(f"../data/evaluation/actions_generation/true/{stripped_folder_name}/problems").mkdir(parents=True, exist_ok=True)
     for fname in os.listdir(f"../../pddl_data/{folder_name}"):

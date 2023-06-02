@@ -1,0 +1,13 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action pick_lock_with_card ; pick lock
+(:action file_key_into_wrench ; make wrench from allen key
+(:action bend_paperclip_into_pick  ; bend paperclip into pick
+(:action insert_wrench ; insert wrench
+(:action insert_pick ; insert pick
+(:action push_pins_out_of_tumblers ; pick lock with wrench and pick
+(:action straighten_coathanger ; straighten coathanger
+(:action lift_weatherstripping ;    lift weatherstripping
+(:action insert_hanger ;    insert hanger
+(:action hook_latch ;    hook onto car latch
+(:action pull_coathanger ;  unlock the car
