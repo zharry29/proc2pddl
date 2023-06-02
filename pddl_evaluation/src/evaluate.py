@@ -7,6 +7,12 @@ import os
 import numpy as np
 import re
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--model', type=str, default='gpt4')
+parser.add_argument('--prompt', type=str, default='basic_instructions')
+args = parser.parse_args()
+
 class Planner:
 
     # -----------------------------------------------
@@ -66,7 +72,7 @@ class Planner:
         return state.difference(negative).union(positive)
     
 true_dir = '../data/evaluation/actions_generation/true/'
-pred_dir = '../data/evaluation/actions_generation/pred/'
+pred_dir = f'../data/evaluation/actions_generation/pred/{args.model}/{args.prompt}/'
 cache_dir = '../data/evaluation/cache/'
 
 class Tester:
