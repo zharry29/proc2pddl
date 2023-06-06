@@ -4,6 +4,16 @@ from pathlib import Path
 def get_domain_header(domain):
     return domain.split("(:action")[0].strip()
 
+def get_actions(domain):
+    out = "(:action" + "(:action".join(domain.split("(:action")[1:])
+    out_reformatted = []
+    for line in out.split('\n'):
+        if line[:3] == "   ":
+            out_reformatted.append(line[3:])
+        else:
+            out_reformatted.append(line)
+    return "\n".join(out_reformatted)
+
 def get_action_names(domain):
     # return all lines that start with (:action
     return '\n'.join([line.strip() for line in domain.split("\n") if line.strip().startswith("(:action")])
@@ -28,3 +38,7 @@ for folder_name in os.listdir("../../pddl_data"):
                 problem = f.read()
             with open(f"../data/evaluation/actions_generation/true/{stripped_folder_name}/problems/{fname}", "w") as f:
                 f.write(problem)
+    # Copy gold data as pred
+    Path(f"../data/evaluation/actions_generation/pred/gold_gold/").mkdir(parents=True, exist_ok=True)
+    with open(f"../data/evaluation/actions_generation/pred/gold_gold/{stripped_folder_name}.txt", "w") as f:
+        f.write(get_actions(domain))
