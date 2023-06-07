@@ -37,7 +37,6 @@
         (signaling ?campfire - campfire) ;True if campfire is acting as a smoke signal
     )
 
-
     ; (:functions ;todo: define numeric functions here
     ; )
 

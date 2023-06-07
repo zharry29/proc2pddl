@@ -1,4 +1,4 @@
-(:action listen_to_astronomers_predictions ; listen to astronomers’ predictions on collision with earth
+(:action listen_to_astronomers_predictions ; listen to astronomers predictions on collision with earth
 (:action move_away ; flight from coastal area to inland area
 (:action go ; navigate to an adjacent location
 (:action buy_supplies ; buy supplies and put it in the inventory

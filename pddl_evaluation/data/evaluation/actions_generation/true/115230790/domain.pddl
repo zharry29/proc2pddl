@@ -18,7 +18,7 @@
       (has_air_filtration_system ?bk - bunker) ; bunker has air filtration system
       (has_strong_material ?bk - bunker) ; bunker has strong material
       (has_pc ?p) ; has a pc to listen to broadcast
-      (listen_to_broadcast ?p - player ?l - location); listen to astronomers’ predictions on collision with earth
+      (listen_to_broadcast ?p - player ?l - location); listen to astronomers predictions on collision with earth
       (coastal ?c - city) ; coastal area
       (inland ?c - city) ;  inland area
    )  

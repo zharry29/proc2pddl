@@ -128,7 +128,9 @@ class Tester:
         self.pred_dir = pred_dir
         
         case_results_raw = {}
+        # ["114905535"]
         for proc_id in os.listdir(pred_dir):
+        #for proc_id in  ["114406878"]:
             print(proc_id)
             proc_id = proc_id.strip('.txt')
 
@@ -142,17 +144,19 @@ class Tester:
                 'intrinsic': 'pass',
                 'extrinsic': None
             }
+            # print(0)
             # 0. getting the domain file
             output_actions = ''.join(open('{pred_dir}/{action_file}'.format(
                 pred_dir = pred_dir,
                 action_file = output_action_file
             )).readlines())
             pred_domain = domain_header + output_actions
-            
+            # print(1)
             # 1. Intrinsic check domain file
             tmp_domain_file = cache_dir + 'tmp_action_generation.pddl'
             with open(cache_dir + 'tmp_action_generation.pddl', 'w') as file:
                 file.write(pred_domain)
+            #print(1.1)
             # 1.1 check if parse-able
             parser = PDDL_Parser()
             intrinsic_done = False
@@ -162,12 +166,14 @@ class Tester:
                 case_results_raw[output_action_file]['intrinsic'] = 'parsing_error'
                 #continue
                 intrinsic_done = True
+            # print(1.2)
             # 1.2 check if actions are all found
             if not intrinsic_done:
                 action_found, action_total = self.check_action_list(true_dir, proc_id, output_actions)
                 if action_total > action_found:
                     case_results_raw[output_action_file]['intrinsic'] = 'action_incomplete'
                     #continue
+            # print(2)
             # 2. Extrinsic evaluations
             case_results_raw[output_action_file]['extrinsic'] = {}
             problem_dir = '{true_dir}/{test_case}/problems/'.format(
@@ -175,6 +181,7 @@ class Tester:
                 test_case = proc_id
             )
             for problem in os.listdir(problem_dir):
+                # print('2:',problem)
                 if '.pddl' not in problem:
                     continue
                 problem_file = '{true_dir}/{test_case}/problems/{problem}'.format(
@@ -182,7 +189,7 @@ class Tester:
                     test_case = proc_id,
                     problem = problem
                 )
-
+                #print('2.2:',problem)
                 plan = self.eval_unit_action_generation(tmp_domain_file, problem_file)
                 if plan:
                         case_results_raw[output_action_file]['extrinsic'][problem] = 'solved'

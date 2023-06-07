@@ -27,6 +27,4 @@
         (inventory npc water);todo: put the goal condition here
     ))
 
-    ;un-comment the following line if metric is needed
-    ;(:metric minimize (???))
 )
