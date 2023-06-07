@@ -1,0 +1,47 @@
+(:action listen_to_astronomers_predictions
+    :parameters (?player - player ?loc - location)
+    :precondition (and (at ?player ?loc))
+    :effect (listen_to_broadcast ?player ?loc))
+
+(:action move_away
+    :parameters (?player - player ?coastal - city ?inland - city ?dir - direction)
+    :precondition (and (at ?player ?coastal)
+                       (coastal ?coastal)
+                       (inland ?inland)
+                       (connected ?coastal ?dir ?inland))
+    :effect (and (at ?player ?inland)
+                 (not (at ?player ?coastal))))
+
+(:action check_bunker
+    :parameters (?player - player ?bunker - bunker)
+    :precondition (and (at ?player ?bunker))
+    :effect (find_good_bunker ?bunker))
+
+(:action buy_supplies
+    :parameters (?player - player ?market - location)
+    :precondition (and (at ?player ?market))
+    :effect (inventory ?it - item))
+
+(:action check_weapons
+    :parameters (?player - player ?weapon_market - location)
+    :precondition (and (at ?player ?weapon_market))
+    :effect (inventory ?weapon - weapon))
+
+(:action outfit_bunker_with_energy_source
+    :parameters (?player - player ?bunker - bunker ?energy_source-item)
+    :precondition (and (at ?player ?bunker)
+                       (inventory ?energy_source))
+    :effect (outfit_bunker_with_heat ?bunker))
+
+(:action enjoylife
+    :parameters (?player - player ?bunker - bunker)
+    :precondition (at ?player ?bunker)
+    :effect (enjoylife ?player ?bunker))
+
+(:action connect_through_social_media_with_family
+    :parameters (?player - player ?loc - location ?pc - object)
+    :precondition (and (at ?player ?loc)
+                       (has_pc ?player))
+    :effect (family_members_know_you_are_safe))
+
+)
