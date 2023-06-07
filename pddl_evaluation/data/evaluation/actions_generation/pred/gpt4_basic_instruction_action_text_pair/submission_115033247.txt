@@ -1,0 +1,55 @@
+(:action go
+ :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?item ?loc))
+ :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+(:action pour_water
+ :parameters (?player - player ?bowl_of_water - bowl_of_water ?strips - papyrus_strips)
+ :precondition (inventory ?player ?bowl_of_water)
+ :effect (wet ?strips)
+)
+
+(:action place_strips_between_boards
+ :parameters (?player - player ?strips - papyrus_strips ?boards - wooden_boards)
+ :precondition (and (inventory ?player ?strips) (inventory ?player ?boards) (strips_woven ?strips))
+ :effect (strips_between_boards)
+)
+
+(:action cut_stalks
+ :parameters (?player - player ?tree - papyrus_tree ?stalks - papyrus_stalks ?cutting_tool - (either pruner scissors))
+ :precondition (and (at ?player ?tree) (inventory ?player ?cutting_tool))
+ :effect (and (not (at ?tree)) (at ?stalks ?player))
+)
+
+(:action papyrus_strips
+ :parameters (?player - player ?stalks - papyrus_stalks ?strips - papyrus_strips ?knife - knife)
+ :precondition (and (inventory ?player ?stalks) (inventory ?player ?knife))
+ :effect (and (not (inventory ?player ?stalks)) (inventory ?player ?strips))
+)
+
+(:action polish_papyrus
+ :parameters (?player - player ?papyrus - papyrus ?polishing_tool - (either shell ivory smooth_stone))
+ :precondition (and (inventory ?player ?papyrus) (inventory ?player ?polishing_tool) (flattened ?papyrus))
+ :effect (polished ?papyrus)
+)
+
+(:action flatten_papyrus
+ :parameters (?player - player ?papyrus - papyrus ?surface - (either linen_cloth stone_slab))
+ :precondition (and (at ?player ?surface) (strips_between_boards))
+ :effect (flattened ?papyrus)
+)
+
+(:action cut_papyrus
+ :parameters (?player - player ?papyrus - papyrus ?cutting_tool - (either razor scissors paper_cutter))
+ :precondition (and (inventory ?player ?papyrus) (inventory ?player ?cutting_tool) (polished ?papyrus))
+ :effect (cut ?papyrus)
+)
+
+)

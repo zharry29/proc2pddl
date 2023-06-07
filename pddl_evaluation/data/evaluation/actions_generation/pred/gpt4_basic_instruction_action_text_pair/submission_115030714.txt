@@ -1,0 +1,66 @@
+(:action go
+:parameters (?p - player ?l1 - location ?l2 - location ?dir - direction)
+:precondition (and (inventory ?p) (connected ?l1 ?dir ?l2) (at ?p ?l1))
+:effect (and (at ?p ?l2) (not (at ?p ?l1)))
+
+(:action get
+:parameters (?p - player ?i - item ?loc - location)
+:precondition (and (at ?p ?loc) (at ?i ?loc) (inventory ?p))
+:effect (and (inventory ?p ?i) (not (at ?i ?loc)))
+
+(:action drop
+:parameters (?p - player ?i - item ?loc - location)
+:precondition (and (at ?p ?loc) (inventory ?p ?i))
+:effect (and (at ?i ?loc) (not (inventory ?p ?i)))
+
+(:action cook
+:parameters (?p - player ?f - food ?loc - location)
+:precondition (and (at ?p ?loc) (has_kitchen ?loc) (inventory ?p ?f))
+:effect (cooked ?f)
+
+(:action order_sushi
+:parameters (?l - location ?f - food)
+:precondition (has_fridge ?l)
+:effect (and (at ?f ?l))
+
+(:action buy_sake
+:parameters (?l - location ?d - drink)
+:precondition (has_fridge ?l)
+:effect (and (at ?d ?l))
+
+(:action serve
+:parameters (?p - player ?d - drink ?loc - location)
+:precondition (and (at ?p ?loc) (inventory ?p ?d) (opened ?d))
+:effect (served ?d)
+
+(:action brew
+:parameters (?p - player ?d - drink ?loc - location)
+:precondition (and (at ?p ?loc) (has_kitchen ?loc) (inventory ?p ?d))
+:effect (brewed ?d)
+
+(:action get_beer
+:parameters (?l - location ?d - drink)
+:precondition (has_fridge ?l)
+:effect (and (at ?d ?l))
+
+(:action open
+:parameters (?p - player ?d - drink)
+:precondition (inventory ?p ?d)
+:effect (opened ?d)
+
+(:action hang_lantern
+:parameters (?p - player ?l - item ?loc - location)
+:precondition (and (at ?p ?loc) (inventory ?p ?l))
+:effect (hung ?l)
+
+(:action blow_balloon
+:parameters (?p - player ?b - item)
+:precondition (inventory ?p ?b)
+:effect (inflated ?b)
+
+(:action turn_on_tv
+:parameters (?p - player ?t - item ?loc - location)
+:precondition (and (at ?p ?loc) (at ?t ?loc))
+:effect (on ?t)
+
+)
