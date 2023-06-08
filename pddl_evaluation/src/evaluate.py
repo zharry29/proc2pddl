@@ -194,6 +194,8 @@ class Tester:
                 )
                 #print('2.2:',problem)
                 plan = self.eval_unit_action_generation(tmp_domain_file, problem_file)
+                action_sequence = [ac.name for ac in plan]
+                print(action_sequence)
                 if plan:
                         case_results_raw[output_action_file]['extrinsic'][problem] = 'solved'
                 else:
