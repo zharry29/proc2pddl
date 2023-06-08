@@ -11,6 +11,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', type=str, default='gpt4')
 parser.add_argument('--prompt', type=str, default='basic_instructions')
+parser.add_argument('--id', type=str, default='')
 args = parser.parse_args()
 
 class Planner:
@@ -130,6 +131,8 @@ class Tester:
         case_results_raw = {}
         # ["114905535"]
         for proc_id in os.listdir(pred_dir):
+            if not proc_id.startswith(args.id):
+                continue
         #for proc_id in  ["114406878"]:
             print(proc_id)
             proc_id = proc_id.strip('.txt')
