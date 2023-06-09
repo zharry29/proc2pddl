@@ -11,6 +11,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', type=str, default='gpt4')
 parser.add_argument('--prompt', type=str, default='basic_instructions')
+parser.add_argument('--id', type=str, default='')
 args = parser.parse_args()
 
 class Planner:
@@ -129,8 +130,8 @@ class Tester:
         
         case_results_raw = {}
         # ["114905535"]
-        #for proc_id in os.listdir(pred_dir):
-        for proc_id in  ["115230790","115033247"]:
+        for proc_id in os.listdir(pred_dir):
+        #for proc_id in  ["114406878"]:
             print(proc_id)
             proc_id = proc_id.strip('.txt')
 
@@ -191,6 +192,8 @@ class Tester:
                 )
                 print('2.2:',problem)
                 plan = self.eval_unit_action_generation(tmp_domain_file, problem_file)
+                action_sequence = [ac.name for ac in plan]
+                print(action_sequence)
                 if plan:
                         case_results_raw[output_action_file]['extrinsic'][problem] = 'solved'
                 else:
