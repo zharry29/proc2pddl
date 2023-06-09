@@ -129,8 +129,8 @@ class Tester:
         
         case_results_raw = {}
         # ["114905535"]
-        for proc_id in os.listdir(pred_dir):
-        #for proc_id in  ["114406878"]:
+        #for proc_id in os.listdir(pred_dir):
+        for proc_id in  ["115230790","115033247"]:
             print(proc_id)
             proc_id = proc_id.strip('.txt')
 
@@ -173,7 +173,7 @@ class Tester:
                 if action_total > action_found:
                     case_results_raw[output_action_file]['intrinsic'] = 'action_incomplete'
                     #continue
-            # print(2)
+            print(2)
             # 2. Extrinsic evaluations
             case_results_raw[output_action_file]['extrinsic'] = {}
             problem_dir = '{true_dir}/{test_case}/problems/'.format(
@@ -189,7 +189,7 @@ class Tester:
                     test_case = proc_id,
                     problem = problem
                 )
-                #print('2.2:',problem)
+                print('2.2:',problem)
                 plan = self.eval_unit_action_generation(tmp_domain_file, problem_file)
                 if plan:
                         case_results_raw[output_action_file]['extrinsic'][problem] = 'solved'

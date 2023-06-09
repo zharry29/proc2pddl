@@ -23,7 +23,7 @@
       (inland ?c - city) ;  inland area
    )  
 
-   (:action listen_to_astronomers_predictions ; listen to astronomers’ predictions on collision with earth
+   (:action listen_to_astronomers_predictions ; listen to astronomers predictions on collision with earth
       :parameters (?p - player ?l1 - location) 
       :precondition (and (at ?p ?l1) (has_pc ?p))
       :effect (and (listen_to_broadcast ?p ?l1))

@@ -4,14 +4,17 @@
 
    (:objects
       npc - player
-      home market weapon_market - location
+      market - market
+      weapon_market - weapon_market
+      home - location
       in out north south east west up down - direction
       water - water 
       food - food 
       medicine - medicine
-      pistol ammunition - weapon
+      heat - energy_source
+      pistol - pistol 
+      ammunition - ammunition
       bunker1 bunker2 - bunker
-
    )
 
    (:init
@@ -32,7 +35,8 @@
       (at medicine market)
       (at pistol weapon_market)
       (at ammunition weapon_market)
+      (at heat market)
    )
 
-   (:goal (and (outfit_bunker_with_heat bunker2) (enough_supplies) (enough_weapons) ))
+   (:goal (and (outfit_bunker_with_heat bunker2) (enough_weapons) (enough_supplies)))
 )
