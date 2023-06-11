@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>
 
 import itertools
-
+from collections import defaultdict
 
 class Action:
 
@@ -96,7 +96,122 @@ class Action:
             new_group.append(pred)
         return new_group
 
-
+def action_comp(Action1,Action2):
+    p1 = Action1.parameters
+    p2 = Action2.parameters
+    pp1 = Action1.positive_preconditions
+    pp2 = Action2.positive_preconditions
+    np1 = Action1.negative_preconditions
+    np2 = Action2.negative_preconditions
+    ae1 = Action1.add_effects
+    ae2 = Action2.add_effects
+    de1 = Action1.del_effects
+    de2 = Action2.del_effects
+    if len(p1)!=len(p2) or len(pp1)!=len(pp2) or len(np1) != len(np2) or len(ae1) != len(ae2) or len(de1) != len(de2):
+        return False
+    p1 = sorted(p1, key=lambda x: x[1])
+    p2 = sorted(p2, key=lambda x: x[1])
+    d1 = defaultdict(list)
+    d2 = defaultdict(list)
+    paradict1 = {}
+    paradict2 = {}
+    for i in range(len(p1)):
+        if p1[i][1] != p2[i][1]:
+            return False
+        paradict1[p1[i][0]] = p1[i][1]
+        if p1[i][0] not in d1[p1[i][1]]:
+            d1[p1[i][1]].append(p1[i][0])
+        else:
+            return False
+        paradict2[p2[i][0]] = p2[i][1]
+        if p2[i][0] not in d2[p2[i][1]]:
+            d2[p2[i][1]].append(p2[i][0])
+        else:
+            return False
+    pp1 = sorted(pp1, key=lambda x: x[0])
+    pp2 = sorted(pp2, key=lambda x: x[0])
+    print(d1,paradict1,d2,paradict2)
+    count1 = 0 
+    count2 = 0
+    countdict1={}
+    countdict2={}
+    for i in range(len(pp1)):
+        if pp2[i][0] != pp1[i][0] or len(pp2[i]) != len(pp1[i]):
+            return False
+        for j in range(1,len(pp2[i])):
+            if paradict2[pp2[i][j]] != paradict1[pp1[i][j]]:
+                return False
+            if pp1[i][j] not in countdict1 and pp2[i][j] not in countdict2:
+                countdict1[pp1[i][j]]=count1
+                countdict2[pp2[i][j]]=count2
+                count1+=1
+                count2+=1
+            elif pp1[i][j] in countdict1 and pp2[i][j] in countdict2:
+                if countdict1[pp1[i][j]] != countdict2[pp2[i][j]]:
+                    print("not equal")
+                    return False
+            else:
+                return False
+    for i in range(len(np1)):
+        np2=list(np2)
+        np1=list(np1)
+        if np2[i][0] != np1[i][0] or len(np2[i]) != len(np1[i]):
+            return False
+        for j in range(1,len(np2[i])):
+            if paradict2[np2[i][j]] != paradict1[np1[i][j]]:
+                return False
+            if np1[i][j] not in countdict1 and np2[i][j] not in countdict2:
+                countdict1[np1[i][j]]=count1
+                countdict2[np2[i][j]]=count2
+                count1+=1
+                count2+=1
+            elif np1[i][j] in countdict1 and np2[i][j] in countdict2:
+                if countdict1[np1[i][j]] != countdict2[np2[i][j]]:
+                    print("not equal")
+                    return False
+            else:
+                return False
+    for i in range(len(ae1)):
+        ae2=list(ae2)
+        ae1=list(ae1)
+        if ae2[i][0] != ae1[i][0] or len(ae2[i]) != len(ae1[i]):
+            return False
+        for j in range(1,len(ae2[i])):
+            if paradict2[ae2[i][j]] != paradict1[ae1[i][j]]:
+                return False
+            if ae1[i][j] not in countdict1 and ae2[i][j] not in countdict2:
+                countdict1[ae1[i][j]]=count1
+                countdict2[ae2[i][j]]=count2
+                count1+=1
+                count2+=1
+            elif ae1[i][j] in countdict1 and ae2[i][j] in countdict2:
+                if countdict1[ae1[i][j]] != countdict2[ae2[i][j]]:
+                    print("not equal")
+                    return False
+            else:
+                return False
+    for i in range(len(de1)):
+        de2=list(de2)
+        de1=list(de1)
+        if de2[i][0] != de1[i][0] or len(de2[i]) != len(de1[i]):
+            return False
+        for j in range(1,len(de2[i])):
+            if paradict2[de2[i][j]] != paradict1[de1[i][j]]:
+                return False
+            if de1[i][j] not in countdict1 and de2[i][j] not in countdict2:
+                countdict1[de1[i][j]]=count1
+                countdict2[de2[i][j]]=count2
+                count1+=1
+                count2+=1
+            elif de1[i][j] in countdict1 and de2[i][j] in countdict2:
+                if countdict1[de1[i][j]] != countdict2[de2[i][j]]:
+                    print("not equal")
+                    return False
+            else:
+                return False
+    return True
+            
+            
 # -----------------------------------------------
 # Main
 # -----------------------------------------------
@@ -106,8 +221,17 @@ if __name__ == '__main__':
                        [['at', '?ag', '?to']],
                        [['at', '?ag', '?to']],
                        [['at', '?ag', '?from']])
+    
+    b = Action('move1', [['?aga', 'agent'], ['?toa', 'pos'], ['?froma', 'pos']],
+                       [['adjacent', '?froma', '?toa'],['at', '?aga', '?froma']],
+                       [['at', '?aga', '?toa']],
+                       [['at', '?aga', '?toa']],
+                       [['at', '?aga', '?froma']])
+    print("a")
     print(a)
-
+    print("b")
+    print(b)
+    print("is same?",action_comp(a,b))
     objects = {
         'agent': ['ana', 'bob'],
         'pos': ['p1', 'p2']
