@@ -1,0 +1,5 @@
+get ('npc', 'wooden_board', 'garage')
+go ('npc', 'in', 'garage', 'work_station')
+dry_out_strips ('npc', 'strip')
+weave_strips_into_sheet ('npc', 'strip', 'sheet')
+press_sheet ('npc', 'sheet', 'wooden_board', 'work_station')

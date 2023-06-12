@@ -1,0 +1,8 @@
+go ('south', 'npc', 'bedroom', 'closet')
+get ('balloon', 'npc', 'closet')
+get ('lantern', 'npc', 'closet')
+go ('north', 'npc', 'closet', 'bedroom')
+go ('west', 'npc', 'bedroom', 'livingroom')
+hang_lantern ('npc')
+blow_balloon ('npc')
+turn_on_tv ('npc', 'livingroom')

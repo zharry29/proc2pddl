@@ -1,0 +1,5 @@
+research ('npc', 'l1')
+go ('north', 'npc', 'home', 'l1')
+research ('npc', 'l2')
+go ('east', 'npc', 'l1', 'l2')
+go ('east', 'npc', 'l2', 'l3')

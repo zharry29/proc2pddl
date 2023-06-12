@@ -1,0 +1,7 @@
+get ('towel')
+get ('glass')
+get ('knife')
+get ('coconut')
+poke ('coconut', 'knife')
+flip ('coconut', 'glass', 'glass_filled')
+wrap ('coconut', 'glass_filled', 'coconut_wrapped', 'towel')

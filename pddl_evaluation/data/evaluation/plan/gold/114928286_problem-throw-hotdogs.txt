@@ -1,0 +1,4 @@
+go ('east', 'npc', 'kitchen', 'hallway')
+lay_masking_tape ('masking_tape', 'npc', 'hallway')
+thaw_food ('items', 'npc')
+throw ('items', 'npc', 'hallway')

@@ -1,0 +1,4 @@
+go ('west', 'npc', 'house', 'bus_stop')
+go ('north', 'npc', 'bus_stop', 'market')
+go ('in', 'npc', 'market', 'target')
+get_bag ('npc', 'target', 'bag')

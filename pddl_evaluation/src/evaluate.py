@@ -6,13 +6,16 @@ import json
 import os
 import numpy as np
 import re
+from pathlib import Path
 
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--model', type=str, default='gpt4')
-parser.add_argument('--prompt', type=str, default='basic_instructions')
+parser.add_argument('--prompt', type=str, default='')
 parser.add_argument('--id', type=str, default='')
 args = parser.parse_args()
+
+prompt_str = "_" + args.prompt if args.prompt != "" else ""
 
 class Planner:
 
@@ -73,8 +76,10 @@ class Planner:
         return state.difference(negative).union(positive)
     
 true_dir = '../data/evaluation/actions_generation/true/'
-pred_dir = f'../data/evaluation/actions_generation/pred/{args.model}_{args.prompt}/'
+pred_dir = f'../data/evaluation/actions_generation/pred/{args.model}{prompt_str}/'
 cache_dir = '../data/evaluation/cache/'
+
+Path(f"../data/evaluation/plan/{args.model}{prompt_str}").mkdir(parents=True, exist_ok=True)
 
 class Tester:
     def __init__(self, cache_dir = '../data/evaluation/cache/'):
@@ -132,8 +137,10 @@ class Tester:
         # ["114905535"]
         for proc_id in os.listdir(pred_dir):
         #for proc_id in  ["114406878"]:
+            if not proc_id.startswith(args.id):
+                continue
             print(proc_id)
-            proc_id = proc_id.strip('.txt')
+            proc_id = proc_id[:-4]
 
             domain_header_fp = '{true_dir}/{test_case}/domain_header.pddl'.format(
                 true_dir = true_dir,
@@ -174,7 +181,7 @@ class Tester:
                 if action_total > action_found:
                     case_results_raw[output_action_file]['intrinsic'] = 'action_incomplete'
                     #continue
-            print(2)
+            #print(2)
             # 2. Extrinsic evaluations
             case_results_raw[output_action_file]['extrinsic'] = {}
             problem_dir = '{true_dir}/{test_case}/problems/'.format(
@@ -190,14 +197,18 @@ class Tester:
                     test_case = proc_id,
                     problem = problem
                 )
-                print('2.2:',problem)
                 plan = self.eval_unit_action_generation(tmp_domain_file, problem_file)
-                action_sequence = [ac.name for ac in plan]
-                print(action_sequence)
-                if plan:
+                with open(f"../data/evaluation/plan/{args.model}{prompt_str}/{proc_id}_{problem[:-5]}.txt", 'w') as f:
+                    if plan:
                         case_results_raw[output_action_file]['extrinsic'][problem] = 'solved'
-                else:
-                    case_results_raw[output_action_file]['extrinsic'][problem] = 'unsolved'
+                        for ac in plan:
+                            f.write(ac.name + " ('" + "', '".join(ac.parameters) + "')\n")
+                    else:
+                        case_results_raw[output_action_file]['extrinsic'][problem] = 'unsolved'
+                        f.write("No solution")
+
+                #action_sequence = [ac.name, ac.parameters for ac in plan]
+                #print(action_sequence)
             
             #summary = self.eval_summary_stat(case_results_raw)
             #eval_results[proc_id] = {

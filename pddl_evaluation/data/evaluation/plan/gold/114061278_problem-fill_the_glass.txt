@@ -1,0 +1,5 @@
+get ('glass')
+get ('knife')
+get ('coconut')
+poke ('coconut', 'knife')
+flip ('coconut', 'glass', 'glass_filled')

@@ -1,0 +1,7 @@
+go ('west', 'npc', 'counter', 'fridge')
+get ('coconut', 'npc', 'fridge')
+go ('east', 'npc', 'fridge', 'counter')
+go ('north', 'npc', 'counter', 'rack')
+get ('knife', 'npc', 'rack')
+pierce ('npc')
+drain ('npc', 'rack')

@@ -1,0 +1,7 @@
+go ('north', 'npc', 'beach', 'root_of_tree')
+go ('north', 'npc', 'root_of_tree', 'jungle')
+go ('east', 'npc', 'jungle', 'hills')
+get ('sharp_stone', 'npc', 'hills')
+go ('west', 'npc', 'hills', 'jungle')
+hunt_animal ('npc', 'jungle', 'sharp_stone', 'animal')
+prepare_animal ('npc', 'jungle', 'sharp_stone', 'animal')

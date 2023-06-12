@@ -1,0 +1,3 @@
+go ('north', 'npc', 'kitchen', 'cabinet')
+get ('wooden_boards', 'npc', 'cabinet')
+place_strips_between_boards ('npc')

@@ -1,0 +1,2 @@
+go ('west', 'npc', 'camp', 'path')
+build_shelter ('npc', 'path', 'twigs_leaves', 'long_branch', 'propped_branches')

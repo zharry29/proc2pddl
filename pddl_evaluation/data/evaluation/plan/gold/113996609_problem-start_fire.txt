@@ -1,0 +1,8 @@
+go ('east', 'person', 'beach', 'jungle')
+chop_wood ('person', 'jungle', 'wood')
+go ('west', 'person', 'jungle', 'beach')
+get ('tinder', 'person', 'beach')
+go ('west', 'person', 'beach', 'ocean')
+get ('rock', 'person', 'ocean')
+carve_groove ('person', 'wood', 'rock')
+light_fire ('person', 'wood', 'beach', 'tinder', 'fire')

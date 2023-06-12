@@ -1,0 +1,6 @@
+get ('axe', 'npc', 'camp')
+go ('west', 'npc', 'camp', 'path')
+go ('south', 'npc', 'path', 'oaks')
+log_oak ('npc', 'oaks', 'axe', 'oak_log')
+get ('oak_log', 'npc', 'oaks')
+stack_log ('npc', 'oak_log', 'log_stack')

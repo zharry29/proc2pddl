@@ -1,0 +1,6 @@
+gather_info ('npc', 'ss')
+create_secret ('npc', 'ss')
+set_meeting_location ('npc', 'ss')
+set_dress_code ('npc', 'ss')
+create_name ('npc', 'ss')
+secret_society_is_ready ('npc', 'ss')
