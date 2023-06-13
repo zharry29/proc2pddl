@@ -96,7 +96,7 @@ class Action:
             new_group.append(pred)
         return new_group
 
-def action_comp(Action1,Action2):
+def action_equal(Action1,Action2):
     p1 = Action1.parameters
     p2 = Action2.parameters
     pp1 = Action1.positive_preconditions
@@ -130,7 +130,7 @@ def action_comp(Action1,Action2):
             return False
     pp1 = sorted(pp1, key=lambda x: x[0])
     pp2 = sorted(pp2, key=lambda x: x[0])
-    print(d1,paradict1,d2,paradict2)
+    #print(d1,paradict1,d2,paradict2)
     count1 = 0 
     count2 = 0
     countdict1={}
