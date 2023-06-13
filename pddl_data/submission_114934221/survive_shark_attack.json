@@ -1,0 +1,472 @@
+{
+    "survive_shark_attack": {
+        "problems": {
+            "defend": {
+                "part_number": "1",
+                "method_number": "0",
+                "step_number": "1",
+                "step_contents": "Do not take your eyes off the shark.[1] Sharks have several different attack methods. Sometimes they swim right up and charge, sometimes they circle for a while before lunging, and sometimes they sneak up from behind for a surprise attack. To be able to defend against the shark, you must know where it is, so make every effort to watch the animal, even as you are working out your escape.Stay calm and do not make sudden movements. When you first spot the shark, chances are it will swim away without bothering you. You cannot out-swim a shark, so trying to sprint to safety may not be your best option, unless you are already very close to shore. It is important to keep your wits about you, so you can continuously appraise the situation and figure out how to get to safety.[3]Move slowly toward the shore or a boat; choose whichever is closest. Do not thrash your arms or kick or splash while you swim. Do not block the shark's path. If you are standing between the shark and the open ocean, move away.[4] Do not turn your back on the shark as you move. Remember, it is important to keep the shark in view.[5] Get into a defensive position. If you cannot get out of the water right away, try to reduce the shark's possible angles of attack. If you are in shallow enough water, keep your feet on the ground. Slowly back up against a reef, piling, or rock outcropping or any solid obstruction so that the shark cannot circle around behind you. This way you only have to defend attacks in front of you. If you are diving near the shore, you may need to descend to find cover. Look for a reef or rock on the bottom of the ocean. In open water, get back-to-back with another swimmer or diver so that you can see, and defend against, an attack from any direction",
+                "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [
+                            "sea"
+                        ],
+                        "player": [],
+                        "direction": [],
+                        "location": [],
+                        "part": [],
+                        "shark": [
+                            "shark"
+                        ],
+                        "ship": [
+                            "boat"
+                        ],
+                    },
+                    "predicates": {
+                        "is_water": [],
+                        "visible": [],
+                        "wounded": [],
+                        "defending": [
+                            "defend",
+                        ],
+                        "attacked": [
+                            "weapon", "gun", "pole", "eyes", "gills", "head"
+                        ],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "on": [],
+                        "vulnerable": [
+                            "eyes", "gills", "head"
+                        ],
+                        "sharp": [
+                            "sharp object"
+                        ],
+                        "heavy": [],
+                        "fleed": [],
+                        "dizzy": []
+                    },
+                    "actions": {
+                        "splash_swim": [],
+                        "swim": [
+                            "swim"
+                        ],
+                        "get": [],
+                        "onboard": [],
+                        "defend": [
+                            "defend",
+                        ],
+                        "spot_ship": [],
+                        "spot_shark": [],
+                        "attack_vulnerable": [
+                            "weapon", "gun", "pole", "eyes", "gills", "head"
+                        ],
+                        "knockout": [
+                            "weapon", "gun", "pole", "eyes", "gills", "head"
+                        ],
+                        "self_mobilize": [
+                            "own body", "fists", "elbows", "knees", "feet"
+                        ],
+                        "medicare": [
+                            "treatment",
+                        ]
+                    }
+                }
+            },
+            "onboard": {
+                "part_number": "3",
+                "method_number": "0",
+                "step_number": "3",
+                "step_contents": "Get out of the water.[10] Even if the shark swims away, you are not truly safe until you are out of the water. Sharks may leave temporarily and then come back to continue the attack. Get back to shore or back on the boat as quickly as possible. If a boat is nearby, call out calmly, but loudly, for them to come to you. Stay as still as possible while waiting, as long as the shark is not actively attacking you; and get into the boat as quickly as possible, once the boat reaches you. If you are near shore, swim quickly, but smoothly. Thrashing will attract the shark's attention again and disperse your blood, which could draw more sharks. Do the smooth reverse breast stroke, which requires less splashing than other strokes. Get medical attention. If you have been bitten, get treatment as soon as possible. Massive blood loss could occur, depending on where you have been bitten, so immediately take appropriate steps to stop the bleeding. Even if your wounds appear minor, it is essential to get yourself checked out. Remain calm until you get medical care, so that your blood does not pump faster through your body.",
+               "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [
+                            "sea"
+                        ],
+                        "player": [],
+                        "direction": [],
+                        "location": [],
+                        "part": [],
+                        "shark": [
+                            "shark"
+                        ],
+                        "ship": [
+                            "boat"
+                        ],
+                    },
+                    "predicates": {
+                        "is_water": [],
+                        "visible": [],
+                        "wounded": [],
+                        "defending": [
+                            "defend",
+                        ],
+                        "attacked": [
+                            "weapon", "gun", "pole", "eyes", "gills", "head"
+                        ],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "on": [],
+                        "vulnerable": [
+                            "eyes", "gills", "head"
+                        ],
+                        "sharp": [
+                            "sharp object"
+                        ],
+                        "heavy": [],
+                        "fleed": [],
+                        "dizzy": []
+                    },
+                    "actions": {
+                        "splash_swim": [],
+                        "swim": [
+                            "swim"
+                        ],
+                        "get": [],
+                        "onboard": [],
+                        "defend": [
+                            "defend",
+                        ],
+                        "spot_ship": [],
+                        "spot_shark": [],
+                        "attack_vulnerable": [
+                            "weapon", "gun", "pole", "eyes", "gills", "head"
+                        ],
+                        "knockout": [
+                            "weapon", "gun", "pole", "eyes", "gills", "head"
+                        ],
+                        "self_mobilize": [
+                            "own body", "fists", "elbows", "knees", "feet"
+                        ],
+                        "medicare": [
+                            "treatment",
+                        ]
+                    }
+                }
+            },
+            "dispel": {
+                "part_number": "2",
+                "method_number": "0",
+                "step_number": "2",
+                "step_contents": "Hit the shark in the face and gills.Your best bet, if attacked, is to make the shark see you as a strong, credible threat. Usually, a hard blow to the shark's gills, eyes or snout (end of its nose) will cause it to retreat.[6] These are really the only vulnerable areas on a shark. If you have a spear gun or pole, use it! A sharp object is a good way to inflict enough pain to scare away the shark. Aim for the head, specifically the eyes or the gills.[7] If you do not have a weapon, improvise. Use any inanimate object, such as a camera or a rock to ward off the shark. If you have nothing around you, use your own body. Aim for the shark's eyes, gills, or snout. Fight with your fists, elbows, knees, and feet.[8] Sharks have surprisingly rough and sharp skin, unlike the smooth scales of other fish, so be aware of this. Keep fighting if the shark persists. Hit the eyes and gills repeatedly with hard, sharp jabs. Do not wind up before hitting, since this does not provide extra force underwater. You can also claw at the eyes and the gills. Keep doing this until the shark lets you go and swims away.[9]",
+               "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [
+                            "sea"
+                        ],
+                        "player": [],
+                        "direction": [],
+                        "location": [],
+                        "part": [],
+                        "shark": [
+                            "shark"
+                        ],
+                        "ship": [
+                            "boat"
+                        ],
+                    },
+                    "predicates": {
+                        "is_water": [],
+                        "visible": [],
+                        "wounded": [],
+                        "defending": [
+                            "defend",
+                        ],
+                        "attacked": [
+                            "weapon", "gun", "pole", "eyes", "gills", "head"
+                        ],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "on": [],
+                        "vulnerable": [
+                            "eyes", "gills", "head"
+                        ],
+                        "sharp": [
+                            "sharp object"
+                        ],
+                        "heavy": [],
+                        "fleed": [],
+                        "dizzy": []
+                    },
+                    "actions": {
+                        "splash_swim": [],
+                        "swim": [
+                            "swim"
+                        ],
+                        "get": [],
+                        "onboard": [],
+                        "defend": [
+                            "defend",
+                        ],
+                        "spot_ship": [],
+                        "spot_shark": [],
+                        "attack_vulnerable": [
+                            "weapon", "gun", "pole", "eyes", "gills", "head"
+                        ],
+                        "knockout": [
+                            "weapon", "gun", "pole", "eyes", "gills", "head"
+                        ],
+                        "self_mobilize": [
+                            "own body", "fists", "elbows", "knees", "feet"
+                        ],
+                        "medicare": [
+                            "treatment",
+                        ]
+                    }
+		}
+            },
+            "ultimate_win": {
+                "part_number": "0",
+                "method_number": "0",
+                "step_number": "0",
+                "step_contents": "Do not take your eyes off the shark.[1] Sharks have several different attack methods. Sometimes they swim right up and charge, sometimes they circle for a while before lunging, and sometimes they sneak up from behind for a surprise attack. To be able to defend against the shark, you must know where it is, so make every effort to watch the animal, even as you are working out your escape.Stay calm and do not make sudden movements. When you first spot the shark, chances are it will swim away without bothering you. You cannot out-swim a shark, so trying to sprint to safety may not be your best option, unless you are already very close to shore. It is important to keep your wits about you, so you can continuously appraise the situation and figure out how to get to safety.[3]Move slowly toward the shore or a boat; choose whichever is closest. Do not thrash your arms or kick or splash while you swim. Do not block the shark's path. If you are standing between the shark and the open ocean, move away.[4] Do not turn your back on the shark as you move. Remember, it is important to keep the shark in view.[5] Get into a defensive position. If you cannot get out of the water right away, try to reduce the shark's possible angles of attack. If you are in shallow enough water, keep your feet on the ground. Slowly back up against a reef, piling, or rock outcropping or any solid obstruction so that the shark cannot circle around behind you. This way you only have to defend attacks in front of you. If you are diving near the shore, you may need to descend to find cover. Look for a reef or rock on the bottom of the ocean. In open water, get back-to-back with another swimmer or diver so that you can see, and defend against, an attack from any direction. Hit the shark in the face and gills.Your best bet, if attacked, is to make the shark see you as a strong, credible threat. Usually, a hard blow to the shark's gills, eyes or snout (end of its nose) will cause it to retreat.[6] These are really the only vulnerable areas on a shark. If you have a spear gun or pole, use it! A sharp object is a good way to inflict enough pain to scare away the shark. Aim for the head, specifically the eyes or the gills.[7] If you do not have a weapon, improvise. Use any inanimate object, such as a camera or a rock to ward off the shark. If you have nothing around you, use your own body. Aim for the shark's eyes, gills, or snout. Fight with your fists, elbows, knees, and feet.[8] Sharks have surprisingly rough and sharp skin, unlike the smooth scales of other fish, so be aware of this. Keep fighting if the shark persists. Hit the eyes and gills repeatedly with hard, sharp jabs. Do not wind up before hitting, since this does not provide extra force underwater. You can also claw at the eyes and the gills. Keep doing this until the shark lets you go and swims away.[9] Hit the shark in the face and gills.Your best bet, if attacked, is to make the shark see you as a strong, credible threat. Usually, a hard blow to the shark's gills, eyes or snout (end of its nose) will cause it to retreat.[6] These are really the only vulnerable areas on a shark. If you have a spear gun or pole, use it! A sharp object is a good way to inflict enough pain to scare away the shark. Aim for the head, specifically the eyes or the gills.[7] If you do not have a weapon, improvise. Use any inanimate object, such as a camera or a rock to ward off the shark. If you have nothing around you, use your own body. Aim for the shark's eyes, gills, or snout. Fight with your fists, elbows, knees, and feet.[8] Sharks have surprisingly rough and sharp skin, unlike the smooth scales of other fish, so be aware of this. Keep fighting if the shark persists. Hit the eyes and gills repeatedly with hard, sharp jabs. Do not wind up before hitting, since this does not provide extra force underwater. You can also claw at the eyes and the gills. Keep doing this until the shark lets you go and swims away.[9]",
+               "mentions": {
+                    "types": {
+                        "item": [],
+                        "water": [
+                            "sea"
+                        ],
+                        "player": [],
+                        "direction": [],
+                        "location": [],
+                        "part": [],
+                        "shark": [
+                            "shark"
+                        ],
+                        "ship": [
+                            "boat"
+                        ],
+                    },
+                    "predicates": {
+                        "is_water": [],
+                        "visible": [],
+                        "wounded": [],
+                        "defending": [
+                            "defend",
+                        ],
+                        "attacked": [
+                            "weapon", "gun", "pole", "eyes", "gills", "head"
+                        ],
+                        "at": [],
+                        "inventory": [],
+                        "connected": [],
+                        "on": [],
+                        "vulnerable": [
+                            "eyes", "gills", "head"
+                        ],
+                        "sharp": [
+                            "sharp object"
+                        ],
+                        "heavy": [],
+                        "fleed": [],
+                        "dizzy": []
+                    },
+                    "actions": {
+                        "splash_swim": [],
+                        "swim": [
+                            "swim"
+                        ],
+                        "get": [],
+                        "onboard": [],
+                        "defend": [
+                            "defend",
+                        ],
+                        "spot_ship": [],
+                        "spot_shark": [],
+                        "attack_vulnerable": [
+                            "weapon", "gun", "pole", "eyes", "gills", "head"
+                        ],
+                        "knockout": [
+                            "weapon", "gun", "pole", "eyes", "gills", "head"
+                        ],
+                        "self_mobilize": [
+                            "own body", "fists", "elbows", "knees", "feet"
+                        ],
+                        "medicare": [
+                            "treatment",
+                        ]
+                    }
+            }
+        },
+        "wikihow_url": "https://www.wikihow.com/Survive-a-Shark-Attack",
+        "wikihow_title": "How to Survive a Shark Attack",
+        "types": [
+            "item",
+            "water",
+            "player",
+            "direction",
+            "location",
+            "part",
+            "shark",
+            "ship"
+        ],
+        "actions": [
+            "splash_swim",
+            "swim",
+            "get",
+            "onboard",
+            "defend",
+            "spot_ship",
+            "spot_shark",
+            "attack_vulnerable",
+            "knockout",
+            "self_mobilize",
+            "medicare"
+        ],
+        "predicates": [
+            "is_water",
+            "visible",
+            "wounded",
+            "defending",
+            "attacked",
+            "at",
+            "inventory",
+            "connected",
+            "on",
+            "vulnerable",
+            "sharp",
+            "heavy",
+            "fleed",
+            "dizzy"
+        ],
+        "natural_language_descriptions": {
+            "types": {
+                "item": {
+                    "description": "Something you can pick up"
+                },
+                "water": {
+                    "description": "Enviroment player is in"
+                },
+                "player": {
+                    "description": "a person in the game"
+                },
+                "direction": {
+                    "description": "where you could go towards"
+                },
+                "location": {
+                    "description": "some places in the game"
+                },
+                "part": {
+                    "description": "body part of the player"
+                },
+                "shark": {
+                    "description": "major enemy in game"
+                },
+                "ship": {
+                    "description": "a place where player could get survival"
+                }
+            },
+            "actions": {
+                "splash_swim": {
+                    "description": "swim and make splash waves",
+                    "prerequisites": "current location should be connected to other locations",
+                    "results": "become invisible to the shark"
+                },
+                "swim": {
+                    "description": "swim normally",
+                    "prerequisites": "player is not attacked and the current place is connected with other places",
+                    "results": "move to another location "
+                },
+                "get": {
+                    "description": "pick up a item and put it into inventory",
+                    "prerequisites": "the item is gettable and in current location",
+                    "results": "the item will be stored in the inventory"
+                },
+                "onboard": {
+                    "description": "get on to the ship",
+                    "prerequisites": "ship is visible and player is  in current location",
+                    "results": "player is on board and  get rescued"
+                },
+                "defend": {
+                    "description": "player is defendinng himself against shark",
+                    "prerequisites": "player is attacked by shark",
+                    "results": "player is wounded and not attacked by the shark"
+                },
+                "spot_ship": {
+                    "description": "notice the ship nearby",
+                    "prerequisites": "ship is in current location but might not be visible",
+                    "results": "ship becomes visible"
+                },
+                "spot_shark": {
+                    "description": "notice the shark nearby",
+                    "prerequisites": "shark is in current location but might not be visible",
+                    "results": "shark becomes visible"
+                },
+                "self_mobilize": {
+                    "description": "use your own body as weapons",
+                    "prerequisites": "player has body to attack and player is in current location",
+                    "results": "player put body into inventory"
+                },
+                "attack_vulnerable": {
+                    "description": "attack the vulnerable part of shark",
+                    "prerequisites": "player has tools to attack and the shark is in current location",
+                    "results": "shark stops attacking player and flees away"
+                },
+                "medicare": {
+                    "description": "use medicare to heal the wounds",
+                    "prerequisites": "player is on the ship",
+                    "results": "player is no longer wounded"
+                },
+                "knockout": {
+                    "description": "knockout shark and make it dizzy",
+                    "prerequisites": "player has tools to attack and the shark is in current location",
+                    "results": "shark becomes dizzy and stop attacking player"
+                }
+            },
+            "predicates": {
+                "is_water": {
+                    "description": "if something is in water"
+                },
+                "visible": {
+                    "description": "if something is visible"
+                },
+                "wounded": {
+                    "description": "if player is injured"
+                },
+                "defending": {
+                    "description": "if player is in defending mode"
+                },
+                "attacked": {
+                    "description": "if player is attacked"
+                },
+                "at": {
+                    "description": "if player is locating in a place"
+                },
+                "inventory": {
+                    "description": "items player could use"
+                },
+                "connected": {
+                    "description": "One location is connected to another location "
+                },
+                "on": {
+                    "description": "if player is on a place"
+                },
+                "vulnerable": {
+                    "description": "the vulnerable body part of shark"
+                },
+                "sharp": {
+                    "description": "something has edge and is pierce enough to hurt"
+                },
+                "heavy": {
+                    "description": "great density and thick"
+                },
+                "fleed": {
+                    "description": "run away"
+                },
+                "dizzy": {
+                    "description": "confused and lost incapacitated"
+                }
+            }
+        }
+    },
+    "permissions": {
+        "agreed_to_CC-BY": "Yes",
+        "name": "Anonymous",
+        "problems": {}
+    }
+}
