@@ -4,7 +4,7 @@ import openai
 import build_prompts
 import read_files
 
-os.environ["OPENAI_API_KEY"]= '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'
+os.environ["OPENAI_API_KEY"]= ''
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # setup function
