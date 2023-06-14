@@ -128,105 +128,69 @@ def action_comp(Action1,Action2):
             d2[p2[i][1]].append(p2[i][0])
         else:
             return False
-    pp1 = sorted(pp1, key=lambda x: x[0])
-    pp2 = sorted(pp2, key=lambda x: x[0])
-    print(d1,paradict1,d2,paradict2)
-    count1 = 0 
-    count2 = 0
-    countdict1={}
-    countdict2={}
-    for i in range(len(pp1)):
-        if pp2[i][0] != pp1[i][0] or len(pp2[i]) != len(pp1[i]):
-            return False
-        for j in range(1,len(pp2[i])):
-            if paradict2[pp2[i][j]] != paradict1[pp1[i][j]]:
+    # print(d1)
+    # print(d2)
+    # print(paradict1)
+    # print(paradict1)
+    # print(pp1)
+    # print(pp2)
+    def entry_equal(pp1,pp2):
+        pp1=list(pp1)
+        pp2=list(pp2)
+        count1 = 0 
+        count2 = 0
+        countdict1={}
+        countdict2={}
+        for i in range(len(pp1)):
+            flag=0
+            for j in range(len(pp2)):
+                if pp2[j][0] == pp1[i][0] and len(pp2[j]) == len(pp1[i]):
+                    for k in range(1,len(pp1[i])):
+                        if pp2[j][k] not in  paradict2 or pp1[i][k] not in paradict1:
+                            print("missing parameters!")
+                            return False
+                        if paradict2[pp2[j][k]] != paradict1[pp1[i][k]]:
+                            break
+                        if pp1[i][k] not in countdict1 and pp2[j][k] not in countdict2:
+                            countdict1[pp1[i][k]]=count1
+                            countdict2[pp2[j][k]]=count2
+                            count1+=1
+                            count2+=1
+                        elif pp1[i][j] in countdict1 and pp2[i][j] in countdict2:
+                            if countdict1[pp1[i][j]] != countdict2[pp2[i][j]]:
+                                break
+                        else:
+                            break
+                    flag=1
+                    pp2.pop(j)
+                    break
+                else:
+                    continue
+            if flag==0:
                 return False
-            if pp1[i][j] not in countdict1 and pp2[i][j] not in countdict2:
-                countdict1[pp1[i][j]]=count1
-                countdict2[pp2[i][j]]=count2
-                count1+=1
-                count2+=1
-            elif pp1[i][j] in countdict1 and pp2[i][j] in countdict2:
-                if countdict1[pp1[i][j]] != countdict2[pp2[i][j]]:
-                    print("not equal")
-                    return False
-            else:
-                return False
-    for i in range(len(np1)):
-        np2=list(np2)
-        np1=list(np1)
-        if np2[i][0] != np1[i][0] or len(np2[i]) != len(np1[i]):
-            return False
-        for j in range(1,len(np2[i])):
-            if paradict2[np2[i][j]] != paradict1[np1[i][j]]:
-                return False
-            if np1[i][j] not in countdict1 and np2[i][j] not in countdict2:
-                countdict1[np1[i][j]]=count1
-                countdict2[np2[i][j]]=count2
-                count1+=1
-                count2+=1
-            elif np1[i][j] in countdict1 and np2[i][j] in countdict2:
-                if countdict1[np1[i][j]] != countdict2[np2[i][j]]:
-                    print("not equal")
-                    return False
-            else:
-                return False
-    for i in range(len(ae1)):
-        ae2=list(ae2)
-        ae1=list(ae1)
-        if ae2[i][0] != ae1[i][0] or len(ae2[i]) != len(ae1[i]):
-            return False
-        for j in range(1,len(ae2[i])):
-            if paradict2[ae2[i][j]] != paradict1[ae1[i][j]]:
-                return False
-            if ae1[i][j] not in countdict1 and ae2[i][j] not in countdict2:
-                countdict1[ae1[i][j]]=count1
-                countdict2[ae2[i][j]]=count2
-                count1+=1
-                count2+=1
-            elif ae1[i][j] in countdict1 and ae2[i][j] in countdict2:
-                if countdict1[ae1[i][j]] != countdict2[ae2[i][j]]:
-                    print("not equal")
-                    return False
-            else:
-                return False
-    for i in range(len(de1)):
-        de2=list(de2)
-        de1=list(de1)
-        if de2[i][0] != de1[i][0] or len(de2[i]) != len(de1[i]):
-            return False
-        for j in range(1,len(de2[i])):
-            if paradict2[de2[i][j]] != paradict1[de1[i][j]]:
-                return False
-            if de1[i][j] not in countdict1 and de2[i][j] not in countdict2:
-                countdict1[de1[i][j]]=count1
-                countdict2[de2[i][j]]=count2
-                count1+=1
-                count2+=1
-            elif de1[i][j] in countdict1 and de2[i][j] in countdict2:
-                if countdict1[de1[i][j]] != countdict2[de2[i][j]]:
-                    print("not equal")
-                    return False
-            else:
-                return False
-    return True
-            
+        return True
+
+    if (entry_equal(pp1,pp2) == True) and (entry_equal(ae1,ae2) == True) and (entry_equal(np1,np2) == True) and (entry_equal(de1,de2) == True):
+        return True
+    return False
+
             
 # -----------------------------------------------
 # Main
 # -----------------------------------------------
 if __name__ == '__main__':
-    a = Action('move', [['?ag', 'agent'], ['?from', 'pos'], ['?to', 'pos']],
-                       [['at', '?ag', '?from'], ['adjacent', '?from', '?to']],
-                       [['at', '?ag', '?to']],
-                       [['at', '?ag', '?to']],
-                       [['at', '?ag', '?from']])
+    a = Action('cut_stalks', [['?p', 'player'], ['?knife', 'knife'], ['?papyrus_plant', 'papyrus_plant'],['?papyrus_stalks', 'papyrus_stalks']],
+                       [['inventory', '?p', '?knife'], ['inventory', '?p', '?papyrus_plant'],['inventory', '?papyrus_stalks', '?papyrus_plant'],['inventory', '?knife', '?papyrus_plant']],
+                       [],
+                       [['inventory', '?p', '?papyrus_stalks']],
+                       [['inventory', '?p', '?papyrus_plant']])
     
-    b = Action('move1', [['?aga', 'agent'], ['?toa', 'pos'], ['?froma', 'pos']],
-                       [['adjacent', '?froma', '?toa'],['at', '?aga', '?froma']],
-                       [['at', '?aga', '?toa']],
-                       [['at', '?aga', '?toa']],
-                       [['at', '?aga', '?froma']])
+    b = Action('cut_stalks', [['?player', 'player'], ['?papyrus_plant', 'papyrus_plant'],['?papyrus_stalks', 'papyrus_stalks'], ['?knife', 'knife']],
+                       [['inventory', '?player', '?papyrus_plant'], ['inventory', '?player', '?knife'],['inventory', '?knife', '?papyrus_plant'],['inventory', '?papyrus_stalks', '?papyrus_plant']],
+                       [],
+                       [['inventory', '?player', '?papyrus_stalks']],
+                       [['inventory', '?player', '?papyrus_plant']])
+    
     print("a")
     print(a)
     print("b")
@@ -239,3 +203,16 @@ if __name__ == '__main__':
     types = {'object': ['agent', 'pos']}
     for act in a.groundify(objects, types):
         print(act)
+
+
+#  (:action cut_stalks; cut papyrus plant into stalks
+#  :parameters (?p - player ?knife - knife ?papyrus_plant - papyrus_plant ?papyrus_stalks - papyrus_stalks)
+#  :precondition (and (inventory ?p ?knife) (inventory  ?p ?papyrus_plant))
+#  :effect (and (inventory ?p ?papyrus_stalks) (not (inventory ?p ?papyrus_plant)))
+#   )
+# pred的第5个是
+# (:action cut_stalks
+#     :parameters (?player - player ?papyrus_plant - papyrus_plant ?papyrus_stalks - papyrus_stalks ?knife - knife)
+#     :precondition (and (inventory ?player ?papyrus_plant) (inventory ?player ?knife))
+#     :effect (and (not (inventory ?player ?papyrus_plant)) (inventory ?player ?papyrus_stalks))
+# )
