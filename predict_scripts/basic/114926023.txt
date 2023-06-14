@@ -1,0 +1,61 @@
+(:action go
+    :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+    :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+    :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?player ?loc) (at ?item ?loc))
+    :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+(:action build_roof
+    :parameters (?player - player ?log - log)
+    :precondition (inventory ?player ?log)
+    :effect (roof ?player)
+)
+
+(:action build_wall
+    :parameters (?player - player ?small_sticks - small_sticks)
+    :precondition (inventory ?player ?small_sticks)
+    :effect (wall ?player)
+)
+
+(:action build_bed
+    :parameters (?player - player ?leaves - leaves)
+    :precondition (inventory ?player ?leaves)
+    :effect (bed ?player)
+)
+
+(:action complete_shelter
+    :parameters (?player - player)
+    :precondition (and (roof ?player) (wall ?player) (bed ?player))
+    :effect (shelter ?player)
+)
+
+(:action hunt_animal
+    :parameters (?player - player ?animal - animal ?sharp_stone - sharp_stone)
+    :precondition (inventory ?player ?sharp_stone)
+    :effect (hunted ?animal)
+)
+
+(:action prepare_animal
+    :parameters (?player - player ?animal - animal ?sharp_stone - sharp_stone)
+    :precondition (and (inventory ?player ?sharp_stone) (hunted ?animal))
+    :effect (treated ?animal)
+)
+
+(:action build_raft
+    :parameters (?player - player ?log - log ?small_sticks - small_sticks ?vines - vines)
+    :precondition (and (inventory ?player ?log) (inventory ?player ?small_sticks) (inventory ?player ?vines))
+    :effect (raft_draft ?player)
+)
+
+(:action test_raft
+    :parameters (?player - player ?raft_draft - raft_draft)
+    :precondition (raft_draft ?player)
+    :effect (raft_finished ?player)
+)
+
+)

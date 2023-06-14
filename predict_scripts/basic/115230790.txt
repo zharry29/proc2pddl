@@ -1,0 +1,56 @@
+(:action listen_to_astronomers_predictions
+    :parameters (?p - player ?l - location)
+    :precondition (and (has_pc ?p) (at ?p ?l) (listen_to_broadcast ?p ?l))
+    :effect (and))
+
+(:action move_away
+    :parameters (?p - player ?c1 - city ?c2 - city)
+    :precondition (and (at ?p ?c1) (coastal ?c1) (inland ?c2))
+    :effect (at ?p ?c2))
+
+(:action go
+    :parameters (?p - player ?l1 - location ?dir - direction ?l2 - location)
+    :precondition (and (at ?p ?l1) (connected ?l1 ?dir ?l2))
+    :effect (at ?p ?l2))
+
+(:action buy_supplies
+    :parameters (?p - player ?l - location ?food - food ?water - water ?medicine - medicine)
+    :precondition (and (at ?p ?l) (in ?l ?c - city))
+    :effect (and (inventory ?food) (inventory ?water) (inventory ?medicine) (enough_supplies)))
+
+(:action check_supplies
+    :parameters (?p - player)
+    :precondition (and (inventory ?food - food) (inventory ?water - water) (inventory ?medicine - medicine))
+    :effect (enough_supplies))
+
+(:action buy_weapons
+    :parameters (?p - player ?l - location ?w - weapon)
+    :precondition (and (enough_supplies) (at ?p ?l) (in ?l ?wm - weapon_market))
+    :effect (and (inventory ?w) (enough_weapons)))
+
+(:action check_weapons
+    :parameters (?p - player)
+    :precondition (inventory ?w - weapon)
+    :effect (enough_weapons))
+
+(:action check_bunker
+    :parameters (?p - player ?bk - bunker)
+    :precondition (at ?p ?bk)
+    :effect (and (has_air_filtration_system ?bk) (has_strong_material ?bk) (find_good_bunker ?bk)))
+
+(:action outfit_bunker_with_energy_source
+    :parameters (?p - player ?bk - bunker ?es - energy_source)
+    :precondition (and (find_good_bunker ?bk) (inventory ?es))
+    :effect (outfit_bunker_with_heat ?bk))
+
+(:action enjoylife
+    :parameters (?p - player ?bk - bunker)
+    :precondition (and (outfit_bunker_with_heat ?bk) (at ?p ?bk))
+    :effect (enjoylife ?p ?bk))
+
+(:action connect_through_social_media_with_family
+    :parameters (?p - player)
+    :precondition (and (has_pc ?p) (enjoylife ?p ?bk - bunker))
+    :effect (family_memebers_know_you_are_safe))
+
+)

@@ -1,0 +1,211 @@
+(:action go
+   :parameters (?p - player ?dir - direction ?loc1 - location ?loc2 - location)
+   :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+)
+
+(:action understand
+   :parameters (?p - player ?c - concept)
+   :precondition (not (know ?p ?c))
+   :effect (know ?p ?c)
+)
+
+(:action learn
+   :parameters (?p - player ?s - skill)
+   :precondition (not (learned ?p ?s))
+   :effect (learned ?p ?s)
+)
+
+(:action get
+   :parameters (?p - player ?i - item ?loc - location)
+   :precondition (and (at ?p ?loc) (at ?i ?loc) (not (inventory ?p ?i)))
+   :effect (and (inventory ?p ?i) (not (at ?i ?loc)))
+)
+
+(:action machine_secured
+   :parameters (?p - player)
+   :precondition (authorized ?p)
+   :effect (and (collected_all_info ?p) (not (additional_users ?p)) (hardcoded_secret_password ?p) (website_unchanged ?p) (create_more_file_than_need ?p) (administrator_know_compromised ?p))
+)
+
+(:action enumeration
+   :parameters (?p - player)
+   :precondition (and (know ?p hacking) (authorized ?p))
+   :effect (collected_all_info ?p)
+)
+
+(:action got_all_info
+   :parameters (?p - player)
+   :precondition (collected_all_info ?p)
+   :effect (and (authorized ?p))
+)
+
+(:action ping
+   :parameters (?p - player)
+   :precondition (and (know ?p hacking) (authorized ?p))
+   :effect (ping_succeed ?p)
+)
+
+(:action check_email_server
+   :parameters (?p - player)
+   :precondition (and (know ?p hacking) (ping_succeed ?p))
+   :effect (server_checked ?p)
+)
+
+(:action reached_the_remote_system
+   :parameters (?p - player)
+   :precondition (and (know ?p hacking) (server_checked ?p))
+   :effect (authorized ?p)
+)
+
+(:action run_port_scan
+   :parameters (?p - player)
+   :precondition (and (know ?p hacking) (authorized ?p))
+   :effect (port_scanned ?p)
+)
+
+(:action found_path_in_system
+   :parameters (?p - player)
+   :precondition (and (know ?p hacking) (port_scanned ?p))
+   :effect ()
+)]
+
+(:action contact_and_trick_a_user
+   :parameters (?p - player)
+   :precondition (know ?p social_engineering)
+   :effect (tricked_user_password ?p)
+)
+
+(:action crack_password_by_social_engineering
+   :parameters (?p - player)
+   :precondition (tricked_user_password ?p)
+   :effect (password_cracked ?p)
+)
+
+(:action send_fake_email
+   :parameters (?p - player)
+   :precondition (know ?p phishing)
+   :effect (user_trusted_fake_email ?p)
+)
+
+(:action crack_password_by_phishing
+   :parameters (?p - player)
+   :precondition (user_trusted_fake_email ?p)
+   :effect (password_cracked ?p)
+)
+
+(:action create_fake_wifi_access
+   :parameters (?p - player)
+   :precondition (know ?p arp_spoofing)
+   :effect (people_use_unencrypted_connection ?p)
+)
+
+(:action crack_password_by_arp_spoofing
+   :parameters (?p - player)
+   :precondition (people_use_unencrypted_connection ?p)
+   :effect (password_cracked ?p)
+)
+
+(:action crack_password_by_brute_force
+   :parameters (?p - player)
+   :precondition (know ?p brute_force)
+   :effect (password_cracked ?p)
+)
+
+(:action gain_access_with_password
+   :parameters (?p - player)
+   :precondition (password_cracked ?p)
+   :effect (is_root_user ?p)
+)
+
+(:action create_buffer_overflow
+   :parameters (?p - player)
+   :precondition (and (know ?p assembly) (is_root_user ?p))
+   :effect ()
+)
+
+(:action take_control_of_system
+   :parameters (?p - player)
+   :precondition (is_root_user ?p)
+   :effect (and (authorized ?p) (not (administrator_know_compromised ?p)))
+)
+
+(:action install_malware
+   :parameters (?p - player)
+   :precondition (and (know ?p malware) (is_root_user ?p))
+   :effect ()
+)
+
+(:action bypass_standard_authentication_system
+   :parameters (?p - player)
+   :precondition (and (know ?p hacking) (is_root_user ?p))
+   :effect (authorized ?p)
+)
+
+(:action not_let_administrator_know
+   :parameters (?p - player)
+   :precondition (and (know ?p hacking) (is_root_user ?p))
+   :effect (not (administrator_know_compromised ?p))
+)
+
+(:action make_no_change_to_website
+   :parameters (?p - player)
+   :precondition (is_root_user ?p)
+   :effect (website_unchanged ?p)
+)
+
+(:action create_fewest_file
+   :parameters (?p - player)
+   :precondition (is_root_user ?p)
+   :effect (not (create_more_file_than_need ?p))
+)
+
+(:action delete_additional_users
+   :parameters (?p - player)
+   :precondition (is_root_user ?p)
+   :effect (not (additional_users ?p))
+)
+
+(:action hardcode_password
+   :parameters (?p - player)
+   :precondition (is_root_user ?p)
+   :effect (hardcoded_secret_password ?p)
+)
+
+(:action track_covered
+   :parameters (?p - player)
+   :precondition (is_root_user ?p)
+   :effect (not (administrator_know_compromised ?p))
+)
+
+(:action learn_concepts
+   :parameters (?p - player)
+   :precondition (not (know ?p hacking))
+   :effect (know ?p hacking)
+)
+
+(:action learn_internet
+   :parameters (?p - player)
+   :precondition (not (know ?p internet))
+   :effect (know ?p internet)
+)
+
+(:action learn_programming
+   :parameters (?p - player ?s - skill)
+   :precondition (not (learned ?p ?s))
+   :effect (learned ?p ?s)
+)
+
+(:action learn_unix
+   :parameters (?p - player)
+   :precondition (not (know ?p unix))
+   :effect (know ?p unix)
+)
+
+(:action become_skilled
+   :parameters (?p - player ?s - skill)
+   :precondition (and (not (learned ?p ?s)) (know_programming ?p))
+   :effect (learned ?p ?s)
+)
+
+)

@@ -1,0 +1,68 @@
+(:action listen_to_astronomers_predictions
+   :parameters (?p - player ?l - location)
+   :precondition (and (has_pc ?p) (at ?p ?l))
+   :effect (listen_to_broadcast ?p ?l)
+)
+
+(:action move_away
+   :parameters (?p - player ?c1 - city ?c2 - city ?dir - direction)
+   :precondition (and (coastal ?c1) (inland ?c2) (connected ?c1 ?dir ?c2) (at ?p ?c1))
+   :effect (and (not (at ?p ?c1)) (at ?p ?c2))
+)
+
+(:action go
+   :parameters (?obj - object ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (and (at ?obj ?loc1) (connected ?loc1 ?dir ?loc2))
+   :effect (and (not (at ?obj ?loc1)) (at ?obj ?loc2))
+)
+
+(:action buy_supplies
+   :parameters (?sup - item ?p - player ?m - market)
+   :precondition (and (at ?p ?m) (in ?sup ?m))
+   :effect (and (not (in ?sup ?m)) (inventory ?sup))
+)
+
+(:action check_supplies
+   :parameters ()
+   :precondition (and (inventory ?f - food) (inventory ?w - water) (inventory ?m - medicine))
+   :effect (enough_supplies)
+)
+
+(:action buy_weapons
+   :parameters (?weap - weapon ?p - player ?wm - weapon_market)
+   :precondition (and (at ?p ?wm) (in ?weap ?wm))
+   :effect (and (not (in ?weap ?wm)) (inventory ?weap))
+)
+
+(:action check_weapons
+   :parameters ()
+   :precondition (and (inventory ?p - pistol) (inventory ?a - ammunition))
+   :effect (enough_weapons)
+)
+
+(:action check_bunker
+   :parameters (?bk - bunker)
+   :precondition (and (has_air_filtration_system ?bk) (has_strong_material ?bk))
+   :effect (find_good_bunker ?bk)
+)
+
+(:action outfit_bunker_with_energy_source
+   :parameters (?bk - bunker ?es - energy_source)
+   :precondition (and (find_good_bunker ?bk) (inventory ?es))
+   :effect (outfit_bunker_with_heat ?bk)
+)
+
+(:action enjoylife
+   :parameters (?p - player ?bk - bunker)
+   :precondition (and (find_good_bunker ?bk) (at ?p ?bk)
+                     (outfit_bunker_with_heat ?bk) (enough_supplies) (enough_weapons))
+   :effect (enjoylife ?p ?bk)
+)
+
+(:action connect_through_social_media_with_family
+   :parameters (?p - player) 
+   :precondition (enjoylife ?p ?bk)
+   :effect (family_memebers_know_you_are_safe)
+)
+
+)

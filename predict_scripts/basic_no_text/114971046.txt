@@ -1,0 +1,49 @@
+(:action drive
+   :parameters (?p - player ?loc1 - location ?loc2 - location ?dir - direction ?car - item)
+   :precondition (and (at ?car ?loc1) (inventory ?p ?car) (is_car ?car) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (not (at ?car ?loc1)) (at ?car ?loc2) (not (inventory ?p ?car))))
+(:action walk
+   :parameters (?p - player ?loc1 - location ?loc2 - location ?dir - direction)
+   :precondition (and (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (not (at ?p ?loc1)) (at ?p ?loc2)))
+
+(:action get_food
+   :parameters (?p - player ?food - item ?loc - location)
+   :precondition (and (is_supermarket ?loc) (is_nonperishable ?food) (at ?food ?loc))
+   :effect (and (not (at ?food ?loc)) (inventory ?p ?food)))
+
+(:action get
+   :parameters (?p - player ?obj - item ?loc - location)
+   :precondition (and (at ?obj ?loc) (at ?p ?loc))
+   :effect (and (not (at ?obj ?loc)) (inventory ?p ?obj)))
+
+(:action drop
+   :parameters (?p - player ?obj - item ?loc - location)
+   :precondition (and (inventory ?p ?obj) (at ?p ?loc))
+   :effect (and (not (inventory ?p ?obj)) (at ?obj ?loc)))
+
+(:action make_plan
+   :parameters (?p - player)
+   :effect (has_plan ?p))
+
+(:action get_medicine
+   :parameters (?p - player ?medicine - item ?loc - location)
+   :precondition (and (is_pharmacy ?loc) (is_medicine ?medicine) (at ?medicine ?loc))
+   :effect (and (not (at ?medicine ?loc)) (inventory ?p ?medicine)))
+
+(:action reinforce
+   :parameters (?p - player ?loc - location ?material - item)
+   :precondition (and (is_construction_material ?material) (inventory ?p ?material))
+   :effect (sheltered ?p))
+
+(:action stay_in_shelter
+   :parameters (?p - player ?loc - location)
+   :precondition (and (is_underground ?loc) (at ?p ?loc))
+   :effect (sheltered ?p))
+
+(:action get_in_car
+ :parameters (?p - player ?car - item ?loc - location)
+ :precondition (and (is_car ?car) (at ?car ?loc) (at ?p ?loc))
+ :effect (and (not (at ?p ?loc)) (inventory ?p ?car) (driving ?p)))
+
+)

@@ -1,0 +1,73 @@
+(:action go
+   :parameters (?p - player ?loc1 - location ?loc2 - location ?dir - direction)
+   :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+)
+
+(:action get
+   :parameters (?p - player ?item - item ?loc - location)
+   :precondition (and (at ?p ?loc) (at ?item ?loc))
+   :effect (and (not (at ?item ?loc)) (inventory ?p ?item))
+)
+
+(:action get_bamboo_container
+   :parameters (?p - player ?loc - location ?container - bamboo_container)
+   :precondition (and (at ?p ?loc) (has_bamboo ?loc))
+   :effect (inventory ?p ?container)
+)
+
+(:action collect_rain_water
+   :parameters (?p - player ?loc - location ?container - bamboo_container ?water - water)
+   :precondition (and (at ?p ?loc) (has_rainfall ?loc) (inventory ?p ?container))
+   :effect (inventory ?p ?water)
+)
+
+(:action create_fire
+   :parameters (?p - player ?loc - location ?fire - fire)
+   :precondition (at ?p ?loc)
+   :effect (at ?fire ?loc)
+)
+
+(:action treat_water
+   :parameters (?p - player ?water - water ?loc - location ?fire - fire)
+   :precondition (and (at ?p ?loc) (at ?fire ?loc) (inventory ?p ?water) (not (treated ?water)))
+   :effect (treated ?water)
+)
+
+(:action drink_water
+   :parameters (?p - player ?water - water)
+   :precondition (and (inventory ?p ?water) (treated ?water) (is dehydrated ?p))
+   :effect (and (not (is dehydrated ?p)) (not (inventory ?p ?water)))
+)
+
+(:action drink_untreated_water
+   :parameters (?p - player ?water - water)
+   :precondition (and (inventory ?p ?water) (not (treated ?water)))
+   :effect (and (not (is dehydrated ?p)) (not (inventory ?p ?water)) (is ill ?p))
+)
+
+(:action create_sos_sign
+   :parameters (?p - player ?loc - location ?sign - sos_sign)
+   :precondition (at ?p ?loc)
+   :effect (at ?sign ?loc)
+)
+
+(:action pick_fruit
+   :parameters (?p - player ?loc - location ?fruit - fruit)
+   :precondition (and (at ?p ?loc) (has_fruit ?loc))
+   :effect (inventory ?p ?fruit)
+)
+
+(:action eat_fruit
+   :parameters (?p - player ?fruit - fruit)
+   :precondition (and (inventory ?p ?fruit) (is hungry ?p))
+   :effect (and (not (is hungry ?p)) (not (inventory ?p ?fruit)))
+)
+
+(:action escape
+   :parameters (?p - player ?loc - location ?sign - sos_sign)
+   :precondition (and (at ?p ?loc) (at ?sign ?loc))
+   :effect (not (at ?p ?loc))
+)
+
+)

@@ -1,0 +1,67 @@
+(:action splash_swim
+       :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+       :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (is_water ?loc2) (not (wounded ?player)))
+       :effect (at ?player ?loc2)
+   )
+
+   (:action swim
+       :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+       :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (is_water ?loc2))
+       :effect (and (at ?player ?loc2) (not (attacked ?player ?shark)))
+   )
+
+   (:action get
+       :parameters (?player - player ?item - body ?loc - location)
+       :precondition (and (at ?player ?loc) (at ?item ?loc))
+       :effect (inventory ?player ?item)
+   )
+
+   (:action onboard
+       :parameters (?player - player ?ship - ship ?loc - location)
+       :precondition (and (at ?player ?loc) (at ?ship ?loc))
+       :effect (on ?player ?ship)
+   )
+
+   (:action defend
+       :parameters (?player - player)
+       :precondition (attacked ?player ?shark)
+       :effect (defending ?player)
+   )
+
+   (:action spot_ship
+       :parameters (?player - player ?ship - ship)
+       :precondition (visible ?ship)
+       :effect (and)
+   )
+
+   (:action spot_shark
+       :parameters (?player - player ?shark - shark)
+       :precondition (visible ?shark)
+       :effect (and)
+   )
+
+   (:action self_mobilize
+       :parameters (?player - player ?shark - shark ?part - part)
+       :precondition (and (vulnerable ?part) (attacked ?player ?shark))
+       :effect (fleed ?shark)
+   )
+
+   (:action medicare
+       :parameters (?player - player)
+       :precondition (wounded ?player)
+       :effect (not (wounded ?player))
+   )
+
+   (:action attack_vulnerable
+       :parameters (?player - player ?shark - shark ?part - part ?tool - body)
+       :precondition (and (vulnerable ?part) (inventory ?player ?tool) (or (sharp ?tool) (heavy ?tool)))
+       :effect (dizzy ?shark)
+   )
+
+   (:action knockout
+       :parameters (?player - player ?shark - shark ?part - part ?tool - body)
+       :precondition (and (vulnerable ?part) (inventory ?player ?tool) (or (sharp ?tool) (heavy ?tool)))
+       :effect (fleed ?shark)
+   )
+
+)

@@ -1,0 +1,78 @@
+(:action get
+        :parameters (?player - player ?item - item ?loc - location)
+        :precondition (and (at ?player ?loc) (at ?item ?loc))
+        :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+   )
+
+   (:action drop
+        :parameters (?player - player ?item - item ?loc - location)
+        :precondition (and (at ?player ?loc) (inventory ?player ?item))
+        :effect (and (not (inventory ?player ?item)) (at ?item ?loc))
+   )
+
+   (:action put_in_stopper
+        :parameters (?player - player ?item - item)
+        :precondition (and (inventory ?player ?item) (can_be_filled ?item))
+        :effect (has_stopper ?item)
+   )
+
+   (:action fill
+        :parameters (?player - player ?item - item)
+        :precondition (and (inventory ?player ?item) (can_be_filled ?item) (not (full ?item)) (has_stopper ?item))
+        :effect (full ?item)
+   )
+
+   (:action purify
+        :parameters (?player - player ?item - item)
+        :precondition (and (inventory ?player ?item) (full ?item) (not (purified ?item)))
+        :effect (purified ?item)
+   )
+
+   (:action seal
+        :parameters (?player - player ?item - item)
+        :precondition (and (inventory ?player ?item) (can_be_sealed ?item) (not (sealed ?item)))
+        :effect (sealed ?item)
+   )
+
+   (:action wait
+        :parameters ()
+        :precondition ()
+        :effect ()
+   )
+
+   (:action go
+        :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+        :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+        :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+   )
+
+   (:action put_batteries_in
+        :parameters (?player - player ?radio - radio)
+        :precondition (and (inventory ?player ?radio) (not (has_batteries ?radio)))
+        :effect (has_batteries ?radio)
+   )
+
+   (:action turn_on_radio
+        :parameters (?player - player ?radio - radio)
+        :precondition (and (inventory ?player ?radio) (has_batteries ?radio) (not (on ?radio)))
+        :effect (on ?radio)
+   )
+
+   (:action create_cage
+        :parameters (?player - player ?cage - farraday_cage)
+        :precondition (and (not (exists (?it - item) (in_cage ?it ?cage))))
+   )
+
+   (:action close_cage
+        :parameters (?player - player ?cage - farraday_cage)
+        :precondition (and (not (cage_closed ?cage)) (exists (?it - item) (in_cage ?it ?cage)))
+        :effect (cage_closed ?cage)
+   )
+
+   (:action put_in_cage
+        :parameters (?player - player ?item - item ?cage - farraday_cage)
+        :precondition (and (inventory ?player ?item) (not (in_cage ?item ?cage)) (not (cage_closed ?cage)))
+        :effect (in_cage ?item ?cage)
+   )
+
+)

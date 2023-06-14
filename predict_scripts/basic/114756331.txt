@@ -1,0 +1,88 @@
+(:action go
+      (?p - player ?dir - direction ?loc1 - location ?loc2 - location)
+      (and
+         (at ?p ?loc1)
+         (connected ?loc1 ?dir ?loc2)
+         (not (blocked ?loc1 ?dir ?loc2)))
+      (and
+         (not (at ?p ?loc1))
+         (at ?p ?loc2)))
+
+(:action get
+      (?p - player ?item - item ?loc - location)
+      (and
+         (at ?p ?loc)
+         (at ?item ?loc))
+      (and
+         (inventory ?p ?item)
+         (not (at ?item ?loc))))
+
+(:action breathe
+      (?p - player)
+      (stuck ?p)
+      (calm ?p))
+
+(:action liedown
+      (?p - player)
+      (not (laying ?p))
+      (laying ?p))
+
+(:action swim
+      (?p - player)
+      (and
+         (laying ?p)
+         (stuck ?p))
+      (not (stuck ?p)))
+
+(:action usestick
+      (?p - player ?stick - stick)
+      (and
+         (inventory ?p ?stick)
+         (stuck ?p))
+      (not (stuck ?p)))
+
+(:action rest
+      (?p - player)
+      (and
+         (tired ?p)
+         (calm ?p))
+      (not (tired ?p)))
+
+(:action drop
+      (?p - player ?item - item ?loc - location)
+      (and
+         (inventory ?p ?item)
+         (at ?p ?loc))
+      (and
+         (not (inventory ?p ?item))
+         (at ?item ?loc)))
+
+(:action check_ripples
+      (?p - player ?loc - location)
+      (at ?p ?loc)
+      (and
+         (aware ?p ?loc)
+         (has_quicksand ?loc)))
+
+(:action test_ground
+      (?p - player ?stick - stick ?loc - location)
+      (and
+         (inventory ?p ?stick)
+         (at ?p ?loc))
+      (calm ?p))
+
+(:action research
+      (?p - player)
+      (and (calm ?p)))
+
+(:action move_horizontally
+      (?p - player ?dir - direction ?loc1 - location ?loc2 - location)
+      (and
+         (at ?p ?loc1)
+         (connected ?loc1 ?dir ?loc2)
+         (not (blocked ?loc1 ?dir ?loc2)))
+      (and
+         (not (stuck ?p))
+         (not (at ?p ?loc))+
+
+)
