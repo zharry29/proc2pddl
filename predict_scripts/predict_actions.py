@@ -48,16 +48,13 @@ def save_output(folder_name, file_name, text):
     f.write('\n\n)')
 
 def main():
-  # saved=['114756331', '115230790', '114994170', '114905535', '114934221', '114971046', '114394848', '114741230']
   # prompt_instruction=build_prompts.read_prompt('prompts.json')["basic_instruction_action_text_pair"]
   prompt_instruction=build_prompts.read_prompt('prompts.json')["basic_instruction"]
   # prompt_instruction=build_prompts.read_prompt('prompts.json')["basic_instruction_no_text"]
   rt_path='/Users/zhangtianyi/Documents/GitHub/wikihow-to-pddl/pddl_annotation'
   for path, dirs, files in os.walk(rt_path):
         # print(path,dir,files)
-        # if 'submission_' in path:
-        # if 'problem' not in path and not any([s in path for s in saved]): # and '115237120' in path:
-        if 'problem' not in path and '114975402' in path:
+        if 'problem' not in path:
             components={}
             for file in files:
                 # if file[-5:]==".pddl" and "domain" in file:
@@ -85,7 +82,3 @@ def main():
 
 
 main()   
-
-# predict_script/basic/114975402.txt
-# predict_script/basic/114756331.txt
-# 114975402 missing ['<insert_text>'] make_a_detective_kit
