@@ -1,0 +1,12 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action cut_plant ;
+(:action peel_stalk ;
+(:action cut_stalk_into_strips ;
+(:action soak_strips ;
+(:action dry_out_strips ;
+(:action weave_strips_into_sheet ;
+(:action press_sheet ;
+(:action flatten_sheet ;
+(:action polish_sheet ;
+(:action cut_sheet ;

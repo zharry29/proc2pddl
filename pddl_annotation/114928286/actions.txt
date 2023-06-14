@@ -1,0 +1,12 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action lay_masking_tape ; lay masking tape
+(:action make_tosses_column ; make tosses column
+(:action make_crosses_column ; make crosses column
+(:action thaw_food ; thaw food items
+(:action throw ; throw food items
+(:action record_tosses ; record tosses
+(:action record_crosses ; record crosses
+(:action divide_crosses ; divide crosses
+(:action calculate_pi ; divide tosses
+(:action be_amazed ; divide tosses

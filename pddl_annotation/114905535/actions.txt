@@ -1,0 +1,13 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action get_water ; get water from a location that has a water source like a lake.
+(:action bag_plant
+(:action wait_and_gather_bagged_plant
+(:action gather_tinder
+(:action build_campfire
+(:action light_campfire
+(:action make_spear
+(:action spear_fish
+(:action cook_fish
+(:action wet_tinder
+(:action make_smoke_signal

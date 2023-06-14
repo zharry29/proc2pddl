@@ -1,0 +1,11 @@
+(:action go ; navigate to an adjacent location
+(:action get_bag ; get bag from a store.
+(:action get_stationery ; get stationery from a store.
+(:action get_costume ; get costume from a store.
+(:action wear_detective_gear ; wear a uniform to get ready for the detective job
+(:action find_supplies_for_disguise ; find supplies to be an alias for an undercover mission
+(:action wear_disguise ; wear a disguise to get ready for an undercover mission
+(:action make_badge ; make a detective badge
+(:action prepare_detective_notebook ; convert a notebook to a detective notebook
+(:action get_walkie_talkies ; get walkie-talkies from the store
+(:action prepare_detective_kit ; put everything in the detective kit

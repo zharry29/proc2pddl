@@ -1,0 +1,35 @@
+(:action go ; navigate to an adjacent location
+(:action understand ; understand some concept
+(:action learn ; learn a skill
+(:action get ; get a item
+(:action machine_secured ; onward to step2
+(:action enumeration;
+(:action got_all_info ; onward to step 3
+(:action ping;
+(:action check_email_server;
+(:action reached_the_remote_system;
+(:action run_port_scan
+(:action found_path_in_system
+(:action contact_and_trick_a_user
+(:action crack_password_by_social_engineering
+(:action send_fake_email
+(:action crack_password_by_phishing
+(:action create_fake_wifi_access
+(:action crack_password_by_arp_spoofing
+(:action crack_password_by_brute_force
+(:action gain_access_with_password
+(:action create_buffer_overflow
+(:action take_control_of_system
+(:action install_malware
+(:action bypass_standard_authentication_system
+(:action not_let_administrator_know
+(:action make_no_change_to_website
+(:action create_fewest_file
+(:action delete_additional_users
+(:action hardcode_password
+(:action track_covered
+(:action learn_concepts
+(:action learn_internet
+(:action learn_programming
+(:action learn_unix
+(:action become_skilled

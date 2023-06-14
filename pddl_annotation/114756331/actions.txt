@@ -1,0 +1,12 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action breathe ; breathe in to fill your lungs with air
+(:action liedown ; player gets on their back
+(:action swim ; player starts to swim through the sand
+(:action usestick ; player uses the stick to help get out of sand
+(:action rest ;player rests
+(:action drop ; player drops item
+(:action check_ripples ; player checks the location for ripples
+(:action test_ground
+(:action research
+(:action move_horizontally

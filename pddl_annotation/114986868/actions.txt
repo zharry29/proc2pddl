@@ -1,0 +1,17 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action drop ; drop an item in the inventory
+(:action collect_water ; use container to collect water from a location that has water
+(:action filter_water ; filter water to remove any particles
+(:action boil_water ; boil water to kill any bacteria
+(:action drink_water ; drink boiled water
+(:action get_wood ; get wood from a location that has trees
+(:action make_drill ; make a drill using wood to create fire
+(:action make_fire ; make fire at a location
+(:action make_spear ; make a spear using wood to catch fish or defend against predators
+(:action catch_fish ; catch a fish using spear
+(:action cook_fish ; grill fish using fire
+(:action eat_fish ; eat cooked fish
+(:action get_foliage ; get foliage from a location that has trees
+(:action build_shelter ; build a shelter using wood and foliage
+(:action survive ; live safely in the shelter with weapon and fire on

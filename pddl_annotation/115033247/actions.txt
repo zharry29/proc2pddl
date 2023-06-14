@@ -1,0 +1,9 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action pour_water ; pour water into bowl
+(:action place_strips_between_boards ; place papyrus strips between two wooden boards
+(:action cut_stalks ; cut stalks
+(:action papyrus_strips ; cut strips from stalks
+(:action polish_papyrus ; Use a stone to polish the papyrus.
+(:action flatten_papyrus ; Use a roller to make the papyrus flat.
+(:action cut_paprus ; Use a scissor to cut the papryus.

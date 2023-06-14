@@ -1,0 +1,13 @@
+(:action get
+(:action drop
+(:action put_in_stopper
+(:action fill
+(:action purify
+(:action seal
+(:action wait
+(:action go
+(:action put_batteries_in ; pick up an item and put it in the inventory
+(:action turn_on_radio ; turn on the radio
+(:action create_cage ; create a farraday cage
+(:action close_cage ; Close the farraday cage
+(:action put_in_cage ; put item in the farraday cage

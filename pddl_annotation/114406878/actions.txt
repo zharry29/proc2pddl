@@ -1,0 +1,17 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action get_grass ; gather grass that is not dry at the first time
+(:action dry_grass ; dry grass so that it can used as tinder
+(:action cluster_grass ; cluster gatherd dry grass to make tinder
+(:action break_branch ; break larger branches into smaller pieces
+(:action log_oak ; log oak trees
+(:action get_log ; log oak trees
+(:action stack_log ; stack dry logs to make enough fuel
+(:action build_teepee ; build a teepee structure with tinder, kindling, and fuel logs
+(:action get_wood ; gather a flat piece of solid wood to start fire
+(:action get_branch ; gather a solid branch to start fire
+(:action ignite_wood ; ignite wood by plough it to create heat via friction
+(:action ignite_teepee ; ignite teepe with ignited wood to start fire
+(:action get_pot ; retrieve a pot to hold water
+(:action get_water ; retrieve some natural but possibly contaminated water
+(:action boil_water ; boil water using a started fire pit

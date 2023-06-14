@@ -1,0 +1,11 @@
+(:action get ; pick up an item and put it in the inventory
+(:action travel ; travel from one location to another
+(:action search_location; search location
+(:action pluck_river_reeds; obtain the papyrus plant
+(:action cut_stalks; cut papyrus plant into stalks
+(:action cut_strips; cut papyrus stalks into strips
+(:action soak_strips; place papyrus strips in water and let them soak
+(:action roll_strips; roll the excess water and sugar out of the strips to dry them
+(:action weave_strips; weave the dried papyrus strips into a lattice
+(:action bundle_strips; bundle the woven strips between linen sheets and wooden boards
+(:action cut_sheet; the finished sheet is cut to size to complete the papyrus

@@ -1,0 +1,11 @@
+(:action listen_to_astronomers_predictions ; listen to astronomers predictions on collision with earth
+(:action move_away ; flight from coastal area to inland area
+(:action go ; navigate to an adjacent location
+(:action buy_supplies ; buy supplies and put it in the inventory
+(:action check_supplies ; check enough supplies in the inventory
+(:action buy_weapons ; buy weapons and put it in the inventory (after buy_supplies)
+(:action check_weapons ; check enough supplies in the inventory
+(:action check_bunker ; check if the bunker is good for sheiding
+(:action outfit_bunker_with_energy_source ; outfit your bunker with an energy source for heat
+(:action enjoylife ; after all preparation, enjoy life in a bunker
+(:action connect_through_social_media_with_family ; let other family members know you are safe

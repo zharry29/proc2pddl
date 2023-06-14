@@ -1,0 +1,10 @@
+(:action gather_info ; read books to gather information on how to create a secret society
+(:action create_secret ; create secret for a secret society
+(:action set_meeting_location ; determine a regular secret meeting location for the society
+(:action set_dress_code ; determines the dress code for the secret society
+(:action create_name ; create name for a secret society
+(:action secret_society_is_ready ; check that all prequisites of the secret society are complete
+(:action initiate_new_member ; add a new member to secret society
+(:action teach_new_member_secret ; once a new member becomes trustworthy, teach them the secret
+(:action remove_member ; remove an existing society member due to untrustworthiness
+(:action check_if_cult ; check if the group is large enough for a cult

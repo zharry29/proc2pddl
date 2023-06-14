@@ -1,0 +1,10 @@
+(:action drive
+(:action walk
+(:action get_food
+(:action get
+(:action drop
+(:action make_plan
+(:action get_medicine
+(:action reinforce
+(:action stay_in_shelter
+(:action get_in_car

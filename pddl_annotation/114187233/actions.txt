@@ -1,0 +1,14 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action drop
+(:action pierce ; pierce the coconut
+(:action drain
+(:action turn_on_oven
+(:action burn_item
+(:action turn_off_oven
+(:action wrap_coconut
+(:action unwrap_coconut
+(:action smash_with_hands
+(:action separate
+(:action peel
+(:action smash_with_mallet

@@ -1,0 +1,10 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action build_roof ; build roof with log.
+(:action build_wall ; build wall with small sticks.
+(:action build_bed ; build bed with leaves.
+(:action complete_shelter ; complete shelter with roof, wall and bed.
+(:action hunt_animal ; hunt animals with a sharp stone.
+(:action prepare_animal ; prepare animals with a sharp stone before eating it.
+(:action build_raft ; build a raft.
+(:action test_raft ; test a raft before riding it.

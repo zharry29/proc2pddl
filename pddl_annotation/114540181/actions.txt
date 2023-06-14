@@ -1,0 +1,12 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action get_bamboo_container; get a bamboo container using surrounding bamboo
+(:action collect_rain_water
+(:action create_fire
+(:action treat_water
+(:action drink_water
+(:action drink_untreated_water
+(:action create_sos_sign
+(:action pick_fruit
+(:action eat_fruit
+(:action escape

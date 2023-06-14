@@ -1,0 +1,14 @@
+(:action go ; navigate to an adjacent location
+(:action get ; pick up an item and put it in the inventory
+(:action collect_water ; get water from a location that has a water source like a lake.
+(:action gather_sticks ; get sticks from the ground
+(:action make_fire ; creates a fire at the current location
+(:action boil_water ; boils water that is inside a container.
+(:action cook_food ; boils water that is inside a container.
+(:action eat_poisoned_food ; eat food that is harmful to a human
+(:action eat_contaminated_food ; eat food that is harmful to a human
+(:action eat_food ; eat food that isn't harmful
+(:action drink_contaminated_water ; drink contaminated water
+(:action drink_water ; drink clean water from container
+(:action build_shelter ; build a shelter of sticks and leaves
+(:action sleep_in_shelter ; sleep in shelter and become un-tired
