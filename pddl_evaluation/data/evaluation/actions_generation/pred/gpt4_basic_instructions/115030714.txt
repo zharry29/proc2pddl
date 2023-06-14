@@ -57,7 +57,15 @@
         (has_fridge ?loc))
     :effect (prepared ?drink))
 
-
+(:action get_beer
+    :parameters (?player - player ?beer - drink ?loc - location)
+    :precondition (and
+        (at ?player ?loc)
+        (has_fridge ?loc)
+        (prepared ?beer))
+    :effect (and
+        (not (prepared ?beer))
+        (inventory ?player ?beer)))
 
 (:action open
     :parameters (?player - player ?drink - drink)
