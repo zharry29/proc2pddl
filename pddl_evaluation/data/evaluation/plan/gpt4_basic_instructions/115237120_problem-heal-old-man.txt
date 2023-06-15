@@ -1,0 +1,2 @@
+loot_shelter ('old_man', 'brickhouse')
+barter_food_for_healing ('old_man', 'old_man')
