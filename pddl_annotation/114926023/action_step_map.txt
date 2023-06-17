@@ -1,0 +1,10 @@
+(:action go ; 
+(:action get ; 
+(:action build_roof ; 6
+(:action build_wall ; 6
+(:action build_bed ; 6
+(:action complete_shelter ; 6
+(:action hunt_animal ; 12
+(:action prepare_animal ; 13
+(:action build_raft ; 17
+(:action test_raft ; 17

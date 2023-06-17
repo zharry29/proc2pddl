@@ -1,0 +1,14 @@
+(:action go ; 
+(:action get ;
+(:action get_water ; 1,10
+(:action chop_wood ; 8,9,14
+(:action carve_groove ; 9
+(:action light_fire ; 9,12,3
+(:action build_shelter ; 6,7,8
+(:action clean_water ; 1,10
+(:action drink_water ; 1,5
+(:action find_other_survivors ; 
+(:action build_raft ; 14
+(:action make_weapon ; 3
+(:action hunt_fish ; 3
+(:action cook_fish ; 3

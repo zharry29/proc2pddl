@@ -1,0 +1,12 @@
+(:action go ; 
+(:action get ; 
+(:action get_bamboo_container; 3
+(:action collect_rain_water; 1
+(:action create_fire ; 2
+(:action treat_water ; 2 
+(:action drink_water ; 3
+(:action drink_untreated_water ;1
+(:action create_sos_sign ; 16
+(:action pick_fruit ; 4;5
+(:action eat_fruit ; 4
+(:action escape ; 15 17 18

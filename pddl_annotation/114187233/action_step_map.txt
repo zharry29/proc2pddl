@@ -1,0 +1,14 @@
+(:action go ;
+(:action get ;
+(:action drop
+(:action pierce ; 1,14
+(:action drain ; 2,3,14
+(:action turn_on_oven ; 8
+(:action burn_item ; 8
+(:action turn_off_oven ; 10
+(:action wrap_coconut ; 4,5,10,11
+(:action unwrap_coconut;
+(:action smash_with_hands; 
+(:action separate ; 7,12,15
+(:action peel ; 7,12,15
+(:action smash_with_mallet ; 5,8,11

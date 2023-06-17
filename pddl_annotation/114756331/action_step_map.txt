@@ -1,0 +1,12 @@
+(:action go ; 
+(:action get ; 
+(:action breathe ; 5
+(:action liedown ; 3,6
+(:action swim ; 6
+(:action usestick ; 7,11
+(:action rest ; 5
+(:action drop ; 1
+(:action check_ripples ; 10
+(:action test_ground ; 11
+(:action research ;
+(:action move_horizontally ; 2

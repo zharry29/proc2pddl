@@ -1,0 +1,13 @@
+(:action go ; 
+(:action get ; 
+(:action get_water ; 5,2,4,7
+(:action bag_plant ;
+(:action wait_and_gather_bagged_plant ;
+(:action gather_tinder ; 7
+(:action build_campfire ; 7,8,9,13
+(:action light_campfire ; 7,8,9,13
+(:action make_spear ; 11,14
+(:action spear_fish ; 11
+(:action cook_fish ; 11
+(:action wet_tinder ; 8
+(:action make_smoke_signal ; 8,15

@@ -1,0 +1,11 @@
+(:action splash_swim ; 2
+(:action swim ; 2,3,5,6
+(:action get ; 
+(:action onboard ; 6
+(:action defend ; 1,3
+(:action spot_ship ; 6
+(:action spot_shark ; 1,2
+(:action self_mobilize ; 4,5
+(:action medicare ; 7
+(:action attack_vulnerable ; 4,5
+(:action knockout ; 4,5

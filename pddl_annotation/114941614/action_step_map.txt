@@ -1,0 +1,14 @@
+(:action go ; 
+(:action get ; 
+(:action collect_water ; 1,2,3
+(:action gather_sticks ; 7,8,16,13,10
+(:action make_fire ; 2
+(:action boil_water ; 2,4
+(:action cook_food ; 4,5
+(:action eat_poisoned_food ; 4
+(:action eat_contaminated_food ; 
+(:action eat_food ; 4,5
+(:action drink_contaminated_water ;1,2
+(:action drink_water ; 1,2,3
+(:action build_shelter ; 7,8,9
+(:action sleep_in_shelter ; 7,9

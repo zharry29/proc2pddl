@@ -1,0 +1,13 @@
+(:action go
+(:action get
+(:action drop
+(:action get_water ; 10,11,16,20
+(:action boil_water ; 21
+(:action collect_rain_water ; 11,16,20
+(:action loot_shelter ; 17
+(:action break_car_window ; steal food from car.
+(:action gofish ; 13
+(:action find_shelter ; 5,6
+(:action clean_wound ; 18
+(:action clean_others_wound ; 16
+(:action barter_food_for_healing ;

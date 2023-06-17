@@ -1,0 +1,17 @@
+(:action go ; 
+(:action get ; 
+(:action get_grass ; 3, 20
+(:action dry_grass ; 3, 20
+(:action cluster_grass ; 20
+(:action break_branch ; 21
+(:action log_oak ; 22
+(:action get_log ; 22,14,9,7
+(:action stack_log ; 22,23
+(:action build_teepee ; 23
+(:action get_wood ; 25,24,23,22,21
+(:action get_branch ;  7,8,9,10,11,12,21,24
+(:action ignite_wood ; 24
+(:action ignite_teepee ; 
+(:action get_pot ; 25,5,6
+(:action get_water ; 1,2,3,4,5,27
+(:action boil_water ; 6,25

@@ -1,0 +1,12 @@
+(:action go ; 
+(:action get ; 
+(:action cut_plant ; 2
+(:action peel_stalk ; 3
+(:action cut_stalk_into_strips ; 4
+(:action soak_strips ; 5,17
+(:action dry_out_strips ; 7
+(:action weave_strips_into_sheet ; 8,19
+(:action press_sheet ; 9,11,20,21
+(:action flatten_sheet ; 11,20
+(:action polish_sheet ; 12
+(:action cut_sheet ; 13

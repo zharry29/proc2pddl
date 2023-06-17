@@ -1,0 +1,13 @@
+(:action go ; 
+(:action get ; 
+(:action get_water ; 1,2,3,4,5,27
+(:action drop ; 
+(:action clear_spider ; 8,13
+(:action insert_beam ; 9,10
+(:action lean_branches ; 11,9,23 
+(:action layer ; 12
+(:action wash ; 17
+(:action eat ; 14,15,16,17
+(:action make_snare ; 18
+(:action make_horizontal_bar ; 18
+(:action hang_snare ; 18

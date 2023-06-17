@@ -1,0 +1,11 @@
+(:action go ; 
+(:action get_bag ; 1,2,3
+(:action get_stationery ; 
+(:action get_costume ; 6
+(:action wear_detective_gear ; 4
+(:action find_supplies_for_disguise ; 6
+(:action wear_disguise ; 4
+(:action make_badge ; 8
+(:action prepare_detective_notebook ; 9
+(:action get_walkie_talkies ; 12
+(:action prepare_detective_kit ; 13

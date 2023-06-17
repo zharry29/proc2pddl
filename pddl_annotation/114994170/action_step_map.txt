@@ -1,0 +1,12 @@
+(:action get
+(:action drop
+(:action put_in_stopper ; 4
+(:action fill ; 4
+(:action purify ; 11
+(:action wait ; 2,7
+(:action go
+(:action put_batteries_in ; 8
+(:action turn_on_radio ; 1,2
+(:action create_cage ; 9
+(:action close_cage ; 9
+(:action put_in_cage ; 9

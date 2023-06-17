@@ -1,0 +1,12 @@
+(:action go ; 
+(:action get ; 
+(:action lay_masking_tape ; 5
+(:action make_tosses_column ; 6
+(:action make_crosses_column ; 7
+(:action thaw_food ;
+(:action throw ; 1,2,3,7
+(:action record_tosses ; 7
+(:action record_crosses ; 7
+(:action divide_crosses ; 8
+(:action calculate_pi ; 8
+(:action be_amazed ; 8

@@ -1,0 +1,35 @@
+(:action go ; 
+(:action understand ; 1,2,4
+(:action learn ; 1,2,3,4,5
+(:action get ; 
+(:action machine_secured ; 6
+(:action enumeration; 7
+(:action got_all_info ; 7
+(:action ping;
+(:action check_email_server; 10
+(:action reached_the_remote_system ;
+(:action run_port_scan ; 8
+(:action found_path_in_system ; 9
+(:action contact_and_trick_a_user ; 10
+(:action crack_password_by_social_engineering; 10
+(:action send_fake_email ; 10
+(:action crack_password_by_phishing ; 10
+(:action create_fake_wifi_access ; 10
+(:action crack_password_by_arp_spoofing ; 10
+(:action crack_password_by_brute_force ; 9 10
+(:action gain_access_with_password ; 13 10
+(:action create_buffer_overflow ; 11
+(:action take_control_of_system ; 11 12
+(:action install_malware ; 12
+(:action bypass_standard_authentication_system ; 12
+(:action not_let_administrator_know ; 13
+(:action make_no_change_to_website ; 13
+(:action create_fewest_file ; 13
+(:action delete_additional_users ; 13
+(:action hardcode_password ; 13
+(:action track_covered ; 13
+(:action learn_concepts ; 4
+(:action learn_internet ; 3
+(:action learn_programming ; 4
+(:action learn_unix ; 5
+(:action become_skilled ; 2

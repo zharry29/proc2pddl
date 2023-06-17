@@ -2,7 +2,7 @@ import sys
 sys.path.insert(1, '../src/')
 sys.path.insert(1, '../src/pddl-parser')
 from pddl_parser.PDDL import PDDL_Parser
-import json
+import pickle
 import os
 import numpy as np
 import re
@@ -134,13 +134,11 @@ class Tester:
         self.pred_dir = pred_dir
         
         case_results_raw = {}
-        # ["114905535"]
-        for proc_id in os.listdir(pred_dir):
-        #for proc_id in  ["114406878"]:
-            if not proc_id.startswith(args.id):
+        for fname in os.listdir(pred_dir):
+            if "actions" in fname or not fname.startswith(args.id):
                 continue
+            proc_id = fname[:-4]
             print(proc_id)
-            proc_id = proc_id[:-4]
 
             domain_header_fp = '{true_dir}/{test_case}/domain_header.pddl'.format(
                 true_dir = true_dir,
@@ -170,6 +168,8 @@ class Tester:
             intrinsic_done = False
             try:
                 parser.parse_domain(tmp_domain_file)
+                with open(pred_dir + f"{proc_id}_actions.pkl", 'wb') as file:
+                    pickle.dump(parser.actions, file)
             except:
                 case_results_raw[output_action_file]['intrinsic'] = 'parsing_error'
                 #continue

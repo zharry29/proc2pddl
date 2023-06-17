@@ -1,0 +1,10 @@
+(:action gather_info ; 2
+(:action create_secret ; 1
+(:action set_meeting_location ; 8
+(:action set_dress_code ; 9
+(:action create_name ; 3
+(:action secret_society_is_ready ; 
+(:action initiate_new_member ; 7,11
+(:action teach_new_member_secret ; 12
+(:action remove_member ;  13
+(:action check_if_cult ; 

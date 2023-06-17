@@ -1,0 +1,7 @@
+(:action get ; 
+(:action poke ; 1,14
+(:action flip ; 2,14
+(:action wrap ; 4,5,10,11
+(:action hit ; 5,8,11,15
+(:action free ; 7, 12,15
+(:action remove_fiber ; 7,12,15

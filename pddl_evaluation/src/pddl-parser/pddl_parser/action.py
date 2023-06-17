@@ -19,17 +19,28 @@
 import itertools
 from collections import defaultdict
 
-class Action:
 
+class Action:
     # -----------------------------------------------
     # Initialize
     # -----------------------------------------------
 
-    def __init__(self, name, parameters, positive_preconditions, negative_preconditions, add_effects, del_effects):
+    def __init__(
+        self,
+        name,
+        parameters,
+        positive_preconditions,
+        negative_preconditions,
+        add_effects,
+        del_effects,
+    ):
         def frozenset_of_tuples(data):
             return frozenset([tuple(t) for t in data])
+
         self.name = name
-        self.parameters = tuple(parameters)  # Make parameters a tuple so we can hash this if need be
+        self.parameters = tuple(
+            parameters
+        )  # Make parameters a tuple so we can hash this if need be
         self.positive_preconditions = frozenset_of_tuples(positive_preconditions)
         self.negative_preconditions = frozenset_of_tuples(negative_preconditions)
         self.add_effects = frozenset_of_tuples(add_effects)
@@ -40,12 +51,21 @@ class Action:
     # -----------------------------------------------
 
     def __str__(self):
-        return 'action: ' + self.name + \
-               '\n  parameters: ' + str(list(self.parameters)) + \
-               '\n  positive_preconditions: ' + str([list(i) for i in self.positive_preconditions]) + \
-               '\n  negative_preconditions: ' + str([list(i) for i in self.negative_preconditions]) + \
-               '\n  add_effects: ' + str([list(i) for i in self.add_effects]) + \
-               '\n  del_effects: ' + str([list(i) for i in self.del_effects]) + '\n'
+        return (
+            "action: "
+            + self.name
+            + "\n  parameters: "
+            + str(list(self.parameters))
+            + "\n  positive_preconditions: "
+            + str([list(i) for i in self.positive_preconditions])
+            + "\n  negative_preconditions: "
+            + str([list(i) for i in self.negative_preconditions])
+            + "\n  add_effects: "
+            + str([list(i) for i in self.add_effects])
+            + "\n  del_effects: "
+            + str([list(i) for i in self.del_effects])
+            + "\n"
+        )
 
     # -----------------------------------------------
     # Equality
@@ -76,11 +96,22 @@ class Action:
             type_map.append(items)
             variables.append(var)
         for assignment in itertools.product(*type_map):
-            positive_preconditions = self.replace(self.positive_preconditions, variables, assignment)
-            negative_preconditions = self.replace(self.negative_preconditions, variables, assignment)
+            positive_preconditions = self.replace(
+                self.positive_preconditions, variables, assignment
+            )
+            negative_preconditions = self.replace(
+                self.negative_preconditions, variables, assignment
+            )
             add_effects = self.replace(self.add_effects, variables, assignment)
             del_effects = self.replace(self.del_effects, variables, assignment)
-            yield Action(self.name, assignment, positive_preconditions, negative_preconditions, add_effects, del_effects)
+            yield Action(
+                self.name,
+                assignment,
+                positive_preconditions,
+                negative_preconditions,
+                add_effects,
+                del_effects,
+            )
 
     # -----------------------------------------------
     # Replace
@@ -96,7 +127,8 @@ class Action:
             new_group.append(pred)
         return new_group
 
-def action_comp(Action1,Action2):
+
+def action_equal(Action1, Action2):
     p1 = Action1.parameters
     p2 = Action2.parameters
     pp1 = Action1.positive_preconditions
@@ -107,7 +139,13 @@ def action_comp(Action1,Action2):
     ae2 = Action2.add_effects
     de1 = Action1.del_effects
     de2 = Action2.del_effects
-    if len(p1)!=len(p2) or len(pp1)!=len(pp2) or len(np1) != len(np2) or len(ae1) != len(ae2) or len(de1) != len(de2):
+    if (
+        len(p1) != len(p2)
+        or len(pp1) != len(pp2)
+        or len(np1) != len(np2)
+        or len(ae1) != len(ae2)
+        or len(de1) != len(de2)
+    ):
         return False
     p1 = sorted(p1, key=lambda x: x[1])
     p2 = sorted(p2, key=lambda x: x[1])
@@ -128,79 +166,108 @@ def action_comp(Action1,Action2):
             d2[p2[i][1]].append(p2[i][0])
         else:
             return False
+
     # print(d1)
     # print(d2)
     # print(paradict1)
     # print(paradict1)
     # print(pp1)
     # print(pp2)
-    def entry_equal(pp1,pp2):
-        pp1=list(pp1)
-        pp2=list(pp2)
-        count1 = 0 
+    def entry_equal(pp1, pp2):
+        pp1 = list(pp1)
+        pp2 = list(pp2)
+        count1 = 0
         count2 = 0
-        countdict1={}
-        countdict2={}
+        countdict1 = {}
+        countdict2 = {}
         for i in range(len(pp1)):
-            flag=0
+            flag = 0
             for j in range(len(pp2)):
                 if pp2[j][0] == pp1[i][0] and len(pp2[j]) == len(pp1[i]):
-                    for k in range(1,len(pp1[i])):
-                        if pp2[j][k] not in  paradict2 or pp1[i][k] not in paradict1:
+                    for k in range(1, len(pp1[i])):
+                        if pp2[j][k] not in paradict2 or pp1[i][k] not in paradict1:
                             print("missing parameters!")
                             return False
                         if paradict2[pp2[j][k]] != paradict1[pp1[i][k]]:
                             break
                         if pp1[i][k] not in countdict1 and pp2[j][k] not in countdict2:
-                            countdict1[pp1[i][k]]=count1
-                            countdict2[pp2[j][k]]=count2
-                            count1+=1
-                            count2+=1
+                            countdict1[pp1[i][k]] = count1
+                            countdict2[pp2[j][k]] = count2
+                            count1 += 1
+                            count2 += 1
                         elif pp1[i][j] in countdict1 and pp2[i][j] in countdict2:
                             if countdict1[pp1[i][j]] != countdict2[pp2[i][j]]:
                                 break
                         else:
                             break
-                    flag=1
+                    flag = 1
                     pp2.pop(j)
                     break
                 else:
                     continue
-            if flag==0:
+            if flag == 0:
                 return False
         return True
 
-    if (entry_equal(pp1,pp2) == True) and (entry_equal(ae1,ae2) == True) and (entry_equal(np1,np2) == True) and (entry_equal(de1,de2) == True):
+    if (
+        (entry_equal(pp1, pp2) == True)
+        and (entry_equal(ae1, ae2) == True)
+        and (entry_equal(np1, np2) == True)
+        and (entry_equal(de1, de2) == True)
+    ):
         return True
     return False
 
-            
+
 # -----------------------------------------------
 # Main
 # -----------------------------------------------
-if __name__ == '__main__':
-    a = Action('cut_stalks', [['?p', 'player'], ['?knife', 'knife'], ['?papyrus_plant', 'papyrus_plant'],['?papyrus_stalks', 'papyrus_stalks']],
-                       [['inventory', '?p', '?knife'], ['inventory', '?p', '?papyrus_plant'],['inventory', '?papyrus_stalks', '?papyrus_plant'],['inventory', '?knife', '?papyrus_plant']],
-                       [],
-                       [['inventory', '?p', '?papyrus_stalks']],
-                       [['inventory', '?p', '?papyrus_plant']])
-    
-    b = Action('cut_stalks', [['?player', 'player'], ['?papyrus_plant', 'papyrus_plant'],['?papyrus_stalks', 'papyrus_stalks'], ['?knife', 'knife']],
-                       [['inventory', '?player', '?papyrus_plant'], ['inventory', '?player', '?knife'],['inventory', '?knife', '?papyrus_plant'],['inventory', '?papyrus_stalks', '?papyrus_plant']],
-                       [],
-                       [['inventory', '?player', '?papyrus_stalks']],
-                       [['inventory', '?player', '?papyrus_plant']])
-    
+if __name__ == "__main__":
+    a = Action(
+        "cut_stalks",
+        [
+            ["?p", "player"],
+            ["?knife", "knife"],
+            ["?papyrus_plant", "papyrus_plant"],
+            ["?papyrus_stalks", "papyrus_stalks"],
+        ],
+        [
+            ["inventory", "?p", "?knife"],
+            ["inventory", "?p", "?papyrus_plant"],
+            ["inventory", "?papyrus_stalks", "?papyrus_plant"],
+            ["inventory", "?knife", "?papyrus_plant"],
+        ],
+        [],
+        [["inventory", "?p", "?papyrus_stalks"]],
+        [["inventory", "?p", "?papyrus_plant"]],
+    )
+
+    b = Action(
+        "cut_stalks",
+        [
+            ["?player", "player"],
+            ["?papyrus_plant", "papyrus_plant"],
+            ["?papyrus_stalks", "papyrus_stalks"],
+            ["?knife", "knife"],
+        ],
+        [
+            ["inventory", "?player", "?papyrus_plant"],
+            ["inventory", "?player", "?knife"],
+            ["inventory", "?knife", "?papyrus_plant"],
+            ["inventory", "?papyrus_stalks", "?papyrus_plant"],
+        ],
+        [],
+        [["inventory", "?player", "?papyrus_stalks"]],
+        [["inventory", "?player", "?papyrus_plant"]],
+    )
+
     print("a")
     print(a)
     print("b")
     print(b)
-    print("is same?",action_comp(a,b))
-    objects = {
-        'agent': ['ana', 'bob'],
-        'pos': ['p1', 'p2']
-    }
-    types = {'object': ['agent', 'pos']}
+    print("is same?", action_comp(a, b))
+    objects = {"agent": ["ana", "bob"], "pos": ["p1", "p2"]}
+    types = {"object": ["agent", "pos"]}
     for act in a.groundify(objects, types):
         print(act)
 

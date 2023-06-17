@@ -1,0 +1,14 @@
+(:action go ; 
+(:action get ; 
+(:action get_water ; 1,10
+(:action sharpen_stick ; 3,9
+(:action catch_fish ; 3
+(:action hunt_bird ; 3
+(:action hunt_insect ; 3
+(:action get_shellfish ; 3
+(:action cook ; 3,9
+(:action get_stick ; 3,8,9
+(:action start_fire ; 9,12,3,1
+(:action get_tarp ; 8
+(:action get_leave ; 14
+(:action construct_shelter ; 7,8
