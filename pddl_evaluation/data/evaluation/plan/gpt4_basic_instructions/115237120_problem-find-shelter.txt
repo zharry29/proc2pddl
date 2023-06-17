@@ -1,0 +1,4 @@
+go ('npc', 'north', 'parkinglot', 'park')
+go ('npc', 'west', 'park', 'car')
+go ('npc', 'north', 'car', 'stonehouse')
+find_shelter ('npc', 'stonehouse')
