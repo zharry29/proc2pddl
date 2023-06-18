@@ -209,10 +209,10 @@ class Tester:
                 with open(f"../data/evaluation/plan/{args.model}{prompt_str}/{proc_id}_{problem[:-5]}.txt", 'w') as f:
                     if isinstance(plan, TimeoutError):
                         case_results_raw[output_action_file]['extrinsic'][problem] = 'timeout'
-                        f.write("Running time exceeds 30 seconds")
+                        f.write("Error: " + "Running time exceeds 30 seconds")
                     elif isinstance(plan, TypeError) or isinstance(plan, AttributeError) or isinstance(plan, ValueError):
                         case_results_raw[output_action_file]['extrinsic'][problem] = 'parse_error'
-                        f.write(str(plan))
+                        f.write("Error: " + str(plan))
                     elif plan:
                         case_results_raw[output_action_file]['extrinsic'][problem] = 'solved'
                         for ac in plan:

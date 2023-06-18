@@ -1,1 +1,1 @@
-Missing close parentheses
+Error: Missing close parentheses

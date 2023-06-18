@@ -1,1 +1,1 @@
-'str' object has no attribute 'pop'
+Error: 'str' object has no attribute 'pop'

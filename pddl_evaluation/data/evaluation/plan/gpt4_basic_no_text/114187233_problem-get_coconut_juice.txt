@@ -1,1 +1,1 @@
-Running time exceeds 30 seconds
+Error: Running time exceeds 30 seconds

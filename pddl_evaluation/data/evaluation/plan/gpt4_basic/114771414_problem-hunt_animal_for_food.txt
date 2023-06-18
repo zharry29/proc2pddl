@@ -1,1 +1,1 @@
-unhashable type: 'list'
+Error: unhashable type: 'list'
