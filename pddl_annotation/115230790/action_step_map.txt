@@ -7,5 +7,5 @@
 (:action check_weapons ; 5
 (:action check_bunker ; 3
 (:action outfit_bunker_with_energy_source ; 3,7
-(:action enjoylife ; after all preparation, 10
+(:action enjoylife ; 10
 (:action connect_through_social_media_with_family ;

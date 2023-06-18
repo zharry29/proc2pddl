@@ -1,6 +1,6 @@
 (:action go ; 
 (:action understand ; 1,2,4
-(:action learn ; 1,2,3,4,5
+(:action learn ; 3,4,5
 (:action get ; 
 (:action machine_secured ; 6
 (:action enumeration; 7
@@ -16,10 +16,10 @@
 (:action crack_password_by_phishing ; 10
 (:action create_fake_wifi_access ; 10
 (:action crack_password_by_arp_spoofing ; 10
-(:action crack_password_by_brute_force ; 9 10
-(:action gain_access_with_password ; 13 10
+(:action crack_password_by_brute_force ; 9,10
+(:action gain_access_with_password ; 13,10
 (:action create_buffer_overflow ; 11
-(:action take_control_of_system ; 11 12
+(:action take_control_of_system ; 11,12
 (:action install_malware ; 12
 (:action bypass_standard_authentication_system ; 12
 (:action not_let_administrator_know ; 13
