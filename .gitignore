@@ -1,2 +1,3 @@
 
 pddl_evaluation/data/evaluation/cache/tmp_action_generation.pddl
+*.pyc
