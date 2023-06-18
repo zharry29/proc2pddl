@@ -10,7 +10,7 @@ from pathlib import Path
 import signal
 
 def handler(signum, frame):
-   print("Exeecing 30 seconds, killed.")
+   print("Exceeding 30 seconds, killed.")
    raise TimeoutError("end of time")
 
 signal.signal(signal.SIGALRM, handler)
@@ -205,13 +205,14 @@ class Tester:
                     problem = problem
                 )
                 plan = self.eval_unit_action_generation(tmp_domain_file, problem_file)
+                #print(plan)
                 with open(f"../data/evaluation/plan/{args.model}{prompt_str}/{proc_id}_{problem[:-5]}.txt", 'w') as f:
-                    if plan == "TimeoutError":
+                    if isinstance(plan, TimeoutError):
                         case_results_raw[output_action_file]['extrinsic'][problem] = 'timeout'
                         f.write("Running time exceeds 30 seconds")
-                    elif plan == "TypeError":
+                    elif isinstance(plan, TypeError) or isinstance(plan, AttributeError) or isinstance(plan, ValueError):
                         case_results_raw[output_action_file]['extrinsic'][problem] = 'parse_error'
-                        f.write("Output cannot be parsed")
+                        f.write(str(plan))
                     elif plan:
                         case_results_raw[output_action_file]['extrinsic'][problem] = 'solved'
                         for ac in plan:
@@ -240,10 +241,8 @@ class Tester:
             parser.parse_problem(problem_file)
             planner = Planner()
             plan = planner.solve(parser)
-        except TimeoutError as e:
-            return "TimeoutError"
-        except TypeError as e:
-            return "TypeError"
+        except (TimeoutError, TypeError, AttributeError, ValueError) as e:
+            return e
         signal.alarm(0)
         return plan
         

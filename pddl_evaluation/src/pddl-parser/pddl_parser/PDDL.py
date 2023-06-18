@@ -45,13 +45,13 @@ class PDDL_Parser:
                     list = stack.pop()
                     list.append(li)
                 else:
-                    raise Exception('Missing open parentheses')
+                    raise ValueError('Missing open parentheses')
             else:
                 list.append(t)
         if stack:
-            raise Exception('Missing close parentheses')
+            raise ValueError('Missing close parentheses')
         if len(list) != 1:
-            raise Exception('Malformed expression')
+            raise ValueError('Malformed expression')
         return list[0]
 
     # -----------------------------------------------

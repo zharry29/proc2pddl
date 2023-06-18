@@ -1,0 +1,7 @@
+go ('old_man', 'east', 'brickhouse', 'car')
+go ('npc', 'north', 'parkinglot', 'park')
+collect_rain_water ('npc', 'water', 'park')
+go ('npc', 'east', 'park', 'store')
+get ('npc', 'bandage', 'store')
+break_car_window ('old_man', 'food', 'car')
+barter_food_for_healing ('old_man', 'npc', 'food')

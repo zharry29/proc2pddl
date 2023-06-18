@@ -1,0 +1,4 @@
+get_dry_materials ('npc', 'camp', 'twigs_leaves')
+get_dry_materials ('npc', 'camp', 'propped_branches')
+get_dry_materials ('npc', 'camp', 'long_branch')
+build_shelter ('npc', 'long_branch', 'propped_branches', 'twigs_leaves')

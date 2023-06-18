@@ -1,0 +1,7 @@
+go ('npc', 'north', 'parkinglot', 'park')
+go ('npc', 'east', 'park', 'store')
+get ('npc', 'bandage', 'store')
+go ('npc', 'west', 'store', 'park')
+go ('npc', 'west', 'park', 'car')
+collect_rain_water ('npc', 'car', 'water')
+break_car_window ('npc', 'car', 'food')

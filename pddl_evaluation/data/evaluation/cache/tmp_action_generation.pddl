@@ -1,93 +1,102 @@
-(define (domain make_papyrus)
+(define (domain survive_a_war)
    (:requirements :strips :typing)
-   (:types
-
-       papyrus_plant - item
-       papyrus_stalks - item
-       papyrus_strips - item
-       water - item
-       linen_sheets - item
-       wooden_boards - item
-       rolling_pin - item
-       knife - item
-       papyrus - item
-       player location
+   (:types 
+      player direction 
+      food bandage rock pot fishingpole fish water - item 
+      car - location
    )
-
+   
    (:predicates
+      (is_injured ?player - player) ; player is injured
+      (in_shelter ?player - player) ; player is in a location with a basement
+      (outdoors ?loc - location) ; this location outdoors.
+      (has_water_source ?loc - location) ; this location has a source of fresh water.
+      (treated ?water - water) ; True if the water has been decontaimated by boiling it
+      (has_basement ?location - location) ; this location has a basement.
+      (has_windows ?car - car) ; this location has a basement.
+      (is_occupied ?location - location) ; this location already has occupants.
+      (at ?obj - object ?loc - location) ; an object is at a location 
       (inventory ?player ?item) ; an item is in the player's inventory
-      (soaked ?papyrus_strips - papyrus_strips) ; the papyrus strips have been soaked in water
-      (dried ?papyrus_strips - papyrus_strips) ; the soaked papyrus strips have been dried by the rolling pin
-      (woven ?papyrus_strips - papyrus_strips) ; the dried papyrus strips have been woven together into a lattice
-      (at ?obj - object ?loc - location) ; an object is at a location
-      (finished ?papyrus_strips - papyrus_strips) ; the woven papyrus were bundled between linen_sheets and wooden boards to finish
-      (searched ?location - location) ; we've searched the location for interesting things
-      (not_gettable ?item) ; true if cannot get item with normal get
-      
-   )(:action get
-    :parameters (?item - item ?player - player)
-    :precondition (and (at ?item ?loc) (at ?player ?loc) (not (not_gettable ?item)))
-    :effect (inventory ?player ?item)
+      (haslake ?location)
+      (gettable ?item)
+      (connected ?loc1 - location ?dir - direction ?loc2 - location) ; location 1 is connected to location 2 in the direction
+      (blocked ?loc1 - location ?dir - direction ?loc2 - location) ; the connection between location 1 and 2 in currently blocked
+   )(:action go
+    :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+    :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+    :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
 )
 
-(:action travel
-    :parameters (?player - player ?loc_from - location ?loc_to - location)
-    :precondition (at ?player ?loc_from)
-    :effect (and (not (at ?player ?loc_from)) (at ?player ?loc_to))
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?item ?loc) (at ?player ?loc))
+    :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
 )
 
-(:action search_location
-    :parameters (?player - player ?location - location)
-    :precondition (at ?player ?location)
-    :effect (searched ?location)
+(:action drop
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (inventory ?player ?item) (at ?player ?loc))
+    :effect (and (at ?item ?loc) (not (inventory ?player ?item)))
 )
 
-(:action pluck_river_reeds
-    :parameters (?player - player ?papyrus_plant - papyrus_plant)
-    :precondition (at ?player ?location)
-    :effect (inventory ?player ?papyrus_plant)
+(:action get_water
+    :parameters (?player - player ?loc - location ?water - water)
+    :precondition (and (at ?player ?loc) (has_water_source ?loc))
+    :effect (and (inventory ?player ?water) (not (treated ?water)))
 )
 
-(:action cut_stalks
-    :parameters (?player - player ?papyrus_plant - papyrus_plant ?papyrus_stalks - papyrus_stalks ?knife - knife)
-    :precondition (and (inventory ?player ?papyrus_plant) (inventory ?player ?knife))
-    :effect (and (not (inventory ?player ?papyrus_plant)) (inventory ?player ?papyrus_stalks))
+(:action boil_water
+    :parameters (?player - player ?loc - location ?water - water)
+    :precondition (and (inventory ?player ?water) (not (treated ?water)) (at ?player ?loc))
+    :effect (treated ?water)
 )
 
-(:action cut_strips
-    :parameters (?player - player ?papyrus_stalks - papyrus_stalks ?papyrus_strips - papyrus_strips ?knife - knife)
-    :precondition (and (inventory ?player ?papyrus_stalks) (inventory ?player ?knife))
-    :effect (and (not (inventory ?player ?papyrus_stalks)) (inventory ?player ?papyrus_strips))
+(:action collect_rain_water
+    :parameters (?player - player ?loc - location ?water - water)
+    :precondition (and (at ?player ?loc) (outdoors ?loc))
+    :effect (and (inventory ?player ?water) (not (treated ?water)))
 )
 
-(:action soak_strips
-    :parameters (?player - player ?papyrus_strips - papyrus_strips ?water - water)
-    :precondition (and (inventory ?player ?papyrus_strips) (at ?player ?location))
-    :effect (soaked ?papyrus_strips)
+(:action loot_shelter
+    :parameters (?player - player ?item - food ?loc - location)
+    :precondition (and (at ?player ?loc) (has_basement ?loc) (is_occupied ?loc) (gettable ?item))
+    :effect (inventory ?player ?food)
 )
 
-(:action roll_strips
-    :parameters (?player - player ?papyrus_strips - papyrus_strips ?rolling_pin - rolling_pin)
-    :precondition (and (inventory ?player ?papyrus_strips) (inventory ?player ?rolling_pin) (soaked ?papyrus_strips))
-    :effect (dried ?papyrus_strips)
+(:action break_car_window
+    :parameters (?player - player ?car - car ?food - food)
+    :precondition (and (at ?player ?car) (has_windows ?car))
+    :effect (and (inventory ?player ?food) (not (has_windows ?car)))
 )
 
-(:action weave_strips
-    :parameters (?player - player ?papyrus_strips - papyrus_strips)
-    :precondition (and (inventory ?player ?papyrus_strips) (dried ?papyrus_strips))
-    :effect (woven ?papyrus_strips)
+(:action gofish
+    :parameters (?player - player ?loc - location ?fishingpole - fishingpole ?fish - fish)
+    :precondition (and (at ?player ?loc) (haslake ?loc) (inventory ?player ?fishingpole))
+    :effect (inventory ?player ?fish)
 )
 
-(:action bundle_strips
-    :parameters (?player - player ?papyrus_strips - papyrus_strips ?linen_sheets - linen_sheets ?wooden_boards - wooden_boards)
-    :precondition (and (inventory ?player ?papyrus_strips) (inventory ?player ?linen_sheets) (inventory ?player ?wooden_boards) (woven ?papyrus_strips))
-    :effect (finished ?papyrus_strips)
+(:action find_shelter
+    :parameters (?player - player ?loc - location)
+    :precondition (and (at ?player ?loc) (has_basement ?loc))
+    :effect (in_shelter ?player)
 )
 
-(:action cut_sheet
-    :parameters (?player - player ?papyrus_strips - papyrus_strips ?papyrus - papyrus ?knife - knife)
-    :precondition (and (inventory ?player ?papyrus_strips) (inventory ?player ?knife) (finished ?papyrus_strips))
-    :effect (and (not (inventory ?player ?papyrus_strips)) (inventory ?player ?papyrus))
+(:action clean_wound
+    :parameters (?player - player ?bandage - bandage)
+    :precondition (and (inventory ?player ?bandage) (is_injured ?player))
+    :effect (not (is_injured ?player))
+)
+
+(:action clean_others_wound
+    :parameters (?player1 - player ?player2 - player ?bandage - bandage)
+    :precondition (and (inventory ?player1 ?bandage) (is_injured ?player2))
+    :effect (not (is_injured ?player2))
+)
+
+(:action barter_food_for_healing
+    :parameters (?player - player ?food - food ?bandage - bandage)
+    :precondition (and (inventory ?player ?food) (is_injured ?player))
+    :effect (and (not (is_injured ?player)) (inventory ?player ?bandage) (not (inventory ?player ?food)))
 )
 
 )

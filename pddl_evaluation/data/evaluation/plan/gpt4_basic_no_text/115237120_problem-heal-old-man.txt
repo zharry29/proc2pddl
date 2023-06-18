@@ -1,0 +1,3 @@
+go ('old_man', 'east', 'brickhouse', 'car')
+break_car_window ('old_man', 'food', 'car')
+barter_food_for_healing ('old_man', 'old_man', 'food')

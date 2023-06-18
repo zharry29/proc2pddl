@@ -1,0 +1,2 @@
+get ('old_man', 'food', 'brickhouse')
+barter_food_for_healing ('old_man', 'food', 'bandage')

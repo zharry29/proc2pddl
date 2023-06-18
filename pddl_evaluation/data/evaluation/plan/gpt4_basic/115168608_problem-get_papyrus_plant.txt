@@ -1,0 +1,3 @@
+travel ('npc', 'home', 'river')
+pluck_river_reeds ('npc', 'river', 'papyrus_plant')
+travel ('npc', 'river', 'home')
