@@ -1,0 +1,179 @@
+(:action go
+    (?player - player ?from - location ?dir - direction ?to - location)
+    (and
+      (at ?player ?from)
+      (connected ?from ?dir ?to)
+      (not (blocked ?from ?dir ?to))
+    )
+    (and
+      (not (at ?player ?from))
+      (at ?player ?to)
+    )
+)
+
+(:action get
+    (?player - player ?item - item ?loc - location)
+    (and
+      (at ?player ?loc)
+      (at ?item ?loc)
+    )
+    (and
+      (not (at ?item ?loc))
+      (inventory ?player ?item)
+    )
+)
+
+(:action get_water
+    (?player - player ?loc - location ?water - water)
+    (and
+      (at ?player ?loc)
+      (has_water_source ?loc)
+      (at ?water ?loc)
+    )
+    (and
+      (not (at ?water ?loc))
+      (inventory ?player ?water)
+    )
+)
+
+(:action sharpen_stick
+    (?player - player ?stick - stick ?sharpened_stick - stick)
+    (and
+      (inventory ?player ?stick)
+      (not (inventory ?player ?sharpened_stick))
+    )
+    (and
+      (not (inventory ?player ?stick))
+      (inventory ?player ?sharpened_stick)
+    )
+)
+
+(:action catch_fish
+    (?player - player ?loc - location ?sharpened_stick - stick ?fish - fish)
+    (and
+      (at ?player ?loc)
+      (inventory ?player ?sharpened_stick)
+      (has_fish ?loc)
+    )
+    (and
+      (not (has_fish ?loc))
+      (inventory ?player ?fish)
+      (edible ?fish)
+    )
+)
+
+(:action hunt_bird
+    (?player - player ?loc - location ?sharpened_stick - stick ?bird - bird)
+    (and
+      (at ?player ?loc)
+      (inventory ?player ?sharpened_stick)
+      (has_bird ?loc)
+    )
+    (and
+      (not (has_bird ?loc))
+      (inventory ?player ?bird)
+      (edible ?bird)
+    )
+)
+
+(:action hunt_insect
+    (?player - player ?loc - location ?sharpened_stick - stick ?insect - insect)
+    (and
+      (at ?player ?loc)
+      (inventory ?player ?sharpened_stick)
+      (has_insect ?loc)
+    )
+    (and
+      (not (has_insect ?loc))
+      (inventory ?player ?insect)
+      (edible ?insect)
+    )
+)
+
+(:action get_shellfish
+    (?player - player ?loc - location ?shellfish - shellfish)
+    (and
+      (at ?player ?loc)
+      (has_shellfish ?loc)
+    )
+    (and
+      (not (has_shellfish ?loc))
+      (inventory ?player ?shellfish)
+      (edible ?shellfish)
+    )
+)
+
+(:action cook
+    (?player - player ?loc - location ?raw_food - (either fish bird insect shellfish) ?cooked_food - (either fish bird insect shellfish))
+    (and
+      (at ?player ?loc)
+      (has_fire ?loc)
+      (inventory ?player ?raw_food)
+    )
+    (and
+      (not (inventory ?player ?raw_food))
+      (inventory ?player ?cooked_food)
+      (edible ?cooked_food)
+    )
+)
+
+(:action get_stick
+    (?player - player ?loc - location ?stick - stick)
+    (and
+      (at ?player ?loc)
+      (at ?stick ?loc)
+    )
+    (and
+      (not (at ?stick ?loc))
+      (inventory ?player ?stick)
+    )
+)
+
+(:action start_fire
+    (?player - player ?loc - location ?sharpened_stick - stick)
+    (and
+      (at ?player ?loc)
+      (inventory ?player ?sharpened_stick)
+      (not (has_fire ?loc))
+    )
+    (and
+      (has_fire ?loc)
+    )
+)
+
+(:action get_tarp
+    (?player - player ?loc - location ?tarp - tarp)
+    (and
+      (at ?player ?loc)
+      (at ?tarp ?loc)
+    )
+    (and
+      (not (at ?tarp ?loc))
+      (inventory ?player ?tarp)
+    )
+)
+
+(:action get_leave
+    (?player - player ?loc - location ?leave - leave)
+    (and
+      (at ?player ?loc)
+      (at ?leave ?loc)
+    )
+    (and
+      (not (at ?leave ?loc))
+      (inventory ?player ?leave)
+    )
+)
+
+(:action construct_shelter
+    (?player - player ?loc - location)
+    (and
+      (at ?player ?loc)
+      (not (sheltered ?loc))
+    )
+    (and
+      (sheltered ?loc)
+    )
+)
+
+)
