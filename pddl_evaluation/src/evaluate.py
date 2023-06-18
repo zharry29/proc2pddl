@@ -7,10 +7,17 @@ import os
 import numpy as np
 import re
 from pathlib import Path
+import signal
+
+def handler(signum, frame):
+   print("Exeecing 30 seconds, killed.")
+   raise TimeoutError("end of time")
+
+signal.signal(signal.SIGALRM, handler)
 
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('--model', type=str, default='gpt4')
+parser.add_argument('--model', type=str)
 parser.add_argument('--prompt', type=str, default='')
 parser.add_argument('--id', type=str, default='')
 args = parser.parse_args()
@@ -199,7 +206,13 @@ class Tester:
                 )
                 plan = self.eval_unit_action_generation(tmp_domain_file, problem_file)
                 with open(f"../data/evaluation/plan/{args.model}{prompt_str}/{proc_id}_{problem[:-5]}.txt", 'w') as f:
-                    if plan:
+                    if plan == "TimeoutError":
+                        case_results_raw[output_action_file]['extrinsic'][problem] = 'timeout'
+                        f.write("Running time exceeds 30 seconds")
+                    elif plan == "TypeError":
+                        case_results_raw[output_action_file]['extrinsic'][problem] = 'parse_error'
+                        f.write("Output cannot be parsed")
+                    elif plan:
                         case_results_raw[output_action_file]['extrinsic'][problem] = 'solved'
                         for ac in plan:
                             f.write(ac.name + " ('" + "', '".join(ac.parameters) + "')\n")
@@ -220,11 +233,18 @@ class Tester:
 
 
     def eval_unit_action_generation(self, domain_file, problem_file):
-        parser = PDDL_Parser()
-        parser.parse_domain(domain_file)
-        parser.parse_problem(problem_file)
-        planner = Planner()
-        plan = planner.solve(parser)
+        signal.alarm(30)
+        try:
+            parser = PDDL_Parser()
+            parser.parse_domain(domain_file)
+            parser.parse_problem(problem_file)
+            planner = Planner()
+            plan = planner.solve(parser)
+        except TimeoutError as e:
+            return "TimeoutError"
+        except TypeError as e:
+            return "TypeError"
+        signal.alarm(0)
         return plan
         
 T = Tester(cache_dir)
