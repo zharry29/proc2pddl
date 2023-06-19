@@ -6,4 +6,4 @@
 (:action papyrus_strips ; cut strips from stalks
 (:action polish_papyrus ; Use a stone to polish the papyrus.
 (:action flatten_papyrus ; Use a roller to make the papyrus flat.
-(:action cut_paprus ; Use a scissor to cut the papryus.
+(:action cut_papyrus ; Use a scissor to cut the papryus.

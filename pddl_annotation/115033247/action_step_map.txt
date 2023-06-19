@@ -2,7 +2,7 @@
 (:action get ; 
 (:action pour_water ; 15
 (:action place_strips_between_boards ; 9
-(:action cut_stalks ; 4
+(:action cut_stalks ; 2
 (:action papyrus_strips ; 4
 (:action polish_papyrus ; 12
 (:action flatten_papyrus ; 11

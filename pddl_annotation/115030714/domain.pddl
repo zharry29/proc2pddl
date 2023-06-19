@@ -3,7 +3,8 @@
   (:requirements :strips :typing)
   (:types
     player location direction
-    food drink - item
+    food drink tea sushi balloon lantern - item
+    phone money -item
   )
 
   (:predicates

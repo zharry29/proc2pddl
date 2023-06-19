@@ -38,7 +38,7 @@
    (:action place_strips_between_boards ; place papyrus strips between two wooden boards
       :parameters (?p - player) 
       :precondition (and (inventory ?p wooden_boards) (inventory ?p papyrus_strips) (strips_woven))
-      :effect (and (between_boards ?item))
+      :effect (and (strips_between_boards ?item))
    )
 
    (:action cut_stalks ; cut stalks
@@ -65,7 +65,7 @@
       :effect  (flattened ?pap)
    )
 
-    (:action cut_paprus ; Use a scissor to cut the papryus.
+    (:action cut_papyrus ; Use a scissor to cut the papryus.
       :parameters (?p - player ?pap - papyrus ?s - scissors) 
       :precondition (and (inventory ?p ?pap) (inventory ?p ?s))
       :effect  (cut ?pap)
