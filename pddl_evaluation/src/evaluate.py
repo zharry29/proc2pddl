@@ -181,6 +181,8 @@ class Tester:
                 case_results_raw[output_action_file]['intrinsic'] = 'parsing_error'
                 #continue
                 intrinsic_done = True
+                #with open(pred_dir + f"{proc_id}_actions.pkl", 'wb') as file:
+                #    pickle.dump(None, file)
             # print(1.2)
             # 1.2 check if actions are all found
             if not intrinsic_done:
@@ -250,3 +252,12 @@ T = Tester(cache_dir)
 
 eval_results = T.eval_action_generation(true_dir, pred_dir)#['1']
 print(eval_results)
+pf_outcome = []
+for fname, report in eval_results.items():
+    for pf_name, outcome in report["extrinsic"].items():
+         pf_outcome.append(outcome)
+print("Total PFs:", len(pf_outcome))
+print("Solved PFs:", pf_outcome.count("solved"))
+print("Unsolved PFs:", pf_outcome.count("unsolved"))
+print("Timeout PFs:", pf_outcome.count("timeout"))
+print("Parsing Error PFs:", pf_outcome.count("parse_error"))
