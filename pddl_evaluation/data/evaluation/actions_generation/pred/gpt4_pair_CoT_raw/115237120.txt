@@ -1,0 +1,156 @@
+Action 1: Go
+Entities: Player, Direction, Location1, Location2
+States Before: player is at Location1, Location1 is connected to Location2 in direction (Direction)
+States After: player is at Location2
+
+(:action go
+   :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+   :precondition (and 
+                     (at ?player ?loc1)
+                     (connected ?loc1 ?dir ?loc2)
+                     (not (blocked ?loc1 ?dir ?loc2))
+                )
+   :effect (and 
+                (not (at ?player ?loc1))
+                (at ?player ?loc2)
+           )
+)
+
+Action 2: Get
+Entities: Player, Item, Location
+States Before: item is at location, player is at location
+States After: player has item
+
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and
+                       (at ?player ?loc)
+                       (at ?item ?loc)
+                       (gettable ?item)
+                  )
+    :effect (and
+                 (not (at ?item ?loc))
+                 (inventory ?player ?item)
+            )
+)
+
+Action 3: Drop
+Entities: Player, Item, Location
+States Before: player has item, player is at location
+States After: item is at location
+
+(:action drop
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and
+                       (at ?player ?loc)
+                       (inventory ?player ?item)
+                  )
+    :effect (and
+                 (not (inventory ?player ?item))
+                 (at ?item ?loc)
+            )
+)
+
+Action 4: Get_water
+Entities: Player, Location, Water
+States Before: player is at location, location has water source
+States After: player has water
+
+(:action get_water
+   :parameters (?player - player ?loc - location ?water - water)
+   :precondition (and
+                      (at ?player ?loc)
+                      (has_water_source ?loc)
+                 )
+   :effect (inventory ?player ?water)
+)
+
+Action 5: Boil_water
+Entities: Player, Water, Pot
+States Before: player has untreated water, player has pot
+States After: water is treated
+
+(:action boil_water
+    :parameters (?player - player ?water - water ?pot - pot)
+    :precondition (and
+                       (inventory ?player ?water)
+                       (not (treated ?water))
+                       (inventory ?player ?pot)
+                  )
+    :effect (treated ?water)
+)
+
+Action 6: Collect_rain_water
+Entities: Player, Location, Water
+States Before: player is at location, location is outdoors
+States After: player has water
+
+(:action collect_rain_water
+   :parameters (?player - player ?loc - location ?water - water)
+   :precondition (and
+                      (at ?player ?loc)
+                      (outdoors ?loc)
+                 )
+   :effect (inventory ?player ?water)
+)
+
+Action 7: Loot_shelter
+Entities: Player, Location
+States Before: player is at location, location is unoccupied
+States After: player has items found at location
+
+(:action loot_shelter
+    :parameters (?player - player ?loc - location)
+    :precondition (and
+                       (at ?player ?loc)
+                       (not (is_occupied ?loc))
+                  )
+    :effect (forall (?item - item)
+                    (when (at ?item ?loc) (inventory ?player ?item)))
+)
+
+Action 8: Go_fish
+Entities: Player, Location, Fishingpole, Fish
+States Before: player is at location, location has lake, player has fishingpole
+States After: player has fish
+
+(:action gofish
+    :parameters (?player - player ?loc - location ?fish - fish ?pole - fishingpole)
+    :precondition (and
+                       (at ?player ?loc)
+                       (haslake ?loc)
+                       (inventory ?player ?pole)
+                  )
+    :effect (inventory ?player ?fish)
+)
+
+Action 9: Find_shelter
+Entities: Player, Location
+States Before: player is at location, location has basement
+States After: player is in shelter
+
+(:action find_shelter
+    :parameters (?player - player ?loc - location)
+    :precondition (and
+                       (at ?player ?loc)
+                       (has_basement ?loc)
+                  )
+    :effect (in_shelter ?player)
+)
+
+Action 10: Clean_wound
+Entities: Player, Water
+States Before: player is injured, player has treated water
+States After: player is not injured
+
+(:action clean_wound
+    :parameters (?player - player ?water - water)
+    :precondition (and
+                       (is_injured ?player)
+                       (treated ?water)
+                       (inventory ?player ?water)
+                  )
+    :effect (not (is_injured ?player))
+)
+
+)

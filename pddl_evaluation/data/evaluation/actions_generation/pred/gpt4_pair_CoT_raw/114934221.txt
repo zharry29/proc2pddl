@@ -1,0 +1,125 @@
+First, let's analyze the actions and list the entities, states before and after the action, and translate them into PDDL format:
+
+1. Action: splash_swim
+Entities: person, location, shark
+States before: person in water, not splashing, shark near
+States after: person moving slowly, splashing, potentially getting shark's attention
+PDDL:
+
+(:action splash_swim
+ :parameters (?person - player ?loc - location ?shark - shark)
+ :precondition (and (is_water ?loc) (at ?person ?loc) (visible ?shark))
+ :effect (and (at ?person ?loc) (not (at ?person (next_to ?loc)))))
+ 
+2. Action: swim
+Entities: person, location, boat, shore
+States before: person in water, shark spotted, not moving
+States after: person moving slowly towards boat or shore
+PDDL:
+
+(:action swim
+ :parameters (?person - player ?loc - location ?boat - ship ?shore - location)
+ :precondition (and (is_water ?loc) (at ?person ?loc) (visible ?shark))
+ :effect (and (not (at ?person ?loc)) (or (on ?person ?boat) (at ?person ?shore))))
+ 
+3. Action: get
+Entities: person
+States before: person in water with the shark
+States after: person in a defensive position
+PDDL:
+
+(:action get
+ :parameters (?person - player ?shark - shark)
+ :precondition (and (visible ?shark) (attacked ?person ?shark))
+ :effect (defending ?person))
+
+4. Action: onboard
+Entities: person, boat
+States before: person in water, boat near, shark attacking
+States after: person on the boat, safe from the shark
+PDDL:
+
+(:action onboard
+ :parameters (?person - player ?boat - ship)
+ :precondition (and (visible ?shark) (attacked ?person ?shark) (at ?person ?loc) (is_water ?loc))
+ :effect (and (on ?person ?boat) (not (at ?person ?loc))))
+ 
+5. Action: defend
+Entities: person, shark
+States before: person in water, shark attacking
+States after: person in defensive position
+PDDL:
+
+(:action defend
+ :parameters (?person - player)
+ :precondition (and (visible ?shark) (attacked ?person ?shark))
+ :effect (defending ?person))
+
+6. Action: spot_ship
+Entities: person, ship
+States before: person in water, ship not visible
+States after: person sees the ship
+PDDL:
+
+(:action spot_ship
+ :parameters (?person - player ?ship - ship)
+ :precondition (and (not (visible ?ship)) (attacked ?person ?shark))
+ :effect (visible ?ship))
+
+7. Action: spot_shark
+Entities: person, shark
+States before: person in water, shark not visible
+States after: person sees the shark
+PDDL:
+
+(:action spot_shark
+ :parameters (?person - player ?shark - shark)
+ :precondition (and (not (visible ?shark)) (is_water ?loc) (at ?person ?loc))
+ :effect (visible ?shark))
+
+8. Action: self_mobilize
+Entities: person, shark, weapon
+States before: person in water with shark attacking
+States after: person fights back, shark may retreat
+PDDL:
+
+(:action self_mobilize
+ :parameters (?person - player ?shark - shark ?weapon - item)
+ :precondition (and (visible ?shark) (attacked ?person ?shark) (or (sharp ?weapon) (heavy ?weapon) (inventory ?person ?weapon)))
+ :effect (and (dizzy ?shark) (fleed ?shark)))
+
+9. Action: medicare
+Entities: person
+States before: person wounded
+States after: person treated, wounds addressed
+PDDL:
+
+(:action medicare
+ :parameters (?person - player)
+ :precondition (wounded ?person)
+ :effect (not (wounded ?person)))
+
+10. Action: attack_vulnerable
+Entities: person, shark, part
+States before: person in water with shark attacking
+States after: person attacks vulnerable parts, shark may retreat
+PDDL:
+
+(:action attack_vulnerable
+ :parameters (?person - player ?shark - shark ?part - part)
+ :precondition (and (visible ?shark) (attacked ?person ?shark) (vulnerable ?part))
+ :effect (and (dizzy ?shark) (fleed ?shark)))
+
+11. Action: knockout
+Entities: person, shark
+States before: person in water with shark attacking, shark not dizzy
+States after: person fights back, shark dizzy and retreats
+PDDL:
+
+(:action knockout
+ :parameters (?person - player ?shark - shark)
+ :precondition (and (visible ?shark) (attacked ?person ?shark) (not (dizzy ?shark)))
+ :effect (and (dizzy ?shark) (fleed ?shark)))
+
+
+)

@@ -1,0 +1,27 @@
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?item ?loc))
+   :effect (and
+        (inventory ?player ?item)
+        (not (at ?item ?loc))))
+
+
+
+
+(:action drop
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (inventory ?player ?item) (at ?player ?loc))
+   :effect (and
+        (at ?item ?loc)
+        (not (inventory ?player ?item))))
+
+
+
+
+(:action put_in_stopper
+   :parameters (?item - item)
+   :precondition (can_be_filled ?item)
+   :effect (has_stopper ?item))
+
+
+)

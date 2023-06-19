@@ -1,0 +1,162 @@
+For the action "poke":
+Entities involved:
+- Coconut
+- Tool (screwdriver or knife)
+- Mallet (optional)
+
+States before the action:
+- Coconut has not been poked
+- Tool is in the inventory
+
+States after the action:
+- Coconut has its eyes poked
+- Tool is still in the inventory
+
+PDDL:
+```
+(:action poke
+ :parameters (?c - coconut ?t - tool ?m - mallet)
+ :precondition (and
+                (not (has_eyes_poked ?c))
+                (inventory ?t)
+                (inventory ?m))
+ :effect (and
+          (has_eyes_poked ?c)
+          (inventory ?t)
+          (inventory ?m)))
+```
+
+For the action "flip":
+Entities involved:
+- Coconut
+- Container (without water)
+- Container (with water)
+
+States before the action:
+- Coconut has its eyes poked
+- Container without water
+
+States after the action:
+- Coconut emptied
+- Container with water
+
+PDDL:
+```
+(:action flip
+ :parameters (?c - coconut ?cw - container_without_water ?cw - container_with_water)
+ :precondition (and
+                (has_eyes_poked ?c)
+                (is_item_container_without_water ?cw))
+ :effect (and
+          (not (has_eyes_poked ?c))
+          (not (is_item_container_without_water ?cw))
+          (is_item_container_with_water ?cw)))
+```
+
+For the action "wrap":
+Entities involved:
+- Coconut
+- Towel
+
+States before the action:
+- Coconut in inventory
+- Towel in inventory
+
+States after the action:
+- Wrapped coconut
+
+PDDL:
+```
+(:action wrap
+ :parameters (?c - coconut ?t - towel ?cw - coconut_wrapped)
+ :precondition (and
+                (inventory ?c)
+                (inventory ?t))
+ :effect (and
+          (not (inventory ?c))
+          (inventory ?t)
+          (is_item_wrapped_coconut ?cw)))
+```
+
+For the action "hit":
+Entities involved:
+- Wrapped coconut
+- Mallet or hammer
+- Broken coconut pieces
+
+States before the action:
+- Wrapped coconut
+- Mallet or hammer in inventory
+
+States after the action:
+- Broken coconut pieces
+- Mallet or hammer still in inventory
+
+PDDL:
+```
+(:action hit
+ :parameters (?cw - coconut_wrapped ?c - coconut_broken ?m - mallet)
+ :precondition (and
+                (is_item_wrapped_coconut ?cw)
+                (inventory ?m))
+ :effect (and
+          (not (is_item_wrapped_coconut ?cw))
+          (is_item_broken_coconut ?c)
+          (inventory ?m)))
+```
+
+For the action "free":
+Entities involved:
+- Broken coconut pieces
+- Knife or vegetable peeler
+- Coconut meat
+
+States before the action:
+- Broken coconut pieces
+- Knife or vegetable peeler in inventory
+
+States after the action:
+- Coconut meat
+- Knife or vegetable peeler still in inventory
+
+PDDL:
+```
+(:action free
+ :parameters (?c_broken - coconut_broken ?c_meat - coconut_meat)
+ :precondition (and
+                (is_item_broken_coconut ?c_broken)
+                (inventory ?k))
+ :effect (and
+          (not (is_item_broken_coconut ?c_broken))
+          (is_item_coconut_meat ?c_meat)
+          (inventory ?k)))
+```
+
+For the action "remove_fiber":
+Entities involved:
+- Coconut meat
+- Knife or vegetable peeler
+- Peeled coconut meat
+
+States before the action:
+- Coconut meat
+- Knife or vegetable peeler in inventory
+
+States after the action:
+- Peeled coconut meat
+- Knife or vegetable peeler still in inventory
+
+PDDL:
+```
+(:action remove_fiber
+ :parameters (?c_meat - coconut_meat ?c_meat_peeled - coconut_meat_peeled)
+ :precondition (and
+                (is_item_coconut_meat ?c_meat)
+                (inventory ?k))
+ :effect (and
+          (not (is_item_coconut_meat ?c_meat))
+          (is_item_coconut_meat_peeled ?c_meat_peeled)
+          (inventory ?k)))
+```
+
+)

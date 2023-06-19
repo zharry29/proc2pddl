@@ -1,0 +1,212 @@
+Action: go
+Entities involved:
+   - player
+   - location
+   - direction
+States before: 
+   - at the starting location
+   - target location is connected to the starting location in a specific direction
+States after:
+   - at the target location
+
+PDDL:
+(:action go
+   :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+   :precondition (and (at ?player ?loc1)
+                      (connected ?loc1 ?dir ?loc2)
+                      (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (not (at ?player ?loc1))
+                (at ?player ?loc2)))
+
+Action: get
+Entities involved:
+  - player
+  - item
+States before:
+   - item is at the player's location
+   - item is gettable
+States after:
+   - item is in the player's inventory
+
+PDDL:
+(:action get
+   :parameters (?player - player ?item - object ?loc - location)
+   :precondition (and (at ?player ?loc)
+                      (at ?item ?loc)
+                      (is_gettable ?item))
+   :effect (and (not (at ?item ?loc))
+                (inventory ?player ?item)))
+
+Action: lay_masking_tape
+Entities involved:
+  - player
+  - masking_tape
+States before:
+  - player has a masking tape in their inventory
+  - player is at the location where tape needs to be laid
+States after:
+  - player has laid masking tape at the location in parallel strips
+
+PDDL:
+(:action lay_masking_tape
+   :parameters (?player - player ?masking_tape - masking_tape ?loc - location)
+   :precondition (and (at ?player ?loc)
+                      (inventory ?player ?masking_tape))
+   :effect (and (not (inventory ?player ?masking_tape))
+                (has_ten_strips ?loc ?masking_tape)))
+
+Action: make_tosses_column
+Entities involved:
+  - paper
+  - pen
+States before:
+  - player has paper and pen in their inventory
+States after:
+  - paper has a "Tosses" column
+
+PDDL:
+(:action make_tosses_column
+   :parameters (?player - player ?paper - paper ?pen - pen)
+   :precondition (and (inventory ?player ?paper)
+                      (inventory ?player ?pen))
+   :effect (tosses_column ?paper))
+
+Action: make_crosses_column
+Entities involved:
+  - paper
+  - pen
+States before:
+  - player has paper and pen in their inventory
+States after:
+  - paper has a "Crosses" column
+
+PDDL:
+(:action make_crosses_column
+   :parameters (?player - player ?paper - paper ?pen - pen)
+   :precondition (and (inventory ?player ?paper)
+                      (inventory ?player ?pen))
+   :effect (crosses_column ?paper))
+
+Action: thaw_food
+Entities involved:
+  - food_item
+States before:
+  - food_item is frozen
+States after:
+  - food_item is not frozen
+
+PDDL:
+(:action thaw_food
+    :parameters (?food_item - object)
+    :precondition (frozen ?food_item)
+    :effect (not (frozen ?food_item)))
+
+Action: throw
+Entities involved:
+  - player
+  - food_item
+  - location
+  - direction
+States before:
+  - player is at the location
+  - food_item is in player's inventory
+  - the location is clear and has enough throwing distance
+  - food_item is a suitable item to throw
+States after:
+  - food_item is thrown by the player
+
+PDDL:
+(:action throw
+    :parameters (?player - player ?food_item - object ?loc - location ?dir - direction)
+    :precondition (and (at ?player ?loc)
+                       (inventory ?player ?food_item)
+                       (is_food_item ?food_item)
+                       (is_long ?food_item)
+                       (is_thin ?food_item)
+                       (is_hard ?food_item)
+                       (is_straight ?food_item)
+                       (is_stiff ?food_item)
+                       (is_clear ?loc)
+                       (has_throwing_distance ?loc))
+    :effect (and (not (inventory ?player ?food_item))
+                 (thrown_food_items ?loc)))
+
+Action: record_tosses
+Entities involved:
+  - paper
+States before:
+  - paper has a tosses column
+  - food_item is thrown and landed
+States after:
+  - a tick is marked under the "Tosses" column
+
+PDDL:
+(:action record_tosses
+   :parameters (?paper - paper ?loc - location)
+   :precondition (and (tosses_column ?paper)
+                      (thrown_food_items ?loc))
+   :effect (tosses_recorded ?paper))
+
+Action: record_crosses
+Entities involved:
+  - paper
+States before:
+  - paper has crosses column
+  - food_item is thrown and landed across the lines
+States after:
+  - a tick is marked under the "Crosses" column
+
+PDDL:
+(:action record_crosses
+   :parameters (?paper - paper ?loc - location)
+   :precondition (and (crosses_column ?paper)
+                      (thrown_food_items ?loc))
+   :effect (crosses_recorded ?paper))
+
+Action: divide_crosses
+Entities involved:
+  - paper
+States before:
+  - paper has a crosses column
+  - paper has_crosses recorded
+States after:
+  - crosses column has divided the number of crosses by 2
+
+PDDL:
+(:action divide_crosses
+   :parameters (?paper - paper)
+   :precondition (crosses_recorded ?paper)
+   :effect (crosses_divided ?paper))
+
+Action: calculate_pi
+Entities involved:
+  - player
+  - paper
+States before:
+  - paper has tosses recorded
+  - paper has crosses divided
+States after:
+  - pi is calculated
+
+PDDL:
+(:action calculate_pi
+   :parameters (?player - player ?paper - paper)
+   :precondition (and (tosses_recorded ?paper)
+                      (crosses_divided ?paper))
+   :effect (calculated_pi ?player))
+
+Action: be_amazed
+Entities involved:
+  - player
+States before:
+  - player has calculated pi
+States after:
+  - player is amazed
+
+PDDL:
+(:action be_amazed
+    :parameters (?player - player)
+    :precondition (calculated_pi ?player)
+    :effect (amazed ?player))
+
+)

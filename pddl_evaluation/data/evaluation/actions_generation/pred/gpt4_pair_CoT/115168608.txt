@@ -1,0 +1,67 @@
+(:action get
+:parameters (?player - player ?item - item ?loc - location)
+:precondition (and (at ?player ?loc) (at ?item ?loc) (not (inventory ?player ?item)) (not (not_gettable ?item)))
+:effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+
+(:action travel
+:parameters (?player - player ?from - location ?to - location)
+:precondition (and (at ?player ?from) (not (= ?from ?to)))
+:effect (and (at ?player ?to) (not (at ?player ?from)))
+)
+
+(:action search_location
+:parameters (?player - player ?loc - location ?item - item)
+:precondition (and (at ?player ?loc))
+:effect (and (searched ?loc) (at ?item ?loc))
+)
+
+(:action pluck_river_reeds
+:parameters (?player - player ?loc - location ?papyrus_plant - papyrus_plant)
+:precondition (and (at ?player ?loc) (at ?papyrus_plant ?loc) (not (inventory ?player ?papyrus_plant)))
+:effect (and (inventory ?player ?papyrus_plant) (not (at ?papyrus_plant ?loc)))
+)
+
+(:action cut_stalks
+:parameters (?player - player ?papyrus_plant - papyrus_plant ?knife - knife ?papyrus_stalks - papyrus_stalks)
+:precondition (and (inventory ?player ?papyrus_plant) (inventory ?player ?knife))
+:effect (and (not (inventory ?player ?papyrus_plant)) (inventory ?player ?papyrus_stalks))
+)
+
+(:action cut_strips
+:parameters (?player - player ?papyrus_stalks - papyrus_stalks ?knife - knife ?papyrus_strips - papyrus_strips)
+:precondition (and (inventory ?player ?papyrus_stalks) (inventory ?player ?knife))
+:effect (and (not (inventory ?player ?papyrus_stalks)) (inventory ?player ?papyrus_strips))
+)
+
+(:action soak_strips
+:parameters (?player - player ?papyrus_strips - papyrus_strips ?water - water)
+:precondition (and (inventory ?player ?papyrus_strips) (inventory ?player ?water))
+:effect (soaked ?papyrus_strips)
+)
+
+(:action roll_strips
+:parameters (?player - player ?papyrus_strips - papyrus_strips ?rolling_pin - rolling_pin)
+:precondition (and (inventory ?player ?papyrus_strips) (soaked ?papyrus_strips) (inventory ?player ?rolling_pin))
+:effect (dried ?papyrus_strips)
+)
+
+(:action weave_strips
+:parameters (?player - player ?papyrus_strips - papyrus_strips ?linen_sheets - linen_sheets)
+:precondition (and (inventory ?player ?papyrus_strips) (dried ?papyrus_strips) (inventory ?player ?linen_sheets))
+:effect (woven ?papyrus_strips)
+)
+
+(:action bundle_strips
+:parameters (?player - player ?papyrus_strips - papyrus_strips ?linen_sheets - linen_sheets ?wooden_boards - wooden_boards)
+:precondition (and (inventory ?player ?papyrus_strips) (woven ?papyrus_strips) (inventory ?player ?linen_sheets) (inventory ?player ?wooden_boards))
+:effect (finished ?papyrus_strips)
+)
+
+(:action cut_sheet
+:parameters (?player - player ?papyrus_strips - papyrus_strips ?knife - knife ?papyrus - papyrus)
+:precondition (and (inventory ?player ?papyrus_strips) (finished ?papyrus_strips) (inventory ?player ?knife))
+:effect (and (not (inventory ?player ?papyrus_strips)) (inventory ?player ?papyrus))
+)
+
+)

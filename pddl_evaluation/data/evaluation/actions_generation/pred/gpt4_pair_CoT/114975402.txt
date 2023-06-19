@@ -1,0 +1,48 @@
+(:action get_bag
+  :parameters (?player - player ?loc - location ?bag - bag)
+  :precondition (and
+    (not (inventory ?player ?bag))
+    (at ?player ?loc)
+    (sells_bags ?loc)
+  )
+  :effect (and
+    (inventory ?player ?bag)
+  )
+)
+
+
+
+
+
+
+(:action wear_detective_gear
+  :parameters (?player - player ?costume - costume)
+  :precondition (and
+    (inventory ?player ?costume)
+    (not (wear ?player ?costume))
+  )
+  :effect (and
+    (wear ?player ?costume)
+  )
+)
+
+
+
+
+
+
+(:action prepare_detective_notebook
+  :parameters (?player - player ?pen - pen ?notebook - notebook ?detective_notebook - detective_notebook)
+  :precondition (and
+    (inventory ?player ?pen)
+    (inventory ?player ?notebook)
+    (not (inventory ?player ?detective_notebook))
+  )
+  :effect (and
+    (inventory ?player ?detective_notebook)
+  )
+)
+
+
+
+)

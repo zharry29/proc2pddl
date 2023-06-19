@@ -1,0 +1,120 @@
+Action: pick_lock_with_card
+
+Entities involved:
+1. Player
+2. Location
+3. Credit Card
+
+States before the action:
+- Player has a credit card in their inventory.
+- Location has an easy lock (as it mentions older doors).
+
+States after the action:
+- The location's lock is opened.
+
+PDDL:
+
+(:action pick_lock_with_card
+    :parameters (?player - player ?loc - location ?card - item)
+    :precondition (and
+        (inventory ?player ?card)
+        (has_easy_lock ?loc)
+    )
+    :effect (not (has_easy_lock ?loc))
+)
+
+Action: bend_paperclip_into_pick
+
+Entities involved:
+1. Player
+2. Paper clip
+
+States before the action:
+- Player has a paper clip in their inventory.
+
+States after the action:
+- Player has a pick made from a paper clip in their inventory.
+
+PDDL:
+
+(:action bend_paperclip_into_pick
+    :parameters (?player - player ?paperclip - item)
+    :precondition (inventory ?player ?paperclip)
+    :effect (and
+        (not (inventory ?player ?paperclip))
+        (inventory ?player (make-pick ?paperclip))
+    )
+)
+
+Action: insert_wrench
+
+Entities involved:
+1. Player
+2. Location
+3. Tension wrench
+
+States before the action:
+- Player has a tension wrench in their inventory.
+- Location has a locked door.
+
+States after the action:
+- Tension wrench is inserted into the lock.
+
+PDDL:
+
+(:action insert_wrench
+    :parameters (?player - player ?loc - location ?wrench - item)
+    :precondition (and
+        (inventory ?player ?wrench)
+        (has_hard_lock ?loc)
+    )
+    :effect (wrench_in_lock ?loc)
+)
+
+Action: insert_pick
+
+Entities involved:
+1. Player
+2. Location
+3. Pick
+
+States before the action:
+- Player has a pick in their inventory.
+- Location has a wrench in the lock.
+
+States after the action:
+- The pick is inserted into the lock.
+
+PDDL:
+
+(:action insert_pick
+    :parameters (?player - player ?loc - location ?pick - item)
+    :precondition (and
+        (inventory ?player ?pick)
+        (wrench_in_lock ?loc)
+    )
+    :effect (pick_in_lock ?loc)
+)
+
+Action: push_pins_out_of_tumblers
+
+Entities involved:
+1. Location
+
+States before the action:
+- Location has a wrench and a pick in the lock.
+
+States after the action:
+- The location's lock is opened.
+
+PDDL:
+
+(:action push_pins_out_of_tumblers
+    :parameters (?loc - location)
+    :precondition (pick_in_lock ?loc)
+    :effect (not (has_hard_lock ?loc))
+)
+
+Let me know if you need other actions translated into PDDL format.
+
+)

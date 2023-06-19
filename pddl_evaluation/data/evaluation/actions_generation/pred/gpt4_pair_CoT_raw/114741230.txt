@@ -1,0 +1,103 @@
+Let's analyze and fill out each action based on their given text.
+
+1. gather_info
+Entities: player
+States before: player without information
+States after: player with information
+
+(:action gather_info
+ :parameters (?p - player)
+ :precondition (not (has_info ?p))
+ :effect (has_info ?p))
+
+2. create_secret
+Entities: secret_society
+States before: secret_society without a secret
+States after: secret_society with a secret
+
+(:action create_secret
+ :parameters (?sc - secret_society)
+ :precondition (not (has_secret ?sc))
+ :effect (has_secret ?sc))
+
+3. set_meeting_location
+Entities: secret_society
+States before: secret_society without a meeting location
+States after: secret_society with a meeting location
+
+(:action set_meeting_location
+ :parameters (?sc - secret_society)
+ :precondition (not (has_location ?sc))
+ :effect (has_location ?sc))
+
+4. set_dress_code
+Entities: secret_society
+States before: secret_society without a dress code
+States after: secret_society with a dress code
+
+(:action set_dress_code
+ :parameters (?sc - secret_society)
+ :precondition (not (has_dress_code ?sc))
+ :effect (has_dress_code ?sc))
+
+5. create_name
+Entities: player, secret_society
+States before: secret_society without a name
+States after: secret_society with a name
+
+(:action create_name
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (not (has_name ?sc)) (friends ?p ?c))
+ :effect (has_name ?sc))
+
+6. secret_society_is_ready
+Entities: secret_society
+States before: secret_society with a name, secret, location, and dress code
+States after: secret_society being ready
+
+(:action secret_society_is_ready
+ :parameters (?sc - secret_society)
+ :precondition (and (has_name ?sc) (has_secret ?sc) (has_location ?sc) (has_dress_code ?sc))
+ :effect (society_is_ready ?sc))
+
+7. initiate_new_member
+Entities: player, secret_society
+States before: player not in secret_society
+States after: player in secret_society
+
+(:action initiate_new_member
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (society_is_ready ?sc) (is_trusted ?p ?sc) (not (in ?p ?sc)))
+ :effect (in ?p ?sc))
+
+8. teach_new_member_secret
+Entities: player, secret_society
+States before: player not knowing the secret
+States after: player knowing the secret
+
+(:action teach_new_member_secret
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (not (knows_secret ?p ?sc)) (in ?p ?sc))
+ :effect (knows_secret ?p ?sc))
+
+9. remove_member
+Entities: player, secret_society
+States before: player in secret_society
+States after: player not in secret_society, secret_society with a new secret
+
+(:action remove_member
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (in ?p ?sc)
+ :effect (and (not (in ?p ?sc)) (has_secret ?sc)))
+
+10. check_if_cult
+Entities: secret_society
+States before: unknown if secret_society is a cult
+States after: determined if secret_society is a cult
+
+(:action check_if_cult
+ :parameters (?sc - secret_society)
+ :precondition ()
+ :effect (is_cult ?sc))
+
+)

@@ -1,0 +1,141 @@
+Action "go" (player moves to another location)
+Entities: player, location1, location2, direction
+States Before: (at player location1), (connected location1 direction location2)
+States After: (at player location2)
+PDDL:
+
+(:action go
+  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and (at ?player ?loc1)
+                     (connected ?loc1 ?dir ?loc2))
+  :effect (and (not (at ?player ?loc1))
+               (at ?player ?loc2)))
+
+Action "get" (player collects a stick)
+Entities: player, stick
+States Before: (at player location), (at stick location), (connected player location stick location)
+States After: (inventory player stick)
+PDDL:
+
+(:action get
+  :parameters (?player - player ?stick - stick ?loc - location)
+  :precondition (and (at ?player ?loc)
+                     (at ?stick ?loc))
+  :effect (inventory ?player ?stick))
+
+Action "breathe" (player breathes deeply to become more buoyant)
+Entities: player
+States Before: (stuck player quicksand), (not (calm player))
+States After: (calm player)
+PDDL:
+
+(:action breathe
+  :parameters (?player - player ?quicksand - quicksand)
+  :precondition (and (stuck ?player ?quicksand)
+                     (not (calm ?player)))
+  :effect (calm ?player))
+
+Action "liedown" (player lays down on their back to spread weight and free themselves from quicksand)
+Entities: player
+States Before: (stuck player quicksand), (not (laying player))
+States After: (laying player)
+PDDL:
+
+(:action liedown
+  :parameters (?player - player ?quicksand - quicksand)
+  :precondition (and (stuck ?player ?quicksand)
+                     (not (laying ?player)))
+  :effect (laying ?player))
+
+Action "swim" (player swims on their back to get out of quicksand)
+Entities: player, location
+States Before: (stuck player quicksand), (laying player)
+States After: (not (stuck player quicksand)), (at player location)
+PDDL:
+
+(:action swim
+  :parameters (?player - player ?quicksand - quicksand ?loc - location)
+  :precondition (and (stuck ?player ?quicksand)
+                     (laying ?player))
+  :effect (and (not (stuck ?player ?quicksand))
+               (at ?player ?loc)))
+
+Action "usestick" (player uses a stick to help get out of quicksand)
+Entities: player, stick, quicksand
+States Before: (stuck player quicksand), (inventory player stick)
+States After: (not (stuck player quicksand))
+PDDL:
+
+(:action usestick
+  :parameters (?player - player ?stick - stick ?quicksand - quicksand)
+  :precondition (and (stuck ?player ?quicksand)
+                     (inventory ?player ?stick))
+  :effect (not (stuck ?player ?quicksand)))
+
+Action "rest" (player relaxes and becomes calm)
+Entities: player
+States Before: (tired player), (not (calm player))
+States After: (calm player)
+PDDL:
+
+(:action rest
+  :parameters (?player - player)
+  :precondition (and (tired ?player)
+                     (not (calm ?player)))
+  :effect (calm ?player))
+
+Action "drop" (player drops heavy items)
+Entities: player, item
+States Before: (stuck player quicksand), (inventory player item)
+States After: (not (inventory player item)), (at item location)
+PDDL:
+
+(:action drop
+  :parameters (?player - player ?item - object ?loc - location)
+  :precondition (and (stuck ?player quicksand)
+                     (inventory ?player ?item)
+                     (at ?player ?loc))
+  :effect (and (not (inventory ?player ?item))
+               (at ?item ?loc)))
+
+Action "check_ripples" (player checks for ripples at location)
+Entities: player, location
+States Before: (at player location), (not (aware player location))
+States After: (aware player location)
+PDDL:
+
+(:action check_ripples
+  :parameters (?player - player ?loc - location)
+  :precondition (and (at ?player ?loc)
+                     (not (aware ?player ?loc)))
+  :effect (aware ?player ?loc))
+
+Action "test_ground" (player tests ground with a stick)
+Entities: player, stick, location
+States Before: (inventory player stick), (not (aware player location))
+States After: (aware player location)
+PDDL:
+
+(:action test_ground
+  :parameters (?player - player ?stick - stick ?loc - location)
+  :precondition (and (inventory ?player ?stick)
+                     (not (aware ?player ?loc)))
+  :effect (aware ?player ?loc))
+
+Action "research" (cannot derive action from available text)
+
+Action "move_horizontally" (player moves horizontally to avoid getting stuck in quicksand)
+Entities: player, location
+States Before: (at player location1), (has_quicksand location1), (connected location1 direction location2)
+States After: (not (stuck player quicksand)), (at player location2)
+PDDL:
+
+(:action move_horizontally
+  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and (at ?player ?loc1)
+                     (has_quicksand ?loc1)
+                     (connected ?loc1 ?dir ?loc2))
+  :effect (and (not (stuck ?player quicksand))
+               (at ?player ?loc2)))
+
+)

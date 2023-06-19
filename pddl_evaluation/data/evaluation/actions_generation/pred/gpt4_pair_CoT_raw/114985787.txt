@@ -1,0 +1,151 @@
+Below are the PDDL actions with their parameters, preconditions, and effects described for the given actions and predicates.
+
+Entities involved in the action-text pairs:
+
+1) Action: go
+Entities: player, direction, location
+
+(:action go
+ :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+ :precondition (and (connected ?loc1 ?dir ?loc2)
+                     (not (blocked ?loc1 ?dir ?loc2))
+                     (at ?player ?loc1))
+ :effect (and (not (at ?player ?loc1))
+              (at ?player ?loc2)))
+
+------
+
+2) Action: get
+Entities: player, item, location
+
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc)
+                     (at ?item ?loc)
+                     (not (inventory ?player ?item)))
+ :effect (inventory ?player ?item))
+
+------
+
+3) Action: get_water
+Entities: player, location, water
+
+(:action get_water
+ :parameters (?player - player ?loc - location ?water - water)
+ :precondition (and (at ?player ?loc)
+                     (has_water_source ?loc))
+ :effect (inventory ?player ?water))
+
+------
+
+4) Action: drop
+Entities: player, item
+
+(:action drop
+ :parameters (?player - player ?item - item)
+ :precondition (inventory ?player ?item)
+ :effect (not (inventory ?player ?item)))
+
+------
+
+5) Action: clear_spider
+Entities: player, item
+
+(:action clear_spider
+ :parameters (?player - player ?item - item)
+ :precondition (and (inventory ?player ?item)
+                     (has_bug ?item))
+ :effect (not (has_bug ?item)))
+
+------
+
+6) Action: insert_beam
+Entities: tree, branch, beam, shelter
+
+(:action insert_beam
+ :parameters (?tree - tree ?branch - branch ?beam - beam ?shelter - shelter)
+ :precondition (and (has_split_in_trunk ?tree)
+                     (long ?branch)
+                     (thick ?branch))
+ :effect (and (not (has_split_in_trunk ?tree))
+              (at ?beam ?shelter)))
+
+------
+
+7) Action: lean_branches
+Entities: shelter, branches, frame
+
+(:action lean_branches
+ :parameters (?shelter - shelter ?branches - branches ?frame - frame)
+ :precondition (at ?shelter ?frame)
+ :effect (and (not (at ?shelter ?frame))
+              (at ?shelter ?branches)))
+
+------
+
+8) Action: layer
+Entities: frame, twigs, leaves, shelter
+
+(:action layer
+ :parameters (?frame - frame ?twigs - twigs ?leaves - leaves ?shelter - shelter)
+ :precondition (and (at ?shelter ?frame) (at ?shelter ?branches))
+ :effect (and (at ?shelter ?twigs) (at ?shelter ?leaves)))
+
+------
+
+9) Action: wash
+Entities: player, item
+
+(:action wash
+ :parameters (?player - player ?item - item)
+ :precondition (and (inventory ?player ?item)
+                     (unwashed ?item))
+ :effect (not (unwashed ?item)))
+
+------
+
+10) Action: eat
+Entities: player, item
+
+(:action eat
+ :parameters (?player - player ?item - item)
+ :precondition (and (inventory ?player ?item)
+                     (edible ?item)
+                     (not (unwashed ?item))
+                     (hungry ?player))
+ :effect (not (hungry ?player)))
+
+------
+
+11) Action: make_snare
+Entities: player, wire, snare
+
+(:action make_snare
+ :parameters (?player - player ?wire - wire ?snare - snare)
+ :precondition (and (inventory ?player ?wire))
+ :effect (and (not (inventory ?player ?wire))
+              (inventory ?player ?snare)))
+
+------
+
+12) Action: make_horizontal_bar
+Entities: player, branch, bar
+
+(:action make_horizontal_bar
+ :parameters (?player - player ?branch - branch ?bar - bar)
+ :precondition (inventory ?player ?branch)
+ :effect (inventory ?player ?bar))
+
+------
+
+13) Action: hang_snare
+Entities: player, snare, bar
+
+(:action hang_snare
+ :parameters (?player - player ?snare - snare ?bar - bar)
+ :precondition (and (inventory ?player ?snare)
+                     (inventory ?player ?bar))
+ :effect (and (not (inventory ?player ?snare))
+              (hanged ?snare)))
+
+)

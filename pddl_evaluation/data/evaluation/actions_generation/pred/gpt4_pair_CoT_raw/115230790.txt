@@ -1,0 +1,155 @@
+Action 1: listen_to_astronomers_predictions
+Entities involved: player, location
+States before the action: the player is not listening to astronomers' predictions
+States after the action: the player is listening to astronomers' predictions and aware of the time left to prepare
+
+PDDL format:
+```
+(:action listen_to_astronomers_predictions
+    :parameters (?p - player ?l - location)
+    :precondition (and (has_pc ?p) (at ?p ?l))
+    :effect (listen_to_broadcast ?p ?l)
+)
+```
+
+Action 2: move_away
+Entities involved: player, city
+States before the action: player in a coastal city
+States after the action: player in an inland city
+
+PDDL format:
+```
+(:action move_away
+    :parameters (?p - player ?c1 - city ?c2 - city)
+    :precondition (and (coastal ?c1) (inland ?c2) (at ?p ?c1))
+    :effect (and (not (at ?p ?c1)) (at ?p ?c2))
+)
+```
+
+Action 3: go (I assume "go" refers to moving between locations)
+Entities involved: player, direction, location
+States before the action: player at a location
+States after the action: player at a new location
+
+PDDL format:
+```
+(:action go
+    :parameters (?p - player ?dir - direction ?loc1 - location ?loc2 - location)
+    :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2))
+    :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+)
+```
+
+Action 4: buy_supplies
+Entities involved: player, item, location
+States before the action: player does not have enough supplies
+States after the action: player has enough supplies
+
+PDDL format:
+```
+(:action buy_supplies
+    :parameters (?p - player ?it - item ?l - location)
+    :precondition (and (at ?p ?l) (at ?it ?l) (not (enough_supplies)))
+    :effect (and (inventory ?it) (enough_supplies))
+)
+```
+
+Action 5: check_supplies
+Entities involved: player
+States before the action: player with inventory
+States after the action: player knows the amount of supplies
+
+PDDL format:
+```
+(:action check_supplies
+    :parameters (?p - player)
+    :precondition (inventory ?it)
+    :effect (know_amount_supplies)
+)
+```
+
+Action 6: buy_weapons
+Entities involved: player, weapon, location
+States before the action: player does not have enough weapons
+States after the action: player has enough weapons
+
+PDDL format:
+```
+(:action buy_weapons
+    :parameters (?p - player ?w - weapon ?l - location)
+    :precondition (and (at ?p ?l) (at ?w ?l) (not (enough_weapons)))
+    :effect (and (inventory ?w) (enough_weapons))
+)
+```
+
+Action 7: check_weapons
+Entities involved: player
+States before the action: player with the weapon inventory
+States after the action: player knows the amount of weapons
+
+PDDL format:
+```
+(:action check_weapons
+    :parameters (?p - player)
+    :precondition (inventory ?w)
+    :effect (know_amount_weapons)
+)
+```
+
+Action 8: check_bunker
+Entities involved: player, bunker
+States before the action: player does not know about good bunkers
+States after the action: player knows about good bunkers
+
+PDDL format:
+```
+(:action check_bunker
+    :parameters (?p - player ?bk - bunker)
+    :precondition (and (has_air_filtration_system ?bk) (has_strong_material ?bk))
+    :effect (find_good_bunker ?bk)
+)
+```
+
+Action 9: outfit_bunker_with_energy_source
+Entities involved: player, bunker, energy_source
+States before the action: bunker without an energy source
+States after the action: bunker with an energy source
+
+PDDL format:
+```
+(:action outfit_bunker_with_energy_source
+    :parameters (?p - player ?bk - bunker ?es - energy_source)
+    :precondition (and (find_good_bunker ?bk) (at ?es ?bk))
+    :effect (outfit_bunker_with_heat ?bk)
+)
+```
+
+Action 10: enjoylife
+Entities involved: player, bunker
+States before the action: player is not mentally healthy
+States after the action: player is mentally healthy
+
+PDDL format:
+```
+(:action enjoylife
+    :parameters (?p - player ?bk - bunker)
+    :precondition (at ?p ?bk)
+    :effect (enjoy_life ?p)
+)
+```
+
+Action 11: connect_through_social_media_with_family
+Entities involved: player
+States before the action: family members do not know the player is safe
+States after the action: family members know the player is safe
+
+PDDL format:
+```
+(:action connect_through_social_media_with_family
+    :parameters (?p - player)
+    :precondition (has_pc ?p)
+    :effect (family_members_know_you_are_safe)
+)
+```
+
+)

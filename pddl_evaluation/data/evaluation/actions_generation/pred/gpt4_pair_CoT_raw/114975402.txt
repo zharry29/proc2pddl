@@ -1,0 +1,88 @@
+Action: Get_Bag
+
+Entities involved:
+1. Player
+2. Location
+3. Bag
+
+States before the action:
+- Player has no bag.
+- Player is at a location that sells bags.
+
+States after the action:
+- Player has a bag.
+
+PDDL format:
+(:action get_bag
+  :parameters (?player - player ?loc - location ?bag - bag)
+  :precondition (and
+    (not (inventory ?player ?bag))
+    (at ?player ?loc)
+    (sells_bags ?loc)
+  )
+  :effect (and
+    (inventory ?player ?bag)
+  )
+)
+
+--------------------------------------------------------------------------------
+
+Action: Wear_Detective_Gear
+
+Entities involved:
+1. Player
+2. Costume
+
+States before the action:
+- Player has a detective costume in their inventory.
+- Player is not wearing any costume.
+
+States after the action:
+- Player is wearing the detective costume.
+
+PDDL format:
+(:action wear_detective_gear
+  :parameters (?player - player ?costume - costume)
+  :precondition (and
+    (inventory ?player ?costume)
+    (not (wear ?player ?costume))
+  )
+  :effect (and
+    (wear ?player ?costume)
+  )
+)
+
+--------------------------------------------------------------------------------
+
+Action: Prepare_Detective_Notebook
+
+Entities involved:
+1. Player
+2. Pen
+3. Notebook
+4. Detective_Notebook
+
+States before the action:
+- Player has a pen and a notebook in their inventory.
+- Player has no detective notebook.
+
+States after the action:
+- Player has a detective notebook.
+
+PDDL format:
+(:action prepare_detective_notebook
+  :parameters (?player - player ?pen - pen ?notebook - notebook ?detective_notebook - detective_notebook)
+  :precondition (and
+    (inventory ?player ?pen)
+    (inventory ?player ?notebook)
+    (not (inventory ?player ?detective_notebook))
+  )
+  :effect (and
+    (inventory ?player ?detective_notebook)
+  )
+)
+
+--------------------------------------------------------------------------------
+
+
+)

@@ -1,0 +1,167 @@
+Action-text pair - go:
+
+Entities: player, location1, direction, location2
+States before action: at(player, location1), connected(location1, direction, location2)
+States after action: at(player, location2), not(at(player, location1))
+
+PDDL:
+```
+(:action go
+	:parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+	:precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+	:effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+)
+```
+
+Action-text pair - get_bamboo_container:
+
+Entities: player, location
+States before action: at(player, location), has_bamboo(location)
+States after action: inventory(player, bamboo_container)
+
+PDDL:
+```
+(:action get_bamboo_container
+	:parameters (?player - player ?loc - location)
+	:precondition (and (at ?player ?loc) (has_bamboo ?loc))
+	:effect (inventory ?player bamboo_container)
+)
+```
+
+Action-text pair - collect_rain_water:
+
+Entities: player, location
+States before action: at(player, location), has_rainfall(location)
+States after action: inventory(player, water)
+
+PDDL:
+```
+(:action collect_rain_water
+	:parameters (?player - player ?loc - location)
+	:precondition (and (at ?player ?loc) (has_rainfall ?loc))
+	:effect (inventory ?player water)
+)
+```
+
+Action-text pair - create_fire:
+
+Entities: player, location
+States before action: at(player, location), not(inventory(player, fire))
+States after action: inventory(player, fire)
+
+PDDL:
+```
+(:action create_fire
+	:parameters (?player - player ?loc - location)
+	:precondition (and (at ?player ?loc) (not (inventory ?player fire)))
+	:effect (inventory ?player fire)
+)
+```
+
+Action-text pair - treat_water:
+
+Entities: player
+States before action: inventory(player, water), inventory(player, fire)
+States after action: inventory(player, treated_water), not(inventory(player, water))
+
+PDDL:
+```
+(:action treat_water
+	:parameters (?player - player)
+	:precondition (and (inventory ?player water) (inventory ?player fire))
+	:effect (and (inventory ?player treated_water) (not (inventory ?player water)))
+)
+```
+
+
+Action-text pair - drink_water:
+
+Entities: player
+States before action: inventory(player, treated_water), is(dehydrated, player)
+States after action: not(is(dehydrated, player))
+
+PDDL:
+```
+(:action drink_water
+	:parameters (?player - player)
+	:precondition (and (inventory ?player treated_water) (is dehydrated ?player))
+	:effect (not (is dehydrated ?player))
+)
+```
+
+Action-text pair - drink_untreated_water:
+
+Entities: player
+States before action: inventory(player, water), not(is(dehydrated, player))
+States after action: is(ill, player)
+
+PDDL:
+```
+(:action drink_untreated_water
+	:parameters (?player - player)
+	:precondition (and (inventory ?player water) (not (is dehydrated ?player)))
+	:effect (is ill ?player)
+)
+```
+
+Action-text pair - create_sos_sign:
+
+Entities: player, location
+States before action: at(player, location), not(inventory(player, sos_sign))
+States after action: inventory(player, sos_sign)
+
+PDDL:
+```
+(:action create_sos_sign
+	:parameters (?player - player ?loc - location)
+	:precondition (and (at ?player ?loc) (not (inventory ?player sos_sign)))
+	:effect (inventory ?player sos_sign)
+)
+```
+
+Action-text pair - pick_fruit:
+
+Entities: player, location
+States before action: at(player, location), has_fruit(location)
+States after action: inventory(player, fruit)
+
+PDDL:
+```
+(:action pick_fruit
+	:parameters (?player - player ?loc - location)
+	:precondition (and (at ?player ?loc) (has_fruit ?loc))
+	:effect (inventory ?player fruit)
+)
+```
+
+Action-text pair - eat_fruit:
+
+Entities: player
+States before action: inventory(player, fruit), is(hungry, player)
+States after action: not(is(hungry, player))
+
+PDDL:
+```
+(:action eat_fruit
+	:parameters (?player - player)
+	:precondition (and (inventory ?player fruit) (is hungry ?player))
+	:effect (not (is hungry ?player))
+)
+```
+
+Action-text pair - escape:
+
+Entities: player
+States before action: at(player, basecamp)
+States after action: escaped(player)
+
+PDDL:
+```
+(:action escape
+	:parameters (?player - player)
+	:precondition (at ?player basecamp)
+	:effect (escaped ?player)
+)
+```
+
+)
