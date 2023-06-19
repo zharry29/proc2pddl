@@ -1,0 +1,223 @@
+- action name: listen_to_astronomers_predictions
+- summarize action: The action is about paying attention to astronomers' predictions regarding possible collisions with Earth through NASA updates.
+- what is needed to do the action: A player needs a PC to listen to the broadcasts.
+- what is the result: The player becomes aware of the time left to prepare for a possible collision.
+
+- entities:
+  - entity name: player
+    - before: not aware of collision predictions
+    - after: aware of collision predictions
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the player as having a PC
+2. The player listens to broadcasts.
+
+pddl:
+
+(:action listen_to_astronomers_predictions
+  :parameters (?p - player ?l - location)
+  :precondition (and (has_pc ?p) (at ?p ?l))
+  :effect (listen_to_broadcast ?p ?l)
+)
+
+
+- action name: move_away
+- summarize action: The action is about moving away from coastal areas due to the higher likelihood that a comet will hit a body of water, causing tsunamis and flooding.
+- what is needed to do the action: The player needs to identify an inland location.
+- what is the result: The player is now located in an inland area.
+
+- entities:
+  - entity name: player
+    - before: located in a coastal area
+    - after: moved to an inland area
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the player's initial location as coastal.
+2. Define the player's destination as inland.
+
+pddl:
+
+(:action move_away
+  :parameters (?p - player ?c1 - city ?c2 - city ?dir - direction)
+  :precondition (and (coastal ?c1) (inland ?c2) (at ?p ?c1) (connected ?c1 ?dir ?c2))
+  :effect (and (not (at ?p ?c1)) (at ?p ?c2))
+)
+
+
+- action name: buy_supplies
+- summarize action: The action is about purchasing enough food, water, medicine, and other supplies to last in case of a comet collision.
+- what is needed to do the action: The player needs to be in a market or store that has the supplies.
+- what is the result: The player has enough supplies to survive for the required duration.
+
+- entities:
+  - entity name: player
+    - before: not having enough supplies
+    - after: having enough supplies
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the player's location as a market.
+2. The player buys necessary supplies.
+
+pddl:
+
+(:action buy_supplies
+  :parameters (?p - player ?m - market)
+  :precondition (at ?p ?m)
+  :effect (enough_supplies)
+)
+
+
+- action name: check_supplies
+- summarize action: The action is about checking if the player has enough supplies in their inventory.
+- what is needed to do the action: Player's supplies should be in their inventory.
+- what is the result: Confirmation that the player has enough supplies.
+
+- entities:
+  - entity name: player
+    - before: unclear if enough supplies are collected
+    - after: confirmed enough supplies are collected
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check the player's inventory for supplies.
+
+pddl:
+
+(:action check_supplies
+  :parameters (?p - player)
+  :precondition (inventory ?it - item)
+  :effect (enough_supplies)
+)
+
+
+- action name: buy_weapons
+- summarize action: The action is about buying weapons and ammunition to defend resources after a comet impact.
+- what is needed to do the action: The player needs to be in a weapon market or store.
+- what is the result: The player has enough weapons and ammunition.
+
+- entities:
+  - entity name: player
+    - before: not having enough weapons
+    - after: having enough weapons
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the player's location as a weapon market.
+2. The player buys necessary weapons.
+
+pddl:
+
+(:action buy_weapons
+  :parameters (?p - player ?wm - weapon_market)
+  :precondition (at ?p ?wm)
+  :effect (enough_weapons)
+)
+
+
+- action name: check_weapons
+- summarize action: The action is about checking if the player has enough weapons and ammunition in their inventory.
+- what is needed to do the action: Player's weapons should be in their inventory.
+- what is the result: Confirmation that the player has enough weapons.
+
+- entities:
+  - entity name: player
+    - before: unclear if enough weapons are collected
+    - after: confirmed enough weapons are collected
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check the player's inventory for weapons.
+
+pddl:
+
+(:action check_weapons
+  :parameters (?p - player)
+  :precondition (inventory ?w - weapon)
+  :effect (enough_weapons)
+)
+
+
+- action name: check_bunker
+- summarize action: The action is about checking if the player has a suitable bunker to move into for safety during a comet impact.
+- what is needed to do the action: Player needs to find a good bunker.
+- what is the result: The player has identified an appropriate bunker.
+
+- entities:
+  - entity name: player
+    - before: not having a suitable bunker
+    - after: having a suitable bunker
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the player's search for a good bunker.
+
+pddl:
+
+(:action check_bunker
+  :parameters (?p - player ?bk - bunker)
+  :precondition (find_good_bunker ?bk)
+  :effect (has_strong_material ?bk)
+)
+
+
+- action name: outfit_bunker_with_energy_source
+- summarize action: The action is about outfitting the bunker with an energy source to ensure heat and power during the post-collision period.
+- what is needed to do the action: The player needs to have access to a bunker that needs outfitting with an energy source.
+- what is the result: The bunker is outfitted with an energy source.
+
+- entities:
+  - entity name: bunker
+    - before: not outfitted with an energy source
+    - after: outfitted with an energy source
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the player's bunker requiring an energy source.
+2. The player outfits the bunker with an energy source.
+
+pddl:
+
+(:action outfit_bunker_with_energy_source
+  :parameters (?p - player ?bk - bunker)
+  :precondition (has_strong_material ?bk)
+  :effect (outfit_bunker_with_heat ?bk)
+)
+- action name: enjoylife
+- summarize action: The action is about keeping your mind active and staying mentally healthy by doing activities, reading books, or talking to other people during your time in the bunker after the comet impact.
+- what is needed to do the action: The player needs to be in a bunker with available activities or people to communicate with.
+- what is the result: The player stays mentally healthy.
+
+- entities:
+  - entity name: player
+    - before: not actively engaging in mental activities
+    - after: engaging in mental activities and staying mentally healthy
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the player as being in the bunker.
+2. The player enjoys life by engaging in mental activities.
+
+pddl:
+
+(:action enjoylife
+  :parameters (?p - player ?bk - bunker)
+  :precondition (at ?p ?bk)
+  :effect (enjoylife ?p ?bk)
+)
+
+
+- action name: connect_through_social_media_with_family
+- summarize action: The action is about connecting through social media with family members to let them know you are safe in the bunker.
+- what is needed to do the action: The player needs to be in the bunker and have a means of using social media.
+- what is the result: The player's family members know they are safe.
+
+- entities:
+  - entity name: player
+    - before: family members unaware if the player is safe
+    - after: family members know the player is safe
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the player in the bunker and has the means to use social media.
+2. The player connects with family members on social media.
+
+pddl:
+
+(:action connect_through_social_media_with_family
+  :parameters (?p - player ?bk - bunker)
+  :precondition (and (at ?p ?bk) (has_pc ?p))
+  :effect (family_memebers_know_you_are_safe)
+)

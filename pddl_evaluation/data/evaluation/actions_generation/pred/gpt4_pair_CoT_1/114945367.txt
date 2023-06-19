@@ -1,0 +1,96 @@
+(:action go
+  :parameters (?player - player ?direction - direction ?current_location - location ?new_location - location)
+  :precondition (and
+    (at ?player ?current_location)
+    (connected ?current_location ?direction ?new_location)
+  )
+  :effect (and
+    (not (at ?player ?current_location))
+    (at ?player ?new_location)
+  )
+)
+
+(:action get
+  :parameters (?player - player ?item - item ?location - location)
+  :precondition (and
+    (at ?player ?location)
+    (at ?item ?location)
+  )
+  :effect (and
+    (not (at ?item ?location))
+    (inventory ?player ?item)
+  )
+)
+
+(:action get_water
+  :parameters (?player - player ?water - water ?location - location ?container - container)
+  :precondition (and
+    (at ?player ?location)
+    (has_water_source ?location)
+    (inventory ?player ?container)
+  )
+  :effect (and
+    (inventory ?player ?water)
+  )
+)
+
+(:action strain_water
+  :parameters (?player - player ?water - water ?cloth - cloth)
+  :precondition (and
+    (inventory ?player ?water)
+    (inventory ?player ?cloth)
+  )
+  :effect (strained ?water)
+)
+
+(:action boil_water
+  :parameters (?player - player ?water - water ?container - container ?fire - fire)
+  :precondition (and
+    (inventory ?player ?water)
+    (inventory ?player ?container)
+    (has_fire ?player)
+    (strained ?water)
+  )
+  :effect (treated ?water)
+)
+
+(:action purify_in_sunlight
+  :parameters (?player - player ?water - water ?container - container)
+  :precondition (and
+    (inventory ?player ?water)
+    (inventory ?player ?container)
+    (treated ?water)
+  )
+  :effect (and
+    (not (treated ?water))
+    (purified ?water)
+  )
+)
+
+(:action get_long_branch
+  :parameters (?player - player ?long_branch - long_branch ?location - location)
+  :precondition (and
+    (at ?player ?location)
+    (has_branches ?location)
+    (not (inventory ?player ?long_branch))
+  )
+  :effect (and
+    (not (at ?long_branch ?location))
+    (inventory ?player ?long_branch)
+  )
+)
+
+(:action get_propped_branches
+  :parameters (?player - player ?propped_branches - propped_branches ?location - location)
+  :precondition (and
+    (at ?player ?location)
+    (has_branches ?location)
+    (not (inventory ?player ?propped_branches))
+  )
+  :effect (and
+    (not (at ?propped_branches ?location))
+    (inventory ?player ?propped_branches)
+  )
+)
+
+)

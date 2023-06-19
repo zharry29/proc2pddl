@@ -1,0 +1,73 @@
+(:action put_in_stopper
+  :parameters (?bathtub - item ?stopper - item)
+  :precondition (and
+    (can_be_filled ?bathtub)
+    (not (has_stopper ?bathtub))
+    (not (in_bathtub ?stopper))
+  )
+  :effect (and
+    (has_stopper ?bathtub)
+    (in_bathtub ?stopper)
+  )
+)
+
+(:action fill
+  :parameters (?item - item)
+  :precondition (and
+    (can_be_filled ?item)
+    (has_stopper ?item)
+    (not (full ?item))
+  )
+  :effect (full ?item)
+)
+
+(:action purify
+  :parameters (?item - item)
+  :precondition (and
+    (full ?item)
+    (not (purified ?item))
+  )
+  :effect (purified ?item)
+)
+
+(:action wait
+  :parameters (?loc - location)
+  :precondition (at ?loc)
+  :effect (at ?loc)
+)
+
+(:action go
+  :parameters (?start - location ?destination - location)
+  :precondition (and
+    (at ?start)
+    (connected ?start ?destination)
+    (not (blocked ?start ?destination))
+  )
+  :effect (and
+    (not (at ?start))
+    (at ?destination)
+  )
+)
+
+(:action put_batteries_in
+  :parameters (?radio - radio)
+  :precondition (not (has_batteries ?radio))
+  :effect (has_batteries ?radio)
+)
+
+(:action turn_on_radio
+  :parameters (?radio - radio)
+  :precondition (and
+    (has_batteries ?radio)
+    (not (on ?radio))
+  )
+  :effect (on ?radio)
+)
+
+(:action create_cage
+  :parameters (?cage - farraday_cage)
+  :precondition (not (created ?cage))
+  :effect (created ?cage)
+)
+
+)

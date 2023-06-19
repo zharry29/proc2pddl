@@ -1,0 +1,305 @@
+- action name: splash_swim
+- summarize action: Move slowly towards the shore or a boat without splashing, thrashing arms or kicking.
+- what is needed to do the action: The player must not be in a defensive position, the location must be water, and the shark must not be attacking.
+- what is the result: The player moves to a new location closer to the shore or a boat.
+
+- entities:
+  - entity name: player
+    - before: at (location)
+    - after: at (new_location)
+  - entity name: location
+    - before: is_water (location)
+    - after: unchanged
+  - entity name: new_location
+    - before: connected (location, direction, new_location)
+    - after: player is at new_location
+  - entity name: shark
+    - before: not attacking the player
+    - after: unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check that the player is not in a defensive position: (not (defending ?player))
+2. Check that the current location is water: (is_water ?loc)
+3. Check that the shark is not attacking the player: (not (attacked ?player ?shark))
+4. Check that there is a new location connected to the current location: (connected ?loc ?dir ?new_loc)
+5. Move the player to the new location: (at ?player ?new_loc) and remove the player from the old location: (not (at ?player ?loc))
+
+pddl:
+
+(:action splash_swim
+  :parameters (?player - player ?loc - location ?new_loc - location ?dir - direction ?shark - shark)
+  :precondition (and
+    (not (defending ?player))
+    (is_water ?loc)
+    (not (attacked ?player ?shark))
+    (at ?player ?loc)
+    (connected ?loc ?dir ?new_loc))
+  :effect (and
+    (not (at ?player ?loc))
+    (at ?player ?new_loc)))
+- action name: swim
+- summarize action: Stay calm and swim slowly towards the shore or a boat, without making sudden movements, while keeping the shark in view.
+- what is needed to do the action: The player must not be in a defensive position, the location must be water, and the shark must not be attacking.
+- what is the result: The player moves to a new location closer to the shore or a boat.
+
+- entities:
+  - entity name: player
+    - before: at (location)
+    - after: at (new_location)
+  - entity name: location
+    - before: is_water (location)
+    - after: unchanged
+  - entity name: new_location
+    - before: connected (location, direction, new_location)
+    - after: player is at new_location
+  - entity name: shark
+    - before: not attacking the player
+    - after: unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check that the player is not in a defensive position: (not (defending ?player))
+2. Check that the current location is water: (is_water ?loc)
+3. Check that the shark is not attacking the player: (not (attacked ?player ?shark))
+4. Check that there is a new location connected to the current location: (connected ?loc ?dir ?new_loc)
+5. Move the player to the new location: (at ?player ?new_loc) and remove the player from the old location: (not (at ?player ?loc))
+
+pddl:
+
+(:action swim
+  :parameters (?player - player ?loc - location ?new_loc - location ?dir - direction ?shark - shark)
+  :precondition (and
+    (not (defending ?player))
+    (is_water ?loc)
+    (not (attacked ?player ?shark))
+    (at ?player ?loc)
+    (connected ?loc ?dir ?new_loc))
+  :effect (and
+    (not (at ?player ?loc))
+    (at ?player ?new_loc)))
+
+
+- action name: get
+- summarize action: This action is empty and does not have any description or context in the provided text.
+
+- action name: onboard
+- summarize action: Player gets out of the water onto the safety of a boat or the shore.
+- what is needed to do the action: The player must be in the water and there must be a boat nearby or the player must be near the shore.
+- what is the result: The player is on the boat or on the shore.
+
+- entities:
+  - entity name: player
+    - before: at (location)
+    - after: on (boat) or on (shore)
+  - entity name: location
+    - before: is_water (location)
+    - after: unchanged
+  - entity name: boat
+    - before: at (location)
+    - after: player is on the boat
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check that the current location is water: (is_water ?loc)
+2. Check that the player is at the current location: (at ?player ?loc)
+3. Get onto the boat if there is a nearby boat: (on ?player ?boat)
+   or get on the shore if the location is close to the shore: (on ?player ?shore)
+4. Remove the player from being at the current location: (not (at ?player ?loc))
+
+pddl:
+
+(:action onboard
+  :parameters (?player - player ?loc - location ?ship - ship ?boat - boat ?shore - location)
+  :precondition (and
+    (is_water ?loc)
+    (at ?player ?loc))
+  :effect (or
+    (and (at ?boat ?loc) (on ?player ?boat) (not (at ?player ?loc)))
+    (and (on ?player ?shore) (not (at ?player ?loc)))))
+- action name: defend
+- summarize action: Get into a defensive position to avoid or minimize the shark's possible attack angles.
+- what is needed to do the action: The player must be in the water, the shark must be visible and not attacking the player, and the player must not be already in a defensive position.
+- what is the result: The player is in a defensive position.
+
+- entities:
+  - entity name: player
+    - before: not in a defensive position
+    - after: in a defensive position
+  - entity name: location
+    - before: is_water (location)
+    - after: unchanged
+  - entity name: shark
+    - before: visible and not attacking the player
+    - after: unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check that the player is not already in a defensive position: (not (defending ?player))
+2. Check that the current location is water: (is_water ?loc)
+3. Check that the shark is visible and not attacking the player: (visible ?shark) and (not (attacked ?player ?shark))
+4. Set the player into a defensive position: (defending ?player)
+
+pddl:
+
+(:action defend
+  :parameters (?player - player ?loc - location ?shark - shark)
+  :precondition (and
+    (not (defending ?player))
+    (is_water ?loc)
+    (visible ?shark)
+    (not (attacked ?player ?shark)))
+  :effect (defending ?player))
+
+
+- action name: spot_ship
+- summarize action: Spot a nearby ship while in the water and call out to it for help.
+- what is needed to do the action: The player must be in the water, and there must be a visible ship nearby.
+- what is the result: The player has called out to the ship for help.
+
+- entities:
+  - entity name: player
+    - before: in the water
+    - after: called out to the ship
+  - entity name: location
+    - before: is_water (location)
+    - after: unchanged
+  - entity name: ship
+    - before: visible
+    - after: called out to by the player
+
+Since the result of this action does not change the predicates and only represents a change in the narrative, no effects can be defined in PDDL. Therefore, this action will only have preconditions, and no effects need to be specified.
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check that the current location is water: (is_water ?loc)
+2. Check that the ship is visible: (visible ?ship)
+
+pddl:
+
+(:action spot_ship
+  :parameters (?player - player ?loc - location ?ship - ship)
+  :precondition (and
+    (is_water ?loc)
+    (visible ?ship))
+  :effect ())
+
+
+- action name: spot_shark
+- summarize action: Keep an eye on the shark while staying calm and moving slowly towards the shore or a boat.
+- what is needed to do the action: The player must be in the water, the shark must be visible, and the shark must not be attacking the player.
+- what is the result: The player keeps the shark in view while moving.
+
+Since the main task is to keep the shark in view while moving and does not change the predicates, no effects can be defined in PDDL. Therefore, this action will only have preconditions, and no effects need to be specified.
+
+- entities:
+  - entity name: player
+    - before: in the water
+    - after: keeps the shark in view
+  - entity name: location
+    - before: is_water (location)
+    - after: unchanged
+  - entity name: shark
+    - before: visible and not attacking the player
+    - after: unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check that the current location is water: (is_water ?loc)
+2. Check that the shark is visible and not attacking the player: (visible ?shark) and (not (attacked ?player ?shark))
+
+pddl:
+
+(:action spot_shark
+  :parameters (?player - player ?loc - location ?shark - shark)
+  :precondition (and
+    (is_water ?loc)
+    (visible ?shark)
+    (not (attacked ?player ?shark)))
+  :effect ())
+- action name: self_mobilize
+- summarize action: Use an improvised weapon, an object, or one's own body to hit the shark's vulnerable areas (face, gills) to make it see the player as a strong, credible threat.
+- what is needed to do the action: The player must be in the water, the shark must be visible, the location must be water, and the player must have a weapon, object, or use their own body.
+- what is the result: The shark is hit, and it may retreat or become dizzy.
+
+- entities:
+  - entity name: player
+    - before: in the water, has a weapon, object, or uses own body
+    - after: hits the shark's vulnerable areas
+  - entity name: location
+    - before: is_water (location)
+    - after: unchanged
+  - entity name: shark
+    - before: visible
+    - after: hit, possibly retreated or dizzy
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check that the current location is water: (is_water ?loc)
+2. Check that the shark is visible: (visible ?shark)
+3. Check that the player has a weapon, object, or uses their own body: (or (inventory ?player ?weapon) (sharp ?obj) (heavy ?obj))
+4. Hit the shark: (dizzy ?shark) or (fleed ?shark)
+
+pddl:
+
+(:action self_mobilize
+  :parameters (?player - player ?loc - location ?shark - shark ?obj - object ?weapon - item)
+  :precondition (and
+    (is_water ?loc)
+    (visible ?shark)
+    (or (inventory ?player ?weapon) (sharp ?obj) (heavy ?obj)))
+  :effect (or
+    (dizzy ?shark)
+    (fleed ?shark)))
+
+
+- action name: medicare
+- summarize action: Get medical attention if the player has been bitten by the shark.
+- what is needed to do the action: The player must be wounded.
+- what is the result: The player receives medical care.
+
+- entities:
+  - entity name: player
+    - before: wounded
+    - after: receives medical care
+
+Since the result of this action only represents a change in the narrative, no effects can be defined in PDDL. Therefore, this action will only have preconditions, and no effects need to be specified.
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check that the player is wounded: (wounded ?player)
+
+pddl:
+
+(:action medicare
+  :parameters (?player - player)
+  :precondition (wounded ?player)
+  :effect ())
+
+
+- action name: attack_vulnerable
+- summarize action: Same as self_mobilize, using an improvised weapon, object, or one's own body to hit the shark's vulnerable areas (face, gills) to make it retreat or become dizzy.
+
+As this action is the same as self_mobilize, the same PDDL code can be used:
+
+pddl:
+
+(:action attack_vulnerable
+  :parameters (?player - player ?loc - location ?shark - shark ?obj - object ?weapon - item)
+  :precondition (and
+    (is_water ?loc)
+    (visible ?shark)
+    (or (inventory ?player ?weapon) (sharp ?obj) (heavy ?obj)))
+  :effect (or
+    (dizzy ?shark)
+    (fleed ?shark)))
+
+
+- action name: knockout
+- summarize action: Same as self_mobilize, using an improvised weapon, object, or one's own body to hit the shark's vulnerable areas (face, gills) to make it retreat or become dizzy.
+
+As this action is the same as self_mobilize, the same PDDL code can be used:
+
+pddl:
+
+(:action knockout
+  :parameters (?player - player ?loc - location ?shark - shark ?obj - object ?weapon - item)
+  :precondition (and
+    (is_water ?loc)
+    (visible ?shark)
+    (or (inventory ?player ?weapon) (sharp ?obj) (heavy ?obj)))
+  :effect (or
+    (dizzy ?shark)
+    (fleed ?shark)))

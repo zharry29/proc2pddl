@@ -1,0 +1,61 @@
+(:action go
+    :parameters (?player - player ?starting_location - location ?target_location - location ?direction - direction)
+    :precondition (and
+        (at ?player ?starting_location)
+        (connected ?starting_location ?direction ?target_location)
+    )
+    :effect (and
+        (not (at ?player ?starting_location))
+        (at ?player ?target_location)
+    )
+)
+
+(:action understand
+    :parameters (?player - player ?concept - concept)
+    :precondition (not (know ?player ?concept))
+    :effect (know ?player ?concept)
+)
+
+(:action learn
+    :parameters (?player - player ?skill - skill)
+    :precondition (not (learned ?player ?skill))
+    :effect (learned ?player ?skill)
+)
+
+(:action get
+    :parameters (?player - player ?item - item)
+    :precondition (not (inventory ?player ?item))
+    :effect (inventory ?player ?item)
+)
+
+(:action machine_secured
+    :parameters (?player - player)
+    :precondition (authorized ?player)
+    :effect (machine_secured ?player)
+)
+
+(:action enumeration
+    :parameters (?player - player ?target - item)
+    :precondition (not (collected_all_info ?player))
+    :effect (collected_all_info ?player)
+)
+
+(:action got_all_info
+    :parameters (?player - player)
+    :precondition (collected_all_info ?player)
+    :effect (information_gathering_complete ?player)
+)
+
+(:action run_port_scan
+    :parameters (?player - player)
+    :precondition (not (port_scanned ?player))
+    :effect (port_scanned ?player)
+)
+
+(:action found_path_in_system
+    :parameters (?player - player)
+    :precondition (port_scanned ?player)
+    :effect (found_path ?player)
+)
+
+)

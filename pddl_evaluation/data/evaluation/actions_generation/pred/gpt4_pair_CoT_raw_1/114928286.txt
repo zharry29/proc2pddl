@@ -1,0 +1,189 @@
+- action name: lay_masking_tape
+- summarize action: The lay_masking_tape action is laying down masking tape in parallel strips across the floor as far apart as your projectile is long. The strips should be perpendicular to the direction you will be throwing.
+- what is needed to do the action: A floor and masking tape.
+- what is the result: Masking tape is laid down on the floor in parallel strips.
+
+- entities:
+  - entity name: floor
+    - before: no masking tape
+    - after: masking tape in parallel strips
+  - entity name: masking_tape
+    - before: not laid down
+    - after: laid down on the floor in parallel strips
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the floor does not have masking tape (not (has_ten_strips ?floor - object))
+2. Lay down masking tape in parallel strips on the floor.
+3. The floor now has ten strips of masking tape (has_ten_strips ?floor - object)
+
+pddl:
+```
+(:action lay_masking_tape
+  :parameters (?floor - object ?masking_tape - masking_tape)
+  :precondition (not (has_ten_strips ?floor))
+  :effect (and (has_ten_strips ?floor) (at ?masking_tape ?floor))
+)
+```
+- action name: make_tosses_column
+- summarize action: The make_tosses_column action is creating a "Tosses" column on a piece of paper for recording the number of times the food item is thrown.
+- what is needed to do the action: A piece of paper and a writing utensil.
+- what is the result: A "Tosses" column is created on the piece of paper.
+
+- entities:
+  - entity name: paper
+    - before: no "Tosses" column
+    - after: "Tosses" column created
+  - entity name: writing utensil
+    - before: not used
+    - after: used to create "Tosses" column
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the paper does not have a "Tosses" column (not (tosses_column ?paper - paper))
+2. Create a "Tosses" column on the paper using the writing utensil.
+3. The paper now has a "Tosses" column (tosses_column ?paper - paper)
+
+pddl:
+```
+(:action make_tosses_column
+  :parameters (?paper - paper ?writing_utensil - pen)
+  :precondition (not (tosses_column ?paper))
+  :effect (tosses_column ?paper)
+)
+```
+
+- action name: make_crosses_column
+- summarize action: The make_crosses_column action is creating a "Crosses" column on a piece of paper for recording the number of times the food item crosses a line when thrown.
+- what is needed to do the action: A piece of paper and a writing utensil.
+- what is the result: A "Crosses" column is created on the piece of paper.
+
+- entities:
+  - entity name: paper
+    - before: no "Crosses" column
+    - after: "Crosses" column created
+  - entity name: writing utensil
+    - before: not used
+    - after: used to create "Crosses" column
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the paper does not have a "Crosses" column (not (crosses_column ?paper - paper))
+2. Create a "Crosses" column on the paper using the writing utensil.
+3. The paper now has a "Crosses" column (crosses_column ?paper - paper)
+
+pddl:
+```
+(:action make_crosses_column
+  :parameters (?paper - paper ?writing_utensil - pen)
+  :precondition (not (crosses_column ?paper))
+  :effect (crosses_column ?paper)
+)
+```
+- action name: throw
+- summarize action: The throw action involves selecting a suitable food item, making sure the area is clear, and then throwing the food item in a specified direction.
+- what is needed to do the action: A suitable food item and a clear area for throwing.
+- what is the result: The food item is thrown, and its position changes.
+
+- entities:
+  - entity name: food_item
+    - before: not thrown
+    - after: thrown
+  - entity name: area
+    - before: clear
+    - after: same, but food item has changed position
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the food item is suitable and the area is clear (`is_food_item` ?item - item), (`is_clear` ?area - location).
+2. Throw the food item in the specified direction.
+3. The food item has changed its position after being thrown (`thrown_food_items` ?area - location).
+
+pddl:
+```
+(:action throw
+  :parameters (?item - item ?area - location)
+  :precondition (and (is_food_item ?item) (is_clear ?area))
+  :effect (thrown_food_items ?area)
+)
+```
+
+- action name: record_tosses
+- summarize action: The record_tosses action involves marking a tick under the "Tosses" column on the paper each time the food item is thrown.
+- what is needed to do the action: A piece of paper with a "Tosses" column and a writing utensil.
+- what is the result: A tick is recorded under the "Tosses" column each time the food item is thrown.
+
+- entities:
+  - entity name: paper
+    - before: "Tosses" column with no ticks
+    - after: "Tosses" column with ticks recorded
+  - entity name: writing utensil
+    - before: not used
+    - after: used to record ticks
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the paper has a "Tosses" column and no ticks recorded (not (`tosses_recorded` ?paper - paper))
+2. Record a tick using the writing utensil under the "Tosses" column each time the food item is thrown.
+3. The paper now has ticks recorded under the "Tosses" column (`tosses_recorded` ?paper - paper)
+
+pddl:
+```
+(:action record_tosses
+  :parameters (?paper - paper ?writing_utensil - pen)
+  :precondition (and (tosses_column ?paper) (not (tosses_recorded ?paper)))
+  :effect (tosses_recorded ?paper)
+)
+```
+- action name: record_crosses
+- summarize action: The record_crosses action involves marking a tick under the "Crosses" column on the paper each time the food item lands across a line after being thrown.
+- what is needed to do the action: A piece of paper with a "Crosses" column, a writing utensil, and observing whether or not the food item crosses a line when thrown.
+- what is the result: A tick is recorded under the "Crosses" column each time the food item lands across a line.
+
+- entities:
+  - entity name: paper
+    - before: "Crosses" column with no ticks
+    - after: "Crosses" column with ticks recorded
+  - entity name: writing utensil
+    - before: not used
+    - after: used to record ticks
+  - entity name: food item
+    - before: thrown
+    - after: position changes after throwing
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the paper has a "Crosses" column and no ticks recorded (not (crosses_recorded ?paper - paper))
+2. Observe whether the food item crosses a line when thrown (thrown_food_items ?loc - location)
+3. Record a tick using the writing utensil under the "Crosses" column each time the food item lands across a line.
+4. The paper now has ticks recorded under the "Crosses" column (crosses_recorded ?paper - paper)
+
+pddl:
+```
+(:action record_crosses
+  :parameters (?paper - paper ?writing_utensil - pen ?loc - location)
+  :precondition (and (crosses_column ?paper) (not (crosses_recorded ?paper)) (thrown_food_items ?loc))
+  :effect (crosses_recorded ?paper)
+)
+```
+
+- action name: divide_crosses
+- summarize action: The divide_crosses action involves dividing the number of crosses by 2 on the paper after marking the ticks in the "Crosses" column.
+- what is needed to do the action: A piece of paper with ticks recorded in the "Crosses" column and a writing utensil.
+- what is the result: The number of crosses is divided by 2 on the paper.
+
+- entities:
+  - entity name: paper
+    - before: "Crosses" column with ticks recorded
+    - after: crosses divided by 2 on the paper
+  - entity name: writing utensil
+    - before: used to record ticks
+    - after: used to divide crosses
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the paper has ticks recorded in the "Crosses" column (crosses_recorded ?paper - paper)
+2. Divide the number of crosses by 2 using the writing utensil.
+3. The paper now has the crosses divided by 2 (crosses_divided ?paper - paper)
+
+pddl:
+```
+(:action divide_crosses
+  :parameters (?paper - paper ?writing_utensil - pen)
+  :precondition (crosses_recorded ?paper)
+  :effect (crosses_divided ?paper)
+)
+```

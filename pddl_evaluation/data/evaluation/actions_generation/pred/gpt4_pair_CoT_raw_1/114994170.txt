@@ -1,0 +1,205 @@
+- action name: put_in_stopper
+- summarize action: The action involves putting a stopper in a bathtub to seal it before filling it with water, creating a reserve.
+- what is need to do the action: An empty bathtub and a stopper.
+- what is the result: The bathtub will have a stopper in it, making it ready to be filled with water.
+
+- entities:
+  - entity name: bathtub
+    - before: empty
+    - after: with stopper
+  - entity name: stopper
+    - before: not in bathtub
+    - after: in bathtub
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the bathtub is empty and can be filled.
+2. Check if the bathtub does not have a stopper.
+3. Put the stopper in the bathtub.
+
+pddl:
+(:action put_in_stopper
+  :parameters (?bathtub - item ?stopper - item)
+  :precondition (and
+    (can_be_filled ?bathtub)
+    (not (has_stopper ?bathtub))
+    (not (in_bathtub ?stopper))
+  )
+  :effect (and
+    (has_stopper ?bathtub)
+    (in_bathtub ?stopper)
+  )
+)
+- action name: fill
+- summarize action: The action involves filling a bathtub or container with water to ensure a reserve of water in case of emergency.
+- what is need to do the action: A bathtub or container with a stopper or seal, and a water source.
+- what is the result: The bathtub or container will be filled with water for future use.
+
+- entities:
+  - entity name: bathtub
+    - before: with stopper
+    - after: filled with water
+  - entity name: container
+    - before: can be filled and has stopper
+    - after: filled with water
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the bathtub or container is sealed or has a stopper.
+2. Ensure the bathtub or container is currently empty.
+3. Fill the bathtub or container with water.
+
+pddl:
+(:action fill
+  :parameters (?item - item)
+  :precondition (and
+    (can_be_filled ?item)
+    (has_stopper ?item)
+    (not (full ?item))
+  )
+  :effect (full ?item)
+)
+
+- action name: purify
+- summarize action: This action purifies the water in containers, ensuring it's safe for consumption during emergencies.
+- what is need to do the action: A container filled with water and water-purifying tablets.
+- what is the result: The water in the container will be purified and safe for consumption.
+
+- entities:
+  - entity name: container
+    - before: filled with water
+    - after: water is purified
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the container is filled with water.
+2. Ensure the water is not already purified.
+3. Purify the water.
+
+pddl:
+(:action purify
+  :parameters (?item - item)
+  :precondition (and
+    (full ?item)
+    (not (purified ?item))
+  )
+  :effect (purified ?item)
+)
+- action name: wait
+- summarize action: The action involves waiting at a location (either at home or somewhere safe) until it is safer to move or take further actions.
+- what is needed to do the action: A location to wait in, potential danger outside.
+- what is the result: Time passes, making it potentially safer to take further actions or move locations.
+
+- entities:
+  - entity name: location
+    - before: current location for waiting
+    - after: still the same location after waiting
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Determine the location at which the wait is taking place.
+2. Wait for a certain amount of time.
+3. Stay in the same location after waiting.
+
+pddl:
+(:action wait
+  :parameters (?loc - location)
+  :precondition (at ?loc)
+  :effect (at ?loc)
+)
+
+- action name: go
+- summarize action: The action involves traveling from one location to another, potentially to reach a safer location or to reunite with family.
+- what is needed to do the action: Two locations (start and destination), a clear path between them.
+- what is the result: The person will move from the starting location to the destination location.
+
+- entities:
+  - entity name: start location
+    - before: at
+    - after: not at
+  - entity name: destination location
+    - before: not at
+    - after: at
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check the connection between the starting location and the destination location.
+2. Ensure the path between the locations is not blocked.
+3. Move from the starting location to the destination location.
+
+pddl:
+(:action go
+  :parameters (?start - location ?destination - location)
+  :precondition (and
+    (at ?start)
+    (connected ?start ?destination)
+    (not (blocked ?start ?destination))
+  )
+  :effect (and
+    (not (at ?start))
+    (at ?destination)
+  )
+)
+- action name: put_batteries_in
+- summarize action: The action involves putting batteries into a battery-operated radio or walkie-talkie to power the device.
+- what is needed to do the action: A battery-operated radio or walkie-talkie, batteries.
+- what is the result: The radio or walkie-talkie will be powered and functional.
+
+- entities:
+  - entity name: radio
+    - before: without batteries
+    - after: with batteries
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Ensure the radio currently does not have batteries.
+2. Put batteries into the radio.
+3. Radio now has batteries and is functional.
+
+pddl:
+(:action put_batteries_in
+  :parameters (?radio - radio)
+  :precondition (not (has_batteries ?radio))
+  :effect (has_batteries ?radio)
+)
+
+- action name: turn_on_radio
+- summarize action: The action involves turning on a battery-operated radio to get information and news during emergencies.
+- what is needed to do the action: A battery-operated radio with batteries.
+- what is the result: The radio will be turned on and providing information.
+
+- entities:
+  - entity name: radio
+    - before: off
+    - after: on
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the radio has batteries.
+2. Ensure the radio is currently off.
+3. Turn on the radio.
+
+pddl:
+(:action turn_on_radio
+  :parameters (?radio - radio)
+  :precondition (and
+    (has_batteries ?radio)
+    (not (on ?radio))
+  )
+  :effect (on ?radio)
+)
+
+- action name: create_cage
+- summarize action: This action consists of creating a Faraday cage to protect emergency electronics from EMP waves and gamma rays.
+- what is needed to do the action: A suitable container (such as a stainless steel trash can), aluminum foil for lining, an airtight lid.
+- what is the result: A Faraday cage is created to store and protect emergency electronics.
+
+- entities:
+  - entity name: farraday_cage
+    - before: not created
+    - after: created
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Ensure there is a suitable container, aluminum foil, and an airtight lid.
+2. Create the Faraday cage by lining the container with foil and using the airtight lid.
+3. Faraday cage is created and ready for use.
+
+pddl:
+(:action create_cage
+  :parameters (?cage - farraday_cage)
+  :precondition (not (created ?cage))
+  :effect (created ?cage)
+)

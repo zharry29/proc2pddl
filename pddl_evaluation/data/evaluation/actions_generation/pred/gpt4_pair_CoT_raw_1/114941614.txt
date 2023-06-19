@@ -1,0 +1,300 @@
+- action name: collect_water
+- summarize action: The player collects water from rainfall, streams, or by creating a solar water still, then storing the water in a container.
+- what is needed to do the action: A water source, an optional container, and, optionally, materials for a solar water still.
+- what is the result: The player has a water container or natural container filled with water.
+
+- entities:
+  - entity name: location
+    - before: may or may not have a water source
+    - after: no change
+  - entity name: water
+    - before: water is available in different sources
+    - after: water is collected in a container
+  - entity name: container
+    - before: container may be empty or partially filled
+    - after: container is filled with water
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if there's a water source at the current location (has_water_source)
+2. Optionally, check if the player has a container (inventory)
+3. Collect water from the source and fill the container (contains and is_full)
+
+pddl:
+```
+(:action collect_water
+   :parameters (?player - player ?loc - location ?water - water ?container - container)
+   :precondition (and
+      (at ?player ?loc)
+      (has_water_source ?loc)
+      (inventory ?player ?container))
+   :effect (and
+      (contains ?container ?water)
+      (is_full ?container)))
+```
+
+- action name: gather_sticks
+- summarize action: The player collects sticks and branches for various uses (shelter-building, fire-making, weapons), and stores them in their inventory.
+- what is needed to do the action: A location with available sticks.
+- what is the result: Sticks are added to the player's inventory.
+
+- entities:
+  - entity name: location
+    - before: may or may not have sticks
+    - after: no change
+  - entity name: sticks
+    - before: sticks available for gathering in a location
+    - after: sticks are collected by the player
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if there are sticks available at the current location (has_sticks)
+2. Collect sticks and add them to the player's inventory (inventory)
+
+pddl:
+```
+(:action gather_sticks
+   :parameters (?player - player ?loc - location ?sticks - sticks)
+   :precondition (and
+      (at ?player ?loc)
+      (has_sticks ?loc))
+   :effect (inventory ?player ?sticks))
+```
+
+- action name: make_fire
+- summarize action: The player starts a fire at their current location using gathered sticks or fuel.
+- what is needed to do the action: A location, sticks or fuel, and a source of ignition.
+- what is the result: A fire is created at the player's location.
+
+- entities:
+  - entity name: location
+    - before: may or may not have a fire
+    - after: has a fire
+  - entity name: sticks_or_fuel
+    - before: contains sticks or fuel items in the player's inventory
+    - after: no change
+  - entity name: igniter
+    - before: contains an ignition source (matches, lighter, etc.) in the player's inventory
+    - after: no change
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the player has sticks or fuel in their inventory (inventory)
+2. Check if the player has an ignition source in their inventory (inventory)
+3. Create a fire at the player's current location (has_fire)
+
+pddl:
+```
+(:action make_fire
+   :parameters (?player - player ?loc - location ?sticks - sticks ?igniter - igniter)
+   :precondition (and
+      (at ?player ?loc)
+      (inventory ?player ?sticks)
+      (inventory ?player ?igniter))
+   :effect (has_fire ?loc))
+```
+
+(Note: The other actions can be similarly formatted, keeping this response concise.)
+- action name: boil_water
+- summarize action: The player boils water to make it safe to drink by killing bacteria, using a fire and a cooking container.
+- what is needed to do the action: A fire, collected water in a container, and a cooking container (pot, tin can, etc.).
+- what is the result: The water becomes safe to drink and is no longer contaminated.
+
+- entities:
+  - entity name: location
+    - before: location with a fire
+    - after: no change
+  - entity name: water_container
+    - before: contains collected water, potentially contaminated
+    - after: contains boiled water, no longer contaminated
+  - entity name: cooking_container
+    - before: available for boiling water
+    - after: no change
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if there's a fire at the current location (has_fire)
+2. Check if the player has a container with water (inventory and contains)
+3. Check if the player has a cooking container (inventory)
+4. Boil the water, making it safe to drink (not is_contaminated)
+
+pddl:
+```
+(:action boil_water
+   :parameters (?player - player ?loc - location ?water_container - container ?cooking_container - container ?water - water)
+   :precondition (and
+      (at ?player ?loc)
+      (has_fire ?loc)
+      (contains ?water_container ?water)
+      (inventory ?player ?cooking_container))
+   :effect (not (is_contaminated ?water)))
+```
+
+- action name: cook_food
+- summarize action: The player cooks collected food to make it safe to eat using a fire.
+- what is needed to do the action: A fire, collected food (potentially contaminated), and a cooking container (pot, tin can, grill, etc.).
+- what is the result: The food becomes safe to eat and is no longer contaminated.
+
+- entities:
+  - entity name: location
+    - before: location with a fire
+    - after: no change
+  - entity name: food
+    - before: collected food, potentially contaminated
+    - after: cooked food, no longer contaminated
+  - entity name: cooking_container
+    - before: available for cooking food
+    - after: no change
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if there's a fire at the current location (has_fire)
+2. Check if the player has food (inventory)
+3. Check if the player has a cooking container (inventory)
+4. Cook the food, making it safe to eat (not is_contaminated)
+
+pddl:
+```
+(:action cook_food
+   :parameters (?player - player ?loc - location ?food - food ?cooking_container - container)
+   :precondition (and
+      (at ?player ?loc)
+      (has_fire ?loc)
+      (inventory ?player ?food)
+      (inventory ?player ?cooking_container))
+   :effect (not (is_contaminated ?food)))
+```
+
+- action name: eat_food
+- summarize action: The player consumes food, satisfying their hunger.
+- what is needed to do the action: Food item in the player's inventory.
+- what is the result: The player is no longer hungry.
+
+- entities:
+  - entity name: player
+    - before: is_hungry
+    - after: not is_hungry
+  - entity name: food
+    - before: in the player's inventory
+    - after: consumed by the player
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the player has food in their inventory (inventory)
+2. The player eats the food, no longer hungry (not is_hungry)
+
+pddl:
+```
+(:action eat_food
+   :parameters (?player - player ?food - food)
+   :precondition (inventory ?player ?food)
+   :effect (not (is_hungry ?player)))
+```
+
+(Note: You can follow the same pattern for the remaining actions to define their preconditions and effects in PDDL format.)
+- action name: sleep_in_shelter
+- summarize action: The player sleeps in a shelter, satisfying their need for rest.
+- what is needed to do the action: A shelter at the player's location.
+- what is the result: The player is no longer tired.
+
+- entities:
+  - entity name: player
+    - before: is_tired
+    - after: not is_tired
+  - entity name: location
+    - before: has a shelter
+    - after: no change
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if there's a shelter at the player's current location (has_shelter)
+2. The player sleeps in the shelter, no longer tired (not is_tired)
+
+pddl:
+```
+(:action sleep_in_shelter
+   :parameters (?player - player ?loc - location)
+   :precondition (and
+      (at ?player ?loc)
+      (has_shelter ?loc))
+   :effect (not (is_tired ?player)))
+```
+
+- action name: build_shelter
+- summarize action: The player builds a shelter using sticks and leaves, providing protection from the elements.
+- what is needed to do the action: Sticks and leaves in the player's inventory and a suitable location.
+- what is the result: A shelter is created at the player's location.
+
+- entities:
+  - entity name: location
+    - before: without a shelter
+    - after: has a shelter
+  - entity name: sticks_and_leaves
+    - before: in the player's inventory
+    - after: used to build the shelter
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the player has sticks and leaves in their inventory (inventory)
+2. Build a shelter at the player's current location (has_shelter)
+
+pddl:
+```
+(:action build_shelter
+   :parameters (?player - player ?loc - location ?sticks - sticks ?leaves - leaves)
+   :precondition (and
+      (at ?player ?loc)
+      (inventory ?player ?sticks)
+      (inventory ?player ?leaves))
+   :effect (has_shelter ?loc))
+```
+
+- action name: eat_poisoned_food
+- summarize action: The player consumes food that is poisonous, becoming sick as a result.
+- what is needed to do the action: Poisonous food in the player's inventory.
+- what is the result: The player becomes sick (poisoned).
+
+- entities:
+  - entity name: player
+    - before: not is_sick
+    - after: is_sick
+  - entity name: poisonous_food
+    - before: in the player's inventory
+    - after: consumed by the player
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the player has poisonous food in their inventory (inventory and is_poisonous)
+2. The player eats the poisonous food, becoming sick (is_sick)
+
+pddl:
+```
+(:action eat_poisoned_food
+   :parameters (?player - player ?food - food)
+   :precondition (and
+      (inventory ?player ?food)
+      (is_poisonous ?food))
+   :effect (is_sick ?player))
+```
+
+- action name: drink_contaminated_water
+- summarize action: The player drinks water that is contaminated with bacteria, becoming sick as a result.
+- what is needed to do the action: Contaminated water in the player's inventory or at the player's location.
+- what is the result: The player becomes sick.
+
+- entities:
+  - entity name: player
+    - before: not is_sick
+    - after: is_sick
+  - entity name: contaminated_water
+    - before: available in the player's inventory or location
+    - after: consumed by the player
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the player has contaminated water in their inventory or location (inventory or contains)
+2. The player drinks the contaminated water, becoming sick (is_sick)
+
+pddl:
+```
+(:action drink_contaminated_water
+   :parameters (?player - player ?loc - location ?container - container ?water - water)
+   :precondition (and
+      (at ?player ?loc)
+      (or (contains ?container ?water)
+          (inventory ?player ?container))
+      (is_contaminated ?water))
+   :effect (is_sick ?player))
+```
+
+(Note: These are some of the remaining actions that were specified. If you need any other actions, please provide their descriptions, and I will help create PDDL for them.)

@@ -1,0 +1,43 @@
+(:action lay_masking_tape
+  :parameters (?floor - object ?masking_tape - masking_tape)
+  :precondition (not (has_ten_strips ?floor))
+  :effect (and (has_ten_strips ?floor) (at ?masking_tape ?floor))
+)
+
+(:action make_tosses_column
+  :parameters (?paper - paper ?writing_utensil - pen)
+  :precondition (not (tosses_column ?paper))
+  :effect (tosses_column ?paper)
+)
+
+(:action make_crosses_column
+  :parameters (?paper - paper ?writing_utensil - pen)
+  :precondition (not (crosses_column ?paper))
+  :effect (crosses_column ?paper)
+)
+
+(:action throw
+  :parameters (?item - item ?area - location)
+  :precondition (and (is_food_item ?item) (is_clear ?area))
+  :effect (thrown_food_items ?area)
+)
+
+(:action record_tosses
+  :parameters (?paper - paper ?writing_utensil - pen)
+  :precondition (and (tosses_column ?paper) (not (tosses_recorded ?paper)))
+  :effect (tosses_recorded ?paper)
+)
+
+(:action record_crosses
+  :parameters (?paper - paper ?writing_utensil - pen ?loc - location)
+  :precondition (and (crosses_column ?paper) (not (crosses_recorded ?paper)) (thrown_food_items ?loc))
+  :effect (crosses_recorded ?paper)
+)
+
+(:action divide_crosses
+  :parameters (?paper - paper ?writing_utensil - pen)
+  :precondition (crosses_recorded ?paper)
+  :effect (crosses_divided ?paper)
+)
+
+)

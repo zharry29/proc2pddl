@@ -1,0 +1,92 @@
+(:action go
+ :parameters (?agent - player ?start - location ?dir - direction ?dest - location)
+ :precondition (and (at ?agent ?start)
+                     (connected ?start ?dir ?dest))
+ :effect (and (not (at ?agent ?start))
+              (at ?agent ?dest)))
+
+(:action get
+ :parameters (?agent - player ?item - item ?loc - location)
+ :precondition (and (at ?agent ?loc)
+                     (at ?item ?loc))
+ :effect (and (not (at ?item ?loc))
+              (inventory ?agent ?item)))
+
+(:action get_water
+ :parameters (?agent - player ?water - freshwater ?loc - location ?container - container)
+ :precondition (and (at ?agent ?loc)
+                     (has_freshwater_source ?loc)
+                     (inventory ?agent ?container))
+ :effect (and (treated ?water)
+              (inventory ?agent ?water)))
+
+(:action bag_plant
+ :parameters (?agent - player ?plant - plant ?loc - location)
+ :precondition (and (at ?agent ?loc)
+                     (at ?plant ?loc))
+ :effect (bagged ?plant))
+
+(:action wait_and_gather_bagged_plant
+ :parameters (?agent - player ?bagged_plant - plant ?loc - location)
+ :precondition (and (at ?agent ?loc)
+                     (at ?bagged_plant ?loc)
+                     (bagged ?bagged_plant))
+ :effect (and (not (at ?bagged_plant ?loc))
+              (inventory ?agent ?bagged_plant)))
+
+(:action gather_tinder
+ :parameters (?agent - player ?tinder - tinder ?loc - location)
+ :precondition (and (at ?agent ?loc)
+                     (has_tinder ?loc))
+ :effect (inventory ?agent ?tinder))
+
+(:action build_campfire
+ :parameters (?agent - player ?tinder - tinder ?wood - wood ?campfire - campfire ?loc - location)
+ :precondition (and (at ?agent ?loc)
+                     (inventory ?agent ?tinder)
+                     (inventory ?agent ?wood))
+ :effect (and (not (inventory ?agent ?tinder))
+              (not (inventory ?agent ?wood))
+              (at ?campfire ?loc)))
+
+(:action light_campfire
+ :parameters (?agent - player ?tinder - tinder ?stick - hardwood_stick ?campfire - campfire ?loc - location)
+ :precondition (and (at ?agent ?loc)
+                     (at ?campfire ?loc)
+                     (inventory ?agent ?tinder)
+                     (inventory ?agent ?stick))
+ :effect (lit ?campfire))
+
+(:action make_spear
+ :parameters (?agent - player ?stick - sharp_stone ?spear - spear)
+ :precondition (inventory ?agent ?stick)
+ :effect (and (not (inventory ?agent ?stick))
+              (inventory ?agent ?spear)))
+
+(:action spear_fish
+ :parameters (?agent - player ?loc - location ?spear - spear ?fish - fish)
+ :precondition (and (at ?agent ?loc)
+                     (has_fish ?loc)
+                     (inventory ?agent ?spear))
+ :effect (inventory ?agent ?fish))
+
+(:action cook_fish
+ :parameters (?agent - player ?loc - location ?campfire - campfire ?fish - fish)
+ :precondition (and (at ?agent ?loc)
+                     (lit ?campfire)
+                     (inventory ?agent ?fish))
+ :effect (cooked ?fish))
+
+(:action wet_tinder
+ :parameters (?agent - player ?tinder - tinder)
+ :precondition (inventory ?agent ?tinder)
+ :effect (wet ?tinder))
+
+(:action make_smoke_signal
+ :parameters (?agent - player ?loc - location ?campfire - campfire ?wet_tinder - tinder)
+ :precondition (and (at ?agent ?loc)
+                     (lit ?campfire)
+                     (inventory ?agent ?wet_tinder))
+ :effect (signaling ?campfire))
+
+)

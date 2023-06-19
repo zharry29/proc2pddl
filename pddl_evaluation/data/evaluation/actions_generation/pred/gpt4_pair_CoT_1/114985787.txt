@@ -1,0 +1,67 @@
+(:action go
+ :parameters (?player - player ?start - location ?dir - direction ?end - location)
+ :precondition (and (at ?player ?start) (connected ?start ?dir ?end))
+ :effect (and (not (at ?player ?start)) (at ?player ?end))
+)
+
+(:action get_water
+ :parameters (?player - player ?loc - location ?water - water ?container - item)
+ :precondition (and (at ?player ?loc) (has_water_source ?loc) (inventory ?player ?container))
+ :effect (and (not (inventory ?player ?container)) (inventory ?player ?water) (not (treated ?water)))
+)
+
+(:action treat_water
+ :parameters (?player - player ?untreated_water - water ?treated_water - water)
+ :precondition (and (inventory ?player ?untreated_water) (not (treated ?untreated_water)) ; Assuming the presence of a heat source
+ :effect (and (not (inventory ?player ?untreated_water)) (inventory ?player ?treated_water) (treated ?treated_water))
+)
+
+(:action drop
+ :parameters (?player - player ?loc - location ?item - item)
+ :precondition (and (inventory ?player ?item) (at ?player ?loc))
+ :effect (and (not (inventory ?player ?item)) (at ?item ?loc))
+)
+
+(:action clear_spider
+ :parameters (?player - player ?item - item)
+ :precondition (and (inventory ?player ?item) (has_bug ?item))
+ :effect (not (has_bug ?item))
+)
+
+(:action insert_beam
+ :parameters (?player - player ?loc - location ?tree - tree ?branch - branch)
+ :precondition (and (at ?player ?loc) (inventory ?player ?branch) (long ?branch) (thick ?branch) (has_split_in_trunk ?tree))
+ :effect (at ?branch ?tree) ; Assuming the effect refers to the branch being attached to the tree
+)
+
+(:action lean_branches
+ :parameters (?player - player ?beam - beam ?branch - branches)
+ :precondition (and (inventory ?player ?branch) (at ?beam ?tree)) ; Assuming the main support beam is in place at a tree
+ :effect (frame ?shelter) ; Assuming a predicate 'frame' to represent the structure of the shelter in progress
+)
+
+(:action layer
+ :parameters (?player - player ?shelter - shelter ?twigs - twigs ?leaves - leaves)
+ :precondition (and (inventory ?player ?twigs) (inventory ?player ?leaves) (frame ?shelter))
+ :effect (insulation ?shelter) ; Assuming a predicate 'insulation' to represent the insulation layers added to the shelter
+)
+
+(:action wash
+ :parameters (?player - player ?unwashed_plant - item ?washed_plant - item ?treated_water - water)
+ :precondition (and (inventory ?player ?unwashed_plant) (unwashed ?unwashed_plant) (edible ?unwashed_plant) (inventory ?player ?treated_water) (treated ?treated_water))
+ :effect (and (not (unwashed ?unwashed_plant)) (inventory ?player ?washed_plant))
+)
+
+(:action eat
+ :parameters (?player - player ?edible_item - item)
+ :precondition (and (hungry ?player) (inventory ?player ?edible_item) (edible ?edible_item) (not (unwashed ?edible_item)))
+ :effect (and (not (hungry ?player)) (not (inventory ?player ?edible_item)))
+)
+
+(:action make_snare
+ :parameters (?player - player ?wire - wire ?snare - snare)
+ :precondition (inventory ?player ?wire)
+ :effect (and (not (inventory ?player ?wire)) (inventory ?player ?snare))
+)
+
+)
