@@ -1,0 +1,4 @@
+go ('npc', 'west', 'camp', 'path')
+go ('npc', 'north', 'path', 'grassland')
+get_grass ('npc', 'grass', 'grassland')
+cluster_grass ('npc', 'grass_tinder', 'grass')

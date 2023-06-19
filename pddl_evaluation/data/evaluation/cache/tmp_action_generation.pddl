@@ -22,81 +22,114 @@
       (connected ?loc1 - location ?dir - direction ?loc2 - location) ; location 1 is connected to location 2 in the direction
       (blocked ?loc1 - location ?dir - direction ?loc2 - location) ; the connection between location 1 and 2 in currently blocked
    )(:action go
-    :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
-    :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
-    :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
-)
+   :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+   :precondition (and
+      (at ?player ?loc1)
+      (connected ?loc1 ?dir ?loc2)
+      (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and
+      (at ?player ?loc2)
+      (not (at ?player ?loc1))))
 
 (:action get
-    :parameters (?player - player ?item - item ?loc - location)
-    :precondition (and (at ?item ?loc) (at ?player ?loc))
-    :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
-)
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and
+      (at ?player ?loc)
+      (gettable ?item)
+      (not (inventory ?player ?item))
+      (at ?item ?loc))
+   :effect (and
+      (inventory ?player ?item)
+      (not (at ?item ?loc))))
 
 (:action drop
-    :parameters (?player - player ?item - item ?loc - location)
-    :precondition (and (inventory ?player ?item) (at ?player ?loc))
-    :effect (and (at ?item ?loc) (not (inventory ?player ?item)))
-)
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and
+      (at ?player ?loc)
+      (inventory ?player ?item))
+   :effect (and
+      (at ?item ?loc)
+      (not (inventory ?player ?item))))
 
 (:action get_water
-    :parameters (?player - player ?loc - location ?water - water)
-    :precondition (and (at ?player ?loc) (has_water_source ?loc))
-    :effect (and (inventory ?player ?water) (not (treated ?water)))
-)
+   :parameters (?player - player ?water - water ?loc - location)
+   :precondition (and
+      (at ?player ?loc)
+      (not (inventory ?player ?water))
+      (has_water_source ?loc)
+      (at ?water ?loc))
+   :effect (and
+      (inventory ?player ?water)
+      (not (at ?water ?loc))))
 
 (:action boil_water
-    :parameters (?player - player ?loc - location ?water - water)
-    :precondition (and (inventory ?player ?water) (not (treated ?water)) (at ?player ?loc))
-    :effect (treated ?water)
-)
+   :parameters (?player - player ?water - water ?loc - location)
+   :precondition (and
+      (inventory ?player ?water)
+      (not (treated ?water)))
+   :effect (treated ?water))
 
 (:action collect_rain_water
-    :parameters (?player - player ?loc - location ?water - water)
-    :precondition (and (at ?player ?loc) (outdoors ?loc))
-    :effect (and (inventory ?player ?water) (not (treated ?water)))
-)
+   :parameters (?player - player ?water - water ?loc - location)
+   :precondition (and
+      (at ?player ?loc)
+      (outdoors ?loc))
+   :effect (and
+      (inventory ?player ?water)
+      (not (treated ?water))))
 
 (:action loot_shelter
-    :parameters (?player - player ?item - food ?loc - location)
-    :precondition (and (at ?player ?loc) (has_basement ?loc) (is_occupied ?loc) (gettable ?item))
-    :effect (inventory ?player ?food)
-)
+   :parameters (?player - player ?loc - location ?item - item)
+   :precondition (and
+      (at ?player ?loc)
+      (not (is_occupied ?loc))
+      (at ?item ?loc))
+   :effect (and
+      (inventory ?player ?item)
+      (not (at ?item ?loc))))
 
 (:action break_car_window
-    :parameters (?player - player ?car - car ?food - food)
-    :precondition (and (at ?player ?car) (has_windows ?car))
-    :effect (and (inventory ?player ?food) (not (has_windows ?car)))
-)
+   :parameters (?player - player ?car - car)
+   :precondition (and
+      (at ?player ?car)
+      (has_windows ?car))
+   :effect (not (has_windows ?car)))
 
 (:action gofish
-    :parameters (?player - player ?loc - location ?fishingpole - fishingpole ?fish - fish)
-    :precondition (and (at ?player ?loc) (haslake ?loc) (inventory ?player ?fishingpole))
-    :effect (inventory ?player ?fish)
-)
+   :parameters (?player - player ?pole - fishingpole ?loc - location)
+   :precondition (and
+      (inventory ?player ?pole)
+      (at ?player ?loc)
+      (haslake ?loc))
+   :effect (exists (?fish - fish) (inventory ?player ?fish)))
 
 (:action find_shelter
-    :parameters (?player - player ?loc - location)
-    :precondition (and (at ?player ?loc) (has_basement ?loc))
-    :effect (in_shelter ?player)
-)
+   :parameters (?player - player ?loc - location)
+   :precondition (and
+      (at ?player ?loc)
+      (has_basement ?loc)
+      (not (in_shelter ?player)))
+   :effect (in_shelter ?player))
 
 (:action clean_wound
-    :parameters (?player - player ?bandage - bandage)
-    :precondition (and (inventory ?player ?bandage) (is_injured ?player))
-    :effect (not (is_injured ?player))
-)
+   :parameters (?player - player ?bandage - bandage)
+   :precondition (and
+      (inventory ?player ?bandage)
+      (is_injured ?player))
+   :effect (not (is_injured ?player)))
 
 (:action clean_others_wound
-    :parameters (?player1 - player ?player2 - player ?bandage - bandage)
-    :precondition (and (inventory ?player1 ?bandage) (is_injured ?player2))
-    :effect (not (is_injured ?player2))
-)
+   :parameters (?player - player ?other_player - player ?bandage - bandage)
+   :precondition (and
+      (inventory ?player ?bandage)
+      (is_injured ?other_player))
+   :effect (not (is_injured ?other_player)))
 
 (:action barter_food_for_healing
-    :parameters (?player - player ?food - food ?bandage - bandage)
-    :precondition (and (inventory ?player ?food) (is_injured ?player))
-    :effect (and (not (is_injured ?player)) (inventory ?player ?bandage) (not (inventory ?player ?food)))
-)
+   :parameters (?player - player ?healer - player ?food - food)
+   :precondition (and
+      (inventory ?player ?food)
+      (is_injured ?player))
+   :effect (and (not (inventory ?player ?food)) (not (is_injured ?player))))
 
 )

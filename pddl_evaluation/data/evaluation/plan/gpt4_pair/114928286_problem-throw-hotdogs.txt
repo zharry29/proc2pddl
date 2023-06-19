@@ -1,0 +1,2 @@
+go ('npc', 'kitchen', 'east', 'hallway')
+throw ('npc', 'hallway', 'items')
