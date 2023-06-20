@@ -147,8 +147,11 @@ def action_equal(Action1, Action2):
         or len(de1) != len(de2)
     ):
         return False
-    p1 = sorted(p1, key=lambda x: x[1])
-    p2 = sorted(p2, key=lambda x: x[1])
+    try:
+        p1 = sorted(p1, key=lambda x: x[1])
+        p2 = sorted(p2, key=lambda x: x[1])
+    except TypeError:
+        return False
     d1 = defaultdict(list)
     d2 = defaultdict(list)
     paradict1 = {}
@@ -208,14 +211,16 @@ def action_equal(Action1, Action2):
             if flag == 0:
                 return False
         return True
-
-    if (
-        (entry_equal(pp1, pp2) == True)
-        and (entry_equal(ae1, ae2) == True)
-        and (entry_equal(np1, np2) == True)
-        and (entry_equal(de1, de2) == True)
-    ):
-        return True
+    try:
+        if (
+            (entry_equal(pp1, pp2) == True)
+            and (entry_equal(ae1, ae2) == True)
+            and (entry_equal(np1, np2) == True)
+            and (entry_equal(de1, de2) == True)
+        ):
+            return True
+    except IndexError:
+        return False
     return False
 
 
