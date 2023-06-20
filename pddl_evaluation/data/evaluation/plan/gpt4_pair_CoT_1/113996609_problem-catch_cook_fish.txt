@@ -1,0 +1,8 @@
+go ('survivor', 'river', 'west', 'jungle')
+chop_wood ('survivor', 'jungle', 'wood')
+go ('survivor', 'jungle', 'east', 'river')
+carve_groove ('survivor', 'wood')
+light_fire ('survivor', 'beach', 'wood')
+make_weapon ('survivor', 'wood', 'spear')
+hunt_fish ('survivor', 'river', 'spear', 'fish')
+cook_fish ('survivor', 'beach', 'fish')

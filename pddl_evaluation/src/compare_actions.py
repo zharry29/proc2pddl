@@ -27,7 +27,11 @@ def compare_actions(pred_actions, gold_actions):
     #assert len(pred_actions) == len(gold_actions)
     correct = []
     for pred_action, gold_action in zip(pred_actions, gold_actions):
+        print(pred_action)
+        print(gold_action)
         correct.append(action_equal(pred_action, gold_action))
+        print(action_equal(pred_action, gold_action))
+        #raise SystemExit
     #print(correct)
     return correct
 

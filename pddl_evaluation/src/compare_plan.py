@@ -23,7 +23,7 @@ pred_dir = f'../data/evaluation/plan/{args.model}{prompt_str}/'
 def parse_action(action_str):
     # get ('npc', 'shell', 'garage')
     action_name = action_str.split(" ('")[0]
-    print(action_str)
+    #print(action_str)
     arguments = action_str.split(" ('")[1].split("')")[0].split("', '")
     return action_name, arguments
 
@@ -96,7 +96,8 @@ for problem_fname in os.listdir(pred_dir):
         else:
             exact_match.append(0)
 
-print(has_solution)
-print(exact_match)
-print(sum(has_solution) / len(has_solution))
-print(sum(exact_match) / len(exact_match))
+#print(has_solution)
+#print(exact_match)
+#print(sum(has_solution) / len(has_solution))
+#print(sum(exact_match) / len(exact_match))
+print(sum(exact_match))

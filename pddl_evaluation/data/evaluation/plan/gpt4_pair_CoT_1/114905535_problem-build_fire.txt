@@ -1,0 +1,7 @@
+go ('npc', 'shore', 'east', 'forest_edge')
+go ('npc', 'forest_edge', 'east', 'forest')
+get ('npc', 'hardwood_stick', 'forest')
+gather_tinder ('npc', 'tinder', 'forest')
+build_campfire ('npc', 'tinder', 'tinder', 'campfire', 'forest')
+gather_tinder ('npc', 'tinder', 'forest')
+light_campfire ('npc', 'tinder', 'hardwood_stick', 'campfire', 'forest')
