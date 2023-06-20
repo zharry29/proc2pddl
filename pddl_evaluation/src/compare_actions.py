@@ -21,6 +21,7 @@ args = parser.parse_args()
 prompt_str = "_" + args.prompt if args.prompt != "" else ""
 gold_dir = f"../data/evaluation/actions_generation/pred/gold/"
 pred_dir = f"../data/evaluation/actions_generation/pred/{args.model}{prompt_str}/"
+print(pred_dir)
 
 
 def compare_actions(pred_actions, gold_actions):
