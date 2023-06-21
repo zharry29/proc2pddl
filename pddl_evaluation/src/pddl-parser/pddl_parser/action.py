@@ -170,12 +170,6 @@ def action_equal(Action1, Action2):
         else:
             return False
 
-    # print(d1)
-    # print(d2)
-    # print(paradict1)
-    # print(paradict1)
-    # print(pp1)
-    # print(pp2)
     def entry_equal(pp1, pp2):
         pp1 = list(pp1)
         pp2 = list(pp2)
@@ -188,12 +182,16 @@ def action_equal(Action1, Action2):
             for j in range(len(pp2)):
                 if pp2[j][0] == pp1[i][0] and len(pp2[j]) == len(pp1[i]):
                     for k in range(1, len(pp1[i])):
-                        if pp2[j][k] not in paradict2 or pp1[i][k] not in paradict1:
-                            print("missing parameters!")
+                        if pp2[j][k] not in paradict2 and pp1[i][k] not in paradict1:
+                            if pp2[j][k] != pp1[i][k]:
+                                return False
+                        elif pp2[j][k] not in paradict2 or pp1[i][k] not in paradict1:
                             return False
-                        if paradict2[pp2[j][k]] != paradict1[pp1[i][k]]:
+                        elif paradict2[pp2[j][k]] != paradict1[pp1[i][k]]:
                             break
-                        if pp1[i][k] not in countdict1 and pp2[j][k] not in countdict2:
+                        elif (
+                            pp1[i][k] not in countdict1 and pp2[j][k] not in countdict2
+                        ):
                             countdict1[pp1[i][k]] = count1
                             countdict2[pp2[j][k]] = count2
                             count1 += 1
@@ -211,6 +209,7 @@ def action_equal(Action1, Action2):
             if flag == 0:
                 return False
         return True
+
     try:
         if (
             (entry_equal(pp1, pp2) == True)
@@ -224,6 +223,95 @@ def action_equal(Action1, Action2):
     return False
 
 
+def action_dist(Action1, Action2):
+    p1 = Action1.parameters
+    p2 = Action2.parameters
+    pp1 = Action1.positive_preconditions
+    pp2 = Action2.positive_preconditions
+    np1 = Action1.negative_preconditions
+    np2 = Action2.negative_preconditions
+    ae1 = Action1.add_effects
+    ae2 = Action2.add_effects
+    de1 = Action1.del_effects
+    de2 = Action2.del_effects
+    try:
+        p1 = sorted(p1, key=lambda x: x[1])
+        p2 = sorted(p2, key=lambda x: x[1])
+    except TypeError:
+        return False
+    n1 = 0
+    d1 = defaultdict(list)
+    d2 = defaultdict(list)
+    paradict1 = {}
+    paradict2 = {}
+    lengthp1 = len(p1)
+    lengthp2 = len(p2)
+    for i in range(len(p1)):
+        for j in range(len(p2)):
+            if p1[i][1] == p2[j][1]:
+                if p1[i][0] not in d1[p1[i][1]]:
+                    d1[p1[i][1]].append(p1[i][0])
+                else:
+                    print("duplicate parameter")
+                    return -1, -1, -1
+                if p2[j][0] not in d2[p2[j][1]]:
+                    d2[p2[j][1]].append(p2[j][0])
+                else:
+                    print("duplicate parameter")
+                    return -1, -1, -1
+                paradict1[p1[i][0]] = p1[i][1]
+                paradict2[p2[j][0]] = p2[j][1]
+                n1 += 1
+                # print(p1[i][0], p2[j][0])
+                p2.pop(j)
+                break
+            else:
+                continue
+    distpara = abs(lengthp1 - n1) + abs(lengthp2 - n1)
+
+    def entry_distance(pp1, pp2):
+        pp1 = list(pp1)
+        pp2 = list(pp2)
+        lengthp1 = len(pp1)
+        lengthp2 = len(pp2)
+        count1 = 0
+        count2 = 0
+        countdict1 = {}
+        countdict2 = {}
+        n = 0
+        for i in range(len(pp1)):
+            for j in range(len(pp2)):
+                if pp2[j][0] == pp1[i][0] and len(pp2[j]) == len(pp1[i]):
+                    for k in range(1, len(pp1[i])):
+                        if pp2[j][k] not in paradict2 or pp1[i][k] not in paradict1:
+                            if pp2[j][k] != pp1[i][k]:
+                                break
+                        elif paradict2[pp2[j][k]] != paradict1[pp1[i][k]]:
+                            break
+                        elif (
+                            pp1[i][k] not in countdict1 and pp2[j][k] not in countdict2
+                        ):
+                            countdict1[pp1[i][k]] = count1
+                            countdict2[pp2[j][k]] = count2
+                            count1 += 1
+                            count2 += 1
+                        elif pp1[i][j] in countdict1 and pp2[i][j] in countdict2:
+                            if countdict1[pp1[i][j]] != countdict2[pp2[i][j]]:
+                                break
+                        else:
+                            break
+                    n += 1
+                    pp2.pop(j)
+                    break
+                else:
+                    continue
+        return abs(lengthp1 - n) + abs(lengthp2 - n)
+
+    distprecondition = entry_distance(pp1, pp2) + entry_distance(np1, np2)
+    disteffect = entry_distance(ae1, ae2) + entry_distance(de1, de2)
+    return distpara, distprecondition, disteffect
+
+
 # -----------------------------------------------
 # Main
 # -----------------------------------------------
@@ -231,46 +319,34 @@ if __name__ == "__main__":
     a = Action(
         "cut_stalks",
         [
-            ["?p", "player"],
-            ["?knife", "knife"],
-            ["?papyrus_plant", "papyrus_plant"],
-            ["?papyrus_stalks", "papyrus_stalks"],
+            ["?player", "player"],
+            ["?from", "location"],
+            ["?to", "location"],
         ],
-        [
-            ["inventory", "?p", "?knife"],
-            ["inventory", "?p", "?papyrus_plant"],
-            ["inventory", "?papyrus_stalks", "?papyrus_plant"],
-            ["inventory", "?knife", "?papyrus_plant"],
-        ],
+        [["at", "?player", "?from"]],
         [],
-        [["inventory", "?p", "?papyrus_stalks"]],
-        [["inventory", "?p", "?papyrus_plant"]],
+        [["at", "?player", "?to"]],
+        [["at", "?player", "?from"]],
     )
 
     b = Action(
         "cut_stalks",
         [
             ["?player", "player"],
-            ["?papyrus_plant", "papyrus_plant"],
-            ["?papyrus_stalks", "papyrus_stalks"],
-            ["?knife", "knife"],
+            ["?l1", "location"],
+            ["?l2", "location"],
         ],
-        [
-            ["inventory", "?player", "?papyrus_plant"],
-            ["inventory", "?player", "?knife"],
-            ["inventory", "?knife", "?papyrus_plant"],
-            ["inventory", "?papyrus_stalks", "?papyrus_plant"],
-        ],
+        [["at", "?player", "?l1"]],
         [],
-        [["inventory", "?player", "?papyrus_stalks"]],
-        [["inventory", "?player", "?papyrus_plant"]],
+        [["at", "?player", "?l2"]],
+        [["at", "?player", "?l1"]],
     )
 
     print("a")
     print(a)
     print("b")
     print(b)
-    print("is same?", action_comp(a, b))
+    print("is same?", action_equal(a, b))
     objects = {"agent": ["ana", "bob"], "pos": ["p1", "p2"]}
     types = {"object": ["agent", "pos"]}
     for act in a.groundify(objects, types):
