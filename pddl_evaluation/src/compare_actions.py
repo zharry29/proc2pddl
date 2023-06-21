@@ -36,11 +36,39 @@ def compare_actions(pred_actions, gold_actions):
             continue
         correct.append(action_equal(pred_action, gold_action))
         print(action_equal(pred_action, gold_action))
-        print(action_dist(pred_action, gold_action))
     # print(correct)
     return correct
 
+def calculate_edit_distance(pred_actions, gold_actions):
+    r_correct = []
+    c_correct = []
+    e_correct = []
+    for i, gold_action in enumerate(gold_actions):
+        try:
+            pred_action = pred_actions[i]
+        except IndexError:
+            r_correct.append(False)
+            c_correct.append(False)
+            e_correct.append(False)
+            continue
+        r_dist, c_dist, e_dist = action_dist(pred_action, gold_action)
+        if r_dist < 0.01:
+            r_correct.append(True)
+        else:
+            r_correct.append(False)
+        if c_dist < 0.01:
+            c_correct.append(True)
+        else:
+            c_correct.append(False)
+        if e_dist < 0.01:
+            e_correct.append(True)
+        else:
+            e_correct.append(False)
+    return r_correct, c_correct, e_correct
 
+all_r_correct = []
+all_c_correct = []
+all_e_correct = []
 all_outcome = []
 for fname in os.listdir(pred_dir):
     if fname.startswith(args.id) and fname.endswith("_actions.pkl"):
@@ -55,5 +83,16 @@ for fname in os.listdir(pred_dir):
         # print(gold_actions)
         outcome = compare_actions(pred_actions, gold_actions)
         all_outcome += outcome
+        r_correct, c_correct, e_correct = calculate_edit_distance(pred_actions, gold_actions)
+        all_r_correct += r_correct
+        all_c_correct += c_correct
+        all_e_correct += e_correct
 accuracy = sum(all_outcome) / len(all_outcome)
-print(accuracy)
+r_accuracy = sum(all_r_correct) / len(all_r_correct)
+c_accuracy = sum(all_c_correct) / len(all_c_correct)
+e_accuracy = sum(all_e_correct) / len(all_e_correct)
+
+print(f"Action Accuracy: {accuracy}")
+print(f"Parameter Accuracy: {r_accuracy}")
+print(f"Precondition Accuracy: {c_accuracy}")
+print(f"Effect Accuracy: {e_accuracy}")
