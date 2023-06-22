@@ -1,0 +1,6 @@
+go ('npc', 'house', 'east', 'train_station')
+go ('npc', 'train_station', 'east', 'staples')
+get_stationery ('npc', 'staples', 'cardboard')
+get_stationery ('npc', 'staples', 'notebook')
+get_stationery ('npc', 'staples', 'pen')
+get_stationery ('npc', 'staples', 'chalk')

@@ -1,0 +1,2 @@
+liedown ('npc')
+swim ('npc', 'qs')

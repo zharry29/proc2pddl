@@ -1,6 +1,1 @@
-go ('npc', 'house', 'train_station', 'east')
-go ('npc', 'train_station', 'staples', 'east')
-get_stationery ('npc', 'cardboard', 'staples')
-get_stationery ('npc', 'notebook', 'staples')
-get_stationery ('npc', 'pen', 'staples')
-get_stationery ('npc', 'chalk', 'staples')
+No solution

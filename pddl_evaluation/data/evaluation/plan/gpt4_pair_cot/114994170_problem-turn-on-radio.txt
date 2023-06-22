@@ -1,0 +1,2 @@
+put_batteries_in ('radio')
+turn_on_radio ('radio')

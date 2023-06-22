@@ -1,0 +1,2 @@
+get ('npc', 'stick', 'here')
+usestick ('npc', 'stick', 'qsand')

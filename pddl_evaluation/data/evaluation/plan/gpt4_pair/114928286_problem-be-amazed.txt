@@ -1,7 +1,1 @@
-make_tosses_column ('npc', 'paper', 'pen')
-make_crosses_column ('npc', 'paper', 'pen')
-record_tosses ('npc', 'paper', 'pen')
-record_crosses ('npc', 'paper', 'pen')
-divide_crosses ('npc', 'paper', 'pen')
-calculate_pi ('npc', 'paper')
-be_amazed ('npc')
+No solution

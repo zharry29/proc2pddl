@@ -1,0 +1,1 @@
+go ('npc', 'next', 'rookie', 'skilled')

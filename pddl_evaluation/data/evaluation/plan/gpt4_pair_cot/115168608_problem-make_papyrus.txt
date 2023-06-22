@@ -1,0 +1,3 @@
+cut_stalks ('npc', 'papyrus_plant', 'papyrus_stalks')
+cut_strips ('npc', 'papyrus_stalks', 'papyrus_strips')
+bundle_strips ('npc', 'papyrus_strips', 'papyrus', 'linen_sheets', 'wooden_boards')

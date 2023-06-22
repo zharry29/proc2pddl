@@ -1,0 +1,3 @@
+loot_shelter ('old_man', 'npc', 'brickhouse')
+drop ('old_man', 'npc', 'brickhouse')
+find_shelter ('npc', 'brickhouse')

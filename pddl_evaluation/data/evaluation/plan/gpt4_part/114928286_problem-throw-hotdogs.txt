@@ -1,0 +1,2 @@
+thaw_food ('npc', 'items')
+throw ('npc', 'items', 'hallway')

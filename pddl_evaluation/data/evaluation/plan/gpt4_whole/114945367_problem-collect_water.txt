@@ -1,0 +1,1 @@
+get_dry_materials ('npc', 'camp', 'water')

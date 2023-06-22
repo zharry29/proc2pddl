@@ -1,0 +1,5 @@
+go ('person', 'beach', 'east', 'jungle')
+go ('person', 'jungle', 'east', 'river')
+get_water ('person', 'river')
+clean_water ('person', 'water')
+drink_water ('person', 'water')

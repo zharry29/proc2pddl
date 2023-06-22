@@ -1,4 +1,1 @@
-go ('npc', 'west', 'camp', 'path')
-go ('npc', 'south', 'path', 'oaks')
-log_oak ('npc', 'oak_log', 'oaks')
-stack_log ('npc', 'log_stack', 'oak_log')
+No solution

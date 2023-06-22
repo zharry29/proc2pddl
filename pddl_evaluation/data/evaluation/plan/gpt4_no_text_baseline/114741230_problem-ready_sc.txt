@@ -1,0 +1,5 @@
+create_secret ('ss')
+set_meeting_location ('ss')
+set_dress_code ('ss')
+create_name ('ss')
+secret_society_is_ready ('ss')

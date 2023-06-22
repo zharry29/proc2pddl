@@ -1,1 +1,7 @@
-Error: unhashable type: 'list'
+go ('npc', 'camp', 'west', 'path')
+go ('npc', 'path', 'west', 'cliff')
+go ('npc', 'cliff', 'up', 'waterfall')
+go ('npc', 'waterfall', 'east', 'mountain')
+get ('npc', 'flowers', 'mountain')
+wash ('flowers')
+eat ('npc', 'flowers')

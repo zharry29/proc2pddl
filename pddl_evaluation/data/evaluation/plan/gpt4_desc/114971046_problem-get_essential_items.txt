@@ -1,0 +1,6 @@
+walk ('npc', 'mall', 'homedepot', 'east')
+walk ('npc', 'mall', 'pharmacy', 'south')
+walk ('npc', 'mall', 'wholefoods', 'north')
+get_food ('npc', 'canned_food', 'wholefoods')
+get ('npc', 'wood', 'homedepot')
+get ('npc', 'medical_supplies', 'pharmacy')

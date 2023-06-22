@@ -1,0 +1,6 @@
+drive ('npc', 'mall', 'homedepot', 'east')
+drive ('npc', 'mall', 'pharmacy', 'south')
+drive ('npc', 'mall', 'wholefoods', 'north')
+get_food ('npc', 'canned_food', 'wholefoods')
+get ('npc', 'wood', 'homedepot')
+get ('npc', 'medical_supplies', 'pharmacy')

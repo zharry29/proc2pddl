@@ -1,0 +1,2 @@
+get ('knife')
+poke ('coconut', 'knife')

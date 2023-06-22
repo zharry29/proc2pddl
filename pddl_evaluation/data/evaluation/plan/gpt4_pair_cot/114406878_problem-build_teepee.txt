@@ -1,0 +1,8 @@
+go ('npc', 'camp', 'path', 'west')
+go ('npc', 'path', 'grassland', 'north')
+get_grass ('npc', 'grass', 'grassland', 'log_stack')
+get_grass ('npc', 'grass', 'grassland', 'branch_piece')
+get_grass ('npc', 'grass', 'grassland', 'grass_tinder')
+go ('npc', 'grassland', 'path', 'south')
+go ('npc', 'path', 'camp', 'east')
+build_teepee ('npc', 'grass_tinder', 'branch_piece', 'log_stack', 'camp', 'teepee_structure')

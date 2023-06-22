@@ -70,6 +70,7 @@ all_r_correct = []
 all_c_correct = []
 all_e_correct = []
 all_outcome = []
+num_actions_in_gold_df = []
 for fname in os.listdir(pred_dir):
     if fname.startswith(args.id) and fname.endswith("_actions.pkl"):
         print(fname)
@@ -79,6 +80,7 @@ for fname in os.listdir(pred_dir):
                 pred_actions = []
         with open(os.path.join(gold_dir, fname), "rb") as f:
             gold_actions = pickle.load(f)
+            num_actions_in_gold_df.append(len(gold_actions))
         # print(pred_actions)
         # print(gold_actions)
         outcome = compare_actions(pred_actions, gold_actions)
@@ -96,3 +98,4 @@ print(f"Action Accuracy: {accuracy}")
 print(f"Parameter Accuracy: {r_accuracy}")
 print(f"Precondition Accuracy: {c_accuracy}")
 print(f"Effect Accuracy: {e_accuracy}")
+#print(f"Average number of actions in gold: {np.mean(num_actions_in_gold_df)}")

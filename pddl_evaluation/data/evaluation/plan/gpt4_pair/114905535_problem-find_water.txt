@@ -1,1 +1,1 @@
-Error: Missing close parentheses
+No solution

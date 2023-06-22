@@ -1,0 +1,4 @@
+go ('npc', 'camp', 'path', 'east')
+go ('npc', 'path', 'riverside', 'east')
+get ('npc', 'drill', 'riverside')
+make_fire ('npc', 'drill', 'riverside')

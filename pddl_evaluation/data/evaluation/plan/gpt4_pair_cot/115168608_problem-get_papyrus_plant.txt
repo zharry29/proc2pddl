@@ -1,0 +1,1 @@
+get_papyrus_plant ('npc', 'home', 'papyrus_plant')

@@ -61,6 +61,7 @@ def compare_actions_em(pred_actions, gold_actions):
 
 has_solution = []
 exact_match = []
+gold_plan_length = []
 for problem_fname in os.listdir(pred_dir):
     #print(problem_fname)
     #for proc_id in  ["114406878"]:
@@ -70,6 +71,7 @@ for problem_fname in os.listdir(pred_dir):
         pred_action_str = f.read()
     with open(os.path.join(gold_dir, problem_fname), 'r') as f:
         gold_action_str = f.read()
+        gold_plan_length.append(len(gold_action_str.strip().split("\n")))
     #print(pred_action_str)
     if "No solution" in gold_action_str or gold_action_str.startswith("Error: "):
         continue
@@ -101,3 +103,4 @@ for problem_fname in os.listdir(pred_dir):
 #print(sum(has_solution) / len(has_solution))
 #print(sum(exact_match) / len(exact_match))
 print(sum(exact_match))
+#print(sum(gold_plan_length) / len(gold_plan_length))

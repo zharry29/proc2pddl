@@ -1,0 +1,8 @@
+go ('npc', 'next', 'knowing_target', 'testing_target')
+go ('npc', 'next', 'testing_target', 'running_port_scan')
+go ('npc', 'next', 'running_port_scan', 'finding_path')
+go ('npc', 'next', 'finding_path', 'cracking_password')
+go ('npc', 'next', 'cracking_password', 'getting_superuser_privileges')
+go ('npc', 'next', 'getting_superuser_privileges', 'creating_back_door')
+go ('npc', 'next', 'creating_back_door', 'covering_tracks')
+go ('npc', 'next', 'covering_tracks', 'end_hacking')

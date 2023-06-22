@@ -1,0 +1,2 @@
+spot_shark ('npc', 'shark', 'open_sea')
+defend ('npc', 'shark')

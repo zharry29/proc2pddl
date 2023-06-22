@@ -1,0 +1,7 @@
+go ('npc', 'camp', 'grove', 'north')
+gather_sticks ('npc', 'sticks', 'grove')
+go ('npc', 'grove', 'camp', 'south')
+go ('npc', 'camp', 'thicket', 'south')
+get ('npc', 'leaves', 'thicket')
+build_shelter ('npc', 'thicket', 'sticks', 'leaves')
+sleep_in_shelter ('npc', 'thicket')

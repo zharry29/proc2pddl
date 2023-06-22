@@ -1,0 +1,3 @@
+break_car_window ('old_man', 'brickhouse', 'car', 'npc')
+drop ('old_man', 'npc', 'brickhouse')
+find_shelter ('npc', 'brickhouse')

@@ -1,0 +1,2 @@
+break_car_window ('old_man', 'brickhouse', 'car', 'food')
+barter_food_for_healing ('old_man', 'food')
