@@ -1,0 +1,68 @@
+(:action spot_shark
+ :parameters (?player - player ?shark - shark ?loc - location)
+ :precondition (and
+                (at ?player ?loc)
+                (at ?shark ?loc)
+                (visible ?shark))
+ :effect (and))
+
+(:action swim
+ :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+ :precondition (and
+                (at ?player ?loc1)
+                (connected ?loc1 ?dir ?loc2))
+ :effect (and
+          (not (at ?player ?loc1))
+          (at ?player ?loc2)))
+
+(Note that other actions will have similar PDDL descriptions, with differences in the parameters, preconditions, and effects based on the action's summary, entities, and description. Depending on the requirements and specific behavior in the scenario, some actions might need to be refined further.)
+
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and
+                (at ?player ?loc)
+                (at ?item ?loc))
+ :effect (and
+          (not (at ?item ?loc))
+          (inventory ?player ?item)))
+
+(:action onboard
+ :parameters (?player - player ?ship - ship ?loc - location)
+ :precondition (and
+                (at ?player ?loc)
+                (at ?ship ?loc))
+ :effect (on ?player ?ship))
+
+(:action defend
+ :parameters (?player - player)
+ :precondition ()
+ :effect (defending ?player))
+
+(:action self_mobilize
+ :parameters (?player - player ?shark - shark ?loc - location)
+ :precondition (and
+                (at ?player ?loc)
+                (at ?shark ?loc))
+ :effect (and))
+
+(:action medicare
+ :parameters (?player - player)
+ :precondition (wounded ?player)
+ :effect (and))
+
+(:action attack_vulnerable
+ :parameters (?player - player ?shark - shark ?item - item ?part - part)
+ :precondition (and
+                (inventory ?player ?item)
+                (or (sharp ?item) (heavy ?item))
+                (vulnerable ?part))
+ :effect (or (dizzy ?shark) (fleed ?shark)))
+
+(:action knockout
+ :parameters (?player - player ?shark - shark)
+ :precondition (and
+                (defending ?player)
+                (dizzy ?shark))
+ :effect (fleed ?shark))
+
+)

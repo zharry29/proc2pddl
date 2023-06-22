@@ -1,0 +1,49 @@
+(:action go
+  :parameters (?player - player ?initial_location - location ?destination_location - location ?direction - direction) 
+  :precondition (and (at ?player ?initial_location) (connected ?initial_location ?direction ?destination_location) (not (blocked ?initial_location ?direction ?destination_location)))
+  :effect (and (not (at ?player ?initial_location)) (at ?player ?destination_location))
+)
+
+(:action get
+  :parameters (?player - player ?item - item ?item_location - location)
+  :precondition (and (at ?player ?item_location) (at ?item ?item_location))
+  :effect (and (not (at ?item ?item_location)) (inventory ?player ?item))
+)
+
+(:action get_water
+  :parameters (?player - player ?water - water ?water_location - location ?container - container)
+  :precondition (and (at ?player ?water_location) (has_water_source ?water_location) (inventory ?player ?container))
+  :effect (and (not (empty ?container)) (contains ?container ?water))
+)
+
+(:action strain_water
+  :parameters (?player - player ?water - water ?container - container ?cloth - cloth)
+  :precondition (and (contains ?container ?water) (not (strained ?water)) (inventory ?player ?cloth))
+  :effect (strained ?water)
+)
+
+(:action boil_water
+  :parameters (?player - player ?water - water ?container - container)
+  :precondition (and (has_fire ?player) (contains ?container ?water) (strained ?water))
+  :effect (treated ?water)
+)
+
+(:action purify_in_sunlight
+  :parameters (?player - player ?water - water ?clear_plastic_bottle - container)
+  :precondition (and (contains ?clear_plastic_bottle ?water) (strained ?water))
+  :effect (treated ?water)
+)
+
+(:action get_long_branch
+  :parameters (?player - player ?branch_location - location ?long_branch - long_branch)
+  :precondition (and (at ?player ?branch_location) (has_branches ?branch_location))
+  :effect (inventory ?player ?long_branch)
+)
+
+(:action get_propped_branches
+  :parameters (?player - player ?branch_location - location ?propped_branches - propped_branches)
+  :precondition (and (at ?player ?branch_location) (has_branches ?branch_location))
+  :effect (inventory ?player ?propped_branches)
+)
+
+)
