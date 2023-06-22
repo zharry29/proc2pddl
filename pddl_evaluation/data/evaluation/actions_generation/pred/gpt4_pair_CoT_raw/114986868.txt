@@ -1,0 +1,307 @@
+- action name: collect_water
+- summarize action: Collect water from natural sources like leaves, bamboo stalks, rock formations, and natural pools. If there is a lack of containers, use other natural containers to store the collected water.
+- what is needed to do the action: presence of a water source, either a container or natural container to store the collected water
+- what is the result: collected water is available for consumption and other uses
+
+- entities:
+  - entity name: location
+    - before: without water collection
+    - after: with water collected
+  - entity name: container
+    - before: empty or doesn't contain water
+    - after: contains collected water
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if there is a water source at the current location and the player's container is empty.
+2. Collect water from the source and store it in the container.
+3. Update the container's status after the collection.
+
+pddl:
+```(:action collect_water
+  :parameters (?player - player ?loc - location ?container - container)
+  :precondition (and (at ?player ?loc) (has_water ?loc) (not (inventory ?player ?container)))
+  :effect (and (inventory ?player ?container)))
+```
+
+- action name: filter_water
+- summarize action: Filter the collected water to remove contaminants and make it safer to drink
+- what is needed to do the action: collected unfiltered water
+- what is the result: filtered water, safer to drink
+
+- entities:
+  - entity name: water
+    - before: unfiltered water
+    - after: filtered water
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the player has collected unfiltered water.
+2. Filter the water.
+3. Update the status of the water to filtered.
+
+pddl:
+```(:action filter_water
+  :parameters (?player - player ?water - water)
+  :precondition (inventory ?player ?water)
+  :effect (filtered ?water))
+```
+
+- action name: boil_water
+- summarize action: Boil the collected water to make it safe for consumption
+- what is needed to do the action: collected water, a fire source
+- what is the result: boiled water, safe for consumption
+
+- entities:
+  - entity name: water
+    - before: unboiled water
+    - after: boiled water
+  - entity name: location
+    - before: no fire
+    - after: fire
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the player has collected unboiled water and there is a fire.
+2. Boil the water using the fire.
+3. Update the status of the water to boiled.
+
+pddl:
+```(:action boil_water
+  :parameters (?player - player ?water - water ?loc - location)
+  :precondition (and (inventory ?player ?water) (has_fire ?loc) (at ?player ?loc))
+  :effect (boiled ?water))
+```
+
+Note: The provided text has some repetitive content, so I filtered the relevant portions to use in the responses. The other tasks are similar and can be formed using the same pattern as above.
+- action name: drink_water
+- summarize action: Drink the collected, filtered, or boiled water to quench the player's thirst
+- what is needed to do the action: player with thirst, water that is filtered or boiled
+- what is the result: player's thirst is quenched
+
+- entities:
+  - entity name: player
+    - before: thirsty
+    - after: not thirsty
+  - entity name: water
+    - before: in the container (filtered or boiled)
+    - after: consumed
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the player is thirsty and has filtered or boiled water.
+2. Player drinks the water.
+3. Update the player's status to not thirsty after drinking the water.
+
+pddl:
+```(:action drink_water
+  :parameters (?player - player ?water - water)
+  :precondition (and (thirsty ?player) (inventory ?player ?water) (or (filtered ?water) (boiled ?water)))
+  :effect (not (thirsty ?player)))
+```
+
+
+- action name: get_wood
+- summarize action: Collect wood from trees in the jungle for various purposes, such as building a fire or creating tools.
+- what is needed to do the action: a location with trees
+- what is the result: wood collected in the player's inventory
+
+- entities:
+  - entity name: location
+    - before: not collected wood
+    - after: wood collected
+  - entity name: wood
+    - before: not in the player's inventory
+    - after: in the player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if there is a location with trees where the player is present.
+2. Collect wood from the trees.
+3. Update the player's inventory to include collected wood.
+
+pddl:
+```(:action get_wood
+  :parameters (?player - player ?loc - location ?wood - wood)
+  :precondition (and (at ?player ?loc) (has_tree ?loc) (not (inventory ?player ?wood)))
+  :effect (inventory ?player ?wood))
+```
+
+
+- action name: build_shelter
+- summarize action: Build a lean-to shelter by placing a stick against a tree, adding shorter sticks and branches to the sides, and covering it with leaves and foliage for protection.
+- what is needed to do the action: presence of foliage and sticks, a location with trees, no existing shelter
+- what is the result: player has a shelter
+
+- entities:
+  - entity name: location
+    - before: no shelter
+    - after: shelter built
+  - entity name: foliage
+    - before: not used for shelter
+    - after: used for shelter
+  - entity name: sticks
+    - before: not used for shelter
+    - after: used for shelter
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if there is a location with trees where the player is present, and there is no existing shelter.
+2. Build the shelter using sticks and foliage.
+3. Update the location's status to have a shelter.
+
+pddl:
+```(:action build_shelter
+  :parameters (?player - player ?loc - location ?foliage - foliage)
+  :precondition (and (at ?player ?loc) (has_tree ?loc) (not (has_shelter ?loc)) (inventory ?player ?foliage))
+  :effect (has_shelter ?loc))
+```
+- action name: make_fire
+- summarize action: Gather wood and create a fire for warmth, protection, cooking, and boiling water
+- what is needed to do the action: wood in the player's inventory, a location without existing fire
+- what is the result: fire created at the location
+
+- entities:
+  - entity name: location
+    - before: no fire
+    - after: fire created
+  - entity name: wood
+    - before: in the player's inventory
+    - after: used to create fire
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if there is wood in the player's inventory and the player's current location has no fire.
+2. Create a fire using the wood.
+3. Update the location's status to have a fire.
+
+pddl:
+```(:action make_fire
+  :parameters (?player - player ?loc - location ?wood - wood)
+  :precondition (and (at ?player ?loc) (inventory ?player ?wood) (not (has_fire ?loc)))
+  :effect (has_fire ?loc))
+```
+
+
+- action name: make_spear
+- summarize action: Create a 4-pronged bamboo spear by cutting slits into one end of a bamboo stalk and weaving a piece of vine, then sharpen the prongs to make a fishing tool
+- what is needed to do the action: bamboo stalks, a sharp cutting tool, vines
+- what is the result: a bamboo spear in the player's inventory
+
+- entities:
+  - entity name: bamboo
+    - before: not made into a spear
+    - after: made into a spear
+  - entity name: spear
+    - before: not in player's inventory
+    - after: in player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the player has bamboo stalks in their inventory.
+2. Make a spear using the bamboo stalks and vines.
+3. Update the player's inventory to include the spear.
+
+pddl:
+```(:action make_spear
+  :parameters (?player - player ?bamboo - bamboo)
+  :precondition (inventory ?player ?bamboo)
+  :effect (and (not (inventory ?player ?bamboo)) (inventory ?player ?spear)))
+```
+
+
+- action name: catch_fish
+- summarize action: Use the 4-pronged bamboo spear to catch fish by standing in knee-deep water and waiting for fish, then spearing them
+- what is needed to do the action: a location with fish, a 4-pronged bamboo spear in the player's inventory
+- what is the result: caught fish in the player's inventory
+
+- entities:
+  - entity name: location
+    - before: fish not caught by the player
+    - after: fish caught by the player
+  - entity name: fish
+    - before: uncaught
+    - after: caught by the player
+  - entity name: spear
+    - before: used to catch fish
+    - after: catches fish
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the player has a spear in their inventory and is at a location with fish.
+2. Catch the available fish using the spear.
+3. Update the player's inventory to include the caught fish.
+
+pddl:
+```(:action catch_fish
+  :parameters (?player - player ?loc - location ?spear - spear ?fish - fish)
+  :precondition (and (at ?player ?loc) (has_fish ?loc) (inventory ?player ?spear))
+  :effect (inventory ?player ?fish))
+```
+- action name: cook_fish
+- summarize action: Cook the caught fish using the fire at the player's current location
+- what is needed to do the action: caught fish in the player's inventory, a fire at the player's location
+- what is the result: cooked fish in the player's inventory
+
+- entities:
+  - entity name: location
+    - before: no fish cooking
+    - after: fish cooked
+  - entity name: fish
+    - before: uncooked
+    - after: cooked
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the player has uncooked fish in their inventory, and there is a fire at the player's current location.
+2. Cook the fish using the fire.
+3. Update the status of the fish to cooked.
+
+pddl:
+```(:action cook_fish
+  :parameters (?player - player ?loc - location ?fish - fish)
+  :precondition (and (at ?player ?loc) (inventory ?player ?fish) (not (cooked ?fish)) (has_fire ?loc))
+  :effect (cooked ?fish))
+```
+
+
+- action name: eat_fish
+- summarize action: Consume the cooked fish to satiate the player's hunger
+- what is needed to do the action: cooked fish in the player's inventory, player must be hungry
+- what is the result: player's hunger is satiated
+
+- entities:
+  - entity name: player
+    - before: hungry
+    - after: not hungry
+  - entity name: fish
+    - before: in player's inventory
+    - after: consumed
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the player is hungry and has cooked fish in their inventory.
+2. Player eats the cooked fish.
+3. Update the player's status to not hungry after eating the fish.
+
+pddl:
+```(:action eat_fish
+  :parameters (?player - player ?fish - fish)
+  :precondition (and (hungry ?player) (inventory ?player ?fish) (cooked ?fish))
+  :effect (not (hungry ?player)))
+```
+
+
+- action name: get_foliage
+- summarize action: Collect foliage for building shelter, covering, and other purposes
+- what is needed to do the action: presence of foliage at the location
+- what is the result: collected foliage in the player's inventory
+
+- entities:
+  - entity name: location
+    - before: available foliage
+    - after: foliage collected
+  - entity name: foliage
+    - before: not in player's inventory
+    - after: in player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if there is available foliage at the player's current location.
+2. Collect the foliage.
+3. Update the player's inventory to include collected foliage.
+
+pddl:
+```(:action get_foliage
+  :parameters (?player - player ?loc - location ?foliage - foliage)
+  :precondition (and (at ?player ?loc) (not (inventory ?player ?foliage)))
+  :effect (inventory ?player ?foliage))
+```

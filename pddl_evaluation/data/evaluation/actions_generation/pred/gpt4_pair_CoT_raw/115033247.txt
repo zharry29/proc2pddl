@@ -1,0 +1,251 @@
+- action name: go
+- summarize action: The player moves between connected locations in a given direction.
+- what is needed to do the action: The player should be at location1, and location1 should be connected to location2 in a given direction.
+- what is the result: The player moves to location2.
+
+- entities:
+  - entity name: player
+    - before: at location1
+    - after: at location2
+  - entity name: location1
+    - before: player is at location1
+    - after: player is not at location1
+  - entity name: location2
+    - before: player is not at location2
+    - after: player is at location2
+  - entity name: direction
+    - no change
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Preconditions: (at ?player - player ?loc1 - location), (connected ?loc1 - location ?dir - direction ?loc2 - location)
+2. Positive Effects: (at ?player - player ?loc2 - location)
+3. Negative Effects: (not (at ?player - player ?loc1 - location))
+
+pddl:
+(:action go
+ :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+ :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+)
+
+- action name: get
+- summarize action: The player takes an item from a location to their inventory.
+- what is needed to do the action: The player should be at the location where the item is located.
+- what is the result: The item is moved from the location to the player's inventory.
+
+- entities:
+  - entity name: player
+    - no change
+  - entity name: item
+    - before: at a location
+    - after: in the player's inventory
+  - entity name: location
+    - before: item is at the location
+    - after: item is not at the location
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Preconditions: (at ?player - player ?loc - location), (at ?obj - object ?loc - location)
+2. Positive Effects: (inventory ?player ?obj)
+3. Negative Effects: (not (at ?obj ?loc))
+
+pddl:
+(:action get
+ :parameters (?player - player ?obj - object ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?obj ?loc))
+ :effect (and (inventory ?player ?obj) (not (at ?obj ?loc)))
+)
+
+- action name: pour_water
+- summarize action: The player mixes glue and water in a bowl with specific amounts. This action allows the player to prepare a glue and water mixture for making papyrus sheets.
+- what is needed to do the action: The player should have a bowl, glue, and water in their inventory.
+- what is the result: The player has a bowl of water mixed with glue in their inventory, ready to be used for creating papyrus sheets.
+
+- entities:
+  - entity name: player
+    - no change
+  - entity name: bowl
+    - before: empty in the player's inventory
+    - after: filled with glue and water mixture in the player's inventory
+  - entity name: water
+    - before: separate item in the player's inventory
+    - after: mixed with glue in the bowl in the player's inventory
+  - entity name: glue
+    - before: separate item in the player's inventory
+    - after: mixed with water in the bowl in the player's inventory
+  - entity name: bowl_of_water
+    - non-existent before
+    - after: in the player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Preconditions: (inventory ?player ?bowl), (inventory ?player ?water), (inventory ?player ?glue)
+2. Positive Effects: (inventory ?player ?bowl_of_water)
+3. Negative Effects: (not (inventory ?player ?bowl)), (not (inventory ?player ?water)), (not (inventory ?player ?glue))
+
+pddl:
+(:action pour_water
+ :parameters (?player - player ?bowl - bowl ?water - water ?glue - glue ?bowl_of_water - bowl_of_water)
+ :precondition (and (inventory ?player ?bowl) (inventory ?player ?water) (inventory ?player ?glue))
+ :effect (and (inventory ?player ?bowl_of_water) (not (inventory ?player ?bowl)) (not (inventory ?player ?water)) (not (inventory ?player ?glue)))
+)
+
+Please note, completing all remaining actions exceeds the response limit. Kindly submit the remaining actions separately for assistance with those.
+- action name: place_strips_between_boards
+- summarize action: The player places the papyrus strips between two wooden boards to flatten them using pressure.
+- what is needed to do the action: The player should have wooden boards and papyrus strips in their inventory.
+- what is the result: The strips are placed between the boards, becoming flattened.
+
+- entities:
+  - entity name: player
+    - no change
+  - entity name: wooden_boards
+    - before: separate item in the player's inventory
+    - after: holding papyrus strips
+  - entity name: papyrus_strips
+    - before: separate item in the player's inventory
+    - after: between wooden boards
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Preconditions: (inventory ?player ?wooden_boards), (inventory ?player ?papyrus_strips)
+2. Positive Effects: (strips_between_boards)
+3. Negative Effects: (not (inventory ?player ?papyrus_strips))
+
+pddl:
+(:action place_strips_between_boards
+ :parameters (?player - player ?wooden_boards - wooden_boards ?papyrus_strips - papyrus_strips)
+ :precondition (and (inventory ?player ?wooden_boards) (inventory ?player ?papyrus_strips))
+ :effect (and (strips_between_boards) (not (inventory ?player ?papyrus_strips)))
+)
+
+- action name: cut_stalks
+- summarize action: The player cuts papyrus stalks using strong scissors or pruners, preparing them for paper-making.
+- what is needed to do the action: The player should have papyrus_stalks and cutting tools (scissors or pruners) in their inventory.
+- what is the result: The player has cut papyrus stalks in their inventory.
+
+- entities:
+  - entity name: player
+    - no change
+  - entity name: papyrus_stalks
+    - before: uncut in the player's inventory
+    - after: cut in the player's inventory
+  - entity name: cutting_tool (scissors or pruners)
+    - no change
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Preconditions: (inventory ?player ?papyrus_stalks), (inventory ?player ?cutting_tool)
+2. Positive Effects: (cut ?papyrus_stalks)
+3. No negative effects
+
+pddl:
+(:action cut_stalks
+ :parameters (?player - player ?papyrus_stalks - papyrus_stalks ?cutting_tool - (either scissors pruners))
+ :precondition (and (inventory ?player ?papyrus_stalks) (inventory ?player ?cutting_tool))
+ :effect (cut ?papyrus_stalks)
+)
+
+I will provide one more action within this response. For the remaining actions, please submit them separately.
+
+- action name: papyrus_strips
+- summarize action: The player cuts the inner portion of the papyrus plant (pith) into thin strips using a knife. These strips will later be used to create papyrus paper.
+- what is needed to do the action: The player should have a knife and cut papyrus stalks in their inventory.
+- what is the result: The player has papyrus strips in their inventory.
+
+- entities:
+  - entity name: player
+    - no change
+  - entity name: knife
+    - no change
+  - entity name: cut_papyrus_stalks
+    - before: in the player's inventory
+    - after: converted into papyrus strips
+  - entity name: papyrus_strips
+    - non-existent before
+    - after: in the player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Preconditions: (inventory ?player ?cut_papyrus_stalks), (inventory ?player ?knife)
+2. Positive Effects: (inventory ?player ?papyrus_strips)
+3. Negative Effects: (not (inventory ?player ?cut_papyrus_stalks))
+
+pddl:
+(:action papyrus_strips
+ :parameters (?player - player ?cut_papyrus_stalks - papyrus_stalks ?knife - knife ?papyrus_strips - papyrus_strips)
+ :precondition (and (inventory ?player ?cut_papyrus_stalks) (inventory ?player ?knife))
+ :effect (and (inventory ?player ?papyrus_strips) (not (inventory ?player ?cut_papyrus_stalks)))
+)
+- action name: polish_papyrus
+- summarize action: The player polishes the papyrus using a shell, smooth piece of ivory, or a smooth stone to make it look nicer and more finished.
+- what is needed to do the action: The player should have a flattened papyrus and a polishing tool (shell, ivory, or smooth stone) in their inventory.
+- what is the result: The player has a polished papyrus in their inventory.
+
+- entities:
+  - entity name: player
+    - no change
+  - entity name: flattened_papyrus
+    - before: unpolished in the player's inventory
+    - after: polished in the player's inventory
+  - entity name: polishing_tool (shell, ivory, or smooth stone)
+    - no change
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Preconditions: (inventory ?player ?flattened_papyrus), (inventory ?player ?polishing_tool)
+2. Positive Effects: (polished ?flattened_papyrus)
+3. No negative effects
+
+pddl:
+(:action polish_papyrus
+ :parameters (?player - player ?flattened_papyrus - papyrus ?polishing_tool - (either shell ivory smooth_stone))
+ :precondition (and (inventory ?player ?flattened_papyrus) (inventory ?player ?polishing_tool))
+ :effect (polished ?flattened_papyrus)
+)
+
+- action name: flatten_papyrus
+- summarize action: The player flattens the papyrus sheet by putting it under a stone slab or using a rolling pin.
+- what is needed to do the action: The player should have unflattened papyrus and either a stone slab or a rolling pin in their inventory.
+- what is the result: The player has a flattened papyrus sheet in their inventory.
+
+- entities:
+  - entity name: player
+    - no change
+  - entity name: unflattened_papyrus
+    - before: in the player's inventory
+    - after: flattened in the player's inventory
+  - entity name: flattening_tool (stone slab or rolling pin)
+    - no change
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Preconditions: (inventory ?player ?unflattened_papyrus), (inventory ?player ?flattening_tool)
+2. Positive Effects: (flattened ?unflattened_papyrus)
+3. No negative effects
+
+pddl:
+(:action flatten_papyrus
+ :parameters (?player - player ?unflattened_papyrus - papyrus ?flattening_tool - (either stone_slab rolling_pin))
+ :precondition (and (inventory ?player ?unflattened_papyrus) (inventory ?player ?flattening_tool))
+ :effect (flattened ?unflattened_papyrus)
+)
+
+- action name: cut_papyrus
+- summarize action: The player cuts the papyrus sheet into smaller pieces using a razor, scissors, or paper cutter, making it the desired size. They can make multiple sheets of the same size.
+- what is needed to do the action: The player should have a papyrus sheet and a cutting tool (razor, scissors, or paper cutter) in their inventory.
+- what is the result: The player has cut papyrus sheets in their inventory.
+
+- entities:
+  - entity name: player
+    - no change
+  - entity name: papyrus_sheet
+    - before: larger size in the player's inventory
+    - after: smaller size (cut into desired dimensions) in the player's inventory
+  - entity name: cutting_tool (razor, scissors, or paper cutter)
+    - no change
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Preconditions: (inventory ?player ?papyrus_sheet), (inventory ?player ?cutting_tool)
+2. Positive Effects: (cut ?papyrus_sheet)
+3. No negative effects
+
+pddl:
+(:action cut_papyrus
+ :parameters (?player - player ?papyrus_sheet - papyrus ?cutting_tool - (either razor scissors paper_cutter))
+ :precondition (and (inventory ?player ?papyrus_sheet) (inventory ?player ?cutting_tool))
+ :effect (cut ?papyrus_sheet)
+)

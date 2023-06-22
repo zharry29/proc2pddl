@@ -1,0 +1,180 @@
+- action name: spot_ship
+- summarize action: The player spots a ship or boat nearby.
+- what is needed to do the action: A visible ship and the player's location.
+- what is the result: The player is aware of the ship's location.
+
+- entities:
+  - entity name: player
+    - before: not aware of the ship
+    - after: aware of the ship location
+  - entity name: ship
+    - before: not spotted by the player
+    - after: spotted by the player
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the ship is visible.
+2. Set the location of the visible ship.
+3. The player perceives the visible ship.
+
+PDDL:
+(:action spot_ship
+  :parameters (?player - player ?ship - ship ?loc - location)
+  :precondition (and
+    (visible ?ship)
+    (at ?ship ?loc)
+  )
+  :effect (and
+    (aware ?player ?ship)
+  )
+)
+
+- action name: spot_shark
+- summarize action: The player spots a shark nearby.
+- what is needed to do the action: A visible shark and the player's location.
+- what is the result: The player is aware of the shark's location.
+
+- entities:
+  - entity name: player
+    - before: not aware of the shark
+    - after: aware of the shark location
+  - entity name: shark
+    - before: not spotted by the player
+    - after: spotted by the player
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the shark is visible.
+2. Set the location of the visible shark.
+3. The player perceives the visible shark.
+
+PDDL:
+(:action spot_shark
+  :parameters (?player - player ?shark - shark ?loc - location)
+  :precondition (and
+    (visible ?shark)
+    (at ?shark ?loc)
+  )
+  :effect (and
+    (aware ?player ?shark)
+  )
+)
+
+For the other actions, please refer to the existing PDDL templates provided earlier. The current output format only allows one example for each action due to character limitations.
+- action name: swim
+- summarize action: The player swims towards the shore or a boat.
+- what is needed to do the action: The player's current location, direction, and the target location (shore or boat).
+- what is the result: The player moves to the target location.
+
+- entities:
+  - entity name: player
+    - before: at current location
+    - after: at target location
+  - entity name: location
+    - before: not occupied by the player
+    - after: occupied by the player
+    
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check the player's current location.
+2. Determine the direction towards the target location (shore or boat).
+3. Update the player's location after swimming.
+
+PDDL:
+(:action swim
+  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and
+    (at ?player ?loc1)
+    (connected ?loc1 ?dir ?loc2)
+  )
+  :effect (and
+    (not (at ?player ?loc1))
+    (at ?player ?loc2)
+  )
+)
+
+- action name: get
+- summarize action: The player gets an item to use as a weapon against the shark.
+- what is needed to do the action: The player's current location, the item, and the item's location.
+- what is the result: The player acquires the item in their inventory.
+
+- entities:
+  - entity name: player
+    - before: does not have the item
+    - after: has the item in inventory
+  - entity name: item
+    - before: at its location
+    - after: in the player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check the player's current location and the item's location.
+2. If they match, add the item to the player's inventory.
+
+PDDL:
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and
+    (at ?player ?loc)
+    (at ?item ?loc)
+  )
+  :effect (and
+    (not (at ?item ?loc))
+    (inventory ?player ?item)
+  )
+)
+
+Note that based on the text provided, some actions like "splash_swim", "onboard", "defend", "self_mobilize", "medicare", "attack_vulnerable", and "knockout" don't seem to have a clear representation within the context.
+- action name: defend
+- summarize action: The player gets into a defensive position by reducing possible attack angles and keeping an eye on the shark.
+- what is needed to do the action: The player's current location and awareness of the shark's location.
+- what is the result: The player is in a defensive position.
+
+- entities:
+  - entity name: player
+    - before: not in a defensive position
+    - after: in a defensive position
+  - entity name: shark
+    - unchanged: location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Ensure that the player is aware of the shark's location.
+2. Put the player in a defensive position.
+
+PDDL:
+(:action defend
+  :parameters (?player - player ?shark - shark)
+  :precondition (and
+    (aware ?player ?shark)
+  )
+  :effect (and
+    (defending ?player)
+  )
+)
+
+- action name: knockout
+- summarize action: The player keeps fighting the shark by targeting its eyes, gills, or snout, eventually causing the shark to retreat.
+- what is needed to do the action: Player awareness of the shark's location, and being in a defensive position.
+- what is the result: The shark flees, and the player is no longer in immediate danger.
+
+- entities:
+  - entity name: player
+    - unchanged: player's state
+  - entity name: shark
+    - before: attacking or near the player
+    - after: retreated (fleed)
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Ensure that the player is aware of the shark's location.
+2. Ensure that the player is in a defensive position.
+3. Make the shark flee.
+
+PDDL:
+(:action knockout
+  :parameters (?player - player ?shark - shark)
+  :precondition (and
+    (aware ?player ?shark)
+    (defending ?player)
+  )
+  :effect (and
+    (fleed ?shark)
+  )
+)
+
+Due to character limitations, we are unable to provide PDDL representations for all actions in this same response. Please consider asking for the rest of the actions individually or in smaller groups for detailed PDDL representation.

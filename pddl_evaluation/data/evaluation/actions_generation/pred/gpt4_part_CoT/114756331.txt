@@ -1,0 +1,61 @@
+(:action go
+  :parameters (?p - player ?dir - direction ?loc1 - location ?loc2 - location)
+  :precondition (and
+                  (not (stuck ?p ?q - quicksand))
+                  (at ?p ?loc1)
+                  (connected ?loc1 ?dir ?loc2))
+  :effect (and
+            (not (at ?p ?loc1))
+            (at ?p ?loc2)))
+
+(:action get
+   :parameters (?p - player ?item - item ?loc - location)
+   :precondition (and
+                  (at ?p ?loc)
+                  (at ?item ?loc)
+                  (not (inventory ?p ?item)))
+   :effect
+   (and
+      (not (at ?item ?loc))
+      (inventory ?p ?item)))
+
+(:action research
+   :parameters (?p - player ?l - location)
+   :precondition (and
+                  (calm ?p)
+                  (not (aware ?p ?l)))
+   :effect
+   (aware ?p ?l))
+
+(:action move_horizontally
+  :parameters (?p - player ?loc1 - location ?loc2 - location)
+  :precondition (and
+                  (at ?p ?loc1)
+                  (has_quicksand ?loc1)
+                  (not (stuck ?p ?q - quicksand))
+                  (connected ?loc1 ?dir - direction ?loc2)
+                  (not (has_quicksand ?loc2)))
+  :effect (and
+            (not (at ?p ?loc1))
+            (at ?p ?loc2)))
+
+(:action drop
+   :parameters (?p - player ?item - item ?loc - location)
+   :precondition (and
+                  (at ?p ?loc)
+                  (inventory ?p ?item))
+   :effect (and
+             (not (inventory ?p ?item))
+             (at ?item ?loc)))
+
+(:action check_ripples
+   :parameters (?p - player ?l - location)
+   :precondition (and
+                  (at ?p ?l)
+                  (has_ripples ?l)
+                  (has_quicksand ?l)
+                  (not (aware ?p ?l)))
+   :effect
+   (aware ?p ?l))
+
+)

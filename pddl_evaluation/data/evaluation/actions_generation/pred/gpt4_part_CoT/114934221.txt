@@ -1,0 +1,68 @@
+(:action spot_ship
+  :parameters (?player - player ?ship - ship ?loc - location)
+  :precondition (and
+    (visible ?ship)
+    (at ?ship ?loc)
+  )
+  :effect (and
+    (aware ?player ?ship)
+  )
+)
+
+(:action spot_shark
+  :parameters (?player - player ?shark - shark ?loc - location)
+  :precondition (and
+    (visible ?shark)
+    (at ?shark ?loc)
+  )
+  :effect (and
+    (aware ?player ?shark)
+  )
+)
+
+(:action swim
+  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and
+    (at ?player ?loc1)
+    (connected ?loc1 ?dir ?loc2)
+  )
+  :effect (and
+    (not (at ?player ?loc1))
+    (at ?player ?loc2)
+  )
+)
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and
+    (at ?player ?loc)
+    (at ?item ?loc)
+  )
+  :effect (and
+    (not (at ?item ?loc))
+    (inventory ?player ?item)
+  )
+)
+
+(:action defend
+  :parameters (?player - player ?shark - shark)
+  :precondition (and
+    (aware ?player ?shark)
+  )
+  :effect (and
+    (defending ?player)
+  )
+)
+
+(:action knockout
+  :parameters (?player - player ?shark - shark)
+  :precondition (and
+    (aware ?player ?shark)
+    (defending ?player)
+  )
+  :effect (and
+    (fleed ?shark)
+  )
+)
+
+)

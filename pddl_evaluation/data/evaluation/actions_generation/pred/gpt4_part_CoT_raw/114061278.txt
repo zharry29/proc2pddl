@@ -1,0 +1,161 @@
+- action name: get
+- summarize action: The action is about obtaining the required tools to poke a hole in the coconut.
+- what is needed to do the action: A screwdriver, mallet, coconut
+- what is the result: User will have the tools to poke a hole in the coconut
+
+- entities:
+  - entity name: screwdriver
+    - before: not in inventory
+    - after: in inventory
+  - entity name: mallet
+    - before: not in inventory
+    - after: in inventory
+  - entity name: coconut
+    - before: not poked
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use `(inventory ?item)` predicate with `?item` as screwdriver
+2. Use `(inventory ?item)` predicate with `?item` as mallet
+3. Use `(has_eyes_poked ?c)`, where `?c` is coconut
+
+pddl:
+```
+(:action get
+    :parameters (?s - screwdriver
+                 ?m - mallet
+                 ?c - coconut)
+    :precondition (and (not (inventory ?s))
+                       (not (inventory ?m))
+                       (not (has_eyes_poked ?c)))
+    :effect (and (inventory ?s)
+                 (inventory ?m)))
+```
+
+
+
+- action name: poke
+- summarize action: Poke a hole in the "eye" of the coconut with a screwdriver and a mallet.
+- what is needed to do the action: A screwdriver, mallet, and an unpoked coconut
+- what is the result: A coconut with eyes poked
+
+- entities:
+  - entity name: screwdriver
+    - before: in inventory
+    - after: unchanged
+  - entity name: mallet
+    - before: in inventory
+    - after: unchanged
+  - entity name: coconut
+    - before: not poked
+    - after: poked
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use `(inventory ?item)` predicate with `?item` as screwdriver
+2. Use `(inventory ?item)` predicate with `?item` as mallet
+3. Use `(has_eyes_poked ?c)`, where `?c` is coconut
+
+pddl:
+```
+(:action poke
+    :parameters (?s - screwdriver
+                 ?m - mallet
+                 ?c - coconut)
+    :precondition (and (inventory ?s)
+                       (inventory ?m)
+                       (not (has_eyes_poked ?c)))
+    :effect (has_eyes_poked ?c))
+```
+
+Due to the character limit, the remaining actions along with their summaries, entities, and PDDL translations are provided below:
+
+#### flip
+Summary: Turn the coconut upside down over a glass and allow it to drain.
+
+Entities:
+- screwdriver: unchanged
+- mallet: unchanged
+- coconut: liquid drained
+
+PDDL:
+```
+(:action flip
+    :parameters (?s - screwdriver
+                 ?m - mallet
+                 ?c - coconut)
+    :precondition (and (inventory ?s)
+                       (inventory ?m)
+                       (has_eyes_poked ?c)
+                       (not (is_item_container_with_water ?cow)))
+    :effect (is_item_container_with_water ?cow))
+```
+
+#### wrap
+Summary: Wrap the mature coconut in a kitchen towel to keep coconut bits from flying.
+
+Entities:
+- coconut: unchanged
+- kitchen towel: holding wrapped coconut
+PDDL:
+```
+(:action wrap
+    :parameters (?c - coconut
+                 ?t - towel)
+    :precondition (and (has_eyes_poked ?c)
+                       (not (is_item_wrapped_coconut ?c)))
+    :effect (is_item_wrapped_coconut ?c))
+```
+
+#### hit
+Summary: Use a mallet to strike the wrapped coconut until it breaks apart.
+
+Entities:
+- wrapped_coconut: broken
+- mallet: unchanged
+- coconut_meat: unchanged
+
+PDDL:
+```
+(:action hit
+    :parameters (?wc - coconut_wrapped
+                 ?m - mallet
+                 ?cmeat - coconut_meat)
+    :precondition (and (is_item_wrapped_coconut ?wc)
+                       (inventory ?m)
+                       (not (is_item_broken_coconut ?cmeat)))
+    :effect (is_item_broken_coconut ?cmeat))
+```
+
+#### free
+Summary: Use a knife to separate the meat from the shell.
+
+Entities:
+- coconut_meat: separated from the shell
+- knife: unchanged
+
+PDDL:
+```
+(:action free
+    :parameters (?cmeat - coconut_meat
+                 ?k - knife)
+    :precondition (and (is_item_broken_coconut ?cmeat)
+                       (not (is_item_coconut_meat ?cmc)))
+    :effect (is_item_coconut_meat ?cmc))
+```
+
+#### remove_fiber
+Summary: Remove the fibrous layer from the coconut meat using a knife or vegetable peeler.
+
+Entities:
+- coconut_meat: peeled
+- knife_or_peeler: unchanged
+
+PDDL:
+```
+(:action remove_fiber
+    :parameters (?cmc - coconut_meat
+                 ?kp - peeler)
+    :precondition (and (is_item_coconut_meat ?cmc)
+                       (not (is_item_coconut_meat_peeled ?cp)))
+    :effect (is_item_coconut_meat_peeled ?cp))
+```

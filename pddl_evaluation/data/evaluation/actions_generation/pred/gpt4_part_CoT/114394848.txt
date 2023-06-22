@@ -1,0 +1,74 @@
+(:action go
+  :parameters (?player - player ?dir - direction ?start - location ?end - location)
+  :precondition (and (at ?player ?start)
+                     (connected ?start ?dir ?end)
+                     (not (blocked ?start ?dir ?end)))
+  :effect (and (not (at ?player ?start))
+               (at ?player ?end)))
+
+(:action understand
+  :parameters (?player - player ?concept - concept)
+  :precondition (not (know ?player ?concept))
+  :effect (know ?player ?concept))
+
+(:action learn
+  :parameters (?player - player ?skill - skill)
+  :precondition (not (learned ?player ?skill))
+  :effect (learned ?player ?skill))
+
+(:action get
+  :parameters (?player - player ?item - item)
+  :precondition (not (inventory ?player ?item))
+  :effect (inventory ?player ?item))
+
+(:action machine_secured
+  :parameters (?player - player)
+  :precondition (not (authorized ?player))
+  :effect (authorized ?player))
+
+(:action enumeration
+  :parameters (?player - player ?target - digital_system)
+  :precondition (not (collected_all_info ?player))
+  :effect (collected_all_info ?player))
+
+(:action got_all_info
+  :parameters (?player - player)
+  :precondition (not (collected_all_info ?player))
+  :effect (collected_all_info ?player))
+
+(:action ping
+  :parameters (?player - player ?target - digital_system)
+  :precondition (not (ping_succeed ?player))
+  :effect (ping_succeed ?player))
+
+(:action check_email_server
+  :parameters (?player - player ?server - digital_system)
+  :precondition (not (server_checked ?player))
+  :effect (server_checked ?player))
+
+(:action reached_the_remote_system
+  :parameters (?player - player ?system - digital_system)
+  :precondition (not (reachable ?player ?system))
+  :effect (reachable ?player ?system))
+
+(:action run_port_scan
+  :parameters (?player - player ?system - digital_system)
+  :precondition (not (port_scanned ?player))
+  :effect (port_scanned ?player))
+
+(:action found_path_in_system
+  :parameters (?player - player ?system - digital_system)
+  :precondition (not (path_found ?player ?system))
+  :effect (path_found ?player ?system))
+
+(:action contact_and_trick_a_user
+  :parameters (?player - player ?user - person)
+  :precondition (not (tricked_user_password ?player))
+  :effect (tricked_user_password ?player))
+
+(:action crack_password_by_social_engineering
+  :parameters (?player - player)
+  :precondition (not (password_cracked ?player))
+  :effect (password_cracked ?player))
+
+)

@@ -1,0 +1,320 @@
+- action name: go
+- summarize action: The player moves in a specified direction from their current location to a connected location.
+- what is needed to do the action: A location connected in a direction to the player's current location.
+- what is the result: The player's location is updated to the new location.
+
+- entities:
+  - entity name: player
+    - before: at a specific location
+    - after: at the new location connected in the specified direction
+  - entity name: direction
+    - unchanged
+  - entity name: current_location
+    - unchanged
+  - entity name: new_location
+    - unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Determine the player's current location.
+2. Identify the new location connected in the specified direction.
+3. Update the player's location to the new location.
+
+pddl:
+
+(:action go
+  :parameters (?player - player ?current_loc ?new_loc - location ?dir - direction)
+  :precondition (and (at ?player ?current_loc) (connected ?current_loc ?dir ?new_loc))
+  :effect (and (not (at ?player ?current_loc)) (at ?player ?new_loc))
+)
+
+------
+
+- action name: get
+- summarize action: The player takes an item from their current location and adds it to their inventory.
+- what is needed to do the action: An item present at the player's current location.
+- what is the result: The item is removed from the location and added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: item
+    - before: at the player's current location
+    - after: in the player's inventory
+  - entity name: location
+    - unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Determine the item's presence at the player's current location.
+2. Remove the item from the location.
+3. Add the item to the player's inventory.
+
+pddl:
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+------
+
+- action name: cut_plant
+- summarize action: The player cuts a papyrus plant's stalks diagonally and removes the tips, using scissors or pruners.
+- what is needed to do the action: A papyrus plant, scissors or pruners.
+- what is the result: The papyrus plant is cut into stalks with tips removed.
+
+- entities:
+  - entity name: plant
+    - before: whole papyrus plant
+    - after: cut into stalks with tips removed
+  - entity name: scissors
+    - unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Ensure the player has scissors or pruners in their inventory.
+2. Cut the papyrus plant into stalks and remove the tips.
+
+pddl:
+
+(:action cut_plant
+  :parameters (?player - player ?plant - plant ?scissors - scissors)
+  :precondition (inventory ?player ?scissors)
+  :effect (and (cut_stalks ?plant) (removed_tips ?plant))
+)
+
+------
+
+- action name: peel_stalk
+- summarize action: The player peels away the outer layer of the papyrus plant to reveal the white or slightly greenish inner portion, using a sharp knife or scissors.
+- what is needed to do the action: A cut papyrus plant with tips removed, a sharp knife or scissors.
+- what is the result: The papyrus plant's outer layer is removed, and the inner portion is exposed.
+
+- entities:
+  - entity name: stalk
+    - before: unpeeled stalk
+    - after: peeled stalk
+  - entity name: knife_or_scissors
+    - unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Ensure the player has a sharp knife or scissors in their inventory.
+2. Peel the outer layer of the papyrus plant stalks.
+
+pddl:
+
+(:action peel_stalk
+  :parameters (?player - player ?stalk - stalk ?knife_or_scissors - item)
+  :precondition (and (inventory ?player ?knife_or_scissors) (not (peeled ?stalk)))
+  :effect (peeled ?stalk)
+)
+
+------
+
+- action name: cut_stalk_into_strips
+- summarize action: The player cuts the inner portion (pith) of the papyrus plant into thin strips using a knife or scissors, ensuring consistent size and thickness.
+- what is needed to do the action: A peeled papyrus stalk, a knife or scissors.
+- what is the result: The papyrus plant's inner portion is cut into thin strips.
+
+- entities:
+  - entity name: stalk
+    - before: peeled stalk
+    - after: stalk's inner portion is cut into strips
+  - entity name: knife_or_scissors
+    - unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Ensure the player has a sharp knife or scissors in their inventory.
+2. Cut the inner portion of the papyrus plant stalks into thin strips.
+
+pddl:
+
+(:action cut_stalk_into_strips
+  :parameters (?player - player ?stalk - stalk ?knife_or_scissors - item)
+  :precondition (and (inventory ?player ?knife_or_scissors) (peeled ?stalk))
+  :effect (cut_into_strips ?stalk)
+)
+
+------
+
+- action name: soak_strips
+- summarize action: The player places the papyrus plant strips into water for at least 3 days to release the natural glue-like chemicals within the plant.
+- what is needed to do the action: Strips cut from papyrus stalks, a location with water.
+- what is the result: The strips become flexible and transparent.
+
+- entities:
+  - entity name: strips
+    - before: cut strips
+    - after: soaked strips
+  - entity name: location
+    - unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Verify the presence of water at the player's current location.
+2. Soak the papyrus plant strips in the water for at least 3 days.
+
+pddl:
+
+(:action soak_strips
+  :parameters (?player - player ?strip - strip ?loc - location)
+  :precondition (and (at ?player ?loc) (has_water ?loc) (cut_into_strips ?strip) (not (clean ?strip)))
+  :effect (clean ?strip)
+)
+
+------
+
+- action name: dry_out_strips
+- summarize action: The player rolls the excess water and sugar out of the plant strips using a rolling pin to flatten them into sheets.
+- what is needed to do the action: Soaked papyrus plant strips, a rolling pin.
+- what is the result: The strips are squeezed of water and flattened into sheets.
+
+- entities:
+  - entity name: strips
+    - before: soaked strips
+    - after: flattened strips
+  - entity name: rolling_pin
+    - unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Ensure the player has a rolling pin.
+2. Dry the soaked papyrus plant strips by rolling the excess water and sugar out.
+
+pddl:
+
+(:action dry_out_strips
+  :parameters (?player - player ?strip - strip ?rolling_pin - item)
+  :precondition (and (inventory ?player ?rolling_pin) (clean ?strip))
+  :effect (and (not (clean ?strip)) (flat ?strip))
+)
+
+------
+
+- action name: weave_strips_into_sheet
+- summarize action: The player weaves the papyrus plant strips together on a cloth to create a sheet resembling a placemat with two layers of strips, one over the other.
+- what is needed to do the action: Flattened papyrus plant strips, linen cloth or felt.
+- what is the result: The strips are woven together to form a sheet of papyrus.
+
+- entities:
+  - entity name: strips
+    - unchanged
+  - entity name: cloth
+    - unchanged
+  - entity name: sheet
+    - before: just strips
+    - after: strips weaved together into a sheet
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Ensure the player has flattened papyrus plant strips and a linen cloth or felt.
+2. Weave the flattened papyrus plant strips together on the cloth to create a sheet.
+
+pddl:
+
+(:action weave_strips_into_sheet
+  :parameters (?player - player ?strip - strip ?cloth - item ?sheet - sheet)
+  :precondition (and (inventory ?player ?cloth) (flat ?strip))
+  :effect (woven_into_sheet ?strip ?sheet)
+)
+
+------
+
+- action name: press_sheet
+- summarize action: The player places the woven papyrus sheet between two wooden boards to flatten the strips together, letting gravity do the work.
+- what is needed to do the action: A woven papyrus sheet, two wooden boards.
+- what is the result: The papyrus sheet becomes more compact and flat.
+
+- entities:
+  - entity name: sheet
+    - before: woven papyrus sheet
+    - after: pressed papyrus sheet
+  - entity name: wooden_board
+    - unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Ensure the player has wooden boards.
+2. Press the woven papyrus sheet between the two wooden boards to flatten it.
+
+pddl:
+
+(:action press_sheet
+  :parameters (?player - player ?sheet - sheet ?wooden_board - wooden_board)
+  :precondition (and (inventory ?player ?wooden_board) (woven_into_sheet ?strip ?sheet) (not (very_flat ?sheet)))
+  :effect (and (not (flat ?sheet)) (very_flat ?sheet))
+)
+
+------
+
+- action name: flatten_sheet
+- summarize action: The player further flattens the pressed papyrus sheet by placing it under a stone slab for up to 6 days or using a rolling pin, and then smoothes out any excess air or glue bubbles.
+- what is needed to do the action: A pressed papyrus sheet, a stone slab or rolling pin.
+- what is the result: The papyrus sheet is completely flat and free from air or glue bubbles.
+
+- entities:
+  - entity name: sheet
+    - before: pressed sheet
+    - after: fully flattened and smooth sheet
+  - entity name: stone_slab_or_rolling_pin
+    - unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Ensure the player has a stone slab or rolling pin.
+2. Flatten the pressed papyrus sheet by placing it under a stone slab for up to 6 days or using a rolling pin.
+3. Smooth out any excess air or glue bubbles.
+
+pddl:
+
+(:action flatten_sheet
+  :parameters (?player - player ?sheet - sheet ?stone_slab_or_rolling_pin - item)
+  :precondition (and (inventory ?player ?stone_slab_or_rolling_pin) (very_flat ?sheet) (not (smooth ?sheet)))
+  :effect (smooth ?sheet)
+)
+
+------
+
+- action name: polish_sheet
+- summarize action: The player polishes the papyrus sheet gently using a smooth shell, a piece of ivory or a smooth stone to make it shiny and finished.
+- what is needed to do the action: A flattened papyrus sheet, a smooth shell, piece of ivory or smooth stone.
+- what is the result: The papyrus sheet appears shinier and more finished.
+
+- entities:
+  - entity name: sheet
+    - before: flattened and smooth sheet
+    - after: polished sheet
+  - entity name: shell_or_ivory_or_stone
+    - unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Ensure the player has a smooth shell, piece of ivory or smooth stone.
+2. Gently polish the flattened papyrus sheet with the shell, ivory or stone.
+
+pddl:
+
+(:action polish_sheet
+  :parameters (?player - player ?sheet - sheet ?shell_or_ivory_or_stone - item)
+  :precondition (and (inventory ?player ?shell_or_ivory_or_stone) (smooth ?sheet) (not (polished ?sheet)))
+  :effect (polished ?sheet)
+)
+
+------
+
+- action name: cut_sheet
+- summarize action: The player cuts the finished papyrus sheet into smaller sheets using a razor, scissors, or paper cutter, measuring to ensure consistency in size.
+- what is needed to do the action: A polished papyrus sheet, a razor, scissors or paper cutter.
+- what is the result: The finished papyrus sheet is cut into smaller sheets of the desired size.
+
+- entities:
+  - entity name: sheet
+    - before: polished papyrus sheet
+    - after: cut into smaller sheets
+  - entity name: razor_or_scissors_or_paper_cutter
+    - unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Ensure the player has a razor, scissors or paper cutter.
+2. Cut the polished papyrus sheet into smaller sheets of desired size.
+
+pddl:
+
+(:action cut_sheet
+  :parameters (?player - player ?sheet - sheet ?razor_or_scissors_or_paper_cutter - item)
+  :precondition (and (inventory ?player ?razor_or_scissors_or_paper_cutter) (polished ?sheet))
+  :effect (cut_into_smaller_sheets ?sheet)
+)

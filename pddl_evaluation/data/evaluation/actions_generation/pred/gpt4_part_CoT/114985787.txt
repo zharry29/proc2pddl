@@ -1,0 +1,103 @@
+(:action go
+  :parameters (?player - player ?current_loc ?next_loc - location ?dir - direction)
+  :precondition (and (at ?player ?current_loc)
+                      (connected ?current_loc ?dir ?next_loc)
+                      (not (blocked ?current_loc ?dir ?next_loc)))
+  :effect (and (at ?player ?next_loc)
+               (not (at ?player ?current_loc)))
+)
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc)
+                      (at ?item ?loc)
+                      (not (inventory ?player ?item)))
+  :effect (and (inventory ?player ?item)
+               (not (at ?item ?loc)))
+)
+
+(:action get_water
+  :parameters (?player - player ?loc - location ?water - water)
+  :precondition (and (at ?player ?loc)
+                      (has_water_source ?loc)
+                      (not (inventory ?player ?water)))
+  :effect (inventory ?player ?water)
+)
+
+(:action drop
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc)
+                      (inventory ?player ?item))
+  :effect (and (not (inventory ?player ?item))
+               (at ?item ?loc))
+)
+
+(:action clear_spider
+  :parameters (?item - item)
+  :precondition (has_bug ?item)
+  :effect (not (has_bug ?item))
+)
+
+(:action insert_beam
+  :parameters (?player - player ?tree - tree ?b - branch)
+  :precondition (and (long ?b)
+                      (thick ?b)
+                      (has_split_in_trunk ?tree))
+  :effect (has_split_in_trunk ?tree ?b)
+)
+
+(:action lean_branches
+  :parameters (?player - player ?b - branches ?beam - beam ?tree - tree)
+  :precondition (and (has_split_in_trunk ?tree ?beam)
+                      (inventory ?player ?b))
+  :effect (shelter_structure ?b)
+)
+
+(:action layer
+  :parameters (?player - player ?s - shelter ?t - twigs ?l - leaves)
+  :precondition (and (has_twigs ?player ?t)
+                      (has_leaves ?player ?l)
+                      (shelter_structure ?s))
+  :effect (insulated ?s)
+)
+
+(:action wash
+  :parameters (?player - player ?item - item ?water - water)
+  :precondition (and (inventory ?player ?water)
+                      (unwashed ?item)
+                      (inventory ?player ?item))
+  :effect (not (unwashed ?item))
+)
+
+(:action eat
+  :parameters (?player - player ?item - item)
+    :precondition (and (hungry ?player)
+                        (edible ?item)
+                        (inventory ?player ?item))
+    :effect (and (not (hungry ?player))
+                 (not (inventory ?player ?item)))
+)
+
+(:action make_snare
+  :parameters (?player - player ?snare - snare ?wire - wire)
+  :precondition (and (inventory ?player ?wire)
+                      (not (inventory ?player ?snare)))
+  :effect (inventory ?player ?snare)
+)
+
+(:action make_horizontal_bar
+  :parameters (?player - player ?bar - bar ?branch - branch)
+  :precondition (and (inventory ?player ?branch)
+                      (not (inventory ?player ?bar)))
+  :effect (inventory ?player ?bar)
+)
+
+(:action hang_snare
+  :parameters (?player - player ?snare - snare ?bar - bar)
+  :precondition (and (inventory ?player ?snare)
+                      (inventory ?player ?bar)
+                      (not (hanged ?snare)))
+  :effect (hanged ?snare)
+)
+
+)

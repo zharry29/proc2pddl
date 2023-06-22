@@ -1,0 +1,287 @@
+- action name: go
+- summarize action: The player moves from one location to another location in a certain direction.
+- what is needed to do the action: The player must be at the starting location, and the locations must be connected in the direction of movement.
+- what is the result: The player is at the new location.
+
+- entities:
+  - entity name: player 
+    - before: at the starting location
+    - after: at the destination location
+  - entity name: direction 
+    - not changed
+  - entity name: starting location
+    - not changed
+  - entity name: destination location
+    - not changed
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is at starting location.
+2. Locations are connected in the specified direction.
+3. Move the player to the destination location.
+
+pddl:
+(:action go
+ :parameters (?player - player ?start - location ?dir - direction ?end - location)
+ :precondition (and (at ?player ?start) (connected ?start ?dir ?end))
+ :effect (and (not (at ?player ?start)) (at ?player ?end))
+)
+
+- action name: get_water
+- summarize action: The player searches for and collects water from a water source.
+- what is needed to do the action: The player is at a location with a water source, and there must be an empty container within the player's inventory.
+- what is the result: The player has a container filled with untreated water.
+
+- entities:
+  - entity name: player
+    - not changed
+  - entity name: location
+    - not changed
+  - entity name: water
+    - before: not in the player's inventory
+    - after: in the player's inventory as untreated
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is at a location with a water source.
+2. Player has an empty container in their inventory.
+3. Add untreated water to the player's inventory.
+
+pddl:
+(:action get_water
+ :parameters (?player - player ?loc - location ?water - water ?container - item)
+ :precondition (and (at ?player ?loc) (has_water_source ?loc) (inventory ?player ?container))
+ :effect (and (not (inventory ?player ?container)) (inventory ?player ?water) (not (treated ?water)))
+)
+- action name: treat_water
+- summarize action: The player treats the collected water to make it safe for consumption.
+- what is needed to do the action: The player must have untreated water in their inventory and a fire or heat source to treat the water.
+- what is the result: The player has treated and safe-to-drink water in their inventory.
+
+- entities:
+  - entity name: player
+    - not changed
+  - entity name: untreated water
+    - before: in the player's inventory
+    - after: not in the player's inventory
+  - entity name: treated water
+    - before: not in the player's inventory
+    - after: in the player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player has untreated water in their inventory.
+2. There is a fire or heat source available.
+3. Remove untreated water from the player's inventory.
+4. Add treated water to the player's inventory.
+
+pddl:
+(:action treat_water
+ :parameters (?player - player ?untreated_water - water ?treated_water - water)
+ :precondition (and (inventory ?player ?untreated_water) (not (treated ?untreated_water)) ; Assuming the presence of a heat source
+ :effect (and (not (inventory ?player ?untreated_water)) (inventory ?player ?treated_water) (treated ?treated_water))
+)
+
+- action name: drop
+- summarize action: The player drops an item from their inventory.
+- what is needed to do the action: The player has the item in their inventory, and the player is at a location.
+- what is the result: The item is no longer in the player's inventory and is now at the location.
+
+- entities:
+  - entity name: player
+    - not changed
+  - entity name: location
+    - not changed
+  - entity name: item
+    - before: in the player's inventory
+    - after: at the location
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player has the item in their inventory.
+2. Player is at a certain location.
+3. Remove the item from the player's inventory.
+4. Place the item at the location.
+
+pddl:
+(:action drop
+ :parameters (?player - player ?loc - location ?item - item)
+ :precondition (and (inventory ?player ?item) (at ?player ?loc))
+ :effect (and (not (inventory ?player ?item)) (at ?item ?loc))
+)
+
+- action name: clear_spider
+- summarize action: The player clears critters or spiders from an item, such as a branch.
+- what is needed to do the action: The player has the item with bugs in their inventory or the item is nearby.
+- what is the result: The item no longer has bugs on it and is safe to use.
+
+- entities:
+  - entity name: player
+    - not changed
+  - entity name: item
+    - before: has bugs on it
+    - after: no longer has bugs
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player has the item with bugs in their inventory or the item is nearby.
+2. Clear the bugs from the item.
+3. The item no longer has bugs on it.
+
+pddl:
+(:action clear_spider
+ :parameters (?player - player ?item - item)
+ :precondition (and (inventory ?player ?item) (has_bug ?item))
+ :effect (not (has_bug ?item))
+)
+- action name: insert_beam
+- summarize action: The player inserts one end of a branch into the split of a tree to form a support beam for a shelter.
+- what is needed to do the action: The player has a long and thick branch, a tree with a split in its trunk, and the player is at the location of the tree.
+- what is the result: The support beam is now in place, attached to the tree.
+
+- entities:
+  - entity name: player
+    - not changed
+  - entity name: branch
+    - before: not inserted
+    - after: inserted as support beam
+  - entity name: tree
+    - not changed
+  - entity name: location
+    - not changed
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player has a long and thick branch in their inventory.
+2. Player is at the location with the tree.
+3. Tree has a split in its trunk.
+4. Insert the branch as a support beam into the tree's split.
+
+pddl:
+(:action insert_beam
+ :parameters (?player - player ?loc - location ?tree - tree ?branch - branch)
+ :precondition (and (at ?player ?loc) (inventory ?player ?branch) (long ?branch) (thick ?branch) (has_split_in_trunk ?tree))
+ :effect (at ?branch ?tree) ; Assuming the effect refers to the branch being attached to the tree
+)
+
+- action name: lean_branches
+- summarize action: The player leans branches against the main support beam to form the structure of the shelter.
+- what is needed to do the action: The player has the main support beam in place, and multiple branches are available to lean on the beam.
+- what is the result: The structure of the shelter is formed with branches.
+
+- entities:
+  - entity name: player
+    - not changed
+  - entity name: main support beam
+    - not changed
+  - entity name: branches
+    - before: not leaned
+    - after: leaned as part of the shelter structure
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player has set up the main support beam.
+2. Player has multiple long branches available.
+3. Lean branches against the main support beam to form the structure of the shelter.
+
+pddl:
+(:action lean_branches
+ :parameters (?player - player ?beam - beam ?branch - branches)
+ :precondition (and (inventory ?player ?branch) (at ?beam ?tree)) ; Assuming the main support beam is in place at a tree
+ :effect (frame ?shelter) ; Assuming a predicate 'frame' to represent the structure of the shelter in progress
+)
+
+- action name: layer
+- summarize action: The player lays twigs and leaves over the structure of the shelter to add insulation.
+- what is needed to do the action: The player has twigs and leaves, and the structure of the shelter is formed with branches.
+- what is the result: The shelter now has insulation layers.
+
+- entities:
+  - entity name: player
+    - not changed
+  - entity name: shelter structure
+    - before: structure without insulation
+    - after: structure with insulation layers
+  - entity name: twigs
+    - used in the action for insulation
+  - entity name: leaves
+    - used in the action for insulation
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player has twigs and leaves available.
+2. Structure of the shelter is formed with branches.
+3. Layer twigs and leaves over the structure to add insulation.
+
+pddl:
+(:action layer
+ :parameters (?player - player ?shelter - shelter ?twigs - twigs ?leaves - leaves)
+ :precondition (and (inventory ?player ?twigs) (inventory ?player ?leaves) (frame ?shelter))
+ :effect (insulation ?shelter) ; Assuming a predicate 'insulation' to represent the insulation layers added to the shelter
+)
+- action name: wash
+- summarize action: The player washes off any edible plants they have found.
+- what is needed to do the action: The player has unwashed edible plants in their inventory and has treated water.
+- what is the result: The edible plants are now washed and safe for consumption.
+
+- entities:
+  - entity name: player
+    - not changed
+  - entity name: unwashed edible plants
+    - before: unwashed in the player's inventory
+    - after: washed in the player's inventory
+  - entity name: treated water
+    - used in the action to wash the plants
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player has unwashed edible plants in their inventory.
+2. Player has treated water to wash the plants.
+3. Wash the edible plants with treated water to make them safe for consumption.
+
+pddl:
+(:action wash
+ :parameters (?player - player ?unwashed_plant - item ?washed_plant - item ?treated_water - water)
+ :precondition (and (inventory ?player ?unwashed_plant) (unwashed ?unwashed_plant) (edible ?unwashed_plant) (inventory ?player ?treated_water) (treated ?treated_water))
+ :effect (and (not (unwashed ?unwashed_plant)) (inventory ?player ?washed_plant))
+)
+
+- action name: eat
+- summarize action: The player consumes edible plants or insects to satiate their hunger.
+- what is needed to do the action: The player is hungry and has washed edible plants or insects in their inventory.
+- what is the result: The player is no longer hungry.
+
+- entities:
+  - entity name: player
+    - before: hungry
+    - after: not hungry
+  - entity name: washed edible plants or insects
+    - removed from the inventory after consumption
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is hungry.
+2. Player has washed edible plants or insects in their inventory.
+3. Consume the edible plants or insects to satiate the player's hunger.
+
+pddl:
+(:action eat
+ :parameters (?player - player ?edible_item - item)
+ :precondition (and (hungry ?player) (inventory ?player ?edible_item) (edible ?edible_item) (not (unwashed ?edible_item)))
+ :effect (and (not (hungry ?player)) (not (inventory ?player ?edible_item)))
+)
+
+- action name: make_snare
+- summarize action: The player builds a snare using a string or wire to catch small game.
+- what is needed to do the action: The player has a string or wire in their inventory.
+- what is the result: The player has a snare for catching small game.
+
+- entities:
+  - entity name: player
+    - not changed
+  - entity name: string or wire
+    - used in the action to make the snare
+  - entity name: snare
+    - after: created and in the player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player has a string or wire in their inventory.
+2. Player builds a snare using the string or wire.
+3. Add the snare to the player's inventory.
+
+pddl:
+(:action make_snare
+ :parameters (?player - player ?wire - wire ?snare - snare)
+ :precondition (inventory ?player ?wire)
+ :effect (and (not (inventory ?player ?wire)) (inventory ?player ?snare))
+)

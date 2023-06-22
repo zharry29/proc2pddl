@@ -1,0 +1,49 @@
+(:action pierce
+  :parameters (?coconut ?tool)
+  :precondition (and (at ?coconut ?location) (at ?tool ?location))
+  :effect (pierced ?coconut)
+)
+
+(:action drain
+  :parameters (?coconut ?glass)
+  :precondition (and (pierced ?coconut) (at ?coconut ?location) (at ?glass ?location))
+  :effect (empty ?coconut)
+)
+
+(:action turn_on_oven
+  :parameters (?oven ?temperature)
+  :precondition (not (on ?oven))
+  :effect (on ?oven)
+)
+
+(:action burn_item
+  :parameters (?item ?oven)
+  :precondition (and (at ?item ?location) (on ?oven))
+  :effect (burnt ?item)
+)
+
+(:action turn_off_oven
+  :parameters (?oven)
+  :precondition (on ?oven)
+  :effect (not (on ?oven))
+)
+
+(:action wrap_coconut
+  :parameters (?coconut ?towel)
+  :precondition (and (at ?coconut ?location) (at ?towel ?location))
+  :effect (and (wrapped ?coconut) (wrapped_with ?coconut ?towel))
+)
+
+(:action unwrap_coconut
+  :parameters (?coconut ?towel)
+  :precondition (and (wrapped ?coconut) (wrapped_with ?coconut ?towel))
+  :effect (and (not (wrapped ?coconut)) (not (wrapped_with ?coconut ?towel)))
+)
+
+(:action smash_with_mallet
+  :parameters (?coconut ?mallet)
+  :precondition (and (wrapped ?coconut) (at ?mallet ?location))
+  :effect (smashed ?coconut)
+)
+
+)

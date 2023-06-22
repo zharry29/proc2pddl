@@ -1,0 +1,61 @@
+(:action go
+ :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?item ?loc))
+ :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+(:action build_roof
+ :parameters (?player - player ?stick - log ?roof - roof)
+ :precondition (inventory ?player ?stick)
+ :effect (constructed ?roof ?stick)
+)
+
+(:action build_wall
+ :parameters (?player - player ?small_sticks - small_sticks ?leaves - leaves ?wall - wall)
+ :precondition (and (inventory ?player ?small_sticks) (inventory ?player ?leaves))
+ :effect (constructed ?wall ?small_sticks ?leaves)
+)
+
+(:action build_bed
+ :parameters (?player - player ?leaves - leaves ?bed - bed)
+ :precondition (inventory ?player ?leaves)
+ :effect (constructed ?bed ?leaves)
+)
+
+(:action complete_shelter
+ :parameters (?player - player ?roof - roof ?wall - wall ?bed - bed ?shelter - shelter)
+ :precondition (and (constructed ?roof) (constructed ?wall) (constructed ?bed))
+ :effect (constructed ?shelter ?roof ?wall ?bed)
+)
+
+(:action hunt_animal
+ :parameters (?player - player ?animal - animal)
+ :precondition (at ?player ?animal)
+ :effect (hunted ?player ?animal)
+)
+
+(:action prepare_animal
+ :parameters (?player - player ?animal - animal)
+ :precondition (hunted ?player ?animal)
+ :effect (treated ?animal)
+)
+
+(:action build_raft
+ :parameters (?player - player ?large_logs - log ?small_logs - small_sticks ?vines - vines ?raft_draft - raft_draft)
+ :precondition (and (inventory ?player ?large_logs) (inventory ?player ?small_logs) (inventory ?player ?vines))
+ :effect (constructed ?raft_draft ?large_logs ?small_logs ?vines)
+)
+
+(:action test_raft
+ :parameters (?player - player ?raft_draft - raft_draft ?raft_finished - raft_finished)
+ :precondition (constructed ?raft_draft)
+ :effect (tested ?raft_draft ?raft_finished)
+)
+
+)

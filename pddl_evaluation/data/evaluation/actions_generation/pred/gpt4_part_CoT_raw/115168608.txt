@@ -1,0 +1,303 @@
+- action name: get
+- summarize action: The player gets an item (a papyrus plant in this case).
+- what is needed to do the action: The item needs to be available at the player's location.
+- what is the result: The item is added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: not in possession of the item
+    - after: in possession of the item
+  - entity name: item (papyrus plant)
+    - before: available at the player's location
+    - after: not available at the player's location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player's location has the item (papyrus plant).
+2. Add the item to the player's inventory.
+3. Remove the item from the player's location.
+
+PDDL:
+  (:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?player ?loc) (at ?item ?loc))
+    :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+  )
+
+- action name: travel
+- summarize action: The player travels to a different location.
+- what is needed to do the action: The player needs to be at a starting location.
+- what is the result: The player moves to the target location.
+
+- entities:
+  - entity name: player
+    - before: at the starting location
+    - after: at the target location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Remove the player from the starting location.
+2. Add the player to the target location.
+
+PDDL:
+  (:action travel
+    :parameters (?player - player ?start - location ?target - location)
+    :precondition (at ?player ?start)
+    :effect (and (not (at ?player ?start)) (at ?player ?target))
+  )
+
+- action name: search_location
+- summarize action: The player searches a location for items.
+- what is needed to do the action: The player needs to be at the target location.
+- what is the result: The player discovers previously undiscovered items at the location.
+
+- entities:
+  - entity name: player
+    - before: at the target location
+    - after: the same (unchanged)
+  - entity name: location
+    - before: not searched
+    - after: searched
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Mark the target location as searched.
+
+PDDL:
+  (:action search_location
+    :parameters (?player - player ?loc - location)
+    :precondition (at ?player ?loc)
+    :effect (searched ?loc)
+  )
+
+- action name: pluck_river_reeds
+- summarize action: The player plucks river reeds.
+- what is needed to do the action: River reeds need to be available at the player's location.
+- what is the result: The player obtains river reeds.
+
+- entities:
+  - entity name: player
+    - before: not in possession of river reeds
+    - after: in possession of river reeds
+  - entity name: river reeds
+    - before: available at the player's location
+    - after: not available at the player's location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player's location has river reeds.
+2. Add river reeds to the player's inventory.
+3. Remove river reeds from the player's location.
+
+PDDL:
+  (:action pluck_river_reeds
+    :parameters (?player - player ?loc - location)
+    :precondition (and (at ?player ?loc) (at river_reeds ?loc))
+    :effect (and (inventory ?player river_reeds) (not (at river_reeds ?loc)))
+  )
+
+- action name: cut_stalks
+- summarize action: The player cuts the papyrus plant stalks into papyrus stalks.
+- what is needed to do the action: The player needs to have a papyrus plant in their inventory and a cutting tool (like a knife).
+- what is the result: The player's inventory will have papyrus stalks instead of a papyrus plant.
+
+- entities:
+  - entity name: player
+    - before: in possession of a papyrus plant and a cutting tool
+    - after: in possession of papyrus stalks and a cutting tool
+  - entity name: papyrus plant
+    - before: in the player's inventory
+    - after: not in the player's inventory
+  - entity name: papyrus stalks
+    - before: not in the player's inventory
+    - after: in the player's inventory
+  - entity name: cutting tool (knife)
+    - before: in the player's inventory
+    - after: the same (unchanged)
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Remove the papyrus plant from the player's inventory.
+2. Add papyrus stalks to the player's inventory.
+
+PDDL:
+  (:action cut_stalks
+    :parameters (?player - player)
+    :precondition (and (inventory ?player papyrus_plant) (inventory ?player knife))
+    :effect (and (not (inventory ?player papyrus_plant)) (inventory ?player papyrus_stalks))
+  )
+
+- action name: cut_strips
+- summarize action: The player cuts the papyrus stalks into papyrus strips.
+- what is needed to do the action: The player needs to have papyrus stalks in their inventory and a cutting tool (like a knife).
+- what is the result: The player's inventory will have papyrus strips instead of papyrus stalks.
+
+- entities:
+  - entity name: player
+    - before: in possession of papyrus stalks and a cutting tool
+    - after: in possession of papyrus strips and a cutting tool
+  - entity name: papyrus stalks
+    - before: in the player's inventory
+    - after: not in the player's inventory
+  - entity name: papyrus strips
+    - before: not in the player's inventory
+    - after: in the player's inventory
+  - entity name: cutting tool (knife)
+    - before: in the player's inventory
+    - after: the same (unchanged)
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Remove the papyrus stalks from the player's inventory.
+2. Add papyrus strips to the player's inventory.
+
+PDDL:
+  (:action cut_strips
+    :parameters (?player - player)
+    :precondition (and (inventory ?player papyrus_stalks) (inventory ?player knife))
+    :effect (and (not (inventory ?player papyrus_stalks)) (inventory ?player papyrus_strips))
+  )
+
+- action name: soak_strips
+- summarize action: The player soaks the papyrus strips in water.
+- what is needed to do the action: The player needs to have papyrus strips and water in their inventory.
+- what is the result: The player's inventory will have soaked papyrus strips instead of papyrus strips.
+
+- entities:
+  - entity name: player
+    - before: in possession of papyrus strips and water
+    - after: in possession of soaked papyrus strips and water
+  - entity name: papyrus strips
+    - before: in the player's inventory
+    - after: not in the player's inventory
+  - entity name: soaked papyrus strips
+    - before: not in the player's inventory
+    - after: in the player's inventory
+  - entity name: water
+    - before: in the player's inventory
+    - after: the same (unchanged)
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Remove the papyrus strips from the player's inventory.
+2. Add soaked papyrus strips to the player's inventory.
+
+PDDL:
+  (:action soak_strips
+    :parameters (?player - player)
+    :precondition (and (inventory ?player papyrus_strips) (inventory ?player water))
+    :effect (and (not (inventory ?player papyrus_strips)) (inventory ?player soaked_papyrus_strips))
+  )
+
+- action name: roll_strips
+- summarize action: The player rolls the soaked papyrus strips with a rolling pin.
+- what is needed to do the action: The player needs to have soaked papyrus strips and a rolling pin in their inventory.
+- what is the result: The player's inventory will have rolled papyrus strips instead of soaked papyrus strips.
+
+- entities:
+  - entity name: player
+    - before: in possession of soaked papyrus strips and a rolling pin
+    - after: in possession of rolled papyrus strips and a rolling pin
+  - entity name: soaked papyrus strips
+    - before: in the player's inventory
+    - after: not in the player's inventory
+  - entity name: rolled papyrus strips
+    - before: not in the player's inventory
+    - after: in the player's inventory
+  - entity name: rolling pin
+    - before: in the player's inventory
+    - after: the same (unchanged)
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Remove the soaked papyrus strips from the player's inventory.
+2. Add rolled papyrus strips to the player's inventory.
+
+PDDL:
+  (:action roll_strips
+    :parameters (?player - player)
+    :precondition (and (inventory ?player soaked_papyrus_strips) (inventory ?player rolling_pin))
+    :effect (and (not (inventory ?player soaked_papyrus_strips)) (inventory ?player rolled_papyrus_strips))
+  )
+
+- action name: weave_strips
+- summarize action: The player weaves the rolled papyrus strips with the help of linen sheets.
+- what is needed to do the action: The player needs to have rolled papyrus strips and linen sheets in their inventory.
+- what is the result: The player's inventory will have woven papyrus strips instead of rolled papyrus strips.
+
+- entities:
+  - entity name: player
+    - before: in possession of rolled papyrus strips and linen sheets
+    - after: in possession of woven papyrus strips and linen sheets
+  - entity name: rolled papyrus strips
+    - before: in the player's inventory
+    - after: not in the player's inventory
+  - entity name: woven papyrus strips
+    - before: not in the player's inventory
+    - after: in the player's inventory
+  - entity name: linen sheets
+    - before: in the player's inventory
+    - after: the same (unchanged)
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Remove the rolled papyrus strips from the player's inventory.
+2. Add woven papyrus strips to the player's inventory.
+
+PDDL:
+  (:action weave_strips
+    :parameters (?player - player)
+    :precondition (and (inventory ?player rolled_papyrus_strips) (inventory ?player linen_sheets))
+    :effect (and (not (inventory ?player rolled_papyrus_strips)) (inventory ?player woven_papyrus_strips))
+  )
+
+- action name: bundle_strips
+- summarize action: The player bundles the woven papyrus strips between two wooden boards.
+- what is needed to do the action: The player needs to have woven papyrus strips and wooden boards in their inventory.
+- what is the result: The player's inventory will have bundled papyrus strips instead of woven papyrus strips.
+
+- entities:
+  - entity name: player
+    - before: in possession of woven papyrus strips and wooden boards
+    - after: in possession of bundled papyrus strips and wooden boards
+  - entity name: woven papyrus strips
+    - before: in the player's inventory
+    - after: not in the player's inventory
+  - entity name: bundled papyrus strips
+    - before: not in the player's inventory
+    - after: in the player's inventory
+  - entity name: wooden boards
+    - before: in the player's inventory
+    - after: the same (unchanged)
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Remove the woven papyrus strips from the player's inventory.
+2. Add bundled papyrus strips to the player's inventory.
+
+PDDL:
+  (:action bundle_strips
+    :parameters (?player - player)
+    :precondition (and (inventory ?player woven_papyrus_strips) (inventory ?player wooden_boards))
+    :effect (and (not (inventory ?player woven_papyrus_strips)) (inventory ?player bundled_papyrus_strips))
+  )
+
+- action name: cut_sheet
+- summarize action: The player cuts the bundled papyrus sheet into the desired size.
+- what is needed to do the action: The player needs to have bundled papyrus strips and a cutting tool (like a razor or scissors) in their inventory.
+- what is the result: The player's inventory will have papyrus sheets instead of bundled papyrus strips.
+
+- entities:
+  - entity name: player
+    - before: in possession of bundled papyrus strips and a cutting tool
+    - after: in possession of papyrus sheets and a cutting tool
+  - entity name: bundled papyrus strips
+    - before: in the player's inventory
+    - after: not in the player's inventory
+  - entity name: papyrus sheets
+    - before: not in the player's inventory
+    - after: in the player's inventory
+  - entity name: cutting tool (razor or scissors)
+    - before: in the player's inventory
+    - after: the same (unchanged)
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Remove the bundled papyrus strips from the player's inventory.
+2. Add papyrus sheets to the player's inventory.
+
+PDDL:
+  (:action cut_sheet
+    :parameters (?player - player)
+    :precondition (and (inventory ?player bundled_papyrus_strips) (inventory ?player razor_or_scissors))
+    :effect (and (not (inventory ?player bundled_papyrus_strips)) (inventory ?player papyrus))
+  )

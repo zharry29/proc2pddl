@@ -1,0 +1,379 @@
+- action name: go
+- summarize action: The player moves between locations in a certain direction.
+- what is needed to do the action: The player's current location, the direction they want to move, and the destination location that is connected in that direction and not blocked.
+- what is the result: Player moves to the destination location.
+
+- entities:
+  - entity name: player
+    - before: at current location
+    - after: at destination location
+  - entity name: current location
+    - before: player is at the current location
+    - after: unchanged
+  - entity name: destination location
+    - before: no player
+    - after: player is at the destination location
+  - entity name: direction
+    - before: unchanged
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. The "at" predicate is used for tracking player's location at the start.
+2. The "connected" predicate indicates the connection between the current location and the destination location in the specified direction.
+3. The "blocked" predicate checks if the path between two locations is blocked.
+4. The "at" predicate is updated with the destination location post-action.
+
+pddl:
+```
+(:action go
+   :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+   :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+```
+
+- action name: get
+- summarize action: The player collects an available item at their current location.
+- what is needed to do the action: The player's location, the item they want to get, and the item must be available and not in the player's inventory.
+- what is the result: The item is added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: item
+    - before: available at current location
+    - after: in player's inventory
+  - entity name: current location
+    - before: item is at the current location
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. The "at" predicate is used for checking player's location.
+2. The "gettable" predicate checks if the item is available for collecting.
+3. The "inventory" predicate indicates the content of player's inventory.
+
+pddl:
+```
+(:action get
+   :parameters (?player - player ?item - object ?loc - location)
+   :precondition (and (at ?player ?loc) (gettable ?item) (not (inventory ?player ?item)))
+   :effect (inventory ?player ?item)
+)
+```
+
+- action name: drop
+- summarize action: The player drops an item from their inventory at their current location.
+- what is needed to do the action: The player's location and the item they want to drop, which must be in the player's inventory.
+- what is the result: The item is removed from the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: item
+    - before: in player's inventory
+    - after: not in player's inventory
+  - entity name: current location
+    - before: unchanged
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. The "inventory" predicate indicates the content of player's inventory.
+2. The "at" predicate is used for checking the player's location.
+
+pddl:
+```
+(:action drop
+   :parameters (?player - player ?item - object ?loc - location)
+   :precondition (and (at ?player ?loc) (inventory ?player ?item))
+   :effect (not (inventory ?player ?item))
+)
+```
+
+- action name: get_water
+- summarize action: The player collects water from a water source at their current location.
+- what is needed to do the action: The player's location must have a water source, and the player does not have water in their inventory.
+- what is the result: The player has water in their inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: water
+    - before: not in player's inventory
+    - after: in player's inventory
+  - entity name: current location
+    - before: has water source
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. The "at" predicate is used for checking the player's location.
+2. The "has_water_source" predicate checks if the current location has a water source.
+3. The "inventory" predicate indicates the content of player's inventory.
+
+pddl:
+```
+(:action get_water
+   :parameters (?player - player ?loc - location)
+   :precondition (and (at ?player ?loc) (has_water_source ?loc) (not (inventory ?player water)))
+   :effect (inventory ?player water)
+)
+'''
+
+Next actions: boil_water, collect_rain_water, loot_shelter, break_car_window, gofish, find_shelter, clean_wound, clean_others_wound, and barter_food_for_healing can be created similarly, following the format and steps mentioned in the provided examples.
+- action name: boil_water
+- summarize action: The player boils water in their inventory to purify it.
+- what is needed to do the action: The player must have water in their inventory.
+- what is the result: The water in the player's inventory is treated.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: water
+    - before: in player's inventory, not treated
+    - after: in player's inventory, treated
+
+- describe how to match it to pddl relevant predicates step by step:
+1. The "inventory" predicate indicates the content of the player's inventory.
+2. The "treated" predicate checks if the water is treated.
+
+pddl:
+```
+(:action boil_water
+   :parameters (?player - player)
+   :precondition (and (inventory ?player water) (not (treated water)))
+   :effect (treated water)
+)
+```
+
+- action name: collect_rain_water
+- summarize action: The player collects rainwater at their current outdoor location.
+- what is needed to do the action: The player's location must be outdoors.
+- what is the result: The player has untreated water in their inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: water
+    - before: not in player's inventory
+    - after: in player's inventory, not treated
+  - entity name: current location
+    - before: outdoors
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. The "at" predicate is used for checking the player's location.
+2. The "outdoors" predicate checks if the current location is outdoors.
+3. The "inventory" predicate indicates the content of player's inventory.
+
+pddl:
+```
+(:action collect_rain_water
+   :parameters (?player - player ?loc - location)
+   :precondition (and (at ?player ?loc) (outdoors ?loc) (not (inventory ?player water)))
+   :effect (and (inventory ?player water) (not (treated water)))
+)
+```
+
+- action name: loot_shelter
+- summarize action: The player loots an unoccupied shelter for valuable items.
+- what is needed to do the action: The player's location must be an unoccupied shelter.
+- what is the result: The player adds valuable items (food, bandages, etc.) to their inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: shelter
+    - before: unoccupied shelter at player's location
+    - after: unchanged
+  - entity name: valuable items
+    - before: not in player's inventory
+    - after: in player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. The "at" predicate is used for checking the player's location.
+2. The "is_occupied" predicate checks if the shelter is occupied.
+3. The "inventory" predicate indicates the content of player's inventory for each valuable item.
+
+pddl:
+```
+(:action loot_shelter
+   :parameters (?player - player ?loc - location)
+   :precondition (and (at ?player ?loc) (not (is_occupied ?loc)))
+   :effect (and (inventory ?player food) (inventory ?player bandage) (inventory ?player medicine) ...)
+)
+```
+
+- action name: break_car_window
+- summarize action: The player breaks a car window to obtain valuable items.
+- what is needed to do the action: The player's location must have a car with windows.
+- what is the result: The player adds valuable items (food, bandages, etc.) to their inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: car
+    - before: car with windows at player's location
+    - after: unchanged
+  - entity name: valuable items
+    - before: not in player's inventory
+    - after: in player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. The "at" predicate is used for checking the player's location.
+2. The "has_windows" predicate checks if the car has windows.
+3. The "inventory" predicate indicates the content of player's inventory for each valuable item.
+
+pddl:
+```
+(:action break_car_window
+   :parameters (?player - player ?loc - location ?car - car)
+   :precondition (and (at ?player ?loc) (has_windows ?car))
+   :effect (and (inventory ?player food) (inventory ?player bandage) (inventory ?player medicine) ...)
+)
+```
+
+- action name: gofish
+- summarize action: The player fishes at a location with a lake.
+- what is needed to do the action: The player's location must have a lake, and the player does not have fish in their inventory.
+- what is the result: The player has fish in their inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: fish
+    - before: not in player's inventory
+    - after: in player's inventory
+  - entity name: current location
+    - before: has a lake
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. The "at" predicate is used for checking the player's location.
+2. The "haslake" predicate checks if the current location has a lake.
+3. The "inventory" predicate indicates the content of player's inventory.
+
+pddl:
+```
+(:action gofish
+   :parameters (?player - player ?loc - location)
+   :precondition (and (at ?player ?loc) (haslake ?loc) (not (inventory ?player fish)))
+   :effect (inventory ?player fish)
+)
+```
+
+- action name: find_shelter
+- summarize action: The player finds a shelter at their current location.
+- what is needed to do the action: The player's current location must have a basement.
+- what is the result: The player is in a shelter.
+
+- entities:
+  - entity name: player
+    - before: not in a shelter
+    - after: in a shelter
+  - entity name: current location
+    - before: has a basement
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. The "at" predicate is used for checking the player's location.
+2. The "has_basement" predicate checks if the current location has a basement.
+3. The "in_shelter" predicate indicates if the player is in a shelter.
+
+pddl:
+```
+(:action find_shelter
+   :parameters (?player - player ?loc - location)
+   :precondition (and (at ?player ?loc) (has_basement ?loc))
+   :effect (in_shelter ?player)
+)
+```
+
+- action name: clean_wound
+- summarize action: The player cleans their wound using treated water from their inventory.
+- what is needed to do the action: The player must be injured and have treated water in their inventory.
+- what is the result: The player is no longer injured.
+
+- entities:
+  - entity name: player
+    - before: injured
+    - after: not injured
+  - entity name: treated water
+    - before: in player's inventory
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. The "is_injured" predicate checks if the player is injured.
+2. The "inventory" predicate indicates the content of player's inventory.
+3. The "treated" predicate checks if the water is treated.
+
+pddl:
+```
+(:action clean_wound
+   :parameters (?player - player)
+   :precondition (and (is_injured ?player) (inventory ?player water) (treated water))
+   :effect (not (is_injured ?player))
+)
+```
+
+- action name: clean_others_wound
+- summarize action: The player cleans another player's wound using treated water from their inventory.
+- what is needed to do the action: The other player must be injured and the player must have treated water in their inventory.
+- what is the result: The other player is no longer injured.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: other player
+    - before: injured
+    - after: not injured
+  - entity name: treated water
+    - before: in player's inventory
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. The "is_injured" predicate checks if the other player is injured.
+2. The "inventory" predicate indicates the content of player's inventory.
+3. The "treated" predicate checks if the water is treated.
+
+pddl:
+```
+(:action clean_others_wound
+   :parameters (?player - player ?other - player)
+   :precondition (and (is_injured ?other) (inventory ?player water) (treated water))
+   :effect (not (is_injured ?other))
+)
+```
+
+- action name: barter_food_for_healing
+- summarize action: The player trades food from their inventory for healing services.
+- what is needed to do the action: The player must be injured and have food in their inventory.
+- what is the result: The player is no longer injured, and the food is removed from their inventory.
+
+- entities:
+  - entity name: player
+    - before: injured
+    - after: not injured
+  - entity name: food
+    - before: in player's inventory
+    - after: not in player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. The "is_injured" predicate checks if the player is injured.
+2. The "inventory" predicate indicates the content of player's inventory.
+
+pddl:
+```
+(:action barter_food_for_healing
+   :parameters (?player - player)
+   :precondition (and (is_injured ?player) (inventory ?player food))
+   :effect (and (not (is_injured ?player)) (not (inventory ?player food)))
+)
+```

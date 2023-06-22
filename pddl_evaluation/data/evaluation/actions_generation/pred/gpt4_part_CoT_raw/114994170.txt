@@ -1,0 +1,84 @@
+- action name: get_radio
+- summarize action: The player gets a battery-operated radio to gather information in case of an EMP attack.
+- what is need to do the action: The player does not have a radio already.
+- what is the result: The player now has a battery-operated radio.
+
+- entities:
+  - entity name: radio
+    - before: Not in player's inventory
+    - after: In player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player does not have a radio.
+2. Add the radio to the player's inventory.
+
+pddl:
+(:action get_radio
+    :parameters (?player - player ?radio - radio)
+    :precondition (not (inventory ?player ?radio))
+    :effect (inventory ?player ?radio)
+)
+
+- action name: turn_on_radio
+- summarize action: The player turns on the battery-operated radio to get information.
+- what is need to do the action: The player has the radio and it's not already turned on.
+- what is the result: The radio is now turned on.
+
+- entities:
+  - entity name: radio
+    - before: radio not turned on
+    - after: radio turned on
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has the radio.
+2. Check if the radio is not turned on.
+3. Turn on the radio.
+
+pddl:
+(:action turn_on_radio
+    :parameters (?player - player ?radio - radio)
+    :precondition (and (inventory ?player ?radio) (not (on ?radio)))
+    :effect (on ?radio)
+)
+
+- action name: create_cage
+- summarize action: The player creates a Faraday cage to protect emergency electronics from the EMP.
+- what is need to do the action: The player does not have a Faraday cage already.
+- what is the result: The player now has a Faraday cage.
+
+- entities:
+  - entity name: cage
+    - before: Not created
+    - after: Created
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player does not have a Faraday cage.
+2. Create a Faraday cage.
+
+pddl:
+(:action create_cage
+    :parameters (?player - player ?cage - farraday_cage)
+    :precondition (not (inventory ?player ?cage))
+    :effect (inventory ?player ?cage)
+)
+
+- action name: put_in_cage
+- summarize action: The player puts an electronic item inside the Faraday cage to protect it from EMP.
+- what is need to do the action: The player has the cage and the electronic item to protect.
+- what is the result: The electronic item is now inside the cage.
+
+- entities:
+  - entity name: item
+    - before: not inside cage
+    - after: inside cage
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has the cage and the electronic item.
+2. Put the electronic item inside the cage.
+
+pddl:
+(:action put_in_cage
+    :parameters (?player - player ?cage - farraday_cage ?item - item)
+    :precondition (and (inventory ?player ?cage) (inventory ?player ?item))
+    :effect (and (not (inventory ?player ?item)) (in_cage ?item))
+)

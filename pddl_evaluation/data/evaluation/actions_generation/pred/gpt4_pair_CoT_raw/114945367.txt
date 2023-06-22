@@ -1,0 +1,238 @@
+- action name: go
+- summarize action: The player moves from their current location to another location in a specific direction.
+- what is needed to do the action: The player must be at a location and have a valid direction to travel.
+- what is the result: The player will be at the new location after moving in the given direction.
+
+- entities:
+  - entity name: player
+    - before: at current_location
+    - after: at new_location
+  - entity name: direction
+  - entity name: current_location
+  - entity name: new_location
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the player, direction, current_location, and new_location to the parameters.
+2. Define the precondition stating that the player is at the current_location and there is a connection between the current_location and new_location in the given direction.
+3. Define the effect that the player will no longer be at the current_location and would now be at the new_location.
+
+pddl:
+(:action go
+  :parameters (?player - player ?direction - direction ?current_location - location ?new_location - location)
+  :precondition (and
+    (at ?player ?current_location)
+    (connected ?current_location ?direction ?new_location)
+  )
+  :effect (and
+    (not (at ?player ?current_location))
+    (at ?player ?new_location)
+  )
+)
+
+------
+
+- action name: get
+- summarize action: The player picks up an item at their current location and adds it to their inventory.
+- what is needed to do the action: The player must be at a location where the item is.
+- what is the result: The item will be in the player's inventory and no longer present at the location.
+
+- entities:
+  - entity name: player
+  - entity name: item
+  - entity name: location
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the player, item, and location to the parameters.
+2. Define the precondition stating that the player is at the location and the item is present at the location.
+3. Define the effect that the item is no longer at the location and is now in the player's inventory.
+
+pddl:
+(:action get
+  :parameters (?player - player ?item - item ?location - location)
+  :precondition (and
+    (at ?player ?location)
+    (at ?item ?location)
+  )
+  :effect (and
+    (not (at ?item ?location))
+    (inventory ?player ?item)
+  )
+)
+
+Rest of the actions need more context or information to define their preconditions and effects in PDDL format. Please provide more information about the actions and the context in which they are being used.
+- action name: get_water
+- summarize action: The player collects water from a water source at their current location and puts it in a container.
+- what is needed to do the action: The player must be at a location with a water source and have an empty container in the inventory.
+- what is the result: The container in the player's inventory will be filled with water.
+
+- entities:
+  - entity name: player
+  - entity name: water
+  - entity name: location
+  - entity name: container
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the player, water, location, and container to the parameters.
+2. Define the precondition stating that the player is at the location with a water source, and the player has an empty container in the inventory.
+3. Define the effect that the empty container will be filled with water in the player's inventory.
+
+pddl:
+(:action get_water
+  :parameters (?player - player ?water - water ?location - location ?container - container)
+  :precondition (and
+    (at ?player ?location)
+    (has_water_source ?location)
+    (inventory ?player ?container)
+  )
+  :effect (and
+    (inventory ?player ?water)
+  )
+)
+
+------
+
+- action name: strain_water
+- summarize action: The player uses a cloth to strain the water in a container to remove debris.
+- what is needed to do the action: The player must have water and a cloth in their inventory.
+- what is the result: The water in the player's inventory will be strained.
+
+- entities:
+  - entity name: player
+  - entity name: water
+  - entity name: cloth
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the player, water, and cloth to the parameters.
+2. Define the precondition stating that the player has water and cloth in their inventory.
+3. Define the effect that the water in the player's inventory will be strained.
+
+pddl:
+(:action strain_water
+  :parameters (?player - player ?water - water ?cloth - cloth)
+  :precondition (and
+    (inventory ?player ?water)
+    (inventory ?player ?cloth)
+  )
+  :effect (strained ?water)
+)
+
+Please provide more context or information about the remaining actions as they need more details to define their preconditions and effects in PDDL format accurately.
+- action name: boil_water
+- summarize action: The player boils the water in a container to decontaminate it.
+- what is needed to do the action: The player must have strained water and a container in their inventory and must have fire present.
+- what is the result: The water in the player's inventory will be treated (decontaminated).
+
+- entities:
+  - entity name: player
+  - entity name: water
+  - entity name: container
+  - entity name: fire
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the player, water, container, and fire to the parameters.
+2. Define the precondition stating that the user has strained water and a container in their inventory and has fire.
+3. Define the effect that the strained water will be treated (decontaminated).
+
+pddl:
+(:action boil_water
+  :parameters (?player - player ?water - water ?container - container ?fire - fire)
+  :precondition (and
+    (inventory ?player ?water)
+    (inventory ?player ?container)
+    (has_fire ?player)
+    (strained ?water)
+  )
+  :effect (treated ?water)
+)
+
+------
+
+- action name: purify_in_sunlight
+- summarize action: The player purifies the water in a container by placing it in sunlight.
+- what is needed to do the action: The player must have treated (decontaminated) water and a container in their inventory.
+- what is the result: The water in the player's inventory will be purified.
+
+- entities:
+  - entity name: player
+  - entity name: water
+  - entity name: container
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the player, water, and container to the parameters.
+2. Define the precondition stating that the player has treated (decontaminated) water and a container in their inventory.
+3. Define the effect that the treated water will be purified.
+
+pddl:
+(:action purify_in_sunlight
+  :parameters (?player - player ?water - water ?container - container)
+  :precondition (and
+    (inventory ?player ?water)
+    (inventory ?player ?container)
+    (treated ?water)
+  )
+  :effect (and
+    (not (treated ?water))
+    (purified ?water)
+  )
+)
+
+Please provide more context or information about the remaining actions as they need more details to define their preconditions and effects in PDDL format accurately.
+- action name: get_long_branch
+- summarize action: The player gathers a long branch at their current location to help build a shelter.
+- what is needed to do the action: The player must be at a location with branches and not already have a long branch in their inventory.
+- what is the result: The long branch will be in the player's inventory and no longer present at the location.
+
+- entities:
+  - entity name: player
+  - entity name: long_branch
+  - entity name: location
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the player, long_branch, and location to the parameters.
+2. Define the precondition stating that the player is at the location with branches and does not already have a long branch in the inventory.
+3. Define the effect that the long_branch is no longer at the location and is now in the player's inventory.
+
+pddl:
+(:action get_long_branch
+  :parameters (?player - player ?long_branch - long_branch ?location - location)
+  :precondition (and
+    (at ?player ?location)
+    (has_branches ?location)
+    (not (inventory ?player ?long_branch))
+  )
+  :effect (and
+    (not (at ?long_branch ?location))
+    (inventory ?player ?long_branch)
+  )
+)
+
+- action name: get_propped_branches
+- summarize action: The player gathers propped branches at their current location for building a shelter.
+- what is needed to do the action: The player must be at a location with branches and not already have propped_branches in their inventory.
+- what is the result: The propped_branches will be in the player's inventory and no longer present at the location.
+
+- entities:
+  - entity name: player
+  - entity name: propped_branches
+  - entity name: location
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the player, propped_branches, and location to the parameters.
+2. Define the precondition stating that the player is at the location with branches and does not already have propped_branches in the inventory.
+3. Define the effect that propped_branches are no longer at the location and are now in the player's inventory.
+
+pddl:
+(:action get_propped_branches
+  :parameters (?player - player ?propped_branches - propped_branches ?location - location)
+  :precondition (and
+    (at ?player ?location)
+    (has_branches ?location)
+    (not (inventory ?player ?propped_branches))
+  )
+  :effect (and
+    (not (at ?propped_branches ?location))
+    (inventory ?player ?propped_branches)
+  )
+)
+
+Please provide more context or information about the remaining actions as they need more details to define their preconditions and effects in PDDL format accurately.
