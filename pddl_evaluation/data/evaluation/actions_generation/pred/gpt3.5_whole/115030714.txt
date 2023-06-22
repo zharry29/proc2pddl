@@ -1,0 +1,142 @@
+(:action go
+  :parameters (?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and 
+                  (at ?player - player ?loc1 - location)
+                  (connected ?loc1 - location ?dir - direction ?loc2 - location))
+  :effect (and 
+            (at ?player - player ?loc2 - location)
+            (not (at ?player - player ?loc1 - location))
+          )
+)
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and 
+                  (at ?player - player ?loc - location)
+                  (at ?item - item ?loc - location)
+                  (not (inventory ?player - player ?item - item))
+                )
+  :effect (and 
+            (inventory ?player - player ?item - item)
+            (not (at ?item - item ?loc - location))
+          )
+)
+
+(:action drop
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and 
+                  (at ?player - player ?loc - location)
+                  (inventory ?player - player ?item - item)
+                )
+  :effect (and 
+            (not (inventory ?player - player ?item - item))
+            (at ?item - item ?loc - location)
+          )
+)
+
+(:action cook
+  :parameters (?player - player ?food - food ?kitchen - location)
+  :precondition (and 
+                  (at ?player - player ?kitchen - location)
+                  (inflated ?food - food)
+                )
+  :effect (and 
+            (not (inflated ?food - food))
+            (inventory ?player - player ?food - food)
+          )
+)
+
+(:action order_sushi
+  :parameters (?player - player ?sushi - sushi ?restaurant - location)
+  :precondition (and 
+                  (at ?player - player ?restaurant - location)
+                )
+  :effect (and 
+            (inventory ?player - player ?sushi - sushi)
+          )
+)
+
+(:action buy_sake
+  :parameters (?player - player ?sake - drink ?store - location)
+  :precondition (and 
+                  (at ?player - player ?store - location)
+                )
+  :effect (and 
+            (inventory ?player - player ?sake - drink)
+          )
+)
+
+(:action serve
+  :parameters (?player - player ?drink - drink ?loc - location)
+  :precondition (and 
+                  (at ?player - player ?loc - location)
+                  (inventory ?player - player ?drink - drink)
+                )
+  :effect (and 
+            (opened ?drink - drink)
+            (not (inventory ?player - player ?drink - drink))
+          )
+)
+
+(:action brew
+  :parameters (?player - player ?tea - tea ?kitchen - location)
+  :precondition (and 
+                  (at ?player - player ?kitchen - location)
+                )
+  :effect (and 
+            (inventory ?player - player ?tea - tea)
+          )
+)
+
+(:action get_beer
+  :parameters (?player - player ?beer - drink ?fridge - location)
+  :precondition (and 
+                  (at ?player - player ?fridge - location)
+                )
+  :effect (and 
+            (inventory ?player - player ?beer - drink)
+          )
+)
+
+(:action open
+  :parameters (?player - player ?drink - drink)
+  :precondition (and 
+                  (inventory ?player - player ?drink - drink)
+                )
+  :effect (and 
+            (opened ?drink - drink)
+          )
+)
+
+(:action hang_lantern
+  :parameters (?player - player ?lamp - lantern ?loc - location)
+  :precondition (and 
+                  (inventory ?player - player ?lamp - lantern)
+                  (at ?player - player ?loc - location)
+                )
+  :effect (and 
+            (hung ?lamp - lantern)
+          )
+)
+
+(:action blow_balloon
+  :parameters (?player - player ?balloon - balloon)
+  :precondition (and 
+                  (inventory ?player - player ?balloon - balloon)
+                )
+  :effect (and 
+            (inflated ?balloon - balloon)
+          )
+)
+
+(:action turn_on_tv
+  :parameters (?player - player ?tv - item)
+  :precondition (and 
+                  (inventory ?player - player ?tv - item)
+                )
+  :effect (and 
+            (on ?tv - item)
+          )
+)
+
+)

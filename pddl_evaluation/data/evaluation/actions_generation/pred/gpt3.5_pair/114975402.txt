@@ -1,0 +1,67 @@
+(:action go
+    :parameters (?player - player ?dir - direction ?loc1 ?loc2 - location)
+    :precondition (connected ?loc1 ?dir ?loc2)
+    :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action get_bag
+    :parameters (?player - player ?loc - location ?bag - bag)
+    :precondition (and (at ?loc ?player) (sells_bags ?loc) (not (at ?bag ?player)))
+    :effect (and (not (at ?bag ?loc)) (inventory ?player ?bag))
+)
+
+(:action get_stationery
+    :parameters (?player - player ?loc - location ?stationery - item)
+    :precondition (and (at ?loc ?player) (sells_stationery ?loc) (not (at ?stationery ?player)))
+    :effect (and (not (at ?stationery ?loc)) (inventory ?player ?stationery))
+)
+
+(:action get_costume
+    :parameters (?player - player ?loc - location ?costume - costume)
+    :precondition (and (at ?loc ?player) (sells_costume ?loc) (not (at ?costume ?player)))
+    :effect (and (not (at ?costume ?loc)) (inventory ?player ?costume))
+)
+
+(:action wear_detective_gear
+    :parameters (?player - player ?costume - costume)
+    :precondition (inventory ?player ?costume)
+    :effect (wear ?player ?costume)
+)
+
+(:action find_supplies_for_disguise
+    :parameters (?player - player ?disguise - disguise ?supplies - item)
+    :precondition (and (inventory ?player ?disguise) (not (at ?supplies ?player)))
+    :effect (and (not (at ?supplies ?loc)) (inventory ?player ?supplies))
+)
+
+(:action wear_disguise
+    :parameters (?player - player ?disguise - disguise)
+    :precondition (inventory ?player ?disguise)
+    :effect (wear ?player ?disguise)
+)
+
+(:action make_badge
+    :parameters (?player - player ?badge - badge)
+    :precondition (and (inventory ?player ?badge) (not (at ?badge ?player)))
+    :effect (and (not (at ?badge ?loc)) (inventory ?player ?badge))
+)
+
+(:action prepare_detective_notebook
+    :parameters (?player - player ?notebook - notebook ?pen - item)
+    :precondition (and (inventory ?player ?notebook) (not (at ?pen ?player)))
+    :effect (and (not (at ?pen ?loc)) (inventory ?player ?pen))
+)
+
+(:action get_walkie_talkies
+    :parameters (?player - player ?loc - location ?walkie_talkies - walkie_talkies)
+    :precondition (and (at ?loc ?player) (not (at ?walkie_talkies ?player)))
+    :effect (and (not (at ?walkie_talkies ?loc)) (inventory ?player ?walkie_talkies))
+)
+
+(:action prepare_detective_kit
+    :parameters (?player - player ?kit - detective_kit ?items - item)
+    :precondition (and (inventory ?player ?kit) (inventory ?player ?items))
+    :effect (and (not (inventory ?player ?items)) (at ?items ?kit))
+)
+
+)

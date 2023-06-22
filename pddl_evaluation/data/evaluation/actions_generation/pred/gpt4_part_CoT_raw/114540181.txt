@@ -1,0 +1,414 @@
+- action name: go
+- summarize action: The player moves from one location to another in a certain direction.
+- what is need to do the action: 
+  - The player must be at a certain location.
+  - The locations must be connected in the given direction.
+  - The path must not be blocked.
+- what is the result: The player is at the new location.
+
+- entities:
+  - entity name: player
+    - before: at an initial location
+    - after: at the new location
+  - entity name: direction
+    - before: unchanged
+    - after: unchanged
+  - entity name: location (initial and new)
+    - before: unchanged
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the initial location.
+2. Check if the locations are connected in the given direction.
+3. Check if the path is not blocked.
+
+PDDL:
+``` python
+(:action go
+  :parameters (?p - player ?initial - location ?new - location ?dir - direction)
+  :precondition (and
+    (at ?p ?initial)
+    (connected ?initial ?dir ?new)
+    (not (blocked ?initial ?dir ?new))
+  )
+  :effect (and
+    (not (at ?p ?initial))
+    (at ?p ?new)
+  )
+)
+```
+
+- action name: get
+- summarize action: The player picks up an item at their current location.
+- what is need to do the action:
+  - The player must be at a certain location.
+  - The item must be at the same location as the player.
+- what is the result: The player has the item in their inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: item
+    - before: at the location
+    - after: in the player's inventory
+  - entity name: location
+    - before: contains the item
+    - after: item removed
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location.
+2. Check if the item is at the same location as the player.
+
+PDDL:
+``` python
+(:action get
+  :parameters (?p - player ?item - item ?loc - location)
+  :precondition (and
+    (at ?p ?loc)
+    (at ?item ?loc)
+  )
+  :effect (and
+    (not (at ?item ?loc))
+    (inventory ?p ?item)
+  )
+)
+```
+
+- action name: get_bamboo_container
+- summarize action: The player obtains a bamboo container at their current location where bamboos are available.
+- what is need to do the action:
+  - The player must be at a location with bamboo.
+- what is the result: The player has a bamboo container in their inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: bamboo_container
+    - before: not in the player's inventory
+    - after: in the player's inventory
+  - entity name: location
+    - before: has bamboo
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location with bamboo.
+
+PDDL:
+``` python
+(:action get_bamboo_container
+  :parameters (?p - player ?container - bamboo_container ?loc - location)
+  :precondition (and
+    (at ?p ?loc)
+    (has_bamboo ?loc)
+  )
+  :effect (inventory ?p ?container)
+)
+```
+
+- action name: collect_rain_water
+- summarize action: The player collects rainwater in a container at their current location where there's rainfall.
+- what is need to do the action:
+  - The player must be at a location with rainfall.
+  - The player must have a container in their inventory.
+- what is the result: The player has a water item in their inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: container (e.g., bamboo_container)
+    - before: in the player's inventory
+    - after: unchanged
+  - entity name: water
+    - before: not in the player's inventory
+    - after: in the player's inventory
+  - entity name: location
+    - before: has rainfall
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location with rainfall.
+2. Check if the player has a container in their inventory.
+
+PDDL:
+``` python
+(:action collect_rain_water
+  :parameters (?p - player ?container - bamboo_container ?water - water ?loc - location)
+  :precondition (and
+    (at ?p ?loc)
+    (has_rainfall ?loc)
+    (inventory ?p ?container)
+  )
+  :effect (inventory ?p ?water)
+)
+```
+
+- action name: create_fire
+- summarize action: The player creates a fire at their current location using wood and stones.
+- what is need to do the action:
+  - The player must be at a certain location.
+  - The player must have wood and stones in their inventory.
+- what is the result: The player has a fire in their inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: wood
+    - before: in the player's inventory
+    - after: unchanged
+  - entity name: stone
+    - before: in the player's inventory
+    - after: unchanged
+  - entity name: fire
+    - before: not in the player's inventory
+    - after: in the player's inventory
+  - entity name: location
+    - before: unchanged
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location.
+2. Check if the player has wood and stones in their inventory.
+
+PDDL:
+``` python
+(:action create_fire
+  :parameters (?p - player ?wood - wood ?stone - stone ?fire - fire ?loc - location)
+  :precondition (and
+    (at ?p ?loc)
+    (inventory ?p ?wood)
+    (inventory ?p ?stone)
+  )
+  :effect (inventory ?p ?fire)
+)
+```
+
+- action name: treat_water
+- summarize action: The player treats water using fire.
+- what is need to do the action:
+  - The player must have water and fire in their inventory.
+- what is the result: The player has treated water in their inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: water
+    - before: in the player's inventory
+    - after: treated and in the player's inventory
+  - entity name: fire
+    - before: in the player's inventory
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has water and fire in their inventory.
+
+PDDL:
+``` python
+(:action treat_water
+  :parameters (?p - player ?water - water ?fire - fire)
+  :precondition (and
+    (inventory ?p ?water)
+    (inventory ?p ?fire)
+  )
+  :effect (treated ?water)
+)
+```
+
+- action name: drink_water
+- summarize action: The player drinks treated water.
+- what is need to do the action:
+  - The player must have treated water in their inventory.
+- what is the result: The player is not dehydrated.
+
+- entities:
+  - entity name: player
+    - before: possibly dehydrated
+    - after: not dehydrated
+  - entity name: water
+    - before: treated and in the player's inventory
+    - after: consumed
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has treated water in their inventory.
+
+PDDL:
+``` python
+(:action drink_water
+  :parameters (?p - player ?water - water)
+  :precondition (and
+    (inventory ?p ?water)
+    (treated ?water)
+  )
+  :effect (and
+    (not (is dehydrated ?p))
+    (not (inventory ?p ?water))
+  )
+)
+```
+
+- action name: drink_untreated_water
+- summarize action: The player drinks untreated water.
+- what is need to do the action:
+  - The player must have untreated water in their inventory.
+- what is the result:
+  - The player is not dehydrated.
+  - The player might get ill.
+
+- entities:
+  - entity name: player
+    - before: possibly dehydrated and not ill
+    - after: not dehydrated and possibly ill
+  - entity name: water
+    - before: in the player's inventory and not treated
+    - after: consumed
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has untreated water in their inventory.
+
+PDDL:
+``` python
+(:action drink_untreated_water
+  :parameters (?p - player ?water - water)
+  :precondition (and
+    (inventory ?p ?water)
+    (not (treated ?water))
+  )
+  :effect (and
+    (not (is dehydrated ?p))
+    (is ill ?p)
+    (not (inventory ?p ?water))
+  )
+)
+```
+
+- action name: create_sos_sign
+- summarize action: The player creates an SOS sign using stones and wood at their current location to increase the chance of being found.
+- what is need to do the action:
+  - The player must be at a certain location.
+  - The player must have stones and wood in their inventory.
+- what is the result: The player has an SOS sign in their inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: stones
+    - before: in the player's inventory
+    - after: unchanged
+  - entity name: wood
+    - before: in the player's inventory
+    - after: unchanged
+  - entity name: sos_sign
+    - before: not in the player's inventory
+    - after: in the player's inventory
+  - entity name: location
+    - before: unchanged
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location.
+2. Check if the player has stones and wood in their inventory.
+
+PDDL:
+``` python
+(:action create_sos_sign
+  :parameters (?p - player ?stone - stone ?wood - wood ?sign - sos_sign ?loc - location)
+  :precondition (and
+    (at ?p ?loc)
+    (inventory ?p ?stone)
+    (inventory ?p ?wood)
+  )
+  :effect (inventory ?p ?sign)
+)
+```
+
+- action name: pick_fruit
+- summarize action: The player picks a fruit at their current location where fruits are available.
+- what is need to do the action:
+  - The player must be at a location with fruit.
+- what is the result: The player has a fruit in their inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: fruit
+    - before: not in the player's inventory
+    - after: in the player's inventory
+  - entity name: location
+    - before: has fruit
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location with fruits.
+
+PDDL:
+``` python
+(:action pick_fruit
+  :parameters (?p - player ?fruit - fruit ?loc - location)
+  :precondition (and
+    (at ?p ?loc)
+    (has_fruit ?loc)
+  )
+  :effect (inventory ?p ?fruit)
+)
+```
+
+- action name: eat_fruit
+- summarize action: The player eats a fruit from their inventory.
+- what is need to do the action:
+  - The player must have a fruit in their inventory.
+- what is the result: The player is not hungry.
+
+- entities:
+  - entity name: player
+    - before: possibly hungry
+    - after: not hungry
+  - entity name: fruit
+    - before: in the player's inventory
+    - after: consumed
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has a fruit in their inventory.
+
+PDDL:
+``` python
+(:action eat_fruit
+  :parameters (?p - player ?fruit - fruit)
+  :precondition (inventory ?p ?fruit)
+  :effect (and
+    (not (is hungry ?p))
+    (not (inventory ?p ?fruit))
+  )
+)
+```
+
+- action name: escape
+- summarize action: The player escapes the jungle by reaching the basecamp.
+- what is need to do the action:
+  - The player must be at the basecamp location.
+- what is the result: The player has successfully escaped the jungle.
+
+- entities:
+  - entity name: player
+    - before: in the jungle (at a location)
+    - after: has escaped the jungle
+  - entity name: basecamp
+    - before: unchanged
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the basecamp location.
+
+PDDL:
+``` python
+(:action escape
+  :parameters (?p - player ?basecamp - location)
+  :precondition (at ?p ?basecamp)
+  :effect (escaped ?p)
+)
+```

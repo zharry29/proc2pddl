@@ -1,120 +1,193 @@
-Action: pick_lock_with_card
+- action name: pick_lock_with_card
+- summarize action: This action represents using a credit card to open a simple lock on a door. The card is inserted between the door frame and the locking side of the door, angled downward and placed behind the bolt. Slowly, the card is pulled towards the user while turning the handle. If successful, the bolt will be pushed out of the frame and the door will open.
+- what is needed to do the action: The location has an easy lock and the player has a card in their inventory.
+- what is the result: The easy lock at the location is opened and no longer considered locked.
 
-Entities involved:
-1. Player
-2. Location
-3. Credit Card
+- entities:
+  - entity name: location
+    - before: has_easy_lock
+    - after: no predicate
+  - entity name: player
+    - before: inventory card
+    - after: inventory card
 
-States before the action:
-- Player has a credit card in their inventory.
-- Location has an easy lock (as it mentions older doors).
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the action with the parameters (player and location).
+2. Establish the preconditions: (has_easy_lock ?loc) and (inventory ?player card).
+3. Define the effect: not (has_easy_lock ?loc).
 
-States after the action:
-- The location's lock is opened.
-
-PDDL:
-
+pddl:
+```
 (:action pick_lock_with_card
-    :parameters (?player - player ?loc - location ?card - item)
-    :precondition (and
-        (inventory ?player ?card)
-        (has_easy_lock ?loc)
-    )
+    :parameters (?player - player ?loc - location)
+    :precondition (and (has_easy_lock ?loc) (inventory ?player card))
     :effect (not (has_easy_lock ?loc))
 )
+```
 
-Action: bend_paperclip_into_pick
+- action name: push_pins_out_of_tumblers
+- summarize action: This action represents using a pick to push pins out of a lock's tumblers, causing it to open. The pick is inserted above a wrench, and it's used to find and push each pin up and out of the tumbler. Once all pins have been moved, the lock should open.
+- what is needed to do the action: The location has a hard lock, a wrench already in the lock, a pick already in the lock, and the player has the pick and the wrench in their inventory.
+- what is the result: The hard lock at the location is opened and no longer considered locked.
 
-Entities involved:
-1. Player
-2. Paper clip
+- entities:
+  - entity name: location
+    - before: has_hard_lock, wrench_in_lock, pick_in_lock
+    - after: no predicate
+  - entity name: player
+    - before: inventory pick, inventory wrench
+    - after: inventory pick, inventory wrench
 
-States before the action:
-- Player has a paper clip in their inventory.
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the action with the parameters (player and location).
+2. Establish the preconditions: (has_hard_lock ?loc), (wrench_in_lock ?loc), (pick_in_lock ?loc), (inventory ?player pick), and (inventory ?player wrench).
+3. Define the effect: not (has_hard_lock ?loc).
 
-States after the action:
-- Player has a pick made from a paper clip in their inventory.
-
-PDDL:
-
-(:action bend_paperclip_into_pick
-    :parameters (?player - player ?paperclip - item)
-    :precondition (inventory ?player ?paperclip)
-    :effect (and
-        (not (inventory ?player ?paperclip))
-        (inventory ?player (make-pick ?paperclip))
-    )
-)
-
-Action: insert_wrench
-
-Entities involved:
-1. Player
-2. Location
-3. Tension wrench
-
-States before the action:
-- Player has a tension wrench in their inventory.
-- Location has a locked door.
-
-States after the action:
-- Tension wrench is inserted into the lock.
-
-PDDL:
-
-(:action insert_wrench
-    :parameters (?player - player ?loc - location ?wrench - item)
-    :precondition (and
-        (inventory ?player ?wrench)
-        (has_hard_lock ?loc)
-    )
-    :effect (wrench_in_lock ?loc)
-)
-
-Action: insert_pick
-
-Entities involved:
-1. Player
-2. Location
-3. Pick
-
-States before the action:
-- Player has a pick in their inventory.
-- Location has a wrench in the lock.
-
-States after the action:
-- The pick is inserted into the lock.
-
-PDDL:
-
-(:action insert_pick
-    :parameters (?player - player ?loc - location ?pick - item)
-    :precondition (and
-        (inventory ?player ?pick)
-        (wrench_in_lock ?loc)
-    )
-    :effect (pick_in_lock ?loc)
-)
-
-Action: push_pins_out_of_tumblers
-
-Entities involved:
-1. Location
-
-States before the action:
-- Location has a wrench and a pick in the lock.
-
-States after the action:
-- The location's lock is opened.
-
-PDDL:
-
+pddl:
+```
 (:action push_pins_out_of_tumblers
-    :parameters (?loc - location)
-    :precondition (pick_in_lock ?loc)
+    :parameters (?player - player ?loc - location)
+    :precondition (and (has_hard_lock ?loc) (wrench_in_lock ?loc) (pick_in_lock ?loc) (inventory ?player pick) (inventory ?player wrench))
     :effect (not (has_hard_lock ?loc))
 )
+```
 
-Let me know if you need other actions translated into PDDL format.
+Please note that some actions you mentioned don't have enough context in the text provided. With more information, I can help create PDDL representations for the rest of the actions.
+- action name: hook_latch
+- summarize action: This action represents using a straightened coat hanger to hook and pull the latch of a locked car door. If successful, it should unlock the manually locked car door.
+- what is needed to do the action: The location is a locked_car, the car has a manual locking mechanism, a coathanger has been inserted and the player has the coat hanger in their inventory.
+- what is the result: The locked car at the location is unlocked and no longer considered locked.
 
+- entities:
+  - entity name: location
+    - before: locked_car, coathanger_inserted, latch_hooked
+    - after: no predicate
+  - entity name: player
+    - before: inventory coat_hanger
+    - after: inventory coat_hanger
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the action with the parameters (player and location).
+2. Establish the preconditions: (locked_car ?loc), (coathanger_inserted ?loc), (latch_hooked ?loc), and (inventory ?player coat_hanger).
+3. Define the effect: not (locked_car ?loc).
+
+pddl:
+```
+(:action hook_latch
+    :parameters (?player - player ?loc - location)
+    :precondition (and (locked_car ?loc) (coathanger_inserted ?loc) (latch_hooked ?loc) (inventory ?player coat_hanger))
+    :effect (not (locked_car ?loc))
 )
+```
+
+I hope these additional PDDL representations are helpful. If you have more context or actions that you need assistance with, please provide more information or examples.
+Below are two additional PDDL representations involving going to a location and getting an item:
+
+- action name: go
+- summarize action: This action represents the player moving from one location to another in a specific direction. It updates the player's current location to the new location.
+- what is needed to do the action: The player is at the current location, and the current location is connected to the new location in a specific direction without being blocked.
+- what is the result: The player is now at the new location.
+
+- entities:
+  - entity name: player
+    - before: at ?player ?current_location
+    - after: at ?player ?new_location
+  - entity name: direction
+  - entity name: current_location
+  - entity name: new_location
+
+- convert the above information to PDDL using relevant predicates step by step:
+1. Define the action with the parameters (player, direction, current_location, and new_location).
+2. Establish the preconditions: (at ?player ?current_location) and (connected ?current_location ?dir ?new_location) and (not (blocked ?current_location ?dir ?new_location)).
+3. Define the effect: not (at ?player ?current_location) and (at ?player ?new_location).
+
+pddl:
+```
+(:action go
+    :parameters (?player - player ?dir - direction ?current_location - location ?new_location - location)
+    :precondition (and (at ?player ?current_location) (connected ?current_location ?dir ?new_location) (not (blocked ?current_location ?dir ?new_location)))
+    :effect (and (not (at ?player ?current_location)) (at ?player ?new_location))
+)
+```
+
+- action name: get
+- summarize action: This action represents the player taking an item that is present at a location and adding it to their inventory.
+- what is needed to do the action: The player is at the location, and the item is at the same location.
+- what is the result: The item is now in the player's inventory and no longer at the location.
+
+- entities:
+  - entity name: player
+  - entity name: location
+  - entity name: item
+    - before: at ?item ?location
+    - after: inventory ?player ?item
+
+- convert the above information to PDDL using relevant predicates step by step:
+1. Define the action with the parameters (player, location, and item).
+2. Establish the preconditions: (at ?player ?location) and (at ?item ?location).
+3. Define the effect: not (at ?item ?location) and (inventory ?player ?item).
+
+pddl:
+```
+(:action get
+    :parameters (?player - player ?loc - location ?item - item)
+    :precondition (and (at ?player ?loc) (at ?item ?loc))
+    :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+```
+
+With these additional PDDL examples, you should have a better understanding of how to represent various actions in a problem-solving domain. If you have any specific context or further actions you'd like help with, please provide additional information.
+I'll provide two more PDDL representations involving bending a paperclip into a pick and inserting a wrench into a lock:
+
+- action name: bend_paperclip_into_pick
+- summarize action: This action represents the player bending a paperclip found in their inventory into a lock pick.
+- what is needed to do the action: The player has a paperclip in their inventory.
+- what is the result: The player now has a lock pick in their inventory, and the paperclip is no longer in the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: inventory ?player paperclip
+    - after: inventory ?player pick
+
+- convert the above information to PDDL using relevant predicates step by step:
+1. Define the action with the parameter (player).
+2. Establish the precondition: (inventory ?player paperclip).
+3. Define the effect: not (inventory ?player paperclip) and (inventory ?player pick).
+
+pddl:
+```
+(:action bend_paperclip_into_pick
+    :parameters (?player - player)
+    :precondition (inventory ?player paperclip)
+    :effect (and (not (inventory ?player paperclip)) (inventory ?player pick))
+)
+```
+
+- action name: insert_wrench
+- summarize action: This action represents the player inserting a wrench from their inventory into a lock at a location.
+- what is needed to do the action: The player is at the location, and the player has a wrench in their inventory.
+- what is the result: The wrench is inserted into the lock at the location.
+
+- entities:
+  - entity name: player
+    - before: inventory ?player wrench
+    - after: inventory ?player wrench
+  - entity name: location
+    - before: no predicate
+    - after: wrench_in_lock
+
+- convert the above information to PDDL using relevant predicates step by step:
+1. Define the action with the parameters (player and location).
+2. Establish the preconditions: (at ?player ?loc) and (inventory ?player wrench).
+3. Define the effect: (wrench_in_lock ?loc).
+
+pddl:
+```
+(:action insert_wrench
+    :parameters (?player - player ?loc - location)
+    :precondition (and (at ?player ?loc) (inventory ?player wrench))
+    :effect (wrench_in_lock ?loc)
+)
+```
+
+These additional PDDL examples should provide further guidance on creating actions within a problem-solving domain. If you have any specific context or more actions you'd like help with, please provide more information.

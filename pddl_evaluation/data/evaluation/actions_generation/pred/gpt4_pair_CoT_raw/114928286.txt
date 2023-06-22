@@ -1,212 +1,189 @@
-Action: go
-Entities involved:
-   - player
-   - location
-   - direction
-States before: 
-   - at the starting location
-   - target location is connected to the starting location in a specific direction
-States after:
-   - at the target location
+- action name: lay_masking_tape
+- summarize action: The lay_masking_tape action is laying down masking tape in parallel strips across the floor as far apart as your projectile is long. The strips should be perpendicular to the direction you will be throwing.
+- what is needed to do the action: A floor and masking tape.
+- what is the result: Masking tape is laid down on the floor in parallel strips.
 
-PDDL:
-(:action go
-   :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
-   :precondition (and (at ?player ?loc1)
-                      (connected ?loc1 ?dir ?loc2)
-                      (not (blocked ?loc1 ?dir ?loc2)))
-   :effect (and (not (at ?player ?loc1))
-                (at ?player ?loc2)))
+- entities:
+  - entity name: floor
+    - before: no masking tape
+    - after: masking tape in parallel strips
+  - entity name: masking_tape
+    - before: not laid down
+    - after: laid down on the floor in parallel strips
 
-Action: get
-Entities involved:
-  - player
-  - item
-States before:
-   - item is at the player's location
-   - item is gettable
-States after:
-   - item is in the player's inventory
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the floor does not have masking tape (not (has_ten_strips ?floor - object))
+2. Lay down masking tape in parallel strips on the floor.
+3. The floor now has ten strips of masking tape (has_ten_strips ?floor - object)
 
-PDDL:
-(:action get
-   :parameters (?player - player ?item - object ?loc - location)
-   :precondition (and (at ?player ?loc)
-                      (at ?item ?loc)
-                      (is_gettable ?item))
-   :effect (and (not (at ?item ?loc))
-                (inventory ?player ?item)))
-
-Action: lay_masking_tape
-Entities involved:
-  - player
-  - masking_tape
-States before:
-  - player has a masking tape in their inventory
-  - player is at the location where tape needs to be laid
-States after:
-  - player has laid masking tape at the location in parallel strips
-
-PDDL:
+pddl:
+```
 (:action lay_masking_tape
-   :parameters (?player - player ?masking_tape - masking_tape ?loc - location)
-   :precondition (and (at ?player ?loc)
-                      (inventory ?player ?masking_tape))
-   :effect (and (not (inventory ?player ?masking_tape))
-                (has_ten_strips ?loc ?masking_tape)))
-
-Action: make_tosses_column
-Entities involved:
-  - paper
-  - pen
-States before:
-  - player has paper and pen in their inventory
-States after:
-  - paper has a "Tosses" column
-
-PDDL:
-(:action make_tosses_column
-   :parameters (?player - player ?paper - paper ?pen - pen)
-   :precondition (and (inventory ?player ?paper)
-                      (inventory ?player ?pen))
-   :effect (tosses_column ?paper))
-
-Action: make_crosses_column
-Entities involved:
-  - paper
-  - pen
-States before:
-  - player has paper and pen in their inventory
-States after:
-  - paper has a "Crosses" column
-
-PDDL:
-(:action make_crosses_column
-   :parameters (?player - player ?paper - paper ?pen - pen)
-   :precondition (and (inventory ?player ?paper)
-                      (inventory ?player ?pen))
-   :effect (crosses_column ?paper))
-
-Action: thaw_food
-Entities involved:
-  - food_item
-States before:
-  - food_item is frozen
-States after:
-  - food_item is not frozen
-
-PDDL:
-(:action thaw_food
-    :parameters (?food_item - object)
-    :precondition (frozen ?food_item)
-    :effect (not (frozen ?food_item)))
-
-Action: throw
-Entities involved:
-  - player
-  - food_item
-  - location
-  - direction
-States before:
-  - player is at the location
-  - food_item is in player's inventory
-  - the location is clear and has enough throwing distance
-  - food_item is a suitable item to throw
-States after:
-  - food_item is thrown by the player
-
-PDDL:
-(:action throw
-    :parameters (?player - player ?food_item - object ?loc - location ?dir - direction)
-    :precondition (and (at ?player ?loc)
-                       (inventory ?player ?food_item)
-                       (is_food_item ?food_item)
-                       (is_long ?food_item)
-                       (is_thin ?food_item)
-                       (is_hard ?food_item)
-                       (is_straight ?food_item)
-                       (is_stiff ?food_item)
-                       (is_clear ?loc)
-                       (has_throwing_distance ?loc))
-    :effect (and (not (inventory ?player ?food_item))
-                 (thrown_food_items ?loc)))
-
-Action: record_tosses
-Entities involved:
-  - paper
-States before:
-  - paper has a tosses column
-  - food_item is thrown and landed
-States after:
-  - a tick is marked under the "Tosses" column
-
-PDDL:
-(:action record_tosses
-   :parameters (?paper - paper ?loc - location)
-   :precondition (and (tosses_column ?paper)
-                      (thrown_food_items ?loc))
-   :effect (tosses_recorded ?paper))
-
-Action: record_crosses
-Entities involved:
-  - paper
-States before:
-  - paper has crosses column
-  - food_item is thrown and landed across the lines
-States after:
-  - a tick is marked under the "Crosses" column
-
-PDDL:
-(:action record_crosses
-   :parameters (?paper - paper ?loc - location)
-   :precondition (and (crosses_column ?paper)
-                      (thrown_food_items ?loc))
-   :effect (crosses_recorded ?paper))
-
-Action: divide_crosses
-Entities involved:
-  - paper
-States before:
-  - paper has a crosses column
-  - paper has_crosses recorded
-States after:
-  - crosses column has divided the number of crosses by 2
-
-PDDL:
-(:action divide_crosses
-   :parameters (?paper - paper)
-   :precondition (crosses_recorded ?paper)
-   :effect (crosses_divided ?paper))
-
-Action: calculate_pi
-Entities involved:
-  - player
-  - paper
-States before:
-  - paper has tosses recorded
-  - paper has crosses divided
-States after:
-  - pi is calculated
-
-PDDL:
-(:action calculate_pi
-   :parameters (?player - player ?paper - paper)
-   :precondition (and (tosses_recorded ?paper)
-                      (crosses_divided ?paper))
-   :effect (calculated_pi ?player))
-
-Action: be_amazed
-Entities involved:
-  - player
-States before:
-  - player has calculated pi
-States after:
-  - player is amazed
-
-PDDL:
-(:action be_amazed
-    :parameters (?player - player)
-    :precondition (calculated_pi ?player)
-    :effect (amazed ?player))
-
+  :parameters (?floor - object ?masking_tape - masking_tape)
+  :precondition (not (has_ten_strips ?floor))
+  :effect (and (has_ten_strips ?floor) (at ?masking_tape ?floor))
 )
+```
+- action name: make_tosses_column
+- summarize action: The make_tosses_column action is creating a "Tosses" column on a piece of paper for recording the number of times the food item is thrown.
+- what is needed to do the action: A piece of paper and a writing utensil.
+- what is the result: A "Tosses" column is created on the piece of paper.
+
+- entities:
+  - entity name: paper
+    - before: no "Tosses" column
+    - after: "Tosses" column created
+  - entity name: writing utensil
+    - before: not used
+    - after: used to create "Tosses" column
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the paper does not have a "Tosses" column (not (tosses_column ?paper - paper))
+2. Create a "Tosses" column on the paper using the writing utensil.
+3. The paper now has a "Tosses" column (tosses_column ?paper - paper)
+
+pddl:
+```
+(:action make_tosses_column
+  :parameters (?paper - paper ?writing_utensil - pen)
+  :precondition (not (tosses_column ?paper))
+  :effect (tosses_column ?paper)
+)
+```
+
+- action name: make_crosses_column
+- summarize action: The make_crosses_column action is creating a "Crosses" column on a piece of paper for recording the number of times the food item crosses a line when thrown.
+- what is needed to do the action: A piece of paper and a writing utensil.
+- what is the result: A "Crosses" column is created on the piece of paper.
+
+- entities:
+  - entity name: paper
+    - before: no "Crosses" column
+    - after: "Crosses" column created
+  - entity name: writing utensil
+    - before: not used
+    - after: used to create "Crosses" column
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the paper does not have a "Crosses" column (not (crosses_column ?paper - paper))
+2. Create a "Crosses" column on the paper using the writing utensil.
+3. The paper now has a "Crosses" column (crosses_column ?paper - paper)
+
+pddl:
+```
+(:action make_crosses_column
+  :parameters (?paper - paper ?writing_utensil - pen)
+  :precondition (not (crosses_column ?paper))
+  :effect (crosses_column ?paper)
+)
+```
+- action name: throw
+- summarize action: The throw action involves selecting a suitable food item, making sure the area is clear, and then throwing the food item in a specified direction.
+- what is needed to do the action: A suitable food item and a clear area for throwing.
+- what is the result: The food item is thrown, and its position changes.
+
+- entities:
+  - entity name: food_item
+    - before: not thrown
+    - after: thrown
+  - entity name: area
+    - before: clear
+    - after: same, but food item has changed position
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the food item is suitable and the area is clear (`is_food_item` ?item - item), (`is_clear` ?area - location).
+2. Throw the food item in the specified direction.
+3. The food item has changed its position after being thrown (`thrown_food_items` ?area - location).
+
+pddl:
+```
+(:action throw
+  :parameters (?item - item ?area - location)
+  :precondition (and (is_food_item ?item) (is_clear ?area))
+  :effect (thrown_food_items ?area)
+)
+```
+
+- action name: record_tosses
+- summarize action: The record_tosses action involves marking a tick under the "Tosses" column on the paper each time the food item is thrown.
+- what is needed to do the action: A piece of paper with a "Tosses" column and a writing utensil.
+- what is the result: A tick is recorded under the "Tosses" column each time the food item is thrown.
+
+- entities:
+  - entity name: paper
+    - before: "Tosses" column with no ticks
+    - after: "Tosses" column with ticks recorded
+  - entity name: writing utensil
+    - before: not used
+    - after: used to record ticks
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the paper has a "Tosses" column and no ticks recorded (not (`tosses_recorded` ?paper - paper))
+2. Record a tick using the writing utensil under the "Tosses" column each time the food item is thrown.
+3. The paper now has ticks recorded under the "Tosses" column (`tosses_recorded` ?paper - paper)
+
+pddl:
+```
+(:action record_tosses
+  :parameters (?paper - paper ?writing_utensil - pen)
+  :precondition (and (tosses_column ?paper) (not (tosses_recorded ?paper)))
+  :effect (tosses_recorded ?paper)
+)
+```
+- action name: record_crosses
+- summarize action: The record_crosses action involves marking a tick under the "Crosses" column on the paper each time the food item lands across a line after being thrown.
+- what is needed to do the action: A piece of paper with a "Crosses" column, a writing utensil, and observing whether or not the food item crosses a line when thrown.
+- what is the result: A tick is recorded under the "Crosses" column each time the food item lands across a line.
+
+- entities:
+  - entity name: paper
+    - before: "Crosses" column with no ticks
+    - after: "Crosses" column with ticks recorded
+  - entity name: writing utensil
+    - before: not used
+    - after: used to record ticks
+  - entity name: food item
+    - before: thrown
+    - after: position changes after throwing
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the paper has a "Crosses" column and no ticks recorded (not (crosses_recorded ?paper - paper))
+2. Observe whether the food item crosses a line when thrown (thrown_food_items ?loc - location)
+3. Record a tick using the writing utensil under the "Crosses" column each time the food item lands across a line.
+4. The paper now has ticks recorded under the "Crosses" column (crosses_recorded ?paper - paper)
+
+pddl:
+```
+(:action record_crosses
+  :parameters (?paper - paper ?writing_utensil - pen ?loc - location)
+  :precondition (and (crosses_column ?paper) (not (crosses_recorded ?paper)) (thrown_food_items ?loc))
+  :effect (crosses_recorded ?paper)
+)
+```
+
+- action name: divide_crosses
+- summarize action: The divide_crosses action involves dividing the number of crosses by 2 on the paper after marking the ticks in the "Crosses" column.
+- what is needed to do the action: A piece of paper with ticks recorded in the "Crosses" column and a writing utensil.
+- what is the result: The number of crosses is divided by 2 on the paper.
+
+- entities:
+  - entity name: paper
+    - before: "Crosses" column with ticks recorded
+    - after: crosses divided by 2 on the paper
+  - entity name: writing utensil
+    - before: used to record ticks
+    - after: used to divide crosses
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Check if the paper has ticks recorded in the "Crosses" column (crosses_recorded ?paper - paper)
+2. Divide the number of crosses by 2 using the writing utensil.
+3. The paper now has the crosses divided by 2 (crosses_divided ?paper - paper)
+
+pddl:
+```
+(:action divide_crosses
+  :parameters (?paper - paper ?writing_utensil - pen)
+  :precondition (crosses_recorded ?paper)
+  :effect (crosses_divided ?paper)
+)
+```

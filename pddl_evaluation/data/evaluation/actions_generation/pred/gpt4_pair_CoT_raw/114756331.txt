@@ -1,141 +1,295 @@
-Action "go" (player moves to another location)
-Entities: player, location1, location2, direction
-States Before: (at player location1), (connected location1 direction location2)
-States After: (at player location2)
-PDDL:
+- action name: go
+- summarize action: The action of going from one location to another.
+- what is needed to do the action: The player needs to be calm and know the direction to move.
+- what is the result: The player moves to the new location.
 
+- entities:
+  - entity name: player
+    - before: at starting location
+    - after: at new location
+
+  - entity name: direction
+    - before: not moved
+    - after: moved to the new location
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: ?player - player, ?dir - direction, ?loc1 - location, ?loc2 - location.
+2. Add precondition: (and (calm ?player) (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+3. Add effect: (and (not (at ?player ?loc1)) (at ?player ?loc2))
+
+pddl:
 (:action go
-  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
-  :precondition (and (at ?player ?loc1)
-                     (connected ?loc1 ?dir ?loc2))
-  :effect (and (not (at ?player ?loc1))
-               (at ?player ?loc2)))
+  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+  :precondition (and (calm ?player) (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+------
+- action name: get
+- summarize action: The player picks up an item.
+- what is needed to do the action: The player needs to be near the item.
+- what is the result: The item is in the player's inventory.
 
-Action "get" (player collects a stick)
-Entities: player, stick
-States Before: (at player location), (at stick location), (connected player location stick location)
-States After: (inventory player stick)
-PDDL:
+- entities:
+  - entity name: player
+    - before: not having the item
+    - after: having the item
 
+  - entity name: item
+    - before: at location
+    - after: in player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: ?player - player, ?item - item, ?loc - location.
+2. Add precondition: (and (at ?player ?loc) (at ?item ?loc))
+3. Add effect: (and (not (at ?item ?loc)) (inventory ?player ?item))
+
+pddl:
 (:action get
-  :parameters (?player - player ?stick - stick ?loc - location)
-  :precondition (and (at ?player ?loc)
-                     (at ?stick ?loc))
-  :effect (inventory ?player ?stick))
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+------
+- action name: breathe
+- summarize action: The player takes deep breaths in quicksand to stay calm and become more buoyant.
+- what is needed to do the action: The player needs to be in quicksand.
+- what is the result: The player remains calm, reducing the risk of sinking further.
 
-Action "breathe" (player breathes deeply to become more buoyant)
-Entities: player
-States Before: (stuck player quicksand), (not (calm player))
-States After: (calm player)
-PDDL:
+- entities:
+  - entity name: player
+    - before: not calm or sinking in quicksand
+    - after: calm in quicksand
 
+  - entity name: quicksand
+    - before: player sinking
+    - after: player calming down and floating
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: ?player - player, ?quicksand - quicksand.
+2. Add precondition: (stuck ?player ?quicksand)
+3. Add effect: (calm ?player)
+
+pddl:
 (:action breathe
   :parameters (?player - player ?quicksand - quicksand)
-  :precondition (and (stuck ?player ?quicksand)
-                     (not (calm ?player)))
-  :effect (calm ?player))
+  :precondition (stuck ?player ?quicksand)
+  :effect (calm ?player)
+)
+------
+- action name: liedown
+- summarize action: The player lies down and tries to free their feet from the quicksand by increasing their "footprint."
+- what is needed to do the action: The player needs to be in quicksand with their feet stuck.
+- what is the result: The player frees their feet and rolls to their side.
 
-Action "liedown" (player lays down on their back to spread weight and free themselves from quicksand)
-Entities: player
-States Before: (stuck player quicksand), (not (laying player))
-States After: (laying player)
-PDDL:
+- entities:
+  - entity name: player
+    - before: stuck in quicksand
+    - after: laying down and freeing their feet
 
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: ?player - player, ?quicksand - quicksand.
+2. Add precondition: (stuck ?player ?quicksand)
+3. Add effect: (laying ?player)
+
+pddl:
 (:action liedown
   :parameters (?player - player ?quicksand - quicksand)
-  :precondition (and (stuck ?player ?quicksand)
-                     (not (laying ?player)))
-  :effect (laying ?player))
+  :precondition (stuck ?player ?quicksand)
+  :effect (laying ?player)
+)
+------
+- action name: swim
+- summarize action: The player swims out of the quicksand by floating on their back and moving their arms and legs.
+- what is needed to do the action: The player needs to be stuck in quicksand at hip level or higher and lying on their back.
+- what is the result: The player frees themselves and moves to a safer location.
 
-Action "swim" (player swims on their back to get out of quicksand)
-Entities: player, location
-States Before: (stuck player quicksand), (laying player)
-States After: (not (stuck player quicksand)), (at player location)
-PDDL:
+- entities:
+  - entity name: player
+    - before: stuck in deep quicksand
+    - after: free and at a safer location
 
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: ?player - player, ?quicksand - quicksand, ?loc1 - location, ?loc2 - location.
+2. Add precondition: (and (stuck ?player ?quicksand) (deep ?quicksand) (laying ?player) (at ?player ?loc1) (has_quicksand ?loc1) (connected ?loc1 ?loc2) (not (has_quicksand ?loc2)))
+3. Add effect: (and (not (stuck ?player ?quicksand)) (not (laying ?player)) (at ?player ?loc2))
+
+pddl:
 (:action swim
-  :parameters (?player - player ?quicksand - quicksand ?loc - location)
-  :precondition (and (stuck ?player ?quicksand)
-                     (laying ?player))
-  :effect (and (not (stuck ?player ?quicksand))
-               (at ?player ?loc)))
+  :parameters (?player - player ?quicksand - quicksand ?loc1 - location ?loc2 - location)
+  :precondition (and (stuck ?player ?quicksand) (deep ?quicksand) (laying ?player) (at ?player ?loc1) (has_quicksand ?loc1) (connected ?loc1 ?loc2) (not (has_quicksand ?loc2)))
+  :effect (and (not (stuck ?player ?quicksand)) (not (laying ?player)) (at ?player ?loc2))
+)
+------
+- action name: use_stick
+- summarize action: The player uses a stick to balance themselves and prevent sinking further in quicksand, freeing one leg after the other, and ultimately moving to firm ground.
+- what is needed to do the action: The player needs to have a stick and be stuck in quicksand.
+- what is the result: The player frees themselves from the quicksand and reaches firm ground.
 
-Action "usestick" (player uses a stick to help get out of quicksand)
-Entities: player, stick, quicksand
-States Before: (stuck player quicksand), (inventory player stick)
-States After: (not (stuck player quicksand))
-PDDL:
+- entities:
+  - entity name: player
+    - before: stuck in quicksand
+    - after: free and on firm ground
 
-(:action usestick
-  :parameters (?player - player ?stick - stick ?quicksand - quicksand)
-  :precondition (and (stuck ?player ?quicksand)
-                     (inventory ?player ?stick))
-  :effect (not (stuck ?player ?quicksand)))
+  - entity name: stick
+    - before: in player's inventory
+    - after: used to move out of quicksand
 
-Action "rest" (player relaxes and becomes calm)
-Entities: player
-States Before: (tired player), (not (calm player))
-States After: (calm player)
-PDDL:
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: ?player - player, ?stick - stick, ?quicksand - quicksand, ?loc1 - location, ?loc2 - location.
+2. Add precondition: (and (stuck ?player ?quicksand) (inventory ?player ?stick) (at ?player ?loc1) (has_quicksand ?loc1) (connected ?loc1 ?loc2) (not (has_quicksand ?loc2)))
+3. Add effect: (and (not (stuck ?player ?quicksand)) (at ?player ?loc2))
 
+pddl:
+(:action use_stick
+  :parameters (?player - player ?stick - stick ?quicksand - quicksand ?loc1 - location ?loc2 - location)
+  :precondition (and (stuck ?player ?quicksand) (inventory ?player ?stick) (at ?player ?loc1) (has_quicksand ?loc1) (connected ?loc1 ?loc2) (not (has_quicksand ?loc2)))
+  :effect (and (not (stuck ?player ?quicksand)) (at ?player ?loc2))
+)
+------
+- action name: rest
+- summarize action: The player rests and relaxes to gather energy and remain calm.
+- what is needed to do the action: The player needs to be tired.
+- what is the result: The player is no longer tired and becomes calm.
+
+- entities:
+  - entity name: player
+    - before: tired
+    - after: calm and not tired
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: ?player - player
+2. Add precondition: (tired ?player)
+3. Add effect: (and (calm ?player) (not (tired ?player)))
+
+pddl:
 (:action rest
   :parameters (?player - player)
-  :precondition (and (tired ?player)
-                     (not (calm ?player)))
-  :effect (calm ?player))
+  :precondition (tired ?player)
+  :effect (and (calm ?player) (not (tired ?player)))
+)
+------
+- action name: drop
+- summarize action: The player drops heavy items to avoid sinking further in quicksand.
+- what is needed to do the action: The player needs to be in quicksand and have heavy items.
+- what is the result: The player no longer has heavy items, reducing the risk of sinking further.
 
-Action "drop" (player drops heavy items)
-Entities: player, item
-States Before: (stuck player quicksand), (inventory player item)
-States After: (not (inventory player item)), (at item location)
-PDDL:
+- entities:
+  - entity name: player
+    - before: holding heavy items and sinking
+    - after: not holding heavy items and floating
 
+  - entity name: item
+    - before: in player's inventory
+    - after: dropped at current location
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: ?player - player, ?item - item, ?quicksand - quicksand.
+2. Add precondition: (and (stuck ?player ?quicksand) (inventory ?player ?item))
+3. Add effect: (and (not (inventory ?player ?item)) (at ?item ?quicksand))
+
+pddl:
 (:action drop
-  :parameters (?player - player ?item - object ?loc - location)
-  :precondition (and (stuck ?player quicksand)
-                     (inventory ?player ?item)
-                     (at ?player ?loc))
-  :effect (and (not (inventory ?player ?item))
-               (at ?item ?loc)))
+  :parameters (?player - player ?item - item ?quicksand - quicksand)
+  :precondition (and (stuck ?player ?quicksand) (inventory ?player ?item))
+  :effect (and (not (inventory ?player ?item)) (at ?item ?quicksand))
+)
+------
+- action name: check_ripples
+- summarize action: The player checks for ripples or wet, unstable ground to identify the presence of quicksand.
+- what is needed to do the action: The player needs to be at a location with possible quicksand.
+- what is the result: The player becomes aware of the presence of quicksand at the location.
 
-Action "check_ripples" (player checks for ripples at location)
-Entities: player, location
-States Before: (at player location), (not (aware player location))
-States After: (aware player location)
-PDDL:
+- entities:
+  - entity name: player
+    - before: not aware of quicksand at location
+    - after: aware of quicksand at location
 
+  - entity name: location
+    - before: presence of ripples and possible quicksand
+    - after: player aware of quicksand
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: ?player - player, ?location - location.
+2. Add precondition: (and (at ?player ?location) (has_ripples ?location))
+3. Add effect: (aware ?player ?location)
+
+pddl:
 (:action check_ripples
-  :parameters (?player - player ?loc - location)
-  :precondition (and (at ?player ?loc)
-                     (not (aware ?player ?loc)))
-  :effect (aware ?player ?loc))
+  :parameters (?player - player ?location - location)
+  :precondition (and (at ?player ?location) (has_ripples ?location))
+  :effect (aware ?player ?location)
+)
+------
+- action name: test_ground
+- summarize action: The player uses a walking stick to test the ground in front of them to avoid stepping into quicksand during a hike.
+- what is needed to do the action: The player needs to have a walking stick and be near an area with potential quicksand.
+- what is the result: The player avoids stepping into quicksand and remains safe on the hike.
 
-Action "test_ground" (player tests ground with a stick)
-Entities: player, stick, location
-States Before: (inventory player stick), (not (aware player location))
-States After: (aware player location)
-PDDL:
+- entities:
+  - entity name: player
+    - before: potentially stepping into quicksand
+    - after: aware and avoiding quicksand
 
+  - entity name: stick
+    - before: in player's inventory
+    - after: used to test the ground
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: ?player - player, ?stick - stick, ?location - location.
+2. Add precondition: (and (inventory ?player ?stick) (at ?player ?location) (has_quicksand ?location))
+3. Add effect: (aware ?player ?location)
+
+pddl:
 (:action test_ground
-  :parameters (?player - player ?stick - stick ?loc - location)
-  :precondition (and (inventory ?player ?stick)
-                     (not (aware ?player ?loc)))
-  :effect (aware ?player ?loc))
+  :parameters (?player - player ?stick - stick ?location - location)
+  :precondition (and (inventory ?player ?stick) (at ?player ?location) (has_quicksand ?location))
+  :effect (aware ?player ?location)
+)
+------
+- action name: research
+- summarize action: The player researches the area they are in to gather information about potential hazards, such as quicksand.
+- what is needed to do the action: The player needs to be in a location with potential hazards.
+- what is the result: The player becomes aware of any hazards, such as quicksand, in that location.
 
-Action "research" (cannot derive action from available text)
+- entities:
+  - entity name: player
+    - before: not aware of hazards
+    - after: aware of hazards
 
-Action "move_horizontally" (player moves horizontally to avoid getting stuck in quicksand)
-Entities: player, location
-States Before: (at player location1), (has_quicksand location1), (connected location1 direction location2)
-States After: (not (stuck player quicksand)), (at player location2)
-PDDL:
+  - entity name: location
+    - before: potential hazards
+    - after: player is aware of hazards
 
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: ?player - player, ?location - location.
+2. Add precondition: (at ?player ?location)
+3. Add effect: (forall (?hazard) (aware ?player ?location))
+
+pddl:
+(:action research
+  :parameters (?player - player ?location - location)
+  :precondition (at ?player ?location)
+  :effect (forall (?hazard) (aware ?player ?location))
+)
+------
+- action name: move_horizontally
+- summarize action: The player moves horizontally when their feet become stuck in quicksand, and avoids getting more stuck by not making big steps.
+- what is needed to do the action: The player needs to be stuck in quicksand, and their feet need to be stuck.
+- what is the result: The player does not get more stuck and maintains their position.
+
+- entities:
+  - entity name: player
+    - before: stuck in quicksand
+    - after: not stuck further in quicksand
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: ?player - player, ?quicksand - quicksand.
+2. Add precondition: (stuck ?player ?quicksand)
+3. Add effect: (not (deep ?quicksand))
+
+pddl:
 (:action move_horizontally
-  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
-  :precondition (and (at ?player ?loc1)
-                     (has_quicksand ?loc1)
-                     (connected ?loc1 ?dir ?loc2))
-  :effect (and (not (stuck ?player quicksand))
-               (at ?player ?loc2)))
-
+  :parameters (?player - player ?quicksand - quicksand)
+  :precondition (stuck ?player ?quicksand)
+  :effect (not (deep ?quicksand))
 )

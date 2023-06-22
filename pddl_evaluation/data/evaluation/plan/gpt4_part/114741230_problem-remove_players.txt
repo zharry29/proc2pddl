@@ -1,0 +1,3 @@
+teach_new_member_secret ('anish', 'ss')
+remove_member ('anish', 'ss')
+check_if_cult ('ss')

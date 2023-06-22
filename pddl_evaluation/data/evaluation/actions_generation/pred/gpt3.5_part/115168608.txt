@@ -1,0 +1,67 @@
+(:action get 
+ :parameters (?player - player ?item - papyrus_plant)
+ :precondition ()
+ :effect (and (inventory ?player ?item) (not_gettable ?item))
+)
+
+(:action travel 
+ :parameters (?player - player ?loc_from ?loc_to - location)
+ :precondition (at ?player ?loc_from)
+ :effect (and (not (at ?player ?loc_from)) (at ?player ?loc_to))
+)
+
+(:action search_location
+ :parameters (?player - player ?loc - location)
+ :precondition (at ?player ?loc)
+ :effect (searched ?loc)
+)
+
+(:action pluck_river_reeds
+ :parameters (?player - player ?item - papyrus_plant)
+ :precondition (and (at ?player ?loc) (searched ?loc))
+ :effect (and (inventory ?player ?item) (not_gettable ?item))
+)
+
+(:action cut_stalks
+ :parameters (?player - player ?item - papyrus_stalks)
+ :precondition (and (at ?player ?loc) (inventory ?player ?item))
+ :effect ()
+)
+
+(:action cut_strips
+ :parameters (?player - player ?item - papyrus_strips)
+ :precondition (and (at ?player ?loc) (inventory ?player ?item))
+ :effect ()
+)
+
+(:action soak_strips
+ :parameters (?player - player ?item - papyrus_strips ?water - water)
+ :precondition (and (at ?player ?loc) (inventory ?player ?item) (inventory ?player ?water))
+ :effect (soaked ?item)
+)
+
+(:action roll_strips
+ :parameters (?player - player ?item - papyrus_strips ?rolling_pin - rolling_pin)
+ :precondition (and (at ?player ?loc) (inventory ?player ?item) (inventory ?player ?rolling_pin))
+ :effect (and (dried ?item) (not (soaked ?item)))
+)
+
+(:action weave_strips
+ :parameters (?player - player ?item - papyrus_strips ?linen_sheet - linen_sheets)
+ :precondition (and (at ?player ?loc) (inventory ?player ?item) (inventory ?player ?linen_sheet))
+ :effect (and (woven ?item) (not (dried ?item)))
+)
+
+(:action bundle_strips
+ :parameters (?player - player ?item - papyrus_strips ?wooden_board - wooden_boards)
+ :precondition (and (at ?player ?loc) (inventory ?player ?item) (inventory ?player ?wooden_board))
+ :effect (and (finished ?item) (not (woven ?item)))
+)
+
+(:action cut_sheet
+ :parameters (?player - player ?item - linen_sheets)
+ :precondition (and (at ?player ?loc) (inventory ?player ?item))
+ :effect ()
+)
+
+)

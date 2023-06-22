@@ -1,0 +1,111 @@
+(:action go
+:list of entities: player, location, direction
+:states before: (at ?player ?loc1) (connected ?loc1 ?dir ?loc2)
+:states after: (at ?player ?loc2) (not (at ?player ?loc1))
+:pddl format:
+(:action go
+  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+  :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+)
+
+(:action get
+:list of entities: player, item, location
+:states before: (at ?item ?loc) (at ?player ?loc) (not (inventory ?player ?item))
+:states after: (inventory ?player ?item) (not (at ?item ?loc))
+:pddl format:
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?item ?loc) (at ?player ?loc))
+  :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+
+(:action build_roof
+:list of entities: player, log, roof
+:states before: (inventory ?player ?log) (not (exists (?roof - roof)))
+:states after: (exists (?roof - roof))
+:pddl format:
+(:action build_roof
+  :parameters (?player - player ?log - log ?roof - roof)
+  :precondition (and (inventory ?player ?log) (not (exists ?roof - roof)))
+  :effect (exists ?roof - roof)
+)
+
+(:action build_wall
+:list of entities: player, small_sticks, wall
+:states before: (inventory ?player ?small_sticks) (not (exists (?wall - wall)))
+:states after: (exists (?wall - wall))
+:pddl format:
+(:action build_wall
+  :parameters (?player - player ?small_sticks - small_sticks ?wall - wall)
+  :precondition (and (inventory ?player ?small_sticks) (not (exists ?wall - wall)))
+  :effect (exists ?wall - wall)
+)
+
+(:action build_bed
+:list of entities: player, leaves, shelter
+:states before: (inventory ?player ?leaves) (not (exists (?shelter - shelter)))
+:states after: (exists (?shelter - shelter))
+:pddl format:
+(:action build_bed
+  :parameters (?player - player ?leaves - leaves ?shelter - shelter)
+  :precondition (and (inventory ?player ?leaves) (not (exists ?shelter - shelter)))
+  :effect (exists ?shelter - shelter)
+)
+
+(:action complete_shelter
+:list of entities: player, shelter, wall, roof
+:states before: (exists (?roof - roof)) (exists (?wall - wall))
+:states after: (exists (?shelter - shelter))
+:pddl format:
+(:action complete_shelter
+  :parameters (?player - player ?shelter - shelter ?wall - wall ?roof - roof)
+  :precondition (and (exists ?roof - roof) (exists ?wall - wall))
+  :effect (exists ?shelter - shelter)
+)
+
+(:action hunt_animal
+:list of entities: player, animal
+:states before: (not (inventory ?player ?animal))
+:states after: (inventory ?player ?animal)
+:pddl format:
+(:action hunt_animal
+  :parameters (?player - player ?animal - animal)
+  :precondition (not (inventory ?player ?animal))
+  :effect (inventory ?player ?animal)
+)
+
+(:action prepare_animal
+:list of entities: player, animal
+:states before: (inventory ?player ?animal) (not (treated ?animal))
+:states after: (treated ?animal)
+:pddl format:
+(:action prepare_animal
+  :parameters (?player - player ?animal - animal)
+  :precondition (and (inventory ?player ?animal) (not (treated ?animal)))
+  :effect (treated ?animal)
+)
+
+(:action build_raft
+:list of entities: player, log, small_sticks, vines, raft_draft
+:states before: (inventory ?player ?log) (inventory ?player ?small_sticks) (inventory ?player ?vines) (not (exists (?raft_draft - raft_draft)))
+:states after: (exists (?raft_draft - raft_draft))
+:pddl format:
+(:action build_raft
+  :parameters (?player - player ?log - log ?small_sticks - small_sticks ?vines - vines ?raft_draft - raft_draft)
+  :precondition (and (inventory ?player ?log) (inventory ?player ?small_sticks) (inventory ?player ?vines) (not (exists ?raft_draft - raft_draft)))
+  :effect (exists ?raft_draft - raft_draft)
+)
+
+(:action test_raft
+:list of entities: player, raft_draft, raft_finished
+:states before: (exists (?raft_draft - raft_draft))
+:states after: (exists (?raft_finished - raft_finished))
+:pddl format:
+(:action test_raft
+  :parameters (?player - player ?raft_draft - raft_draft ?raft_finished - raft_finished)
+  :precondition (exists ?raft_draft - raft_draft)
+  :effect (exists ?raft_finished - raft_finished)
+)
+
+)

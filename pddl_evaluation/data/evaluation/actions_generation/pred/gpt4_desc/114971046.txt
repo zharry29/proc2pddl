@@ -1,0 +1,61 @@
+(:action drive
+   :parameters (?p - player ?loc1 - location ?loc2 - location ?dir - direction ?car - item)
+   :precondition (and (is_car ?car) (at ?car ?loc1) (inventory ?p ?car) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+)
+
+(:action walk
+   :parameters (?p - player ?loc1 - location ?loc2 - location ?dir - direction)
+   :precondition (and (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+)
+
+(:action get_food
+   :parameters (?p - player ?f - item ?loc - location)
+   :precondition (and (is_supermarket ?loc) (is_nonperishable ?f) (at ?f ?loc) (at ?p ?loc))
+   :effect (inventory ?p ?f)
+)
+
+(:action get
+   :parameters (?p - player ?obj - item ?loc - location)
+   :precondition (and (at ?obj ?loc) (at ?p ?loc))
+   :effect (inventory ?p ?obj)
+)
+
+(:action drop
+   :parameters (?p - player ?obj - item ?loc - location)
+   :precondition (and (inventory ?p ?obj) (at ?p ?loc))
+   :effect (and (not (inventory ?p ?obj)) (at ?obj ?loc))
+)
+
+(:action make_plan
+   :parameters (?p - player)
+   :precondition ()
+   :effect (has_plan ?p)
+)
+
+(:action get_medicine
+   :parameters (?p - player ?m - item ?loc - location)
+   :precondition (and (is_pharmacy ?loc) (is_medicine ?m) (at ?m ?loc) (at ?p ?loc))
+   :effect (inventory ?p ?m)
+)
+
+(:action reinforce
+   :parameters (?p - player ?obj - item ?loc - location)
+   :precondition (and (is_construction_material ?obj) (inventory ?p ?obj) (is_home ?loc) (at ?p ?loc))
+   :effect (is_underground ?loc)
+)
+
+(:action stay_in_shelter
+   :parameters (?p - player ?loc - location)
+   :precondition (and (is_underground ?loc) (at ?p ?loc))
+   :effect (sheltered ?p)
+)
+
+(:action get_in_car
+   :parameters (?p - player ?car - item ?loc - location)
+   :precondition (and (is_car ?car) (at ?car ?loc) (at ?p ?loc))
+   :effect (and (inventory ?p ?car) (driving ?p))
+)
+
+)

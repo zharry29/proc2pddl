@@ -1,0 +1,71 @@
+(:action get
+ :parameters (?c - coconut
+              ?s - screwdriver
+              ?m - mallet
+              ?k - knife
+              ?t - towel
+              ?cw - container_without_water)
+ :precondition (and (not (inventory ?c))
+                    (not (inventory ?s))
+                    (not (inventory ?m))
+                    (not (inventory ?k))
+                    (not (inventory ?t))
+                    (not (inventory ?cw)))
+ :effect (and (inventory ?c)
+              (inventory ?s)
+              (inventory ?m)
+              (inventory ?k)
+              (inventory ?t)
+              (inventory ?cw)))
+
+(:action poke
+ :parameters (?c - coconut 
+              ?s - screwdriver 
+              ?m - mallet)
+ :precondition (and (inventory ?c)
+                    (inventory ?s)
+                    (inventory ?m)
+                    (not (has_eyes_poked ?c)))
+ :effect (has_eyes_poked ?c))
+
+(:action flip
+ :parameters (?c - coconut
+              ?cw - container_without_water)
+ :precondition (and (inventory ?c)
+                    (inventory ?cw)
+                    (has_eyes_poked ?c))
+ :effect (is_item_container_with_water ?cw))
+
+(:action wrap
+ :parameters (?c - coconut
+              ?t - towel)
+ :precondition (and (inventory ?c)
+                    (inventory ?t)
+                    (not (is_item_wrapped_coconut ?c)))
+ :effect (is_item_wrapped_coconut ?c))
+
+(:action hit
+ :parameters (?cw - coconut_wrapped
+              ?m - mallet)
+ :precondition (and (inventory ?cw)
+                    (inventory ?m)
+                    (is_item_wrapped_coconut ?cw))
+ :effect (is_item_broken_coconut ?cw))
+
+(:action free
+ :parameters (?cb - coconut_broken
+              ?k - knife)
+ :precondition (and (inventory ?cb)
+                    (inventory ?k)
+                    (is_item_broken_coconut ?cb))
+ :effect (is_item_coconut_meat ?cb))
+
+(:action remove_fiber
+ :parameters (?cm - coconut_meat
+              ?k - knife)
+ :precondition (and (inventory ?cm)
+                    (inventory ?k)
+                    (is_item_coconut_meat ?cm))
+ :effect (is_item_coconut_meat_peeled ?cm))
+
+)

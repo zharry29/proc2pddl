@@ -1,0 +1,383 @@
+- action name: go
+- summarize action: The player moves from one location to another in a specific direction.
+- what is needed to do the action: The player is at the current location and there is a connection between the current location and the next location in a specific direction.
+- what is the result: The player will be at the new location after moving in that direction.
+
+- entities:
+  - entity name: player
+    - before: at current location
+    - after: at new location
+  - entity name: current location
+    - before: player present
+    - after: player not present
+  - entity name: direction
+  - entity name: new location
+    - before: player not present
+    - after: player present
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check the precondition that the player is at the current location using (at ?player ?current_loc).
+2. Check the precondition that the current and new locations are connected in the specific direction using (connected ?current_loc ?dir ?new_loc).
+3. Move the player in the specified direction by removing the old location and adding the new location to their at predicate in the action's effect.
+
+pddl:
+```
+(:action go
+ :parameters (?player - player ?current_loc - location ?dir - direction ?new_loc - location)
+ :precondition (and
+                (at ?player ?current_loc)
+                (connected ?current_loc ?dir ?new_loc))
+ :effect (and
+          (not (at ?player ?current_loc))
+          (at ?player ?new_loc)))
+```
+
+- action name: get
+- summarize action: The player picks up an item present at their current location.
+- what is needed to do the action: The player is at a location where the item is present.
+- what is the result: The item is added to the player's inventory and removed from the location.
+
+- entities:
+  - entity name: player
+  - entity name: item
+    - before: at location
+    - after: in player inventory
+  - entity name: location
+    - before: item present
+    - after: item not present
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check the precondition that the player is at the location where the item is present using (at ?player ?location) and (at ?item ?location).
+2. Add the item to the player's inventory and remove it from the location in the action's effect using (not (at ?item ?location)) and (inventory ?player ?item).
+
+pddl:
+```
+(:action get
+ :parameters (?player - player ?item - item ?location - location)
+ :precondition (and
+                (at ?player ?location)
+                (at ?item ?location))
+ :effect (and
+          (not (at ?item ?location))
+          (inventory ?player ?item)))
+```
+
+- action name: drop
+- summarize action: The player drops an item from their inventory at their current location.
+- what is needed to do the action: The player has the item in their inventory and is at a location.
+- what is the result: The item is removed from the player's inventory and added to the location.
+
+- entities:
+  - entity name: player
+  - entity name: item
+    - before: in player inventory
+    - after: at location
+  - entity name: location
+    - before: item not present
+    - after: item present
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check the precondition that the player has the item in their inventory using (inventory ?player ?item).
+2. Check the precondition that the player is at a location using (at ?player ?location).
+3. Remove the item from the player's inventory and add it to the location in the action's effect using (not (inventory ?player ?item)) and (at ?item ?location).
+
+pddl:
+```
+(:action drop
+ :parameters (?player - player ?item - item ?location - location)
+ :precondition (and
+                (inventory ?player ?item)
+                (at ?player ?location))
+ :effect (and
+          (not (inventory ?player ?item))
+          (at ?item ?location)))
+```
+
+- action name: pierce
+- summarize action: The player pierces an item with another item.
+- what is needed to do the action: The player has both items in their inventory.
+- what is the result: The pierced item is marked as pierced.
+
+- entities:
+  - entity name: player
+  - entity name: item1
+    - before: item not pierced
+    - after: item pierced
+  - entity name: item2
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check the precondition that the player has both items in their inventory using (inventory ?player ?item1) and (inventory ?player ?item2).
+2. Mark the item1 as pierced in the action's effect using (pierced ?item1).
+
+pddl:
+```
+(:action pierce
+ :parameters (?player - player ?item1 - item ?item2 - item)
+ :precondition (and
+                (inventory ?player ?item1)
+                (inventory ?player ?item2))
+ :effect (pierced ?item1))
+```
+
+- action name: drain
+- summarize action: The player drains the liquid from an item.
+- what is needed to do the action: The player has the item in their inventory, and the item is pierced.
+- what is the result: The item is marked as empty.
+
+- entities:
+  - entity name: player
+  - entity name: item
+    - before: item pierced and not empty
+    - after: item empty
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check the precondition that the player has the item in their inventory using (inventory ?player ?item).
+2. Check the precondition that the item is pierced using (pierced ?item).
+3. Mark the item as empty in the action's effect using (empty ?item).
+
+pddl:
+```
+(:action drain
+ :parameters (?player - player ?item - item)
+ :precondition (and
+                (inventory ?player ?item)
+                (pierced ?item))
+ :effect (empty ?item))
+```
+
+- action name: turn_on_oven
+- summarize action: The player turns on the oven.
+- what is needed to do the action: The player is at the location of the oven.
+- what is the result: The oven is turned on.
+
+- entities:
+  - entity name: player
+  - entity name: oven - location
+    - before: oven off
+    - after: oven on
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check the precondition that the player is at the oven's location using (at ?player ?oven).
+2. Turn on the oven in the action's effect using (on ?oven).
+
+pddl:
+```
+(:action turn_on_oven
+ :parameters (?player - player ?oven - location)
+ :precondition (at ?player ?oven)
+ :effect (on ?oven))
+```
+
+- action name: burn_item
+- summarize action: The player burns an item in the oven.
+- what is needed to do the action: The player has the item in their inventory, the oven is on, and the player is at the oven's location.
+- what is the result: The item is marked as burnt.
+
+- entities:
+  - entity name: player
+  - entity name: item
+    - before: item not burnt
+    - after: item burnt
+  - entity name: oven - location
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check the precondition that the player has the item in their inventory using (inventory ?player ?item).
+2. Check the precondition that the oven is on using (on ?oven).
+3. Check the precondition that the player is at the oven's location using (at ?player ?oven).
+4. Mark the item as burnt in the action's effect using (burnt ?item).
+
+pddl:
+```
+(:action burn_item
+ :parameters (?player - player ?item - item ?oven - location)
+ :precondition (and
+                (inventory ?player ?item)
+                (on ?oven)
+                (at ?player ?oven))
+ :effect (burnt ?item))
+```
+
+- action name: turn_off_oven
+- summarize action: The player turns off the oven.
+- what is needed to do the action: The player is at the location of the oven and the oven is on.
+- what is the result: The oven is turned off.
+
+- entities:
+  - entity name: player
+  - entity name: oven - location
+    - before: oven on
+    - after: oven off
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check the precondition that the player is at the oven's location using (at ?player ?oven).
+2. Check the precondition that the oven is on using (on ?oven).
+3. Turn off the oven in the action's effect using (not (on ?oven)).
+
+pddl:
+```
+(:action turn_off_oven
+ :parameters (?player - player ?oven - location)
+ :precondition (and
+                (at ?player ?oven)
+                (on ?oven))
+ :effect (not (on ?oven)))
+```
+
+- action name: wrap_coconut
+- summarize action: The player wraps an item with another item.
+- what is needed to do the action: The player has both items in their inventory.
+- what is the result: The item1 is marked as wrapped and item2 is recorded as the item it is wrapped with.
+
+- entities:
+  - entity name: player
+  - entity name: item1
+    - before: item not wrapped
+    - after: item wrapped
+  - entity name: item2
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check the precondition that the player has both items in their inventory using (inventory ?player ?item1) and (inventory ?player ?item2).
+2. Mark item1 as wrapped and record that it is wrapped with item2 in the action's effect using (wrapped ?item1) and (wrapped_with ?item1 ?item2).
+
+pddl:
+```
+(:action wrap_coconut
+ :parameters (?player - player ?item1 - item ?item2 - item)
+ :precondition (and
+                (inventory ?player ?item1)
+                (inventory ?player ?item2))
+ :effect (and
+          (wrapped ?item1)
+          (wrapped_with ?item1 ?item2)))
+```
+
+- action name: unwrap_coconut
+- summarize action: The player unwraps an item that was wrapped with another item.
+- what is needed to do the action: The player has the wrapped item in their inventory and the item is wrapped with another item.
+- what is the result: The item1 is marked as not wrapped, and the wrapped_with predicate is removed.
+
+- entities:
+  - entity name: player
+  - entity name: item1
+    - before: item wrapped
+    - after: item not wrapped
+  - entity name: item2
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check the precondition that the player has the wrapped item in their inventory using (inventory ?player ?item1).
+2. Check the precondition that item1 is wrapped with item2 using (wrapped_with ?item1 ?item2).
+3. Mark item1 as not wrapped and remove the wrapped_with predicate in the action's effect using (not (wrapped ?item1)) and (not (wrapped_with ?item1 ?item2)).
+
+pddl:
+```
+(:action unwrap_coconut
+ :parameters (?player - player ?item1 - item ?item2 - item)
+ :precondition (and
+                (inventory ?player ?item1)
+                (wrapped_with ?item1 ?item2))
+ :effect (and
+          (not (wrapped ?item1))
+          (not (wrapped_with ?item1 ?item2))))
+```
+
+- action name: smash_with_hands
+- summarize action: The player smashes an item with their hands.
+- what is needed to do the action: The player has the item in their inventory.
+- what is the result: The item is marked as smashed.
+
+- entities:
+  - entity name: player
+  - entity name: item
+    - before: item not smashed
+    - after: item smashed
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check the precondition that the player has the item in their inventory using (inventory ?player ?item).
+2. Mark the item as smashed in the action's effect using (smashed ?item).
+
+pddl:
+```
+(:action smash_with_hands
+ :parameters (?player - player ?item - item)
+ :precondition (inventory ?player ?item)
+ :effect (smashed ?item))
+```
+
+- action name: separate
+- summarize action: The player separates the meat from the shell of an item.
+- what is needed to do the action: The player has the item in their inventory, and the item is smashed.
+- what is the result: The separated item creates a new item marked as peeled.
+
+- entities:
+  - entity name: player
+  - entity name: item
+    - before: item smashed
+  - entity name: new_item
+    - after: item peeled
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check the precondition that the player has the item in their inventory using (inventory ?player ?item).
+2. Check the precondition that the item is smashed using (smashed ?item).
+3. Create a new item marked as peeled in the action's effect using (peeled ?new_item) and add it to the player's inventory using (inventory ?player ?new_item).
+
+pddl:
+```
+(:action separate
+ :parameters (?player - player ?item - item ?new_item - item)
+ :precondition (and
+                (inventory ?player ?item)
+                (smashed ?item))
+ :effect (and
+          (peeled ?new_item)
+          (inventory ?player ?new_item)))
+```
+
+- action name: peel
+- summarize action: The player peels a separated item.
+- what is needed to do the action: The player has the separated item in their inventory, and the item is peeled.
+- what is the result: The item is marked as peeled.
+
+- entities:
+  - entity name: player
+  - entity name: item
+    - before: item separated and not peeled
+    - after: item peeled
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check the precondition that the player has the separated item in their inventory using (inventory ?player ?item).
+2. Peel the item in the action's effect using (peeled ?item).
+
+pddl:
+```
+(:action peel
+ :parameters (?player - player ?item - item)
+ :precondition (inventory ?player ?item)
+ :effect (peeled ?item))
+```
+
+- action name: smash_with_mallet
+- summarize action: The player smashes an item with a mallet.
+- what is needed to do the action: The player has the item and the mallet in their inventory.
+- what is the result: The item is marked as smashed.
+
+- entities:
+  - entity name: player
+  - entity name: item
+    - before: item not smashed
+    - after: item smashed
+  - entity name: mallet
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check the precondition that the player has the item in their inventory using (inventory ?player ?item).
+2. Check the precondition that the player has the mallet in their inventory using (inventory ?player ?mallet).
+3. Smash the item in the action's effect using (smashed ?item).
+
+pddl:
+```
+(:action smash_with_mallet
+ :parameters (?player - player ?item - item ?mallet - item)
+ :precondition (and
+                (inventory ?player ?item)
+                (inventory ?player ?mallet))
+ :effect (smashed ?item))
+```

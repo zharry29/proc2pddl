@@ -1,0 +1,89 @@
+Action: collect_water
+Entities: player, rainwater, leaves, bamboo, rock_formation, container, natural_container, water
+States before: has_water_source(location), not(contains(container, water)), not(is_thirsty(player))
+States after: contains(container, water), consumed_water(player)
+PDDL:
+(:action collect_water
+   :parameters (?player - player ?loc - location ?container - container ?water - water)
+   :precondition (and (has_water_source ?loc) (not (contains ?container ?water)) (not (is_thirsty ?player)))
+   :effect (and (contains ?container ?water) (not (is_thirsty ?player)))
+)
+
+Action: gather_sticks
+Entities: player, location, sticks
+States before: at(player, location), has_sticks(location), not(inventory(player, sticks))
+States after: at(player, location), has_sticks(location), inventory(player, sticks)
+PDDL:
+(:action gather_sticks
+   :parameters (?player - player ?loc - location ?sticks - sticks)
+   :precondition (and (at ?player ?loc) (has_sticks ?loc) (not (inventory ?player ?sticks)))
+   :effect (inventory ?player ?sticks)
+)
+
+Action: make_fire
+Entities: player, location, fire
+States before: at(player, location), has_fire(location)
+States after: has_fire(location)
+PDDL:
+(:action make_fire
+   :parameters (?player - player ?loc - location)
+   :precondition (and (at ?player ?loc) (not (has_fire ?loc)))
+   :effect (has_fire ?loc)
+)
+
+Action: boil_water
+Entities: player, fire, water, container
+States before: has_fire(location), is_contaminated(water), contains(container, water)
+States after: contains(container, water), not(is_contaminated(water))
+PDDL:
+(:action boil_water
+   :parameters (?player - player ?loc - location ?container - container ?water - water)
+   :precondition (and (has_fire ?loc) (contains ?container ?water) (is_contaminated ?water))
+   :effect (and (contains ?container ?water) (not (is_contaminated ?water)))
+)
+
+Action: build_shelter
+Entities: player, location, tree, leaves, sticks, shelter
+States before: at(player, location), has_tree(location), not(has_shelter(location))
+States after: has_shelter(location)
+PDDL:
+(:action build_shelter
+   :parameters (?player - player ?loc - location)
+   :precondition (and (at ?player ?loc) (has_tree ?loc) (not (has_shelter ?loc)))
+   :effect (has_shelter ?loc)
+)
+
+Action: eat_food
+Entities: player, food
+States before: is_hungry(player), inventory(player, food)
+States after: not(is_hungry(player))
+PDDL:
+(:action eat_food
+   :parameters (?player - player ?food - food)
+   :precondition (and (is_hungry ?player) (inventory ?player ?food))
+   :effect (not (is_hungry ?player))
+)
+
+Action: drink_water
+Entities: player, water, container
+States before: is_thirsty(player), contains(container, water), not(is_contaminated(water))
+States after: not(is_thirsty(player))
+PDDL:
+(:action drink_water
+   :parameters (?player - player ?container - container ?water - water)
+   :precondition (and (is_thirsty ?player) (contains ?container ?water) (not (is_contaminated ?water)))
+   :effect (not (is_thirsty ?player))
+)
+
+Action: sleep_in_shelter
+Entities: player, location, shelter
+States before: at(player, location), is_tired(player), has_shelter(location)
+States after: not(is_tired(player))
+PDDL:
+(:action sleep_in_shelter
+   :parameters (?player - player ?loc - location)
+   :precondition (and (at ?player ?loc) (is_tired ?player) (has_shelter ?loc))
+   :effect (not (is_tired ?player))
+)
+
+)

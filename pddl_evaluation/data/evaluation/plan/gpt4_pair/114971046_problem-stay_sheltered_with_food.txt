@@ -1,3 +1,2 @@
-walk ('npc', 'home', 'basement', 'in')
-make_plan ('npc')
+walk ('npc', 'in', 'home', 'basement')
 stay_in_shelter ('npc', 'basement')

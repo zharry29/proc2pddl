@@ -1,0 +1,95 @@
+(:action go
+ :parameters (?p - player ?dir - direction ?loc1 - location ?loc2 - location)
+ :precondition (and (at ?p ?loc1)
+                   (connected ?loc1 ?dir ?loc2))
+ :effect (and (not (at ?p ?loc1))
+              (at ?p ?loc2)))
+
+(:action understand
+ :parameters (?p - player ?hacking - concept ?ethics - concept)
+ :precondition (and (not (know ?p ?hacking))
+                   (not (know ?p ?ethics)))
+ :effect (and (know ?p ?hacking)
+              (know ?p ?ethics)))
+
+(:action learn
+ :parameters (?p - player ?s - skill)
+ :precondition (not (learned ?p ?s))
+ :effect (learned ?p ?s))
+
+(:action get
+ :parameters (?p - player ?i - item)
+ :precondition (not (inventory ?p ?i))
+ :effect (inventory ?p ?i))
+
+(:action machine_secured
+ :parameters (?p - player ?ds - digital_system)
+ :precondition (not (authorized ?p))
+ :effect (authorized ?p))
+
+(:action enumeration
+ :parameters (?p - player ?sys - digital_system)
+ :precondition (not (collected_all_info ?p))
+ :effect (collected_all_info ?p))
+
+(:action got_all_info
+ :parameters (?p - player)
+ :precondition (not (collected_all_info ?p))
+ :effect (collected_all_info ?p))
+
+(:action ping
+ :parameters (?p - player ?net - network)
+ :precondition (not (ping_succeed ?p))
+ :effect (ping_succeed ?p))
+
+(:action check_email_server
+ :parameters (?p - player ?srv - email_server)
+ :precondition (not (server_checked ?p))
+ :effect (server_checked ?p))
+
+(:action reached_the_remote_system
+ :parameters (?p - player ?sys - digital_system)
+ :precondition (not (reached_remote_system ?p))
+ :effect (reached_remote_system ?p))
+
+(:action run_port_scan
+ :parameters (?p - player ?sys - digital_system)
+ :precondition (not (port_scanned ?p))
+ :effect (port_scanned ?p))
+
+(:action found_path_in_system
+ :parameters (?p - player ?sys - digital_system ?port - TCP_UDP_ports)
+ :precondition (not (path_found ?p))
+ :effect (path_found ?p))
+
+(:action contact_and_trick_a_user
+ :parameters (?p - player ?u - user)
+ :precondition (not (tricked_user_password ?p))
+ :effect (tricked_user_password ?p))
+
+(:action crack_password_by_social_engineering
+ :parameters (?p - player ?pass - password)
+ :precondition (not (password_cracked ?p))
+ :effect (password_cracked ?p))
+
+(:action send_fake_email
+ :parameters (?p - player)
+ :precondition (not (user_trusted_fake_email ?p))
+ :effect (user_trusted_fake_email ?p))
+
+(:action crack_password_by_phishing
+ :parameters (?p - player ?pass - password)
+ :precondition (not (password_cracked ?p))
+ :effect (password_cracked ?p))
+
+(:action create_fake_wifi_access
+ :parameters (?p - player)
+ :precondition (not (people_use_unencrypted_connection ?p))
+ :effect (people_use_unencrypted_connection ?p))
+
+(:action crack_password_by_arp_spoofing
+ :parameters (?p - player ?pass - password)
+ :precondition (not (password_cracked ?p))
+ :effect (password_cracked ?p))
+
+)

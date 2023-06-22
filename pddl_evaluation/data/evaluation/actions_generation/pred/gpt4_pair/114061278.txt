@@ -1,53 +1,60 @@
-(:action get
-   :parameters (?c - coconut ?t - tool)
-   :precondition (and (inventory ?c) (inventory ?t))
-   :effect (has_eyes_poked ?c)
-)
+(define (domain open_coconut)
+   (:requirements :strips :typing)
 
-(:action poke
-   :parameters (?c - coconut ?t - tool ?m - mallet)
-   :precondition (and (inventory ?c) (inventory ?t) (inventory ?m) (not (has_eyes_poked ?c)))
-   :effect (has_eyes_poked ?c)
-)
+   (:types
+   )
 
-(:action flip
-   :parameters (?c - coconut ?cw - container_without_water)
-   :precondition (and (inventory ?c) (inventory ?cw) (has_eyes_poked ?c))
-   :effect (and
-               (not (inventory ?cw))
-               (is_item_container_with_water ?cw))
-)
+   (:predicates
+      (inventory ?item) 
+      (has_eyes_poked ?c - coconut) 
+      (is_item_container_with_water ?cow - container_with_water) 
+      (is_item_wrapped_coconut ?c - coconut_wrapped) 
+      (is_item_broken_coconut ?c - coconut_broken) 
+      (is_item_coconut_meat ?c - coconut_meat) 
+      (is_item_coconut_meat_peeled ?c - coconut_meat_peeled) 
+   )
 
-(:action wrap
-   :parameters (?c - coconut ?t - towel)
-   :precondition (and (inventory ?c) (inventory ?t))
-   :effect (and
-               (not (inventory ?c))
-               (is_item_wrapped_coconut ?c))
-)
+   (:action get
+        :parameters (?c - coconut ?t - tool)
+        :precondition (and (inventory ?c) (inventory ?t))
+        :effect (has_eyes_poked ?c)
+   )
 
-(:action hit
-   :parameters (?wc - coconut_wrapped ?h - hammer ?m - mallet)
-   :precondition (and (inventory ?wc) (inventory ?h) (inventory ?m))
-   :effect (and
-               (not (inventory ?wc))
-               (is_item_broken_coconut ?wc))
-)
+   (:action poke
+        :parameters (?c - coconut ?t - tool ?m - mallet)
+        :precondition (and (inventory ?c) (inventory ?t) (inventory ?m) (has_eyes_poked ?c))
+        :effect (and (not (has_eyes_poked ?c)) (is_item_container_with_water ?c))
+   )
 
-(:action free
-   :parameters (?bc - coconut_broken ?k - knife)
-   :precondition (and (inventory ?bc) (inventory ?k))
-   :effect (and
-               (not (inventory ?bc))
-               (is_item_coconut_meat ?bc))
-)
+   (:action flip
+        :parameters (?c - container_with_water ?cw - container_without_water)
+        :precondition (and (inventory ?c) (inventory ?cw))
+        :effect (and (not (is_item_container_with_water ?c)) (is_item_container_with_water ?cw))
+   )
 
-(:action remove_fiber
-   :parameters (?m - coconut_meat ?k - knife ?p - peeler)
-   :precondition (and (inventory ?m) (inventory ?k) (inventory ?p))
-   :effect (and
-               (not (inventory ?m))
-               (is_item_coconut_meat_peeled ?m))
+   (:action wrap
+        :parameters (?c - coconut ?t - towel)
+        :precondition (and (inventory ?c) (inventory ?t))
+        :effect (is_item_wrapped_coconut ?c)
+   )
+
+   (:action hit
+        :parameters (?cw - coconut_wrapped ?m - mallet)
+        :precondition (and (inventory ?cw) (inventory ?m) (is_item_wrapped_coconut ?cw))
+        :effect (and (not (is_item_wrapped_coconut ?cw)) (is_item_broken_coconut ?cw))
+   )
+
+   (:action free
+        :parameters (?cb - coconut_broken ?cm - coconut_meat)
+        :precondition (and (inventory ?cb) (is_item_broken_coconut ?cb))
+        :effect (and (not (is_item_broken_coconut ?cb)) (is_item_coconut_meat ?cm))
+   )
+
+   (:action remove_fiber
+        :parameters (?cm - coconut_meat ?cmp - coconut_meat_peeled ?pe - peeler)
+        :precondition (and (inventory ?cm) (inventory ?pe) (is_item_coconut_meat ?cm))
+        :effect (and (not (is_item_coconut_meat ?cm)) (is_item_coconut_meat_peeled ?cmp))
+   )
 )
 
 )

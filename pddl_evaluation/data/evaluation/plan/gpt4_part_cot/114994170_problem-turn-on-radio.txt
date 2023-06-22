@@ -1,0 +1,2 @@
+get_radio ('npc', 'radio')
+turn_on_radio ('npc', 'radio')

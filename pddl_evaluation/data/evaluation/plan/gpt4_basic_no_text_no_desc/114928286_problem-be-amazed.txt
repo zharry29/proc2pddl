@@ -1,0 +1,7 @@
+make_tosses_column ('paper', 'pen', 'npc')
+make_crosses_column ('paper', 'pen', 'npc')
+record_tosses ('paper', 'pen', 'npc')
+record_crosses ('paper', 'pen', 'npc')
+divide_crosses ('paper', 'pen', 'npc')
+calculate_pi ('npc', 'paper')
+be_amazed ('npc')

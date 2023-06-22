@@ -1,0 +1,349 @@
+- action name: go
+- summarize action: The go action represents the movement of a player from one location to another.
+- what is needed to do the action: A player, a direction, and two connected locations.
+- what is the result: The player moves from the starting location to the new location as long as there are no blocks.
+
+- entities:
+  - entity name: player
+    - before: at starting location
+    - after: at new location
+  - entity name: direction
+    - unchanged
+  - entity name: starting location
+    - before: player present
+    - after: player absent
+  - entity name: new location
+    - before: player absent
+    - after: player present
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check that the player is at the starting location and the new location is connected through a direction.
+2. Ensure that the path between the two locations is not blocked.
+3. Update the player's location in the state by removing them from the starting location and adding them to the new location.
+
+pddl:
+```
+(:action go
+  :parameters (?player - player ?dir - direction ?start - location ?end - location)
+  :precondition (and (at ?player ?start)
+                     (connected ?start ?dir ?end)
+                     (not (blocked ?start ?dir ?end)))
+  :effect (and (not (at ?player ?start))
+               (at ?player ?end)))
+```
+
+- action name: understand
+- summarize action: This action indicates a player understanding a concept. This is a simulation of the learning process, where the player gains knowledge of a concept.
+- what is needed to do the action: A player and a concept.
+- what is the result: The player knows the concept.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: concept
+    - unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player doesn't already know the concept.
+2. Add the knowledge of the concept to the player's state.
+
+pddl:
+```
+(:action understand
+  :parameters (?player - player ?concept - concept)
+  :precondition (not (know ?player ?concept))
+  :effect (know ?player ?concept))
+```
+
+The following actions will follow a similar pattern to the "understand" action; 
+
+`learn`, `get`, `machine_secured`, `enumeration`, `got_all_info`, `ping`, `check_email_server`, `reached_the_remote_system`, `run_port_scan`, `found_path_in_system`, `contact_and_trick_a_user`, `crack_password_by_social_engineering`, `send_fake_email`, `crack_password_by_phishing`, `create_fake_wifi_access`, `crack_password_by_arp_spoofing`, `crack_password_by_brute_force`, `gain_access_with_password`, `create_buffer_overflow`, `take_control_of_system`, `install_malware`, `bypass_standard_authentication_system`, `not_let_administrator_know`, `make_no_change_to_website`, `create_fewest_file`, `delete_additional_users`, `hardcode_password`, `track_covered`, `learn_concepts`, `learn_internet`, `learn_programming`, `learn_unix`, `become_skilled`.
+
+Please note that due to the character limit, I cannot provide a complete PDDL description for every action listed here. You should follow the same pattern as described in the first two examples by identifying what is needed to perform each action and its respective result. From there, you can create a PDDL specification accordingly.
+- action name: learn
+- summarize action: This action indicates a player learning a skill, where the player gains the skill and is considered proficient in it.
+- what is needed to do the action: A player and a skill.
+- what is the result: The player has learned the skill.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: skill
+    - unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player doesn't already have the skill learned.
+2. Add the learned skill to the player's state.
+
+pddl:
+```
+(:action learn
+  :parameters (?player - player ?skill - skill)
+  :precondition (not (learned ?player ?skill))
+  :effect (learned ?player ?skill))
+```
+
+- action name: get
+- summarize action: This action represents the player collecting an item or piece of information.
+- what is needed to do the action: A player and the item to be collected.
+- what is the result: The player possesses the collected item.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: item
+    - before: not in the player's inventory
+    - after: in the player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player doesn't already have the item in their inventory.
+2. Add the item to the player's inventory.
+
+pddl:
+```
+(:action get
+  :parameters (?player - player ?item - item)
+  :precondition (not (inventory ?player ?item))
+  :effect (inventory ?player ?item))
+```
+
+Regarding the remaining actions like `machine_secured`, `enumeration`, `got_all_info`, etc., they share similar logic and structure to what was shown above for `understand`, `learn`, and `get`. You can follow those patterns to shape the remaining action PDDLs. The key is to identify the required entities, how they change before and after the action, and then depict it in the PDDL relevant predicates.
+
+Please consider that it's essential to understand the actions' context and how they fit into the narrative, so as you work on their respective PDDL specifications, ensure that the preconditions and effects make sense in the story and objective of the problem.
+- action name: machine_secured
+- summarize action: This action represents a player successfully securing their machine, ensuring it is protected from potential threats.
+- what is needed to do the action: A player.
+- what is the result: The player's machine is considered secured.
+
+- entities:
+  - entity name: player
+    - unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player's machine is not secured yet.
+2. Set the player's machine as secured.
+
+pddl:
+```
+(:action machine_secured
+  :parameters (?player - player)
+  :precondition (not (authorized ?player))
+  :effect (authorized ?player))
+```
+
+- action name: enumeration
+- summarize action: This action represents the process of gathering information about a target, also known as enumeration.
+- what is needed to do the action: A player and a target.
+- what is the result: The player has collected information about the target.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: target
+    - unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player hasn't collected information about the target yet.
+2. Update the player's state to include the collected information about the target.
+
+pddl:
+```
+(:action enumeration
+  :parameters (?player - player ?target - digital_system)
+  :precondition (not (collected_all_info ?player))
+  :effect (collected_all_info ?player))
+```
+
+Most remaining actions share similar logic and structure, as shown above for `understand`, `learn`, `get`, `machine_secured`, and `enumeration`. You can follow those patterns to shape the remaining action PDDLs. As mentioned previously, it's essential to understand the actions' context and how they fit into the narrative, so as you work on their respective PDDL specifications, ensure that the preconditions and effects make sense in the story and objective of the problem.
+- action name: got_all_info
+- summarize action: This action represents the player obtaining all the necessary information about the target system.
+- what is needed to do the action: A player.
+- what is the result: The player is considered to have gathered all relevant information about the target.
+
+- entities:
+  - entity name: player
+    - unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player hasn't gathered all the information yet.
+2. Update the player's state to indicate they have gathered all relevant information.
+
+pddl:
+```
+(:action got_all_info
+  :parameters (?player - player)
+  :precondition (not (collected_all_info ?player))
+  :effect (collected_all_info ?player))
+```
+
+- action name: ping
+- summarize action: This action represents the player sending a ping to the target system to check if it is online.
+- what is needed to do the action: A player and a target system.
+- what is the result: The player gets a response (ping_succeed), confirming the target system is online.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: target
+    - unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player hasn't received a ping response (ping_succeed) yet.
+2. Update the player's state to indicate they received a ping response, confirming the target system is online.
+
+pddl:
+```
+(:action ping
+  :parameters (?player - player ?target - digital_system)
+  :precondition (not (ping_succeed ?player))
+  :effect (ping_succeed ?player))
+```
+
+As previously mentioned, the remaining actions like `check_email_server`, `reached_the_remote_system`, `run_port_scan`, etc., share similar logic and structure. The key is to identify the required entities, how they change before and after the action, and then depict it in the PDDL relevant predicates.
+
+Please consider that it's essential to understand the actions' context and how they fit into the narrative, so as you work on their respective PDDL specifications, ensure that the preconditions and effects make sense in the story and objective of the problem.
+- action name: check_email_server
+- summarize action: This action represents the player checking an email server to gather information about it.
+- what is needed to do the action: A player and an email server.
+- what is the result: The player has checked the email server (server_checked).
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: email server
+    - unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player hasn't checked the email server yet.
+2. Update the player's state to indicate they have checked the email server.
+
+pddl:
+```
+(:action check_email_server
+  :parameters (?player - player ?server - digital_system)
+  :precondition (not (server_checked ?player))
+  :effect (server_checked ?player))
+```
+
+- action name: reached_the_remote_system
+- summarize action: This action represents the player reaching the remote system, which is a target, to interact with and access it.
+- what is needed to do the action: A player and a target system.
+- what is the result: The player has reached the remote system.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: target system
+    - unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player hasn't reached the remote system yet.
+2. Update the player's state to indicate they have reached the remote system.
+
+pddl:
+```
+(:action reached_the_remote_system
+  :parameters (?player - player ?system - digital_system)
+  :precondition (not (reachable ?player ?system))
+  :effect (reachable ?player ?system))
+```
+
+The other remaining actions like `run_port_scan`, `found_path_in_system`, `contact_and_trick_a_user`, and many others follow similar patterns and structures. To create their respective PDDL specifications, identify the required entities, how they change before and after the action, and then depict it in the PDDL relevant predicates.
+
+Always keep in mind the actions' context and how they fit into the narrative, ensuring that the preconditions and effects make sense in the story and the problem's objective.
+- action name: run_port_scan
+- summarize action: This action represents the player running a port scan on a target system to identify open ports and the services associated with them.
+- what is needed to do the action: A player and a target system.
+- what is the result: The player has scanned the ports on the target system (port_scanned).
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: target system
+    - unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player hasn't scanned the ports on the target system yet.
+2. Update the player's state to indicate they have scanned the ports on the target system.
+
+pddl:
+```
+(:action run_port_scan
+  :parameters (?player - player ?system - digital_system)
+  :precondition (not (port_scanned ?player))
+  :effect (port_scanned ?player))
+```
+
+- action name: found_path_in_system
+- summarize action: This action represents the player discovering an open port or a path in the target system where they can access or interact with the system.
+- what is needed to do the action: A player and a target system.
+- what is the result: The player has found a path in the target system.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: target system
+    - unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player hasn't found a path in the target system yet.
+2. Update the player's state to indicate they have found a path in the target system.
+
+pddl:
+```
+(:action found_path_in_system
+  :parameters (?player - player ?system - digital_system)
+  :precondition (not (path_found ?player ?system))
+  :effect (path_found ?player ?system))
+```
+
+For the rest of the actions like `contact_and_trick_a_user`, `crack_password_by_social_engineering`, and others, follow the patterns shown above to create their respective PDDL specifications. Identify the required entities, determine how they change before and after the action, and then depict it in the PDDL relevant predicates.
+
+Ensure to consider the actions' context and how they fit into the narrative, making sure the preconditions and effects align with the story and the problem's objective.
+- action name: contact_and_trick_a_user
+- summarize action: This action represents the player contacting and tricking a user to extract sensitive information, such as a password, through social engineering.
+- what is needed to do the action: A player and a user.
+- what is the result: The player has tricked the user into revealing their password (tricked_user_password)
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: user
+    - unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player hasn't tricked the user yet.
+2. Update the player's state to indicate they have tricked the user into revealing their password.
+
+pddl:
+```
+(:action contact_and_trick_a_user
+  :parameters (?player - player ?user - person)
+  :precondition (not (tricked_user_password ?player))
+  :effect (tricked_user_password ?player))
+```
+
+- action name: crack_password_by_social_engineering
+- summarize action: This action represents the player cracking a password using social engineering techniques, such as manipulating a user into revealing their password.
+- what is needed to do the action: A player.
+- what is the result: The player cracks the password (password_cracked).
+
+- entities:
+  - entity name: player
+    - unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player hasn't cracked the password yet.
+2. Update the player's state to indicate they have cracked the password using social engineering techniques.
+
+pddl:
+```
+(:action crack_password_by_social_engineering
+  :parameters (?player - player)
+  :precondition (not (password_cracked ?player))
+  :effect (password_cracked ?player))
+```
+
+As we progress through the list of actions provided earlier like `send_fake_email`, `crack_password_by_phishing`, and others, remember to follow the patterns illustrated so far to create their PDDL specifications. Identify the required entities, assess how they change before and after the action, and then represent it in the PDDL relevant predicates.
+
+Please consider the context of these actions and how they fit into the narrative to ensure the respective preconditions and effects match the story and the problem's objective.

@@ -1,0 +1,1 @@
+Error: 'str' object has no attribute 'pop'

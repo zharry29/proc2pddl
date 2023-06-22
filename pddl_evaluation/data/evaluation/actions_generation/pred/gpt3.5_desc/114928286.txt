@@ -1,0 +1,73 @@
+(:action go
+   :parameters (?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (connected ?loc1 ?dir ?loc2)
+   :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action get
+   :parameters (?player - player ?item - object ?loc - location)
+   :precondition (and (is_gettable ?item) (at ?item ?loc) (at ?player ?loc))
+   :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+(:action lay_masking_tape
+   :parameters (?player - player ?tape - masking_tape ?loc - location)
+   :precondition (and (has_ten_strips ?tape) (at ?tape ?loc) (at ?player ?loc))
+   :effect (and (not (at ?tape ?loc)) (is_clear ?tape))
+)
+
+(:action make_tosses_column
+   :parameters (?paper - paper)
+   :precondition (and (is_clear ?paper) (at ?player ?paper))
+   :effect (tosses_column ?paper)
+)
+
+(:action make_crosses_column
+   :parameters (?paper - paper)
+   :precondition (and (is_clear ?paper) (at ?player ?paper))
+   :effect (crosses_column ?paper)
+)
+
+(:action thaw_food
+   :parameters (?item - object)
+   :precondition (is_food_item ?item)
+   :effect (and (frozen ?item) (not (frozen ?item)))
+)
+
+(:action throw
+   :parameters (?player - player ?item - object ?loc - location)
+   :precondition (and (inventory ?player ?item) (at ?player ?loc) (is_long ?item) (is_thin ?item) (is_hard ?item) (is_straight ?item) (is_stiff ?item) (has_throwing_distance ?item) (frozen ?item))
+   :effect (thrown_food_items ?loc)
+)
+
+(:action record_tosses
+   :parameters (?player - player ?loc - location ?paper - paper)
+   :precondition (and (thrown_food_items ?loc) (at ?player ?paper) (tosses_column ?paper))
+   :effect (and (not (thrown_food_items ?loc)) (tosses_recorded ?paper))
+)
+
+(:action record_crosses
+   :parameters (?player - player ?loc - location ?paper - paper)
+   :precondition (and (thrown_food_items ?loc) (at ?player ?paper) (crosses_column ?paper))
+   :effect (and (not (thrown_food_items ?loc)) (crosses_recorded ?paper))
+)
+
+(:action divide_crosses
+   :parameters (?paper - paper)
+   :precondition (and (crosses_recorded ?paper) (tosses_recorded ?paper))
+   :effect (and (not (crosses_recorded ?paper)) (not (tosses_recorded ?paper)) (crosses_divided ?paper))
+)
+
+(:action calculate_pi
+   :parameters (?paper - paper ?player - player)
+   :precondition (and (crosses_divided ?paper) (at ?player ?paper))
+   :effect (calculated_pi ?player)
+)
+
+(:action be_amazed
+   :parameters (?player - player)
+   :precondition (calculated_pi ?player)
+   :effect (amazed ?player)
+)
+
+)

@@ -1,0 +1,163 @@
+(:action go
+   :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+   :precondition (and 
+                  (at ?player ?loc1)
+                  (connected ?loc1 ?dir ?loc2)
+                  (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and 
+            (not (at ?player ?loc1))
+            (at ?player ?loc2))
+)
+
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and 
+                  (at ?player ?loc)
+                  (at ?item ?loc))
+   :effect (and 
+            (not (at ?item ?loc))
+            (inventory ?player ?item))
+)
+
+(:action get_grass
+   :parameters (?player - player ?grass - grass ?loc - location)
+   :precondition (and 
+                  (at ?player ?loc)
+                  (at ?grass ?loc))
+   :effect (and 
+            (not (at ?grass ?loc))
+            (inventory ?player ?grass))
+)
+
+(:action dry_grass
+   :parameters (?grass - grass)
+   :precondition (and 
+                  (at ?grass ?loc)
+                  (not (dry ?grass)))
+   :effect (dry ?grass)
+)
+
+(:action cluster_grass
+   :parameters (?player - player ?loc - location)
+   :precondition (and 
+                  (at ?player ?loc)
+                  (forall (?grass - grass)
+                     (at ?grass ?loc)
+                     (dry ?grass)))
+   :effect (and 
+            (forall (?grass - grass)
+               (not (at ?grass ?loc)))
+            (forall (?grass - grass)
+               (inventory ?player ?grass)))
+)
+
+(:action break_branch
+   :parameters (?player - player ?branch - branch ?loc - location)
+   :precondition (and 
+                  (at ?player ?loc)
+                  (at ?branch ?loc))
+   :effect (and 
+            (not (at ?branch ?loc))
+            (inventory ?player ?branch))
+)
+
+(:action log_oak
+   :parameters (?loc - location)
+   :precondition (has_dry_oak ?loc)
+   :effect (and ))
+)
+
+(:action get_log
+   :parameters (?player - player ?log - log ?loc - location)
+   :precondition (and 
+                  (at ?player ?loc)
+                  (at ?log ?loc))
+   :effect (and 
+            (not (at ?log ?loc))
+            (inventory ?player ?log))
+)
+
+(:action stack_log
+   :parameters (?log - log)
+   :precondition (and 
+                  (inventory ?player ?log))
+   :effect (and ))
+)
+
+(:action build_teepee
+   :parameters (?player - player ?loc - location)
+   :precondition (and 
+                  (at ?player ?loc)
+                  (forall (?branch - branch)
+                     (inventory ?player ?branch)
+                     (has_large_dry_branch ?loc)))
+   :effect (and ))
+)
+
+(:action get_wood
+   :parameters (?player - player ?wood - wood ?loc - location)
+   :precondition (and 
+                  (at ?player ?loc)
+                  (at ?wood ?loc))
+   :effect (and 
+            (not (at ?wood ?loc))
+            (inventory ?player ?wood))
+)
+
+(:action get_branch
+   :parameters (?player - player ?branch - branch ?loc - location)
+   :precondition (and 
+                  (at ?player ?loc)
+                  (at ?branch ?loc))
+   :effect (and 
+            (not (at ?branch ?loc))
+            (inventory ?player ?branch))
+)
+
+(:action ignite_wood
+   :parameters (?wood - wood)
+   :precondition (and 
+                  (inventory ?player ?wood)
+                  (not (ignited ?wood)))
+   :effect (ignited ?wood)
+)
+
+(:action ignite_teepee
+   :parameters (?player - player ?loc - location)
+   :precondition (and 
+                  (at ?player ?loc)
+                  (forall (?wood - wood)
+                     (inventory ?player ?wood)
+                     (ignited ?wood)))
+   :effect (and ))
+)
+
+(:action get_pot
+   :parameters (?player - player ?pot - pot ?loc - location)
+   :precondition (and 
+                  (at ?player ?loc)
+                  (at ?pot ?loc))
+   :effect (and 
+            (not (at ?pot ?loc))
+            (inventory ?player ?pot))
+)
+
+(:action get_water
+   :parameters (?player - player ?water - water ?loc - location)
+   :precondition (and 
+                  (at ?player ?loc)
+                  (at ?water ?loc))
+   :effect (and 
+            (not (at ?water ?loc))
+            (inventory ?player ?water))
+)
+
+(:action boil_water
+   :parameters (?water - water)
+   :precondition (and 
+                  (inventory ?player ?water)
+                  (not (boiled ?water)))
+   :effect (boiled ?water)
+)
+
+)

@@ -1,162 +1,157 @@
-For the action "poke":
-Entities involved:
-- Coconut
-- Tool (screwdriver or knife)
-- Mallet (optional)
+- action name: poke
+- summarize action: The action is to poke a hole in the "eye" of the coconut using a screwdriver and a mallet.
+- what is needed to do the action: A coconut, a screwdriver, and a mallet.
+- what is the result: A coconut with its eye poked.
 
-States before the action:
-- Coconut has not been poked
-- Tool is in the inventory
+- entities:
+  - entity name: coconut
+    - before: Regular coconut
+    - after: Coconut with its eyes poked
+  - entity name: screwdriver
+    - before: Regular screwdriver
+    - after: Same state (used to poke the hole)
+  - entity name: mallet
+    - before: Regular mallet
+    - after: Same state (used to poke the hole)
 
-States after the action:
-- Coconut has its eyes poked
-- Tool is still in the inventory
+- convert the above information to pddl using relevant predicates step by step:
+1. Define parameters: ?c - coconut ?s - screwdriver ?m - mallet
+2. Preconditions: (inventory ?c) (inventory ?s) (inventory ?m)
+3. Effects: (has_eyes_poked ?c)
 
-PDDL:
-```
+pddl:
 (:action poke
- :parameters (?c - coconut ?t - tool ?m - mallet)
- :precondition (and
-                (not (has_eyes_poked ?c))
-                (inventory ?t)
-                (inventory ?m))
- :effect (and
-          (has_eyes_poked ?c)
-          (inventory ?t)
-          (inventory ?m)))
-```
+ :parameters (?c - coconut ?s - screwdriver ?m - mallet)
+ :precondition (and (inventory ?c) (inventory ?s) (inventory ?m))
+ :effect (and (has_eyes_poked ?c))
+)
 
-For the action "flip":
-Entities involved:
-- Coconut
-- Container (without water)
-- Container (with water)
 
-States before the action:
-- Coconut has its eyes poked
-- Container without water
+- action name: flip
+- summarize action: Turn the coconut upside down over a glass to drain out the liquid.
+- what is needed to do the action: A coconut with its eye poked, a glass or container to collect the liquid.
+- what is the result: A container filled with coconut water.
 
-States after the action:
-- Coconut emptied
-- Container with water
+- entities:
+  - entity name: coconut
+    - before: Coconut with its eyes poked
+    - after: Same state (drained)
+  - entity name: container
+    - before: Empty container
+    - after: Container filled with coconut water
 
-PDDL:
-```
+- convert the above information to pddl using relevant predicates step by step:
+1. Define parameters: ?c - coconut ?container - container_without_water
+2. Preconditions: (has_eyes_poked ?c) (inventory ?container)
+3. Effects: (not (inventory ?container)) (is_item_container_with_water ?container)
+
+pddl:
 (:action flip
- :parameters (?c - coconut ?cw - container_without_water ?cw - container_with_water)
- :precondition (and
-                (has_eyes_poked ?c)
-                (is_item_container_without_water ?cw))
- :effect (and
-          (not (has_eyes_poked ?c))
-          (not (is_item_container_without_water ?cw))
-          (is_item_container_with_water ?cw)))
-```
+ :parameters (?c - coconut ?container - container_without_water)
+ :precondition (and (has_eyes_poked ?c) (inventory ?container))
+ :effect (and (not (inventory ?container)) (is_item_container_with_water ?container))
+)
 
-For the action "wrap":
-Entities involved:
-- Coconut
-- Towel
 
-States before the action:
-- Coconut in inventory
-- Towel in inventory
+- action name: wrap
+- summarize action: Wrap a mature coconut in a kitchen towel to create a wrapped coconut.
+- what is needed to do the action: A mature coconut, a kitchen towel.
+- what is the result: A coconut wrapped in a towel.
 
-States after the action:
-- Wrapped coconut
+- entities:
+  - entity name: coconut
+    - before: Regular mature coconut
+    - after: Coconut wrapped in a towel
+  - entity name: towel
+    - before: Unused kitchen towel
+    - after: Used kitchen towel (wrapped around the coconut)
 
-PDDL:
-```
+- convert the above information to pddl using relevant predicates step by step:
+1. Define parameters: ?c - coconut ?t - towel
+2. Preconditions: (inventory ?c) (inventory ?t)
+3. Effects: (not (inventory ?c)) (not (inventory ?t)) (is_item_wrapped_coconut ?c)
+
+pddl:
 (:action wrap
- :parameters (?c - coconut ?t - towel ?cw - coconut_wrapped)
- :precondition (and
-                (inventory ?c)
-                (inventory ?t))
- :effect (and
-          (not (inventory ?c))
-          (inventory ?t)
-          (is_item_wrapped_coconut ?cw)))
-```
+ :parameters (?c - coconut ?t - towel)
+ :precondition (and (inventory ?c) (inventory ?t))
+ :effect (and (not (inventory ?c)) (not (inventory ?t)) (is_item_wrapped_coconut ?c))
+)
 
-For the action "hit":
-Entities involved:
-- Wrapped coconut
-- Mallet or hammer
-- Broken coconut pieces
 
-States before the action:
-- Wrapped coconut
-- Mallet or hammer in inventory
+- action name: hit
+- summarize action: Use a hammer to firmly strike the wrapped coconut to break it into pieces.
+- what is needed to do the action: A wrapped coconut, a hammer, a solid surface.
+- what is the result: A broken coconut in pieces.
 
-States after the action:
-- Broken coconut pieces
-- Mallet or hammer still in inventory
+- entities:
+  - entity name: wrapped_coconut
+    - before: Coconut wrapped in a towel
+    - after: Broken coconut in pieces
+  - entity name: hammer
+    - before: Unused hammer
+    - after: Used hammer (to hit the coconut)
 
-PDDL:
-```
+- convert the above information to pddl using relevant predicates step by step:
+1. Define parameters: ?c - coconut_wrapped ?h - hammer
+2. Preconditions: (is_item_wrapped_coconut ?c) (inventory ?h)
+3. Effects: (not (is_item_wrapped_coconut ?c)) (is_item_broken_coconut ?c)
+
+pddl:
 (:action hit
- :parameters (?cw - coconut_wrapped ?c - coconut_broken ?m - mallet)
- :precondition (and
-                (is_item_wrapped_coconut ?cw)
-                (inventory ?m))
- :effect (and
-          (not (is_item_wrapped_coconut ?cw))
-          (is_item_broken_coconut ?c)
-          (inventory ?m)))
-```
+ :parameters (?c - coconut_wrapped ?h - hammer)
+ :precondition (and (is_item_wrapped_coconut ?c) (inventory ?h))
+ :effect (and (not (is_item_wrapped_coconut ?c)) (is_item_broken_coconut ?c))
+)
 
-For the action "free":
-Entities involved:
-- Broken coconut pieces
-- Knife or vegetable peeler
-- Coconut meat
 
-States before the action:
-- Broken coconut pieces
-- Knife or vegetable peeler in inventory
+- action name: free
+- summarize action: Use a knife to separate the coconut meat from the shell.
+- what is needed to do the action: A broken coconut, a knife or vegetable peeler.
+- what is the result: The coconut meat separated from the shell.
 
-States after the action:
-- Coconut meat
-- Knife or vegetable peeler still in inventory
+- entities:
+  - entity name: broken_coconut
+    - before: Broken coconut in pieces
+    - after: Coconut meat separated from the shell
+  - entity name: tool
+    - before: Unused knife/peeler
+    - after: Used knife/peeler (to separate the coconut meat)
 
-PDDL:
-```
+- convert the above information to pddl using relevant predicates step by step:
+1. Define parameters: ?c - coconut_broken ?tool - item
+2. Preconditions: (is_item_broken_coconut ?c) (inventory ?tool) (or (is_tool_knife ?tool) (is_tool_peeler ?tool))
+3. Effects: (not (is_item_broken_coconut ?c)) (is_item_coconut_meat ?c)
+
+pddl:
 (:action free
- :parameters (?c_broken - coconut_broken ?c_meat - coconut_meat)
- :precondition (and
-                (is_item_broken_coconut ?c_broken)
-                (inventory ?k))
- :effect (and
-          (not (is_item_broken_coconut ?c_broken))
-          (is_item_coconut_meat ?c_meat)
-          (inventory ?k)))
-```
+ :parameters (?c - coconut_broken ?tool - item)
+ :precondition (and (is_item_broken_coconut ?c) (inventory ?tool) (or (is_tool_knife ?tool) (is_tool_peeler ?tool)))
+ :effect (and (not (is_item_broken_coconut ?c)) (is_item_coconut_meat ?c))
+)
 
-For the action "remove_fiber":
-Entities involved:
-- Coconut meat
-- Knife or vegetable peeler
-- Peeled coconut meat
 
-States before the action:
-- Coconut meat
-- Knife or vegetable peeler in inventory
+- action name: remove_fiber
+- summarize action: Remove the fibrous layer from the coconut meat using a knife or vegetable peeler.
+- what is needed to do the action: Coconut meat, a knife or vegetable peeler.
+- what is the result: The coconut meat with the fibrous layer removed (peeled coconut meat).
 
-States after the action:
-- Peeled coconut meat
-- Knife or vegetable peeler still in inventory
+- entities:
+  - entity name: coconut_meat
+    - before: Coconut meat with fibrous layer
+    - after: Coconut meat with fibrous layer removed (peeled)
+  - entity name: tool
+    - before: Unused knife/peeler
+    - after: Used knife/peeler (to remove the fibrous layer)
 
-PDDL:
-```
+- convert the above information to pddl using relevant predicates step by step:
+1. Define parameters: ?c - coconut_meat ?tool - item
+2. Preconditions: (is_item_coconut_meat ?c) (inventory ?tool) (or (is_tool_knife ?tool) (is_tool_peeler ?tool))
+3. Effects: (not (is_item_coconut_meat ?c)) (is_item_coconut_meat_peeled ?c)
+
+pddl:
 (:action remove_fiber
- :parameters (?c_meat - coconut_meat ?c_meat_peeled - coconut_meat_peeled)
- :precondition (and
-                (is_item_coconut_meat ?c_meat)
-                (inventory ?k))
- :effect (and
-          (not (is_item_coconut_meat ?c_meat))
-          (is_item_coconut_meat_peeled ?c_meat_peeled)
-          (inventory ?k)))
-```
-
+ :parameters (?c - coconut_meat ?tool - item)
+ :precondition (and (is_item_coconut_meat ?c) (inventory ?tool) (or (is_tool_knife ?tool) (is_tool_peeler ?tool)))
+ :effect (and (not (is_item_coconut_meat ?c)) (is_item_coconut_meat_peeled ?c))
 )

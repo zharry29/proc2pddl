@@ -1,88 +1,73 @@
 (:action go
-	:parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
-	:precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
-	:effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+ :parameters (?p - player ?current_loc - location ?dir - direction ?destination - location)
+ :precondition (and (at ?p ?current_loc) (connected ?current_loc ?dir ?destination))
+ :effect (and (not (at ?p ?current_loc)) (at ?p ?destination))
 )
 
-
+(:action get
+ :parameters (?p - player ?loc - location ?item - item)
+ :precondition (and (at ?p ?loc) (at ?item ?loc))
+ :effect (and (not (at ?item ?loc)) (inventory ?p ?item))
+)
 
 (:action get_bamboo_container
-	:parameters (?player - player ?loc - location)
-	:precondition (and (at ?player ?loc) (has_bamboo ?loc))
-	:effect (inventory ?player bamboo_container)
+ :parameters (?p - player ?loc - location ?container - bamboo_container)
+ :precondition (and (at ?p ?loc) (has_bamboo ?loc))
+ :effect (and (not (has_bamboo ?loc)) (inventory ?p ?container))
 )
-
-
 
 (:action collect_rain_water
-	:parameters (?player - player ?loc - location)
-	:precondition (and (at ?player ?loc) (has_rainfall ?loc))
-	:effect (inventory ?player water)
+ :parameters (?p - player ?loc - location ?container - bamboo_container ?water - water)
+ :precondition (and (at ?p ?loc) (has_rainfall ?loc) (inventory ?p ?container))
+ :effect (and (not (inventory ?p ?container)) (inventory ?p ?water))
 )
-
-
 
 (:action create_fire
-	:parameters (?player - player ?loc - location)
-	:precondition (and (at ?player ?loc) (not (inventory ?player fire)))
-	:effect (inventory ?player fire)
+ :parameters (?p - player ?loc - location ?fire - fire)
+ :precondition (at ?p ?loc)
+ :effect (at ?fire ?loc)
 )
-
-
 
 (:action treat_water
-	:parameters (?player - player)
-	:precondition (and (inventory ?player water) (inventory ?player fire))
-	:effect (and (inventory ?player treated_water) (not (inventory ?player water)))
+ :parameters (?p - player ?loc - location ?fire - fire ?untreated - water ?treated - water)
+ :precondition (and (at ?p ?loc) (at ?fire ?loc) (inventory ?p ?untreated) (not (treated ?untreated)))
+ :effect (and (not (inventory ?p ?untreated)) (inventory ?p ?treated) (treated ?treated))
 )
-
-
-
 
 (:action drink_water
-	:parameters (?player - player)
-	:precondition (and (inventory ?player treated_water) (is dehydrated ?player))
-	:effect (not (is dehydrated ?player))
+ :parameters (?p - player ?treated - water)
+ :precondition (and (inventory ?p ?treated) (treated ?treated) (is dehydrated ?p))
+ :effect (and (not (inventory ?p ?treated)) (not (is dehydrated ?p)))
 )
-
-
 
 (:action drink_untreated_water
-	:parameters (?player - player)
-	:precondition (and (inventory ?player water) (not (is dehydrated ?player)))
-	:effect (is ill ?player)
+ :parameters (?p - player ?untreated - water)
+ :precondition (and (inventory ?p ?untreated) (not (treated ?untreated)) (is dehydrated ?p))
+ :effect (and (not (inventory ?p ?untreated)) (not (is dehydrated ?p)) (is ill ?p))
 )
-
-
 
 (:action create_sos_sign
-	:parameters (?player - player ?loc - location)
-	:precondition (and (at ?player ?loc) (not (inventory ?player sos_sign)))
-	:effect (inventory ?player sos_sign)
+ :parameters (?p - player ?loc - location ?sign - sos_sign)
+ :precondition (at ?p ?loc)
+ :effect (at ?sign ?loc)
 )
-
-
 
 (:action pick_fruit
-	:parameters (?player - player ?loc - location)
-	:precondition (and (at ?player ?loc) (has_fruit ?loc))
-	:effect (inventory ?player fruit)
+ :parameters (?p - player ?loc - location ?fruit - fruit)
+ :precondition (and (at ?p ?loc) (has_fruit ?loc))
+ :effect (inventory ?p ?fruit)
 )
-
-
 
 (:action eat_fruit
-	:parameters (?player - player)
-	:precondition (and (inventory ?player fruit) (is hungry ?player))
-	:effect (not (is hungry ?player))
+ :parameters (?p - player ?fruit - fruit)
+ :precondition (and (inventory ?p ?fruit) (is hungry ?p))
+ :effect (and (not (inventory ?p ?fruit)) (not (is hungry ?p)))
 )
 
-
-
 (:action escape
-	:parameters (?player - player)
-	:precondition (at ?player basecamp)
-	:effect (escaped ?player)
+ :parameters (?p - player ?loc - location)
+ :precondition (at ?p ?loc)
+ :effect (not (at ?p ?loc))
 )
 
 )

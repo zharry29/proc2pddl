@@ -1,0 +1,6 @@
+get ('npc', 'bag', 'counter')
+get ('npc', 'mallet', 'counter')
+wrap_coconut ('npc', 'bag', 'mallet')
+smash_with_mallet ('npc', 'bag', 'bag')
+separate ('npc', 'bag', 'coconut_meat')
+peel ('npc', 'coconut_meat')

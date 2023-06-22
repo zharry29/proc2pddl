@@ -1,0 +1,169 @@
+- action name: make_plan
+- summarize action: The player creates a plan for surviving a nuclear attack, considering the need to store food and medical supplies, and to stay sheltered for at least 48 hours or longer.
+- what is need to do the action: The player must not already have a plan.
+- what is the result: The player now has a plan.
+
+- entities:
+  - entity name: player
+    - before: does not have a plan
+    - after: has a plan
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player does not have a plan using the (not (has_plan ?p)) predicate.
+2. Make the player have a plan with the (has_plan ?p) predicate.
+
+pddl:
+(:action make_plan
+ :parameters (?p - player)
+ :precondition (not (has_plan ?p))
+ :effect (has_plan ?p))
+
+- action name: get_medicine
+- summarize action: The player gathers medical supplies such as a basic first aid kit, a first aid instruction booklet, and prescription medications or supplies.
+- what is need to do the action: Player must be at a location with medical supplies (pharmacy) and not already have medicine in their inventory.
+- what is the result: Player has medicine in their inventory.
+
+- entities:
+  - entity name: player
+    - before: not at pharmacy, does not have medicine
+    - after: at pharmacy, has medicine
+
+  - entity name: medicine
+    - before: at a pharmacy
+    - after: in player inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a pharmacy using the (is_pharmacy ?loc) and (at ?p ?loc) predicates.
+2. Check if the player does not have medicine in their inventory using the (not (inventory ?p ?medicine)) and (is_medicine ?medicine) predicates.
+3. Move the medicine from the pharmacy to the player's inventory using the (at ?medicine ?loc) and (inventory ?p ?medicine) predicates.
+
+pddl:
+(:action get_medicine
+ :parameters (?p - player ?loc - location ?medicine - item)
+ :precondition (and (is_pharmacy ?loc) (at ?p ?loc) (is_medicine ?medicine) (at ?medicine ?loc) (not (inventory ?p ?medicine)))
+ :effect (and (not (at ?medicine ?loc)) (inventory ?p ?medicine)))
+- action name: get_food
+- summarize action: The player gathers non-perishable food like canned items and stored goods to survive the nuclear attack.
+- what is need to do the action: Player must be at a location with non-perishable food (supermarket) and not already have food in their inventory.
+- what is the result: Player has non-perishable food in their inventory.
+
+- entities:
+  - entity name: player
+    - before: not at supermarket, does not have non-perishable food
+    - after: at supermarket, has non-perishable food
+
+  - entity name: food
+    - before: at a supermarket
+    - after: in player inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a supermarket using the (is_supermarket ?loc) and (at ?p ?loc) predicates.
+2. Check if the player does not have non-perishable food in their inventory using the (not (inventory ?p ?food)) and (is_nonperishable ?food) predicates.
+3. Move the non-perishable food from the supermarket to the player's inventory using the (at ?food ?loc) and (inventory ?p ?food) predicates.
+
+pddl:
+(:action get_food
+ :parameters (?p - player ?loc - location ?food - item)
+ :precondition (and (is_supermarket ?loc) (at ?p ?loc) (is_nonperishable ?food) (at ?food ?loc) (not (inventory ?p ?food)))
+ :effect (and (not (at ?food ?loc)) (inventory ?p ?food)))
+
+- action name: stay_in_shelter
+- summarize action: The player stays sheltered for at least 48 hours, preferably longer, to avoid exposure to nuclear fallout.
+- what is need to do the action: Player must be at a sheltered location (underground place or home) and not already sheltered.
+- what is the result: Player is sheltered.
+
+- entities:
+  - entity name: player
+    - before: not sheltered
+    - after: sheltered
+
+  - entity name: location
+    - before: player is at shelter location
+    - after: player is sheltered in location
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a sheltered location using the (is_underground ?loc) or (is_home ?loc) and (at ?p ?loc) predicates.
+2. Check if the player is not already sheltered using the (not (sheltered ?p)) predicate.
+3. Make the player sheltered using the (sheltered ?p) predicate.
+
+pddl:
+(:action stay_in_shelter
+ :parameters (?p - player ?loc - location)
+ :precondition (and (at ?p ?loc) (or (is_underground ?loc) (is_home ?loc)) (not (sheltered ?p)))
+ :effect (sheltered ?p))
+- action name: get_in_car
+- summarize action: The player gets in a car to use it for transportation.
+- what is needed to do the action: Player must be at a location with a car and not already driving a car.
+- what is the result: Player is driving the car.
+
+- entities:
+  - entity name: player
+    - before: not driving a car
+    - after: driving a car
+
+  - entity name: car
+    - before: at a location
+    - after: being driven by the player
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at a location with a car using the (is_car ?car) and (at ?car ?loc) predicates.
+2. Check if the player is not already driving a car using the (not (driving ?p)) predicate.
+3. Make the player drive the car using the (driving ?p) predicate.
+
+pddl:
+(:action get_in_car
+ :parameters (?p - player ?loc - location ?car - item)
+ :precondition (and (at ?p ?loc) (is_car ?car) (at ?car ?loc) (not (driving ?p)))
+ :effect (driving ?p))
+
+- action name: drive
+- summarize action: The player drives from one location to another while avoiding blocked paths.
+- what is needed to do the action: Player must be driving a car, at a location connected by an unblocked direction to another location.
+- what is the result: Player has moved to another location.
+
+- entities:
+  - entity name: player
+    - before: at the initial location, driving a car
+    - after: at the destination location, driving a car
+
+  - entity name: location/direction
+    - before: initial location connected to destination location by an unblocked direction
+    - after: player has moved between locations
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is driving a car using the (driving ?p) predicate.
+2. Check if the player is at the initial location using the (at ?p ?loc1) predicate.
+3. Check if locations are connected and direction is not blocked using the (connected ?loc1 ?dir ?loc2) and (not (blocked ?loc1 ?dir ?loc2)) predicates.
+4. Move the player to the destination location using the (not (at ?p ?loc1)) and (at ?p ?loc2) predicates.
+
+pddl:
+(:action drive
+ :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location)
+ :precondition (and (driving ?p) (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+ :effect (and (not (at ?p ?loc1)) (at ?p ?loc2)))
+
+- action name: walk
+- summarize action: The player walks from one location to another while avoiding blocked paths.
+- what is needed to do the action: Player must not be driving a car, at a location connected by an unblocked direction to another location.
+- what is the result: Player has moved to another location.
+
+- entities:
+  - entity name: player
+    - before: at the initial location, not driving a car
+    - after: at the destination location, not driving a car
+
+  - entity name: location/direction
+    - before: initial location connected to destination location by an unblocked direction
+    - after: player has moved between locations
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is not driving a car using the (not (driving ?p)) predicate.
+2. Check if the player is at the initial location using the (at ?p ?loc1) predicate.
+3. Check if locations are connected and direction is not blocked using the (connected ?loc1 ?dir ?loc2) and (not (blocked ?loc1 ?dir ?loc2)) predicates.
+4. Move the player to the destination location using the (not (at ?p ?loc1)) and (at ?p ?loc2) predicates.
+
+pddl:
+(:action walk
+ :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location)
+ :precondition (and (not (driving ?p)) (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+ :effect (and (not (at ?p ?loc1)) (at ?p ?loc2)))

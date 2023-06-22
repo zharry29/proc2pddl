@@ -1,0 +1,223 @@
+- action name: spot_shark
+- summarize action: The action is spotting a shark in the water.
+- what is needed to do the action: A player and a shark must be at the same location and the shark must be visible.
+- what is the result: The player spots the shark.
+
+- entities:
+  - entity name: player
+    - before: The player is at a location.
+    - after: The player spots the shark.
+  - entity name: shark
+    - before: The shark is visible at a location.
+    - after: The shark is spotted by the player.
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player and shark are at the same location using the (at) predicate.
+2. Check if the shark is visible using the (visible) predicate.
+
+pddl:
+(:action spot_shark
+ :parameters (?player - player ?shark - shark ?loc - location)
+ :precondition (and
+                (at ?player ?loc)
+                (at ?shark ?loc)
+                (visible ?shark))
+ :effect (and))
+
+- action name: swim
+- summarize action: The player swims to a different location.
+- what is needed to do the action: The player is at a location that is connected to another location in a specific direction.
+- what is the result: The player moves from the current location to a new location.
+
+- entities:
+  - entity name: player
+    - before: The player is at the current location.
+    - after: The player is at the new location.
+  - entity name: current location
+    - before: The player is here.
+    - after: The player is not here anymore.
+  - entity name: new location
+    - before: The player is not here.
+    - after: The player is here.
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the current location and the new location are connected using the (connected) predicate.
+2. Use the (at) predicate to update the player's location.
+
+pddl:
+(:action swim
+ :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+ :precondition (and
+                (at ?player ?loc1)
+                (connected ?loc1 ?dir ?loc2))
+ :effect (and
+          (not (at ?player ?loc1))
+          (at ?player ?loc2)))
+
+(Note that other actions will have similar PDDL descriptions, with differences in the parameters, preconditions, and effects based on the action's summary, entities, and description. Depending on the requirements and specific behavior in the scenario, some actions might need to be refined further.)
+- action name: get
+- summarize action: The player picks up an item from the current location.
+- what is needed to do the action: The player and the item must be at the same location.
+- what is the result: The item is added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: The player is at the location.
+    - after: The player picks up the item.
+  - entity name: item
+    - before: The item is at the same location as the player.
+    - after: The item is removed from the location and added to the player's inventory.
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player and the item are at the same location using the (at) predicate.
+2. Update the player's inventory using the (inventory) predicate and the item's location using the (not (at...)) predicate.
+
+pddl:
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and
+                (at ?player ?loc)
+                (at ?item ?loc))
+ :effect (and
+          (not (at ?item ?loc))
+          (inventory ?player ?item)))
+
+- action name: onboard
+- summarize action: The player gets on a ship.
+- what is needed to do the action: The player and the ship must be at the same location.
+- what is the result: The player is now on the ship.
+
+- entities:
+  - entity name: player
+    - before: The player is at the location.
+    - after: The player is on the ship.
+  - entity name: ship
+    - before: The ship is at the same location as the player.
+    - after: The player is on the ship.
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player and the ship are at the same location using the (at) predicate.
+2. Update the player's status using the (on) predicate.
+
+pddl:
+(:action onboard
+ :parameters (?player - player ?ship - ship ?loc - location)
+ :precondition (and
+                (at ?player ?loc)
+                (at ?ship ?loc))
+ :effect (on ?player ?ship))
+
+I encourage you to try completing the remaining actions (defend, self_mobilize, medicare, attack_vulnerable, and knockout) following the examples provided. This will help you understand how to create PDDL actions based on the summaries, entities, and the step-by-step descriptions. After completing your actions, you will be in a good position to understand how PDDL works and how to define your own scenarios.
+- action name: defend
+- summarize action: The player takes a defensive position against the shark.
+- what is needed to do the action: The player has spotted the shark.
+- what is the result: The player is defending against the shark.
+
+- entities:
+  - entity name: player
+    - before: The player has spotted the shark.
+    - after: The player is defending against the shark.
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is defending against the shark (defending) predicate.
+
+pddl:
+(:action defend
+ :parameters (?player - player)
+ :precondition ()
+ :effect (defending ?player))
+
+- action name: self_mobilize
+- summarize action: The player calms down and mobilizes themselves to escape.
+- what is needed to do the action: The shark is at the same location as the player.
+- what is the result: The player is ready to escape.
+
+- entities:
+  - entity name: player
+    - before: The player is at the same location as the shark.
+    - after: The player is ready to escape.
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at the same location as the shark using the (at) predicate.
+2. There is no directly applicable predicate, but rather a state change in the player's readiness to escape.
+
+pddl:
+(:action self_mobilize
+ :parameters (?player - player ?shark - shark ?loc - location)
+ :precondition (and
+                (at ?player ?loc)
+                (at ?shark ?loc))
+ :effect (and))
+
+- action name: medicare
+- summarize action: The player receives medical attention.
+- what is needed to do the action: The player is wounded.
+- what is the result: The player's wounds are treated (no direct predicate available).
+
+- entities:
+  - entity name: player
+    - before: The player is wounded.
+    - after: The player receives medical attention.
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is wounded using the (wounded) predicate.
+2. There is no directly applicable predicate for treating wounds, just a state change in the player's condition.
+
+pddl:
+(:action medicare
+ :parameters (?player - player)
+ :precondition (wounded ?player)
+ :effect (and))
+
+- action name: attack_vulnerable
+- summarize action: The player attacks the vulnerable part of the shark.
+- what is needed to do the action: The player has a sharp or heavy item and the shark has a vulnerable part.
+- what is the result: The shark is dizzy or flees.
+
+- entities:
+  - entity name: player
+    - before: The player has a sharp or heavy item.
+    - after: The player attacked the shark.
+  - entity name: shark
+    - before: The shark is vulnerable.
+    - after: The shark is dizzy or flees.
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a sharp or heavy item using the (inventory), (sharp), and (heavy) predicates.
+2. Check if the shark has a vulnerable part using the (vulnerable) predicate.
+3. Update the shark's state to dizzy or fleeing using the (dizzy) and (fleed) predicates.
+
+pddl:
+(:action attack_vulnerable
+ :parameters (?player - player ?shark - shark ?item - item ?part - part)
+ :precondition (and
+                (inventory ?player ?item)
+                (or (sharp ?item) (heavy ?item))
+                (vulnerable ?part))
+ :effect (or (dizzy ?shark) (fleed ?shark)))
+
+- action name: knockout
+- summarize action: The player continues fighting and makes the shark retreat.
+- what is needed to do the action: The player is defending and the shark is dizzy.
+- what is the result: The shark flees.
+
+- entities:
+  - entity name: player
+    - before: The player is defending against the shark.
+    - after: The player makes the shark retreat.
+  - entity name: shark
+    - before: The shark is dizzy.
+    - after: The shark flees.
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is defending using the (defending) predicate.
+2. Check if the shark is dizzy using the (dizzy) predicate.
+3. Update the shark's state to fleeing using the (fleed) predicate.
+
+pddl:
+(:action knockout
+ :parameters (?player - player ?shark - shark)
+ :precondition (and
+                (defending ?player)
+                (dizzy ?shark))
+ :effect (fleed ?shark))

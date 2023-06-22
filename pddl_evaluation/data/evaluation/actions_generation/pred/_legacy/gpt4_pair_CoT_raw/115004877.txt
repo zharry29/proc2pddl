@@ -1,0 +1,111 @@
+Action: Cut the stalks
+Entities: papyrus_plant, scissors, player, stalk
+States before: papyrus_plant 
+States after: stalk
+PDDL format:
+(:action cut_stalks
+ :parameters (?plant - papyrus_plant ?scissors - scissors ?player - player)
+ :precondition (and (inventory ?player ?scissors))
+ :effect (and (has ?player ?stalk) (not (has ?player ?plant)))
+)
+
+Action: Peel the outer layer
+Entities: stalk, sharp_knife, player, strip
+States before: stalk
+States after: strip (peeled)
+PDDL format:
+(:action peel_stalk
+ :parameters (?stalk - stalk ?knife - sharp_knife ?player - player)
+ :precondition (and (inventory ?player ?stalk) (inventory ?player ?knife))
+ :effect (and (peeled ?stalk) (not (has ?player ?stalk)))
+)
+
+Action: Cut into strips
+Entities: plant, knife, player, strips
+States before: plant (peeled)
+States after: strips
+PDDL format:
+(:action cut_stalk_into_strips
+ :parameters (?plant - plant ?knife - sharp_knife ?player - player ?strips - strips)
+ :precondition (and (peeled ?plant) (inventory ?player ?knife))
+ :effect (and (inventory ?player ?strips))
+)
+
+Action: Soak strips
+Entities: strips, water, location
+States before: strips
+States after: strips (clean)
+PDDL format:
+(:action soak_strips
+ :parameters (?strips - strips ?loc - location)
+ :precondition (and (at ?strips ?loc) (has_water ?loc))
+ :effect (clean ?strips)
+)
+
+Action: Dry out strips
+Entities: strips, location
+States before: strips (clean)
+States after: strips (dry)
+PDDL format:
+(:action dry_out_strips
+ :parameters (?strips - strips ?loc - location)
+ :precondition (clean ?strips)
+ :effect (dry ?strips)
+)
+
+Action: Weave strips into sheet
+Entities: strips, player, sheet
+States before: strips (dry)
+States after: sheet
+PDDL format:
+(:action weave_strips_into_sheet
+ :parameters (?strips - strips ?player - player ?sheet - sheet)
+ :precondition (dry ?strips)
+ :effect (and (inventory ?player ?sheet))
+)
+
+Action: Press sheet
+Entities: sheet, wooden_board, location
+States before: sheet
+States after: sheet (flat)
+PDDL format:
+(:action press_sheet
+ :parameters (?sheet - sheet ?wooden_board - wooden_board ?loc - location)
+ :precondition (and (at ?sheet ?loc) (at ?wooden_board ?loc) (has_hard_surface ?loc))
+ :effect (flat ?sheet)
+)
+
+Action: Flatten sheet
+Entities: sheet, location
+States before: sheet (flat)
+States after: sheet (very_flat)
+PDDL format:
+(:action flatten_sheet
+ :parameters (?sheet - sheet ?loc - location)
+ :precondition (and (flat ?sheet) (at ?sheet ?loc) (has_hard_surface ?loc))
+ :effect (very_flat ?sheet)
+)
+
+Action: Polish sheet
+Entities: sheet, shell, location
+States before: sheet (very_flat)
+States after: sheet (smooth)
+PDDL format:
+(:action polish_sheet
+ :parameters (?sheet - sheet ?shell - shell ?loc - location)
+ :precondition (and (at ?sheet ?loc) (at ?shell ?loc) (very_flat ?sheet))
+ :effect (smooth ?sheet)
+)
+
+Action: Cut the sheet
+Entities: sheet, razor, player, cut_sheet
+States before: sheet (smooth)
+States after: cut_sheet
+PDDL format:
+(:action cut_sheet
+ :parameters (?sheet - sheet ?razor - razor ?player - player ?cut_sheet - cut_sheet)
+ :precondition (and (smooth ?sheet) (inventory ?player ?razor))
+ :effect (and (inventory ?player ?cut_sheet) (not (inventory ?player ?sheet)))
+)
+
+)

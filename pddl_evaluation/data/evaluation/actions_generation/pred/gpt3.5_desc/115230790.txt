@@ -1,0 +1,90 @@
+(:action listen_to_astronomers_predictions
+   :parameters (?p - player ?l - location)
+   :precondition (at ?p ?l) ; player is at the location
+   :effect (listen_to_broadcast ?p ?l) ; player listens to astronomers' predictions
+)
+
+(:action move_away
+   :parameters (?p - player ?c1 - city ?c2 - city)
+   :precondition (at ?p ?c1) ; player is at the initial city
+   :precondition (connected ?c1 ?dir ?c2) ; initial city is connected to the target city
+   :effect (and
+      (not (at ?p ?c1)) ; player is not at the initial city
+      (at ?p ?c2) ; player is at the target city
+   )
+)
+
+(:action go
+   :parameters (?p - player ?c1 - city ?c2 - city ?dir - direction)
+   :precondition (at ?p ?c1) ; player is at the initial city
+   :precondition (connected ?c1 ?dir ?c2) ; initial city is connected to the target city in the given direction
+   :effect (and
+      (not (at ?p ?c1)) ; player is not at the initial city
+      (at ?p ?c2) ; player is at the target city
+   )
+)
+
+(:action buy_supplies
+   :parameters (?p - player ?m - market ?f - food ?w - water ?md - medicine)
+   :precondition (at ?p ?m) ; player is at the market
+   :effect (and
+      (not (enough_supplies)) ; there are not enough supplies
+      (inventory ?f) ; food is in the player's inventory
+      (inventory ?w) ; water is in the player's inventory
+      (inventory ?md) ; medicine is in the player's inventory
+   )
+)
+
+(:action check_supplies
+   :parameters (?p - player)
+   :precondition (inventory ?f) ; food is in the player's inventory
+   :precondition (inventory ?w) ; water is in the player's inventory
+   :precondition (inventory ?md) ; medicine is in the player's inventory
+   :effect (enough_supplies) ; there are enough supplies
+)
+
+(:action buy_weapons
+   :parameters (?p - player ?wm - weapon_market ?w - weapon ?a - ammunition)
+   :precondition (at ?p ?wm) ; player is at the weapon market
+   :effect (and
+      (not (enough_weapons)) ; there are not enough weapons
+      (inventory ?w) ; weapon is in the player's inventory
+      (inventory ?a) ; ammunition is in the player's inventory
+   )
+)
+
+(:action check_weapons
+   :parameters (?p - player)
+   :precondition (inventory ?w) ; weapon is in the player's inventory
+   :precondition (inventory ?a) ; ammunition is in the player's inventory
+   :effect (enough_weapons) ; there are enough weapons
+)
+
+(:action check_bunker
+   :parameters (?p - player ?bk - bunker)
+   :precondition (at ?p ?bk) ; player is at the bunker
+   :effect (find_good_bunker ?bk) ; the player finds a good bunker
+)
+
+(:action outfit_bunker_with_energy_source
+   :parameters (?p - player ?bk - bunker ?es - energy_source)
+   :precondition (at ?p ?bk) ; player is at the bunker
+   :effect (has_air_filtration_system ?bk) ; the bunker has an air filtration system
+   :effect (has_strong_material ?bk) ; the bunker has strong material
+   :effect (inventory ?es) ; energy source is in the player's inventory
+   :effect (outfit_bunker_with_heat ?bk) ; the player outfits the bunker with an energy source for heat
+)
+
+(:action enjoylife
+   :parameters (?p - player ?bk - bunker)
+   :precondition (at ?p ?bk) ; player is at the bunker
+   :effect (enjoylife ?p ?bk) ; the player enjoys life in the bunker
+)
+
+(:action connect_through_social_media_with_family
+   :parameters (?p - player ?c - city)
+   :precondition (at ?p ?c) ; player is at the city
+   :effect (family_memebers_know_you_are_safe) ; family members know the player is safe
+)
+
+)

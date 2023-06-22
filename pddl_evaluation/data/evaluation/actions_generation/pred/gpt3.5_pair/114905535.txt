@@ -1,0 +1,131 @@
+(:action go
+    :parameters (?from ?dir ?to - location)
+    :precondition (and
+                    (at ?from)
+                    (connected ?from ?dir ?to)
+                    (not (blocked ?from ?dir ?to)))
+    :effect (and
+                (not (at ?from))
+                (at ?to)
+                (not (has_water ?to))
+                (not (has_freshwater_source ?to))))
+
+(:action get
+    :parameters (?item - item ?from ?loc - location)
+    :precondition (and
+                    (at ?from)
+                    (at ?item ?loc)
+                    (not (blocked ?from ?loc)))
+    :effect (and
+                (not (at ?item ?loc))
+                (inventory ?item)))
+
+(:action get_water
+    :parameters (?loc - location ?water - water)
+    :precondition (and
+                    (has_freshwater_source ?loc)
+                    (at ?loc)
+                    (not (has_water ?loc))
+                    (not (treated ?water)))
+    :effect (and
+                (has_water ?loc)
+                (treated ?water)))
+
+(:action bag_plant
+    :parameters (?plant - plant ?bag - bag ?loc - location)
+    :precondition (and
+                    (at ?plant ?loc)
+                    (at ?bag ?loc)
+                    (not (bagged ?plant)))
+    :effect (and
+                (bagged ?plant)
+                (inventory ?bag ?plant)))
+
+(:action wait_and_gather_bagged_plant
+    :parameters (?loc - location ?plant - plant ?bag - bag)
+    :precondition (and
+                    (at ?loc)
+                    (bagged ?plant)
+                    (inventory ?bag ?plant))
+    :effect (and
+                (not (bagged ?plant))
+                (not (inventory ?bag ?plant))))
+
+(:action gather_tinder
+    :parameters (?loc - location ?tinder - tinder)
+    :precondition (and
+                    (at ?loc)
+                    (has_tinder ?loc)
+                    (not (wet ?tinder))
+                    (not (inventory ?tinder)))
+    :effect (and
+                (not (has_tinder ?loc))
+                (inventory ?tinder)))
+
+(:action build_campfire
+    :parameters (?campfire - campfire ?loc - location ?tinder - tinder ?wood - wood)
+    :precondition (and
+                    (at ?loc)
+                    (has_tinder ?loc)
+                    (inventory ?tinder)
+                    (not (lit ?campfire)))
+    :effect (and
+                (not (inventory ?tinder))
+                (lit ?campfire)))
+
+(:action light_campfire
+    :parameters (?campfire - campfire ?loc - location)
+    :precondition (and
+                    (at ?loc)
+                    (inventory ?campfire)
+                    (not (lit ?campfire)))
+    :effect (lit ?campfire))
+
+(:action make_spear
+    :parameters (?spear - spear ?loc - location ?wood - wood ?sharp_stone - sharp_stone)
+    :precondition (and
+                    (at ?loc)
+                    (inventory ?wood)
+                    (inventory ?sharp_stone)
+                    (not (inventory ?spear)))
+    :effect (and
+                (not (inventory ?wood))
+                (not (inventory ?sharp_stone))
+                (inventory ?spear)))
+
+(:action spear_fish
+    :parameters (?loc - location ?spear - spear ?fish - fish)
+    :precondition (and
+                    (at ?loc)
+                    (at ?fish ?loc)
+                    (inventory ?spear)
+                    (not (inventory ?fish)))
+    :effect (inventory ?fish))
+
+(:action cook_fish
+    :parameters (?fish - fish)
+    :precondition (and
+                    (inventory ?fish)
+                    (not (cooked ?fish)))
+    :effect (cooked ?fish))
+
+(:action wet_tinder
+    :parameters (?loc - location ?tinder - tinder)
+    :precondition (and
+                    (at ?loc)
+                    (inventory ?tinder)
+                    (not (wet ?tinder)))
+    :effect (wet ?tinder))
+
+(:action make_smoke_signal
+    :parameters (?campfire - campfire ?loc - location ?wood - wood)
+    :precondition (and
+                    (at ?loc)
+                    (inventory ?wood)
+                    (not (inventory ?campfire))
+                    (not (signaling ?campfire)))
+    :effect (and
+                (not (inventory ?wood))
+                (signaling ?campfire)))
+
+)

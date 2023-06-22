@@ -1,111 +1,250 @@
+- action name: go
+- summarize action: The go action represents the player moving from one location to another in the specified direction.
+- what is needed to do the action: The player needs to be at a location that is connected to another location in the direction they want to move.
+- what is the result: The player moves to the new location in the specified direction.
+
+- entities:
+  - entity name: player
+    - before: at a specific location
+    - after: at the new location connected in the specified direction
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the parameters: (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+2. Set the precondition to check if the player is at the starting location and that the starting location is connected to the destination location in the specified direction: (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+3. Set the effect to move the player to the new location and remove the player from the old location: (and (not (at ?player ?loc1)) (at ?player ?loc2))
+
+pddl:
 (:action go
-:list of entities: player, location, direction
-:states before: (at ?player ?loc1) (connected ?loc1 ?dir ?loc2)
-:states after: (at ?player ?loc2) (not (at ?player ?loc1))
-:pddl format:
-(:action go
-  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
-  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
-  :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+ :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
 )
 
+- action name: get
+- summarize action: The get action represents the player collecting an item from the environment and adding it to their inventory.
+- what is needed to do the action: The player needs to be at the same location as the item.
+- what is the result: The item is added to the player's inventory and removed from the environment.
+
+- entities:
+  - entity name: player
+    - before: at the location of the item
+    - after: unchanged
+  - entity name: item
+    - before: at a location
+    - after: in the player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the parameters: (?player - player ?item - item ?loc - location)
+2. Set the precondition to check if the player is at the same location as the item: (and (at ?player ?loc) (at ?item ?loc))
+3. Set the effect to remove the item from the location and add it to the player's inventory: (and (not (at ?item ?loc)) (inventory ?player ?item))
+
+pddl:
 (:action get
-:list of entities: player, item, location
-:states before: (at ?item ?loc) (at ?player ?loc) (not (inventory ?player ?item))
-:states after: (inventory ?player ?item) (not (at ?item ?loc))
-:pddl format:
-(:action get
-  :parameters (?player - player ?item - item ?loc - location)
-  :precondition (and (at ?item ?loc) (at ?player ?loc))
-  :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?item ?loc))
+ :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
 )
 
+- action name: build_roof
+- summarize action: The build_roof action represents the player creating a roof for the shelter using a long and solid stick.
+- what is needed to do the action: The player needs to have a long and solid stick in their inventory.
+- what is the result: The roof is created using the long and solid stick.
+
+- entities:
+  - entity name: player
+    - before: having a long and solid stick in their inventory
+    - after: unchanged
+  - entity name: roof
+    - before: not built
+    - after: built using the long and solid stick
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the parameters: (?player - player ?stick - log ?roof - roof)
+2. Set the precondition to check if the long and solid stick is in the player's inventory: (inventory ?player ?stick)
+3. Set the effect to create the roof using the stick: (constructed ?roof ?stick)
+
+pddl:
 (:action build_roof
-:list of entities: player, log, roof
-:states before: (inventory ?player ?log) (not (exists (?roof - roof)))
-:states after: (exists (?roof - roof))
-:pddl format:
-(:action build_roof
-  :parameters (?player - player ?log - log ?roof - roof)
-  :precondition (and (inventory ?player ?log) (not (exists ?roof - roof)))
-  :effect (exists ?roof - roof)
+ :parameters (?player - player ?stick - log ?roof - roof)
+ :precondition (inventory ?player ?stick)
+ :effect (constructed ?roof ?stick)
 )
 
+Please follow the same format for the remaining actions. If you need help with more actions, feel free to ask.
+- action name: build_wall
+- summarize action: The build_wall action represents the player constructing walls for the shelter using smaller branches and leaves.
+- what is needed to do the action: The player needs to have smaller branches and leaves in their inventory.
+- what is the result: The walls are created using smaller branches and leaves.
+
+- entities:
+  - entity name: player
+    - before: having smaller branches and leaves in their inventory
+    - after: unchanged
+  - entity name: wall
+    - before: not built
+    - after: built using smaller branches and leaves
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the parameters: (?player - player ?small_sticks - small_sticks ?leaves - leaves ?wall - wall)
+2. Set the precondition to check if the smaller branches and leaves are in the player's inventory: (and (inventory ?player ?small_sticks) (inventory ?player ?leaves))
+3. Set the effect to create the walls using smaller branches and leaves: (constructed ?wall ?small_sticks ?leaves)
+
+pddl:
 (:action build_wall
-:list of entities: player, small_sticks, wall
-:states before: (inventory ?player ?small_sticks) (not (exists (?wall - wall)))
-:states after: (exists (?wall - wall))
-:pddl format:
-(:action build_wall
-  :parameters (?player - player ?small_sticks - small_sticks ?wall - wall)
-  :precondition (and (inventory ?player ?small_sticks) (not (exists ?wall - wall)))
-  :effect (exists ?wall - wall)
+ :parameters (?player - player ?small_sticks - small_sticks ?leaves - leaves ?wall - wall)
+ :precondition (and (inventory ?player ?small_sticks) (inventory ?player ?leaves))
+ :effect (constructed ?wall ?small_sticks ?leaves)
 )
 
+- action name: build_bed
+- summarize action: The build_bed action represents the player creating a bed inside the shelter using leaves or other plant matter.
+- what is needed to do the action: The player needs to have leaves or other plant matter in their inventory.
+- what is the result: The bed is created using leaves or other plant matter.
+
+- entities:
+  - entity name: player
+    - before: having leaves or other plant matter in their inventory
+    - after: unchanged
+  - entity name: bed
+    - before: not built
+    - after: built using leaves or other plant matter
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the parameters: (?player - player ?leaves - leaves ?bed - bed)
+2. Set the precondition to check if leaves or other plant matter are in the player's inventory: (inventory ?player ?leaves)
+3. Set the effect to create the bed using leaves or other plant matter: (constructed ?bed ?leaves)
+
+pddl:
 (:action build_bed
-:list of entities: player, leaves, shelter
-:states before: (inventory ?player ?leaves) (not (exists (?shelter - shelter)))
-:states after: (exists (?shelter - shelter))
-:pddl format:
-(:action build_bed
-  :parameters (?player - player ?leaves - leaves ?shelter - shelter)
-  :precondition (and (inventory ?player ?leaves) (not (exists ?shelter - shelter)))
-  :effect (exists ?shelter - shelter)
+ :parameters (?player - player ?leaves - leaves ?bed - bed)
+ :precondition (inventory ?player ?leaves)
+ :effect (constructed ?bed ?leaves)
 )
 
+- action name: complete_shelter
+- summarize action: The complete_shelter action represents the player finishing the construction of the shelter, which consists of the roof, wall, and bed.
+- what is needed to do the action: The player needs to have built the roof, wall, and bed for the shelter.
+- what is the result: The shelter is completed.
+
+- entities:
+  - entity name: player
+    - before: having built the roof, wall, and bed for the shelter
+    - after: unchanged
+  - entity name: shelter
+    - before: roof, wall, and bed not built
+    - after: roof, wall, and bed built
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the parameters: (?player - player ?roof - roof ?wall - wall ?bed - bed ?shelter - shelter)
+2. Set the precondition to check if the player has built the roof, wall, and bed: (and (constructed ?roof) (constructed ?wall) (constructed ?bed))
+3. Set the effect to complete the shelter using the built roof, wall, and bed: (constructed ?shelter ?roof ?wall ?bed)
+
+pddl:
 (:action complete_shelter
-:list of entities: player, shelter, wall, roof
-:states before: (exists (?roof - roof)) (exists (?wall - wall))
-:states after: (exists (?shelter - shelter))
-:pddl format:
-(:action complete_shelter
-  :parameters (?player - player ?shelter - shelter ?wall - wall ?roof - roof)
-  :precondition (and (exists ?roof - roof) (exists ?wall - wall))
-  :effect (exists ?shelter - shelter)
+ :parameters (?player - player ?roof - roof ?wall - wall ?bed - bed ?shelter - shelter)
+ :precondition (and (constructed ?roof) (constructed ?wall) (constructed ?bed))
+ :effect (constructed ?shelter ?roof ?wall ?bed)
 )
 
+Please let me know if you need help with more actions, or if you have any questions about the provided PDDL examples.
+- action name: hunt_animal
+- summarize action: The hunt_animal action represents the player successfully hunting an animal for food.
+- what is needed to do the action: The player needs to find an animal to hunt.
+- what is the result: The player has an animal that can be prepared and eaten.
+
+- entities:
+  - entity name: player
+    - before: searching for an animal to hunt
+    - after: unchanged
+  - entity name: animal
+    - before: alive and not hunted
+    - after: hunted by the player
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the parameters: (?player - player ?animal - animal)
+2. Set the precondition to check if the player found an animal to hunt: (at ?player ?animal)
+3. Set the effect to represent the player has successfully hunted the animal: (hunted ?player ?animal)
+
+pddl:
 (:action hunt_animal
-:list of entities: player, animal
-:states before: (not (inventory ?player ?animal))
-:states after: (inventory ?player ?animal)
-:pddl format:
-(:action hunt_animal
-  :parameters (?player - player ?animal - animal)
-  :precondition (not (inventory ?player ?animal))
-  :effect (inventory ?player ?animal)
+ :parameters (?player - player ?animal - animal)
+ :precondition (at ?player ?animal)
+ :effect (hunted ?player ?animal)
 )
 
+- action name: prepare_animal
+- summarize action: The prepare_animal action represents the player properly preparing the hunted animal, making it safe to eat.
+- what is needed to do the action: The player needs to have a hunted animal.
+- what is the result: The animal is prepared and safe to eat.
+
+- entities:
+  - entity name: player
+    - before: having a hunted animal
+    - after: unchanged
+  - entity name: animal
+    - before: hunted but not prepared
+    - after: prepared and safe to eat
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the parameters: (?player - player ?animal - animal)
+2. Set the precondition to check if the player has hunted an animal: (hunted ?player ?animal)
+3. Set the effect to represent the player has properly prepared the animal: (treated ?animal)
+
+pddl:
 (:action prepare_animal
-:list of entities: player, animal
-:states before: (inventory ?player ?animal) (not (treated ?animal))
-:states after: (treated ?animal)
-:pddl format:
-(:action prepare_animal
-  :parameters (?player - player ?animal - animal)
-  :precondition (and (inventory ?player ?animal) (not (treated ?animal)))
-  :effect (treated ?animal)
+ :parameters (?player - player ?animal - animal)
+ :precondition (hunted ?player ?animal)
+ :effect (treated ?animal)
 )
 
+- action name: build_raft
+- summarize action: The build_raft action represents the player building a raft using larger logs as a base, smaller logs as braces, and vines for tying.
+- what is needed to do the action: The player needs to have larger logs, smaller logs, and vines in their inventory.
+- what is the result: The player creates a raft_draft, which represents an unfinished raft that needs further testing.
+
+- entities:
+  - entity name: player
+    - before: having larger logs, smaller logs, and vines in their inventory
+    - after: unchanged
+  - entity name: raft_draft
+    - before: not built
+    - after: built using larger logs, smaller logs, and vines
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the parameters: (?player - player ?large_logs - log ?small_logs - small_sticks ?vines - vines ?raft_draft - raft_draft)
+2. Set the precondition to check if the player has larger logs, smaller logs, and vines in their inventory: (and (inventory ?player ?large_logs) (inventory ?player ?small_logs) (inventory ?player ?vines))
+3. Set the effect to create the raft_draft using larger logs, smaller logs, and vines: (constructed ?raft_draft ?large_logs ?small_logs ?vines)
+
+pddl:
 (:action build_raft
-:list of entities: player, log, small_sticks, vines, raft_draft
-:states before: (inventory ?player ?log) (inventory ?player ?small_sticks) (inventory ?player ?vines) (not (exists (?raft_draft - raft_draft)))
-:states after: (exists (?raft_draft - raft_draft))
-:pddl format:
-(:action build_raft
-  :parameters (?player - player ?log - log ?small_sticks - small_sticks ?vines - vines ?raft_draft - raft_draft)
-  :precondition (and (inventory ?player ?log) (inventory ?player ?small_sticks) (inventory ?player ?vines) (not (exists ?raft_draft - raft_draft)))
-  :effect (exists ?raft_draft - raft_draft)
+ :parameters (?player - player ?large_logs - log ?small_logs - small_sticks ?vines - vines ?raft_draft - raft_draft)
+ :precondition (and (inventory ?player ?large_logs) (inventory ?player ?small_logs) (inventory ?player ?vines))
+ :effect (constructed ?raft_draft ?large_logs ?small_logs ?vines)
 )
 
+- action name: test_raft
+- summarize action: The test_raft action represents the player testing the completed raft_draft in shallow waters before venturing further out.
+- what is needed to do the action: Player needs to have constructed a completed raft_draft.
+- what is the result: The player gets the result of the test, and the raft_draft either becomes raft_finished or requires repairs.
+
+- entities:
+  - entity name: player
+    - before: having constructed a raft_draft
+    - after: unchanged
+  - entity name: raft_draft
+    - before: built and untested
+    - after: tested and either becomes raft_finished or requires repairs
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Define the parameters: (?player - player ?raft_draft - raft_draft ?raft_finished - raft_finished)
+2. Set the precondition to check if the player has built a raft_draft: (constructed ?raft_draft)
+3. Set the effect to represent the player testing the raft_draft: (tested ?raft_draft ?raft_finished)
+
+pddl:
 (:action test_raft
-:list of entities: player, raft_draft, raft_finished
-:states before: (exists (?raft_draft - raft_draft))
-:states after: (exists (?raft_finished - raft_finished))
-:pddl format:
-(:action test_raft
-  :parameters (?player - player ?raft_draft - raft_draft ?raft_finished - raft_finished)
-  :precondition (exists ?raft_draft - raft_draft)
-  :effect (exists ?raft_finished - raft_finished)
+ :parameters (?player - player ?raft_draft - raft_draft ?raft_finished - raft_finished)
+ :precondition (constructed ?raft_draft)
+ :effect (tested ?raft_draft ?raft_finished)
 )
 
-)
+Please let me know if you need help with more actions or have any questions about the provided PDDL examples.

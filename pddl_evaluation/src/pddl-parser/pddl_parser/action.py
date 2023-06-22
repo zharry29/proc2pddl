@@ -238,7 +238,7 @@ def action_dist(Action1, Action2):
         p1 = sorted(p1, key=lambda x: x[1])
         p2 = sorted(p2, key=lambda x: x[1])
     except TypeError:
-        return False
+        return -1, -1, -1
     n1 = 0
     d1 = defaultdict(list)
     d2 = defaultdict(list)
@@ -283,22 +283,25 @@ def action_dist(Action1, Action2):
             for j in range(len(pp2)):
                 if pp2[j][0] == pp1[i][0] and len(pp2[j]) == len(pp1[i]):
                     for k in range(1, len(pp1[i])):
-                        if pp2[j][k] not in paradict2 or pp1[i][k] not in paradict1:
-                            if pp2[j][k] != pp1[i][k]:
+                        try:
+                            if pp2[j][k] not in paradict2 or pp1[i][k] not in paradict1:
+                                if pp2[j][k] != pp1[i][k]:
+                                    break
+                            elif paradict2[pp2[j][k]] != paradict1[pp1[i][k]]:
                                 break
-                        elif paradict2[pp2[j][k]] != paradict1[pp1[i][k]]:
-                            break
-                        elif (
-                            pp1[i][k] not in countdict1 and pp2[j][k] not in countdict2
-                        ):
-                            countdict1[pp1[i][k]] = count1
-                            countdict2[pp2[j][k]] = count2
-                            count1 += 1
-                            count2 += 1
-                        elif pp1[i][j] in countdict1 and pp2[i][j] in countdict2:
-                            if countdict1[pp1[i][j]] != countdict2[pp2[i][j]]:
+                            elif (
+                                pp1[i][k] not in countdict1 and pp2[j][k] not in countdict2
+                            ):
+                                countdict1[pp1[i][k]] = count1
+                                countdict2[pp2[j][k]] = count2
+                                count1 += 1
+                                count2 += 1
+                            elif pp1[i][j] in countdict1 and pp2[i][j] in countdict2:
+                                if countdict1[pp1[i][j]] != countdict2[pp2[i][j]]:
+                                    break
+                            else:
                                 break
-                        else:
+                        except IndexError:
                             break
                     n += 1
                     pp2.pop(j)

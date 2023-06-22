@@ -1,0 +1,345 @@
+- action name: go
+- summarize action: The player moves from their current location to another location that is connected in a specified direction.
+- what is needed to do the action: The player is currently in a location, and the new location is connected to the current location in the specified direction.
+- what is the result: The player is now in the new location.
+
+- entities:
+  - entity name: player
+    - before: at current location
+    - after: at new location
+  - entity name: current location
+    - before: contains the player
+    - after: unchanged
+  - entity name: new location
+    - before: not containing the player
+    - after: contains the player
+  - entity name: direction
+    - before: connecting the current location to the new location
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if there is a connection between the current and new location using the 'connected' predicate.
+2. Move the player from the current to the new location using the 'at' predicate.
+
+pddl:
+(:action go
+  :parameters (?player - player ?dir - direction ?from - location ?to - location)
+  :precondition (and (at ?player ?from)
+                     (connected ?from ?dir ?to))
+  :effect (and (not (at ?player ?from))
+               (at ?player ?to)))
+
+- action name: get
+- summarize action: The player picks up an item from their current location and adds it to their inventory.
+- what is needed to do the action: The player is at a location with the item.
+- what is the result: The item is removed from the location and added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: at the location with the item
+    - after: unchanged
+  - entity name: item
+    - before: at the location
+    - after: in the player's inventory
+  - entity name: location
+    - before: contains the item
+    - after: item removed
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at the location with the item using the 'at' predicate.
+2. Remove the item from the location.
+3. Add the item to the player's inventory using the 'inventory' predicate.
+
+pddl:
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc)
+                     (at ?item ?loc))
+  :effect (and (not (at ?item ?loc))
+               (inventory ?player ?item)))
+
+- action name: pick_lock_with_card
+- summarize action: The player uses a card to pick the lock of a location with an easy lock.
+- what is needed to do the action: The player is at a location with an easy lock and has a card in their inventory.
+- what is the result: The easy lock is unlocked.
+
+- entities:
+  - entity name: player
+    - before: at the location with an easy lock and has a card in inventory
+    - after: unchanged
+  - entity name: location
+    - before: has an easy lock
+    - after: easy lock unlocked
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a location with an easy lock using the 'has_easy_lock' predicate.
+2. Check if the player has a card in their inventory using the 'inventory' predicate.
+3. Unlock the easy lock by negating the 'has_easy_lock' predicate.
+
+pddl:
+(:action pick_lock_with_card
+  :parameters (?player - player ?loc - location ?card - item)
+  :precondition (and (at ?player ?loc)
+                     (has_easy_lock ?loc)
+                     (inventory ?player ?card))
+  :effect (not (has_easy_lock ?loc)))
+
+- action name: file_key_into_wrench
+- summarize action: The player turns a key into a tension wrench by filing it flat.
+- what is needed to do the action: The player has a key and a file in their inventory.
+- what is the result: The key is turned into a tension wrench and replaces the key in the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: has a key and a file in inventory
+    - after: unchanged
+  - entity name: key
+    - before: in the player's inventory
+    - after: removed from inventory
+  - entity name: tension wrench
+    - before: not in the player's inventory
+    - after: in the player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a key and a file in their inventory using the 'inventory' predicate.
+2. Remove the key from the player's inventory.
+3. Add the tension wrench to the player's inventory.
+
+pddl:
+(:action file_key_into_wrench
+  :parameters (?player - player ?key - item ?file - item ?wrench - item)
+  :precondition (and (inventory ?player ?key)
+                     (inventory ?player ?file))
+  :effect (and (not (inventory ?player ?key))
+               (inventory ?player ?wrench)))
+
+- action name: bend_paperclip_into_pick
+- summarize action: The player bends a paperclip into a lockpick.
+- what is needed to do the action: The player has a paperclip in their inventory.
+- what is the result: The paperclip is turned into a lockpick and replaces the paperclip in the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: has a paperclip in inventory
+    - after: unchanged
+  - entity name: paperclip
+    - before: in the player's inventory
+    - after: removed from inventory
+  - entity name: lockpick
+    - before: not in the player's inventory
+    - after: in the player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a paperclip in their inventory using the 'inventory' predicate.
+2. Remove the paperclip from the player's inventory.
+3. Add the lockpick to the player's inventory.
+
+pddl:
+(:action bend_paperclip_into_pick
+  :parameters (?player - player ?paperclip - item ?pick - item)
+  :precondition (inventory ?player ?paperclip)
+  :effect (and (not (inventory ?player ?paperclip))
+               (inventory ?player ?pick)))
+
+- action name: insert_wrench
+- summarize action: The player inserts the tension wrench into the lock of a location with a hard lock.
+- what is needed to do the action: The player is at a location with a hard lock and has a tension wrench in their inventory.
+- what is the result: The tension wrench is inserted into the hard lock.
+
+- entities:
+  - entity name: player
+    - before: at the location with a hard lock and has a tension wrench in inventory
+    - after: unchanged
+  - entity name: location
+    - before: has a hard lock
+    - after: tension wrench inserted
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a location with a hard lock using the 'has_hard_lock' predicate.
+2. Check if the player has a tension wrench in their inventory using the 'inventory' predicate.
+3. Insert the tension wrench into the hard lock using the 'wrench_in_lock' predicate.
+
+pddl:
+(:action insert_wrench
+  :parameters (?player - player ?loc - location ?wrench - item)
+  :precondition (and (at ?player ?loc)
+                     (has_hard_lock ?loc)
+                     (inventory ?player ?wrench))
+  :effect (wrench_in_lock ?loc))
+
+- action name: insert_pick
+- summarize action: The player inserts the lockpick into the lock of a location where a tension wrench is already inserted.
+- what is needed to do the action: The player is at a location where a tension wrench is inserted and has a lockpick in their inventory.
+- what is the result: The lockpick is inserted into the hard lock.
+
+- entities:
+  - entity name: player
+    - before: at the location with tension wrench inserted and has a lockpick in inventory
+    - after: unchanged
+  - entity name: location
+    - before: tension wrench inserted
+    - after: lockpick inserted
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a location where a tension wrench is inserted using the 'wrench_in_lock' predicate.
+2. Check if the player has a lockpick in their inventory using the 'inventory' predicate.
+3. Insert the lockpick into the hard lock using the 'pick_in_lock' predicate.
+
+pddl:
+(:action insert_pick
+  :parameters (?player - player ?loc - location ?pick - item)
+  :precondition (and (at ?player ?loc)
+                     (wrench_in_lock ?loc)
+                     (inventory ?player ?pick))
+  :effect (pick_in_lock ?loc))
+
+- action name: push_pins_out_of_tumblers
+- summarize action: The player pushes the pins out of the tumblers in the lock using an inserted lockpick and tension wrench.
+- what is needed to do the action: The player is at a location where a tension wrench and lockpick are inserted into a hard lock.
+- what is the result: The hard lock is unlocked.
+
+- entities:
+  - entity name: player
+    - before: at the location with tension wrench and lockpick inserted
+    - after: unchanged
+  - entity name: location
+    - before: hard lock locked
+    - after: hard lock unlocked
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a location where a tension wrench and lockpick are inserted using the 'wrench_in_lock' and 'pick_in_lock' predicates.
+2. Unlock the hard lock by negating the 'has_hard_lock' predicate.
+
+pddl:
+(:action push_pins_out_of_tumblers
+  :parameters (?player - player ?loc - location)
+  :precondition (and (at ?player ?loc)
+                     (wrench_in_lock ?loc)
+                     (pick_in_lock ?loc))
+  :effect (not (has_hard_lock ?loc)))
+
+- action name: straighten_coathanger
+- summarize action: The player straightens a coat hanger to create a tool with a hooked tip.
+- what is needed to do the action: The player has a coat hanger in their inventory.
+- what is the result: The coat hanger is turned into a straightened coat hanger with a hooked tip and replaces the coat hanger in the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: has a coat hanger in inventory
+    - after: unchanged
+  - entity name: coat hanger
+    - before: in the player's inventory
+    - after: removed from inventory
+  - entity name: straightened coat hanger
+    - before: not in the player's inventory
+    - after: in the player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a coat hanger in their inventory using the 'inventory' predicate.
+2. Remove the coat hanger from the player's inventory.
+3. Add the straightened coat hanger with a hooked tip to the player's inventory.
+
+pddl:
+(:action straighten_coathanger
+  :parameters (?player - player ?hanger - item ?straightened_hanger - item)
+  :precondition (inventory ?player ?hanger)
+  :effect (and (not (inventory ?player ?hanger))
+               (inventory ?player ?straightened_hanger)))
+
+- action name: lift_weatherstripping
+- summarize action: The player lifts the weatherstripping of a car window.
+- what is needed to do the action: The player is at a location with a locked car.
+- what is the result: The weatherstripping is lifted, allowing access to the car's interior.
+
+- entities:
+  - entity name: player
+    - before: at the location with a locked car
+    - after: unchanged
+  - entity name: location
+    - before: has a locked car with weatherstripping intact
+    - after: weatherstripping lifted
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a location with a locked car using the 'locked_car' predicate.
+2. Lift the weatherstripping using the 'weatherstripping_removed' predicate.
+
+pddl:
+(:action lift_weatherstripping
+  :parameters (?player - player ?loc - location)
+  :precondition (and (at ?player ?loc)
+                     (locked_car ?loc))
+  :effect (weatherstripping_removed ?loc))
+
+- action name: insert_hanger
+- summarize action: The player inserts a straightened coat hanger into a car's interior through the lifted weatherstripping.
+- what is needed to do the action: The player is at a location with the weatherstripping of a locked_car lifted and a straightened coat hanger in their inventory.
+- what is the result: The coat hanger is inserted into the car's interior.
+
+- entities:
+  - entity name: player
+    - before: at the location with weatherstripping lifted and has a straightened coat hanger in inventory
+    - after: unchanged
+  - entity name: location
+    - before: weatherstripping lifted
+    - after: coat hanger inserted
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a location with the weatherstripping lifted using the 'weatherstripping_removed' predicate.
+2. Check if the player has a straightened coat hanger in their inventory using the 'inventory' predicate.
+3. Insert the coat hanger into the car's interior using the 'coathanger_inserted' predicate.
+
+pddl:
+(:action insert_hanger
+  :parameters (?player - player ?loc - location ?hanger - item)
+  :precondition (and (at ?player ?loc)
+                     (weatherstripping_removed ?loc)
+                     (inventory ?player ?hanger))
+  :effect (coathanger_inserted ?loc))
+
+- action name: hook_latch
+- summarize action: The player hooks the latch of a locked car using the inserted coat hanger.
+- what is needed to do the action: The player is at a location with a coat hanger inserted into a car's interior.
+- what is the result: The latch is hooked, allowing the door to be unlocked.
+
+- entities:
+  - entity name: player
+    - before: at the location with coat hanger inserted
+    - after: unchanged
+  - entity name: location
+    - before: coat hanger inserted
+    - after: latch hooked
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a location with a coat hanger inserted into a car's interior using the 'coathanger_inserted' predicate.
+2. Hook the latch using the 'latch_hooked' predicate.
+
+pddl:
+(:action hook_latch
+  :parameters (?player - player ?loc - location)
+  :precondition (and (at ?player ?loc)
+                     (coathanger_inserted ?loc))
+  :effect (latch_hooked ?loc))
+
+- action name: pull_coathanger
+- summarize action: The player pulls the coat hanger with the hooked latch to unlock and open a locked car door.
+- what is needed to do the action: The player is at a location where the latch of a locked car is hooked.
+- what is the result: The locked car door is unlocked and opened.
+
+- entities:
+  - entity name: player
+    - before: at the location with latch hooked
+    - after: unchanged
+  - entity name: location
+    - before: latch hooked
+    - after: car door unlocked
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a location with the latch hooked using the 'latch_hooked' predicate.
+2. Unlock and open the car door by negating the 'locked_car' predicate.
+
+pddl:
+(:action pull_coathanger
+  :parameters (?player - player ?loc - location)
+  :precondition (and (at ?player ?loc)
+                     (latch_hooked ?loc))
+  :effect (not (locked_car ?loc)))

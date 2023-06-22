@@ -1,0 +1,3 @@
+go ('npc', 'kitchen', 'east', 'hallway')
+thaw_food ('npc', 'items')
+throw ('npc', 'items', 'hallway')

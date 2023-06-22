@@ -1,0 +1,145 @@
+(:action go
+    :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+    :precondition (and
+        (at ?player ?loc1)
+        (connected ?loc1 ?dir ?loc2)
+        (not (blocked ?loc1 ?dir ?loc2)))
+    :effect (and
+        (at ?player ?loc2)
+        (not (at ?player ?loc1))))
+
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and
+        (at ?player ?loc)
+        (at ?item ?loc))
+    :effect (and
+        (inventory ?player ?item)
+        (not (at ?item ?loc))))
+
+(:action drop
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and
+        (at ?player ?loc)
+        (inventory ?player ?item))
+    :effect (and
+        (at ?item ?loc)
+        (not (inventory ?player ?item))))
+
+(:action collect_water
+    :parameters (?player - player ?loc - location ?container - container)
+    :precondition (and
+        (at ?player ?loc)
+        (has_water ?loc)
+        (inventory ?player ?container))
+    :effect (and
+        (has_water ?container)))
+
+(:action filter_water
+    :parameters (?player - player ?container - container ?water - water)
+    :precondition (and
+        (inventory ?player ?container)
+        (has_water ?container))
+    :effect (and
+        (filtered ?water)))
+
+(:action boil_water
+    :parameters (?player - player ?loc - location ?water - water ?fire - item)
+    :precondition (and
+        (at ?player ?loc)
+        (has_fire ?loc)
+        (filtered ?water))
+    :effect (and
+        (boiled ?water)))
+
+(:action drink_water
+    :parameters (?player - player ?water - water)
+    :precondition (and
+        (inventory ?player ?water)
+        (boiled ?water))
+    :effect (and
+        (not (thirsty ?player))))
+
+(:action get_wood
+    :parameters (?player - player ?loc - location ?wood - wood)
+    :precondition (and
+        (at ?player ?loc)
+        (has_tree ?loc))
+    :effect (and
+        (inventory ?player ?wood)))
+
+(:action make_drill
+    :parameters (?player - player ?wood - wood ?drill - drill)
+    :precondition (and
+        (inventory ?player ?wood))
+    :effect (and
+        (inventory ?player ?drill)))
+
+(:action make_fire
+    :parameters (?player - player ?loc - location ?drill - drill ?wood - wood)
+    :precondition (and
+        (at ?player ?loc)
+        (inventory ?player ?drill)
+        (inventory ?player ?wood))
+    :effect (and
+        (has_fire ?loc)))
+
+(:action make_spear
+    :parameters (?player - player ?wood - wood ?spear - spear)
+    :precondition (and
+        (inventory ?player ?wood))
+    :effect (and
+        (inventory ?player ?spear)))
+
+(:action catch_fish
+    :parameters (?player - player ?loc - location ?spear - spear ?fish - fish)
+    :precondition (and
+        (at ?player ?loc)
+        (has_fish ?loc)
+        (inventory ?player ?spear))
+    :effect (and
+        (inventory ?player ?fish)))
+
+(:action cook_fish
+    :parameters (?player - player ?loc - location ?fish - fish ?fire - item)
+    :precondition (and
+        (at ?player ?loc)
+        (has_fire ?loc)
+        (inventory ?player ?fish))
+    :effect (and
+        (cooked ?fish)))
+
+(:action eat_fish
+    :parameters (?player - player ?fish - fish)
+    :precondition (and
+        (inventory ?player ?fish)
+        (cooked ?fish))
+    :effect (and
+        (not (hungry ?player))))
+
+(:action get_foliage
+    :parameters (?player - player ?loc - location ?foliage - foliage)
+    :precondition (and
+        (at ?player ?loc)
+        (has_tree ?loc))
+    :effect (and
+        (inventory ?player ?foliage)))
+
+(:action build_shelter
+    :parameters (?player - player ?loc - location ?foliage - foliage)
+    :precondition (and
+        (at ?player ?loc)
+        (inventory ?player ?foliage))
+    :effect (and
+        (has_shelter ?loc)
+        (safe ?player ?loc)))
+
+(:action survive
+    :parameters (?player - player)
+    :precondition (and
+        (not (hungry ?player))
+        (not (thirsty ?player))
+        (safe ?player ?loc - location))
+    :effect (and))
+
+)

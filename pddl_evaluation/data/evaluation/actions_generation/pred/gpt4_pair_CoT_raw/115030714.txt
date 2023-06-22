@@ -1,79 +1,313 @@
+- action name: go
+- summarize action: Move the player to a new location in a specific direction.
+- what is needed to do the action: A starting location, a destination location, and a direction connecting them.
+- what is the result: The player moves to the destination location.
+
+- entities:
+  - entity name: player
+    - before: at starting location
+    - after: at destination location
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: (:action go :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+2. Add precondition: (connected ?loc1 ?dir ?loc2)
+3. Add effect: (and (not (at ?player ?loc1)) (at ?player ?loc2))
+
+pddl:
 (:action go
-:parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
-:precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
-:effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+ :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+ :precondition (and (at ?player ?loc1)(connected ?loc1 ?dir ?loc2))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
 )
 
+- action name: get
+- summarize action: Pick up an item from a location and add it to the player's inventory.
+- what is needed to do the action: Player needs to be at the item's location.
+- what is the result: Item is removed from the location and added to the player's inventory.
+
+- entities:
+  - entity name: item
+    - before: at location
+    - after: in player's inventory
+  - entity name: player
+    - before: at item's location
+    - after: has item in inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: (:action get :parameters (?player - player ?item - item ?loc - location)
+2. Add precondition: (at ?player ?loc)
+3. Add effect: (and (not (at ?item ?loc)) (inventory ?player ?item))
+
+pddl:
 (:action get
-:parameters (?player - player ?item - item ?loc - location)
-:precondition (and (at ?player ?loc) (at ?item ?loc))
-:effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?item ?loc))
+ :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
 )
 
+- action name: drop
+- summarize action: Remove an item from the player's inventory and place it at a location.
+- what is needed to do the action: Player needs to have the item in their inventory.
+- what is the result: Item is removed from the player's inventory and placed at the location.
+
+- entities:
+  - entity name: item
+    - before: in player's inventory
+    - after: at location
+  - entity name: player
+    - before: has item in inventory
+    - after: at item's location
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: (:action drop :parameters (?player - player ?item - item ?loc - location)
+2. Add precondition: (inventory ?player ?item)
+3. Add effect: (and (not (inventory ?player ?item)) (at ?item ?loc))
+
+pddl:
 (:action drop
-:parameters (?player - player ?item - item ?loc - location)
-:precondition (and (at ?player ?loc) (inventory ?player ?item))
-:effect (and (at ?item ?loc) (not (inventory ?player ?item)))
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc) (inventory ?player ?item))
+ :effect (and (not (inventory ?player ?item)) (at ?item ?loc))
 )
 
+- action name: cook
+- summarize action: Cook food in a location with a kitchen.
+- what is needed to do the action: Food item and location with a kitchen.
+- what is the result: Food is cooked.
+
+- entities:
+  - entity name: food
+    - before: uncooked
+    - after: cooked
+  - entity name: location
+    - before: has kitchen
+    - after: unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Cook predicate doesn't exist in the given predicates. Add new one to the predicates: (cooked ?food - food)
+2. Add parameters: (:action cook :parameters (?food - food ?loc - location)
+3. Add precondition: (and (at ?food ?loc) (has_kitchen ?loc))
+4. Add effect: (cooked ?food)
+
+pddl:
 (:action cook
-:parameters (?player - player ?food - food ?loc - location)
-:precondition (and (at ?player ?loc) (has_kitchen ?loc))
-:effect (inventory ?player ?food)
+ :parameters (?food - food ?loc - location)
+ :precondition (and (at ?food ?loc) (has_kitchen ?loc))
+ :effect (cooked ?food)
 )
 
+- action name: order_sushi
+- summarize action: Order sushi using a phone and money.
+- what is needed to do the action: Phone and money in the player's inventory.
+- what is the result: Sushi is added to the player's inventory.
+
+- entities:
+  - entity name: phone
+    - before: in player's inventory
+    - after: unchanged
+  - entity name: money
+    - before: in player's inventory
+    - after: unchanged
+  - entity name: sushi
+    - before: not in inventory
+    - after: in player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: (:action order_sushi :parameters (?player - player ?phone - phone ?money - money ?sushi - sushi)
+2. Add precondition: (and (inventory ?player ?phone) (inventory ?player ?money))
+3. Add effect: (inventory ?player ?sushi)
+
+pddl:
 (:action order_sushi
-:parameters (?player - player ?loc - location)
-:precondition (at ?player ?loc)
-:effect (inventory ?player sushi)
+ :parameters (?player - player ?phone - phone ?money - money ?sushi - sushi)
+ :precondition (and (inventory ?player ?phone) (inventory ?player ?money))
+ :effect (inventory ?player ?sushi)
 )
 
+- action name: buy_sake
+- summarize action: Buy sake using money.
+- what is needed to do the action: Money in the player's inventory.
+- what is the result: Sake is added to the player's inventory.
+
+- entities:
+  - entity name: money
+    - before: in player's inventory
+    - after: unchanged
+  - entity name: sake
+    - before: not in inventory
+    - after: in player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: (:action buy_sake :parameters (?player - player ?money - money ?sake - drink)
+2. Add precondition: (inventory ?player ?money)
+3. Add effect: (inventory ?player ?sake)
+
+pddl:
 (:action buy_sake
-:parameters (?player - player ?loc - location)
-:precondition (at ?player ?loc)
-:effect (inventory ?player sake)
+ :parameters (?player - player ?money - money ?sake - drink)
+ :precondition (inventory ?player ?money)
+ :effect (inventory ?player ?sake)
 )
 
+- action name: serve
+- summarize action: Serve a drink by opening it.
+- what is needed to do the action: Drink item in the player's inventory.
+- what is the result: Drink is opened and served.
+
+- entities:
+  - entity name: drink
+    - before: unopened in player's inventory
+    - after: opened and served
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: (:action serve :parameters (?player - player ?drink - drink)
+2. Add precondition: (inventory ?player ?drink)
+3. Add effect: (opened ?drink)
+
+pddl:
 (:action serve
-:parameters (?player - player ?item - item ?loc - location)
-:precondition (and (at ?player ?loc) (inventory ?player ?item))
-:effect (and (at ?item ?loc) (not (inventory ?player ?item)))
+ :parameters (?player - player ?drink - drink)
+ :precondition (inventory ?player ?drink)
+ :effect (opened ?drink)
 )
+- action name: brew
+- summarize action: Brew tea in a location with a kitchen.
+- what is needed to do the action: Tea item and location with a kitchen.
+- what is the result: Tea is brewed.
 
+- entities:
+  - entity name: tea
+    - before: unbrewed
+    - after: brewed
+  - entity name: location
+    - before: has kitchen
+    - after: unchanged
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Brew predicate doesn't exist in the given predicates. Add new one to the predicates: (brewed ?tea - tea)
+2. Add parameters: (:action brew :parameters (?tea - tea ?loc - location)
+3. Add precondition: (and (at ?tea ?loc) (has_kitchen ?loc))
+4. Add effect: (brewed ?tea)
+
+pddl:
 (:action brew
-:parameters (?player - player ?drink - drink ?loc - location)
-:precondition (and (at ?player ?loc) (has_kitchen ?loc))
-:effect (inventory ?player ?drink)
+ :parameters (?tea - tea ?loc - location)
+ :precondition (and (at ?tea ?loc) (has_kitchen ?loc))
+ :effect (brewed ?tea)
 )
 
+- action name: get_beer
+- summarize action: Get beer by purchasing it using money.
+- what is needed to do the action: Money in the player's inventory.
+- what is the result: Beer is added to the player's inventory.
+
+- entities:
+  - entity name: money
+    - before: in player's inventory
+    - after: unchanged
+  - entity name: beer
+    - before: not in inventory
+    - after: in player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: (:action get_beer :parameters (?player - player ?money - money ?beer - drink)
+2. Add precondition: (inventory ?player ?money)
+3. Add effect: (inventory ?player ?beer)
+
+pddl:
 (:action get_beer
-:parameters (?player - player ?loc - location)
-:precondition (at ?player ?loc)
-:effect (inventory ?player beer)
+ :parameters (?player - player ?money - money ?beer - drink)
+ :precondition (inventory ?player ?money)
+ :effect (inventory ?player ?beer)
 )
 
+- action name: open
+- summarize action: Open a drink.
+- what is needed to do the action: Drink item in the player's inventory.
+- what is the result: Drink is opened.
+
+- entities:
+  - entity name: drink
+    - before: unopened in player's inventory
+    - after: opened
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: (:action open :parameters (?player - player ?drink - drink)
+2. Add precondition: (inventory ?player ?drink)
+3. Add effect: (opened ?drink)
+
+pddl:
 (:action open
-:parameters (?player - player ?drink - drink)
-:precondition (inventory ?player ?drink)
-:effect (opened ?drink)
+ :parameters (?player - player ?drink - drink)
+ :precondition (inventory ?player ?drink)
+ :effect (opened ?drink)
 )
 
+- action name: hang_lantern
+- summarize action: Hang paper lantern at a location.
+- what is needed to do the action: Lantern and location.
+- what is the result: Lantern is hung at the location.
+
+- entities:
+  - entity name: lantern
+    - before: not hung
+    - after: hung
+  - entity name: location
+    - before: unchanged
+    - after: has hung lantern
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: (:action hang_lantern :parameters (?lantern - lantern ?loc - location)
+2. Add precondition: (at ?lantern ?loc)
+3. Add effect: (hung ?lantern)
+
+pddl:
 (:action hang_lantern
-:parameters (?player - player ?lamp - item ?loc - location)
-:precondition (and (at ?player ?loc) (inventory ?player ?lamp))
-:effect (and (hung ?lamp) (not (inventory ?player ?lamp)))
+ :parameters (?lantern - lantern ?loc - location)
+ :precondition (at ?lantern ?loc)
+ :effect (hung ?lantern)
 )
 
+- action name: blow_balloon
+- summarize action: Inflate a balloon in the player's inventory.
+- what is needed to do the action: Balloon in the player's inventory.
+- what is the result: Balloon is inflated.
+
+- entities:
+  - entity name: balloon
+    - before: uninflated in player's inventory
+    - after: inflated in player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: (:action blow_balloon :parameters (?player - player ?balloon - balloon)
+2. Add precondition: (inventory ?player ?balloon)
+3. Add effect: (inflated ?balloon)
+
+pddl:
 (:action blow_balloon
-:parameters (?player - player ?balloon - item)
-:precondition (inventory ?player ?balloon)
-:effect (inflated ?balloon)
+ :parameters (?player - player ?balloon - balloon)
+ :precondition (inventory ?player ?balloon)
+ :effect (inflated ?balloon)
 )
 
+- action name: turn_on_tv
+- summarize action: Turn on a TV at a location.
+- what is needed to do the action: TV item and location.
+- what is the result: TV is turned on.
+
+- entities:
+  - entity name: tv
+    - before: off
+    - after: on
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add parameters: (:action turn_on_tv :parameters (?player - player ?tv - item ?loc - location)
+2. Add precondition: (and (at ?player ?loc) (at ?tv ?loc))
+3. Add effect: (on ?tv)
+
+pddl:
 (:action turn_on_tv
-:parameters (?player - player ?tv - item ?loc - location)
-:precondition (and (at ?player ?loc) (at ?tv ?loc))
-:effect (on ?tv)
-)
-
+ :parameters (?player - player ?tv - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?tv ?loc))
+ :effect (on ?tv)
 )

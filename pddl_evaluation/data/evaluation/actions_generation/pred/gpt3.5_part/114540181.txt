@@ -1,0 +1,117 @@
+(:action go
+   :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (and 
+      (connected ?loc1 ?dir ?loc2) 
+      (not (blocked ?loc1 ?dir ?loc2))
+      (at ?player ?loc1))
+   :effect (and 
+      (not (at ?player ?loc1))
+      (at ?player ?loc2) 
+      (increase (step_count) 1)))
+
+(:action get 
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and 
+      (at ?item ?loc) 
+      (at ?player ?loc))
+   :effect (and 
+      (not (at ?item ?loc))
+      (inventory ?player ?item)))
+
+(:action get_bamboo_container
+   :parameters (?player - player ?loc - location)
+   :precondition (and 
+      (has_bamboo ?loc)
+      (at ?player ?loc))
+   :effect (and 
+      (not (has_bamboo ?loc))
+      (inventory ?player (bamboo_container ?loc))))
+
+(:action collect_rain_water
+   :parameters (?player - player ?loc - location)
+   :precondition (and 
+      (has_rainfall ?loc)
+      (inventory ?player (bamboo_container ?loc)))
+   :effect (and 
+      (treated (water ?loc))
+      (increase (condition_increase ?player) 1)))
+
+(:action create_fire
+   :parameters (?player - player ?loc - location)
+   :precondition (and 
+      (inventory ?player (fire ?loc))
+      (at ?player ?loc))
+   :effect (and 
+      (increase (condition_increase ?player) 1)))
+
+(:action treat_water
+   :parameters (?player - player ?loc - location)
+   :precondition (and 
+      (treated ?water)
+      (inventory ?player (water ?loc))
+      (at ?player ?loc))
+   :effect (and 
+      (increase (condition_increase ?player) 1)))
+
+(:action drink_water
+   :parameters (?player - player ?loc - location)
+   :precondition (and 
+      (treated ?water)
+      (inventory ?player (water ?loc))
+      (at ?player ?loc)
+      (is (ill ?player)))
+   :effect (and 
+      (not (is (ill ?player)))
+      (increase (condition_increase ?player) -1)))
+
+(:action drink_untreated_water
+   :parameters (?player - player ?loc - location)
+   :precondition (and 
+      (inventory ?player (water ?loc))
+      (at ?player ?loc)
+      (is (ill ?player)))
+   :effect (and 
+      (not (is (ill ?player)))
+      (increase (condition_increase ?player) -1)))
+
+(:action create_sos_sign
+   :parameters (?player - player ?loc - location)
+   :precondition (and 
+      (at ?player ?loc))
+   :effect (and 
+      (not (at ?player ?loc))
+      (increase (step_count) 1)))
+
+(:action pick_fruit
+   :parameters (?player - player ?loc - location)
+   :precondition (and 
+      (has_fruit ?loc)
+      (at ?player ?loc))
+   :effect (and 
+      (not (has_fruit ?loc))
+      (inventory ?player (fruit ?loc))))
+
+(:action eat_fruit
+   :parameters (?player - player ?loc - location)
+   :precondition (and 
+      (inventory ?player (fruit ?loc))
+      (at ?player ?loc)
+      (is (hungry ?player)))
+   :effect (and 
+      (not (is (hungry ?player)))
+      (increase (condition_increase ?player) -1)))
+
+(:action escape
+   :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (and 
+      (connected ?loc1 ?dir ?loc2) 
+      (not (blocked ?loc1 ?dir ?loc2))
+      (at ?player ?loc1)
+      (is (ill ?player)))
+   :effect (and 
+      (not (at ?player ?loc1))
+      (at ?player ?loc2)
+      (not (is (ill ?player)))
+      (increase (step_count) 1)))
+
+)

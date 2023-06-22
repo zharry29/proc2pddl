@@ -1,0 +1,67 @@
+(:action listen_to_astronomers_predictions
+  :parameters (?p - player)
+  :precondition (not (listen_to_broadcast ?p))
+  :effect (listen_to_broadcast ?p)
+)
+
+(:action move_away
+  :parameters (?p - player ?c1 - city ?c2 - city ?dir - direction)
+  :precondition (and (at ?p ?c1) (coastal ?c1) (inland ?c2) (connected ?c1 ?dir ?c2))
+  :effect (and (not (at ?p ?c1)) (at ?p ?c2))
+)
+
+(:action go
+  :parameters (?p - player ?l1 - location ?l2 - location ?dir - direction)
+  :precondition (and (at ?p ?l1) (connected ?l1 ?dir ?l2))
+  :effect (and (not (at ?p ?l1)) (at ?p ?l2))
+)
+
+(:action buy_supplies
+  :parameters (?p - player ?m - market ?it - item)
+  :precondition (at ?p ?m)
+  :effect (inventory ?it)
+)
+
+(:action check_supplies
+  :parameters (?p - player)
+  :precondition (exists (?it - item) (inventory ?it))
+  :effect (enough_supplies)
+)
+
+(:action buy_weapons
+  :parameters (?p - player ?wm - weapon_market ?it - weapon)
+  :precondition (at ?p ?wm)
+  :effect (inventory ?it)
+)
+
+(:action check_weapons
+  :parameters (?p - player)
+  :precondition (exists (?it - weapon) (inventory ?it))
+  :effect (enough_weapons)
+)
+
+(:action check_bunker
+  :parameters (?p - player ?bk - bunker)
+  :precondition (find_good_bunker ?bk)
+  :effect (and (has_air_filtration_system ?bk) (has_strong_material ?bk))
+)
+
+(:action outfit_bunker_with_energy_source
+  :parameters (?p - player ?bk - bunker ?it - energy_source)
+  :precondition (and (find_good_bunker ?bk) (inventory ?it))
+  :effect (outfit_bunker_with_heat ?bk)
+)
+
+(:action enjoylife
+  :parameters (?p - player ?bk - bunker)
+  :precondition (and (outfit_bunker_with_heat ?bk) (not (is_alone ?p)))
+  :effect (enjoylife ?p ?bk)
+)
+
+(:action connect_through_social_media_with_family
+  :parameters (?p - player)
+  :precondition (and (has_pc ?p) (enjoylife ?p ?bk))
+  :effect (family_memebers_know_you_are_safe)
+)
+
+)

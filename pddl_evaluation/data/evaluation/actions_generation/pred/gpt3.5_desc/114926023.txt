@@ -1,0 +1,122 @@
+(:action go
+    :parameters (?from - location ?to - location ?dir - direction)
+    :precondition (and 
+        (at ?player - player ?from - location)
+        (connected ?from - location ?dir - direction ?to - location))
+    :effect (and 
+        (not (at ?player - player ?from - location))
+        (at ?player - player ?to - location))
+)
+
+(:action get
+    :parameters (?item - item ?loc - location ?player - player)
+    :precondition (and 
+        (at ?item - item ?loc - location)
+        (at ?player - player ?loc - location))
+    :effect (and 
+        (not (at ?item - item ?loc - location))
+        (inventory ?player - player ?item - item))
+)
+
+(:action build_roof
+    :parameters (?log - log ?roof - roof ?player - player)
+    :precondition (and 
+        (at ?log - log ?loc - location)
+        (at ?player - player ?loc - location)
+        (inventory ?player - player ?log - log))
+    :effect (and 
+        (not (at ?log - log ?loc - location))
+        (not (inventory ?player - player ?log - log))
+        (at ?roof - roof ?loc - location))
+)
+
+(:action build_wall
+    :parameters (?small_sticks - small_sticks ?wall - wall ?player - player)
+    :precondition (and 
+        (at ?small_sticks - small_sticks ?loc - location)
+        (at ?player - player ?loc - location)
+        (inventory ?player - player ?small_sticks - small_sticks))
+    :effect (and 
+        (not (at ?small_sticks - small_sticks ?loc - location))
+        (not (inventory ?player - player ?small_sticks - small_sticks))
+        (at ?wall - wall ?loc - location))
+)
+
+(:action build_bed
+    :parameters (?leaves - leaves ?bed - bed ?player - player)
+    :precondition (and 
+        (at ?leaves - leaves ?loc - location)
+        (at ?player - player ?loc - location)
+        (inventory ?player - player ?leaves - leaves))
+    :effect (and 
+        (not (at ?leaves - leaves ?loc - location))
+        (not (inventory ?player - player ?leaves - leaves))
+        (at ?bed - bed ?loc - location))
+)
+
+(:action complete_shelter
+    :parameters (?roof - roof ?wall - wall ?bed - bed ?shelter - shelter ?player - player)
+    :precondition (and 
+        (at ?roof - roof ?loc - location)
+        (at ?wall - wall ?loc - location)
+        (at ?bed - bed ?loc - location)
+        (at ?player - player ?loc - location))
+    :effect (and 
+        (not (at ?roof - roof ?loc - location))
+        (not (at ?wall - wall ?loc - location))
+        (not (at ?bed - bed ?loc - location))
+        (at ?shelter - shelter ?loc - location))
+)
+
+(:action hunt_animal
+    :parameters (?sharp_stone - sharp_stone ?animal - animal ?player - player)
+    :precondition (and 
+        (at ?sharp_stone - sharp_stone ?loc - location)
+        (at ?animal - animal ?loc - location)
+        (at ?player - player ?loc - location)
+        (inventory ?player - player ?sharp_stone - sharp_stone))
+    :effect (and 
+        (not (at ?animal - animal ?loc - location))
+        (not (inventory ?player - player ?sharp_stone - sharp_stone))
+        (at ?animal - animal ?loc - location)
+        (treated ?animal - animal))
+)
+
+(:action prepare_animal
+    :parameters (?sharp_stone - sharp_stone ?animal - animal ?player - player)
+    :precondition (and 
+        (at ?sharp_stone - sharp_stone ?loc - location)
+        (at ?animal - animal ?loc - location)
+        (at ?player - player ?loc - location)
+        (inventory ?player - player ?sharp_stone - sharp_stone)
+        (treated ?animal - animal))
+    :effect (and 
+        (not (at ?animal - animal ?loc - location))
+        (not (inventory ?player - player ?sharp_stone - sharp_stone))
+        (at ?animal - animal ?loc - location)
+    )
+)
+
+(:action build_raft
+    :parameters (?raft_draft - raft_draft ?raft_finished - raft_finished ?player - player)
+    :precondition (and 
+        (at ?raft_draft - raft_draft ?loc - location)
+        (at ?player - player ?loc - location)
+        (inventory ?player - player ?raft_draft - raft_draft))
+    :effect (and 
+        (not (at ?raft_draft - raft_draft ?loc - location))
+        (not (inventory ?player - player ?raft_draft - raft_draft))
+        (at ?raft_finished - raft_finished ?loc - location))
+)
+
+(:action test_raft
+    :parameters (?raft_finished - raft_finished ?player - player)
+    :precondition (and 
+        (at ?raft_finished - raft_finished ?loc - location)
+        (at ?player - player ?loc - location))
+    :effect (and 
+        (not (at ?raft_finished - raft_finished ?loc - location))
+    )
+)
+
+)

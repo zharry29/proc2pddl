@@ -1,0 +1,136 @@
+(:action go
+   :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (and 
+                  (at ?player ?loc1)
+                  (connected ?loc1 ?dir ?loc2)
+   )
+   :effect (and 
+               (not (at ?player ?loc1))
+               (at ?player ?loc2)
+   )
+)
+
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and 
+                  (at ?player ?loc)
+                  (at ?item ?loc)
+   )
+   :effect (and 
+               (not (at ?item ?loc))
+               (inventory ?player ?item)
+   )
+)
+
+(:action drop
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and 
+                  (at ?player ?loc)
+                  (inventory ?player ?item)
+   )
+   :effect (and 
+               (not (inventory ?player ?item))
+               (at ?item ?loc)
+   )
+)
+
+(:action pierce
+   :parameters (?item - item)
+   :precondition (and 
+                  (not (pierced ?item))
+   )
+   :effect (and 
+               (pierced ?item)
+   )
+)
+
+(:action drain
+   :parameters (?item - item)
+   :precondition (and 
+                  (not (empty ?item))
+   )
+   :effect (and 
+               (empty ?item)
+   )
+)
+
+(:action turn_on_oven
+
+   :parameters (?appliance - appliance)
+   :precondition (and 
+                  (not (on ?appliance))
+   )
+   :effect (and 
+               (on ?appliance)
+   )
+)
+
+(:action burn_item
+   :parameters (?item - item)
+   :precondition (and 
+                  (not (burnt ?item))
+                  (on ?appliance)
+   )
+   :effect (and 
+               (burnt ?item)
+   )
+)
+
+(:action turn_off_oven
+   :parameters (?appliance - appliance)
+   :precondition (and 
+                  (on ?appliance)
+   )
+   :effect (and 
+               (not (on ?appliance))
+   )
+)
+
+(:action wrap_coconut
+   :parameters (?item - item ?towel - item)
+   :precondition (and 
+                  (at ?item ?loc)
+                  (at ?towel ?loc)
+   )
+   :effect (and 
+               (wrapped ?item)
+               (wrapped_with ?item ?towel)
+   )
+)
+
+(:action peel
+   :parameters (?item - item)
+   :precondition (and 
+                  (wrapped ?item)
+                  (not (peeled ?item))
+   )
+   :effect (and 
+               (not (wrapped ?item))
+               (peeled ?item)
+   )
+)
+
+(:action smash_with_mallet
+   :parameters (?item - item)
+   :precondition (and 
+                  (wrapped ?item)
+                  (not (smashed ?item))
+   )
+   :effect (and 
+               (not (wrapped ?item))
+               (smashed ?item)
+   )
+)
+
+(:action separate
+   :parameters (?item - item)
+   :precondition (and 
+                  (smashed ?item)
+                  (not (empty ?item))
+   )
+   :effect (and 
+               (empty ?item)
+   )
+)
+
+)

@@ -1,0 +1,85 @@
+(:action go
+  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (connected ?loc1 ?dir ?loc2)
+  :effect (at ?player ?loc2)
+)
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (at ?item ?loc)
+  :effect (and (at ?item ?player) (not (at ?item ?loc)))
+)
+
+(:action get_water
+  :parameters (?player - player ?water - water ?loc - location)
+  :precondition (and (at ?water ?loc) (has_water_source ?loc))
+  :effect (and (inventory ?player ?water) (not (at ?water ?loc)) (treated ?water))
+)
+
+(:action sharpen_stick
+  :parameters (?player - player ?stick - stick)
+  :precondition (inventory ?player ?stick)
+  :effect (and (inventory ?player ?stick) (edible ?stick))
+)
+
+(:action catch_fish
+  :parameters (?player - player ?fish - fish ?loc - location)
+  :precondition (and (at ?fish ?loc) (has_fish ?loc) (inventory ?player ?stick))
+  :effect (and (inventory ?player ?fish) (not (at ?fish ?loc)) (not (has_fish ?loc)))
+)
+
+(:action hunt_bird
+  :parameters (?player - player ?bird - bird ?loc - location)
+  :precondition (and (at ?bird ?loc) (has_bird ?loc) (inventory ?player ?stick))
+  :effect (and (inventory ?player ?bird) (not (at ?bird ?loc)) (not (has_bird ?loc)))
+)
+
+(:action hunt_insect
+  :parameters (?player - player ?insect - insect ?loc - location)
+  :precondition (and (at ?insect ?loc) (has_insect ?loc))
+  :effect (and (inventory ?player ?insect) (not (at ?insect ?loc)) (not (has_insect ?loc)))
+)
+
+(:action get_shellfish
+  :parameters (?player - player ?shellfish - shellfish ?loc - location)
+  :precondition (and (at ?shellfish ?loc) (has_shellfish ?loc))
+  :effect (and (inventory ?player ?shellfish) (not (at ?shellfish ?loc)) (not (has_shellfish ?loc)))
+)
+
+(:action cook
+  :parameters (?player - player ?item - item)
+  :precondition (and (inventory ?player ?item) (edible ?item) (has_fire ?loc))
+  :effect (and (inventory ?player ?item) (not (inventory ?player ?item)) (not (has_fire ?loc)))
+)
+
+(:action get_stick
+  :parameters (?player - player ?stick - stick ?loc - location)
+  :precondition (at ?stick ?loc)
+  :effect (and (inventory ?player ?stick) (not (at ?stick ?loc)) (edible ?stick))
+)
+
+(:action start_fire
+  :parameters (?player - player ?loc - location ?tarp - tarp)
+  :precondition (and (inventory ?player ?tarp) (at ?tarp ?loc))
+  :effect (and (has_fire ?loc) (not (inventory ?player ?tarp)) (not (at ?tarp ?loc)))
+)
+
+(:action get_tarp
+  :parameters (?player - player ?tarp - tarp ?loc - location)
+  :precondition (at ?tarp ?loc)
+  :effect (and (inventory ?player ?tarp) (not (at ?tarp ?loc)))
+)
+
+(:action get_leave
+  :parameters (?player - player ?leave - leave ?loc - location)
+  :precondition (at ?leave ?loc)
+  :effect (and (inventory ?player ?leave) (not (at ?leave ?loc)) (edible ?leave))
+)
+
+(:action construct_shelter
+  :parameters (?player - player ?log - item ?branch - item ?leave - leave ?loc - location)
+  :precondition (and (at ?log ?loc) (at ?branch ?loc) (at ?leave ?loc))
+  :effect (sheltered ?loc)
+)
+
+)

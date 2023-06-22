@@ -1,0 +1,76 @@
+(:action go
+   :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+   :precondition (and (at ?player ?loc1)
+                        (connected ?loc1 ?dir ?loc2))
+   :effect (and (not (at ?player ?loc1))
+                (at ?player ?loc2)))
+
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (at ?player ?loc)
+                      (at ?item ?loc))
+   :effect (and (not (at ?item ?loc))
+                (inventory ?player ?item)))
+
+(:action build_roof
+   :parameters (?player - player ?loc - location ?log - log)
+   :precondition (and (at ?player ?loc)
+                      (inventory ?player ?log))
+   :effect (and (not (inventory ?player ?log))
+                (at ?log ?loc)
+                (exists (?roof - roof) (and (at ?roof ?loc)))))
+
+(:action build_wall
+   :parameters (?player - player ?loc - location ?small_sticks - small_sticks)
+   :precondition (and (at ?player ?loc)
+                      (inventory ?player ?small_sticks))
+   :effect (and (not (inventory ?player ?small_sticks))
+                (at ?small_sticks ?loc)
+                (exists (?wall - wall) (and (at ?wall ?loc)))))
+
+(:action build_bed
+   :parameters (?player - player ?loc - location ?leaves - leaves)
+   :precondition (and (at ?player ?loc)
+                      (inventory ?player ?leaves))
+   :effect (and (not (inventory ?player ?leaves))
+                (at ?leaves ?loc)
+                (exists (?shelter - shelter) (and (at ?shelter ?loc)))))
+
+(:action complete_shelter
+   :parameters (?player - player ?loc - location ?roof - roof ?wall - wall ?shelter - shelter)
+   :precondition (and (at ?player ?loc)
+                      (at ?roof ?loc)
+                      (at ?wall ?loc))
+   :effect (and (not (at ?roof ?loc))
+                (not (at ?wall ?loc))
+                (at ?shelter ?loc)))
+
+(:action hunt_animal
+   :parameters (?player - player ?animal - animal ?loc - location)
+   :precondition (at ?player ?loc)
+   :effect (exists (?wounded_animal - animal)
+            (and (not (at ?animal ?loc))
+                 (at ?wounded_animal ?loc))))
+
+(:action prepare_animal
+   :parameters (?player - player ?wounded_animal - animal ?loc - location)
+   :precondition (and (at ?player ?loc)
+                      (at ?wounded_animal ?loc))
+   :effect (and (not (at ?wounded_animal ?loc))
+                (treated ?wounded_animal)))
+
+(:action build_raft
+   :parameters (?player - player ?loc - location ?raft_draft - raft_draft)
+   :precondition (and (at ?player ?loc)
+                      (inventory ?player ?raft_draft))
+   :effect (and (not (inventory ?player ?raft_draft))
+                (at ?raft_draft ?loc)
+                (exists (?raft_finished - raft_finished) (and (at ?raft_finished ?loc)))))
+
+(:action test_raft
+   :parameters (?player - player ?loc - location ?raft_finished - raft_finished)
+   :precondition (and (at ?player ?loc)
+                      (at ?raft_finished ?loc))
+   :effect (and))
+
+)

@@ -1,0 +1,2 @@
+loot_shelter ('old_man', 'bandage', 'brickhouse')
+clean_wound ('old_man', 'bandage')

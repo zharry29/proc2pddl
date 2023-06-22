@@ -1,0 +1,64 @@
+(:action splash_swim
+ :parameters (?person - player ?loc - location ?shark - shark)
+ :precondition (and (is_water ?loc) (at ?person ?loc) (visible ?shark))
+ :effect (and (at ?person ?loc) (not (at ?person (next_to ?loc)))))
+
+(:action swim
+ :parameters (?person - player ?loc - location ?boat - ship ?shore - location)
+ :precondition (and (is_water ?loc) (at ?person ?loc) (visible ?shark))
+ :effect (and (not (at ?person ?loc)) (or (on ?person ?boat) (at ?person ?shore))))
+
+(:action get
+ :parameters (?person - player ?shark - shark)
+ :precondition (and (visible ?shark) (attacked ?person ?shark))
+ :effect (defending ?person))
+
+
+(:action onboard
+ :parameters (?person - player ?boat - ship)
+ :precondition (and (visible ?shark) (attacked ?person ?shark) (at ?person ?loc) (is_water ?loc))
+ :effect (and (on ?person ?boat) (not (at ?person ?loc))))
+
+(:action defend
+ :parameters (?person - player)
+ :precondition (and (visible ?shark) (attacked ?person ?shark))
+ :effect (defending ?person))
+
+
+(:action spot_ship
+ :parameters (?person - player ?ship - ship)
+ :precondition (and (not (visible ?ship)) (attacked ?person ?shark))
+ :effect (visible ?ship))
+
+
+(:action spot_shark
+ :parameters (?person - player ?shark - shark)
+ :precondition (and (not (visible ?shark)) (is_water ?loc) (at ?person ?loc))
+ :effect (visible ?shark))
+
+
+(:action self_mobilize
+ :parameters (?person - player ?shark - shark ?weapon - item)
+ :precondition (and (visible ?shark) (attacked ?person ?shark) (or (sharp ?weapon) (heavy ?weapon) (inventory ?person ?weapon)))
+ :effect (and (dizzy ?shark) (fleed ?shark)))
+
+
+(:action medicare
+ :parameters (?person - player)
+ :precondition (wounded ?person)
+ :effect (not (wounded ?person)))
+
+
+(:action attack_vulnerable
+ :parameters (?person - player ?shark - shark ?part - part)
+ :precondition (and (visible ?shark) (attacked ?person ?shark) (vulnerable ?part))
+ :effect (and (dizzy ?shark) (fleed ?shark)))
+
+
+(:action knockout
+ :parameters (?person - player ?shark - shark)
+ :precondition (and (visible ?shark) (attacked ?person ?shark) (not (dizzy ?shark)))
+ :effect (and (dizzy ?shark) (fleed ?shark)))
+
+
+)

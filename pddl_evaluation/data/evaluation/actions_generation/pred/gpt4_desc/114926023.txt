@@ -1,0 +1,73 @@
+(:requirements :strips :typing)
+
+(:types
+)
+
+(:predicates
+    (at ?obj - object ?loc - location) ; an object is at a location
+    (inventory ?player ?item) ; an item is in the player's inventory
+    (connected ?loc1 - location ?dir - direction ?loc2 - location) ; location 1 is connected to location 2 in the direction
+    (treated ?animal - animal) ; True if the animal has been treated and is safe to eat
+)
+
+(:action go
+    :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+    :precondition (and (at ?player ?loc1)(connected ?loc1 ?dir ?loc2))
+    :effect (and (not (at ?player ?loc1))(at ?player ?loc2))
+)
+
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?player ?loc)(at ?item ?loc))
+    :effect (inventory ?player ?item)
+)
+
+(:action build_roof
+    :parameters (?log - log)
+    :precondition (inventory ?player ?log )
+    :effect (roof ?log)
+)
+
+(:action build_wall
+    :parameters (?sticks - small_sticks)
+    :precondition (inventory ?player ?sticks )
+    :effect (wall ?sticks)
+)
+
+(:action build_bed
+    :parameters (?leaves - leaves)
+    :precondition (inventory ?player ?leaves )
+    :effect (bed ?leaves)
+)
+
+(:action complete_shelter
+    :parameters (?roof - roof ?wall - wall ?bed - bed ?shelter - shelter)
+    :precondition (and (roof ?roof)(wall ?wall)(bed ?bed))
+    :effect (shelter ?shelter)
+)
+
+(:action hunt_animal
+    :parameters (?animal - animal ?sharp_stone - sharp_stone )
+    :precondition (inventory ?player ?sharp_stone )
+    :effect (owned_animal ?player ?animal)
+)
+
+(:action prepare_animal
+    :parameters (?animal - animal ?sharp_stone - sharp_stone ?player - player)
+    :precondition (and (owned_animal ?player ?animal)(inventory ?player ?sharp_stone))
+    :effect (treated ?animal)
+)
+
+(:action build_raft
+    :parameters (?raft_draft - raft_draft ?log - log ?vines - vines ?player - player)
+    :precondition (and (inventory ?player ?log)(inventory ?player ?vines))
+    :effect (raft_draft ?raft_draft)
+)
+
+(:action test_raft
+    :parameters (?raft_draft - raft_draft ?raft_finished - raft_finished )
+    :precondition (raft_draft ?raft_draft)
+    :effect (raft_finished ?raft_finished)
+)
+
+)

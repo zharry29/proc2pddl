@@ -1,0 +1,75 @@
+(:action get_water
+    :parameters (?player - player ?wsource_loc - location ?water - water)
+    :precondition (and 
+        (at ?player ?wsource_loc)
+        (has_water_source ?wsource_loc)
+        (not (inventory ?player ?water))
+    )
+    :effect
+        (inventory ?player ?water)
+)
+
+
+
+
+
+(:action sharpen_stick
+    :parameters (?player - player ?stick - stick ?sharpened_stick - item)
+    :precondition (and 
+        (inventory ?player ?stick)
+        (not (inventory ?player ?sharpened_stick))
+    )
+    :effect (and
+        (not (inventory ?player ?stick))
+        (inventory ?player ?sharpened_stick)
+    )
+)
+
+
+
+
+
+(:action catch_fish
+    :parameters (?player - player ?loc - location ?fish - fish ?sharpened_stick - item)
+    :precondition (and 
+        (at ?player ?loc)
+        (has_fish ?loc)
+        (inventory ?player ?sharpened_stick)
+        (not (inventory ?player ?fish))
+    )
+    :effect
+        (inventory ?player ?fish)
+)
+
+
+
+
+
+(:action hunt_bird
+    :parameters (?player - player ?loc - location ?bird - bird ?sharpened_stick - item)
+    :precondition (and 
+        (at ?player ?loc)
+        (has_bird ?loc)
+        (inventory ?player ?sharpened_stick)
+        (not (inventory ?player ?bird))
+    )
+    :effect
+        (inventory ?player ?bird)
+)
+
+
+
+
+
+(:action start_fire
+    :parameters (?player - player ?loc - location ?sharpened_stick - item)
+    :precondition (and 
+        (at ?player ?loc)
+        (inventory ?player ?sharpened_stick)
+        (not (has_fire ?loc))
+    )
+    :effect
+        (has_fire ?loc)
+)
+
+)

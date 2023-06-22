@@ -1,0 +1,550 @@
+(:action go ; navigate to an adjacent location
+  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+  :precondition (and
+                  (at ?player ?loc1)
+                  (connected ?loc1 ?dir ?loc2)
+                  (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and
+              (not (at ?player ?loc1))
+              (at ?player ?loc2)))
+
+(:action understand ; understand some concept
+  :parameters (?player - player ?concept - concept)
+  :precondition (and
+                  (know_programming ?player)
+                  (not (know ?player ?concept)))
+  :effect (know ?player ?concept))
+
+(:action learn ; learn a skill
+  :parameters (?player - player ?skill - skill)
+  :precondition (and
+                  (know_programming ?player)
+                  (not (learned ?player ?skill)))
+  :effect (learned ?player ?skill))
+
+(:action get ; get an item
+  :parameters (?player - player ?item - item)
+  :precondition (and
+                  (at ?player ?loc)
+                  (exists (?loc) (inventory ?player ?item)))
+  :effect (and
+              (inventory ?player ?item)
+              (not (at ?player ?loc))))
+
+(:action machine_secured ; onward to step2
+  :parameters (?player - player)
+  :precondition (and
+                  (know_ethics ?player)
+                  (collected_all_info ?player)
+                  (port_scanned ?player)
+                  (password_not_cracked ?player)
+                  (not (tricked_user_password ?player))
+                  (not (user_trusted_fake_email ?player))
+                  (not (people_use_unencrypted_connection ?player)))
+  :effect (authorized ?player))
+
+(:action enumeration;
+  :parameters (?player - player ?permission - permission ?server - server_checked)
+  :precondition (and
+                  (authorized ?player)
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (website_unchanged ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (additional_users ?player))
+                  (not (hardcoded_secret_password ?player))
+                  (know ?player hacking)
+                  (port_scanned ?player)
+                  (not (password_cracked ?player))
+                  (know ?player unix)
+                  (collected_all_info ?player))
+  :effect (and
+              (port_scanned ?player)
+              (authorized ?player)
+              (server_checked ?server)))
+
+(:action got_all_info ; onward to step 3
+  :parameters (?player - player ?server - server_checked)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player hacking)
+                  (port_scanned ?player)
+                  (collected_all_info ?player)
+                  (password_cracked ?player)
+                  (true ?player))
+  :effect (authorized ?player))
+
+(:action ping;
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (not (collected_all_info ?player))
+                  (not (port_scanned ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)
+              (authorized ?player)))
+
+(:action check_email_server;
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (not (collected_all_info ?player))
+                  (not (port_scanned ?player))
+                  (not (tricked_user_password ?player))
+                  (not (user_trusted_fake_email ?player))
+                  (not (people_use_unencrypted_connection ?player))
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)
+              (authorized ?player)))
+
+(:action reached_the_remote_system;
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (not (collected_all_info ?player))
+                  (not (port_scanned ?player))
+                  (not (tricked_user_password ?player))
+                  (not (user_trusted_fake_email ?player))
+                  (not (people_use_unencrypted_connection ?player))
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (website_unchanged ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (additional_users ?player))
+                  (not (hardcoded_secret_password ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)
+              (authorized ?player)))
+
+(:action run_port_scan
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?port - TCP_UDP_ports)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (not (collected_all_info ?player))
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)))
+
+(:action found_path_in_system
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (hardcoded_secret_password ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)))
+
+(:action contact_and_trick_a_user
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (hardcoded_secret_password ?player)))
+  :effect (and
+              (tricked_user_password ?player)
+              (port_scanned ?player)
+              (collected_all_info ?player)))
+
+(:action crack_password_by_social_engineering
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (hardcoded_secret_password ?player))
+                  (not (tricked_user_password ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (password_cracked ?player)
+              (collected_all_info ?player)))
+
+(:action send_fake_email
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (hardcoded_secret_password ?player))
+                  (not (user_trusted_fake_email ?player))
+                  (people_use_unencrypted_connection ?player))
+  :effect (and
+              (port_scanned ?player)
+              (user_trusted_fake_email ?player)
+              (collected_all_info ?player)))
+
+(:action crack_password_by_phishing
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (hardcoded_secret_password ?player))
+                  (not (tricked_user_password ?player))
+                  (not (user_trusted_fake_email ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (password_cracked ?player)
+              (collected_all_info ?player)))
+
+(:action create_fake_wifi_access
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (hardcoded_secret_password ?player))
+                  (people_use_unencrypted_connection ?player))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)))
+
+(:action crack_password_by_arp_spoofing
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (hardcoded_secret_password ?player))
+                  (not (tricked_user_password ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (password_cracked ?player)
+              (collected_all_info ?player)))
+
+(:action crack_password_by_brute_force
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location ?password - password)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (hardcoded_secret_password ?player))
+                  (not (tricked_user_password ?player))
+                  (not (user_trusted_fake_email ?player))
+                  (not (people_use_unencrypted_connection ?player))
+                  (is_root_user ?player))
+  :effect (and
+              (port_scanned ?player)
+              (password_cracked ?player)
+              (collected_all_info ?player)))
+
+(:action gain_access_with_password
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location ?password - password)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (hardcoded_secret_password ?player))
+                  (not (tricked_user_password ?player))
+                  (not (user_trusted_fake_email ?player))
+                  (not (people_use_unencrypted_connection ?player))
+                  (not (password_cracked ?player))
+                  (not (at ?player ?loc))
+                  (is_root_user ?player)
+                  (is_root_user_command)) ; This assumes there exists a predicate that checks if the user is using a root user command
+  :effect (and
+              (port_scanned ?player)
+              (password_cracked ?player)
+              (collected_all_info ?player)
+              (at ?player ?loc)))
+
+(:action create_buffer_overflow
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (hardcoded_secret_password ?player))
+                  (at ?player ?loc))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)))
+
+(:action take_control_of_system
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (hardcoded_secret_password ?player))
+                  (not (website_unchanged ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)))
+
+(:action install_malware
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location ?malware - malware)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (hardcoded_secret_password ?player))
+                  (not (malware_installed ?player ?malware))
+                  (not (website_unchanged ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)
+              (malware_installed ?player ?malware)))
+
+(:action bypass_standard_authentication_system
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location ?port - TCP_UDP_ports)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (hardcoded_secret_password ?player))
+                  (not (bypass_auth_installed ?player))
+                  (not (website_unchanged ?player))
+                  (at ?player ?loc))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)
+              (bypass_auth_installed ?player)))
+
+(:action not_let_administrator_know
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location ?port - TCP_UDP_ports)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (is_root_user ?player)
+                  (not (administrator_know_compromised ?player))
+                  (not (website_unchanged ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (additional_users ?player))
+                  (not (hardcoded_secret_password ?player))
+                  (not (not_at_risk_locations ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)))
+
+(:action make_no_change_to_website
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (collected_all_info ?player)
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)
+              (website_unchanged ?player)))
+
+(:action create_fewest_file
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (not (collected_all_info ?player))
+                  (not (port_scanned ?player))
+                  (not (tricked_user_password ?player))
+                  (not (user_trusted_fake_email ?player))
+                  (not (people_use_unencrypted_connection ?player))
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (website_unchanged ?player))
+                  (not (additional_users ?player))
+                  (not (hardcoded_secret_password ?player))
+                  (not (create_more_file_than_need ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)
+              (create_more_file_than_need ?player)))
+
+(:action delete_additional_users
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (not (collected_all_info ?player))
+                  (not (port_scanned ?player))
+                  (not (tricked_user_password ?player))
+                  (not (user_trusted_fake_email ?player))
+                  (not (people_use_unencrypted_connection ?player))
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (website_unchanged ?player))
+                  (not (create_more_file_than_need ?player))
+                  (additional_users ?player)
+                  (not (hardcoded_secret_password ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)
+              (additional_users ?player)))
+
+(:action hardcode_password
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location ?password - password)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (not (collected_all_info ?player))
+                  (not (port_scanned ?player))
+                  (not (tricked_user_password ?player))
+                  (not (user_trusted_fake_email ?player))
+                  (not (people_use_unencrypted_connection ?player))
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (website_unchanged ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (additional_users ?player))
+                  (hardcoded_secret_password ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)
+              (hardcoded_secret_password ?player)))
+
+(:action track_covered
+  :parameters (?player - player ?permission - permission ?server - server_checked ?network - network ?path - location)
+  :precondition (and
+                  (authorized ?player)
+                  (server_checked ?server)
+                  (know ?player internet)
+                  (know ?player hacking)
+                  (know ?player ethics)
+                  (know ?player unix)
+                  (know ?player internet)
+                  (not (collected_all_info ?player))
+                  (not (port_scanned ?player))
+                  (not (tricked_user_password ?player))
+                  (not (user_trusted_fake_email ?player))
+                  (not (people_use_unencrypted_connection ?player))
+                  (not (password_cracked ?player))
+                  (not (is_root_user ?player))
+                  (not (administrator_know_compromised ?player))
+                  (not (website_unchanged ?player))
+                  (not (create_more_file_than_need ?player))
+                  (not (additional_users ?player))
+                  (not (hardcoded_secret_password ?player)))
+  :effect (and
+              (port_scanned ?player)
+              (collected_all_info ?player)))
+
+(:action learn_concepts
+  :parameters (?player - player ?concept - concept)
+  :precondition (and
+                  (not (know ?player ?concept)))
+  :effect (know ?player ?concept))
+
+(:action learn_internet
+  :parameters (?player - player ?skill - skill)
+  :precondition (and
+                  (know_programming ?player)
+                  (not (learned ?player ?skill)))
+  :effect (learned ?player ?skill))
+
+(:action learn_programming
+  :parameters (?player - player ?skill - skill)
+  :precondition (and
+                  (not (learned ?player ?skill)))
+  :effect (learned ?player ?skill))
+
+(:action learn_unix
+  :parameters (?player - player ?skill - skill)
+  :precondition (and
+                  (know_programming ?player)
+                  (not (learned ?player ?skill)))
+  :effect (learned ?player ?skill))
+
+(:action become_skilled
+  :parameters (?player - player ?skill - skill)
+  :precondition (and
+                  (learned ?player ?skill))
+  :effect (know_programming ?player))
+
+)

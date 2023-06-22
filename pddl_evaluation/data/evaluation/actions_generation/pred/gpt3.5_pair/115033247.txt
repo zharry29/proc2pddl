@@ -1,0 +1,110 @@
+(:action go
+   :parameters (?player - player ?obj - object ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (and 
+      (at ?player ?loc1)
+      (connected ?loc1 ?dir ?loc2)
+      (at ?obj ?loc2)
+   )
+   :effect (and 
+      (not (at ?player ?loc1))
+      (at ?player ?loc2)
+   )
+)
+
+(:action get
+   :parameters (?player - player ?obj - object ?loc - location)
+   :precondition (and 
+      (at ?player ?loc)
+      (at ?obj ?loc)
+   )
+   :effect (and 
+      (not (at ?obj ?loc))
+      (inventory ?player ?obj)
+   )
+)
+
+(:action pour_water
+   :parameters (?water - bowl_of_water ?glue - item ?bowl - bowl)
+   :precondition (and 
+      (inventory ?player ?water)
+      (inventory ?player ?glue)
+      (at ?bowl ?player)
+   )
+   :effect (and 
+      (not (inventory ?player ?water))
+      (not (inventory ?player ?glue))
+      (at ?water ?bowl)
+      (at ?glue ?bowl)
+   )
+)
+
+(:action place_strips_between_boards
+   :parameters (?bundle - papyrus_strips ?board1 - wooden_boards ?board2 - wooden_boards)
+   :precondition (and 
+      (inventory ?player ?bundle)
+      (at ?board1 ?player)
+      (at ?board2 ?player)
+   )
+   :effect (and 
+      (not (inventory ?player ?bundle))
+      (at ?bundle ?board1)
+      (at ?bundle ?board2)
+      (strips_between_boards)
+   )
+)
+
+(:action cut_stalks
+   :parameters (?plant - papyrus_tree)
+   :precondition (and 
+      (at ?plant ?player)
+   )
+   :effect (and 
+      (cut ?plant)
+   )
+)
+
+(:action papyrus_strips
+   :parameters (?plant - papyrus_tree ?strips - papyrus_strips ?knife - knife)
+   :precondition (and 
+      (cut ?plant)
+      (inventory ?player ?strips)
+      (at ?knife ?player)
+   )
+   :effect (and 
+      (not (cut ?plant))
+      (not (inventory ?player ?strips))
+      (at ?strips ?plant)
+   )
+)
+
+(:action polish_papyrus
+   :parameters (?papyrus - papyrus)
+   :precondition (and 
+      (at ?papyrus ?player)
+   )
+   :effect (and 
+      (polished ?papyrus)
+   )
+)
+
+(:action flatten_papyrus
+   :parameters (?sheet - papyrus)
+   :precondition (and 
+      (at ?sheet ?player)
+   )
+   :effect (and 
+      (flattened ?sheet)
+   )
+)
+
+(:action cut_papyrus
+   :parameters (?sheet - papyrus)
+   :precondition (and 
+      (at ?sheet ?player)
+   )
+   :effect (and 
+      (cut ?sheet)
+   )
+)
+
+)

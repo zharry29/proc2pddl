@@ -1,0 +1,142 @@
+(:action go ; navigate to an adjacent location
+   :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (connected ?loc1 ?dir ?loc2)
+   :effect (and 
+              (not (at ?player ?loc1))
+              (at ?player ?loc2)
+          )
+)
+
+(:action get_bag ; get bag from a store.
+   :parameters (?player - player ?bag - bag ?store - location)
+   :precondition (and 
+                     (sells_bags ?store)
+                     (at ?bag ?store)
+                     (at ?player ?store)
+                 )
+   :effect (and
+                (not (at ?bag ?store))
+                (inventory ?player ?bag)
+           )
+)
+
+(:action get_stationery ; get stationery from a store.
+   :parameters (?player - player ?stationery - item ?store - location)
+   :precondition (and 
+                     (sells_stationery ?store)
+                     (at ?stationery ?store)
+                     (at ?player ?store)
+                 )
+   :effect (and
+                (not (at ?stationery ?store))
+                (inventory ?player ?stationery)
+           )
+)
+
+(:action get_costume ; get costume from a store.
+   :parameters (?player - player ?costume - costume ?store - location)
+   :precondition (and 
+                     (sells_costume ?store)
+                     (at ?costume ?store)
+                     (at ?player ?store)
+                 )
+   :effect (and
+                (not (at ?costume ?store))
+                (inventory ?player ?costume)
+           )
+)
+
+(:action wear_detective_gear ; wear a uniform to get ready for the detective job
+   :parameters (?player - player ?costume - costume)
+   :precondition (inventory ?player ?costume)
+   :effect (wear ?player ?costume)
+)
+
+(:action find_supplies_for_disguise ; find supplies to be an alias for an undercover mission
+   :parameters (?player - player ?disguise - disguise ?loc - location)
+   :precondition (and 
+                     (at ?disguise ?loc)
+                     (at ?player ?loc)
+                 )
+   :effect (and 
+                (not (at ?disguise ?loc))
+                (inventory ?player ?disguise)
+           )
+)
+
+(:action wear_disguise ; wear a disguise to get ready for an undercover mission
+   :parameters (?player - player ?disguise - disguise)
+   :precondition (inventory ?player ?disguise)
+   :effect (wear ?player ?disguise)
+)
+
+(:action make_badge ; make a detective badge
+   :parameters (?player - player ?badge - badge ?foil - aluminium_foil ?cardboard - cardboard)
+   :precondition (and 
+                     (inventory ?player ?foil)
+                     (inventory ?player ?cardboard)
+                 )
+   :effect (and
+                (not (inventory ?player ?foil))
+                (not (inventory ?player ?cardboard))
+                (inventory ?player ?badge)
+           )
+)
+
+(:action prepare_detective_notebook ; convert a notebook to a detective notebook
+   :parameters (?player - player ?notebook - notebook ?paper - paper)
+   :precondition (and 
+                     (inventory ?player ?notebook)
+                     (inventory ?player ?paper)
+                 )
+   :effect (and
+                (not (inventory ?player ?notebook))
+                (not (inventory ?player ?paper))
+                (inventory ?player detective_notebook)
+           )
+)
+
+(:action get_walkie_talkies ; get walkie-talkies from the store
+   :parameters (?player - player ?walkie_talkies - walkie_talkies ?store - location)
+   :precondition (and 
+                     (sells_electronics ?store)
+                     (at ?walkie_talkies ?store)
+                     (at ?player ?store)
+                 )
+   :effect (and
+                (not (at ?walkie_talkies ?store))
+                (inventory ?player ?walkie_talkies)
+           )
+)
+
+(:action prepare_detective_kit ; put everything in the detective kit
+   :parameters (?player - player ?kit - detective_kit ?gloves - gloves ?tape - tape ?chalk - chalk ?magnifying_glass - magnifying_glass ?costume - costume ?flashlights - flashlights ?pen - pen ?notebook - notebook ?detective_notebook - detective_notebook ?badge - badge ?walkie_talkies - walkie_talkies)
+   :precondition (and 
+                     (wear ?player ?costume)
+                     (inventory ?player ?gloves)
+                     (inventory ?player ?tape)
+                     (inventory ?player ?chalk)
+                     (inventory ?player ?magnifying_glass)
+                     (inventory ?player ?flashlights)
+                     (inventory ?player ?pen)
+                     (inventory ?player ?notebook)
+                     (inventory ?player ?detective_notebook)
+                     (inventory ?player ?badge)
+                     (inventory ?player ?walkie_talkies)
+                 )
+   :effect (and
+                (not (inventory ?player ?gloves))
+                (not (inventory ?player ?tape))
+                (not (inventory ?player ?chalk))
+                (not (inventory ?player ?magnifying_glass))
+                (not (inventory ?player ?flashlights))
+                (not (inventory ?player ?pen))
+                (not (inventory ?player ?notebook))
+                (not (inventory ?player ?detective_notebook))
+                (not (inventory ?player ?badge))
+                (not (inventory ?player ?walkie_talkies))
+                (inventory ?player ?kit)
+           )
+)
+
+)

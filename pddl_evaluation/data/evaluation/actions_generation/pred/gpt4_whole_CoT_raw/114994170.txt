@@ -1,0 +1,311 @@
+- action name: get
+- summarize action: The player takes an item and stores it in their inventory.
+- what is needed to do the action: Player and the item to be picked up.
+- what is the result: The item will be added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: Not having the item in the inventory
+    - after: Having the item in the inventory
+  - entity name: item
+    - before: Not in player's inventory
+    - after: In player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the (inventory ?player ?item) predicate to track inventory.
+2. Use the (at ?obj ?loc) predicate to know the location of the player and the item.
+
+pddl:
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?item ?loc))
+   :effect (inventory ?player ?item))
+
+- action name: drop
+- summarize action: The player drops an item from their inventory.
+- what is needed to do the action: Player and the item to be dropped.
+- what is the result: The item will be removed from the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: Having the item in the inventory
+    - after: Not having the item in the inventory
+  - entity name: item
+    - before: In player's inventory
+    - after: Not in player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the (inventory ?player ?item) predicate to track inventory.
+2. Use the (at ?obj ?loc) predicate to know the location of the player and the item.
+
+pddl:
+(:action drop
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (inventory ?player ?item) (at ?player ?loc))
+   :effect (not (inventory ?player ?item)))
+
+- action name: put_in_stopper
+- summarize action: The player places a stopper in an item that needs to be filled.
+- what is needed to do the action: Player, item, and a stopper.
+- what is the result: The item will be marked as having a stopper.
+
+- entities:
+  - entity name: player
+    - before: Holding a stopper
+    - after: Not holding a stopper
+  - entity name: item
+    - before: Does not have a stopper
+    - after: Has a stopper
+  - entity name: stopper
+    - before: Not in the item
+    - after: In the item
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the (has_stopper ?it - item) predicate to check whether the item has a stopper.
+2. Use the (inventory ?player ?stopper) and (at ?obj ?loc) predicates to check if the player has the stopper and if the item is in the same location as the player.
+
+pddl:
+(:action put_in_stopper
+   :parameters (?player - player ?item - item ?stopper - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?item ?loc) (inventory ?player ?stopper) (not (has_stopper ?item)))
+   :effect (and (has_stopper ?item) (not (inventory ?player ?stopper))))
+
+- action name: fill
+- summarize action: The player fills an item that can be filled.
+- what is needed to do the action: Player and an item that can be filled.
+- what is the result: The item will be marked as full.
+
+- entities:
+  - entity name: player
+    - before: Holding an empty item
+    - after: Holding a full item
+  - entity name: item
+    - before: Empty
+    - after: Full
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the (can_be_filled ?it - item) predicate to check if the item can be filled.
+2. Use the (full ?it - item) predicate to mark the item as full.
+3. Use the (at ?obj ?loc) predicate to know the location of the player and the item.
+
+pddl:
+(:action fill
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?item ?loc) (can_be_filled ?item) (not (full ?item)) (has_stopper ?item))
+   :effect (full ?item))
+
+- action name: purify
+- summarize action: The player purifies a full item.
+- what is needed to do the action: Player and a full item.
+- what is the result: The item will be marked as purified.
+
+- entities:
+  - entity name: player
+    - before: Holding a non-purified item
+    - after: Holding a purified item
+  - entity name: item
+    - before: Non-purified
+    - after: Purified
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the (purified ?it - item) predicate to check if the item is purified.
+2. Use the (full ?it - item) predicate to check if the item is full.
+3. Use the (at ?obj ?loc) predicate to know the location of the player and the item.
+
+pddl:
+(:action purify
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?item ?loc) (full ?item) (not (purified ?item)))
+   :effect (purified ?item))
+
+- action name: seal
+- summarize action: The player seals a purified item that can be sealed.
+- what is needed to do the action: Player and a purified item that can be sealed.
+- what is the result: The item will be marked as sealed.
+
+- entities:
+  - entity name: player
+    - before: Holding a non-sealed item
+    - after: Holding a sealed item
+  - entity name: item
+    - before: Non-sealed
+    - after: Sealed
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the (can_be_sealed ?it - item) predicate to check if the item can be sealed.
+2. Use the (purified ?it - item) predicate to check if the item is purified.
+3. Use the (sealed ?it) predicate to mark the item as sealed.
+4. Use the (at ?obj ?loc) predicate to know the location of the player and the item.
+
+pddl:
+(:action seal
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?item ?loc) (purified ?item) (can_be_sealed ?item) (not (sealed ?item)))
+   :effect (sealed ?item))
+
+- action name: wait
+- summarize action: The player waits for a certain amount of time.
+- what is needed to do the action: Player.
+- what is the result: Time passes.
+
+- entities:
+  - entity name: player
+    - before: At the same location
+    - after: At the same location, but time has passed
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the (at ?obj ?loc) predicate to know the location of the player.
+
+pddl:
+(:action wait
+   :parameters (?player - player ?loc - location)
+   :precondition (at ?player ?loc)
+   :effect (at ?player ?loc))
+
+- action name: go
+- summarize action: The player moves from one location to another connected location.
+- what is needed to do the action: Player, current location, direction, and destination location.
+- what is the result: The player ends up in the destination location.
+
+- entities:
+  - entity name: player
+    - before: At the current location
+    - after: At the destination location
+  - entity name: current location
+    - before: Player is here
+    - after: Player is not here
+  - entity name: direction
+  - entity name: destination location
+    - before: Player is not here
+    - after: Player is here
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the (connected ?loc1 ?dir ?loc2) predicate to know if two locations are connected in a specific direction.
+2. Use the (at ?obj ?loc) predicate to know the location of the player.
+
+pddl:
+(:action go
+   :parameters (?player - player ?curr_loc - location ?dir - direction ?dest_loc - location)
+   :precondition (and (at ?player ?curr_loc) (connected ?curr_loc ?dir ?dest_loc) (not (blocked ?curr_loc ?dir ?dest_loc)))
+   :effect (and (at ?player ?dest_loc) (not (at ?player ?curr_loc))))
+
+- action name: put_batteries_in
+- summarize action: The player puts batteries into a radio.
+- what is needed to do the action: Player, batteries, and radio.
+- what is the result: The radio will be marked as having batteries.
+
+- entities:
+  - entity name: player
+    - before: Holding batteries
+    - after: Batteries in the radio
+  - entity name: radio
+    - before: Without batteries
+    - after: With batteries
+  - entity name: batteries
+    - before: Not in radio
+    - after: In radio
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the (has_batteries ?radio - radio) predicate to check if the radio has batteries.
+2. Use the (inventory ?player ?batteries) and (at ?obj ?loc) predicates to check if the player has the batteries and if the radio is in the same location as the player.
+
+pddl:
+(:action put_batteries_in
+   :parameters (?player - player ?radio - radio ?batteries - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?radio ?loc) (inventory ?player ?batteries) (not (has_batteries ?radio)))
+   :effect (and (has_batteries ?radio) (not (inventory ?player ?batteries))))
+
+- action name: turn_on_radio
+- summarize action: The player turns on a radio with batteries.
+- what is needed to do the action: Player and a radio with batteries.
+- what is the result: The radio will be marked as on.
+
+- entities:
+  - entity name: player
+  - entity name: radio
+    - before: Radio with batteries and off
+    - after: Radio with batteries and on
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the (on ?radio - radio) predicate to check if the radio is on.
+2. Use the (has_batteries ?radio - radio) predicate to check if the radio has batteries.
+3. Use the (at ?obj ?loc) predicate to know the location of the player and the radio.
+
+pddl:
+(:action turn_on_radio
+   :parameters (?player - player ?radio - radio ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?radio ?loc) (has_batteries ?radio) (not (on ?radio)))
+   :effect (on ?radio))
+
+- action name: create_cage
+- summarize action: The player creates a Faraday cage to protect electronic items.
+- what is needed to do the action: Player and necessary materials to create a cage.
+- what is the result: A Faraday cage will be created.
+
+- entities:
+  - entity name: player
+  - entity name: materials
+    - before: Present
+    - after: Used to create a cage
+  - entity name: cage
+    - before: Not created
+    - after: Created
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the (at ?obj ?loc) predicate to know the location of the player and the materials needed to create a cage.
+2. Introduce a new predicate (has_cage ?player) to indicate that the player has created a cage.
+
+pddl:
+(:action create_cage
+   :parameters (?player - player ?materials - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?materials ?loc) (not (has_cage ?player)))
+   :effect (has_cage ?player))
+
+- action name: close_cage
+- summarize action: The player closes the Faraday cage with electronic items inside.
+- what is needed to do the action: Player, a Faraday cage, and items that are inside the cage.
+- what is the result: The cage will be marked as closed.
+
+- entities:
+  - entity name: player
+  - entity name: cage
+    - before: Open
+    - after: Closed
+  - entity name: items
+    - before: In the open cage
+    - after: In the closed cage
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the (has_cage ?player) predicate to check if the player has a cage.
+2. Use the (cage_closed ?cage - farraday_cage) predicate to check if the cage is closed.
+3. Use the (at ?obj ?loc) predicate to know the location of the player, cage, and items.
+4. Introduce a new predicate (in_cage ?it - item) to indicate the items are inside the cage.
+
+pddl:
+(:action close_cage
+   :parameters (?player - player ?cage - farraday_cage ?items - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?cage ?loc) (at ?items ?loc) (has_cage ?player) (in_cage ?items) (not (cage_closed ?cage)))
+   :effect (cage_closed ?cage))
+
+- action name: put_in_cage
+- summarize action: The player puts electronic items inside the Faraday cage.
+- what is needed to do the action: Player, a Faraday cage, and electronic items.
+- what is the result: The items will be marked as inside the cage.
+
+- entities:
+  - entity name: player
+  - entity name: cage
+  - entity name: items
+    - before: Not in the cage
+    - after: In the cage
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the (has_cage ?player) predicate to check if the player has a cage.
+2. Use the (at ?obj ?loc) predicate to know the location of the player, cage, and items.
+3. Introduce a new predicate (in_cage ?it - item) to indicate the items are inside the cage.
+
+pddl:
+(:action put_in_cage
+   :parameters (?player - player ?cage - farraday_cage ?items - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?cage ?loc) (has_cage ?player) (not (in_cage ?items)))
+   :effect (in_cage ?items))

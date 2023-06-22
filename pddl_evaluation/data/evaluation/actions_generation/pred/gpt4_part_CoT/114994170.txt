@@ -1,0 +1,25 @@
+(:action get_radio
+    :parameters (?player - player ?radio - radio)
+    :precondition (not (inventory ?player ?radio))
+    :effect (inventory ?player ?radio)
+)
+
+(:action turn_on_radio
+    :parameters (?player - player ?radio - radio)
+    :precondition (and (inventory ?player ?radio) (not (on ?radio)))
+    :effect (on ?radio)
+)
+
+(:action create_cage
+    :parameters (?player - player ?cage - farraday_cage)
+    :precondition (not (inventory ?player ?cage))
+    :effect (inventory ?player ?cage)
+)
+
+(:action put_in_cage
+    :parameters (?player - player ?cage - farraday_cage ?item - item)
+    :precondition (and (inventory ?player ?cage) (inventory ?player ?item))
+    :effect (and (not (inventory ?player ?item)) (in_cage ?item))
+)
+
+)

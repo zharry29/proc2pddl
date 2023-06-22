@@ -1,0 +1,88 @@
+(:action go
+	:parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+	:precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+	:effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+)
+
+
+
+(:action get_bamboo_container
+	:parameters (?player - player ?loc - location)
+	:precondition (and (at ?player ?loc) (has_bamboo ?loc))
+	:effect (inventory ?player bamboo_container)
+)
+
+
+
+(:action collect_rain_water
+	:parameters (?player - player ?loc - location)
+	:precondition (and (at ?player ?loc) (has_rainfall ?loc))
+	:effect (inventory ?player water)
+)
+
+
+
+(:action create_fire
+	:parameters (?player - player ?loc - location)
+	:precondition (and (at ?player ?loc) (not (inventory ?player fire)))
+	:effect (inventory ?player fire)
+)
+
+
+
+(:action treat_water
+	:parameters (?player - player)
+	:precondition (and (inventory ?player water) (inventory ?player fire))
+	:effect (and (inventory ?player treated_water) (not (inventory ?player water)))
+)
+
+
+
+
+(:action drink_water
+	:parameters (?player - player)
+	:precondition (and (inventory ?player treated_water) (is dehydrated ?player))
+	:effect (not (is dehydrated ?player))
+)
+
+
+
+(:action drink_untreated_water
+	:parameters (?player - player)
+	:precondition (and (inventory ?player water) (not (is dehydrated ?player)))
+	:effect (is ill ?player)
+)
+
+
+
+(:action create_sos_sign
+	:parameters (?player - player ?loc - location)
+	:precondition (and (at ?player ?loc) (not (inventory ?player sos_sign)))
+	:effect (inventory ?player sos_sign)
+)
+
+
+
+(:action pick_fruit
+	:parameters (?player - player ?loc - location)
+	:precondition (and (at ?player ?loc) (has_fruit ?loc))
+	:effect (inventory ?player fruit)
+)
+
+
+
+(:action eat_fruit
+	:parameters (?player - player)
+	:precondition (and (inventory ?player fruit) (is hungry ?player))
+	:effect (not (is hungry ?player))
+)
+
+
+
+(:action escape
+	:parameters (?player - player)
+	:precondition (at ?player basecamp)
+	:effect (escaped ?player)
+)
+
+)

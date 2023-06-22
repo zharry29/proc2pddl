@@ -1,64 +1,93 @@
 (:action splash_swim
- :parameters (?person - player ?loc - location ?shark - shark)
- :precondition (and (is_water ?loc) (at ?person ?loc) (visible ?shark))
- :effect (and (at ?person ?loc) (not (at ?person (next_to ?loc)))))
+  :parameters (?player - player ?loc - location ?new_loc - location ?dir - direction ?shark - shark)
+  :precondition (and
+    (not (defending ?player))
+    (is_water ?loc)
+    (not (attacked ?player ?shark))
+    (at ?player ?loc)
+    (connected ?loc ?dir ?new_loc))
+  :effect (and
+    (not (at ?player ?loc))
+    (at ?player ?new_loc)))
 
 (:action swim
- :parameters (?person - player ?loc - location ?boat - ship ?shore - location)
- :precondition (and (is_water ?loc) (at ?person ?loc) (visible ?shark))
- :effect (and (not (at ?person ?loc)) (or (on ?person ?boat) (at ?person ?shore))))
-
-(:action get
- :parameters (?person - player ?shark - shark)
- :precondition (and (visible ?shark) (attacked ?person ?shark))
- :effect (defending ?person))
-
+  :parameters (?player - player ?loc - location ?new_loc - location ?dir - direction ?shark - shark)
+  :precondition (and
+    (not (defending ?player))
+    (is_water ?loc)
+    (not (attacked ?player ?shark))
+    (at ?player ?loc)
+    (connected ?loc ?dir ?new_loc))
+  :effect (and
+    (not (at ?player ?loc))
+    (at ?player ?new_loc)))
 
 (:action onboard
- :parameters (?person - player ?boat - ship)
- :precondition (and (visible ?shark) (attacked ?person ?shark) (at ?person ?loc) (is_water ?loc))
- :effect (and (on ?person ?boat) (not (at ?person ?loc))))
+  :parameters (?player - player ?loc - location ?ship - ship ?boat - boat ?shore - location)
+  :precondition (and
+    (is_water ?loc)
+    (at ?player ?loc))
+  :effect (or
+    (and (at ?boat ?loc) (on ?player ?boat) (not (at ?player ?loc)))
+    (and (on ?player ?shore) (not (at ?player ?loc)))))
 
 (:action defend
- :parameters (?person - player)
- :precondition (and (visible ?shark) (attacked ?person ?shark))
- :effect (defending ?person))
-
+  :parameters (?player - player ?loc - location ?shark - shark)
+  :precondition (and
+    (not (defending ?player))
+    (is_water ?loc)
+    (visible ?shark)
+    (not (attacked ?player ?shark)))
+  :effect (defending ?player))
 
 (:action spot_ship
- :parameters (?person - player ?ship - ship)
- :precondition (and (not (visible ?ship)) (attacked ?person ?shark))
- :effect (visible ?ship))
-
+  :parameters (?player - player ?loc - location ?ship - ship)
+  :precondition (and
+    (is_water ?loc)
+    (visible ?ship))
+  :effect ())
 
 (:action spot_shark
- :parameters (?person - player ?shark - shark)
- :precondition (and (not (visible ?shark)) (is_water ?loc) (at ?person ?loc))
- :effect (visible ?shark))
-
+  :parameters (?player - player ?loc - location ?shark - shark)
+  :precondition (and
+    (is_water ?loc)
+    (visible ?shark)
+    (not (attacked ?player ?shark)))
+  :effect ())
 
 (:action self_mobilize
- :parameters (?person - player ?shark - shark ?weapon - item)
- :precondition (and (visible ?shark) (attacked ?person ?shark) (or (sharp ?weapon) (heavy ?weapon) (inventory ?person ?weapon)))
- :effect (and (dizzy ?shark) (fleed ?shark)))
-
+  :parameters (?player - player ?loc - location ?shark - shark ?obj - object ?weapon - item)
+  :precondition (and
+    (is_water ?loc)
+    (visible ?shark)
+    (or (inventory ?player ?weapon) (sharp ?obj) (heavy ?obj)))
+  :effect (or
+    (dizzy ?shark)
+    (fleed ?shark)))
 
 (:action medicare
- :parameters (?person - player)
- :precondition (wounded ?person)
- :effect (not (wounded ?person)))
-
+  :parameters (?player - player)
+  :precondition (wounded ?player)
+  :effect ())
 
 (:action attack_vulnerable
- :parameters (?person - player ?shark - shark ?part - part)
- :precondition (and (visible ?shark) (attacked ?person ?shark) (vulnerable ?part))
- :effect (and (dizzy ?shark) (fleed ?shark)))
-
+  :parameters (?player - player ?loc - location ?shark - shark ?obj - object ?weapon - item)
+  :precondition (and
+    (is_water ?loc)
+    (visible ?shark)
+    (or (inventory ?player ?weapon) (sharp ?obj) (heavy ?obj)))
+  :effect (or
+    (dizzy ?shark)
+    (fleed ?shark)))
 
 (:action knockout
- :parameters (?person - player ?shark - shark)
- :precondition (and (visible ?shark) (attacked ?person ?shark) (not (dizzy ?shark)))
- :effect (and (dizzy ?shark) (fleed ?shark)))
-
+  :parameters (?player - player ?loc - location ?shark - shark ?obj - object ?weapon - item)
+  :precondition (and
+    (is_water ?loc)
+    (visible ?shark)
+    (or (inventory ?player ?weapon) (sharp ?obj) (heavy ?obj)))
+  :effect (or
+    (dizzy ?shark)
+    (fleed ?shark)))
 
 )

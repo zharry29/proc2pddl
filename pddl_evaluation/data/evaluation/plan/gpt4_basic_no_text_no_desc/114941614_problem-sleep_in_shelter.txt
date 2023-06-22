@@ -1,0 +1,4 @@
+go ('npc', 'camp', 'thicket', 'south')
+get ('npc', 'leaves', 'thicket')
+build_shelter ('npc', 'thicket', 'leaves')
+sleep_in_shelter ('npc', 'thicket')

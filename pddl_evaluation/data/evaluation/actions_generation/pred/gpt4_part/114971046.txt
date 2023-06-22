@@ -1,0 +1,116 @@
+(:action drive
+        :parameters (?p - player ?loc1 - location ?loc2 - location ?dir - direction)
+        :precondition
+            (and
+                (connected ?loc1 ?dir ?loc2)
+                (not (blocked ?loc1 ?dir ?loc2))
+                (driving ?p)
+            )
+        :effect
+            (and
+                (not (at ?p ?loc1))
+                (at ?p ?loc2)
+            )
+    )
+
+    (:action walk
+        :parameters (?p - player ?loc1 - location ?loc2 - location ?dir - direction)
+        :precondition
+            (and
+                (connected ?loc1 ?dir ?loc2)
+                (not (blocked ?loc1 ?dir ?loc2))
+                (not (driving ?p))
+            )
+        :effect
+            (and
+                (not (at ?p ?loc1))
+                (at ?p ?loc2)
+            )
+    )
+
+    (:action get_food
+        :parameters (?p - player ?food - item)
+        :precondition
+            (and
+                (inventory_empty ?p)
+                (is_nonperishable ?food)
+                (at ?p ?food)
+            )
+        :effect
+            (inventory ?p ?food)
+    )
+
+    (:action get
+        :parameters (?p - player ?obj - item)
+        :precondition
+            (and
+                (inventory ?player ?item)
+                (at ?obj ?loc)
+            )
+        :effect
+            (not (at ?obj ?loc))
+    )
+
+    (:action drop
+        :parameters (?p - player ?obj - item)
+        :precondition
+            (inventory ?p ?obj)
+        :effect
+            (and
+                (not (inventory ?p ?obj))
+                (at ?obj ?loc)
+            )
+    )
+
+    (:action make_plan
+        :parameters (?p - player)
+        :effect
+            (has_plan ?p)
+    )
+
+    (:action get_medicine
+        :parameters (?p - player ?med - item)
+        :precondition
+            (and 
+                (is_medicine ?med)
+                (at ?med ?loc)
+            )
+        :effect
+            (inventory ?p ?med)
+    )
+
+    (:action reinforce
+        :parameters (?p - player ?loc - location ?mat - item)
+        :precondition
+            (and
+                (is_construction_material ?mat)
+                (inventory ?p ?mat)
+            )
+        :effect
+            (sheltered ?p)
+    )
+
+    (:action stay_in_shelter
+        :parameters (?p - player ?loc - location)
+        :precondition
+            (and
+                (sheltered ?p)
+                (at ?loc ?p)
+                (is_underground ?loc)
+            )
+        :effect
+            (sheltered ?p)
+    )
+
+    (:action get_in_car
+        :parameters (?p - player ?car - item)
+        :precondition
+            (and
+                (is_car ?car)
+                (at ?car ?loc)
+            )
+        :effect
+            (driving ?p)
+    )
+
+)

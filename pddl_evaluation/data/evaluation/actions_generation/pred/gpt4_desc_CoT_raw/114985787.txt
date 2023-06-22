@@ -1,0 +1,398 @@
+- action name: go
+- summarize action: The player navigates to an adjacent location.
+- what is needed to do the action: The connection between the current location and the adjacent location must not be blocked.
+- what is the result: The player's position will change to the adjacent location.
+
+- entities:
+  - entity name: player
+  - before: at current location
+  - after: at adjacent location
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the "connected" predicate to ensure that the adjacent location is not blocked.
+2. Use the "at" predicate to move the player to the new location.
+
+pddl:
+```
+(:action go
+  :parameters (?player - player ?current_location - location ?direction - direction ?new_location - location)
+  :precondition (and (at ?player ?current_location)
+                     (connected ?current_location ?direction ?new_location)
+                     (not (blocked ?current_location ?direction ?new_location)))
+  :effect (and (not (at ?player ?current_location))
+               (at ?player ?new_location)))
+```
+
+- action name: get
+- summarize action: The player picks up an item and puts it in their inventory.
+- what is needed to do the action: The item must be at the player's current location.
+- what is the result: The item is added to the player's inventory.
+
+- entities:
+  - entity name: player
+  - before: does not have the item in their inventory
+  - after: has the item in their inventory
+
+  - entity name: item
+  - before: at the player's current location
+  - after: removed from the location
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the "at" predicate to ensure the player and the item are at the same location.
+2. Use the "inventory" predicate to add the item to the player's inventory.
+3. Remove the item from the location using the "not" operator and the "at" predicate.
+
+pddl:
+```
+(:action get
+  :parameters (?player - player ?item - item ?location - location)
+  :precondition (and (at ?player ?location)
+                     (at ?item ?location))
+  :effect (and (inventory ?player ?item)
+               (not (at ?item ?location))))
+```
+- action name: get_water
+- summarize action: The player gets water from a location that has a water source like a lake.
+- what is needed to do the action: The location must have a water source and the player must be at that location.
+- what is the result: The player has water in their inventory.
+
+- entities:
+  - entity name: player
+  - before: does not have water in their inventory
+  - after: has water in their inventory
+
+  - entity name: water
+  - before: not in player's inventory
+  - after: in player's inventory
+
+  - entity name: location
+  - before: presence of water source
+  - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the "at" predicate to ensure the player is at the correct location.
+2. Use the "has_water_source" predicate to ensure the location has a water source.
+3. Use the "inventory" predicate to add water to the player's inventory.
+
+pddl:
+```
+(:action get_water
+  :parameters (?player - player ?water - water ?location - location)
+  :precondition (and (at ?player ?location)
+                     (has_water_source ?location))
+  :effect (inventory ?player ?water))
+```
+
+- action name: drop
+- summarize action: The player drops an item and removes it from their inventory.
+- what is needed to do the action: The item must be in the player's inventory.
+- what is the result: The item is removed from the player's inventory and placed at the player's current location.
+
+- entities:
+  - entity name: player
+  - before: has the item in their inventory
+  - after: does not have the item in their inventory
+
+  - entity name: item
+  - before: in player's inventory
+  - after: at the player's current location
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the "inventory" predicate to ensure the item is in the player's inventory.
+2. Use the "at" predicate to put the item at the player's current location.
+3. Remove the item from the player's inventory using the "not" operator and the "inventory" predicate.
+
+pddl:
+```
+(:action drop
+  :parameters (?player - player ?item - item ?location - location)
+  :precondition (and (inventory ?player ?item)
+                     (at ?player ?location))
+  :effect (and (at ?item ?location)
+               (not (inventory ?player ?item))))
+```
+
+- action name: clear_spider
+- summarize action: The player clears off any critters or spiders that may be on the branch or leaves.
+- what is needed to do the action: The item (branch or leaves) must be in the player's inventory and have bugs.
+- what is the result: The item no longer has bugs.
+
+- entities:
+  - entity name: item
+  - before: has bugs
+  - after: does not have bugs
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Use the "inventory" predicate to ensure the item is in the player's inventory.
+2. Use the "has_bug" predicate to check if the item has bugs.
+3. Remove the bugs from the item using the "not" operator and the "has_bug" predicate.
+
+pddl:
+```
+(:action clear_spider
+  :parameters (?player - player ?item - item)
+  :precondition (and (inventory ?player ?item)
+                     (has_bug ?item))
+  :effect (not (has_bug ?item)))
+```
+- action name: insert_beam
+- summarize action: The player inserts the end(s) of the branch into the split(s) of the tree(s) to create a beam structure.
+- what is needed to do the action: The player must have a long and thick branch in their inventory and be at a location with a tree that has a split in its trunk.
+- what is the result: The tree has a beam structure made of the branch.
+
+- entities:
+  - entity name: player
+  - before: has a long and thick branch in their inventory
+  - after: unchanged
+
+  - entity name: branch
+  - before: in player's inventory
+  - after: used as a beam structure in the tree
+
+  - entity name: tree
+  - before: has a split in its trunk
+  - after: has a beam structure made of the branch
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Use the "inventory" predicate to ensure the player has a suitable branch in their inventory.
+2. Use the "at" predicate to ensure the player is at the location with the tree.
+3. Use the "has_split_in_trunk" predicate to ensure the tree has a split in its trunk.
+4. Use the "long" and "thick" predicates to ensure the branch is long and thick enough for the beam.
+5. Use a new predicate "beam_inserted" to indicate the beam is inserted into the tree.
+
+PDDL:
+```
+(:action insert_beam
+  :parameters (?player - player ?branch - branch ?tree - tree ?location - location)
+  :precondition (and (inventory ?player ?branch)
+                     (at ?player ?location)
+                     (at ?tree ?location)
+                     (has_split_in_trunk ?tree)
+                     (long ?branch)
+                     (thick ?branch))
+  :effect (beam_inserted ?tree ?branch))
+```
+
+- action name: lean_branches
+- summarize action: The player leans branches against the main branch to form the structure of their shelter.
+- what is needed to do the action: The player must have branches in their inventory and a beam structure in a tree.
+- what is the result: The shelter frame is created.
+
+- entities:
+  - entity name: player
+  - before: has branches in their inventory
+  - after: unchanged
+
+  - entity name: branches
+  - before: in player's inventory
+  - after: used to create the shelter frame
+
+  - entity name: frame
+  - before: not created
+  - after: created
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Use the "inventory" predicate to ensure the player has branches in their inventory.
+2. Use the "beam_inserted" predicate to ensure a tree has a beam structure made of a branch.
+3. Use a new predicate "frame_created" to indicate the shelter frame is created using the branches.
+
+PDDL:
+```
+(:action lean_branches
+  :parameters (?player - player ?branches - branches ?tree - tree)
+  :precondition (and (inventory ?player ?branches)
+                     (beam_inserted ?tree ?beam))
+  :effect (frame_created ?tree ?branches))
+```
+
+- action name: layer
+- summarize action: The player lays twigs and leaves to create a layer on top of the shelter frame.
+- what is needed to do the action: The player must have twigs and leaves in their inventory and a shelter frame.
+- what is the result: The shelter is completed.
+
+- entities:
+  - entity name: player
+  - before: has twigs and leaves in their inventory
+  - after: unchanged
+
+  - entity name: twigs, leaves
+  - before: in player's inventory
+  - after: used to create the shelter
+
+  - entity name: shelter
+  - before: not completed
+  - after: completed
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Use the "inventory" predicate to ensure the player has twigs and leaves in their inventory.
+2. Use the "frame_created" predicate to ensure a shelter frame is created.
+3. Use a new predicate "shelter_completed" to indicate the shelter is completed with twigs and leaves.
+
+PDDL:
+```
+(:action layer
+  :parameters (?player - player ?twigs - twigs ?leaves - leaves ?tree - tree)
+  :precondition (and (inventory ?player ?twigs)
+                     (inventory ?player ?leaves)
+                     (frame_created ?tree ?branches))
+  :effect (shelter_completed ?tree))
+```
+- action name: wash
+- summarize action: The player washes off plants that they find.
+- what is needed to do the action: The player must have unwashed plants in their inventory.
+- what is the result: The plants are washed and no longer considered unwashed.
+
+- entities:
+  - entity name: player
+  - before: has unwashed plants in their inventory
+  - after: unchanged
+
+  - entity name: plants
+  - before: unwashed in player's inventory
+  - after: washed in player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Use the "inventory" predicate to ensure the player has unwashed plants in their inventory.
+2. Use the "unwashed" predicate to check if the plant has not been washed.
+3. Remove the unwashed status from the plant using the "not" operator and the "unwashed" predicate.
+
+PDDL:
+```
+(:action wash
+  :parameters (?player - player ?plants - flowers)
+  :precondition (and (inventory ?player ?plants)
+                     (unwashed ?plants))
+  :effect (not (unwashed ?plants)))
+```
+
+- action name: eat
+- summarize action: The player eats anything they find edible.
+- what is needed to do the action: The player must have edible plants in their inventory and be hungry.
+- what is the result: The player is no longer hungry.
+
+- entities:
+  - entity name: player
+  - before: hungry
+  - after: not hungry
+
+  - entity name: plants
+  - before: edible in player's inventory
+  - after: removed from player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Use the "inventory" predicate to ensure the player has edible plants in their inventory.
+2. Use the "edible" predicate to check if the plant is edible.
+3. Use the "hungry" predicate to check if the player is hungry.
+4. Remove the hungry status from the player using the "not" operator and the "hungry" predicate.
+5. Remove the plant from the player's inventory using the "not" operator and the "inventory" predicate.
+
+PDDL:
+```
+(:action eat
+  :parameters (?player - player ?plants - flowers)
+  :precondition (and (inventory ?player ?plants)
+                     (edible ?plants)
+                     (hungry ?player))
+  :effect (and (not (hungry ?player))
+               (not (inventory ?player ?plants))))
+```
+
+- action name: make_snare
+- summarize action: The player takes a piece of wire and makes a large circle snare.
+- what is needed to do the action: The player must have wire in their inventory.
+- what is the result: The player creates a snare and has it in their inventory.
+
+- entities:
+  - entity name: player
+  - before: has wire in their inventory
+  - after: has snare in their inventory
+
+  - entity name: wire
+  - before: in player's inventory
+  - after: used to create snare
+
+  - entity name: snare
+  - before: not in player's inventory
+  - after: in player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Use the "inventory" predicate to ensure the player has wire in their inventory.
+2. Use the "inventory" predicate to add the snare to the player's inventory.
+3. Remove the wire from the player's inventory using the "not" operator and the "inventory" predicate.
+
+PDDL:
+```
+(:action make_snare
+  :parameters (?player - player ?wire - wire ?snare - snare)
+  :precondition (inventory ?player ?wire)
+  :effect (and (inventory ?player ?snare)
+               (not (inventory ?player ?wire))))
+```
+- action name: make_horizontal_bar
+- summarize action: The player makes a horizontal bar with a branch to hang their snare.
+- what is needed to do the action: The player must have a branch in their inventory.
+- what is the result: The player creates a horizontal bar and has it in their inventory.
+
+- entities:
+  - entity name: player
+  - before: has a branch in their inventory
+  - after: has a horizontal bar in their inventory
+
+  - entity name: branch
+  - before: in player's inventory
+  - after: used to create a horizontal bar
+
+  - entity name: bar
+  - before: not in player's inventory
+  - after: in player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Use the "inventory" predicate to ensure the player has a branch in their inventory.
+2. Use the "inventory" predicate to add the horizontal bar to the player's inventory.
+3. Remove the branch from the player's inventory using the "not" operator and the "inventory" predicate.
+
+PDDL:
+```
+(:action make_horizontal_bar
+  :parameters (?player - player ?branch - branch ?bar - bar)
+  :precondition (inventory ?player ?branch)
+  :effect (and (inventory ?player ?bar)
+               (not (inventory ?player ?branch))))
+```
+
+- action name: hang_snare
+- summarize action: The player hangs the circle of the snare over a path made by an animal.
+- what is needed to do the action: The player must have a snare and a horizontal bar in their inventory and be at a location where a path is made by an animal.
+- what is the result: The snare is hanged at the location.
+
+- entities:
+  - entity name: player
+  - before: has snare and horizontal bar in their inventory
+  - after: unchanged
+
+  - entity name: snare
+  - before: in player's inventory
+  - after: hanged at the location
+
+  - entity name: location
+  - before: path made by an animal
+  - after: has snare hanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Use the "inventory" predicate to ensure the player has a snare and a horizontal bar in their inventory.
+2. Use the "at" predicate to ensure the player is at the location with the animal path.
+3. Use the "made_by_animal" predicate to check if there is a path made by an animal at the location.
+4. Use a new predicate "hanged" to indicate that the snare is hanged at the location.
+
+PDDL:
+```
+(:action hang_snare
+  :parameters (?player - player ?snare - snare ?bar - bar ?location - location)
+  :precondition (and (inventory ?player ?snare)
+                     (inventory ?player ?bar)
+                     (at ?player ?location)
+                     (made_by_animal ?location))
+  :effect (hanged ?snare ?location))
+```
+
+Now all the PDDL actions based on the given text and predicates have been translated to PDDL format.

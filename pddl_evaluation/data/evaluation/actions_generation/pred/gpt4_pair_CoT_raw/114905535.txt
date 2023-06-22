@@ -1,79 +1,382 @@
+- action name: go
+- summarize action: The agent moves from one location to another by following a direction.
+- what is need to do the action: The agent must be at a location and the destination location must be connected to the starting location in the specified direction.
+- what is the result: The agent arrives at the new location and leaves the previous location.
+
+- entities:
+  - entity name: agent (player)
+    - before: at the starting location
+    - after: at the destination location
+  - entity name: starting location
+    - before: agent is present
+    - after: agent is no longer present
+  - entity name: destination location
+    - before: agent is not present
+    - after: agent is present
+  - entity name: direction
+    - no changes
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add agent, starting location, destination location, and direction as parameters.
+2. Create a precondition to check if the agent is at the starting location and if the starting location is connected to the destination location in the specified direction.
+3. Create an effect to move the agent from the starting location to the destination location.
+
+pddl:
 (:action go
-    :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
-    :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
-    :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
-)
+ :parameters (?agent - player ?start - location ?dir - direction ?dest - location)
+ :precondition (and (at ?agent ?start)
+                     (connected ?start ?dir ?dest))
+ :effect (and (not (at ?agent ?start))
+              (at ?agent ?dest)))
 
+----------------------------------------------------------------------------------------
+
+- action name: get
+- summarize action: The agent gets an item from a location and adds it to his/her inventory.
+- what is need to do the action: The agent must be at a location where the item is present.
+- what is the result: The item is added to the agent's inventory and is no longer present at the location.
+
+- entities:
+  - entity name: agent (player)
+  - entity name: item
+    - before: present at the location
+    - after: in the agent's inventory
+  - entity name: location
+    - before: item is present
+    - after: item is no longer present
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add agent, item, and location as parameters.
+2. Create a precondition to check if the agent is at the location and if the item is present at the location.
+3. Create an effect to add the item to the agent's inventory and remove it from the location.
+
+pddl:
 (:action get
-    :parameters (?player - player ?item - item ?loc - location)
-    :precondition (and (at ?player ?loc) (at ?item ?loc))
-    :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
-)
+ :parameters (?agent - player ?item - item ?loc - location)
+ :precondition (and (at ?agent ?loc)
+                     (at ?item ?loc))
+ :effect (and (not (at ?item ?loc))
+              (inventory ?agent ?item)))
 
+----------------------------------------------------------------------------------------
+
+- action name: get_water
+- summarize action: The agent gets drinkable water from a location to a container.
+- what is need to do the action: The agent must be at a location where drinkable water is present and have a container in his/her inventory.
+- what is the result: The container will have drinkable water.
+
+- entities:
+  - entity name: agent (player)
+  - entity name: water
+    - before: present at the location
+    - after: drinkable in the container
+  - entity name: location
+    - no changes
+  - entity name: container
+    - before: empty
+    - after: contains drinkable water
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add agent, water, location, and container as parameters.
+2. Create a precondition to check if the agent is at the location, if drinkable water is present at the location, and if the agent has an empty container in their inventory.
+3. Create an effect to add drinkable water to the container.
+
+pddl:
 (:action get_water
-    :parameters (?player - player ?source - location ?w - water)
-    :precondition (and (at ?player ?source) (has_water ?source ?w))
-    :effect (inventory ?player ?w)
-)
+ :parameters (?agent - player ?water - freshwater ?loc - location ?container - container)
+ :precondition (and (at ?agent ?loc)
+                     (has_freshwater_source ?loc)
+                     (inventory ?agent ?container))
+ :effect (and (treated ?water)
+              (inventory ?agent ?water)))
 
+----------------------------------------------------------------------------------------
+
+Rest of the actions follow a similar logic and can be formulated in PDDL using the same approach to define entities, preconditions, and effects.
+- action name: bag_plant
+- summarize action: The agent bags a plant at a location.
+- what is need to do the action: The agent must be at a location where the plant is present.
+- what is the result: The plant becomes bagged.
+
+- entities:
+  - entity name: agent (player)
+  - entity name: plant
+    - before: unbagged
+    - after: bagged
+  - entity name: location
+    - no changes
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add agent, plant, and location as parameters.
+2. Create a precondition to check if the agent is at the location and if the plant is present at the location.
+3. Create an effect to bag the plant.
+
+pddl:
 (:action bag_plant
-    :parameters (?player - player ?plant - plant ?bag - bag)
-    :precondition (and (inventory ?player ?bag) (not (bagged ?plant)))
-    :effect (bagged ?plant)
-)
+ :parameters (?agent - player ?plant - plant ?loc - location)
+ :precondition (and (at ?agent ?loc)
+                     (at ?plant ?loc))
+ :effect (bagged ?plant))
 
+----------------------------------------------------------------------------------------
+
+- action name: wait_and_gather_bagged_plant
+- summarize action: The agent waits and gathers a previously bagged plant after some time has passed.
+- what is need to do the action: The agent must be at a location where the bagged plant is present.
+- what is the result: The agent obtains the bagged plant.
+
+- entities:
+  - entity name: agent (player)
+  - entity name: bagged_plant
+    - before: present at the location
+    - after: in the agent's inventory
+  - entity name: location
+    - before: bagged plant is present
+    - after: bagged plant is no longer present
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add agent, bagged_plant, and location as parameters.
+2. Create a precondition to check if the agent is at the location and if the bagged plant is present at the location.
+3. Create an effect to add the bagged plant to the agent's inventory and remove it from the location.
+
+pddl:
 (:action wait_and_gather_bagged_plant
-    :parameters (?player - player ?plant - plant ?bag - container)
-    :precondition (and (inventory ?player ?bag) (bagged ?plant))
-    :effect (inventory ?player ?plant)
-)
+ :parameters (?agent - player ?bagged_plant - plant ?loc - location)
+ :precondition (and (at ?agent ?loc)
+                     (at ?bagged_plant ?loc)
+                     (bagged ?bagged_plant))
+ :effect (and (not (at ?bagged_plant ?loc))
+              (inventory ?agent ?bagged_plant)))
 
+----------------------------------------------------------------------------------------
+
+- action name: gather_tinder
+- summarize action: The agent gathers tinder from a location to create a fire.
+- what is need to do the action: The agent must be at a location where tinder is present.
+- what is the result: The agent obtains the tinder.
+
+- entities:
+  - entity name: agent (player)
+  - entity name: tinder
+    - before: present at the location
+    - after: in the agent's inventory
+  - entity name: location
+    - no changes
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add agent, tinder, and location as parameters.
+2. Create a precondition to check if the agent is at the location and if tinder is present at the location.
+3. Create an effect to add the tinder to the agent's inventory.
+
+pddl:
 (:action gather_tinder
-    :parameters (?player - player ?loc - location ?t - tinder)
-    :precondition (and (at ?player ?loc) (has_tinder ?loc ?t))
-    :effect (and (not (has_tinder ?loc ?t)) (inventory ?player ?t))
-)
+ :parameters (?agent - player ?tinder - tinder ?loc - location)
+ :precondition (and (at ?agent ?loc)
+                     (has_tinder ?loc))
+ :effect (inventory ?agent ?tinder))
 
+----------------------------------------------------------------------------------------
+
+- action name: build_campfire
+- summarize action: The agent builds a campfire at a location using the gathered tinder and wood.
+- what is need to do the action: The agent must be at a location and have gathered tinder and wood in their inventory.
+- what is the result: A campfire is built at the location.
+
+- entities:
+  - entity name: agent (player)
+  - entity name: campfire
+    - before: not present at the location
+    - after: built at the location
+  - entity name: location
+    - no changes
+  - entity name: tinder
+    - no changes
+  - entity name: wood
+    - no changes
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add agent, campfire, location, tinder, and wood as parameters.
+2. Create a precondition to check if the agent is at the location, and if tinder and wood are in the agent's inventory.
+3. Create an effect to build a campfire at the location.
+
+pddl:
 (:action build_campfire
-    :parameters (?player - player ?loc - location ?cf - campfire ?wood - wood)
-    :precondition (and (at ?player ?loc) (inventory ?player ?wood) (not (exists (?x - campfire) (at ?x ?loc))))
-    :effect (and (not (inventory ?player ?wood)) (at ?cf ?loc))
-)
+ :parameters (?agent - player ?tinder - tinder ?wood - wood ?campfire - campfire ?loc - location)
+ :precondition (and (at ?agent ?loc)
+                     (inventory ?agent ?tinder)
+                     (inventory ?agent ?wood))
+ :effect (and (not (inventory ?agent ?tinder))
+              (not (inventory ?agent ?wood))
+              (at ?campfire ?loc)))
+- action name: light_campfire
+- summarize action: The agent lights the campfire using tinder and friction to create a fire for warmth and cooking.
+- what is need to do the action: The agent must be at a location where the built campfire is present and have tinder and hardwood stick in their inventory to produce fire through friction.
+- what is the result: The campfire at the location is lit.
 
+- entities:
+  - entity name: agent (player)
+  - entity name: campfire
+    - before: built, but not lit at the location
+    - after: lit at the location
+  - entity name: location
+    - no changes
+  - entity name: tinder
+    - no changes
+  - entity name: hardwood stick
+    - no changes
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add agent, campfire, location, tinder, and hardwood stick as parameters.
+2. Create a precondition to check if the agent is at the location with the built campfire, and if tinder and hardwood stick are in the agent's inventory.
+3. Create an effect to light the campfire at the location.
+
+pddl:
 (:action light_campfire
-    :parameters (?player - player ?loc - location ?cf - campfire ?t - tinder)
-    :precondition (and (at ?player ?loc) (inventory ?player ?t) (at ?cf ?loc) (not (lit ?cf)))
-    :effect (and (not (inventory ?player ?t)) (lit ?cf))
-)
+ :parameters (?agent - player ?tinder - tinder ?stick - hardwood_stick ?campfire - campfire ?loc - location)
+ :precondition (and (at ?agent ?loc)
+                     (at ?campfire ?loc)
+                     (inventory ?agent ?tinder)
+                     (inventory ?agent ?stick))
+ :effect (lit ?campfire))
 
+----------------------------------------------------------------------------------------
+
+- action name: make_spear
+- summarize action: The agent makes a spear using a sharp stick to use for hunting and self-defense.
+- what is need to do the action: The agent must have a sharp stick in their inventory.
+- what is the result: The agent's sharp stick turns into a spear.
+
+- entities:
+  - entity name: agent (player)
+  - entity name: sharp stick
+    - before: in the agent's inventory
+    - after: no longer in the agent's inventory
+  - entity name: spear
+    - before: not in the agent's inventory
+    - after: in the agent's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add agent, sharp stick, and spear as parameters.
+2. Create a precondition to check if the sharp stick is in the agent's inventory.
+3. Create an effect to remove the sharp stick from the agent's inventory and add a spear to the agent's inventory.
+
+pddl:
 (:action make_spear
-    :parameters (?player - player ?sharp_stone - sharp_stone ?stick - softwood ?loc - location ?spear - spear)
-    :precondition (and (inventory ?player ?sharp_stone) (at ?player ?loc) (at ?stick ?loc))
-    :effect (and (not (at ?stick ?loc)) (inventory ?player ?spear))
-)
+ :parameters (?agent - player ?stick - sharp_stone ?spear - spear)
+ :precondition (inventory ?agent ?stick)
+ :effect (and (not (inventory ?agent ?stick))
+              (inventory ?agent ?spear)))
 
+----------------------------------------------------------------------------------------
+
+- action name: spear_fish
+- summarize action: The agent uses a spear to catch fish at a location with fish.
+- what is need to do the action: The agent must be at a location with fish and have a spear in their inventory.
+- what is the result: The agent obtains a fish.
+
+- entities:
+  - entity name: agent (player)
+  - entity name: location
+    - no changes
+  - entity name: spear
+    - no changes
+  - entity name: fish
+    - before: not in the agent's inventory
+    - after: in the agent's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add agent, location, spear, and fish as parameters.
+2. Create a precondition to check if the agent is at the location with fish and if the agent has a spear in their inventory.
+3. Create an effect to add the fish to the agent's inventory.
+
+pddl:
 (:action spear_fish
-    :parameters (?player - player ?f - fish ?loc - location ?spear - spear)
-    :precondition (and (at ?player ?loc) (has_fish ?loc) (inventory ?player ?spear))
-    :effect (inventory ?player ?f)
-)
+ :parameters (?agent - player ?loc - location ?spear - spear ?fish - fish)
+ :precondition (and (at ?agent ?loc)
+                     (has_fish ?loc)
+                     (inventory ?agent ?spear))
+ :effect (inventory ?agent ?fish))
 
+----------------------------------------------------------------------------------------
+
+- action name: cook_fish
+- summarize action: The agent cooks a caught fish using a lit campfire at a location.
+- what is need to do the action: The agent must be at a location with a lit campfire and have a caught fish in their inventory.
+- what is the result: The caught fish becomes cooked.
+
+- entities:
+  - entity name: agent (player)
+  - entity name: location
+    - no changes
+  - entity name: campfire
+    - no changes
+  - entity name: fish
+    - before: uncooked in the agent's inventory
+    - after: cooked in the agent's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add agent, location, campfire, and fish as parameters.
+2. Create a precondition to check if the agent is at the location with a lit campfire and if the agent has an uncooked fish in their inventory.
+3. Create an effect to cook the fish.
+
+pddl:
 (:action cook_fish
-    :parameters (?player - player ?loc - location ?cf - campfire ?f - fish)
-    :precondition (and (at ?player ?loc) (lit ?cf) (inventory ?player ?f))
-    :effect (and (not (inventory ?player ?f)) (inventory ?player (cooked ?f)))
-)
+ :parameters (?agent - player ?loc - location ?campfire - campfire ?fish - fish)
+ :precondition (and (at ?agent ?loc)
+                     (lit ?campfire)
+                     (inventory ?agent ?fish))
+ :effect (cooked ?fish))
 
+----------------------------------------------------------------------------------------
+
+- action name: wet_tinder
+- summarize action: The agent wets the gathered tinder in order to create more smoke when added to a fire.
+- what is need to do the action: The agent must have gathered tinder in their inventory.
+- what is the result: The tinder becomes wet.
+
+- entities:
+  - entity name: agent (player)
+  - entity name: tinder
+    - before: dry in the agent's inventory
+    - after: wet (to make smoke) in the agent's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add agent and tinder as parameters.
+2. Create a precondition to check if the agent has gathered tinder in their inventory.
+3. Create an effect to wet the tinder.
+
+pddl:
 (:action wet_tinder
-    :parameters (?player - player ?t - tinder ?w - water)
-    :precondition (and (inventory ?player ?t) (inventory ?player ?w))
-    :effect (wet ?t)
-)
+ :parameters (?agent - player ?tinder - tinder)
+ :precondition (inventory ?agent ?tinder)
+ :effect (wet ?tinder))
 
+----------------------------------------------------------------------------------------
+
+- action name: make_smoke_signal
+- summarize action: The agent creates a smoke signal using a lit campfire and wet tinder to make the fire produce more smoke.
+- what is need to do the action: The agent must be at a location with a lit campfire and have wet tinder in their inventory.
+- what is the result: The campfire acts as a smoke signal for potential rescuers.
+
+- entities:
+  - entity name: agent (player)
+  - entity name: location
+    - no changes
+  - entity name: campfire
+    - before: lit, but not signaling at the location
+    - after: lit and signaling at the location
+  - entity name: wet tinder
+    - no changes
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add agent, location, campfire, and wet tinder as parameters.
+2. Create a precondition to check if the agent is at the location with a lit campfire and if the agent has wet tinder in their inventory.
+3. Create an effect to make the campfire a smoke signal.
+
+pddl:
 (:action make_smoke_signal
-    :parameters (?player - player ?loc - location ?cf - campfire ?t - tinder)
-    :precondition (and (at ?player ?loc) (lit ?cf) (wet ?t) (inventory ?player ?t))
-    :effect (and (not (inventory ?player ?t)) (signaling ?cf))
-)
-
-)
+ :parameters (?agent - player ?loc - location ?campfire - campfire ?wet_tinder - tinder)
+ :precondition (and (at ?agent ?loc)
+                     (lit ?campfire)
+                     (inventory ?agent ?wet_tinder))
+ :effect (signaling ?campfire))

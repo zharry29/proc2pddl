@@ -1,0 +1,411 @@
+- action name: go
+- summarize action: The player moves from one location to another if the path is not blocked.
+- what is needed to do the action: The player needs to be at a location and the locations need to be connected through a direction. The path must not be blocked.
+- what is the result: The player is at the new location.
+
+- entities:
+  - entity name: player
+    - before: at the starting location
+    - after: at the destination location
+  - entity name: location
+    - before: connected to the destination location through a direction
+    - after: unchanged
+  - entity name: direction
+    - before: connecting the starting and destination locations
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the starting location with the "at" predicate.
+2. Verify if the locations are connected through a direction with the "connected" predicate.
+3. Ensure the path is not blocked using the "blocked" predicate.
+4. Update the player's position with the "at" predicate.
+
+PDDL:
+```
+(:action go
+ :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+```
+
+- action name: get
+- summarize action: The player picks up an item from a location.
+- what is needed to do the action: The player needs to be at a location where the item is available.
+- what is the result: The player has the item in their inventory.
+
+- entities:
+  - entity name: player
+    - before: at the location where the item is
+    - after: unchanged
+  - entity name: item
+    - before: at the location
+    - after: in the player's inventory
+  - entity name: location
+    - before: contains the item
+    - after: the item is removed
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location with the "at" predicate.
+2. Verify if the item is at the location with the "at" predicate.
+3. Update the player's inventory with the "inventory" predicate.
+4. Remove the item from the location using the "not" predicate with the "at" predicate.
+
+PDDL:
+```
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?item ?loc))
+ :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+```
+
+- action name: collect_water
+- summarize action: The player collects water from a water source using a container.
+- what is needed to do the action: The player needs to be at a location with a water source and have an empty container.
+- what is the result: The container is now full of water.
+
+- entities:
+  - entity name: player
+    - before: at the location with a water source and has an empty container
+    - after: unchanged
+  - entity name: container
+    - before: empty
+    - after: full of water
+  - entity name: location
+    - before: has a water source
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location with the "at" predicate.
+2. Verify if the location has a water source using the "has_water_source" predicate.
+3. Confirm the player has an empty container in their inventory with the "inventory" and "not" predicates combined with the "is_full" predicate.
+4. Update the container's status to full using the "is_full" predicate.
+
+PDDL:
+```
+(:action collect_water
+ :parameters (?player - player ?container - container ?loc - location)
+ :precondition (and (at ?player ?loc) (has_water_source ?loc) (inventory ?player ?container) (not (is_full ?container)))
+ :effect (is_full ?container)
+)
+```
+- action name: gather_sticks
+- summarize action: The player collects sticks from a location that has sticks.
+- what is needed to do the action: The player needs to be at a location where sticks are available.
+- what is the result: The player has sticks in their inventory.
+
+- entities:
+  - entity name: player
+    - before: at the location with sticks
+    - after: unchanged
+  - entity name: sticks
+    - before: at the location
+    - after: in the player's inventory
+  - entity name: location
+    - before: has sticks
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location with the "at" predicate.
+2. Verify if the location has sticks using the "has_sticks" predicate.
+3. Add sticks to the player's inventory with the "inventory" predicate.
+
+PDDL:
+```
+(:action gather_sticks
+ :parameters (?player - player ?loc - location)
+ :precondition (and (at ?player ?loc) (has_sticks ?loc))
+ :effect (inventory ?player sticks)
+)
+```
+
+- action name: make_fire
+- summarize action: The player creates a fire at a location using sticks and an igniter.
+- what is needed to do the action: The player needs to be at a location and have sticks and an igniter in their inventory.
+- what is the result: There is a fire at the location.
+
+- entities:
+  - entity name: player
+    - before: at the location with sticks and an igniter in their inventory
+    - after: unchanged
+  - entity name: location
+    - before: no fire
+    - after: has fire
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location with the "at" predicate.
+2. Verify if the player has sticks and an igniter in their inventory using the "inventory" predicate.
+3. Create a fire at the location using the "has_fire" predicate.
+
+PDDL:
+```
+(:action make_fire
+ :parameters (?player - player ?loc - location)
+ :precondition (and (at ?player ?loc) (inventory ?player sticks) (inventory ?player igniter))
+ :effect (has_fire ?loc)
+)
+```
+
+- action name: boil_water
+- summarize action: The player boils water in a container at a location with a fire.
+- what is needed to do the action: The player needs to be at a location with a fire and have a full container of water.
+- what is the result: The water in the container is no longer contaminated.
+
+- entities:
+  - entity name: player
+    - before: at the location with a fire and has a container with contaminated water in their inventory
+    - after: unchanged
+  - entity name: container
+    - before: contains contaminated water
+   - after: contains uncontaminated water
+  - entity name: location
+    - before: has fire
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location with the "at" predicate.
+2. Verify if the location has a fire using the "has_fire" predicate.
+3. Confirm the player has a full container of water in their inventory with the "inventory" and "is_full" predicates.
+4. Remove the contaminated status of water in the container using the "not" predicate combined with the "is_contaminated" predicate.
+
+PDDL:
+```
+(:action boil_water
+ :parameters (?player - player ?container - container ?loc - location ?water - water)
+ :precondition (and (at ?player ?loc) (has_fire ?loc) (inventory ?player ?container) (is_full ?container) (contains ?container ?water) (is_contaminated ?water))
+ :effect (not (is_contaminated ?water))
+)
+```
+- action name: cook_food
+- summarize action: The player cooks food at a location with a fire.
+- what is needed to do the action: The player needs to be at a location with a fire and have raw food in their inventory.
+- what is the result: The raw food becomes cooked food.
+
+- entities:
+  - entity name: player
+    - before: at the location with a fire and has raw food in their inventory
+    - after: unchanged
+  - entity name: food
+    - before: raw in the player's inventory
+    - after: cooked in the player's inventory
+  - entity name: location
+    - before: has fire
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location with the "at" predicate.
+2. Verify if the location has a fire using the "has_fire" predicate.
+3. Ensure the player has raw food in their inventory with the "inventory" predicate.
+4. Change the raw food to cooked food (use a different PDDL object, e.g., cooked_food, to represent cooked food).
+
+PDDL:
+```
+(:action cook_food
+ :parameters (?player - player ?loc - location ?raw_food - food ?cooked_food - food)
+ :precondition (and (at ?player ?loc) (has_fire ?loc) (inventory ?player ?raw_food))
+ :effect (and (not (inventory ?player ?raw_food)) (inventory ?player ?cooked_food))
+)
+```
+
+- action name: eat_poisonous_food
+- summarize action: The player eats poisonous food from their inventory and gets sick.
+- what is needed to do the action: The player has poisonous food in their inventory.
+- what is the result: The player becomes sick.
+
+- entities:
+  - entity name: player
+    - before: has poisonous food in their inventory and is not sick
+    - after: is sick and the food is removed from their inventory
+  - entity name: food
+    - before: poisonous in the player's inventory
+    - after: consumed and removed from the player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Ensure the player has poisonous food in their inventory with the "inventory" predicate.
+2. Verify if the food in the player's inventory is poisonous with the "is_poisonous" predicate.
+3. Make the player sick using the "is_sick" predicate.
+4. Remove the poisonous food from the player's inventory using the "not" predicate combined with the "inventory" predicate.
+
+PDDL:
+```
+(:action eat_poisoned_food
+ :parameters (?player - player ?food - eatable)
+ :precondition (and (inventory ?player ?food) (is_poisonous ?food))
+ :effect (and (is_sick ?player) (not (inventory ?player ?food)))
+)
+```
+
+- action name: eat_contaminated_food
+- summarize action: The player eats contaminated food from their inventory and gets sick.
+- what is needed to do the action: The player has contaminated food in their inventory.
+- what is the result: The player becomes sick.
+
+- entities:
+  - entity name: player
+    - before: has contaminated food in their inventory and is not sick
+    - after: is sick and the food is removed from their inventory
+  - entity name: food
+    - before: contaminated in the player's inventory
+    - after: consumed and removed from the player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Ensure the player has contaminated food in their inventory with the "inventory" predicate.
+2. Verify if the food in the player's inventory is contaminated with the "is_contaminated" predicate.
+3. Make the player sick using the "is_sick" predicate.
+4. Remove the contaminated food from the player's inventory using the "not" predicate combined with the "inventory" predicate.
+
+PDDL:
+```
+(:action eat_contaminated_food
+ :parameters (?player - player ?food - eatable)
+ :precondition (and (inventory ?player ?food) (is_contaminated ?food))
+ :effect (and (is_sick ?player) (not (inventory ?player ?food)))
+)
+```
+
+- action name: eat_food
+- summarize action: The player eats cooked and uncontaminated food from their inventory, satisfying hunger.
+- what is needed to do the action: The player has cooked and uncontaminated food in their inventory and is hungry.
+- what is the result: The player is not hungry anymore.
+
+- entities:
+  - entity name: player
+    - before: has cooked and uncontaminated food in their inventory and is hungry
+    - after: is not hungry and the food is removed from their inventory
+  - entity name: food
+    - before: cooked and uncontaminated in the player's inventory
+    - after: consumed and removed from the player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Verify the player is hungry with the "is_hungry" predicate.
+2. Ensure the player has cooked food in their inventory with the "inventory" predicate.
+3. Ensure the food is not contaminated with the "not" predicate combined with the "is_contaminated" predicate.
+4. Make the player not hungry using the "not" predicate combined with the "is_hungry" predicate.
+5. Remove the food from the player's inventory using the "not" predicate combined with the "inventory" predicate.
+
+PDDL:
+```
+(:action eat_food
+ :parameters (?player - player ?food - eatable)
+ :precondition (and (is_hungry ?player) (inventory ?player ?food) (not (is_contaminated ?food)))
+ :effect (and (not (is_hungry ?player)) (not (inventory ?player ?food)))
+)
+```
+- action name: drink_contaminated_water
+- summarize action: The player drinks contaminated water from their container and gets sick.
+- what is needed to do the action: The player has a container with contaminated water.
+- what is the result: The player becomes sick and the container is empty.
+
+- entities:
+  - entity name: player
+    - before: has a container with contaminated water in their inventory and is not sick
+    - after: is sick and the container is empty
+  - entity name: container
+    - before: contains contaminated water
+    - after: empty
+  - entity name: water
+    - before: contaminated in the container
+    - after: consumed and removed from the container
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Ensure the player has a full container of water in their inventory with the "inventory" and "is_full" predicates.
+2. Verify if the water in the container is contaminated with the "is_contaminated" predicate.
+3. Make the player sick using the "is_sick" predicate.
+4. Empty the container using the "not" predicate combined with the "is_full" predicate.
+
+PDDL:
+```
+(:action drink_contaminated_water
+ :parameters (?player - player ?container - container ?water - water)
+ :precondition (and (inventory ?player ?container) (is_full ?container) (contains ?container ?water) (is_contaminated ?water))
+ :effect (and (is_sick ?player) (not (is_full ?container)))
+)
+```
+
+- action name: drink_water
+- summarize action: The player drinks uncontaminated water from their container, satisfying thirst.
+- what is needed to do the action: The player has a container with uncontaminated water and is thirsty.
+- what is the result: The player is not thirsty anymore and the container is empty.
+
+- entities:
+  - entity name: player
+    - before: has a container with uncontaminated water in their inventory and is thirsty
+    - after: is not thirsty and the container is empty
+  - entity name: container
+    - before: contains uncontaminated water
+    - after: empty
+  - entity name: water
+    - before: uncontaminated in the container
+    - after: consumed and removed from the container
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Verify the player is thirsty with the "is_thirsty" predicate.
+2. Ensure the player has a full container of water in their inventory with the "inventory" and "is_full" predicates.
+3. Ensure the water in the container is not contaminated with the "not" predicate combined with the "is_contaminated" predicate.
+4. Make the player not thirsty using the "not" predicate combined with the "is_thirsty" predicate.
+5. Empty the container using the "not" predicate combined with the "is_full" predicate.
+
+PDDL:
+```
+(:action drink_water
+ :parameters (?player - player ?container - container ?water - water)
+ :precondition (and (is_thirsty ?player) (inventory ?player ?container) (is_full ?container) (contains ?container ?water) (not (is_contaminated ?water)))
+ :effect (and (not (is_thirsty ?player)) (not (is_full ?container)))
+)
+```
+
+- action name: build_shelter
+- summarize action: The player builds a shelter at a location using gathered sticks.
+- what is needed to do the action: The player needs to be at a location and have sticks in their inventory.
+- what is the result: There is a shelter at the location.
+
+- entities:
+  - entity name: player
+    - before: at the location without a shelter and has sticks in their inventory
+    - after: unchanged
+  - entity name: location
+    - before: no shelter
+    - after: has shelter
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location with the "at" predicate.
+2. Ensure the player has sticks in their inventory with the "inventory" predicate.
+3. Create a shelter at the location using the "has_shelter" predicate.
+
+PDDL:
+```
+(:action build_shelter
+ :parameters (?player - player ?loc - location)
+ :precondition (and (at ?player ?loc) (inventory ?player sticks))
+ :effect (has_shelter ?loc)
+)
+```
+
+- action name: sleep_in_shelter
+- summarize action: The player sleeps in a shelter at a location, satisfying their need for rest.
+- what is needed to do the action: The player needs to be at a location with a shelter and is tired.
+- what is the result: The player is not tired anymore.
+
+- entities:
+  - entity name: player
+    - before: at the location with a shelter and is tired
+    - after: is not tired
+  - entity name: location
+    - before: has shelter
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location with the "at" predicate.
+2. Verify if the location has a shelter using the "has_shelter" predicate.
+3. Ensure the player is tired with the "is_tired" predicate.
+4. Make the player not tired using the "not" predicate combined with the "is_tired" predicate.
+
+PDDL:
+```
+(:action sleep_in_shelter
+ :parameters (?player - player ?loc - location)
+ :precondition (and (at ?player ?loc) (has_shelter ?loc) (is_tired ?player))
+ :effect (not (is_tired ?player))
+)
+```

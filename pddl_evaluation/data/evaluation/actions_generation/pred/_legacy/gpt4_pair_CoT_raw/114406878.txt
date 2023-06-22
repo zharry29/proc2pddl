@@ -1,0 +1,203 @@
+Here are the PDDL actions based on the given text:
+
+1) Action: go
+Entities involved: location and direction
+States before: player at location1
+States after: player at location2
+(:action go
+  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and
+                  (at ?player ?loc1)
+                  (connected ?loc1 ?dir ?loc2))
+  :effect (and
+            (not (at ?player ?loc1))
+            (at ?player ?loc2))
+)
+
+2) Action: get_grass
+Entities involved: player, grass, location
+States before: player at location, location has grass
+States after: grass in player's inventory
+(:action get_grass
+  :parameters (?player - player ?loc - location ?grass - grass)
+  :precondition (and
+                  (at ?player ?loc)
+                  (has_grass ?loc))
+  :effect (and
+            (not (has_grass ?loc))
+            (inventory ?player ?grass))
+)
+
+3) Action: get_branch
+Entities involved: player, branch, location
+States before: player at location, location has branch
+States after: branch in player's inventory
+(:action get_branch
+  :parameters (?player - player ?loc - location ?branch - branch)
+  :precondition (and
+                  (at ?player ?loc)
+                  (has_large_dry_branch ?loc))
+  :effect (and
+            (not (has_large_dry_branch ?loc))
+            (inventory ?player ?branch))
+)
+
+4) Action: get_log
+Entities involved: player, log, location
+States before: player at location, location has log
+States after: log in player's inventory
+(:action get_log
+  :parameters (?player - player ?loc - location ?log - log)
+  :precondition (and
+                  (at ?player ?loc)
+                  (has_dry_oak ?loc))
+  :effect (and
+            (not (has_dry_oak ?loc))
+            (inventory ?player ?log))
+)
+
+5) Action: dry_grass
+Entities involved: player, grass
+States before: grass in player's inventory, grass is not dry
+States after: grass is dry
+(:action dry_grass
+  :parameters (?player - player ?grass - grass)
+  :precondition (and
+                  (inventory ?player ?grass)
+                  (not (dry ?grass)))
+  :effect (dry ?grass)
+)
+
+6) Action: break_branch
+Entities involved: player, branch, kindling
+States before: player has branch
+States after: player has kindling
+(:action break_branch
+  :parameters (?player - player ?branch - branch ?kindling - kindling)
+  :precondition (inventory ?player ?branch)
+  :effect (and
+            (not (inventory ?player ?branch))
+            (inventory ?player ?kindling))
+)
+
+7) Action: cluster_grass
+Entities involved: player, grass, tinder
+States before: player has grass
+States after: player has tinder
+(:action cluster_grass
+  :parameters (?player - player ?grass - grass ?tinder - tinder)
+  :precondition (inventory ?player ?grass)
+  :effect (and
+            (not (inventory ?player ?grass))
+            (inventory ?player ?tinder))
+)
+
+8) Action: log_oak
+Entities involved: player, log, fuel
+States before: player has log
+States after: player has fuel
+(:action log_oak
+  :parameters (?player - player ?log - log ?fuel - fuel)
+  :precondition (inventory ?player ?log)
+  :effect (and
+            (not (inventory ?player ?log))
+            (inventory ?player ?fuel))
+)
+
+9) Action: build_teepee
+Entities involved: player, tinder, kindling, fuel, teepee
+States before: player has tinder, kindling, and fuel
+States after: player has teepee
+(:action build_teepee
+  :parameters (?player - player ?tinder - tinder ?kindling - kindling ?fuel - fuel ?teepee - teepee)
+  :precondition (and
+                  (inventory ?player ?tinder)
+                  (inventory ?player ?kindling)
+                  (inventory ?player ?fuel))
+  :effect (and
+            (not (inventory ?player ?tinder))
+            (not (inventory ?player ?kindling))
+            (not (inventory ?player ?fuel))
+            (inventory ?player ?teepee))
+)
+
+10) Action: get_water
+Entities involved: player, location, water
+States before: player at location, location has water
+States after: water in player's inventory
+(:action get_water
+  :parameters (?player - player ?loc - location ?water - water)
+  :precondition (and
+                  (at ?player ?loc)
+                  (has_water ?loc))
+  :effect (and
+            (not (has_water ?loc))
+            (inventory ?player ?water))
+)
+
+11) Action: get_wood
+Entities involved: player, location, wood
+States before: player at location, location has wood
+States after: wood in player's inventory
+(:action get_wood
+  :parameters (?player - player ?loc - location ?wood - wood)
+  :precondition (and
+                  (at ?player ?loc)
+                  (has_wood ?loc))
+  :effect (and
+            (not (has_wood ?loc))
+            (inventory ?player ?wood))
+)
+
+12) Action: ignite_wood
+Entities involved: player, wood
+States before: player has wood, wood is not ignited
+States after: wood is ignited
+(:action ignite_wood
+  :parameters (?player - player ?wood - wood)
+  :precondition (and
+                  (inventory ?player ?wood)
+                  (not (ignited ?wood)))
+  :effect (ignited ?wood)
+)
+
+13) Action: ignite_teepee
+Entities involved: player, teepee
+States before: player has teepee, teepee is not ignited
+States after: teepee is ignited
+(:action ignite_teepee
+  :parameters (?player - player ?teepee - teepee)
+  :precondition (and
+                  (inventory ?player ?teepee)
+                  (not (ignited ?teepee)))
+  :effect (ignited ?teepee)
+)
+
+14) Action: get_pot
+Entities involved: player, pot, location
+States before: player at location, location has pot
+States after: pot in player's inventory
+(:action get_pot
+  :parameters (?player - player ?loc - location ?pot - pot)
+  :precondition (and
+                  (at ?player ?loc)
+                  (has_pot ?loc))
+  :effect (and
+            (not (has_pot ?loc))
+            (inventory ?player ?pot))
+)
+
+15) Action: boil_water
+Entities involved: player, water, pot
+States before: player has water, player has pot, water not boiled
+States after: water boiled
+(:action boil_water
+  :parameters (?player - player ?water - water ?pot - pot)
+  :precondition (and
+                  (inventory ?player ?water)
+                  (inventory ?player ?pot)
+                  (not (boiled ?water)))
+  :effect (boiled ?water)
+)
+
+)

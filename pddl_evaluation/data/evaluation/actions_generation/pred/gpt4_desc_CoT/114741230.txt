@@ -1,0 +1,85 @@
+(:action gather_info
+ :parameters (?p - player)
+ :precondition (not (has_info ?p))
+ :effect (has_info ?p)
+)
+
+(:action create_secret
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (has_info ?p) (not (has_secret ?sc)))
+ :effect (has_secret ?sc)
+)
+
+(:action set_meeting_location
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (has_info ?p) (not (has_location ?sc)))
+ :effect (has_location ?sc)
+)
+
+(:action set_dress_code
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (has_info ?p) (not (has_dress_code ?sc)))
+ :effect (has_dress_code ?sc)
+)
+
+(:action create_name
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (has_info ?p) (not (has_name ?sc)))
+ :effect (has_name ?sc)
+)
+
+(:action secret_society_is_ready
+ :parameters (?sc - secret_society)
+ :precondition (and (has_name ?sc) (has_secret ?sc) (has_location ?sc) (has_dress_code ?sc))
+ :effect (society_is_ready ?sc)
+)
+
+(:action initiate_new_member
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (society_is_ready ?sc) (is_trusted ?p ?sc))
+ :effect (in ?p ?sc)
+)
+
+(:action teach_new_member_secret
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (in ?p ?sc) (is_trusted ?p ?sc) (not (knows_secret ?p ?sc)))
+ :effect (knows_secret ?p ?sc)
+)
+
+(:action remove_member
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (in ?p ?sc) (not (is_trusted ?p ?sc)))
+ :effect (not (in ?p ?sc))
+)
+
+(:types
+)
+
+(:predicates
+    (counter_value ?c - counter ?n - int)
+    (cult_threshold ?t - int)
+)
+
+(:objects
+)
+
+(:init
+    (counter_value counter_1 0)
+    (cult_threshold 5) 
+)
+
+(:action initiate_new_member
+ :parameters (?p - player ?sc - secret_society ?c - counter ?n - int ?n_plus_one - int)
+ :precondition (and (society_is_ready ?sc) (is_trusted ?p ?sc) 
+                     (counter_value ?c ?n) (succ ?n ?n_plus_one))
+ :effect (and (in ?p ?sc) (not (counter_value ?c ?n)) (counter_value ?c ?n_plus_one))
+)
+
+(:action check_if_cult
+ :parameters (?sc - secret_society ?c - counter ?n - int ?t - int)
+ :precondition (and (counter_value ?c ?n) (cult_threshold ?t)
+                     (>= ?n ?t))
+ :effect (is_cult ?sc)
+)
+
+)

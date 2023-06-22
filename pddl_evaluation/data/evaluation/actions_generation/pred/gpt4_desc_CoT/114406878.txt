@@ -1,0 +1,62 @@
+(:action go
+  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+  :precondition (and
+    (at ?player ?loc1)
+    (connected ?loc1 ?dir ?loc2)
+    (not (blocked ?loc1 ?dir ?loc2))
+  )
+  :effect (and
+    (not (at ?player ?loc1))
+    (at ?player ?loc2)
+  )
+)
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and
+    (at ?player ?loc)
+    (at ?item ?loc)
+  )
+  :effect (and
+    (not (at ?item ?loc))
+    (inventory ?player ?item)
+  )
+)
+
+(:action get_grass
+  :parameters (?player - player ?grass - grass ?loc - location)
+  :precondition (and
+    (at ?player ?loc)
+    (at ?grass ?loc)
+    (not (dry ?grass))
+  )
+  :effect (and
+    (not (at ?grass ?loc))
+    (inventory ?player ?grass)
+  )
+)
+
+(:action dry_grass
+  :parameters (?player - player ?grass - grass)
+  :precondition (and
+    (inventory ?player ?grass)
+    (not (dry ?grass))
+  )
+  :effect (and
+    (dry ?grass)
+  )
+)
+
+(:action cluster_grass
+  :parameters (?player - player ?grass - grass ?tinder - tinder)
+  :precondition (and
+    (inventory ?player ?grass)
+    (dry ?grass)
+  )
+  :effect (and
+    (not (inventory ?player ?grass))
+    (inventory ?player ?tinder)
+  )
+)
+
+)

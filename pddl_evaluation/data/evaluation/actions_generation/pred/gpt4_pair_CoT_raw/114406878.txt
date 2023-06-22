@@ -1,203 +1,381 @@
-Here are the PDDL actions based on the given text:
+- action name: go
+- summarize action: The player moves from one location to another in a specific direction.
+- what is needed to do the action: Player needs to be in one location and that location must be connected to another location in the specified direction.
+- what is the result: Player moves from the current location to the connected location.
 
-1) Action: go
-Entities involved: location and direction
-States before: player at location1
-States after: player at location2
+- entities:
+  - entity name: player
+    - before: at one location
+    - after: at the connected location in a specific direction
+  - entity name: location
+    - before: connected to another location in a specific direction
+    - after: no change
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is at a location (at ?player ?from)
+2. There is a connection between the current location and the connected location in the specific direction (connected ?from ?dir ?to)
+3. Move the player to the connected location (at ?player ?to)
+4. Player is no longer at the previous location (not (at ?player ?from))
+
+pddl:
 (:action go
-  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
-  :precondition (and
-                  (at ?player ?loc1)
-                  (connected ?loc1 ?dir ?loc2))
-  :effect (and
-            (not (at ?player ?loc1))
-            (at ?player ?loc2))
+ :parameters (?player - player ?from ?to - location ?dir - direction)
+ :precondition (and (at ?player ?from) (connected ?from ?dir ?to))
+ :effect (and
+           (at ?player ?to)
+           (not (at ?player ?from))
+         )
 )
 
-2) Action: get_grass
-Entities involved: player, grass, location
-States before: player at location, location has grass
-States after: grass in player's inventory
+------
+
+- action name: get
+- summarize action: The player picks up an item from a location.
+- what is needed to do the action: Player must be at the same location as the item.
+- what is the result: The item is added to the player's inventory and removed from the location.
+
+- entities:
+  - entity name: player
+    - before: at the location
+    - after: no change
+  - entity name: item
+    - before: at the location
+    - after: in the player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is at the same location as the item (at ?player ?loc)
+2. Item is at the location (at ?item ?loc)
+3. Add the item to the player's inventory (inventory ?player ?item)
+4. Remove the item from the location (not (at ?item ?loc))
+
+pddl:
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?item ?loc))
+ :effect (and
+           (inventory ?player ?item)
+           (not (at ?item ?loc))
+         )
+)
+
+------
+
+- action name: get_grass
+- summarize action: The player collects dew from grass with an absorbent cloth.
+- what is needed to do the action: Player must be at a location with grass.
+- what is the result: The player gets a container filled with water collected from the grass.
+
+- entities:
+  - entity name: player
+    - before: at the location with grass
+    - after: no change
+  - entity name: grass
+    - before: at the location
+    - after: no change (but dew collected)
+  - entity name: container
+    - before: empty
+    - after: filled with water
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is at the location with grass (at ?player ?loc)
+2. Grass is at the location (at ?grass ?loc)
+3. Get water in the container (inventory ?player ?container)
+4. Water is collected from the grass (no explicit change for grass in PDDL)
+
+pddl:
 (:action get_grass
-  :parameters (?player - player ?loc - location ?grass - grass)
-  :precondition (and
-                  (at ?player ?loc)
-                  (has_grass ?loc))
-  :effect (and
-            (not (has_grass ?loc))
-            (inventory ?player ?grass))
+ :parameters (?player - player ?grass - grass ?loc - location ?container - item)
+ :precondition (and (at ?player ?loc) (at ?grass ?loc))
+ :effect (inventory ?player ?container)
 )
 
-3) Action: get_branch
-Entities involved: player, branch, location
-States before: player at location, location has branch
-States after: branch in player's inventory
-(:action get_branch
-  :parameters (?player - player ?loc - location ?branch - branch)
-  :precondition (and
-                  (at ?player ?loc)
-                  (has_large_dry_branch ?loc))
-  :effect (and
-            (not (has_large_dry_branch ?loc))
-            (inventory ?player ?branch))
-)
+Please let me know if you need more actions translated into PDDL format or if you have any questions regarding the actions already created.
+- action name: dry_grass
+- summarize action: The player finds dry grass for tinder.
+- what is needed to do the action: Player must be at a location with dry grass.
+- what is the result: The player picks up the dry grass, which can be used as tinder.
 
-4) Action: get_log
-Entities involved: player, log, location
-States before: player at location, location has log
-States after: log in player's inventory
-(:action get_log
-  :parameters (?player - player ?loc - location ?log - log)
-  :precondition (and
-                  (at ?player ?loc)
-                  (has_dry_oak ?loc))
-  :effect (and
-            (not (has_dry_oak ?loc))
-            (inventory ?player ?log))
-)
+- entities:
+  - entity name: player
+    - before: at the location with dry grass
+    - after: no change
+  - entity name: dry_grass
+    - before: at the location
+    - after: in the player's inventory
 
-5) Action: dry_grass
-Entities involved: player, grass
-States before: grass in player's inventory, grass is not dry
-States after: grass is dry
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is at the location with dry grass (at ?player ?loc)
+2. Dry grass is at the location (at ?dry_grass ?loc)
+3. Add the dry grass to the player's inventory (inventory ?player ?dry_grass)
+4. Remove the dry grass from the location (not (at ?dry_grass ?loc))
+
+pddl:
 (:action dry_grass
-  :parameters (?player - player ?grass - grass)
-  :precondition (and
-                  (inventory ?player ?grass)
-                  (not (dry ?grass)))
-  :effect (dry ?grass)
+ :parameters (?player - player ?dry_grass - grass ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?dry_grass ?loc))
+ :effect (and
+           (inventory ?player ?dry_grass)
+           (not (at ?dry_grass ?loc))
+         )
 )
 
-6) Action: break_branch
-Entities involved: player, branch, kindling
-States before: player has branch
-States after: player has kindling
-(:action break_branch
-  :parameters (?player - player ?branch - branch ?kindling - kindling)
-  :precondition (inventory ?player ?branch)
-  :effect (and
-            (not (inventory ?player ?branch))
-            (inventory ?player ?kindling))
-)
+------
 
-7) Action: cluster_grass
-Entities involved: player, grass, tinder
-States before: player has grass
-States after: player has tinder
+- action name: cluster_grass
+- summarize action: The player gathers small, dry materials (such as grass, leaves) to use as tinder.
+- what is needed to do the action: Player must be at a location with small, dry materials like grass and leaves.
+- what is the result: The player picks up the small, dry materials to be used as tinder.
+
+- entities:
+  - entity name: player
+    - before: at the location with small, dry materials
+    - after: no change
+  - entity name: tinder_material
+    - before: at the location
+    - after: in the player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is at the location with small, dry materials (at ?player ?loc)
+2. Small, dry materials are at the location (at ?tinder_material ?loc)
+3. Add the small, dry materials to the player's inventory (inventory ?player ?tinder_material)
+4. Remove the small, dry materials from the location (not (at ?tinder_material ?loc))
+
+pddl:
 (:action cluster_grass
-  :parameters (?player - player ?grass - grass ?tinder - tinder)
-  :precondition (inventory ?player ?grass)
-  :effect (and
-            (not (inventory ?player ?grass))
-            (inventory ?player ?tinder))
+ :parameters (?player - player ?tinder_material - tinder ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?tinder_material ?loc))
+ :effect (and
+           (inventory ?player ?tinder_material)
+           (not (at ?tinder_material ?loc))
+         )
 )
 
-8) Action: log_oak
-Entities involved: player, log, fuel
-States before: player has log
-States after: player has fuel
+------
+
+- action name: break_branch
+- summarize action: The player gathers small twigs and branches to use for kindling.
+- what is needed to do the action: Player must be at a location with large, dry branches.
+- what is the result: The player breaks larger branches into smaller pieces to use as kindling.
+
+- entities:
+  - entity name: player
+    - before: at the location with large, dry branches
+    - after: no change
+  - entity name: large_branch
+    - before: at the location
+    - after: broken into smaller pieces (kindling)
+  - entity name: kindling
+    - before: not available
+    - after: in the player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is at the location with large, dry branches (at ?player ?loc)
+2. Large, dry branches are at the location (at ?large_branch ?loc)
+3. Break the large branches into smaller pieces (kindling) and add them to the player's inventory (inventory ?player ?kindling)
+4. Remove the large, dry branches from the location (not (at ?large_branch ?loc))
+
+pddl:
+(:action break_branch
+ :parameters (?player - player ?large_branch - branch ?kindling - kindling ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?large_branch ?loc))
+ :effect (and
+           (inventory ?player ?kindling)
+           (not (at ?large_branch ?loc))
+         )
+)
+
+Please let me know if you need more actions translated into PDDL format or if you have any questions regarding the actions already created.
+- action name: log_oak
+- summarize action: The player collects larger logs from dry oak trees, providing fuel for a fire.
+- what is needed to do the action: Player must be at a location with dry oak trees.
+- what is the result: The player gathers logs and adds them to their inventory to use as fuel.
+
+- entities:
+  - entity name: player
+    - before: at a location with dry oak trees
+    - after: no change
+  - entity name: oak_tree
+    - before: at the location
+    - after: logs taken for fuel
+  - entity name: fuel_logs
+    - before: not available
+    - after: in the player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is at the location with dry oak trees (at ?player ?loc)
+2. Dry oak trees are at the location (at ?oak_tree ?loc)
+3. Collect logs from the dry oak trees and add them to the player's inventory (inventory ?player ?fuel_logs)
+4. Remove the logs from the location (no explicit change in PDDL, as the oak tree still remains but with logs taken)
+
+pddl:
 (:action log_oak
-  :parameters (?player - player ?log - log ?fuel - fuel)
-  :precondition (inventory ?player ?log)
-  :effect (and
-            (not (inventory ?player ?log))
-            (inventory ?player ?fuel))
+ :parameters (?player - player ?oak_tree - log ?fuel_logs - fuel ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?oak_tree ?loc))
+ :effect (inventory ?player ?fuel_logs)
 )
 
-9) Action: build_teepee
-Entities involved: player, tinder, kindling, fuel, teepee
-States before: player has tinder, kindling, and fuel
-States after: player has teepee
+------
+
+- action name: get_log
+- summarize action: The player collects larger logs for fuel, turning over logs to search for insects, and using logs for shelter.
+- what is needed to do the action: Player must be at a location with logs.
+- what is the result: The player picks up logs, adding them to their inventory for multiple purposes.
+
+- entities:
+  - entity name: player
+    - before: at the location with logs
+    - after: no change
+  - entity name: log
+    - before: at the location
+    - after: in the player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is at the location with logs (at ?player ?loc)
+2. Logs are at the location (at ?log ?loc)
+3. Add the logs to the player's inventory (inventory ?player ?log)
+4. Remove the logs from the location (not (at ?log ?loc))
+
+pddl:
+(:action get_log
+ :parameters (?player - player ?log - log ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?log ?loc))
+ :effect (and
+           (inventory ?player ?log)
+           (not (at ?log ?loc))
+         )
+)
+
+------
+
+- action name: stack_log
+- summarize action: The player stacks larger logs near the fire for easily fueling it.
+- what is needed to do the action: Player must have logs in their inventory and be at a location with a fire.
+- what is the result: The player creates a stack of logs near the fire.
+
+- entities:
+  - entity name: player
+    - before: at a location with a fire and logs in inventory
+    - after: no change
+  - entity name: fire
+    - before: at the location
+    - after: no change
+  - entity name: logs
+    - before: in the player's inventory
+    - after: stacked near the fire
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is at the location with a fire (at ?player ?loc)
+2. Fire is at the location (at ?fire ?loc)
+3. Logs are in the player's inventory (inventory ?player ?logs)
+4. Stack the logs near the fire (in PDDL, we don't represent this explicit change because we assume the logs are near the fire when we will use them)
+
+pddl:
+(:action stack_log
+ :parameters (?player - player ?fire - item ?logs - log ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?fire ?loc) (inventory ?player ?logs))
+ :effect (and) ; No explicit effect, as we assume the logs are near the fire when we use them.
+)
+
+Please let me know if you need more actions translated into PDDL format or if you have any questions regarding the actions already created.
+- action name: build_teepee
+- summarize action: The player builds a teepee structure with the tinder, kindling, and fuel logs to start a fire.
+- what is needed to do the action: Player must be at a location with a dry, even area and have tinder, kindling, and fuel logs in their inventory.
+- what is the result: The player builds the teepee structure, preparing the fire base.
+
+- entities:
+  - entity name: player
+    - before: at a dry, even area location with tinder, kindling, and fuel logs in inventory
+    - after: no change
+  - entity name: teepee
+    - before: not built
+    - after: built at the location
+  - entity name: tinder
+    - before: in the player's inventory
+    - after: used for building the teepee structure
+  - entity name: kindling
+    - before: in the player's inventory
+    - after: used for building the teepee structure
+  - entity name: fuel_logs
+    - before: in the player's inventory
+    - after: used for building the teepee structure
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is at the location with a dry, even area (at ?player ?loc) (has_dry_even_area ?loc)
+2. Tinder, kindling, and fuel logs are in the player's inventory (inventory ?player ?tinder) (inventory ?player ?kindling) (inventory ?player ?fuel_logs)
+3. Build the teepee structure with the tinder, kindling, and fuel logs (at ?teepee ?loc)
+4. Remove tinder, kindling, and fuel logs from the player's inventory (not (inventory ?player ?tinder)) (not (inventory ?player ?kindling)) (not (inventory ?player ?fuel_logs))
+
+pddl:
 (:action build_teepee
-  :parameters (?player - player ?tinder - tinder ?kindling - kindling ?fuel - fuel ?teepee - teepee)
-  :precondition (and
-                  (inventory ?player ?tinder)
-                  (inventory ?player ?kindling)
-                  (inventory ?player ?fuel))
-  :effect (and
-            (not (inventory ?player ?tinder))
-            (not (inventory ?player ?kindling))
-            (not (inventory ?player ?fuel))
-            (inventory ?player ?teepee))
+ :parameters (?player - player ?tinder - tinder ?kindling - kindling ?fuel_logs - fuel ?loc - location ?teepee - teepee)
+ :precondition (and (at ?player ?loc) (has_dry_even_area ?loc) (inventory ?player ?tinder) (inventory ?player ?kindling) (inventory ?player ?fuel_logs))
+ :effect (and
+           (at ?teepee ?loc)
+           (not (inventory ?player ?tinder))
+           (not (inventory ?player ?kindling))
+           (not (inventory ?player ?fuel_logs))
+         )
 )
 
-10) Action: get_water
-Entities involved: player, location, water
-States before: player at location, location has water
-States after: water in player's inventory
-(:action get_water
-  :parameters (?player - player ?loc - location ?water - water)
-  :precondition (and
-                  (at ?player ?loc)
-                  (has_water ?loc))
-  :effect (and
-            (not (has_water ?loc))
-            (inventory ?player ?water))
-)
+------
 
-11) Action: get_wood
-Entities involved: player, location, wood
-States before: player at location, location has wood
-States after: wood in player's inventory
+- action name: get_wood
+- summarize action: The player gathers wood from different sources, such as dried branches, logs, and tinder to build a fire.
+- what is needed to do the action: Player must be at a location with dried branches, logs, and tinder materials.
+- what is the result: The player collects wood from all sources and adds them to their inventory.
+
+- entities:
+  - entity name: player
+    - before: at the location with dried branches, logs, and tinder materials
+    - after: no change
+  - entity name: wood_sources
+    - before: at the location
+    - after: collected by the player
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is at the location with dried branches, logs, and tinder materials (at ?player ?loc) (at ?wood_sources ?loc)
+2. Collect wood from different sources and add them to the player's inventory (inventory ?player ?wood_sources)
+3. Remove wood sources from the location (not (at ?wood_sources ?loc))
+
+pddl:
 (:action get_wood
-  :parameters (?player - player ?loc - location ?wood - wood)
-  :precondition (and
-                  (at ?player ?loc)
-                  (has_wood ?loc))
-  :effect (and
-            (not (has_wood ?loc))
-            (inventory ?player ?wood))
+ :parameters (?player - player ?wood_sources - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?wood_sources ?loc))
+ :effect (and
+           (inventory ?player ?wood_sources)
+           (not (at ?wood_sources ?loc))
+         )
 )
 
-12) Action: ignite_wood
-Entities involved: player, wood
-States before: player has wood, wood is not ignited
-States after: wood is ignited
-(:action ignite_wood
-  :parameters (?player - player ?wood - wood)
-  :precondition (and
-                  (inventory ?player ?wood)
-                  (not (ignited ?wood)))
-  :effect (ignited ?wood)
+------
+
+- action name: get_branch
+- summarize action: The player collects branches to use for shelter, fire_kindling, and the fire_plough.
+- what is needed to do the action: Player must be at a location with branches.
+- what is the result: The player gathers branches and adds them to their inventory.
+
+- entities:
+  - entity name: player
+    - before: at the location with branches
+    - after: no change
+  - entity name: branch
+    - before: at the location
+    - after: in the player's inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Player is at the location with branches (at ?player ?loc)
+2. Branches are at the location (at ?branch ?loc)
+3. Add branches to the player's inventory (inventory ?player ?branch)
+4. Remove branches from the location (not (at ?branch ?loc))
+
+pddl:
+(:action get_branch
+ :parameters (?player - player ?branch - branch ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?branch ?loc))
+ :effect (and
+           (inventory ?player ?branch)
+           (not (at ?branch ?loc))
+         )
 )
 
-13) Action: ignite_teepee
-Entities involved: player, teepee
-States before: player has teepee, teepee is not ignited
-States after: teepee is ignited
-(:action ignite_teepee
-  :parameters (?player - player ?teepee - teepee)
-  :precondition (and
-                  (inventory ?player ?teepee)
-                  (not (ignited ?teepee)))
-  :effect (ignited ?teepee)
-)
-
-14) Action: get_pot
-Entities involved: player, pot, location
-States before: player at location, location has pot
-States after: pot in player's inventory
-(:action get_pot
-  :parameters (?player - player ?loc - location ?pot - pot)
-  :precondition (and
-                  (at ?player ?loc)
-                  (has_pot ?loc))
-  :effect (and
-            (not (has_pot ?loc))
-            (inventory ?player ?pot))
-)
-
-15) Action: boil_water
-Entities involved: player, water, pot
-States before: player has water, player has pot, water not boiled
-States after: water boiled
-(:action boil_water
-  :parameters (?player - player ?water - water ?pot - pot)
-  :precondition (and
-                  (inventory ?player ?water)
-                  (inventory ?player ?pot)
-                  (not (boiled ?water)))
-  :effect (boiled ?water)
-)
-
-)
+Please let me know if you need more actions translated into PDDL format or if you have any questions regarding the actions already created.

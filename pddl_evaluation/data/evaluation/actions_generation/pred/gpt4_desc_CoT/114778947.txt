@@ -1,0 +1,75 @@
+(:action go
+ :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+ :precondition (and
+                (at ?player ?loc1)
+                (connected ?loc1 ?dir ?loc2)
+                (not (blocked ?loc1 ?dir ?loc2))
+               )
+ :effect (and
+          (not (at ?player ?loc1))
+          (at ?player ?loc2)
+         )
+)
+
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and
+                (at ?player ?loc)
+                (at ?item ?loc)
+               )
+ :effect (and
+          (not (at ?item ?loc))
+          (inventory ?player ?item)
+         )
+)
+
+(:action pick_lock_with_card
+ :parameters (?player - player ?card - item ?loc - location)
+ :precondition (and
+                (at ?player ?loc)
+                (has_easy_lock ?loc)
+                (inventory ?player ?card)
+               )
+ :effect (not (has_easy_lock ?loc))
+)
+
+(:action file_key_into_wrench
+ :parameters (?player - player ?allen_key - item ?wrench - item)
+ :precondition (inventory ?player ?allen_key)
+ :effect (and
+          (not (inventory ?player ?allen_key))
+          (inventory ?player ?wrench)
+         )
+)
+
+(:action bend_paperclip_into_pick
+ :parameters (?player - player ?paperclip - item ?pick - item)
+ :precondition (inventory ?player ?paperclip)
+ :effect (and
+          (not (inventory ?player ?paperclip))
+          (inventory ?player ?pick)
+         )
+)
+
+(:action insert_wrench
+ :parameters (?player - player ?wrench - item ?loc - location)
+ :precondition (and
+                (at ?player ?loc)
+                (has_hard_lock ?loc)
+                (inventory ?player ?wrench)
+               )
+ :effect (wrench_in_lock ?loc)
+)
+
+(:action insert_pick
+ :parameters (?player - player ?pick - item ?loc - location)
+ :precondition (and
+                (at ?player ?loc)
+                (has_hard_lock ?loc)
+                (wrench_in_lock ?loc)
+                (inventory ?player ?pick)
+               )
+ :effect (pick_in_lock ?loc)
+)
+
+)

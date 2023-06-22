@@ -1,0 +1,64 @@
+(:action go
+    :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+    :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+    :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action get
+    :parameters (?player - player ?item - item)
+    :precondition (and (at ?player ?loc) (at ?item ?loc))
+    :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+(:action build_roof
+    :parameters (?player - player ?log - log)
+    :precondition (inventory ?player ?log)
+    :effect (at ?player (roof))
+)
+
+(:action build_wall
+    :parameters (?player - player ?small_sticks - small_sticks ?leaves - leaves)
+    :precondition (and (inventory ?player ?small_sticks) (inventory ?player ?leaves))
+    :effect (at ?player (wall))
+)
+
+(:action build_bed
+    :parameters (?player - player ?leaves - leaves)
+    :precondition (inventory ?player ?leaves)
+    :effect (at ?player (shelter))
+)
+
+(:action complete_shelter
+    :parameters (?player - player ?roof - roof ?wall - wall ?shelter - shelter)
+    :precondition (and (at ?player ?roof) (at ?player ?wall) (at ?player ?shelter))
+    :effect (and (not (at ?player ?roof)) (not (at ?player ?wall)) (at ?player shelter))
+)
+
+(:action hunt_animal
+    :parameters (?player - player ?animal - animal)
+    :precondition (at ?player ?loc)
+    :effect (at ?player ?animal)
+)
+
+(:action prepare_animal
+    :parameters (?player - player ?animal - animal ?sharp_stone - sharp_stone)
+    :precondition (and (inventory ?player ?animal) (inventory ?player ?sharp_stone))
+    :effect (treated ?animal)
+)
+
+(:action build_raft
+    :parameters (?player - player ?large_logs - log ?small_logs - log ?vines - vines)
+    :precondition (and 
+                   (inventory ?player ?large_logs) 
+                   (inventory ?player ?small_logs) 
+                   (inventory ?player ?vines))
+    :effect (at ?player (raft_draft))
+)
+
+(:action test_raft
+    :parameters (?player - player ?raft_draft - raft_draft)
+    :precondition (at ?player ?raft_draft)
+    :effect (and (not (at ?player ?raft_draft)) (at ?player (raft_finished)))
+)
+
+)

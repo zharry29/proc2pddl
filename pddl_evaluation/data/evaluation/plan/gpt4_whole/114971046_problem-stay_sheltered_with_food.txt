@@ -1,0 +1,2 @@
+drive ('npc', 'home', 'basement', 'in')
+stay_in_shelter ('npc', 'basement')

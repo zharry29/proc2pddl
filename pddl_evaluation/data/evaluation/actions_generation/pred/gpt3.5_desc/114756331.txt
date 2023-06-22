@@ -1,0 +1,73 @@
+(:action go
+  :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2))
+  :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+)
+
+(:action get
+  :parameters (?p - player ?item - stick)
+  :precondition (and (at ?item ?loc) (at ?p ?loc) (not (inventory ?p ?item)))
+  :effect (and (not (at ?item ?loc)) (inventory ?p ?item))
+)
+
+(:action breathe
+  :parameters (?p - player)
+  :precondition (and (laying ?p) (calm ?p))
+  :effect (calm ?p)
+)
+
+(:action liedown
+  :parameters (?p - player)
+  :precondition (not (laying ?p))
+  :effect (laying ?p)
+)
+
+(:action swim
+  :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location ?q - quicksand)
+  :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (stuck ?p ?q) (deep ?q))
+  :effect (and (not (at ?p ?loc1)) (stuck ?p ?q) (at ?p ?loc2))
+)
+
+(:action usestick
+  :parameters (?p - player ?loc - location ?q - quicksand ?item - stick)
+  :precondition (and (at ?p ?loc) (has_quicksand ?loc) (inventory ?p ?item))
+  :effect (and (not (at ?p ?loc)) (not (has_quicksand ?loc)) (inventory ?p ?item))
+)
+
+(:action rest
+  :parameters (?p - player)
+  :precondition (tired ?p)
+  :effect (not (tired ?p))
+)
+
+(:action drop
+  :parameters (?p - player ?item - stick)
+  :precondition (and (inventory ?p ?item) (at ?p ?loc))
+  :effect (and (not (inventory ?p ?item)) (at ?item ?loc))
+)
+
+(:action check_ripples
+  :parameters (?p - player ?loc - location)
+  :precondition (and (at ?p ?loc) (has_ripples ?loc))
+  :effect (aware ?p ?loc)
+)
+
+(:action test_ground
+  :parameters (?p - player ?loc - location)
+  :precondition (and (aware ?p ?loc) (at ?p ?loc))
+  :effect (has_quicksand ?loc)
+)
+
+(:action research
+  :parameters (?p - player)
+  :precondition (at ?p ?loc)
+  :effect (has_ripples ?loc)
+)
+
+(:action move_horizontally
+  :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2))
+  :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+)
+
+)

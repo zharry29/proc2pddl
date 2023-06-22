@@ -1,0 +1,2 @@
+search_location ('npc', 'home')
+pluck_river_reeds ('npc', 'home')

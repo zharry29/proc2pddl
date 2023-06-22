@@ -1,0 +1,8 @@
+go ('person', 'beach', 'east', 'jungle')
+chop_wood ('person', 'jungle', 'wood')
+go ('person', 'jungle', 'east', 'river')
+get_water ('person', 'river', 'water')
+carve_groove ('person', 'wood')
+light_fire ('person', 'beach', 'wood')
+clean_water ('person', 'beach', 'water')
+drink_water ('person', 'water')

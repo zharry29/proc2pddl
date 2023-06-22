@@ -1,1 +1,5 @@
-No solution
+go ('person', 'east', 'beach', 'jungle')
+go ('person', 'east', 'jungle', 'river')
+get_water ('person', 'river', 'water')
+clean_water ('person', 'water')
+drink_water ('person', 'water')

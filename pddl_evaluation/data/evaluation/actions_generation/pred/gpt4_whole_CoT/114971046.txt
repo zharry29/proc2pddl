@@ -1,0 +1,61 @@
+(:action make_plan
+  :parameters (?p - player)
+  :precondition (not (has_plan ?p))
+  :effect (has_plan ?p)
+)
+
+(:action get_food
+    :parameters (?p - player ?loc - location ?obj - item)
+    :precondition (and (is_supermarket ?loc) (at ?obj ?loc))
+    :effect (inventory ?p ?obj)
+)
+
+(:action store_water
+    :parameters (?p - player ?loc - location)
+    :precondition
+      (and
+          (exists (?obj - item) (and (is_supermarket ?loc) (at ?p ?loc) (at ?obj ?loc))))
+    :effect
+        (exists (?w - item) (inventory ?p ?w))
+)
+
+(:action get_communication_supplies
+    :parameters (?p - player ?loc - location)
+    :precondition
+      (and
+          (exists (?obj - item) (and (is_supermarket ?loc) (at ?p ?loc) (at ?obj ?loc))))
+    :effect
+        (exists (?cs - item) (inventory ?p ?cs))
+)
+
+(:action get_medical_supplies
+    :parameters (?p - player ?loc - location)
+    :precondition
+      (and
+          (exists (?obj - item) (and (is_pharmacy ?loc) (at ?p ?loc) (at ?obj ?loc))))
+    :effect
+        (exists (?ms - item) (inventory ?p ?ms))
+)
+
+(:action get_miscellaneous_items
+    :parameters (?p - player ?loc - location)
+    :precondition
+      (and
+          (exists (?obj - item) (and (is_supermarket ?loc) (at ?p ?loc) (at ?obj ?loc))))
+    :effect
+        (exists (?mi - item) (inventory ?p ?mi))
+)
+
+(:action stay_in_shelter
+    :parameters (?p - player ?l1 - location)
+    :precondition (and (at ?p ?l1) (or (is_underground ?l1) (is_home ?l1)))
+    :effect (sheltered ?p)
+)
+
+(:action get_in_car
+    :parameters (?p - player ?loc - location ?obj - item)
+    :precondition (and (at ?p ?loc) (is_car ?obj) (at ?obj ?loc))
+    :effect (driving ?p)
+)
+
+)

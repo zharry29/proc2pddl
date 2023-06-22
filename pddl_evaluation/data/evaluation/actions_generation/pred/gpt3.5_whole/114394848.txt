@@ -1,0 +1,171 @@
+(:action go
+   :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (at ?p ?loc1) 
+   :effect (and (at ?p ?loc2) (not (at ?p ?loc1))))
+
+(:action understand
+   :parameters (?p - player)
+   :precondition (know_hacking ?p)
+   :effect (know_ethics ?p))
+
+(:action learn
+   :parameters (?p - player ?s - skill)
+   :precondition (know ?p hacking) 
+   :effect (learned ?p ?s))
+
+(:action get
+   :parameters (?p - player ?item - item)
+   :precondition (at ?item ?loc) 
+   :effect (and (inventory ?p ?item) (not (at ?item ?loc))))
+
+(:action machine_secured
+   :parameters (?p - player ?os - digital_system)
+   :precondition (at ?os ?loc) 
+   :effect (authorized ?p))
+
+(:action enumeration
+   :parameters (?p - player ?loc - location)
+   :precondition (at ?p ?loc) 
+   :effect (and (collected_all_info ?p) (port_scanned ?p)))
+
+(:action got_all_info
+   :parameters (?p - player)
+   :precondition (collected_all_info ?p) 
+   :effect (learn_programming ?p))
+
+(:action ping
+   :parameters (?p - player ?ip - IP)
+   :precondition (at ?p ?loc) 
+   :effect (and (know_internet ?p) (ping_succeed ?p ?ip)))
+
+(:action check_email_server
+   :parameters (?p - player ?server - digital_system)
+   :precondition (at ?p ?loc) 
+   :effect (server_checked ?p ?server))
+
+(:action reached_the_remote_system
+   :parameters (?p - player ?system - digital_system)
+   :precondition (at ?p ?loc) 
+   :effect (and (found_path_in_system ?p) (at ?p ?system)))
+
+(:action run_port_scan
+   :parameters (?p - player ?scanner - network_scanner)
+   :precondition (at ?p ?loc) 
+   :effect (and (port_scanned ?p) (at ?scanner ?loc)))
+
+(:action found_path_in_system
+   :parameters (?p - player ?path - location)
+   :precondition (at ?p ?loc) 
+   :effect (and (found_path_in_system ?p) (at ?p ?path)))
+
+(:action contact_and_trick_a_user
+   :parameters (?p - player ?user - player)
+   :precondition (at ?p ?loc)
+   :effect (and (tricked_user_password ?p) (not (tricked_user_password ?user))))
+
+(:action crack_password_by_social_engineering
+   :parameters (?p - player ?user - player ?password - password)
+   :precondition (at ?p ?loc) 
+   :effect (and (password_cracked ?p) (user_trusted_fake_email ?p) (not (password_cracked ?user)) (not (password_cracked ?password))))
+
+(:action send_fake_email
+   :parameters (?p - player ?user - player ?email - item)
+   :precondition (at ?p ?loc) 
+   :effect (and (user_trusted_fake_email ?user) (not (at ?email ?loc))))
+
+(:action crack_password_by_phishing
+   :parameters (?p - player ?user - player ?password - password ?website - item)
+   :precondition (at ?p ?loc) 
+   :effect (and (password_cracked ?p) (user_trusted_fake_email ?p) (not (password_cracked ?user)) (not (password_cracked ?password)) (not (at ?website ?loc))))
+
+(:action crack_password_by_arp_spoofing
+   :parameters (?p - player ?user - player ?password - password ?wifi - item)
+   :precondition (at ?p ?loc) 
+   :effect (and (password_cracked ?p) (user_trusted_fake_email ?p) (not (password_cracked ?user)) (not (password_cracked ?password)) (not (at ?wifi ?loc))))
+
+(:action crack_password_by_brute_force
+   :parameters (?p - player ?user - player ?password - password)
+   :precondition (at ?p ?loc) 
+   :effect (and (password_cracked ?p) (not (password_cracked ?user)) (not (password_cracked ?password))))
+
+(:action gain_access_with_password
+   :parameters (?p - player ?system - digital_system)
+   :precondition (at ?p ?loc) 
+   :effect (is_root_user ?p))
+
+(:action create_buffer_overflow
+   :parameters (?p - player ?system - digital_system)
+   :precondition (at ?p ?loc) 
+   :effect (and (is_root_user ?p) (not (at ?p ?loc))))
+
+(:action take_control_of_system
+   :parameters (?p - player ?system - digital_system)
+   :precondition (at ?p ?loc) 
+   :effect (and (is_root_user ?p) (not (at ?p ?loc))))
+
+(:action install_malware
+   :parameters (?p - player ?system - digital_system ?malware - malware)
+   :precondition (at ?p ?loc) 
+   :effect (and (is_root_user ?p) (at ?malware ?loc)))
+
+(:action bypass_standard_authentication_system
+   :parameters (?p - player ?system - digital_system)
+   :precondition (is_root_user ?p) 
+   :effect (and (not (at ?p ?loc)) (not (at ?system ?loc))))
+
+(:action not_let_administrator_know
+   :parameters (?p - player ?system - digital_system)
+   :precondition (is_root_user ?p) 
+   :effect (and (administrator_know_compromised ?p) (not (at ?system ?loc))))
+
+(:action make_no_change_to_website
+   :parameters (?p - player ?system - digital_system)
+   :precondition (is_root_user ?p) 
+   :effect (website_unchanged ?p))
+
+(:action create_fewest_file
+   :parameters (?p - player ?system - digital_system)
+   :precondition (is_root_user ?p) 
+   :effect (create_more_file_than_need ?p))
+
+(:action delete_additional_users
+   :parameters (?p - player ?system - digital_system)
+   :precondition (is_root_user ?p) 
+   :effect (additional_users ?p))
+
+(:action hardcoded_password
+   :parameters (?p - player ?system - digital_system)
+   :precondition (is_root_user ?p) 
+   :effect (hardcoded_secret_password ?p))
+
+(:action track_covered
+   :parameters (?p - player ?system - digital_system)
+   :precondition (is_root_user ?p) 
+   :effect (and (not (administrator_know_compromised ?p)) (website_unchanged ?p) (create_more_file_than_need ?p) (not (additional_users ?p)) (hardcoded_secret_password ?p)))
+
+(:action learn_concepts
+   :parameters (?p - player)
+   :precondition (at ?p ?loc) 
+   :effect (know_hacking ?p))
+
+(:action learn_internet
+   :parameters (?p - player)
+   :precondition (at ?p ?loc) 
+   :effect (know_internet ?p))
+
+(:action learn_programming
+   :parameters (?p - player)
+   :precondition (at ?p ?loc) 
+   :effect (learn_programming ?p))
+
+(:action learn_unix
+   :parameters (?p - player)
+   :precondition (at ?p ?loc) 
+   :effect (know_unix ?p))
+
+(:action become_skilled
+   :parameters (?p - player)
+   :precondition (and (know_internet ?p) (learn_programming ?p) (know_unix ?p)) 
+   :effect (know_hacking ?p))
+
+)

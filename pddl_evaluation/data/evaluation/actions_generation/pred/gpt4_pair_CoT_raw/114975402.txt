@@ -1,88 +1,326 @@
-Action: Get_Bag
+- action name: go
+- summarize action: The action represents the player going from one location to another.
+- what is needed to do the action: The player needs to be at a certain location, and there must be a connection between the current location and the next location through a direction.
+- what is the result: The player moves to the new location.
 
-Entities involved:
-1. Player
-2. Location
-3. Bag
+- entities:
+  - entity name: player
+    before: at initial location
+    after: at new location
+  - entity name: direction
+    before: connected to current location
+    after: unchanged
+  - entity name: new location
+    before: at other end of direction from current location
+    after: player is at the new location
 
-States before the action:
-- Player has no bag.
-- Player is at a location that sells bags.
+- convert the above information to pddl using relevant predicates step by step:
+1. Add player and locations as parameters
+2. Set the precondition for the (connected) predicate for the given direction
+3. Remove the (at) predicate for the player's current location and add the (at) predicate for the new location
 
-States after the action:
-- Player has a bag.
-
-PDDL format:
-(:action get_bag
-  :parameters (?player - player ?loc - location ?bag - bag)
-  :precondition (and
-    (not (inventory ?player ?bag))
-    (at ?player ?loc)
-    (sells_bags ?loc)
+pddl:
+``` 
+  (:action go
+    :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+    :precondition (and
+                    (at ?player ?loc1)
+                    (connected ?loc1 ?dir ?loc2))
+    :effect (and
+                (not (at ?player ?loc1))
+                (at ?player ?loc2))
   )
-  :effect (and
-    (inventory ?player ?bag)
+``` 
+
+- action name: get_bag
+- summarize action: The action represents getting a suitable detective bag from a location that sells bags.
+- what is needed to do the action: The player needs to be at a location that sells bags.
+- what is the result: A bag is added to the player's inventory.
+
+- entities:
+  - entity name: player
+    before: at a location that sells bags
+    after: unchanged
+  - entity name: bag
+    before: not in inventory
+    after: in inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add player and bag as parameters
+2. Set the precondition for the (sells_bags) and (at) predicates
+3. Add the (inventory) predicate
+
+pddl:
+```
+  (:action get_bag
+    :parameters (?player - player ?bag - bag ?loc - location)
+    :precondition (and
+                    (at ?player ?loc)
+                    (sells_bags ?loc))
+    :effect (inventory ?player ?bag)
   )
-)
+```
+- action name: get_stationery
+- summarize action: The action represents getting stationery items from a location that sells stationery.
+- what is needed to do the action: The player needs to be at a location that sells stationery.
+- what is the result: Stationery items are added to the player's inventory.
 
---------------------------------------------------------------------------------
+- entities:
+  - entity name: player
+    before: at a location that sells stationery
+    after: unchanged
+  - entity name: stationery
+    before: not in inventory
+    after: in inventory
 
-Action: Wear_Detective_Gear
+- convert the above information to pddl using relevant predicates step by step:
+1. Add player and stationery as parameters
+2. Set the precondition for the (sells_stationery) and (at) predicates
+3. Add the (inventory) predicate
 
-Entities involved:
-1. Player
-2. Costume
-
-States before the action:
-- Player has a detective costume in their inventory.
-- Player is not wearing any costume.
-
-States after the action:
-- Player is wearing the detective costume.
-
-PDDL format:
-(:action wear_detective_gear
-  :parameters (?player - player ?costume - costume)
-  :precondition (and
-    (inventory ?player ?costume)
-    (not (wear ?player ?costume))
+pddl:
+```
+  (:action get_stationery
+    :parameters (?player - player ?stationery - item ?loc - location)
+    :precondition (and
+                    (at ?player ?loc)
+                    (sells_stationery ?loc))
+    :effect (inventory ?player ?stationery)
   )
-  :effect (and
-    (wear ?player ?costume)
+```
+
+- action name: get_costume
+- summarize action: The action represents getting a costume for the player from a location that sells costumes.
+- what is needed to do the action: The player needs to be at a location that sells costumes.
+- what is the result: A costume is added to the player's inventory.
+
+- entities:
+  - entity name: player
+    before: at a location that sells costumes
+    after: unchanged
+  - entity name: costume
+    before: not in inventory
+    after: in inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add player and costume as parameters
+2. Set the precondition for the (sells_costume) and (at) predicates
+3. Add the (inventory) predicate
+
+pddl:
+```
+  (:action get_costume
+    :parameters (?player - player ?costume - costume ?loc - location)
+    :precondition (and
+                    (at ?player ?loc)
+                    (sells_costume ?loc))
+    :effect (inventory ?player ?costume)
   )
-)
+```
+- action name: wear_detective_gear
+- summarize action: The action represents the player wearing their regular detective gear.
+- what is needed to do the action: The player needs to have detective gear in their inventory.
+- what is the result: The player wears the detective gear.
 
---------------------------------------------------------------------------------
+- entities:
+  - entity name: player
+    before: not wearing detective gear
+    after: wearing detective gear
+  - entity name: detective gear
+    before: in inventory
+    after: being worn by the player
 
-Action: Prepare_Detective_Notebook
+- convert the above information to pddl using relevant predicates step by step:
+1. Add player and detective gear as parameters
+2. Set the precondition for the (inventory) predicate
+3. Add the (wear) predicate
 
-Entities involved:
-1. Player
-2. Pen
-3. Notebook
-4. Detective_Notebook
-
-States before the action:
-- Player has a pen and a notebook in their inventory.
-- Player has no detective notebook.
-
-States after the action:
-- Player has a detective notebook.
-
-PDDL format:
-(:action prepare_detective_notebook
-  :parameters (?player - player ?pen - pen ?notebook - notebook ?detective_notebook - detective_notebook)
-  :precondition (and
-    (inventory ?player ?pen)
-    (inventory ?player ?notebook)
-    (not (inventory ?player ?detective_notebook))
+pddl:
+```
+  (:action wear_detective_gear
+    :parameters (?player - player ?gear - costume)
+    :precondition (inventory ?player ?gear)
+    :effect (wear ?player ?gear)
   )
-  :effect (and
-    (inventory ?player ?detective_notebook)
+```
+
+- action name: find_supplies_for_disguise
+- summarize action: The action represents finding supplies for a disguise.
+- what is needed to do the action: The player needs to be at a location that sells costumes.
+- what is the result: Supplies for the disguise are added to the player's inventory.
+
+- entities:
+  - entity name: player
+    before: at a location that sells costumes
+    after: unchanged
+  - entity name: disguise supplies
+    before: not in inventory
+    after: in inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add player and disguise supplies as parameters
+2. Set the precondition for the (sells_costume) and (at) predicates
+3. Add the (inventory) predicate
+
+pddl:
+```
+  (:action find_supplies_for_disguise
+    :parameters (?player - player ?supplies - item ?loc - location)
+    :precondition (and
+                    (at ?player ?loc)
+                    (sells_costume ?loc))
+    :effect (inventory ?player ?supplies)
   )
-)
+```
 
---------------------------------------------------------------------------------
+- action name: wear_disguise
+- summarize action: The action represents the player wearing a disguise.
+- what is needed to do the action: The player needs to have a disguise and its supplies in their inventory.
+- what is the result: The player wears the disguise.
 
+- entities:
+  - entity name: player
+    before: not wearing disguise
+    after: wearing disguise
+  - entity name: disguise
+    before: in inventory
+    after: being worn by the player
+  - entity name: disguise supplies
+    before: in inventory
+    after: being worn by the player
 
-)
+- convert the above information to pddl using relevant predicates step by step:
+1. Add player, disguise, and disguise supplies as parameters
+2. Set the precondition for the (inventory) predicate for both disguise and supplies
+3. Add the (wear) predicate for the disguise
+
+pddl:
+```
+  (:action wear_disguise
+    :parameters (?player - player ?disguise - costume ?supplies - item)
+    :precondition (and
+                    (inventory ?player ?disguise)
+                    (inventory ?player ?supplies))
+    :effect (wear ?player ?disguise)
+  )
+```
+- action name: make_badge
+- summarize action: The action represents making a detective badge using paper or cardboard and aluminum foil.
+- what is needed to do the action: The player needs to have paper or cardboard and aluminum foil in their inventory.
+- what is the result: A badge is created and added to the player's inventory.
+
+- entities:
+  - entity name: player
+    before: has paper or cardboard and aluminum foil in inventory
+    after: unchanged
+  - entity name: badge
+    before: not in inventory
+    after: in inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add player, badge, paper or cardboard, and aluminum foil as parameters
+2. Set the precondition for the (inventory) predicate for paper or cardboard and aluminum foil
+3. Add the (inventory) predicate for the badge
+
+pddl:
+```
+  (:action make_badge
+    :parameters (?player - player ?badge - badge ?paper - paper ?foil - aluminium_foil)
+    :precondition (and
+                    (inventory ?player ?paper)
+                    (inventory ?player ?foil))
+    :effect (inventory ?player ?badge)
+  )
+```
+
+- action name: prepare_detective_notebook
+- summarize action: The action represents preparing a detective notebook by adding a pen and notebook to the player's inventory.
+- what is needed to do the action: The player needs to have a pen and notebook in their inventory.
+- what is the result: A detective notebook is created and added to the player's inventory.
+
+- entities:
+  - entity name: player
+    before: has pen and notebook in inventory
+    after: unchanged
+  - entity name: detective notebook
+    before: not in inventory
+    after: in inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add player, detective notebook, pen, and notebook as parameters
+2. Set the precondition for the (inventory) predicate for pen and notebook
+3. Add the (inventory) predicate for the detective notebook
+
+pddl:
+```
+  (:action prepare_detective_notebook
+    :parameters (?player - player ?dnotebook - detective_notebook ?pen - pen ?notebook - notebook)
+    :precondition (and
+                    (inventory ?player ?pen)
+                    (inventory ?player ?notebook))
+    :effect (inventory ?player ?dnotebook)
+  )
+```
+
+- action name: get_walkie_talkies
+- summarize action: The action represents getting walkie-talkies from a location that sells electronics.
+- what is needed to do the action: The player needs to be at a location that sells electronics.
+- what is the result: Walkie-talkies are added to the player's inventory.
+
+- entities:
+  - entity name: player
+    before: at a location that sells electronics
+    after: unchanged
+  - entity name: walkie-talkies
+    before: not in inventory
+    after: in inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add player and walkie-talkies as parameters
+2. Set the precondition for the (sells_electronics) and (at) predicates
+3. Add the (inventory) predicate for the walkie-talkies
+
+pddl:
+```
+  (:action get_walkie_talkies
+    :parameters (?player - player ?wt - walkie_talkies ?loc - location)
+    :precondition (and
+                    (at ?player ?loc)
+                    (sells_electronics ?loc))
+    :effect (inventory ?player ?wt)
+  )
+```
+
+- action name: prepare_detective_kit
+- summarize action: The action represents putting together the detective kit with all the necessary items.
+- what is needed to do the action: The player needs to have all the necessary items in their inventory.
+- what is the result: A detective kit is created and added to the player's inventory.
+
+- entities:
+  - entity name: player
+    before: has necessary items in inventory
+    after: unchanged
+  - entity name: detective kit
+    before: not in inventory
+    after: in inventory
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add player and detective kit as parameters
+2. Set the precondition for the (inventory) predicate for all necessary items
+3. Add the (inventory) predicate for the detective kit
+
+pddl:
+(Considering necessary items as bag, stationery, costume, badge, detective_notebook, and walkie_talkies)
+```
+  (:action prepare_detective_kit
+    :parameters (?player - player ?dkit - detective_kit ?bag - bag ?stationery - item ?costume - costume ?badge - badge ?dnotebook - detective_notebook ?wt - walkie_talkies)
+    :precondition (and
+                    (inventory ?player ?bag)
+                    (inventory ?player ?stationery)
+                    (inventory ?player ?costume)
+                    (inventory ?player ?badge)
+                    (inventory ?player ?dnotebook)
+                    (inventory ?player ?wt))
+    :effect (inventory ?player ?dkit)
+  )
+```

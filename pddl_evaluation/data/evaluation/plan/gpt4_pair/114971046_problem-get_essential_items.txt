@@ -1,12 +1,1 @@
-walk ('npc', 'home', 'garage', 'north')
-get ('npc', 'car', 'garage')
-drive ('npc', 'car', 'garage', 'highway', 'east')
-drive ('npc', 'car', 'highway', 'mall', 'down')
-drive ('npc', 'car', 'mall', 'homedepot', 'east')
-get ('npc', 'wood', 'homedepot')
-drive ('npc', 'car', 'homedepot', 'mall', 'west')
-drive ('npc', 'car', 'mall', 'pharmacy', 'south')
-get ('npc', 'medical_supplies', 'pharmacy')
-drive ('npc', 'car', 'pharmacy', 'mall', 'north')
-drive ('npc', 'car', 'mall', 'wholefoods', 'north')
-get_food ('npc', 'canned_food', 'wholefoods')
+No solution

@@ -1,0 +1,171 @@
+Here are the PDDL actions based on the text provided:
+
+1. Action: Go
+Entities: player, direction, location
+States before: player is at a location connected to another location.
+States after: player is at the connected location.
+```
+(:action go
+    :parameters (?p - player ?dir - direction ?loc1 - location ?loc2 - location)
+    :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+    :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+)
+```
+
+2. Action: Get
+Entities: player, item, location
+States before: player is at a location with the item.
+States after: player has the item in their inventory.
+```
+(:action get
+    :parameters (?p - player ?item - item ?loc - location)
+    :precondition (and (at ?p ?loc) (at ?item ?loc))
+    :effect (and (not (at ?item ?loc)) (inventory ?p ?item))
+)
+```
+
+3. Action: Get_water
+Entities: player, water, location
+States before: player is at a location with a water source.
+States after: player has water in their inventory.
+```
+(:action get_water
+    :parameters (?p - player ?water - water ?loc - location)
+    :precondition (and (at ?p ?loc) (has_water_source ?loc))
+    :effect (inventory ?p ?water)
+)
+```
+
+4. Action: Strain_water
+Entities: player, water, cloth
+States before: player has water and cloth in their inventory.
+States after: water is strained.
+```
+(:action strain_water
+    :parameters (?p - player ?water - water ?cloth - cloth)
+    :precondition (and (inventory ?p ?water) (inventory ?p ?cloth))
+    :effect (strained ?water)
+)
+```
+
+5. Action: Boil_water
+Entities: player, water
+States before: player has strained water in their inventory.
+States after: water is treated.
+```
+(:action boil_water
+    :parameters (?p - player ?water - water)
+    :precondition (and (inventory ?p ?water) (strained ?water))
+    :effect (treated ?water)
+)
+```
+
+6. Action: Purify_in_sunlight
+Entities: player, water, cloth
+States before: player has strained water in their inventory.
+States after: water is treated.
+```
+(:action purify_in_sunlight
+    :parameters (?p - player ?water - water ?cloth - cloth)
+    :precondition (and (inventory ?p ?water) (inventory ?p ?cloth) (strained ?water))
+    :effect (treated ?water)
+)
+```
+
+7. Action: Get_long_branch
+Entities: player, long_branch, location
+States before: player is at a location with branches.
+States after: player has a long branch in their inventory.
+```
+(:action get_long_branch
+    :parameters (?p - player ?branch - long_branch ?loc - location)
+    :precondition (and (at ?p ?loc) (has_branches ?loc))
+    :effect (inventory ?p ?branch)
+)
+```
+
+8. Action: Get_propped_branches
+Entities: player, propped_branches, location
+States before: player is at a location with branches.
+States after: player has propped branches in their inventory.
+```
+(:action get_propped_branches
+    :parameters (?p - player ?branches - propped_branches ?loc - location)
+    :precondition (and (at ?p ?loc) (has_branches ?loc))
+    :effect (inventory ?p ?branches)
+)
+```
+
+9. Action: Get_twigs_leaves
+Entities: player, twigs_leaves, location
+States before: player is at a location with twigs and leaves.
+States after: player has twigs and leaves in their inventory.
+```
+(:action get_twigs_leaves
+    :parameters (?p - player ?twigs - twigs_leaves ?loc - location)
+    :precondition (and (at ?p ?loc) (has_twigs_leaves ?loc))
+    :effect (inventory ?p ?twigs)
+)
+```
+
+10. Action: Build_shelter
+Entities: player, long_branch, propped_branches, twigs_leaves
+States before: player has all required items in their inventory.
+States after: player has built a shelter.
+```
+(:action build_shelter
+    :parameters (?p - player ?branch1 - long_branch ?branch2 - propped_branches ?twigs - twigs_leaves)
+    :precondition (and (inventory ?p ?branch1) (inventory ?p ?branch2) (inventory ?p ?twigs))
+    :effect (has_shelter ?p)
+)
+```
+
+11. Action: Get_logs
+Entities: player, logs, location
+States before: player is at a location with logs.
+States after: player has logs in their inventory.
+```
+(:action get_logs
+    :parameters (?p - player ?log - logs ?loc - location)
+    :precondition (and (at ?p ?loc) (has_logs ?loc))
+    :effect (inventory ?p ?log)
+)
+```
+
+12. Action: Get_dry_materials
+Entities: player, logs, twigs_leaves, location
+States before: player is at a location with logs and twigs/leaves.
+States after: player has dry materials in their inventory.
+```
+(:action get_dry_materials
+    :parameters (?p - player ?log - logs ?twigs - twigs_leaves ?loc - location)
+    :precondition (and (at ?p ?loc) (has_logs ?loc) (has_twigs_leaves ?loc))
+    :effect (and (inventory ?p ?log) (inventory ?p ?twigs))
+)
+```
+
+13. Action: Build_teepee
+Entities: player, teepee, logs
+States before: player has logs in their inventory.
+States after: player has built a teepee.
+```
+(:action build_teepee
+    :parameters (?p - player ?logs - logs ?t - teepee)
+    :precondition (inventory ?p ?logs)
+    :effect (and (not (inventory ?p ?logs)) (at ?t (location ?p)))
+)
+```
+
+14. Action: Start_fire
+Entities: player, dry_materials
+States before: player has dry materials in their inventory.
+States after: player has started a fire.
+```
+(:action start_fire
+    :parameters (?p - player ?log - logs ?twigs - twigs_leaves)
+    :precondition (and (inventory ?p ?log) (inventory ?p ?twigs))
+    :effect (has_fire ?p)
+)
+```
+
+)

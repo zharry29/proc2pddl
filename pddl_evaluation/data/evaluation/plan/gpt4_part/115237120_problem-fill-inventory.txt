@@ -1,0 +1,5 @@
+collect_rain_water ('npc', 'water', 'parkinglot')
+loot_shelter ('old_man', 'brickhouse', 'npc')
+drop ('old_man', 'npc', 'brickhouse')
+loot_shelter ('npc', 'brickhouse', 'bandage')
+loot_shelter ('npc', 'brickhouse', 'food')

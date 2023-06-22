@@ -1,0 +1,240 @@
+- action name: go
+- summarize action: The player moves from one location to another.
+- what is needed to do the action: The player is located at one location and a direction that connects the current location to another location.
+- what is the result: The player is now located at the new location.
+
+- entities:
+  - entity name: player
+    - before: at current location
+    - after: at new location
+  - entity name: direction
+    - before: connects current location and new location
+    - after: unchanged
+  - entity name: location
+    - before: player is at the current location
+    - after: player is at the new location
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at the current location.
+2. Check if the direction connects the current location to the new location.
+3. Move the player from the current location to the new location.
+
+pddl:
+(:action go
+ :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc2)))
+
+- action name: get
+- summarize action: The player picks up an item.
+- what is needed to do the action: The item must be at the same location as the player.
+- what is the result: The item is added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: at a location
+    - after: unchanged
+  - entity name: item
+    - before: at the same location as the player
+    - after: in the player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the item is at the same location as the player.
+2. Add the item to the player's inventory and remove it from the location.
+
+pddl:
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?item ?loc))
+ :effect (and (not (at ?item ?loc)) (inventory ?player ?item)))
+
+- action name: build_roof
+- summarize action: The player builds a roof for the shelter.
+- what is needed to do the action: The player has a long log in their inventory.
+- what is the result: The roof is built and the long log is removed from the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: has a long log in their inventory
+    - after: long log removed from inventory
+  - entity name: roof
+    - before: not built
+    - after: built
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a long log in their inventory.
+2. Build the roof and remove the long log from the player's inventory.
+
+pddl:
+(:action build_roof
+ :parameters (?player - player ?log - log)
+ :precondition (inventory ?player ?log)
+ :effect (and (not (inventory ?player ?log)) (built ?roof - roof)))
+
+- action name: build_wall
+- action name: build_wall
+- summarize action: The player builds a wall for the shelter.
+- what is needed to do the action: The player has small sticks in their inventory.
+- what is the result: The wall is built and the small sticks are removed from the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: has small sticks in their inventory
+    - after: small sticks removed from inventory
+  - entity name: wall
+    - before: not built
+    - after: built
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has small sticks in their inventory.
+2. Build the wall and remove the small sticks from the player's inventory.
+
+pddl:
+(:action build_wall
+ :parameters (?player - player ?sticks - small_sticks)
+ :precondition (inventory ?player ?sticks)
+ :effect (and (not (inventory ?player ?sticks)) (built ?wall - wall)))
+
+- action name: build_bed
+- summarize action: The player builds a bed inside the shelter.
+- what is needed to do the action: The player has leaves in their inventory.
+- what is the result: The bed is built and the leaves are removed from the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: has leaves in their inventory
+    - after: leaves removed from inventory
+  - entity name: bed
+    - before: not built
+    - after: built
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has leaves in their inventory.
+2. Build the bed and remove the leaves from the player's inventory.
+
+pddl:
+(:action build_bed
+ :parameters (?player - player ?leaves - leaves)
+ :precondition (inventory ?player ?leaves)
+ :effect (and (not (inventory ?player ?leaves)) (built ?bed - bed)))
+
+- action name: complete_shelter
+- summarize action: The player completes the shelter by combining the roof, wall, and bed.
+- what is needed to do the action: The player has built a roof, wall, and bed.
+- what is the result: The complete shelter is built.
+
+- entities:
+  - entity name: roof
+    - before: built
+    - after: part of the shelter
+  - entity name: wall
+    - before: built
+    - after: part of the shelter
+  - entity name: bed
+    - before: built
+    - after: part of the shelter
+  - entity name: shelter
+    - before: not built
+    - after: built
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the roof, wall, and bed have been built.
+2. If all the components are built, create the complete shelter.
+
+pddl:
+(:action complete_shelter
+ :parameters (?roof - roof ?wall - wall ?bed - bed)
+ :precondition (and (built ?roof) (built ?wall) (built ?bed))
+ :effect (built ?shelter - shelter))
+
+- action name: hunt_animal
+- summarize action: The player hunts an animal for food.
+- what is needed to do the action: The player has a sharp stone in their inventory.
+- what is the result: The player captures an untreated animal.
+
+- entities:
+  - entity name: player
+    - before: has sharp stone in their inventory
+    - after: unchanged
+  - entity name: animal
+    - before: not captured
+    - after: captured and untreated
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a sharp stone in their inventory.
+2. Capture the animal and mark it as untreated.
+
+pddl:
+(:action hunt_animal
+ :parameters (?player - player ?stone - sharp_stone ?animal - animal)
+ :precondition (inventory ?player ?stone)
+ :effect (captured ?animal))
+
+- action name: prepare_animal
+- summarize action: The player prepares the hunted animal for consumption by treating it.
+- what is needed to do the action: The player has captured an untreated animal.
+- what is the result: The animal is treated and ready for consumption or preservation.
+
+- entities:
+  - entity name: player
+    - before: captured an untreated animal
+    - after: unchanged
+  - entity name: animal
+    - before: captured and untreated
+    - after: captured and treated
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the animal is captured and untreated.
+2. Treat the animal and mark it as treated.
+
+pddl:
+(:action prepare_animal
+ :parameters (?animal - animal)
+ :precondition (captured ?animal)
+ :effect (treated ?animal))
+
+- action name: build_raft
+- summarize action: The player builds a raft draft using logs and vines.
+- what is needed to do the action: The player has logs and vines in their inventory.
+- what is the result: The player has a raft_draft in their inventory.
+
+- entities:
+  - entity name: player
+    - before: has logs and vines in their inventory
+    - after: has a raft_draft in their inventory
+  - entity name: raft_draft
+    - before: not built
+    - after: built and in player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has logs and vines in their inventory.
+2. Build the raft_draft and add it to the player's inventory.
+
+pddl:
+(:action build_raft
+ :parameters (?player - player ?log - log ?vines - vines)
+ :precondition (and (inventory ?player ?log) (inventory ?player ?vines))
+ :effect (and (not (inventory ?player ?log)) (not (inventory ?player ?vines)) (inventory ?player ?raft_draft - raft_draft)))
+
+- action name: test_raft
+- summarize action: The player tests the raft_draft to create a finished raft.
+- what is needed to do the action: The player has a raft_draft in their inventory.
+- what is the result: The player has a finished raft in their inventory.
+
+- entities:
+  - entity name: player
+    - before: has raft_draft in their inventory
+    - after: has finished raft in their inventory
+  - entity name: raft_finished
+    - before: not created
+    - after: created and in player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a raft_draft in their inventory.
+2. Test the raft_draft and create a finished raft, then add it to the player's inventory.
+
+pddl:
+(:action test_raft
+ :parameters (?player - player ?raft_draft - raft_draft)
+ :precondition (inventory ?player ?raft_draft)
+ :effect (and (not (inventory ?player ?raft_draft)) (inventory ?player ?raft_finished - raft_finished)))

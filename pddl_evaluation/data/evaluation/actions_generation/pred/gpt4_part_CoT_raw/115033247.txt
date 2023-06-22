@@ -1,0 +1,264 @@
+- action name: go
+- summarize action: The player moves from one location to another in a given direction.
+- what is needed to do the action: A connected path between the two locations in a specific direction.
+- what is the result: The player moves from the initial location to the destination location.
+
+- entities:
+  - entity name: player
+    - before: at initial location
+    - after: at destination location
+  - entity name: direction
+    - unchanged
+  - entity name: location1
+    - unchanged
+  - entity name: location2
+    - unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. The predicate (at ?obj ?loc) will help identify the player's initial location.
+2. Combine predicate (connected ?loc1 ?dir ?loc2) to determine if there is a valid path in a given direction.
+
+pddl:
+(:action go
+    :parameters (?player - player ?dir - direction
+                 ?loc1 - location ?loc2 - location)
+    :precondition (and
+                    (at ?player ?loc1)
+                    (connected ?loc1 ?dir ?loc2))
+    :effect (and
+              (not (at ?player ?loc1))
+              (at ?player ?loc2)))
+
+- action name: get
+- summarize action: The player acquires an item in a location.
+- what is needed to do the action: The player should be at the same location where the item is available.
+- what is the result: The item is moved to the player's inventory.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: item
+    - before: at location
+    - after: in player's inventory
+  - entity name: location
+    - unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Predicate (at ?obj - object ?loc - location) helps to identify the player's location and availability of the item at the location.
+2. Predicate (inventory ?player ?item) allows us to update the player's inventory after acquiring the item.
+
+pddl:
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and
+                    (at ?player ?loc)
+                    (at ?item ?loc))
+    :effect (and
+              (not (at ?item ?loc))
+              (inventory ?player ?item)))
+
+- action name: pour_water
+- summarize action: The player pours water into a bowl.
+- what is needed to do the action: The player should have a bowl and water in their inventory.
+- what is the result: The bowl becomes a bowl_of_water.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: bowl
+    - before: in player's inventory
+    - after: removed from player's inventory
+  - entity name: water
+    - unchanged
+  - entity name: bowl_of_water
+    - before: not in player's inventory
+    - after: in player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Predicate (inventory ?player ?item) allows us to confirm the player has the necessary items.
+2. Create a new inventory to represent the bowl_of_water in the player's inventory.
+
+pddl:
+(:action pour_water
+    :parameters (?player - player ?bowl - bowl ?water - water
+                 ?bowl_of_water - bowl_of_water)
+    :precondition (and
+                    (inventory ?player ?bowl)
+                    (inventory ?player ?water))
+    :effect (and
+              (not (inventory ?player ?bowl))
+              (inventory ?player ?bowl_of_water)))
+
+- action name: place_strips_between_boards
+- summarize action: The player places papyrus strips between wooden boards.
+- what is needed to do the action: The player should have wooden_boards, papyrus strips, and a flat surface.
+- what is the result: The papyrus strips are flattened between the wooden_boards.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: wooden_boards
+    - unchanged
+  - entity name: papyrus_strips
+    - before: not flattened
+    - after: flattened between wooden_boards
+  - entity name: flat_surface
+    - unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Predicate (inventory ?player ?item) allows us to confirm the player has papyrus_strips and wooden_boards in their inventory.
+2. Predicate (strips_between_boards) checks if the papyrus_strips are between wooden_boards.
+
+pddl:
+(:action place_strips_between_boards
+    :parameters (?player - player ?wooden_boards - wooden_boards
+                 ?papyrus_strips - papyrus_strips)
+    :precondition (and
+                    (inventory ?player ?wooden_boards)
+                    (inventory ?player ?papyrus_strips))
+    :effect (strips_between_boards))
+- action name: cut_stalks
+- summarize action: The player cuts the papyrus stalks using strong scissors or pruners.
+- what is needed to do the action: The player should have papyrus_tree and pruner in their inventory.
+- what is the result: The papyrus_tree is cut into papyrus_stalks.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: papyrus_tree
+    - before: not cut
+    - after: cut into papyrus_stalks
+  - entity name: pruner
+    - unchanged
+  - entity name: papyrus_stalks
+    - before: not in player's inventory
+    - after: in player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Predicate (inventory ?player ?item) allows us to confirm the player has papyrus_tree and pruner in their inventory.
+2. Create a new inventory to represent the papyrus_stalks in the player's inventory after cutting the papyrus_tree.
+
+pddl:
+(:action cut_stalks
+    :parameters (?player - player ?papyrus_tree - papyrus_tree
+                 ?pruner - pruner ?papyrus_stalks - papyrus_stalks)
+    :precondition (and
+                    (inventory ?player ?papyrus_tree)
+                    (inventory ?player ?pruner))
+    :effect (and
+              (not (inventory ?player ?papyrus_tree))
+              (inventory ?player ?papyrus_stalks)))
+
+- action name: papyrus_strips
+- summarize action: The player cuts papyrus_stalks into papyrus_strips using a knife.
+- what is needed to do the action: The player should have papyrus_stalks and knife in their inventory.
+- what is the result: The papyrus_stalks are cut into papyrus_strips.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: papyrus_stalks
+    - before: not cut into strips
+    - after: cut into papyrus_strips
+  - entity name: knife
+    - unchanged
+  - entity name: papyrus_strips
+    - before: not in player's inventory
+    - after: in player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Predicate (inventory ?player ?item) allows us to confirm the player has papyrus_stalks and knife in their inventory.
+2. Create a new inventory to represent the papyrus_strips in the player's inventory after cutting the papyrus_stalks.
+
+pddl:
+(:action papyrus_strips
+    :parameters (?player - player ?papyrus_stalks - papyrus_stalks
+                 ?knife - knife ?papyrus_strips - papyrus_strips)
+    :precondition (and
+                    (inventory ?player ?papyrus_stalks)
+                    (inventory ?player ?knife))
+    :effect (and
+              (not (inventory ?player ?papyrus_stalks))
+              (inventory ?player ?papyrus_strips)))
+
+- action name: polish_papyrus
+- summarize action: The player polishes the papyrus using a shell, ivory or smooth stone.
+- what is needed to do the action: The player should have flattened papyrus and a shell, ivory or smooth stone in their inventory.
+- what is the result: The papyrus becomes polished.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: papyrus
+    - before: flattened
+    - after: polished
+  - entity name: shell / ivory / smooth_stone
+    - unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Predicate (inventory ?player ?item) allows us to confirm the player has flattened papyrus and the polishing item in their inventory. 
+2. Predicate (flattened ?papyrus) checks if the papyrus is flattened.
+3. Predicate (polished ?papyrus) helps to indicate papyrus has been polished.
+
+pddl:
+(:action polish_papyrus
+    :parameters (?player - player ?papyrus - papyrus ?polishing_item - (either shell ivory smooth_stone))
+    :precondition (and
+                    (inventory ?player ?papyrus)
+                    (flattened ?papyrus)
+                    (inventory ?player ?polishing_item))
+    :effect (polished ?papyrus))
+
+- action name: flatten_papyrus
+- summarize action: The player flattens the papyrus, either by placing it under a stone slab, using gravity or a rolling pin.
+- what is needed to do the action: The player should have woven papyrus strips in their inventory.
+- what is the result: The papyrus is flattened.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: papyrus
+    - before: woven strips
+    - after: flattened
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Predicate (inventory ?player ?item) allows us to confirm the player has woven papyrus strips in their inventory.
+2. Predicate (strips_woven) checks if the papyrus strips have been woven.
+3. Predicate (flattened ?papyrus) helps to indicate papyrus has been flattened.
+
+pddl:
+(:action flatten_papyrus
+    :parameters (?player - player ?papyrus - papyrus)
+    :precondition (and
+                    (inventory ?player ?papyrus)
+                    (strips_woven))
+    :effect (flattened ?papyrus))
+
+- action name: cut_papyrus
+- summarize action: The player cuts the polished and flattened papyrus into smaller sheets using a razor, scissors, or paper cutter.
+- what is needed to do the action: The player should have polished and flattened papyrus in their inventory.
+- what is the result: The papyrus is cut into smaller sheets.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: papyrus
+    - before: polished and flattened
+    - after: cut
+  - entity name: cutting_tool
+    - unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Predicate (inventory ?player ?item) allows us to confirm the player has polished and flattened papyrus in their inventory.
+2. Predicate (polished ?papyrus) and (flattened ?papyrus) together check if the papyrus is both polished and flattened.
+3. Predicate (cut ?papyrus) helps to indicate papyrus has been cut into smaller sheets.
+
+pddl:
+(:action cut_papyrus
+    :parameters (?player - player ?papyrus - papyrus ?cutting_tool - (either razor scissors paper_cutter))
+    :precondition (and
+                    (inventory ?player ?papyrus)
+                    (polished ?papyrus)
+                    (flattened ?papyrus)
+                    (inventory ?player ?cutting_tool))
+    :effect (cut ?papyrus))

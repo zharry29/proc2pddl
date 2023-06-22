@@ -1,0 +1,6 @@
+walk ('npc', 'home', 'north', 'garage')
+walk ('npc', 'garage', 'east', 'highway')
+walk ('npc', 'highway', 'down', 'mall')
+walk ('npc', 'mall', 'east', 'homedepot')
+get ('npc', 'homedepot', 'concrete')
+reinforce ('npc', 'homedepot', 'concrete')

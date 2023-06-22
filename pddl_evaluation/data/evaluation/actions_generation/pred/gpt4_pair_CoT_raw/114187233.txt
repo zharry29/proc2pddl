@@ -1,132 +1,207 @@
-Here are the PDDL actions based on the given text and existing predicates:
+- action name: pierce
+- summarize action: Pierce a hole in the "eye" of the coconut using a screwdriver and a mallet (or other tools like a knife or metal skewer). Find the softest eye to drain the coconut water easily.
+- what is needed to do the action: A coconut with its eyes intact, and a tool like a screwdriver and a mallet, a knife or a metal skewer to pierce the hole.
+- what is the result: A pierced coconut with a hole in one of its eyes, ready for draining the water.
 
-(:action go
-   :parameters (?loc - location ?dir - direction)
-   :precondition (connected ?loc1 - location ?dir - direction ?loc2 - location)
-   :effect (and
-      (not (at ?player ?loc1))
-      (at ?player ?loc2)
-   ))
+- entities:
+  - entity name: coconut
+    - before: intact
+    - after: pierced
+  - entity name: tool
+    - before: available
+    - after: used in piercing
 
-(:action get
-   :parameters (?item - item ?loc - location)
-   :precondition (and
-      (at ?player ?loc)
-      (at ?item ?loc)
-   )
-   :effect (and
-      (not (at ?item ?loc))
-      (inventory ?player ?item)
-   ))
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the parameters: (:action pierce :parameters (?coconut ?tool))
+2. Specify the precondition: (and (at ?coconut ?location) (at ?tool ?location))
+3. Specify the effect: (pierced ?coconut)
 
-(:action drop
-   :parameters (?item - item ?loc - location)
-   :precondition (and
-      (at ?player ?loc)
-      (inventory ?player ?item)
-   )
-   :effect (and
-      (not (inventory ?player ?item))
-      (at ?item ?loc)
-   ))
-
+pddl:
+```
 (:action pierce
-   :parameters (?item_pierce - item ?item_tool - item ?player - player)
-   :precondition (and
-      (inventory ?player ?item_pierce)
-      (inventory ?player ?item_tool)
-   )
-   :effect (and
-      (not (inventory ?player ?item_pierce))
-      (inventory ?player (pierced ?item_pierce))
-   ))
+  :parameters (?coconut ?tool)
+  :precondition (and (at ?coconut ?location) (at ?tool ?location))
+  :effect (pierced ?coconut)
+)
+```
 
+- action name: drain
+- summarize action: Drain the coconut water from the pierced hole by turning it upside down over a glass.
+- what is needed to do the action: A pierced coconut and a glass to collect the drained water.
+- what is the result: An empty coconut with its water collected in a glass.
+
+- entities:
+  - entity name: coconut
+    - before: pierced
+    - after: empty
+  - entity name: glass
+    - before: available
+    - after: contains coconut water
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the parameters: (:action drain :parameters (?coconut ?glass))
+2. Specify the precondition: (and (pierced ?coconut) (at ?coconut ?location) (at ?glass ?location))
+3. Specify the effect: (empty ?coconut)
+
+pddl:
+```
 (:action drain
-   :parameters (?item - item ?player - player)
-   :precondition (and
-      (inventory ?player ?item)
-      (pierced ?item)
-   )
-   :effect (and
-      (not (inventory ?player ?item))
-      (inventory ?player (empty ?item))
-   ))
+  :parameters (?coconut ?glass)
+  :precondition (and (pierced ?coconut) (at ?coconut ?location) (at ?glass ?location))
+  :effect (empty ?coconut)
+)
+```
+- action name: turn_on_oven
+- summarize action: Preheat the oven to a specified temperature to prepare it for baking the coconut.
+- what is needed to do the action: An oven and a specified temperature (e.g., 400 °F or 204 °C).
+- what is the result: An oven turned on and preheated to the specified temperature.
 
+- entities:
+  - entity name: oven
+    - before: off
+    - after: on and preheated to the specified temperature
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the parameters: (:action turn_on_oven :parameters (?oven ?temperature))
+2. Specify the precondition: (not (on ?oven))
+3. Specify the effect: (on ?oven)
+
+pddl:
+```
 (:action turn_on_oven
-   :parameters (?appliance - appliance)
-   :precondition (not (on ?appliance))
-   :effect (on ?appliance)
+  :parameters (?oven ?temperature)
+  :precondition (not (on ?oven))
+  :effect (on ?oven)
 )
+```
 
-(:action turn_off_oven
-   :parameters (?appliance - appliance)
-   :precondition (on ?appliance)
-   :effect (not (on ?appliance))
-)
+- action name: burn_item
+- summarize action: Put an item (such as the coconut) in the oven for a set amount of time, potentially burning it.
+- what is needed to do the action: An item to burn, an oven, and the baking duration.
+- what is the result: A burnt item after a certain duration in the oven.
 
+- entities:
+  - entity name: item
+    - before: unburnt
+    - after: burnt
+  - entity name: oven
+    - before: on and preheated
+    - after: used for baking the item
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the parameters: (:action burn_item :parameters (?item ?oven))
+2. Specify the precondition: (and (at ?item ?location) (on ?oven))
+3. Specify the effect: (burnt ?item)
+
+pddl:
+```
 (:action burn_item
-   :parameters (?item - item ?appliance - appliance)
-   :precondition (and
-      (on ?appliance)
-      (inventory ?player ?item)
-   )
-   :effect (and
-      (not (inventory ?player ?item))
-      (inventory ?player (burnt ?item))
-   ))
-
-(:action wrap_coconut
-   :parameters (?item - item ?item2 - item ?player - player)
-   :precondition (inventory ?player ?item)
-   :effect (and
-      (not (inventory ?player ?item))
-      (wrapped_with ?item ?item2)
-   ))
-
-(:action unwrap_coconut
-   :parameters (?item - item ?item2 - item ?player - player)
-   :precondition (wrapped_with ?item ?item2)
-   :effect (and
-      (not (wrapped_with ?item ?item2))
-      (inventory ?player ?item)
-   ))
-
-(:action smash_with_hands
-   :parameters (?item - item)
-   :precondition (inventory ?player ?item)
-   :effect (and
-      (not (inventory ?player ?item))
-      (inventory ?player (smashed ?item))
-   ))
-
-(:action separate
-   :parameters (?item_shell - item ?item_meat - item ?player - player)
-   :precondition (and
-      (inventory ?player ?item_shell)
-      (smashed ?item_shell)
-   )
-   :effect (and
-      (not (inventory ?player ?item_shell))
-      (inventory ?player ?item_meat)
-   ))
-
-(:action peel
-   :parameters (?item_meat - item ?player - player)
-   :precondition (inventory ?player ?item_meat)
-   :effect (and
-      (not (inventory ?player ?item_meat))
-      (inventory ?player (peeled ?item_meat))
-   ))
-
-(:action smash_with_mallet
-   :parameters (?item - item ?mallet - item ?player - player)
-   :precondition (and
-      (inventory ?player ?item)
-      (inventory ?player ?mallet)
-   )
-   :effect (and
-      (not (inventory ?player ?item))
-      (inventory ?player (smashed ?item))
-   ))
-
+  :parameters (?item ?oven)
+  :precondition (and (at ?item ?location) (on ?oven))
+  :effect (burnt ?item)
 )
+```
+
+- action name: turn_off_oven
+- summarize action: Turn off the oven after baking the item (such as the coconut).
+- what is needed to do the action: An oven.
+- what is the result: An oven turned off.
+
+- entities:
+  - entity name: oven
+    - before: on
+    - after: off
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the parameters: (:action turn_off_oven :parameters (?oven))
+2. Specify the precondition: (on ?oven)
+3. Specify the effect: (not (on ?oven))
+
+pddl:
+```
+(:action turn_off_oven
+  :parameters (?oven)
+  :precondition (on ?oven)
+  :effect (not (on ?oven))
+)
+```
+- action name: wrap_coconut
+- summarize action: Wrap the coconut in a kitchen towel to prevent coconut bits from flying when smashing it with a hammer.
+- what is needed to do the action: A coconut and a kitchen towel.
+- what is the result: A wrapped coconut in a kitchen towel, ready for smashing.
+
+- entities:
+  - entity name: coconut
+    - before: unwrapped
+    - after: wrapped
+  - entity name: towel
+    - before: available
+    - after: used to wrap the coconut
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the parameters: (:action wrap_coconut :parameters (?coconut ?towel))
+2. Specify the precondition: (and (at ?coconut ?location) (at ?towel ?location))
+3. Specify the effect: (and (wrapped ?coconut) (wrapped_with ?coconut ?towel))
+
+pddl:
+``` 
+(:action wrap_coconut
+  :parameters (?coconut ?towel)
+  :precondition (and (at ?coconut ?location) (at ?towel ?location))
+  :effect (and (wrapped ?coconut) (wrapped_with ?coconut ?towel))
+)
+```
+
+- action name: unwrap_coconut
+- summarize action: Unwrap the coconut from the kitchen towel after smashing or performing another action.
+- what is needed to do the action: A wrapped coconut in a kitchen towel.
+- what is the result: An unwrapped coconut with the kitchen towel available.
+
+- entities:
+  - entity name: coconut
+    - before: wrapped
+    - after: unwrapped
+  - entity name: towel
+    - before: used to wrap the coconut
+    - after: available
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the parameters: (:action unwrap_coconut :parameters (?coconut ?towel))
+2. Specify the precondition: (and (wrapped ?coconut) (wrapped_with ?coconut ?towel))
+3. Specify the effect: (and (not (wrapped ?coconut)) (not (wrapped_with ?coconut ?towel)))
+
+pddl:
+```
+(:action unwrap_coconut
+  :parameters (?coconut ?towel)
+  :precondition (and (wrapped ?coconut) (wrapped_with ?coconut ?towel))
+  :effect (and (not (wrapped ?coconut)) (not (wrapped_with ?coconut ?towel)))
+)
+```
+
+- action name: smash_with_mallet
+- summarize action: Smash the wrapped coconut with a mallet or hammer to break it.
+- what is needed to do the action: A wrapped coconut and a mallet or hammer.
+- what is the result: A smashed coconut in smaller pieces.
+
+- entities:
+  - entity name: coconut
+    - before: wrapped
+    - after: smashed
+  - entity name: mallet
+    - before: available
+    - after: used to smash the coconut
+
+- convert the above information to pddl using relevant predicates step by step:
+1. Add the parameters: (:action smash_with_mallet :parameters (?coconut ?mallet))
+2. Specify the precondition: (and (wrapped ?coconut) (at ?mallet ?location))
+3. Specify the effect: (smashed ?coconut)
+
+pddl:
+```
+(:action smash_with_mallet
+  :parameters (?coconut ?mallet)
+  :precondition (and (wrapped ?coconut) (at ?mallet ?location))
+  :effect (smashed ?coconut)
+)
+```

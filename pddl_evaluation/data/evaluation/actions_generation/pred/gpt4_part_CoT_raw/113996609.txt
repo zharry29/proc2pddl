@@ -1,0 +1,340 @@
+- action name: go
+- summarize action: The player moves from one location to another.
+- what is needed to do the action: The player must be at a certain location, and the destination location must be connected to the current location.
+- what is the result: The player changes their current location to the destination location.
+
+- entities:
+  - entity name: player
+    - before: at a certain location
+    - after: at the destination location
+  - entity name: destination location
+    - before: connected to the current location
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a certain location using the "at" predicate.
+2. Check if the destination location is connected to the current location using the "connected" predicate.
+3. Update the player's location using the "at" predicate.
+
+pddl:
+(:action go
+    :parameters (?player - human ?current_loc ?destination_loc - location)
+    :precondition (and (at ?player ?current_loc)
+                       (connected ?current_loc ?destination_loc))
+    :effect (and (not (at ?player ?current_loc))
+                 (at ?player ?destination_loc)))
+
+- action name: get
+- summarize action: The player acquires an item from the environment, adding it to their inventory.
+- what is needed to do the action: The player must be at a certain location, and the item must be present at that location.
+- what is the result: The item is added to the player's inventory and removed from the environment.
+
+- entities:
+  - entity name: player
+    - before: at a certain location
+    - after: unchanged
+  - entity name: item
+    - before: present at the player's location
+    - after: in the player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a certain location using the "at" predicate.
+2. Check if the item is present at the player's location using the "at" predicate.
+3. Add the item to the player's inventory using the "inventory" predicate and remove it from the location using the "at" predicate.
+
+pddl:
+(:action get
+    :parameters (?player - human ?item - object ?loc - location)
+    :precondition (and (at ?player ?loc)
+                       (at ?item ?loc))
+    :effect (and (not (at ?item ?loc))
+                 (inventory ?player ?item)))
+
+- action name: get_water
+- summarize action: The player acquires water from a water source.
+- what is needed to do the action: The player must be at a location with a water source.
+- what is the result: The player acquires water and adds it to their inventory.
+
+- entities:
+  - entity name: player
+    - before: at a certain location
+    - after: unchanged
+  - entity name: water
+    - before: present at the water source
+    - after: in the player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a certain location using the "at" predicate.
+2. Check if the location has a water source using the "has_water_source" predicate.
+3. Add water to the player's inventory using the "inventory" predicate.
+
+pddl:
+(:action get_water
+    :parameters (?player - human ?loc - location)
+    :precondition (and (at ?player ?loc)
+                       (has_water_source ?loc))
+    :effect (inventory ?player water))
+
+- action name: chop_wood
+- summarize action: The player chops wood from a location with wood available.
+- what is needed to do the action: The player must be at a location with wood available.
+- what is the result: The player acquires wood and adds it to their inventory.
+
+- entities:
+  - entity name: player
+    - before: at a certain location
+    - after: unchanged
+  - entity name: wood
+    - before: present at the location with wood
+    - after: in the player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a certain location using the "at" predicate.
+2. Check if the location has wood using the "has_wood" predicate.
+3. Add wood to the player's inventory using the "inventory" predicate.
+
+pddl:
+(:action chop_wood
+    :parameters (?player - human ?loc - location)
+    :precondition (and (at ?player ?loc)
+                       (has_wood ?loc))
+    :effect (inventory ?player wood))
+
+- action name: carve_groove
+- summarize action: The player carves a groove into a piece of wood in their inventory.
+- what is needed to do the action: The player must have wood in their inventory.
+- what is the result: The wood in the player's inventory gains a groove attribute.
+
+- entities:
+  - entity name: player
+    - before: has wood in inventory
+    - after: unchanged
+  - entity name: wood
+    - before: in the player's inventory
+    - after: has a groove
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has wood in their inventory using the "inventory" predicate.
+2. Add the groove attribute to the wood using the "groove" predicate.
+
+pddl:
+(:action carve_groove
+    :parameters (?player - human ?wood - wood)
+    :precondition (inventory ?player ?wood)
+    :effect (groove ?wood))
+
+- action name: light_fire
+- summarize action: The player lights a fire at their current location.
+- what is needed to do the action: The player must be at a certain location, and the location must be suitable for lighting a fire.
+- what is the result: The location has a fire.
+
+- entities:
+  - entity name: player
+    - before: at a certain location
+    - after: unchanged
+  - entity name: location
+    - before: suitable for lighting a fire
+    - after: has a fire
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a certain location using the "at" predicate.
+2. Check if the location is suitable for lighting a fire using the "can_light_fire" predicate.
+3. Add the fire to the location using the "has_fire" predicate.
+
+pddl:
+(:action light_fire
+    :parameters (?player - human ?loc - location)
+    :precondition (and (at ?player ?loc)
+                       (can_light_fire ?loc))
+    :effect (has_fire ?loc))
+
+- action name: build_shelter
+- summarize action: The player builds a shelter at their current location.
+- what is needed to do the action: The player must be at a certain location.
+- what is the result: The location has a shelter.
+
+- entities:
+  - entity name: player
+    - before: at a certain location
+    - after: unchanged
+  - entity name: location
+    - before: no shelter
+    - after: has a shelter
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a certain location using the "at" predicate.
+2. Add a shelter to the location using the "has_shelter" predicate.
+
+pddl:
+(:action build_shelter
+    :parameters (?player - human ?loc - location)
+    :precondition (at ?player ?loc)
+    :effect (has_shelter ?loc))
+
+- action name: clean_water
+- summarize action: The player cleans the water in their inventory.
+- what is needed to do the action: The player must have water in their inventory.
+- what is the result: The water in the player's inventory becomes treated.
+
+- entities:
+  - entity name: player
+    - before: has water in inventory
+    - after: unchanged
+  - entity name: water
+    - before: in the player's inventory
+    - after: treated
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has water in their inventory using the "inventory" predicate.
+2. Add the treated attribute to the water using the "treated" predicate.
+
+pddl:
+(:action clean_water
+    :parameters (?player - human ?water - water)
+    :precondition (inventory ?player ?water)
+    :effect (treated ?water))
+
+- action name: drink_water
+- summarize action: The player drinks treated water from their inventory.
+- what is needed to do the action: The player must have treated water in their inventory.
+- what is the result: The player has consumed the water, and the water is marked as "drank."
+
+- entities:
+  - entity name: player
+    - before: has treated water in inventory
+    - after: unchanged
+  - entity name: water
+    - before: treated in the player's inventory
+    - after: marked as "drank"
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has treated water in their inventory using the "inventory" predicate and the "treated" predicate.
+2. Mark the water as drank using the "drank" predicate.
+
+pddl:
+(:action drink_water
+    :parameters (?player - human ?water - water)
+    :precondition (and (inventory ?player ?water)
+                       (treated ?water))
+    :effect (drank ?water))
+
+- action name: find_other_survivors
+- summarize action: The player finds other survivors and forms a group.
+- what is needed to do the action: The player must be at a certain location.
+- what is the result: The player has a friend survivor.
+
+- entities:
+  - entity name: player
+    - before: at a certain location
+    - after: unchanged
+  - entity name: survivor
+    - before: not a friend
+    - after: friend of the player
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a certain location using the "at" predicate.
+2. Add the friend attribute to the survivor using the "has_friend" predicate.
+
+pddl:
+(:action find_other_survivors
+    :parameters (?player - human ?survivor - survivor ?loc - location)
+    :precondition (at ?player ?loc)
+    :effect (has_friend ?survivor))
+
+- action name: build_raft
+- summarize action: The player builds a raft at their current location.
+- what is needed to do the action: The player must be at a certain location.
+- what is the result: The location has a raft.
+
+- entities:
+  - entity name: player
+    - before: at a certain location
+    - after: unchanged
+  - entity name: location
+    - before: no raft
+    - after: has a raft
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a certain location using the "at" predicate.
+2. Add the raft to the location using the "at" predicate.
+
+pddl:
+(:action build_raft
+    :parameters (?player - human ?raft - raft ?loc - location)
+    :precondition (at ?player ?loc)
+    :effect (at ?raft ?loc))
+
+- action name: make_weapon
+- summarize action: The player makes a weapon (e.g., a spear) from materials in their inventory.
+- what is needed to do the action: The player must have the necessary materials in their inventory.
+- what is the result: The player has a weapon in their inventory.
+
+- entities:
+  - entity name: player
+    - before: has materials in inventory
+    - after: unchanged
+  - entity name: weapon
+    - before: not in the player's inventory
+    - after: in the player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has the necessary materials in their inventory using the "inventory" predicate.
+2. Add the weapon to the player's inventory using the "inventory" predicate.
+
+pddl:
+(:action make_weapon
+    :parameters (?player - human ?materials - item ?weapon - item)
+    :precondition (inventory ?player ?materials)
+    :effect (inventory ?player ?weapon))
+
+- action name: hunt_fish
+- summarize action: The player hunts or fishes for food at their current location.
+- what is needed to do the action: The player must be at a location with fish and have a weapon.
+- what is the result: The player acquires fish and adds it to their inventory.
+
+- entities:
+  - entity name: player
+    - before: at a certain location with a weapon
+    - after: unchanged
+  - entity name: fish
+    - before: present at the location
+    - after: in the player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a certain location with fish using the "at" predicate and the "has_fish" predicate.
+2. Check if the player has a weapon using the "inventory" predicate.
+3. Add the fish to the player's inventory using the "inventory" predicate.
+
+pddl:
+(:action hunt_fish
+    :parameters (?player - human ?loc - location ?weapon - item ?fish - item)
+    :precondition (and (at ?player ?loc)
+                       (has_fish ?loc)
+                       (inventory ?player ?weapon))
+    :effect (inventory ?player ?fish))
+
+- action name: cook_fish
+- summarize action: The player cooks the fish in their inventory at a location with a fire.
+- what is needed to do the action: The player must have fish in their inventory and be at a location with a fire.
+- what is the result: The fish in the player's inventory becomes cooked.
+
+- entities:
+  - entity name: player
+    - before: at a certain location with a fire and has fish in inventory
+    - after: unchanged
+  - entity name: fish
+    - before: in the player's inventory
+    - after: cooked
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a certain location with a fire using the "at" predicate and the "has_fire" predicate.
+2. Check if the player has fish in their inventory using the "inventory" predicate.
+3. Add the cooked attribute to the fish using the "cooked" predicate.
+
+pddl:
+(:action cook_fish
+    :parameters (?player - human ?loc - location ?fish - item)
+    :precondition (and (at ?player ?loc)
+                       (has_fire ?loc)
+                       (inventory ?player ?fish))
+    :effect (cooked ?fish))

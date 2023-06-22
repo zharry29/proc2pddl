@@ -1,0 +1,139 @@
+(:action go
+   :parameters (?player - player ?dir - direction ?loc1 ?loc2 - location)
+   :precondition (and
+                   (at ?player ?loc1)
+                   (connected ?loc1 ?dir ?loc2)
+                   (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and
+              (not (at ?player ?loc1))
+              (at ?player ?loc2))
+)
+
+(:action get
+   :parameters (?player - player ?item - item)
+   :precondition (and
+                   (at ?player ?loc)
+                   (at ?item ?loc))
+   :effect (and
+              (not (at ?item ?loc))
+              (inventory ?player ?item))
+)
+
+(:action pick_lock_with_card
+   :parameters (?player - player ?loc - location)
+   :precondition (and
+                   (has_easy_lock ?loc)
+                   (at ?player ?loc)
+                   (inventory ?player ?card))
+   :effect (and
+              (not (has_easy_lock ?loc))
+              (at ?player ?loc)
+              (not (inventory ?player ?card))
+              (pick_in_lock ?loc))
+)
+
+(:action file_key_into_wrench
+   :parameters (?player - player ?loc - location)
+   :precondition (and
+                   (wrench_in_lock ?loc)
+                   (at ?player ?loc)
+                   (inventory ?player ?file)
+                   (inventory ?player ?key))
+   :effect (and
+              (not (wrench_in_lock ?loc))
+              (at ?player ?loc)
+              (not (inventory ?player ?file))
+              (not (inventory ?player ?key))
+              (pick_in_lock ?loc))
+)
+
+(:action bend_paperclip_into_pick
+   :parameters (?player - player ?loc - location)
+   :precondition (and
+                   (at ?player ?loc)
+                   (inventory ?player ?paperclip))
+   :effect (and
+              (not (at ?player ?loc))
+              (not (inventory ?player ?paperclip))
+              (pick_in_lock ?loc))
+)
+
+(:action insert_wrench
+   :parameters (?loc - location)
+   :precondition (and
+                   (at ?wrench ?loc)
+                   (pick_in_lock ?loc))
+   :effect (not (pick_in_lock ?loc))
+)
+
+(:action insert_pick
+   :parameters (?loc - location)
+   :precondition (and
+                   (at ?pick ?loc)
+                   (pick_in_lock ?loc))
+   :effect (not (pick_in_lock ?loc))
+)
+
+(:action push_pins_out_of_tumblers
+   :parameters (?player - player ?loc - location)
+   :precondition (and
+                   (pick_in_lock ?loc)
+                   (at ?player ?loc))
+   :effect (and
+              (not (pick_in_lock ?loc))
+              (locked_car ?loc))
+)
+
+(:action straighten_coathanger
+   :parameters (?player - player ?loc - location)
+   :precondition (and
+                   (at ?player ?loc)
+                   (inventory ?player ?coathanger))
+   :effect (and
+              (not (at ?player ?loc))
+              (not (inventory ?player ?coathanger))
+              (coathanger_inserted ?loc))
+)
+
+(:action lift_weatherstripping
+   :parameters (?player - player ?loc - location)
+   :precondition (and
+                   (at ?player ?loc)
+                   (has_hard_lock ?loc))
+   :effect (and
+              (not (at ?player ?loc))
+              (weatherstripping_removed ?loc))
+)
+
+(:action insert_hanger
+   :parameters (?player - player ?loc - location)
+   :precondition (and
+                   (at ?player ?loc)
+                   (coathanger_inserted ?loc))
+   :effect (and
+              (not (at ?player ?loc))
+              (latch_hooked ?loc))
+)
+
+(:action hook_latch
+   :parameters (?player - player ?loc - location)
+   :precondition (and
+                   (at ?player ?loc)
+                   (latch_hooked ?loc))
+   :effect (not (latch_hooked ?loc))
+)
+
+(:action pull_coathanger
+   :parameters (?player - player ?loc - location)
+   :precondition (and
+                   (at ?player ?loc)
+                   (blocked ?loc ?dir ?loc2)
+                   (latch_hooked ?loc)
+                   (connected ?loc ?dir ?loc2))
+   :effect (and
+              (not (at ?player ?loc))
+              (at ?player ?loc2)
+              (not (blocked ?loc ?dir ?loc2)))
+)
+
+)

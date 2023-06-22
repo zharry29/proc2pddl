@@ -1,0 +1,67 @@
+Action-text pair 1: Get
+Entities involved:
+- player
+- item
+- location
+
+States before the action:
+- The item is at a location.
+- The player is at the same location.
+
+States after the action:
+- The player has the item in the inventory.
+
+PDDL format:
+```
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?item ?loc))
+   :effect (and
+        (inventory ?player ?item)
+        (not (at ?item ?loc))))
+```
+
+Action-text pair 2: Drop
+Entities involved:
+- player
+- item
+- location
+
+States before the action:
+- The player has the item in the inventory.
+- The player is at a location.
+
+States after the action:
+- The item is at the same location.
+
+PDDL format:
+```
+(:action drop
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (inventory ?player ?item) (at ?player ?loc))
+   :effect (and
+        (at ?item ?loc)
+        (not (inventory ?player ?item))))
+```
+
+Action-text pair 3: Put_in_stopper
+Entities involved:
+- item
+
+States before the action:
+- The item can be filled with water.
+
+States after the action:
+- The item has a stopper.
+
+PDDL format:
+```
+(:action put_in_stopper
+   :parameters (?item - item)
+   :precondition (can_be_filled ?item)
+   :effect (has_stopper ?item))
+```
+
+I have provided three action-text pairs in PDDL format as an example. Please let me know if you need help with the remaining action-text pairs.
+
+)

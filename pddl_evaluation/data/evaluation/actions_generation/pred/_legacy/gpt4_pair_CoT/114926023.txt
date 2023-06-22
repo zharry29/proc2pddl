@@ -1,0 +1,71 @@
+(:action go
+(:action go
+  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+  :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+)
+
+(:action get
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?item ?loc) (at ?player ?loc))
+  :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+
+(:action build_roof
+(:action build_roof
+  :parameters (?player - player ?log - log ?roof - roof)
+  :precondition (and (inventory ?player ?log) (not (exists ?roof - roof)))
+  :effect (exists ?roof - roof)
+)
+
+(:action build_wall
+(:action build_wall
+  :parameters (?player - player ?small_sticks - small_sticks ?wall - wall)
+  :precondition (and (inventory ?player ?small_sticks) (not (exists ?wall - wall)))
+  :effect (exists ?wall - wall)
+)
+
+(:action build_bed
+(:action build_bed
+  :parameters (?player - player ?leaves - leaves ?shelter - shelter)
+  :precondition (and (inventory ?player ?leaves) (not (exists ?shelter - shelter)))
+  :effect (exists ?shelter - shelter)
+)
+
+(:action complete_shelter
+(:action complete_shelter
+  :parameters (?player - player ?shelter - shelter ?wall - wall ?roof - roof)
+  :precondition (and (exists ?roof - roof) (exists ?wall - wall))
+  :effect (exists ?shelter - shelter)
+)
+
+(:action hunt_animal
+(:action hunt_animal
+  :parameters (?player - player ?animal - animal)
+  :precondition (not (inventory ?player ?animal))
+  :effect (inventory ?player ?animal)
+)
+
+(:action prepare_animal
+(:action prepare_animal
+  :parameters (?player - player ?animal - animal)
+  :precondition (and (inventory ?player ?animal) (not (treated ?animal)))
+  :effect (treated ?animal)
+)
+
+(:action build_raft
+(:action build_raft
+  :parameters (?player - player ?log - log ?small_sticks - small_sticks ?vines - vines ?raft_draft - raft_draft)
+  :precondition (and (inventory ?player ?log) (inventory ?player ?small_sticks) (inventory ?player ?vines) (not (exists ?raft_draft - raft_draft)))
+  :effect (exists ?raft_draft - raft_draft)
+)
+
+(:action test_raft
+(:action test_raft
+  :parameters (?player - player ?raft_draft - raft_draft ?raft_finished - raft_finished)
+  :precondition (exists ?raft_draft - raft_draft)
+  :effect (exists ?raft_finished - raft_finished)
+)
+
+)

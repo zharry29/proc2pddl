@@ -1,0 +1,117 @@
+(:action go
+  :parameters (?player - player ?location1 - location ?location2 - location ?direction - direction)
+  :precondition (and
+    (at ?player ?location1)
+    (connected ?location1 ?direction ?location2))
+  :effect (and
+    (not (at ?player ?location1))
+    (at ?player ?location2))
+)
+
+(:action get
+  :parameters (?player - player ?item - item ?location - location)
+  :precondition (and
+    (at ?player ?location)
+    (at ?item ?location))
+  :effect (and
+    (not (at ?item ?location))
+    (inventory ?player ?item))
+)
+
+(:action drop
+  :parameters (?player - player ?item - item ?location - location)
+  :precondition (and
+    (at ?player ?location)
+    (inventory ?player ?item))
+  :effect (and
+    (not (inventory ?player ?item))
+    (at ?item ?location))
+)
+
+(:action pierce
+  :parameters (?player - player ?coconut - item)
+  :precondition (inventory ?player ?coconut)
+  :effect (pierced ?coconut)
+)
+
+(:action drain
+  :parameters (?player - player ?coconut - item)
+  :precondition (and
+    (inventory ?player ?coconut)
+    (pierced ?coconut))
+  :effect (empty ?coconut)
+)
+
+(:action turn_on_oven
+  :parameters (?player - player ?oven - appliance ?location - location)
+  :precondition (and
+    (at ?player ?location)
+    (at ?oven ?location))
+  :effect (on ?oven)
+)
+
+(:action burn_item
+  :parameters (?player - player ?item - item ?oven - appliance)
+  :precondition (and
+    (inventory ?player ?item)
+    (on ?oven))
+  :effect (burnt ?item)
+)
+
+(:action turn_off_oven
+  :parameters (?player - player ?oven - appliance ?location - location)
+  :precondition (and
+    (at ?player ?location)
+    (at ?oven ?location)
+    (on ?oven))
+  :effect (not (on ?oven))
+)
+
+(:action wrap_coconut
+  :parameters (?player - player ?coconut - item ?item - item)
+  :precondition (and
+    (inventory ?player ?coconut)
+    (inventory ?player ?item))
+  :effect (wrapped_with ?coconut ?item)
+)
+
+(:action unwrap_coconut
+  :parameters (?player - player ?coconut - item ?item - item)
+  :precondition (and
+    (inventory ?player ?coconut)
+    (wrapped_with ?coconut ?item))
+  :effect (not (wrapped_with ?coconut ?item))
+)
+
+(:action smash_with_hands
+  :parameters (?player - player ?coconut - item)
+  :precondition (inventory ?player ?coconut)
+  :effect (smashed ?coconut)
+)
+
+(:action separate
+  :parameters (?player - player ?coconut - item)
+  :precondition (and
+    (inventory ?player ?coconut)
+    (smashed ?coconut)
+    (empty ?coconut))
+  :effect (separated ?coconut)
+)
+
+(:action peel
+  :parameters (?player - player ?coconut - item)
+  :precondition (and
+    (inventory ?player ?coconut)
+    (separated ?coconut))
+  :effect (peeled ?coconut)
+)
+
+(:action smash_with_mallet
+  :parameters (?player - player ?item - item ?mallet - item)
+  :precondition (and
+    (inventory ?player ?item)
+    (inventory ?player ?mallet))
+  :effect (smashed ?item)
+)
+
+)

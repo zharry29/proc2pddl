@@ -1,0 +1,79 @@
+(:action go
+   :parameters (?p - player ?dir - direction ?loc1 - location ?loc2 - location)
+   :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (at ?p ?loc2) (not (at ?p ?loc1)))
+)
+
+(:action get
+   :parameters (?p - player ?item - item ?loc - location)
+   :precondition (and (at ?p ?loc) (at ?item ?loc))
+   :effect (and (inventory ?p ?item) (not (at ?item ?loc)))
+)
+
+(:action get_water
+   :parameters (?p - player ?water - water ?loc - location)
+   :precondition (and (at ?p ?loc) (has_water_source ?loc) (treated ?water))
+   :effect (inventory ?p ?water)
+)
+
+(:action drop
+   :parameters (?p - player ?item - item ?loc - location)
+   :precondition (and (at ?p ?loc) (inventory ?p ?item))
+   :effect (and (at ?item ?loc) (not (inventory ?p ?item)))
+)
+
+(:action clear_spider
+   :parameters (?item - item)
+   :precondition (has_bug ?item)
+   :effect (not (has_bug ?item))
+)
+
+(:action insert_beam
+   :parameters (?b - branch ?tree - tree)
+   :precondition (and (has_split_in_trunk ?tree) (long ?b) (thick ?b))
+   :effect (and)
+)
+
+(:action lean_branches 
+   :parameters (?b1 - branch ?b2 - branch)
+   :precondition (and)
+   :effect (and)
+)
+
+(:action layer 
+   :parameters (?branches - branches ?twigs - twigs ?leaves - leaves)
+   :precondition (and)
+   :effect (and)
+)
+
+(:action wash 
+   :parameters (?p - player ?item - item ?loc -location)
+   :precondition (and (at ?p ?loc) (has_water_source ?loc) (unwashed ?item))
+   :effect (not (unwashed ?item))
+)
+
+(:action eat 
+   :parameters (?p - player ?item - item)
+   :precondition (and (inventory ?p ?item) (edible ?item) (hungry ?p))
+   :effect (not (hungry ?p))
+)
+
+(:action make_snare
+   :parameters (?wire - wire ?snare - snare)
+   :precondition (and)
+   :effect (and)
+)
+
+(:action make_horizontal_bar
+   :parameters (?branch - branch ?bar - bar)
+   :precondition (and)
+   :effect (and)
+)
+
+(:action hang_snare
+   :parameters (?s - snare ?l - location ?p - player)
+   :precondition (and (at ?p ?l) (made_by_animal ?l) (inventory ?p ?s))
+   :effect (hanged ?s)
+)
+
+)

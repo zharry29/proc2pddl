@@ -1,0 +1,228 @@
+Action 1: go
+Entities: player, location1, location2
+States before: (at player location1), (connected location1 direction location2)
+States after: (at player location2)
+
+PDDL format:
+(:action go
+    :parameters (?player - human ?loc1 - location ?loc2 - location ?dir - direction)
+    :precondition (and
+        (at ?player ?loc1)
+        (connected ?loc1 ?dir ?loc2))
+    :effect
+        (and
+            (not (at ?player ?loc1))
+            (at ?player ?loc2)))
+
+
+
+Action 2: get
+Entities: player, item, location
+States before: (at player location), (at item location)
+States after: (inventory player item)
+
+PDDL format:
+(:action get
+    :parameters (?player - human ?item - item ?loc - location)
+    :precondition (and
+        (at ?player ?loc)
+        (at ?item ?loc))
+    :effect
+        (and
+            (not (at ?item ?loc))
+            (inventory ?player ?item)))
+
+
+Action 3: get_water
+Entities: player, water, location
+States before: (at player location), (has_water_source location)
+States after: (inventory player water)
+
+PDDL format:
+(:action get_water
+    :parameters (?player - human ?water - water ?loc - location)
+    :precondition (and
+        (at ?player ?loc)
+        (has_water_source ?loc))
+    :effect
+        (inventory ?player ?water))
+
+
+Action 4: chop_wood
+Entities: player, wood, location
+States before: (at player location), (has_wood location)
+States after: (inventory player wood)
+
+PDDL format:
+(:action chop_wood
+    :parameters (?player - human ?wood - wood ?loc - location)
+    :precondition (and
+         (at ?player ?loc)
+         (has_wood ?loc))
+    :effect
+         (inventory ?player ?wood))
+
+
+Action 5: carve_groove
+Entities: player, wood
+States before: (inventory player wood)
+States after: (groove wood)
+
+PDDL format:
+(:action carve_groove
+    :parameters (?player - human ?wood - wood)
+    :precondition
+        (inventory ?player ?wood)
+    :effect
+        (groove ?wood))
+
+
+Action 6: light_fire
+Entities: player, location, wood, tinder
+States before: (at player location), (can_light_fire location), (groove wood), (inventory player wood), (inventory player tinder)
+States after: (has_fire location)
+
+PDDL format:
+(:action light_fire
+    :parameters (?player - human ?loc - location ?wood - wood ?tinder - tinder)
+    :precondition (and
+         (at ?player ?loc)
+         (can_light_fire ?loc)
+         (groove ?wood)
+         (inventory ?player ?wood)
+         (inventory ?player ?tinder))
+    :effect
+         (has_fire ?loc))
+
+
+Action 7: build_shelter
+Entities: player, location
+States before: (at player location), (is_safe location)
+States after: (has_shelter location)
+
+PDDL format:
+(:action build_shelter
+    :parameters (?player - human ?loc - location)
+    :precondition (and
+        (at ?player ?loc)
+        (is_safe ?loc))
+    :effect
+        (has_shelter ?loc))
+
+
+
+Action 8: clean_water
+Entities: player, water, location, fire
+States before: (at player location), (has_fire location), (inventory player water)
+States after: (treated water)
+
+PDDL format:
+(:action clean_water
+    :parameters (?player - human ?water - water ?loc - location)
+    :precondition (and
+        (at ?player ?loc)
+        (has_fire ?loc)
+        (inventory ?player ?water))
+    :effect
+        (treated ?water))
+
+
+
+Action 9: drink_water
+Entities: player, water
+States before: (inventory player water), (treated water)
+States after: (drank water)
+
+PDDL format:
+(:action drink_water
+    :parameters (?player - human ?water - water)
+    :precondition (and
+        (inventory ?player ?water)
+        (treated ?water))
+    :effect
+        (drank ?water))
+
+
+
+Action 10: find_other_survivors
+Entities: player, survivor, location
+States before: (at player location), (at survivor location)
+States after: (has_friend survivor)
+
+PDDL format:
+(:action find_other_survivors
+    :parameters (?player - human ?survivor - survivor ?loc - location)
+    :precondition (and
+        (at ?player ?loc)
+        (at ?survivor ?loc))
+    :effect
+        (has_friend ?survivor))
+
+
+
+Action 11: build_raft
+Entities: player, location, raft, vines, logs
+States before: (at_ocean location), (inventory player logs), (inventory player vines)
+States after: (has_escaped player)
+
+PDDL format:
+(:action build_raft
+    :parameters (?player - human ?loc - location ?raft - raft ?vines - vines ?logs - logs)
+    :precondition (and
+        (at ?player ?loc)
+        (at_ocean ?loc)
+        (inventory ?player ?logs)
+        (inventory ?player ?vines))
+    :effect
+        (has_escaped ?player))
+
+
+
+Action 12: make_weapon
+Entities: player, spear, location
+States before: (at player location), (has_wood location)
+States after: (inventory player spear)
+
+PDDL format:
+(:action make_weapon
+    :parameters (?player - human ?loc - location ?spear - spear)
+    :precondition
+        (at ?player ?loc)
+    :effect
+        (inventory ?player ?spear))
+
+
+
+Action 13: hunt_fish
+Entities: player, location, fish
+States before: (at player location), (has_fish location), (inventory player spear)
+States after: (inventory player fish)
+
+PDDL format:
+(:action hunt_fish
+    :parameters (?player - human ?loc - location ?spear - spear ?fish - fish)
+    :precondition (and
+         (at ?player ?loc)
+         (has_fish ?loc)
+         (inventory ?player ?spear))
+    :effect
+         (inventory ?player ?fish))
+
+
+
+Action 14: cook_fish
+Entities: player, location, fish, fire
+States before: (at player location), (has_fire location), (inventory player fish)
+States after: (cooked fish)
+
+PDDL format:
+(:action cook_fish
+    :parameters (?player - human ?loc - location ?fish - fish)
+    :precondition (and
+        (at ?player ?loc)
+        (has_fire ?loc)
+        (inventory ?player ?fish))
+    :effect
+        (cooked ?fish))
+
+)

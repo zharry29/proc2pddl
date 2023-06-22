@@ -1,0 +1,241 @@
+- action name: go
+- summarize action: The player moves between different locations connected by directions.
+- what is needed to do the action: A player, a current location, a direction leading to another location.
+- what is the result: The player is now at the new location connected by the direction.
+
+- entities:
+  - entity name: player
+    - before: At a location
+    - after: At a different location connected by direction
+  - entity name: direction
+    - unchanged
+  - entity name: current location
+    - unchanged
+  - entity name: new location
+    - unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the current location is connected to the new location by the direction provided.
+2. Make sure the player is at the current location.
+3. Update the player's location to the new location.
+
+pddl:
+(:action go
+ :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+- action name: get
+- summarize action: The player picks up an item from a location.
+- what is needed to do the action: A player, an item, a location where the player and the item are present.
+- what is the result: The player now has the item in their inventory.
+
+- entities:
+  - entity name: player
+    - before: Not having the item in inventory
+    - after: Having the item in inventory
+  - entity name: item
+    - before: At the location
+    - after: In the player's inventory
+  - entity name: location
+    - unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at the location where the item is.
+2. Add the item to the player's inventory.
+3. Remove the item from the location.
+
+pddl:
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?item ?loc))
+ :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+
+- action name: pour_water
+- summarize action: Pour water into a bowl to create a bowl of water.
+- what is needed to do the action: A bowl, water, and a player having both items in their inventory.
+- what is the result: The player now has a bowl of water in their inventory.
+
+- entities:
+  - entity name: player
+    - before: Having a bowl and water in inventory
+    - after: Having a bowl of water in inventory
+  - entity name: bowl
+    - before: In the player's inventory
+    - after: Used to create a bowl of water
+  - entity name: water
+    - before: In the player's inventory
+    - after: In the bowl, creating a bowl of water
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a bowl and water in their inventory.
+2. Remove the bowl and water from the player's inventory.
+3. Add a bowl of water to the player's inventory.
+
+pddl:
+(:action pour_water
+ :parameters (?player - player ?bowl - bowl ?water - water ?bowl_of_water - bowl_of_water)
+ :precondition (and (inventory ?player ?bowl) (inventory ?player ?water))
+ :effect (and (not (inventory ?player ?bowl)) (not (inventory ?player ?water)) (inventory ?player ?bowl_of_water))
+)
+
+- action name: place_strips_between_boards
+- summarize action: Place wet papyrus strips between two wooden boards.
+- what is needed to do the action: Two wooden boards, wet papyrus strips, and a player having both items in their inventory.
+- what is the result: Strips are placed between the boards to create flattened papyrus.
+
+- entities:
+  - entity name: player
+    - before: Having wooden boards and wet papyrus strips in inventory
+    - after: Having placed the wet papyrus strips between the wooden boards
+  - entity name: wooden_boards
+    - unchanged
+  - entity name: wet_papyrus_strips
+    - before: In the player's inventory
+    - after: Placed between the wooden boards
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has wet papyrus strips and wooden boards in their inventory.
+2. Apply the action of placing the wet papyrus strips between the wooden boards.
+
+pddl:
+(:action place_strips_between_boards
+ :parameters (?player - player ?wet_strips - papyrus_strips ?wooden_boards - wooden_boards)
+ :precondition (and (inventory ?player ?wet_strips) (inventory ?player ?wooden_boards))
+ :effect (strips_between_boards)
+)
+
+- action name: cut_stalks
+- summarize action: Cut the papyrus plant stalks using pruners or scissors.
+- what is needed to do the action: A papyrus plant, pruners or scissors, and a player having both items in their inventory.
+- what is the result: The player now has cut stalks of papyrus plant.
+
+- entities:
+  - entity name: player
+    - before
+- before: Having a papyrus plant and pruners/scissors in inventory
+    - after: Having cut papyrus stalks in inventory
+  - entity name: papyrus_plant
+    - before: In the player's inventory
+    - after: Cut into stalks
+  - entity name: pruners_scissors
+    - unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a papyrus plant and pruners or scissors in their inventory.
+2. Remove the papyrus plant from the player's inventory.
+3. Add cut papyrus stalks to the player's inventory.
+
+pddl:
+(:action cut_stalks
+ :parameters (?player - player ?papyrus_plant - papyrus_plant ?pruners_scissors - item)
+ :precondition (and (inventory ?player ?papyrus_plant) (inventory ?player ?pruners_scissors))
+ :effect (and (not (inventory ?player ?papyrus_plant)) (inventory ?player ?papyrus_stalks))
+)
+
+- action name: papyrus_strips
+- summarize action: Cut the papyrus stalks into strips using a knife.
+- what is needed to do the action: Cut papyrus stalks, a knife, and a player having both items in their inventory.
+- what is the result: The player has papyrus strips in their inventory.
+
+- entities:
+  - entity name: player
+    - before: Having cut papyrus stalks and a knife in inventory
+    - after: Having papyrus strips in inventory
+  - entity name: papyrus_stalks
+    - before: In the player's inventory
+    - after: Cut into strips
+  - entity name: knife
+    - unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has cut papyrus stalks and a knife in their inventory.
+2. Remove the cut papyrus stalks from the player's inventory.
+3. Add papyrus strips to the player's inventory.
+
+pddl:
+(:action papyrus_strips
+ :parameters (?player - player ?papyrus_stalks - papyrus_stalks ?knife - knife)
+ :precondition (and (inventory ?player ?papyrus_stalks) (inventory ?player ?knife))
+ :effect (and (not (inventory ?player ?papyrus_stalks)) (inventory ?player ?papyrus_strips))
+)
+
+- action name: polish_papyrus
+- summarize action: Polish the papyrus using a shell, smooth ivory, or smooth stone.
+- what is needed to do the action: Flattened papyrus, polishing tool (shell, smooth ivory, or smooth stone), and a player having both items in their inventory.
+- what is the result: The player has a polished papyrus sheet.
+
+- entities:
+  - entity name: player
+    - before: Having flattened papyrus and polishing tool in inventory
+    - after: Having polished papyrus in inventory
+  - entity name: flattened_papyrus
+    - before: In the player's inventory
+    - after: Polished
+  - entity name: polishing_tool
+    - unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has flattened papyrus and a polishing tool in their inventory.
+2. Remove the flattened papyrus from the player's inventory.
+3. Add polished papyrus to the player's inventory.
+
+pddl:
+(:action polish_papyrus
+ :parameters (?player - player ?flattened_papyrus - papyrus ?polishing_tool - item)
+ :precondition (and (inventory ?player ?flattened_papyrus) (inventory ?player ?polishing_tool))
+ :effect (and (not (inventory ?player ?flattened_papyrus)) (inventory ?player ?polished_papyrus))
+)
+
+- action name: flatten_papyrus
+- summarize action: Flatten the papyrus sheets to complete the process.
+- what is needed to do the action: Polished papyrus and a player with the polished papyrus sheet in their inventory.
+- what is the result: The player has flattened and completed papyrus sheets.
+
+- entities:
+  - entity name: player
+    - before: Having polished papyrus in inventory
+    - after: Having flattened papyrus in inventory
+  - entity name: polished_papyrus
+    - before: In the player's inventory
+    - after: Flattened
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has polished papyrus in their inventory.
+2. Replace the polished papyrus in the player's inventory with flattened papyrus.
+
+pddl:
+(:action flatten_papyrus
+ :parameters (?player - player ?polished_papyrus - papyrus)
+ :precondition (inventory ?player ?polished_papyrus)
+ :effect (and (not (inventory ?player ?polished_papyrus)) (inventory ?player ?flattened_papyrus))
+)
+
+- action name: cut_papyrus
+- summarize action: Cut the finished papyrus sheets into smaller sizes using a razor, scissors, or paper cutter.
+- what is needed to do the action: Flattened papyrus, cutting tool (razor, scissors, or paper cutter), and a player having both items in their inventory.
+- what is the result: The player has cut papyrus sheets in their inventory.
+
+- entities:
+  - entity name: player
+    - before: Having flattened papyrus and cutting tool in inventory
+    - after: Having cut papyrus sheets in inventory
+  - entity name: flattened_papyrus
+    - before: In the player's inventory
+    - after: Cut into smaller sheets
+  - entity name: cutting_tool
+    - unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has flattened papyrus and a cutting tool in their inventory.
+2. Remove the flattened papyrus from the player's inventory.
+3. Add cut papyrus sheets to the player's inventory.
+
+pddl:
+(:action cut_papyrus
+ :parameters (?player - player ?flattened_papyrus - papyrus ?cutting_tool - item)
+ :precondition (and (inventory ?player ?flattened_papyrus) (inventory ?player ?cutting_tool))
+ :effect (and (not (inventory ?player ?flattened_papyrus)) (inventory ?player ?cut_papyrus))
+)

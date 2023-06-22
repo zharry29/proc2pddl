@@ -1,0 +1,194 @@
+- action name: go
+- summarize action: The player moves from one location to another in a specific direction.
+- what is needed to do the action: The player must not be stuck in quicksand and there must be a connection between the two locations in the given direction.
+- what is the result: The player is now at the new location.
+
+- entities:
+  - entity name: player
+    - before: at the initial location
+    - after: at the new location
+  - entity name: direction
+    - before: unchanged
+    - after: unchanged
+  - entity name: initial location
+    - before: player is at this location
+    - after: player has moved to the new location
+  - entity name: new location
+    - before: player is not at this location
+    - after: player is now at this location
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is not stuck in quicksand.
+2. Check if there's a connection between the initial location and the new location in the given direction.
+3. Change the player's position from the initial location to the new location.
+
+pddl:
+(:action go
+  :parameters (?p - player ?dir - direction ?loc1 - location ?loc2 - location)
+  :precondition (and
+                  (not (stuck ?p ?q - quicksand))
+                  (at ?p ?loc1)
+                  (connected ?loc1 ?dir ?loc2))
+  :effect (and
+            (not (at ?p ?loc1))
+            (at ?p ?loc2)))
+
+
+- action name: get
+- summarize action: The player picks up an item at their current location.
+- what is needed to do the action: The item must be at the same location as the player and not already in their inventory.
+- what is the result: The item is added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: item
+    - before: at the player's current location
+    - after: in the player's inventory
+  - entity name: location
+    - before: unchanged
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Ensure the item is at the player's current location and not already in their inventory.
+2. Add the item to the player's inventory.
+
+pddl:
+(:action get
+   :parameters (?p - player ?item - item ?loc - location)
+   :precondition (and
+                  (at ?p ?loc)
+                  (at ?item ?loc)
+                  (not (inventory ?p ?item)))
+   :effect
+   (and
+      (not (at ?item ?loc))
+      (inventory ?p ?item)))
+
+
+**The breathe, liedown, swim, usestick, rest, drop, check_ripples, and test_ground actions will be similar to the previous examples. Below I'll provide another example for the action research.**
+
+- action name: research
+- summarize action: The player researches the area around them to become aware of a nearby quicksand location.
+- what is needed to do the action: The player must be calm and not currently aware of the nearby quicksand location.
+- what is the result: The player becomes aware of the nearby quicksand location.
+
+- entities:
+  - entity name: player
+    - before: unchanged (calm and not aware of the nearby quicksand location)
+    - after: unchanged (calm and aware of the nearby quicksand location)
+  - entity name: nearby quicksand location
+    - before: not aware by player
+    - after: aware by player
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is calm.
+2. Check if the player is not already aware of the nearby quicksand location.
+3. Make the player aware of the nearby quicksand location.
+
+pddl:
+(:action research
+   :parameters (?p - player ?l - location)
+   :precondition (and
+                  (calm ?p)
+                  (not (aware ?p ?l)))
+   :effect
+   (aware ?p ?l))
+- action name: move_horizontally
+- summarize action: The player takes a few quick steps backward to prevent their feet from getting fully stuck in quicksand.
+- what is needed to do the action: The player must be at a location with quicksand and not fully stuck in it yet.
+- what is the result: The player moves to another location away from the quicksand, avoiding getting stuck.
+
+- entities:
+  - entity name: player
+    - before: at a location with quicksand and not fully stuck
+    - after: at a different location without quicksand
+  - entity name: initial location
+    - before: player is at this location with quicksand
+    - after: player has moved to another location
+  - entity name: new location
+    - before: player is not at this location and it doesn't have quicksand
+    - after: player is now at this location
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a location with quicksand and not fully stuck in the quicksand.
+2. Ensure a new location without quicksand is connected to the initial location.
+3. Move the player from the initial location to the new location.
+
+pddl:
+(:action move_horizontally
+  :parameters (?p - player ?loc1 - location ?loc2 - location)
+  :precondition (and
+                  (at ?p ?loc1)
+                  (has_quicksand ?loc1)
+                  (not (stuck ?p ?q - quicksand))
+                  (connected ?loc1 ?dir - direction ?loc2)
+                  (not (has_quicksand ?loc2)))
+  :effect (and
+            (not (at ?p ?loc1))
+            (at ?p ?loc2)))
+
+
+- action name: drop
+- summarize action: The player drops an item from their inventory at the current location.
+- what is needed to do the action: The player must be holding the item in their inventory.
+- what is the result: The item is dropped and placed at the player's current location.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: item
+    - before: in player's inventory
+    - after: at the player's current location
+  - entity name: location
+    - before: unchanged
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Ensure the item is in the player's inventory.
+2. Remove the item from the player's inventory.
+3. Place the item at the player's current location.
+
+pddl:
+(:action drop
+   :parameters (?p - player ?item - item ?loc - location)
+   :precondition (and
+                  (at ?p ?loc)
+                  (inventory ?p ?item))
+   :effect (and
+             (not (inventory ?p ?item))
+             (at ?item ?loc)))
+
+
+- action name: check_ripples
+- summarize action: The player checks for ripples in the ground to identify a potential quicksand location.
+- what is needed to do the action: The player must be at a location with ripples, but not yet aware of the quicksand.
+- what is the result: The player becomes aware of the quicksand location.
+
+- entities:
+  - entity name: player
+    - before: not aware of potentially dangerous ripples
+    - after: aware of potentially dangerous ripples
+  - entity name: location
+    - before: has ripples and quicksand, player not aware
+    - after: has ripples and quicksand, player aware
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a location with ripples and not yet aware of the quicksand.
+2. Make the player aware of the quicksand location.
+
+pddl:
+(:action check_ripples
+   :parameters (?p - player ?l - location)
+   :precondition (and
+                  (at ?p ?l)
+                  (has_ripples ?l)
+                  (has_quicksand ?l)
+                  (not (aware ?p ?l)))
+   :effect
+   (aware ?p ?l))
+
+
+**The test_ground action should follow a similar pattern to the rest of the actions.

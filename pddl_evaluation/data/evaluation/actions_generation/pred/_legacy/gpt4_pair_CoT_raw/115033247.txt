@@ -1,0 +1,89 @@
+Action 1: go
+Entities involved: player, direction, location
+States before action: player at location1
+States after action: player at location2
+PDDL format:
+(:action go
+ :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+Action 2: get
+Entities involved: player, item, location
+States before action: item at location, player at location
+States after action: item in player's inventory
+PDDL format:
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?item ?loc))
+ :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+Action 3: pour_water
+Entities involved: player, bowl, water, bowl_of_water
+States before action: player has bowl and water
+States after action: bowl has water
+PDDL format:
+(:action pour_water
+ :parameters (?player - player ?bowl - bowl ?water - water)
+ :precondition (and (inventory ?player ?bowl) (inventory ?player ?water))
+ :effect (and (not (inventory ?player ?water)) (inventory ?player ?bowl_of_water))
+)
+
+Action 4: place_strips_between_boards
+Entities involved: player, papyrus_strips, wooden_boards
+States before action: player has papyrus_strips and wooden_boards
+States after action: papyrus_strips between wooden_boards
+PDDL format:
+(:action place_strips_between_boards
+ :parameters (?player - player ?papyrus_strips - papyrus_strips ?wooden_boards - wooden_boards)
+ :precondition (and (inventory ?player ?papyrus_strips) (inventory ?player ?wooden_boards))
+ :effect (and (not (inventory ?player ?papyrus_strips)) (strips_between_boards))
+)
+
+Action 5: cut_stalks
+Entities involved: player, papyrus_stalks, knife, papyrus_strips
+States before action: player has knife and papyrus_stalks
+States after action: player has papyrus_strips
+PDDL format:
+(:action cut_stalks
+ :parameters (?player - player ?papyrus_stalks - papyrus_stalks ?knife - knife)
+ :precondition (and (inventory ?player ?papyrus_stalks) (inventory ?player ?knife))
+ :effect (and (not (inventory ?player ?papyrus_stalks)) (inventory ?player ?papyrus_strips))
+)
+
+Action 6: polish_papyrus
+Entities involved: player, papyrus, shell, ivory, smooth_stone
+States before action: player has papyrus and one of the polishing items
+States after action: papyrus is polished
+PDDL format:
+(:action polish_papyrus
+ :parameters (?player - player ?papyrus - papyrus ?polishing_item - (either shell ivory smooth_stone))
+ :precondition (and (inventory ?player ?papyrus) (inventory ?player ?polishing_item))
+ :effect (polished ?papyrus)
+)
+
+Action 7: flatten_papyrus
+Entities involved: player, papyrus, stone_slab, rolling_pin
+States before action: player has papyrus
+States after action: papyrus is flat
+PDDL format:
+(:action flatten_papyrus
+ :parameters (?player - player ?papyrus - papyrus ?flattening_item - (either stone_slab rolling_pin))
+ :precondition (and (inventory ?player ?papyrus) (inventory ?player ?flattening_item))
+ :effect (flattened ?papyrus)
+)
+
+Action 8: cut_papyrus
+Entities involved: player, papyrus, razor, scissors, paper_cutter
+States before action: player has papyrus and one of the cutting items
+States after action: papyrus is cut
+PDDL format:
+(:action cut_papyrus
+ :parameters (?player - player ?papyrus - papyrus ?cutting_item - (either razor scissors paper_cutter))
+ :precondition (and (inventory ?player ?papyrus) (inventory ?player ?cutting_item))
+ :effect (cut ?papyrus)
+)
+
+)

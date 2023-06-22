@@ -1,0 +1,261 @@
+- action name: go
+- summarize action: The player moves to a location suitable for throwing the food item.
+- what is needed to do the action: A clear area with enough space (180-300 cm) for throwing straight ahead.
+- what is the result: The player reaches the selected spot.
+
+- entities:
+  - entity name: player
+    - before: not at the spot
+    - after: at the spot
+  - entity name: location
+    - before: possible destination
+    - after: player's current location
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Identify that the player needs to go to a location.
+2. The location should be clear and suitable for throwing.
+3. The player successfully arrives at the location.
+
+pddl:
+(:action go
+ :parameters (?player - player ?loc - location)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc) (is_clear ?loc))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc)))
+
+
+- action name: get
+- summarize action: The player chooses a food item for throwing that meets the requirements: long, thin, hard, straight, and stiff.
+- what is needed to do the action: A food item meeting the requirements (e.g., frozen hot dog).
+- what is the result: The player has the chosen food item.
+
+- entities:
+  - entity name: food item
+    - before: not in the player's possession
+    - after: in the player's possession
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Identify the necessary characteristics of the food item.
+2. Check if the food item meets the requirements.
+3. Add the food item to the player's possession.
+
+pddl:
+(:action get
+ :parameters (?player - player ?item - object)
+ :precondition (and (is_gettable ?item) (is_food_item ?item) 
+                     (is_long ?item) (is_thin ?item) (is_hard ?item) (is_straight ?item) (is_stiff ?item))
+ :effect (inventory ?player ?item))
+
+
+- action name: lay_masking_tape
+- summarize action: The player lays down masking tape in parallel strips across the floor to create a grid for throwing the food item.
+- what is needed to do the action: The player has masking tape, and the area has enough space.
+- what is the result: The grid is created with the masking tape on the floor.
+
+- entities:
+  - entity name: masking_tape
+    - before: not on the floor, with the player
+    - after: on the floor, creating gridlines
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has masking tape.
+2. Verify that the space is appropriate for laying masking tape.
+3. Update the area/grid status to have parallel masking tape strips.
+
+pddl:
+(:action lay_masking_tape
+ :parameters (?player - player ?masking_tape - object ?loc - location)
+ :precondition (and (inventory ?player ?masking_tape) (is_clear ?loc))
+ :effect (has_ten_strips ?loc))
+
+
+- action name: make_tosses_column
+- summarize action: The player creates a "Tosses" column on a piece of paper to track the number of food throws.
+- what is needed to do the action: The player has paper and pen.
+- what is the result: The "Tosses" column is added to the paper.
+
+- entities:
+  - entity name: paper
+    - before: no "Tosses" column
+    - after: "Tosses" column added
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has paper and pen.
+2. Add the "Tosses" column to the paper.
+
+pddl:
+(:action make_tosses_column
+ :parameters (?player - player ?paper - paper)
+ :precondition (inventory ?player ?paper) (inventory ?player ?pen)
+ :effect (tosses_column ?paper))
+
+
+- action name: make_crosses_column
+- summarize action: The player creates a "Crosses" column on a piece of paper to track the number of food throws that cross the masking tape lines on the floor.
+- what is needed to do the action: The player has paper and pen.
+- what is the result: The "Crosses" column is added to the paper.
+
+- entities:
+  - entity name: paper
+    - before: no "Crosses" column
+    - after: "Crosses" column added
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has paper and pen.
+2. Add the "Crosses" column to the paper.
+
+pddl:
+(:action make_crosses_column
+ :parameters (?player - player ?paper - paper)
+ :precondition (and (inventory ?player ?paper) (inventory ?player ?pen))
+ :effect (crosses_column ?paper))
+
+
+- action name: thaw_food
+- summarize action: The player thaws the food item before throwing it.
+- what is needed to do the action: The food item is frozen.
+- what is the result: The food item becomes thawed (unfrozen).
+
+- entities:
+  - entity name: food item
+    - before: frozen
+    - after: thawed (unfrozen)
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the food item is frozen.
+2. Change the food item's state to thawed (unfrozen).
+
+pddl:
+(:action thaw_food
+ :parameters (?player - player ?item - object)
+ :precondition (and (inventory ?player ?item) (is_food_item ?item) (frozen ?item))
+ :effect (not (frozen ?item)))
+
+
+- action name: throw
+- summarize action: The player throws the food item, and it lands at a certain location.
+- what is needed to do the action: The player has a suitable food item, a clear space for throwing, and masking tape lines on the floor.
+- what is the result: The food item lands at a specified location (across a line or not).
+
+- entities:
+  - entity name: food item
+    - before: in the player's possession
+    - after: at a specified location (thrown)
+  - entity name: location
+    - before: no thrown food item
+    - after: thrown food item present
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a suitable food item and the throwing area is set up.
+2. The player throws the food item.
+3. Update the location where the food item landed.
+
+pddl:
+(:action throw
+ :parameters (?player - player ?item - object ?loc - location)
+ :precondition (and (inventory ?player ?item) (is_food_item ?item) (is_clear ?loc) (has_ten_strips ?loc))
+ :effect (and (not (inventory ?player ?item)) (thrown_food_items ?loc)))
+
+
+- action name: record_tosses
+- summarize action: The player records the number of thrown food items in the "Tosses" column on the paper.
+- what is needed to do the action: The player has paper with a "Tosses" column and a pen.
+- what is the result: The number of throws is updated in the "Tosses" column.
+
+- entities:
+  - entity name: paper
+    - before: "Tosses" column with the previous number of throws
+    - after: "Tosses" column with an updated number of throws
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has paper with a "Tosses" column and a pen.
+2. Update the number of throws in the "Tosses" column.
+
+pddl:
+(:action record_tosses
+ :parameters (?player - player ?paper - paper)
+ :precondition (and (inventory ?player ?paper) (inventory ?player ?pen) (tosses_column ?paper))
+ :effect (tosses_recorded ?paper))
+
+
+- action name: record_crosses
+- summarize action: The player records the number of thrown food items that crossed the masking tape lines in the "Crosses" column on the paper.
+- what is needed to do the action: The player has paper with a "Crosses" column and a pen.
+- what is the result: The number of crosses is updated in the "Crosses" column.
+
+- entities:
+  - entity name: paper
+    - before: "Crosses" column with the previous number of crosses
+    - after: "Crosses" column with an updated number of crosses
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has paper with a "Crosses" column and a pen.
+2. Update the number of crosses in the "Crosses" column.
+
+pddl:
+(:action record_crosses
+ :parameters (?player - player ?paper - paper)
+ :precondition (and (inventory ?player ?paper) (inventory ?player ?pen) (crosses_column ?paper))
+ :effect (crosses_recorded ?paper))
+
+
+- action name: divide_crosses
+- summarize action: The player divides the number of crosses by 2.
+- what is needed to do the action: The player has recorded the number of crosses on the paper.
+- what is the result: The divided number of crosses is calculated.
+
+- entities:
+  - entity name: paper
+    - before: "Crosses" column with the total number of crosses
+    - after: "Crosses" column with the divided number of crosses
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has recorded the number of crosses on the paper.
+2. Calculate the divided number of crosses.
+
+pddl:
+(:action divide_crosses
+ :parameters (?player - player ?paper - paper)
+ :precondition (crosses_recorded ?paper)
+ :effect (crosses_divided ?paper))
+
+
+- action name: calculate_pi
+- summarize action: The player calculates an approximation of pi using the divided number of crosses and the total number of throws.
+- what is needed to do the action: The player has recorded tosses and divided crosses on the paper.
+- what is the result: The player calculates an approximation of pi.
+
+- entities:
+  - entity name: player
+    - before: no approximation of pi calculated
+    - after: approximation of pi calculated
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has recorded tosses and divided crosses on the paper.
+2. Calculate the approximation of pi.
+
+pddl:
+(:action calculate_pi
+ :parameters (?player - player ?paper - paper)
+ :precondition (and (tosses_recorded ?paper) (crosses_divided ?paper))
+ :effect (calculated_pi ?player))
+
+
+- action name: be_amazed
+- summarize action: The player is amazed by the approximation of pi calculated from throwing food items.
+- what is needed to do the action: The player has calculated an approximation of pi.
+- what is the result: The player is amazed.
+
+- entities:
+  - entity name: player
+    - before: not amazed
+    - after: amazed
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has calculated an approximation of pi.
+2. Update the player's state to be amazed.
+
+pddl:
+(:action be_amazed
+ :parameters (?player - player)
+ :precondition (calculated_pi ?player)
+ :effect (amazed ?player))

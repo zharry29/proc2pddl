@@ -1,0 +1,79 @@
+(:action go
+   :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+   :precondition (connected ?loc1 ?dir ?loc2) 
+   :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (at ?item ?loc) (not (inventory ?player ?item)))
+   :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+(:action pick_lock_with_card
+   :parameters (?loc - location)
+   :precondition (and (or (has_easy_lock ?loc) (has_hard_lock ?loc)) (inventory ?player card))
+   :effect (and (not (has_easy_lock ?loc)) (not (has_hard_lock ?loc)) (at card ?loc))
+)
+
+(:action file_key_into_wrench
+   :parameters (?loc - location)
+   :precondition (and (at allen_key ?loc) (inventory ?player file) (not (coathanger_inserted ?loc)))
+   :effect (and (not (at allen_key ?loc)) (at wrench ?loc))
+)
+
+(:action bend_paperclip_into_pick
+   :parameters (?loc - location)
+   :precondition (and (at paperclip ?loc) (not (coathanger_inserted ?loc)))
+   :effect (and (not (at paperclip ?loc)) (at pick ?loc))
+)
+
+(:action insert_wrench
+   :parameters (?loc - location)
+   :precondition (and (at wrench ?loc) (has_easy_lock ?loc) (not (wrench_in_lock ?loc)))
+   :effect (wrench_in_lock ?loc)
+)
+
+(:action insert_pick
+   :parameters (?loc - location)
+   :precondition (and (at pick ?loc) (has_easy_lock ?loc) (not (pick_in_lock ?loc)))
+   :effect (pick_in_lock ?loc)
+)
+
+(:action push_pins_out_of_tumblers
+   :parameters (?loc - location)
+   :precondition (and (has_easy_lock ?loc) (wrench_in_lock ?loc) (pick_in_lock ?loc))
+   :effect (and (not (has_easy_lock ?loc)) (not (wrench_in_lock ?loc)) (not (pick_in_lock ?loc)))
+)
+
+(:action straighten_coathanger
+   :parameters (?loc - location)
+   :precondition (and (at coathanger ?loc) (not (coathanger_inserted ?loc)))
+   :effect (coathanger_inserted ?loc)
+)
+
+(:action lift_weatherstripping
+   :parameters (?loc - location)
+   :precondition (and (at weatherstripping ?loc) (not (weatherstripping_removed ?loc)))
+   :effect (weatherstripping_removed ?loc)
+)
+
+(:action insert_hanger
+   :parameters (?loc - location)
+   :precondition (and (at coathanger ?loc) (coathanger_inserted ?loc) (not (latch_hooked ?loc)))
+   :effect (latch_hooked ?loc)
+)
+
+(:action hook_latch
+   :parameters (?loc - location)
+   :precondition (and (latch_hooked ?loc) (not (locked_car ?loc)))
+   :effect (locked_car ?loc)
+)
+
+(:action pull_coathanger
+   :parameters (?loc - location)
+   :precondition (and (at coathanger ?loc) (coathanger_inserted ?loc) (locked_car ?loc))
+   :effect (not (locked_car ?loc))
+)
+
+)

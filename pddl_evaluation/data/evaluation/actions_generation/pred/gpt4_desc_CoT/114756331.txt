@@ -1,0 +1,71 @@
+(:action go
+  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and
+    (at ?player ?loc1)
+    (connected ?loc1 ?dir ?loc2)
+    (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and
+    (not (at ?player ?loc1))
+    (at ?player ?loc2)))
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and
+    (at ?player ?loc)
+    (at ?item ?loc)
+    (not (inventory ?player ?item)))
+  :effect (and
+    (not (at ?item ?loc))
+    (inventory ?player ?item)))
+
+(:action breathe
+ :parameters (?player - player ?loc - location)
+ :precondition (at ?player ?loc)
+ :effect (calm ?player))
+
+(:action liedown
+ :parameters (?player - player ?loc - location)
+ :precondition (at ?player ?loc)
+ :effect (laying ?player))
+
+(:action swim
+ :parameters (?player - player ?loc - location)
+ :precondition (and (at ?player ?loc) (stuck ?player ?quicksand))
+ :effect (not (stuck ?player ?quicksand)))
+
+(:action usestick
+ :parameters (?player - player ?stick - stick)
+ :precondition (inventory ?player ?stick)
+ :effect (calm ?player))
+
+(:action rest
+ :parameters (?player - player)
+ :precondition (tired ?player)
+ :effect (not (tired ?player)))
+
+(:action drop
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (inventory ?player ?item) (at ?player ?loc))
+ :effect (and (not (inventory ?player ?item)) (at ?item ?loc)))
+
+(:action check_ripples
+ :parameters (?player - player ?loc - location)
+ :precondition (at ?player ?loc)
+ :effect (aware ?player ?loc))
+
+(:action test_ground
+ :parameters (?player - player ?loc - location)
+ :precondition (and (at ?player ?loc) (has_quicksand ?loc))
+ :effect (stuck ?player ?quicksand))
+
+(:action research
+ :parameters (?player - player ?loc - location)
+ :precondition (at ?player ?loc)
+ :effect (aware ?player ?potential_quicksand_location))
+
+(:action move_horizontally
+ :parameters (?player - player)
+ :precondition (laying ?player)
+ :effect (and (not (laying ?player)) (tired ?player)))
+
+)

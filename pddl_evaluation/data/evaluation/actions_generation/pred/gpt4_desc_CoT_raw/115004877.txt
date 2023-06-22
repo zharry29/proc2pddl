@@ -1,0 +1,393 @@
+- action name: go
+- summarize action: The player navigates to an adjacent location.
+- what is needed to do the action: The player and the locations should be connected by a direction.
+- what is the result: The player changes location.
+
+- entities:
+  - entity name: player
+    - before: at the current location
+    - after: at the new location
+  - entity name: current location
+    - before: player is at this location
+    - after: player is not at this location
+  - entity name: new location
+    - before: player is not at this location
+    - after: player is at this location
+  - entity name: direction
+    - unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the current location: (at ?player ?current_loc).
+2. Ensure the current location is connected to the new location in a specific direction: (connected ?current_loc ?dir ?new_loc).
+
+pddl:
+(:action go 
+  :parameters 
+    (?player - player, ?current_loc ?new_loc - location, ?dir - direction)
+  :precondition 
+    (and
+      (at ?player ?current_loc) 
+      (connected ?current_loc ?dir ?new_loc))
+  :effect 
+    (and
+      (at ?player ?new_loc) 
+      (not (at ?player ?current_loc)))
+)
+
+- action name: get
+- summarize action: The player picks up an item and puts it in their inventory.
+- what is needed to do the action: The player and the item should be at the same location.
+- what is the result: The player has the item in their inventory, and the item is no longer at that location.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: item
+    - before: at the location
+    - after: in the player's inventory
+  - entity name: location
+    - before: item is at this location
+    - after: item is not at this location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player and the item are at the same location: (at ?player ?loc) and (at ?item ?loc).
+
+pddl:
+(:action get
+  :parameters (?player - player, ?item - item, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?item ?loc))
+  :effect (and
+            (inventory ?player ?item)
+            (not (at ?item ?loc)))
+)
+
+For the rest of the actions, the process is similar. First, summarize the action and identify requirements and the resulting changes. Next, identify the entities involved and how they change during the action. Finally, match the PDDL predicates to the entities and changes.
+
+Please note that you may need to update the provided predicates to accurately reflect the entities and changes in each action. Follow the same process as demonstrated above for each action, and don't forget to include the relevant predicates in the parameters, precondition, and effect fields.
+- action name: cut_plant
+- summarize action: The player cuts a plant to obtain a stalk.
+- what is needed to do the action: The player should be at the same location as the plant and have scissors in their inventory.
+- what is the result: The stalk is generated at the player's location, and the plant is removed.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: plant
+    - before: at the location
+    - after: removed
+  - entity name: scissors
+    - unchanged, must be in the player's inventory
+  - entity name: location
+    - before: plant is at the location
+    - after: stalk is at the location
+  - entity name: stalk
+    - before: not at the location
+    - after: at the location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player and the plant are at the same location: (at ?player ?loc) and (at ?plant ?loc).
+2. Ensure the player has scissors in their inventory: (inventory ?player ?scissors).
+
+pddl:
+(:action cut_plant
+  :parameters (?player - player, ?plant - plant, ?scissors - scissors, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?plant ?loc)
+                  (inventory ?player ?scissors))
+  :effect (and
+            (at ?stalk ?loc)
+            (not (at ?plant ?loc)))
+)
+
+- action name: peel_stalk
+- summarize action: The player peels the outer layer off a stalk to obtain a peeled stalk.
+- what is needed to do the action: The player should be at the same location as the stalk.
+- what is the result: The peeled stalk is generated at the player's location, and the original stalk is removed.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: stalk
+    - before: at the location
+    - after: removed, outer layer peeled
+  - entity name: location
+    - before: unpeeled stalk is at the location
+    - after: peeled stalk is at the location
+  - entity name: peeled stalk
+    - before: not at the location
+    - after: at the location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player and the stalk are at the same location: (at ?player ?loc) and (at ?stalk ?loc).
+
+pddl:
+(:action peel_stalk
+  :parameters (?player - player, ?stalk - stalk, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?stalk ?loc))
+  :effect (and
+            (peeled ?stalk)
+            (not (at ?stalk ?loc))
+            (at ?peeled_stalk ?loc))
+)
+
+- action name: cut_stalk_into_strips
+- summarize action: The player cuts the peeled stalk into strips.
+- what is needed to do the action: The player should be at the same location as the peeled stalk.
+- what is the result: The strips are generated at the player's location, and the peeled stalk is removed.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: peeled stalk
+    - before: at the location
+    - after: removed
+  - entity name: location
+    - before: peeled stalk is at the location
+    - after: strips are at the location
+  - entity name: strips
+    - before: not at the location
+    - after: at the location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player and the peeled stalk are at the same location: (at ?player ?loc) and (at ?peeled_stalk ?loc).
+2. Ensure the peeled stalk is peeled: (peeled ?stalk).
+
+pddl:
+(:action cut_stalk_into_strips
+  :parameters (?player - player, ?peeled_stalk - stalk, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?peeled_stalk ?loc)
+                  (peeled ?stalk))
+  :effect (and
+            (at ?strips ?loc)
+            (not (at ?peeled_stalk ?loc)))
+)
+
+- action name: soak_strips
+- summarize action: The player soaks the strips in water.
+- what is needed to do the action: The player should be at a location with water access and have the strips at the location.
+- what is the result: The strips are cleaned (soaked).
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: location
+    - unchanged, has water access
+  - entity name: strips
+    - before: not clean
+    - after: clean
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at a location with water: (at ?player ?loc) and (has_water ?loc).
+2. Ensure the strips are at the location: (at ?strips ?loc).
+
+pddl:
+(:action soak_strips
+  :parameters (?player - player, ?strips - strip, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?strips ?loc)
+                  (has_water ?loc))
+  :effect (clean ?strips)
+)
+
+Continuing with the rest of the actions, follow the same process as demonstrated above for each action. Identify requirements and resulting changes, determine the entities involved and how they change during the action, and then match the PDDL predicates to the entities and changes.
+- action name: dry_out_strips
+- summarize action: The player dries out the soaked strips.
+- what is needed to do the action: The player should be at the same location as the clean strips.
+- what is the result: The strips become dry (and still clean).
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: strips
+    - before: clean, not dry
+    - after: clean, dry
+  - entity name: location
+    - unchanged, has the strips
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player and the clean strips are at the same location: (at ?player ?loc) and (at ?clean_strips ?loc).
+2. Ensure the strips are clean: (clean ?strips).
+
+pddl:
+(:action dry_out_strips
+  :parameters (?player - player, ?clean_strips - strip, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?clean_strips ?loc)
+                  (clean ?strips))
+  :effect (dry ?strips)
+)
+
+- action name: weave_strips_into_sheet
+- summarize action: The player weaves the dry, clean strips into a sheet.
+- what is needed to do the action: The player should be at the same location as the dry, clean strips.
+- what is the result: The sheet is created at the player's location, and the strips are removed.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: strips
+    - before: clean, dry, at the location
+    - after: removed
+  - entity name: location
+    - before: strips are at the location
+    - after: sheet is at the location
+  - entity name: sheet
+    - before: not at the location
+    - after: at the location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player, clean and dry strips are at the same location: (at ?player ?loc) and (at ?dry_clean_strips ?loc).
+2. Ensure the strips are clean and dry: (clean ?strips) and (dry ?strips).
+
+pddl:
+(:action weave_strips_into_sheet
+  :parameters (?player - player, ?dry_clean_strips - strip, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?dry_clean_strips ?loc)
+                  (clean ?strips)
+                  (dry ?strips))
+  :effect (and
+            (at ?sheet ?loc)
+            (not (at ?dry_clean_strips ?loc)))
+)
+
+Note that as you work on the remaining actions, you should continuously update the provided predicates to accurately reflect the entities and changes in each action. Make sure to follow the same process as demonstrated above for each action, including the relevant predicates in the parameters, precondition, and effect fields.
+- action name: press_sheet
+- summarize action: The player presses the sheet using a wooden board to make it flat.
+- what is needed to do the action: The player should be at the same location as the sheet and have a wooden board in their inventory.
+- what is the result: The sheet becomes flat.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: sheet
+    - before: not flat, at the location
+    - after: flat, at the location
+  - entity name: location
+    - unchanged, has the sheet
+  - entity name: wooden_board
+    - unchanged, must be in the player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player and the sheet are at the same location: (at ?player ?loc) and (at ?sheet ?loc).
+2. Ensure the player has a wooden board in their inventory: (inventory ?player ?wooden_board).
+
+pddl:
+(:action press_sheet
+  :parameters (?player - player, ?sheet - sheet, ?wooden_board - wooden_board, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?sheet ?loc)
+                  (inventory ?player ?wooden_board))
+  :effect (flat ?sheet)
+)
+
+- action name: flatten_sheet
+- summarize action: The player flattens the sheet by pressing it really hard to make it very flat.
+- what is needed to do the action: The player should be at the same location as the flat sheet.
+- what is the result: The sheet becomes very flat.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: sheet
+    - before: flat, at the location
+    - after: very flat, at the location
+  - entity name: location
+    - unchanged, has the sheet
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player and the flat sheet are at the same location: (at ?player ?loc) and (at ?flat_sheet ?loc).
+2. Ensure the sheet is flat: (flat ?sheet).
+
+pddl:
+(:action flatten_sheet
+  :parameters (?player - player, ?flat_sheet - sheet, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?flat_sheet ?loc)
+                  (flat ?sheet))
+  :effect (very_flat ?sheet)
+)
+
+- action name: polish_sheet
+- summarize action: The player polishes the very flat sheet using a shell to make it smooth.
+- what is needed to do the action: The player should be at the same location as the very flat sheet and have a shell in their inventory.
+- what is the result: The sheet becomes smooth.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: sheet
+    - before: very flat, at the location
+    - after: smooth, at the location
+  - entity name: location
+    - unchanged, has the sheet
+  - entity name: shell
+    - unchanged, must be in the player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player and the very flat sheet are at the same location: (at ?player ?loc) and (at ?very_flat_sheet ?loc).
+2. Ensure the sheet is very flat: (very_flat ?sheet).
+3. Ensure the player has a shell in their inventory: (inventory ?player ?shell).
+
+pddl:
+(:action polish_sheet
+  :parameters (?player - player, ?very_flat_sheet - sheet, ?shell - shell, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?very_flat_sheet ?loc)
+                  (very_flat ?sheet)
+                  (inventory ?player ?shell))
+  :effect (smooth ?sheet)
+)
+
+Continue with this process for the last action, "cut_sheet". Identify the requirements and resulting changes, determine the entities involved and how they change during the action. Match the PDDL predicates to the entities and changes, and include the relevant predicates in the parameters, precondition, and effect fields.
+- action name: cut_sheet
+- summarize action: The player cuts the smooth papyrus sheet into the desired size.
+- what is needed to do the action: The player should be at the same location as the smooth sheet and have scissors in their inventory.
+- what is the result: The sheet becomes a papyrus of the desired size.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: sheet
+    - before: smooth, at the location
+    - after: becomes a papyrus of the desired size
+  - entity name: location
+    - unchanged, has the sheet
+  - entity name: scissors
+    - unchanged, must be in the player's inventory
+  - entity name: papyrus
+    - before: not at the location
+    - after: at the location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player and the smooth sheet are at the same location: (at ?player ?loc) and (at ?smooth_sheet ?loc).
+2. Ensure the sheet is smooth: (smooth ?sheet).
+3. Ensure the player has scissors in their inventory: (inventory ?player ?scissors).
+
+pddl:
+(:action cut_sheet
+  :parameters (?player - player, ?smooth_sheet - sheet, ?scissors - scissors, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?smooth_sheet ?loc)
+                  (smooth ?sheet)
+                  (inventory ?player ?scissors))
+  :effect (and
+            (not (at ?smooth_sheet ?loc))
+            (at ?papyrus ?loc))
+)
+
+Now, all actions for making papyrus have been translated into PDDL format. Ensure all relevant predicates are included in the 'parameters', 'precondition', and 'effect' fields. Remember to update the provided predicates to accurately reflect the entities and changes in each action. Follow this process for any similar tasks in the future.

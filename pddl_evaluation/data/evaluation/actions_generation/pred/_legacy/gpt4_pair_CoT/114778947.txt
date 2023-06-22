@@ -1,0 +1,64 @@
+(:action pick_lock_with_card
+    :parameters (?player - player ?loc - location ?card - item)
+    :precondition (and
+        (inventory ?player ?card)
+        (has_easy_lock ?loc)
+    )
+    :effect (not (has_easy_lock ?loc))
+)
+
+
+
+
+
+
+(:action bend_paperclip_into_pick
+    :parameters (?player - player ?paperclip - item)
+    :precondition (inventory ?player ?paperclip)
+    :effect (and
+        (not (inventory ?player ?paperclip))
+        (inventory ?player (make-pick ?paperclip))
+    )
+)
+
+
+
+
+
+
+(:action insert_wrench
+    :parameters (?player - player ?loc - location ?wrench - item)
+    :precondition (and
+        (inventory ?player ?wrench)
+        (has_hard_lock ?loc)
+    )
+    :effect (wrench_in_lock ?loc)
+)
+
+
+
+
+
+
+(:action insert_pick
+    :parameters (?player - player ?loc - location ?pick - item)
+    :precondition (and
+        (inventory ?player ?pick)
+        (wrench_in_lock ?loc)
+    )
+    :effect (pick_in_lock ?loc)
+)
+
+
+
+
+
+
+(:action push_pins_out_of_tumblers
+    :parameters (?loc - location)
+    :precondition (pick_in_lock ?loc)
+    :effect (not (has_hard_lock ?loc))
+)
+
+
+)

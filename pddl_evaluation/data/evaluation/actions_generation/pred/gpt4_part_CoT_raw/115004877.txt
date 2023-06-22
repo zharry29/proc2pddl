@@ -1,0 +1,351 @@
+- action name: go
+- summarize action: The player moves from one location to another location in a specific direction.
+- what is needed to do the action: A player, their current location, the direction they want to move in, and the destination location connected by that direction.
+- what is the result: The player is now at the destination location.
+
+- entities:
+  - entity name: player
+    - before: at current location
+    - after: at destination location
+  - entity name: current location
+    - before: player at current location
+    - after: player not at this location
+  - entity name: destination location
+    - before: player not at destination location
+    - after: player at destination location
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the current location is connected to the destination location via the given direction.
+2. Remove the "at" predicate for the player and the current location.
+3. Add the "at" predicate for the player and the destination location.
+
+pddl:
+(:action go
+  :parameters (?player - player ?current - location ?destination - location ?dir - direction)
+  :precondition (and (at ?player ?current) (connected ?current ?dir ?destination))
+  :effect (and (not (at ?player ?current)) (at ?player ?destination))
+)
+
+- action name: get
+- summarize action: The player picks up an item from a location.
+- what is needed to do the action: A player, an item, and the location of the item.
+- what is the result: The item is in the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: does not have the item in their inventory
+    - after: has the item in their inventory
+  - entity name: item
+    - before: at the location
+    - after: no longer at the location
+  - entity name: location
+    - before: item at location
+    - after: item not at location
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the item is at the location and the player is also at the location.
+2. Add the "inventory" predicate for the player and the item.
+3. Remove the "at" predicate for the item and the location.
+
+pddl:
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+
+- action name: cut_plant
+- summarize action: The player cuts a plant to obtain a stalk using strong scissors or pruners.
+- what is needed to do the action: A player, a plant, a location with the plant, and a cutting tool.
+- what is the result: The player has a stalk in their inventory.
+
+- entities:
+  - entity name: player
+    - before: does not have a stalk in their inventory
+    - after: has a stalk in their inventory
+  - entity name: plant
+    - before: at the location
+    - after: no longer at the location (cut)
+  - entity name: location
+    - before: plant at location
+    - after: plant not at location
+  - entity name: cutting tool
+    - before: in player's inventory
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at the location and has the cutting tool in their inventory.
+2. Check if the plant is at the location.
+3. Add a "stalk" item to the player's inventory.
+4. Remove the plant from the location.
+
+pddl:
+(:action cut_plant
+  :parameters (?player - player ?plant - plant ?loc - location ?cut_tool - item)
+  :precondition (and (at ?player ?loc) (at ?plant ?loc) (inventory ?player ?cut_tool))
+  :effect (and (inventory ?player ?stalk - stalk) (not (at ?plant ?loc)))
+)
+
+- action name: peel_stalk
+- summarize action: The player peels away the outer layer of the stalk using a sharp knife or scissors, obtaining a peeled stalk.
+- what is needed to do the action: A player, a stalk, and a peeling tool.
+- what is the result: The player's inventory now contains a peeled stalk.
+
+- entities:
+  - entity name: player
+    - before: has an unpeeled stalk in their inventory
+    - after: has a peeled stalk in their inventory
+  - entity name: stalk
+    - before: not peeled
+    - after: peeled (peeled_stalk)
+  - entity name: peeling tool
+    - before: in player's inventory
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a stalk and a peeling tool in their inventory.
+2. Remove the unpeeled stalk from the player's inventory.
+3. Add the peeled stalk to the player's inventory.
+
+pddl:
+(:action peel_stalk
+  :parameters (?player - player ?stalk - stalk ?peel_tool - item)
+  :precondition (and (inventory ?player ?stalk) (inventory ?player ?peel_tool))
+  :effect (and (not (inventory ?player ?stalk)) (inventory ?player ?peeled_stalk - stalk))
+)
+
+- action name: cut_stalk_into_strips
+- summarize action: The player cuts the peeled stalk into thin strips using a knife, obtaining multiple strips.
+- what is needed to do the action: A player, a peeled stalk, and a cutting tool.
+- what is the result: The player's inventory now contains multiple strips.
+
+- entities:
+  - entity name: player
+    - before: has a peeled stalk in their inventory
+    - after: has multiple strips in their inventory
+  - entity name: peeled stalk
+    - before: in player's inventory
+    - after: no longer in player's inventory (cut into strips)
+  - entity name: cutting tool
+    - before: in player's inventory
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a peeled stalk and a cutting tool in their inventory.
+2. Remove the peeled stalk from the player's inventory.
+3. Add multiple strips to the player's inventory.
+
+pddl:
+(:action cut_stalk_into_strips
+  :parameters (?player - player ?peeled_stalk - stalk ?cut_tool - item)
+  :precondition (and (inventory ?player ?peeled_stalk) (inventory ?player ?cut_tool) (peeled ?peeled_stalk))
+  :effect (and (not (inventory ?player ?peeled_stalk)) (inventory ?player ?strip1 - strip) (inventory ?player ?strip2 - strip)) ; continue adding strips as needed
+)
+
+- action name: soak_strips
+- summarize action: The player soaks the strips in water for at least 3 days, making them flexible and transparent.
+- what is needed to do the action: A player, some strips, and a location with water.
+- what is the result: The player's inventory now contains multiple clean (soaked) strips.
+
+- entities:
+  - entity name: player
+    - before: has multiple unclean strips in their inventory
+    - after: has multiple clean strips in their inventory
+  - entity name: unclean strip
+    - before: in player's inventory
+    - after: no longer in player's inventory (soaked)
+  - entity name: clean strips
+    - before: not in player's inventory
+    - after: in player's inventory
+  - entity name: location
+    - before: has water
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is at a location with water and has unclean strips in their inventory.
+2. Remove the unclean strips from the player's inventory.
+3. Add clean strips to the player's inventory.
+
+pddl:
+(:action soak_strips
+  :parameters (?player - player ?loc - location ?unclean_strip - strip)
+  :precondition (and (at ?player ?loc) (has_water ?loc) (inventory ?player ?unclean_strip))
+  :effect (and (not (inventory ?player ?unclean_strip)) (inventory ?player ?clean_strip - strip) (clean ?clean_strip))
+)
+
+- action name: dry_out_strips
+- summarize action: The player dries out the soaked strips for some time, making them dry.
+- what is needed to do the action: A player and some clean strips.
+- what is the result: The player's inventory now contains multiple dry strips.
+
+- entities:
+  - entity name: player
+    - before: has multiple clean strips in their inventory
+    - after: has multiple dry strips in their inventory
+  - entity name: clean strip
+    - before: in player's inventory
+    - after: no longer in player's inventory (dried)
+  - entity name: dry strip
+    - before: not in player's inventory
+    - after: in player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has clean strips in their inventory.
+2. Remove the clean strips from the player's inventory.
+3. Add dry strips to the player's inventory.
+
+pddl:
+(:action dry_out_strips
+  :parameters (?player - player ?clean_strip - strip)
+  :precondition (and (inventory ?player ?clean_strip) (clean ?clean_strip))
+  :effect (and (not (inventory ?player ?clean_strip)) (inventory ?player ?dry_strip - strip) (dry ?dry_strip))
+)
+
+- action name: weave_strips_into_sheet
+- summarize action: The player weaves the dry strips into a sheet (e.g., a placemat).
+- what is needed to do the action: A player and multiple dry strips.
+- what is the result: The player's inventory now contains a sheet.
+
+- entities:
+  - entity name: player
+    - before: has multiple dry strips in their inventory
+    - after: has a sheet in their inventory
+  - entity name: dry strip
+    - before: in player's inventory
+    - after: no longer in player's inventory (weaved)
+  - entity name: sheet
+    - before: not in player's inventory
+    - after: in player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has multiple dry strips in their inventory.
+2. Remove the dry strips from the player's inventory.
+3. Add a sheet to the player's inventory.
+
+pddl:
+(:action weave_strips_into_sheet
+  :parameters (?player - player ?dry_strip - strip)
+  :precondition (and (inventory ?player ?dry_strip) (dry ?dry_strip))
+  :effect (and (not (inventory ?player ?dry_strip)) (inventory ?player ?sheet - sheet))
+)
+
+- action name: press_sheet
+- summarize action: The player presses the sheet between two heavy wooden boards to flatten it.
+- what is needed to do the action: A player, a sheet, and two heavy wooden boards.
+- what is the result: The player's inventory now contains a flat sheet.
+
+- entities:
+  - entity name: player
+    - before: has a sheet in their inventory
+    - after: has a flat sheet in their inventory
+  - entity name: sheet
+    - before: in player's inventory
+    - after: no longer in player's inventory (pressed)
+  - entity name: flat sheet
+    - before: not in player's inventory
+    - after: in player's inventory
+  - entity name: wooden boards
+    - before: in player's inventory
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a sheet and two wooden boards in their inventory.
+2. Remove the sheet from the player's inventory.
+3. Add a flat sheet to the player's inventory.
+
+pddl:
+(:action press_sheet
+  :parameters (?player - player ?sheet - sheet ?wooden_board1 - wooden_board ?wooden_board2 - wooden_board)
+  :precondition (and (inventory ?player ?sheet) (inventory ?player ?wooden_board1) (inventory ?player ?wooden_board2))
+  :effect (and (not (inventory ?player ?sheet)) (inventory ?player ?flat_sheet - sheet) (flat ?flat_sheet))
+)
+
+- action name: flatten_sheet
+- summarize action: The player further flattens the pressed sheet by rolling it, putting it under a stone slab or using a heavy object.
+- what is needed to do the action: A player and a previously pressed sheet.
+- what is the result: The player's inventory now contains a very_flat sheet.
+
+- entities:
+  - entity name: player
+    - before: has a flat sheet in their inventory
+    - after: has a very_flat sheet in their inventory
+  - entity name: flat sheet
+    - before: in player's inventory
+    - after: no longer in player's inventory (flattened more)
+  - entity name: very_flat sheet
+    - before: not in player's inventory
+    - after: in player's inventory
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a flat sheet in their inventory.
+2. Remove the flat sheet from the player's inventory.
+3. Add a very_flat sheet to the player's inventory.
+
+pddl:
+(:action flatten_sheet
+  :parameters (?player - player ?flat_sheet - sheet)
+  :precondition (and (inventory ?player ?flat_sheet) (flat ?flat_sheet))
+  :effect (and (not (inventory ?player ?flat_sheet)) (inventory ?player ?very_flat_sheet - sheet) (very_flat ?very_flat_sheet))
+)
+
+- action name: polish_sheet
+- summarize action: The player polishes the very_flat sheet using a smooth shell or a piece of ivory to make it shinier.
+- what is needed to do the action: A player, a very_flat sheet, and a polishing tool (shell or ivory).
+- what is the result: The player's inventory now contains a smooth sheet.
+
+- entities:
+  - entity name: player
+    - before: has a very_flat sheet in their inventory
+    - after: has a smooth sheet in their inventory
+  - entity name: very_flat sheet
+    - before: in player's inventory
+    - after: no longer in player's inventory (polished)
+  - entity name: smooth sheet
+    - before: not in player's inventory
+    - after: in player's inventory
+  - entity name: polishing tool
+    - before: in player's inventory
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a very_flat sheet and a polishing tool in their inventory.
+2. Remove the very_flat sheet from the player's inventory.
+3. Add a smooth sheet to the player's inventory.
+
+pddl:
+(:action polish_sheet
+  :parameters (?player - player ?very_flat_sheet - sheet ?polishing_tool - shell)
+  :precondition (and (inventory ?player ?very_flat_sheet) (inventory ?player ?polishing_tool) (very_flat ?very_flat_sheet))
+  :effect (and (not (inventory ?player ?very_flat_sheet)) (inventory ?player ?smooth_sheet - sheet) (smooth ?smooth_sheet))
+)
+
+- action name: cut_sheet
+- summarize action: The player cuts the smooth sheet into smaller sheets using a razor, scissors or a paper cutter.
+- what is needed to do the action: A player, a smooth sheet, and a cutting tool.
+- what is the result: The player's inventory now contains multiple smaller sheets.
+
+- entities:
+  - entity name: player
+    - before: has a smooth sheet in their inventory
+    - after: has multiple smaller sheets in their inventory
+  - entity name: smooth sheet
+    - before: in player's inventory
+    - after: no longer in player's inventory (cut)
+  - entity name: small sheet
+    - before: not in player's inventory
+    - after: in player's inventory
+  - entity name: cutting tool
+    - before: in player's inventory
+    - after: unchanged
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a smooth sheet and a cutting tool in their inventory.
+2. Remove the smooth sheet from the player's inventory.
+3. Add multiple smaller sheets to the player's inventory.
+
+pddl:
+(:action cut_sheet
+  :parameters (?player - player ?smooth_sheet - sheet ?cutting_tool - item)
+  :precondition (and (inventory ?player ?smooth_sheet) (inventory ?player ?cutting_tool) (smooth ?smooth_sheet))
+  :effect (and (not (inventory ?player ?smooth_sheet)) (inventory ?player ?small_sheet1 - sheet) (inventory ?player ?small_sheet2 - sheet)) ; continue adding small sheets as needed
+)

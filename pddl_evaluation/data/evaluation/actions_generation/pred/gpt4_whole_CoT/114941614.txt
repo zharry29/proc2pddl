@@ -1,0 +1,49 @@
+(:action go
+  :parameters (?player - player ?initial_location - location ?destination_location - location ?direction - direction)
+  :precondition (and (at ?player ?initial_location) (connected ?initial_location ?direction ?destination_location) (not (blocked ?initial_location ?direction ?destination_location)))
+  :effect (and (not (at ?player ?initial_location)) (at ?player ?destination_location))
+)
+
+(:action get
+  :parameters (?player - player ?item - item ?location - location)
+  :precondition (and (at ?player ?location) (at ?item ?location))
+  :effect (and (inventory ?player ?item) (not (at ?item ?location)))
+)
+
+(:action collect_water
+  :parameters (?player - player ?container - container ?location - location)
+  :precondition (and (at ?player ?location) (has_water_source ?location) (inventory ?player ?container) (not (is_full ?container)))
+  :effect (is_full ?container)
+)
+
+(:action gather_sticks
+  :parameters (?player - player ?location - location)
+  :precondition (and (at ?player ?location) (has_sticks ?location))
+  :effect (inventory ?player sticks)
+)
+
+(:action make_fire
+  :parameters (?player - player ?location - location ?igniter - igniter)
+  :precondition (and (at ?player ?location) (inventory ?player sticks) (inventory ?player ?igniter))
+  :effect (has_fire ?location)
+)
+
+(:action boil_water
+  :parameters (?player - player ?location - location ?container - container ?water - water)
+  :precondition (and (at ?player ?location) (has_fire ?location) (inventory ?player ?container) (is_full ?container) (contains ?container ?water) (is_contaminated ?water))
+  :effect (not (is_contaminated ?water))
+)
+
+(:action cook_food
+  :parameters (?player - player ?location - location ?food - food)
+  :precondition (and (at ?player ?location) (has_fire ?location) (inventory ?player ?food) (or (is_contaminated ?food) (is_poisonous ?food)))
+  :effect (and (not (is_contaminated ?food)) (not (is_poisonous ?food)))
+)
+
+(:action eat_poisoned_food
+  :parameters (?player - player ?food - food)
+  :precondition (and (inventory ?player ?food) (is_poisonous ?food))
+  :effect (and (is_sick ?player) (not (inventory ?player ?food)))
+)
+
+)

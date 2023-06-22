@@ -1,0 +1,112 @@
+(:action go
+  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+  :precondition (and
+      (at ?player ?loc1)
+      (connected ?loc1 ?dir ?loc2)
+      (not (blocked ?loc1 ?dir ?loc2))
+  )
+  :effect (and
+      (not (at ?player ?loc1))
+      (at ?player ?loc2)
+  )
+)
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and
+      (at ?player ?loc)
+      (at ?item ?loc)
+  )
+  :effect (and
+      (not (at ?item ?loc))
+      (inventory ?player ?item)
+  )
+)
+
+(:action breathe
+  :parameters (?player - player)
+  :precondition (calm ?player)
+  :effect (calm ?player)
+)
+
+(:action liedown
+  :parameters (?player - player)
+  :precondition (not(laying ?player))
+  :effect (laying ?player)
+)
+
+(:action swim
+  :parameters (?player - player ?q - quicksand)
+  :precondition (and
+      (stuck ?player ?q)
+      (laying ?player)
+  )
+  :effect (and
+      (not (stuck ?player ?q))
+  )
+)
+
+(:action usestick
+  :parameters (?player - player ?stick - stick ?q - quicksand)
+  :precondition (and
+      (stuck ?player ?q)
+      (inventory ?player ?stick)
+  )
+  :effect (and
+      (not (stuck ?player ?q))
+  )
+)
+
+(:action rest
+  :parameters (?player - player)
+  :precondition (tired ?player)
+  :effect (and
+      (not (tired ?player))
+      (calm ?player)
+  )
+)
+
+(:action drop
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and
+      (inventory ?player ?item)
+      (at ?player ?loc)
+  )
+  :effect (and
+      (not (inventory ?player ?item))
+      (at ?item ?loc)
+  )
+)
+
+(:action check_ripples
+  :parameters (?player - player ?l - location)
+  :precondition (and
+      (at ?player ?l)
+  )
+  :effect (aware ?player ?l)
+)
+
+(:action test_ground
+  :parameters (?player - player ?l - location)
+  :precondition (aware ?player ?l)
+  :effect (has_quicksand ?l)
+)
+
+(:action research
+  :parameters (?player - player ?l - location)
+  :precondition (aware ?player ?l)
+  :effect (calm ?player)
+)
+
+(:action move_horizontally
+  :parameters (?player - player ?dir - direction ?q - quicksand)
+  :precondition (and
+      (calm ?player)
+      (stuck ?player ?q)
+  )
+  :effect (and
+      (calm ?player)
+  )
+)
+
+)

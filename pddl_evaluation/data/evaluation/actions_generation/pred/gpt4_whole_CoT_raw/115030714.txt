@@ -1,0 +1,439 @@
+- action name: go
+- summarize action: The player moves from one location to another location.
+- what is needed to do the action: The player and a connected location.
+- what is the result: The player is now at the new location.
+
+- entities:
+  - entity name: player
+    - before: at current location
+    - after: at new location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the current location.
+2. Check if the current location is connected to the new location through a direction.
+3. Move the player to the new location.
+
+pddl:
+
+(:action go
+  :parameters
+    (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+
+  :precondition
+    (and
+      (at ?player ?loc1)
+      (connected ?loc1 ?dir ?loc2))
+
+  :effect
+    (and
+      (not (at ?player ?loc1))
+      (at ?player ?loc2)))
+      
+- action name: get
+- summarize action: The player picks up an item from a location.
+- what is needed to do the action: The player, the item, and the location.
+- what is the result: The item is in the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: not having the item in inventory
+    - after: having the item in inventory
+  - entity name: item
+    - before: at the location
+    - after: in the player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location.
+2. Check if the item is at the location.
+3. Add the item to the player's inventory and remove it from the location.
+
+pddl:
+
+(:action get
+  :parameters
+    (?player - player ?item - item ?loc - location)
+
+  :precondition
+    (and
+      (at ?player ?loc)
+      (at ?item ?loc))
+
+  :effect
+    (and
+      (inventory ?player ?item)
+      (not (at ?item ?loc))))
+
+- action name: drop
+- summarize action: The player drops an item at a location.
+- what is needed to do the action: The player, the item, and the location.
+- what is the result: The item is at the location and not in the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: having the item in inventory
+    - after: not having the item in inventory
+  - entity name: item
+    - before: in the player's inventory
+    - after: at the location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location.
+2. Check if the item is in the player's inventory.
+3. Remove the item from the player's inventory and place it at the location.
+
+pddl:
+
+(:action drop
+  :parameters
+    (?player - player ?item - item ?loc - location)
+
+  :precondition
+    (and
+      (at ?player ?loc)
+      (inventory ?player ?item))
+
+  :effect
+    (and
+      (not (inventory ?player ?item))
+      (at ?item ?loc)))
+
+- action name: cook
+- summarize action: The player cooks food at a location with a kitchen.
+- what is needed to do the action: The player, the food, and the location with a kitchen.
+- what is the result: The player has cooked food in inventory.
+
+- entities:
+  - entity name: player
+    - before: not having cooked food in inventory
+    - after: having cooked food in inventory
+  - entity name: food
+    - before: in the player's inventory
+    - after: cooked food in the player's inventory
+  - entity name: location
+    - before: having a kitchen
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location.
+2. Check if the location has a kitchen.
+3. Check if the uncooked food is in the player's inventory.
+4. Replace the uncooked food with cooked food in the player's inventory.
+
+pddl:
+
+(:action cook
+  :parameters
+    (?player - player ?food - food ?cookedfood - food ?loc - location)
+
+  :precondition
+    (and
+      (at ?player ?loc)
+      (has_kitchen ?loc)
+      (inventory ?player ?food))
+
+  :effect
+    (and
+      (not (inventory ?player ?food))
+      (inventory ?player ?cookedfood)))
+
+Please note that due to character limitation, I cannot provide the full PDDL for all actions. However, you can follow similar steps illustrated here for the remaining actions.
+- action name: order_sushi
+- summarize action: The player orders sushi using a phone at a location.
+- what is needed to do the action: The player, the phone, and the location.
+- what is the result: The player has sushi in their inventory.
+
+- entities:
+  - entity name: player
+    - before: not having sushi in inventory
+    - after: having sushi in inventory
+  - entity name: phone
+    - before: in the player's inventory
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location.
+2. Check if the phone is in the player's inventory.
+3. Add sushi to the player's inventory.
+
+pddl:
+
+(:action order_sushi
+  :parameters
+    (?player - player ?phone - phone ?loc - location)
+
+  :precondition
+    (and
+      (at ?player ?loc)
+      (inventory ?player ?phone))
+
+  :effect
+    (inventory ?player ?sushi))
+
+- action name: buy_sake
+- summarize action: The player buys sake at a location.
+- what is needed to do the action: The player, money, and the location.
+- what is the result: The player has sake in their inventory.
+
+- entities:
+  - entity name: player
+    - before: not having sake in inventory
+    - after: having sake in inventory
+  - entity name: money
+    - before: in the player's inventory
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location.
+2. Check if the money is in the player's inventory.
+3. Add sake to the player's inventory.
+
+pddl:
+
+(:action buy_sake
+  :parameters
+    (?player - player ?money - money ?loc - location)
+
+  :precondition
+    (and
+      (at ?player ?loc)
+      (inventory ?player ?money))
+
+  :effect
+    (inventory ?player ?sake))
+- action name: serve
+- summarize action: The player serves a drink to attendees at a location.
+- what is needed to do the action: The player, the drink, and the location.
+- what is the result: The drink is served, and it is no longer in the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: having the drink in inventory
+    - after: not having the drink in inventory
+  - entity name: drink
+    - before: in the player's inventory
+    - after: served at the location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location.
+2. Check if the drink is in the player's inventory.
+3. Remove the drink from the player's inventory and mark it as served at the location.
+
+pddl:
+
+(:action serve
+  :parameters
+    (?player - player ?drink - drink ?loc - location)
+
+  :precondition
+    (and
+      (at ?player ?loc)
+      (inventory ?player ?drink))
+
+  :effect
+    (not (inventory ?player ?drink)))
+
+- action name: brew
+- summarize action: The player brews tea at a location with a kitchen.
+- what is needed to do the action: The player, tea, and the location with a kitchen.
+- what is the result: The player has brewed tea in their inventory.
+
+- entities:
+  - entity name: player
+    - before: not having brewed tea in inventory
+    - after: having brewed tea in inventory
+  - entity name: tea
+    - before: in the player's inventory
+    - after: brewed tea in the player's inventory
+  - entity name: location
+    - before: having a kitchen
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location.
+2. Check if the location has a kitchen.
+3. Check if the unbrewed tea is in the player's inventory.
+4. Replace the unbrewed tea with brewed tea in the player's inventory.
+
+pddl:
+
+(:action brew
+  :parameters
+    (?player - player ?tea - tea ?brewedtea - tea ?loc - location)
+
+  :precondition
+    (and
+      (at ?player ?loc)
+      (has_kitchen ?loc)
+      (inventory ?player ?tea))
+
+  :effect
+    (and
+      (not (inventory ?player ?tea))
+      (inventory ?player ?brewedtea)))
+
+Note that these actions (henceforth not included in the PDDL): get_beer, open, hang_lantern, blow_balloon, and turn_on_tv, can be defined similarly. The entities and predicates involved require adaptation depending on each action's context, but you can follow similar steps to those illustrated above.
+- action name: get_beer
+- summarize action: The player gets a beer from a location with a fridge.
+- what is needed to do the action: The player and the location with a fridge.
+- what is the result: The player has a beer in their inventory.
+
+- entities:
+  - entity name: player
+    - before: not having a beer in inventory
+    - after: having a beer in inventory
+  - entity name: location
+    - before: having a fridge
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location.
+2. Check if the location has a fridge.
+3. Add a beer to the player's inventory.
+
+pddl:
+
+(:action get_beer
+  :parameters
+    (?player - player ?loc - location)
+
+  :precondition
+    (and
+      (at ?player ?loc)
+      (has_fridge ?loc))
+
+  :effect
+    (inventory ?player ?beer))
+
+- action name: open
+- summarize action: The player opens a drink.
+- what is needed to do the action: The player and the drink.
+- what is the result: The drink is opened.
+
+- entities:
+  - entity name: player
+    - before: having an unopened drink in inventory
+    - after: having an opened drink in inventory
+  - entity name: drink
+    - before: unopened in the player's inventory
+    - after: opened in the player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the unopened drink is in the player's inventory.
+2. Change the state of the drink from unopened to opened in the player's inventory.
+
+pddl:
+
+(:action open
+  :parameters
+    (?player - player ?drink - drink ?opendrink - drink)
+
+  :precondition
+    (and
+      (inventory ?player ?drink)
+      (not (opened ?drink)))
+
+  :effect
+    (and
+      (not (inventory ?player ?drink))
+      (inventory ?player ?opendrink)
+      (opened ?opendrink)))
+
+- action name: hang_lantern
+- summarize action: The player hangs a lantern at a location.
+- what is needed to do the action: The player, the lantern, and the location.
+- what is the result: The lantern is hung at the location and is no longer in the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: having a lantern in inventory
+    - after: not having a lantern in inventory
+  - entity name: lantern
+    - before: in the player's inventory
+    - after: hung at the location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location.
+2. Check if the lantern is in the player's inventory.
+3. Remove the lantern from the player's inventory and mark it as hung at the location.
+
+pddl:
+
+(:action hang_lantern
+  :parameters
+    (?player - player ?lantern - lantern ?loc - location)
+
+  :precondition
+    (and
+      (at ?player ?loc)
+      (inventory ?player ?lantern))
+
+  :effect
+    (and
+      (not (inventory ?player ?lantern))
+      (hung ?lantern)))
+
+- action name: blow_balloon
+- summarize action: The player inflates a balloon.
+- what is needed to do the action: The player and the balloon.
+- what is the result: The balloon is inflated.
+
+- entities:
+  - entity name: player
+    - before: having an uninflated balloon in inventory
+    - after: having an inflated balloon in inventory
+  - entity name: balloon
+    - before: uninflated in the player's inventory
+    - after: inflated in the player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the uninflated balloon is in the player's inventory.
+2. Change the state of the balloon from uninflated to inflated in the player's inventory.
+
+pddl:
+
+(:action blow_balloon
+  :parameters
+    (?player - player ?balloon - balloon)
+
+  :precondition
+    (and
+      (inventory ?player ?balloon)
+      (not (inflated ?balloon)))
+
+  :effect
+    (inflated ?balloon))
+
+- action name: turn_on_tv
+- summarize action: The player turns on a tv at a location.
+- what is needed to do the action: The player, the tv, and the location.
+- what is the result: The tv is turned on.
+
+- entities:
+  - entity name: player
+    - before: unchanged
+    - after: unchanged
+  - entity name: tv
+    - before: at the location & turned off
+    - after: at the location & turned on
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location.
+2. Check if the tv is at the location and turned off.
+3. Change the state of the tv to turned on.
+
+pddl:
+
+(:action turn_on_tv
+  :parameters
+    (?player - player ?tv - item ?loc - location)
+
+  :precondition
+    (and
+      (at ?player ?loc)
+      (at ?tv ?loc)
+      (not (on ?tv)))
+
+  :effect
+    (on ?tv))
+
+These are the PDDL representations of the requested actions.

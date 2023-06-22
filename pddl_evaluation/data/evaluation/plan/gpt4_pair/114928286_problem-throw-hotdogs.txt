@@ -1,2 +1,1 @@
-go ('npc', 'kitchen', 'east', 'hallway')
-throw ('npc', 'hallway', 'items')
+No solution

@@ -1,0 +1,303 @@
+- action name: gather_info
+- summarize action: The player reads books to gather information on how to create a secret society.
+- what is needed to do the action: A player.
+- what is the result: The player obtains the required information.
+
+- entities:
+  - entity name: player
+    - before: The player doesn't have the required information.
+    - after: The player has the required information.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has information: (not (has_info ?p))
+2. Add the fact that the player has information: (has_info ?p)
+
+PDDL:
+```
+(:action gather_info
+ :parameters (?p - player)
+ :precondition (not (has_info ?p))
+ :effect (has_info ?p)
+)
+```
+
+- action name: create_secret
+- summarize action: Create a secret for a secret society.
+- what is needed to do the action: A player with information and a secret society.
+- what is the result: The secret society has a secret.
+
+- entities:
+  - entity name: player
+    - before: The player has the required information.
+    - after: No change.
+  - entity name: secret_society
+    - before: The secret society does not have a secret.
+    - after: The secret society has a secret.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has done the required reading: (has_info ?p)
+2. Check if the secret society does not have a secret: (not (has_secret ?sc))
+3. Assign the secret to the society: (has_secret ?sc)
+
+PDDL:
+```
+(:action create_secret
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (has_info ?p) (not (has_secret ?sc)))
+ :effect (has_secret ?sc)
+)
+```
+
+- action name: set_meeting_location
+- summarize action: Determine a regular secret meeting location for the society.
+- what is needed to do the action: A player with information and a secret society.
+- what is the result: The secret society has a meeting location.
+
+- entities:
+  - entity name: player
+    - before: The player has the required information.
+    - after: No change.
+  - entity name: secret_society
+    - before: The secret society does not have a meeting location.
+    - after: The secret society has a meeting location.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has done the required reading: (has_info ?p)
+2. Check if the secret society does not have a location: (not (has_location ?sc))
+3. Assign the location: (has_location ?sc)
+
+PDDL:
+```
+(:action set_meeting_location
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (has_info ?p) (not (has_location ?sc)))
+ :effect (has_location ?sc)
+)
+```
+
+- action name: set_dress_code
+- summarize action: Determine the dress code for the secret society.
+- what is needed to do the action: A player with information and a secret society.
+- what is the result: The secret society has a dress code.
+
+- entities:
+  - entity name: player
+    - before: The player has the required information.
+    - after: No change.
+  - entity name: secret_society
+    - before: The secret society does not have a dress code.
+    - after: The secret society has a dress code.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has done the required reading: (has_info ?p)
+2. Check if the secret society does not have a dress code: (not (has_dress_code ?sc))
+3. Assign the dress code: (has_dress_code ?sc)
+
+PDDL:
+```
+(:action set_dress_code
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (has_info ?p) (not (has_dress_code ?sc)))
+ :effect (has_dress_code ?sc)
+)
+```
+
+- action name: create_name
+- summarize action: Create a name for a secret society.
+- what is needed to do the action: A player with information and a secret society.
+- what is the result: The secret society has a name.
+
+- entities:
+  - entity name: player
+    - before: The player has the required information.
+    - after: No change.
+  - entity name: secret_society
+    - before: The secret society does not have a name.
+    - after: The secret society has a name.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has done the required reading: (has_info ?p)
+2. Check if the secret society does not have a name: (not (has_name ?sc))
+3. Assign the name to the secret society: (has_name ?sc)
+
+PDDL:
+```
+(:action create_name
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (has_info ?p) (not (has_name ?sc)))
+ :effect (has_name ?sc)
+)
+```
+
+- action name: secret_society_is_ready
+- summarize action: Check that all prerequisites of the secret society are complete.
+- what is needed to do the action: A secret society with a name, secret, location, and dress code.
+- what is the result: The secret society is ready to add people.
+
+- entities:
+  - entity name: secret_society
+    - before: The secret society has a name, secret, location, and dress code.
+    - after: The secret society is ready for new members.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the secret society has a name, secret, location, and dress code: (has_name ?sc) (has_secret ?sc) (has_location ?sc) (has_dress_code ?sc)
+2. Assert that the secret society is ready: (society_is_ready ?sc)
+
+PDDL:
+```
+(:action secret_society_is_ready
+ :parameters (?sc - secret_society)
+ :precondition (and (has_name ?sc) (has_secret ?sc) (has_location ?sc) (has_dress_code ?sc))
+ :effect (society_is_ready ?sc)
+)
+```
+
+- action name: initiate_new_member
+- summarize action: Add a new member to the secret society.
+- what is needed to do the action: A secret society that is ready and a player who is trusted.
+- what is the result: The player is in the secret society.
+
+- entities:
+  - entity name: player
+    - before: The player is trusted.
+    - after: The player is in the secret society.
+  - entity name: secret_society
+    - before: The secret society is ready for new members.
+    - after: No change.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the secret society is ready: (society_is_ready ?sc)
+2. Check if the player is trusted: (is_trusted ?p ?sc)
+3. Assert that the player is in the secret society: (in ?p ?sc)
+
+PDDL:
+```
+(:action initiate_new_member
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (society_is_ready ?sc) (is_trusted ?p ?sc))
+ :effect (in ?p ?sc)
+)
+```
+
+- action name: teach_new_member_secret
+- summarize action: Once a new member becomes trustworthy, teach them the secret.
+- what is needed to do the action: A player in the secret society who is trusted and does not know the secret.
+- what is the result: The player knows the secret.
+
+- entities:
+  - entity name: player
+    - before: The player is trusted and does not know the secret.
+    - after: The player knows the secret.
+  - entity name: secret_society
+    - before: No change.
+    - after: No change.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is in the secret society and is trusted: (in ?p ?sc) (is_trusted ?p ?sc)
+2. Check if the player does not know the secret: (not (knows_secret ?p ?sc))
+3. Assert that the player knows the secret: (knows_secret ?p ?sc)
+
+PDDL:
+```
+(:action teach_new_member_secret
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (in ?p ?sc) (is_trusted ?p ?sc) (not (knows_secret ?p ?sc)))
+ :effect (knows_secret ?p ?sc)
+)
+```
+
+- action name: remove_member
+- summarize action: Remove an existing society member due to untrustworthiness.
+- what is needed to do the action: A player in the secret society who is not trusted.
+- what is the result: The player is no longer in the secret society.
+
+- entities:
+  - entity name: player
+    - before: The player is in the secret society and not trusted.
+    - after: The player is not in the secret society.
+  - entity name: secret_society
+    - before: No change.
+    - after: No change.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is in the secret society: (in ?p ?sc)
+2. Check if the player is not trusted: (not (is_trusted ?p ?sc))
+3. Remove the player from the secret society: (not (in ?p ?sc))
+
+PDDL:
+```
+(:action remove_member
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (in ?p ?sc) (not (is_trusted ?p ?sc)))
+ :effect (not (in ?p ?sc))
+)
+```
+
+- action name: check_if_cult
+- summarize action: Check if the group is large enough for a cult.
+- what is needed to do the action: A secret society and N players in the society (N to be defined in the problem instance).
+- what is the result: The secret society is a cult.
+
+- entities:
+  - entity name: secret_society
+    - before: The secret society has N players.
+    - after: The secret society is a cult.
+
+- describe how to match it to PDDL relevant predicates step by step:
+This action should be based on the number of players (N) in the secret society. As checking the exact number of players in PDDL is not feasible, you could use a different method to achieve this in your problem formulation. For example, you could use a threshold and adjust it based on your problem, or you could use a different planning language that supports numeric fluents, like PDDL 3.0.
+
+Please adjust the problem according to your constraints, and feel free to ask for further guidance if needed.
+I understand that you would like to continue with the check_if_cult action. However, in PDDL, it's difficult to check the exact number of members directly. As an alternative, I am providing an example of how you can use a "threshold" mechanism to check if a secret society is a cult:
+
+First, add a predicate and a new type called `counter` in your type and predicates definition:
+
+```
+(:types
+    player secret_society counter
+)
+
+(:predicates
+    ...
+    (counter_value ?c - counter ?n - int)
+    (cult_threshold ?t - int)
+)
+```
+
+You will need to define a counter object and a threshold in the problem definition:
+
+```
+(:objects
+    counter_1 - counter
+    ...
+)
+
+(:init
+    (counter_value counter_1 0)
+    (cult_threshold 5) 
+    ...
+)
+```
+
+Next, you need to modify the `initiate_new_member` action to increment the counter whenever a new member is added:
+
+```
+(:action initiate_new_member
+ :parameters (?p - player ?sc - secret_society ?c - counter ?n - int ?n_plus_one - int)
+ :precondition (and (society_is_ready ?sc) (is_trusted ?p ?sc) 
+                     (counter_value ?c ?n) (succ ?n ?n_plus_one))
+ :effect (and (in ?p ?sc) (not (counter_value ?c ?n)) (counter_value ?c ?n_plus_one))
+)
+```
+
+Finally, the `check_if_cult` action checks if the counter exceeds the threshold, and if it does, the society is considered a cult:
+
+```
+(:action check_if_cult
+ :parameters (?sc - secret_society ?c - counter ?n - int ?t - int)
+ :precondition (and (counter_value ?c ?n) (cult_threshold ?t)
+                     (>= ?n ?t))
+ :effect (is_cult ?sc)
+)
+```
+
+This approach is not a direct way to check the number of members in the society but provides a workaround that allows you to consider the secret society as a cult when a certain threshold is met. You can adjust the `cult_threshold` in the problem definition according to your desired group size.
