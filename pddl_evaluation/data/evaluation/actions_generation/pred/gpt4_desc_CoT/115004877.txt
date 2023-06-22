@@ -1,0 +1,127 @@
+(:action go 
+  :parameters 
+    (?player - player, ?current_loc ?new_loc - location, ?dir - direction)
+  :precondition 
+    (and
+      (at ?player ?current_loc) 
+      (connected ?current_loc ?dir ?new_loc))
+  :effect 
+    (and
+      (at ?player ?new_loc) 
+      (not (at ?player ?current_loc)))
+)
+
+(:action get
+  :parameters (?player - player, ?item - item, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?item ?loc))
+  :effect (and
+            (inventory ?player ?item)
+            (not (at ?item ?loc)))
+)
+
+(:action cut_plant
+  :parameters (?player - player, ?plant - plant, ?scissors - scissors, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?plant ?loc)
+                  (inventory ?player ?scissors))
+  :effect (and
+            (at ?stalk ?loc)
+            (not (at ?plant ?loc)))
+)
+
+(:action peel_stalk
+  :parameters (?player - player, ?stalk - stalk, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?stalk ?loc))
+  :effect (and
+            (peeled ?stalk)
+            (not (at ?stalk ?loc))
+            (at ?peeled_stalk ?loc))
+)
+
+(:action cut_stalk_into_strips
+  :parameters (?player - player, ?peeled_stalk - stalk, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?peeled_stalk ?loc)
+                  (peeled ?stalk))
+  :effect (and
+            (at ?strips ?loc)
+            (not (at ?peeled_stalk ?loc)))
+)
+
+(:action soak_strips
+  :parameters (?player - player, ?strips - strip, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?strips ?loc)
+                  (has_water ?loc))
+  :effect (clean ?strips)
+)
+
+(:action dry_out_strips
+  :parameters (?player - player, ?clean_strips - strip, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?clean_strips ?loc)
+                  (clean ?strips))
+  :effect (dry ?strips)
+)
+
+(:action weave_strips_into_sheet
+  :parameters (?player - player, ?dry_clean_strips - strip, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?dry_clean_strips ?loc)
+                  (clean ?strips)
+                  (dry ?strips))
+  :effect (and
+            (at ?sheet ?loc)
+            (not (at ?dry_clean_strips ?loc)))
+)
+
+(:action press_sheet
+  :parameters (?player - player, ?sheet - sheet, ?wooden_board - wooden_board, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?sheet ?loc)
+                  (inventory ?player ?wooden_board))
+  :effect (flat ?sheet)
+)
+
+(:action flatten_sheet
+  :parameters (?player - player, ?flat_sheet - sheet, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?flat_sheet ?loc)
+                  (flat ?sheet))
+  :effect (very_flat ?sheet)
+)
+
+(:action polish_sheet
+  :parameters (?player - player, ?very_flat_sheet - sheet, ?shell - shell, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?very_flat_sheet ?loc)
+                  (very_flat ?sheet)
+                  (inventory ?player ?shell))
+  :effect (smooth ?sheet)
+)
+
+(:action cut_sheet
+  :parameters (?player - player, ?smooth_sheet - sheet, ?scissors - scissors, ?loc - location)
+  :precondition (and
+                  (at ?player ?loc)
+                  (at ?smooth_sheet ?loc)
+                  (smooth ?sheet)
+                  (inventory ?player ?scissors))
+  :effect (and
+            (not (at ?smooth_sheet ?loc))
+            (at ?papyrus ?loc))
+)
+
+)

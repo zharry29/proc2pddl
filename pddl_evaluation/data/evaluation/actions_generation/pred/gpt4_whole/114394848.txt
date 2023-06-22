@@ -1,0 +1,176 @@
+(:action go
+:parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+:precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+:effect (and (not (at ?player ?loc1)) (at ?player ?loc2)))
+
+(:action understand
+:parameters (?player - player ?concept - concept)
+:precondition (know ?player ?concept)
+:effect (learned ?player ?concept))
+
+(:action learn
+:parameters (?player - player ?skill - skill)
+:precondition (know ?player ?skill)
+:effect (learned ?player ?skill))
+
+(:action get
+:parameters (?player - player ?item - item)
+:precondition (at ?player ?location)
+:effect (inventory ?player ?item))
+
+(:action machine_secured
+:parameters (?player - player ?system - digital_system)
+:precondition (authorized ?player)
+:effect (and (not (at ?player ?location)) (inventory ?player ?system)))
+
+(:action enumeration
+:parameters (?player - player ?info - all_information)
+:precondition (and (inventory ?player ?info) (know ?player ethics))
+:effect (collected_all_info ?player))
+
+(:action got_all_info
+:parameters (?player - player)
+:precondition (collected_all_info ?player)
+:effect (port_scanned ?player))
+
+(:action ping
+:parameters (?player - player ?type - ping_succeed)
+:precondition (know ?player ethics)
+:effect (inventory ?player ?type))
+
+(:action check_email_server
+:parameters (?player - player ?type - server_checked)
+:precondition (inventory ?player ?type)
+:effect (inventory ?player ?type))
+
+(:action reached_the_remote_system
+:parameters (?player - player ?network - network)
+:precondition (and (inventory ?player ?type) (inventory ?player ?network_scanner))
+:effect (inventory ?player ?network))
+
+(:action run_port_scan
+:parameters (?player - player ?type - TCP_UDP_ports)
+:precondition (inventory ?player ?network_scanner) 
+:effect (inventory ?player ?type))
+
+(:action found_path_in_system
+:parameters (?player - player ?type - direction)
+:precondition (inventory ?player ?network_scanner)
+:effect (inventory ?player ?type))
+
+(:action contact_and_trick_a_user
+:parameters (?player - player ?username - usernames)
+:precondition (know ?player ethics)
+:effect (tricked_user_password ?player))
+
+(:action crack_password_by_social_engineering
+:parameters (?player - player ?password - password)
+:precondition (tricked_user_password ?player)
+:effect (password_cracked ?player))
+
+(:action send_fake_email
+:parameters (?player - player ?phishing - item)
+:precondition (know ?player ethics)
+:effect (user_trusted_fake_email ?player))
+
+(:action crack_password_by_phishing
+:parameters (?player - player ?password - password)
+:precondition (user_trusted_fake_email ?player)
+:effect (password_cracked ?player))
+
+(:action create_fake_wifi_access
+:parameters (?player - player ?access_point - item)
+:precondition (know ?player ethics)
+:effect (people_use_unencrypted_connection ?player))
+
+(:action crack_password_by_arp_spoofing
+:parameters (?player - player ?password - password)
+:precondition (people_use_unencrypted_connection ?player)
+:effect (password_cracked ?player))
+
+(:action crack_password_by_brute_force
+:parameters (?player - player ?password - password)
+:precondition (and (learned ?player unix) (port_scanned ?player))
+:effect (password_cracked ?player))
+
+(:action gain_access_with_password
+:parameters (?player - player)
+:precondition (password_cracked ?player)
+:effect (is_root_user ?player))
+
+(:action create_buffer_overflow
+:parameters (?player - player ?memory_layout - memory_layout)
+:precondition (and (password_cracked ?player) (inventory ?player ?memory_layout))
+:effect (is_root_user ?player))
+
+(:action take_control_of_system
+:parameters (?player - player)
+:precondition (is_root_user ?player)
+:effect (inventory ?player ?system))
+
+(:action install_malware
+:parameters (?player - player ?malware - malware)
+:precondition (is_root_user ?player)
+:effect (inventory ?player ?malware))
+
+(:action bypass_standard_authentication_system
+:parameters (?player - player)
+:precondition (inventory ?player ?malware)
+:effect (not (authorized ?player)))
+
+(:action not_let_administrator_know
+:parameters (?player - player)
+:precondition (learned ?player unix)
+:effect (administrator_know_compromised ?player))
+
+(:action make_no_change_to_website
+:parameters (?player - player)
+:precondition (authorized ?player)
+:effect (website_unchanged ?player))
+
+(:action create_fewest_file
+:parameters (?player - player)
+:precondition (authorized ?player)
+:effect (create_more_file_than_need ?player))
+
+(:action delete_additional_users
+:parameters (?player - player)
+:precondition (is_root_user ?player)
+:effect (additional_users ?player))
+
+(:action hardcode_password
+:parameters (?player - player)
+:precondition (and (is_root_user ?player) (inventory ?player ?password))
+:effect (hardcoded_secret_password ?player))
+
+(:action track_covered
+:parameters (?player - player)
+:precondition (is_root_user ?player)
+:effect (administrator_know_compromised ?player))
+
+(:action learn_concepts
+:parameters (?player - player ?concept - concept)
+:precondition (know ?player ?concept)
+:effect (learned ?player ?concept))
+
+(:action learn_internet
+:parameters (?player - player ?item - item)
+:precondition (learned ?player html)
+:effect (inventory ?player ?item))
+
+(:action learn_programming
+:parameters (?player - player ?skills - search py php cpp assembly unix)
+:precondition (learned ?player ?skills)
+:effect (know_programming ?player))
+
+(:action learn_unix
+:parameters (?player - player ?skill - unix)
+:precondition (learned ?player ?skill)
+:effect (know_unix ?player))
+
+(:action become_skilled
+:parameters (?player - player ?skills - cpp py php assembly unix)
+:precondition (learned ?player ?skills)
+:effect (learned ?player hacking))
+
+)

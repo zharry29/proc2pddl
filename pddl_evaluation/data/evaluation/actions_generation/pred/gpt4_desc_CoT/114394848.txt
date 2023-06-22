@@ -1,0 +1,37 @@
+(:action go
+  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+  :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action understand
+  :parameters (?player - player ?concept - concept)
+  :precondition (not (know ?player ?concept))
+  :effect (know ?player ?concept)
+)
+
+(:action learn
+  :parameters (?player - player ?skill - skill)
+  :precondition (not (learned ?player ?skill))
+  :effect (learned ?player ?skill)
+)
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+(:action enumeration
+  :parameters (?player - player)
+  :precondition (authorized ?player)
+  :effect (collected_all_info ?player)
+)
+
+(:action ping
+  :parameters (?player - player)
+  :precondition (true) ; placeholder for any specific conditions if introduced
+  :effect (ping_succeed ?player)
+)
+
+)

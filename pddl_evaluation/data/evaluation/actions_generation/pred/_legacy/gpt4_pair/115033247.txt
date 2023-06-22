@@ -1,0 +1,63 @@
+(:action go
+   :parameters (?player - player ?dir - direction ?from - location ?to - location)
+   :precondition (and (at ?player ?from) (connected ?from ?dir ?to))
+   :effect (and (not (at ?player ?from)) (at ?player ?to))
+)
+
+
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?item ?loc))
+   :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+
+(:action pour_water
+   :parameters (?player - player ?water - water ?bowl - bowl)
+   :precondition (inventory ?player ?water)
+   :effect (and (not (at ?water)) (at (bowl_of_water) ?loc))
+)
+
+
+(:action place_strips_between_boards
+   :parameters (?player - player ?strips - papyrus_strips ?boards - wooden_boards)
+   :precondition (and (inventory ?player ?strips) (inventory ?player ?boards))
+   :effect (strips_between_boards)
+)
+
+
+(:action cut_stalks
+   :parameters (?player - player ?knife - knife ?stalks - papyrus_stalks ?strips - papyrus_strips)
+   :precondition (and (inventory ?player ?knife) (inventory ?player ?stalks))
+   :effect (and (not (at ?stalks)) (inventory ?player ?strips))
+)
+
+
+(:action papyrus_strips
+   :parameters (?player - player ?knife - knife ?stalks - papyrus_stalks ?strips - papyrus_strips)
+   :precondition (and (inventory ?player ?knife) (inventory ?player ?stalks))
+   :effect (and (not (inventory ?player ?stalks)) (inventory ?player ?strips))
+)
+
+
+(:action polish_papyrus
+   :parameters (?player - player ?sheet - papyrus ?polisher - (either shell ivory smooth_stone))
+   :precondition (and (inventory ?player ?sheet) (inventory ?player ?polisher) (strips_woven ?sheet))
+   :effect (polished ?sheet)
+)
+
+
+(:action flatten_papyrus
+   :parameters (?player - player ?sheet - papyrus ?roller - roller)
+   :precondition (and (strips_woven ?sheet) (inventory ?player ?roller) (strips_between_boards))
+   :effect (flattened ?sheet)
+)
+
+
+(:action cut_papyrus
+   :parameters (?player - player ?sheet - papyrus ?cutter - (either scissors knife))
+   :precondition (and (flattened ?sheet) (inventory ?player ?cutter))
+   :effect (cut ?sheet)
+)
+
+)

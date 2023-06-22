@@ -1,0 +1,241 @@
+- action name: get
+- summarize action: This action is about picking up an item and putting it into the player's inventory.
+- what is needed to do the action: The item and the player's location.
+- what is the result: The item is added to the player's inventory.
+
+- entities:
+  - entity name: item
+    - before: At the player's location.
+    - after: In the player's inventory.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the item is at the player's location.
+2. Add the item to the player's inventory.
+
+pddl:
+```
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?item ?loc) (at ?player ?loc))
+  :effect (inventory ?player ?item))
+```
+
+- action name: travel
+- summarize action: This action is about traveling from one location to another.
+- what is needed to do the action: The player's current location and their destination.
+- what is the result: The player arrives at the destination.
+
+- entities:
+  - entity name: player
+    - before: At the current location.
+    - after: At the destination.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the current location.
+2. Move the player to the destination.
+
+pddl:
+```
+(:action travel
+  :parameters (?player - player ?src - location ?dest - location)
+  :precondition (at ?player ?src)
+  :effect (and (not (at ?player ?src)) (at ?player ?dest)))
+```
+
+- action name: search_location
+- summarize action: This action is about searching a location.
+- what is needed to do the action: The player and the location to be searched.
+- what is the result: The location has been searched.
+
+- entities:
+  - entity name: location
+    - before: Not searched.
+    - after: Searched.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location.
+2. Mark the location as searched.
+
+pddl:
+```
+(:action search_location
+  :parameters (?player - player ?location - location)
+  :precondition (at ?player ?location)
+  :effect (searched ?location))
+```
+
+- action name: pluck_river_reeds
+- summarize action: This action is about obtaining the papyrus plant.
+- what is needed to do the action: The player and the location with the papyrus plant.
+- what is the result: The papyrus plant is added to the player's inventory.
+
+- entities:
+  - entity name: papyrus_plant
+    - before: At the location with the papyrus plant.
+    - after: In the player's inventory.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location with the papyrus plant.
+2. Add the papyrus plant to the player's inventory.
+
+pddl:
+```
+(:action pluck_river_reeds
+  :parameters (?player - player ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?papyrus_plant - papyrus_plant ?loc))
+  :effect (inventory ?player ?papyrus_plant))
+```
+
+- action name: cut_stalks
+- summarize action: This action is about cutting the papyrus plant into stalks.
+- what is needed to do the action: The player, the papyrus plant in their inventory, and a knife.
+- what is the result: The papyrus plant is replaced with papyrus stalks in the player's inventory.
+
+- entities:
+  - entity name: papyrus_plant
+    - before: In the player's inventory.
+    - after: Replaced with papyrus stalks.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has the papyrus plant and a knife in their inventory.
+2. Replace the papyrus plant with papyrus stalks in the player's inventory.
+
+pddl:
+```
+(:action cut_stalks
+  :parameters (?player - player ?plant - papyrus_plant ?knife - knife ?stalks - papyrus_stalks)
+  :precondition (and (inventory ?player ?plant) (inventory ?player ?knife))
+  :effect (and (not (inventory ?player ?plant)) (inventory ?player ?stalks)))
+```
+
+- action name: cut_strips
+- summarize action: This action is about cutting the papyrus stalks into strips.
+- what is needed to do the action: The player, the papyrus stalks in their inventory, and a knife.
+- what is the result: The papyrus stalks are replaced with papyrus strips in the player's inventory.
+
+- entities:
+  - entity name: papyrus_stalks
+    - before: In the player's inventory.
+    - after: Replaced with papyrus strips.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has the papyrus stalks and a knife in their inventory.
+2. Replace the papyrus stalks with papyrus strips in the player's inventory.
+
+pddl:
+```
+(:action cut_strips
+  :parameters (?player - player ?stalks - papyrus_stalks ?knife - knife ?strips - papyrus_strips)
+  :precondition (and (inventory ?player ?stalks) (inventory ?player ?knife))
+  :effect (and (not (inventory ?player ?stalks)) (inventory ?player ?strips)))
+```
+
+- action name: soak_strips
+- summarize action: This action is about placing papyrus strips in water and letting them soak.
+- what is needed to do the action: The player, the papyrus strips, and water in their inventory.
+- what is the result: The papyrus strips become soaked.
+
+- entities:
+  - entity name: papyrus_strips
+    - before: In the player's inventory and not soaked.
+    - after: In the player's inventory and soaked.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has the papyrus strips and water in their inventory.
+2. Set the papyrus strips as soaked.
+
+pddl:
+```
+(:action soak_strips
+  :parameters (?player - player ?strips - papyrus_strips ?water - water)
+  :precondition (and (inventory ?player ?strips) (inventory ?player ?water))
+  :effect (soaked ?strips))
+```
+
+- action name: roll_strips
+- summarize action: This action is about rolling the excess water and sugar out of the strips to dry them.
+- what is needed to do the action: The player, the soaked papyrus strips, and a rolling pin in their inventory.
+- what is the result: The papyrus strips become dried.
+
+- entities:
+  - entity name: papyrus_strips
+    - before: In the player's inventory and soaked.
+    - after: In the player's inventory and dried.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has the soaked papyrus strips and a rolling pin in their inventory.
+2. Set the papyrus strips as dried.
+
+pddl:
+```
+(:action roll_strips
+  :parameters (?player - player ?strips - papyrus_strips ?rolling_pin - rolling_pin)
+  :precondition (and (inventory ?player ?strips) (soaked ?strips) (inventory ?player ?rolling_pin))
+  :effect (dried ?strips))
+```
+
+- action name: weave_strips
+- summarize action: This action is about weaving the dried papyrus strips into a lattice.
+- what is needed to do the action: The player and the dried papyrus strips in their inventory.
+- what is the result: The papyrus strips become woven.
+
+- entities:
+  - entity name: papyrus_strips
+    - before: In the player's inventory and dried.
+    - after: In the player's inventory and woven.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has the dried papyrus strips in their inventory.
+2. Set the papyrus strips as woven.
+
+pddl:
+```
+(:action weave_strips
+  :parameters (?player - player ?strips - papyrus_strips)
+  :precondition (and (inventory ?player ?strips) (dried ?strips))
+  :effect (woven ?strips))
+```
+
+- action name: bundle_strips
+- summarize action: This action is about bundling the woven strips between linen sheets and wooden boards.
+- what is needed to do the action: The player, woven papyrus strips, linen sheets, and wooden boards in their inventory.
+- what is the result: The papyrus strips become finished.
+
+- entities:
+  - entity name: papyrus_strips
+    - before: In the player's inventory and woven.
+    - after: In the player's inventory and finished.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has the woven papyrus strips, linen sheets, and wooden boards in their inventory.
+2. Set the papyrus strips as finished.
+
+pddl:
+```
+(:action bundle_strips
+  :parameters (?player - player ?strips - papyrus_strips ?sheets - linen_sheets ?boards - wooden_boards)
+  :precondition (and (inventory ?player ?strips) (woven ?strips) (inventory ?player ?sheets) (inventory ?player ?boards))
+  :effect (finished ?strips))
+```
+
+- action name: cut_sheet
+- summarize action: This action is about cutting the finished sheet of papyrus to size.
+- what is needed to do the action: The player, a finished papyrus sheet, and a knife in their inventory.
+- what is the result: The papyrus item is obtained.
+
+- entities:
+  - entity name: papyrus
+    - before: Not in the player's inventory.
+    - after: In the player's inventory.
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has finished papyrus strips and a knife in their inventory.
+2. Remove the finished papyrus strips from the player's inventory and add the papyrus item to their inventory.
+
+pddl:
+```
+(:action cut_sheet
+  :parameters (?player - player ?strips - papyrus_strips ?knife - knife ?papyrus - papyrus)
+  :precondition (and (inventory ?player ?strips) (finished ?strips) (inventory ?player ?knife))
+  :effect (and (not (inventory ?player ?strips)) (inventory ?player ?papyrus)))
+```

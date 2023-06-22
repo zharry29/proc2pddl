@@ -1,0 +1,205 @@
+(:action go ; navigate to an adjacent location
+   :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+   :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+ )
+
+(:action understand ; understand some concept
+   :parameters (?player - player ?concept - concept)
+   :precondition (not (know ?player ?concept))
+   :effect (know ?player ?concept)
+ )
+
+(:action learn ; learn a skill
+   :parameters (?player - player ?skill - skill)
+   :precondition (not (learned ?player ?skill))
+   :effect (learned ?player ?skill)
+ )
+
+(:action get ; get an item
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (not (inventory ?player ?item)) (at ?item ?loc) (at ?player ?loc))
+   :effect (inventory ?player ?item)
+ )
+
+(:action machine_secured ; onward to step2
+   :parameters (?player - player)
+   :precondition (authorized ?player)
+   :effect ()
+ )
+
+(:action enumeration;
+   :parameters (?player - player)
+   :precondition (collected_all_info ?player)
+   :effect ()
+ )
+
+(:action got_all_info ; onward to step 3
+   :parameters (?player - player)
+   :precondition ()
+   :effect (collected_all_info ?player)
+ )
+
+(:action ping;
+   :parameters (?player - player ?system - digital_system)
+   :precondition (not (ping_succeed ?player ?system))
+   :effect (ping_succeed ?player ?system)
+ )
+
+(:action check_email_server;
+   :parameters (?player - player)
+   :precondition (not (server_checked ?player))
+   :effect (server_checked ?player)
+ )
+
+(:action reached_the_remote_system;
+   :parameters (?player - player)
+   :precondition (collected_all_info ?player)
+   :effect ()
+ )
+(:action run_port_scan
+   :parameters (?player - player ?system - digital_system)
+   :precondition (and (not (port_scanned ?player)) (ping_succeed ?player ?system))
+   :effect (port_scanned ?player)
+ )
+
+(:action found_path_in_system
+   :parameters (?player - player ?system - digital_system)
+   :precondition (port_scanned ?player)
+   :effect ()
+ )
+
+(:action contact_and_trick_a_user
+   :parameters (?player - player)
+   :precondition (not (tricked_user_password ?player))
+   :effect (tricked_user_password ?player)
+ )
+
+(:action crack_password_by_social_engineering
+   :parameters (?player - player)
+   :precondition (tricked_user_password ?player)
+   :effect (password_cracked ?player)
+ )
+
+(:action send_fake_email
+   :parameters (?player - player)
+   :precondition (not (user_trusted_fake_email ?player))
+   :effect (user_trusted_fake_email ?player)
+ )
+
+(:action crack_password_by_phishing
+   :parameters (?player - player)
+   :precondition (user_trusted_fake_email ?player)
+   :effect (password_cracked ?player)
+ )
+
+(:action create_fake_wifi_access
+   :parameters (?player - player)
+   :precondition (not (people_use_unencrypted_connection ?player))
+   :effect (people_use_unencrypted_connection ?player)
+ )
+
+(:action crack_password_by_arp_spoofing
+   :parameters (?player - player)
+   :precondition (people_use_unencrypted_connection ?player)
+   :effect (password_cracked ?player)
+ )
+
+(:action crack_password_by_brute_force
+   :parameters (?player - player)
+   :precondition (not (password_cracked ?player))
+   :effect (password_cracked ?player)
+ )
+
+(:action gain_access_with_password
+   :parameters (?player - player)
+   :precondition (password_cracked ?player)
+   :effect (is_root_user ?player)
+ )
+
+(:action create_buffer_overflow
+   :parameters (?player - player ?system - digital_system)
+   :precondition (not (not_let_administrator_know ?player))
+   :effect (not_let_administrator_know ?player)
+ )
+
+(:action take_control_of_system
+   :parameters (?player - player)
+   :precondition (is_root_user ?player)
+   :effect (authorized ?player)
+ )
+
+(:action install_malware
+   :parameters (?player - player ?system - digital_system ?malware - malware)
+   :precondition (is_root_user ?player)
+   :effect (inventory ?player ?malware)
+ )
+
+(:action bypass_standard_authentication_system
+   :parameters (?player - player)
+   :precondition (not (is_root_user ?player))
+   :effect (is_root_user ?player)
+ )
+
+(:action not_let_administrator_know
+   :parameters (?player - player)
+   :precondition (and (is_root_user ?player) (not (administrator_know_compromised ?player)))
+   :effect ()
+ )
+
+(:action make_no_change_to_website
+   :parameters (?player - player)
+   :precondition (not (website_unchanged ?player))
+   :effect (website_unchanged ?player)
+ )
+
+(:action create_fewest_file
+   :parameters (?player - player)
+   :precondition (not (create_more_file_than_need ?player))
+   :effect (create_more_file_than_need ?player)
+ )
+
+(:action delete_additional_users
+   :parameters (?player - player)
+   :precondition (authorized ?player)
+   :effect (additional_users ?player)
+ )
+
+(:action hardcode_password
+   :parameters (?player - player)
+   :precondition (authorized ?player)
+   :effect (hardcoded_secret_password ?player)
+ )
+
+(:action track_covered
+   :parameters (?player - player)
+   :precondition (authorized ?player)
+   :effect ()
+ )
+(:action learn_concepts
+   :parameters (?player - player ?c - concept)
+   :precondition (not (know ?player ?c))
+   :effect (know ?player ?c)
+ )
+(:action learn_internet
+   :parameters (?player - player)
+   :precondition (know ?player hacking)
+   :effect (know ?player internet)
+ )
+(:action learn_programming
+   :parameters (?player - player ?s - skill)
+   :precondition (and (know ?player hacking) (not (learned ?player ?s)))
+   :effect (learned ?player ?s)
+ )
+(:action learn_unix
+   :parameters (?player - player)
+   :precondition (and (learned ?player py) (learned ?player cpp) (learned ?player php) (learned ?player bash) (learned ?player assembly) (learned ?player html))
+   :effect (know ?player unix)
+ )
+(:action become_skilled
+   :parameters (?player - player ?c - concept ?s - skill)
+   :precondition (and (know ?player ?c) (learned ?player ?s))
+   :effect ()
+ )
+
+)

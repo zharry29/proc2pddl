@@ -1,0 +1,61 @@
+(:action go
+    :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+    :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+    :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+)
+
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?player ?loc) (at ?item ?loc))
+    :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+
+(:action build_roof
+    :parameters (?player - player ?log - log ?roof - roof)
+    :precondition (and (inventory ?player ?log))
+    :effect (and (at ?roof ?loc) (not (inventory ?player ?log)))
+)
+
+(:action build_wall
+    :parameters (?player - player ?small_sticks - small_sticks ?leaves - leaves ?wall - wall)
+    :precondition (and (inventory ?player ?small_sticks) (inventory ?player ?leaves))
+    :effect (and (at ?wall ?loc) (not (inventory ?player ?small_sticks)) (not (inventory ?player ?leaves)))
+)
+
+(:action build_bed
+    :parameters (?player - player ?leaves - leaves ?shelter - shelter)
+    :precondition (and (inventory ?player ?leaves) (exists (?roof - roof) (at ?roof ?shelter)) (exists (?wall - wall) (at ?wall ?shelter)))
+    :effect (and (at ?shelter ?loc) (not (inventory ?player ?leaves)))
+)
+
+(:action complete_shelter
+    :parameters (?player - player ?shelter - shelter ?loc - location)
+    :precondition (and (at ?shelter ?loc) (exists (?roof - roof) (at ?roof ?shelter)) (exists (?wall - wall) (at ?wall ?shelter)))
+    :effect (and (at ?shelter ?player))
+)
+
+(:action hunt_animal
+    :parameters (?player - player ?animal - animal ?loc - location)
+    :precondition (and (at ?player ?loc) (at ?animal ?loc))
+    :effect (and (not (at ?animal ?loc)) (treated ?animal))
+)
+
+(:action prepare_animal
+    :parameters (?player - player ?animal - animal ?sharp_stone - sharp_stone)
+    :precondition (and (inventory ?player ?sharp_stone) (treated ?animal))
+    :effect (and (inventory ?player ?animal) (not (treated ?animal)))
+)
+
+(:action build_raft
+    :parameters (?player - player ?large_logs - log ?small_logs - small_sticks ?vines - vines ?raft_draft - raft_draft)
+    :precondition (and (inventory ?player ?large_logs) (inventory ?player ?small_logs) (inventory ?player ?vines))
+    :effect (and (inventory ?player ?raft_draft) (not (inventory ?player ?large_logs)) (not (inventory ?player ?small_logs)) (not (inventory ?player ?vines)))
+)
+
+(:action test_raft
+    :parameters (?player - player ?raft_draft - raft_draft ?raft_finished - raft_finished ?loc - location)
+    :precondition (and (inventory ?player ?raft_draft) (at ?player ?loc))
+    :effect (and (inventory ?player ?raft_finished) (not (inventory ?player ?raft_draft)) (at ?raft_finished ?loc))
+)
+
+)

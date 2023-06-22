@@ -1,0 +1,80 @@
+(:action get
+    :parameters (?player - player ?item - item)
+    :precondition (and (at ?item ?loc1) (at ?player ?loc1))
+    :effect (and (not (at ?item ?loc1)) (inventory ?player ?item))
+)
+
+(:action drop
+   :parameters (?player - player ?item - item)
+   :precondition (inventory ?player ?item)
+   :effect (and (not (inventory ?player ?item)) (at ?item ?loc1))
+)
+
+(:action put_in_stopper
+    :parameters (?item - item)
+    :precondition (and (can_be_filled ?item) (full ?item))
+    :effect (has_stopper ?item)
+)
+
+(:action fill
+    :parameters (?item - item)
+    :precondition (not (full ?item))
+    :effect (full ?item)
+)
+
+(:action purify
+    :parameters (?item - item)
+    :precondition (and (full ?item) (not (purified ?item)))
+    :effect (purified ?item)
+)
+
+(:action seal
+    :parameters (?item - item)
+    :precondition (and (has_stopper ?item) (purified ?item) (can_be_sealed ?item))
+    :effect (sealed ?item)
+)
+
+(:action wait
+    :parameters ()
+    :precondition ()
+    :effect ()
+)
+
+(:action go
+    :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+    :precondition
+    (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+    :effect
+    (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action put_batteries_in
+    :parameters (?radio - radio)
+    :precondition (not (has_batteries ?radio))
+    :effect (has_batteries ?radio)
+)
+
+(:action turn_on_radio
+    :parameters (?radio - radio)
+    :precondition (has_batteries ?radio)
+    :effect (on ?radio)
+)
+
+(:action create_cage
+    :parameters ()
+    :precondition ()
+    :effect (exists (?cage - farraday_cage) (and (not (cage_closed ?cage))))
+)
+
+(:action close_cage
+    :parameters (?cage - farraday_cage))
+    :precondition (not (cage_closed ?cage))
+    :effect (cage_closed ?cage)
+)
+
+(:action put_in_cage
+    :parameters (?item - item ?cage - farraday_cage)
+    :precondition (and (not (cage_closed ?cage)) (not (in_cage ?item)))
+    :effect (in_cage ?item))
+
+)

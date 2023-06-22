@@ -1,0 +1,56 @@
+(:action splash_swim
+  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and (at ?player ?loc1) (is_water ?loc1) (is_water ?loc2) (connected ?loc1 ?dir ?loc2))
+  :effect (and (at ?player ?loc2) (not (at ?player ?loc1)) (not (visible ?shark))))
+
+(:action swim
+  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and (at ?player ?loc1) (is_water ?loc1) (is_water ?loc2) (connected ?loc1 ?dir ?loc2))
+  :effect (and (at ?player ?loc2) (not (at ?player ?loc1))))
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (inventory ?player ?item) (not (at ?item ?loc))))
+
+(:action onboard
+  :parameters (?player - player ?ship - ship ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?ship ?loc))
+  :effect (on ?player ?ship))
+
+(:action defend
+  :parameters (?player - player)
+  :precondition ()
+  :effect (defending ?player))
+
+(:action spot_ship
+  :parameters (?player - player ?ship - ship ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?ship ?loc))
+  :effect (visible ?ship))
+
+(:action spot_shark
+  :parameters (?player - player ?shark - shark ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?shark ?loc))
+  :effect (visible ?shark))
+
+(:action self_mobilize
+  :parameters (?player - player ?shark - shark ?body - body)
+  :precondition (and (attacked ?player ?shark))
+  :effect (dizzy ?shark))
+
+(:action medicare
+  :parameters (?player - player)
+  :precondition (and (wounded ?player))
+  :effect (not (wounded ?player)))
+
+(:action attack_vulnerable
+  :parameters (?player - player ?shark - shark ?part - part)
+  :precondition (and (vulnerable ?part) (defending ?player) (visible ?shark))
+  :effect (fleed ?shark))
+
+(:action knockout
+  :parameters (?player - player ?shark - shark ?part - part ?item - item)
+  :precondition (and (vulnerable ?part) (visible ?shark) (inventory ?player ?item) (or (sharp ?item) (heavy ?item)))
+  :effect (and (fleed ?shark) (dizzy ?shark)))
+
+)

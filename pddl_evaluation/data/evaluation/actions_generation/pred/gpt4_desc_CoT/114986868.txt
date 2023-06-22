@@ -1,0 +1,127 @@
+(:action go
+ :parameters (?player - player ?source - location ?target - location ?dir - direction)
+ :precondition (and (at ?player ?source)
+                    (connected ?source ?dir ?target)
+                    (not (blocked ?source ?dir ?target)))
+ :effect (and (not (at ?player ?source))
+              (at ?player ?target)))
+
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (at ?player ?loc)
+ :effect (and (not (at ?item ?loc))
+              (inventory ?player ?item)))
+
+(:action drop
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (inventory ?player ?item)
+                    (at ?player ?loc))
+ :effect (and (not (inventory ?player ?item))
+              (at ?item ?loc)))
+
+(:action collect_water
+ :parameters (?player - player ?container - container ?loc - location)
+ :precondition (and (at ?player ?loc)
+                    (has_water ?loc)
+                    (inventory ?player ?container))
+ :effect (and (not (inventory ?player ?container))
+              (inventory ?player ?water - water)))
+
+(:action filter_water
+ :parameters (?player - player ?water - water)
+ :precondition (inventory ?player ?water)
+ :effect (and (not (inventory ?player ?water))
+              (inventory ?player ?filtered_water - water)
+              (filtered ?filtered_water)))
+
+(:action boil_water
+ :parameters (?player - player ?filtered_water - water ?loc - location)
+ :precondition (and (inventory ?player ?filtered_water)
+                    (filtered ?filtered_water)
+                    (at ?player ?loc)
+                    (has_fire ?loc))
+ :effect (and (not (inventory ?player ?filtered_water))
+              (inventory ?player ?boiled_water - water)
+              (boiled ?boiled_water)))
+
+(:action drink_water
+ :parameters (?player - player ?boiled_water - water)
+ :precondition (and (inventory ?player ?boiled_water)
+                    (boiled ?boiled_water)
+                    (thirsty ?player))
+ :effect (and (not (inventory ?player ?boiled_water))
+              (not (thirsty ?player))))
+
+(:action get_wood
+ :parameters (?player - player ?loc - location)
+ :precondition (and (at ?player ?loc)
+                    (has_tree ?loc))
+ :effect (inventory ?player ?wood - wood))
+
+(:action make_drill
+ :parameters (?player - player ?wood - wood)
+ :precondition (inventory ?player ?wood)
+ :effect (and (not (inventory ?player ?wood))
+              (inventory ?player ?drill - drill)))
+
+(:action make_fire
+ :parameters (?player - player ?drill - drill ?loc - location)
+ :precondition (and (inventory ?player ?drill)
+                    (at ?player ?loc))
+ :effect (has_fire ?loc))
+
+(:action make_spear
+ :parameters (?player - player ?wood - wood)
+ :precondition (inventory ?player ?wood)
+ :effect (and (not (inventory ?player ?wood))
+              (inventory ?player ?spear - spear)))
+
+(:action catch_fish
+ :parameters (?player - player ?spear - spear ?loc - location)
+ :precondition (and (inventory ?player ?spear)
+                    (at ?player ?loc)
+                    (has_fish ?loc))
+ :effect (inventory ?player ?fish - fish))
+
+(:action cook_fish
+ :parameters (?player - player ?fish - fish ?loc - location)
+ :precondition (and (inventory ?player ?fish)
+                    (not (cooked ?fish))
+                    (at ?player ?loc)
+                    (has_fire ?loc))
+ :effect (and (not (inventory ?player ?fish))
+              (inventory ?player ?cooked_fish - fish)
+              (cooked ?cooked_fish)))
+
+(:action eat_fish
+ :parameters (?player - player ?cooked_fish - fish)
+ :precondition (and (inventory ?player ?cooked_fish)
+                    (cooked ?cooked_fish)
+                    (hungry ?player))
+ :effect (and (not (inventory ?player ?cooked_fish))
+              (not (hungry ?player))))
+
+(:action get_foliage
+ :parameters (?player - player ?loc - location)
+ :precondition (and (at ?player ?loc)
+                    (has_tree ?loc))
+ :effect (inventory ?player ?foliage - foliage))
+
+(:action build_shelter
+ :parameters (?player - player ?wood - wood ?foliage - foliage ?loc - location)
+ :precondition (and (inventory ?player ?wood)
+                    (inventory ?player ?foliage)
+                    (at ?player ?loc))
+ :effect (and (not (inventory ?player ?wood))
+              (not (inventory ?player ?foliage))
+              (has_shelter ?loc)))
+
+(:action survive
+ :parameters (?player - player ?spear - spear ?loc - location)
+ :precondition (and (inventory ?player ?spear)
+                    (at ?player ?loc)
+                    (has_shelter ?loc)
+                    (has_fire ?loc))
+ :effect (safe ?player ?loc))
+
+)

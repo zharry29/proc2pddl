@@ -1,0 +1,306 @@
+- action name: get
+- summarize action: The player picks up an item and puts it into their inventory.
+- what is needed to do the action: The player must be at the same location as the item.
+- what is the result: The item is in the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: not having the item in inventory
+    - after: having the item in inventory
+  - entity name: item
+    - before: at a location
+    - after: in the player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player and item are at the same location using (at).
+2. Update the inventory of the player with the item using (inventory).
+
+PDDL:
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?player ?loc) (at ?item ?loc))
+    :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+
+- action name: drop
+- summarize action: The player drops an item from their inventory.
+- what is needed to do the action: The player must have the item in their inventory.
+- what is the result: The item is at the player's location.
+
+- entities:
+  - entity name: player
+    - before: having the item in inventory
+    - after: not having the item in inventory
+  - entity name: item
+    - before: in the player's inventory
+    - after: at a location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has the item in their inventory using (inventory).
+2. Update the location of the item using (at).
+
+PDDL:
+(:action drop
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?player ?loc) (inventory ?player ?item))
+    :effect (and (not (inventory ?player ?item)) (at ?item ?loc))
+)
+
+- action name: put_in_stopper
+- summarize action: The player puts a stopper on an item.
+- what is needed to do the action: The player must have the item in their inventory and the item can have a stopper.
+- what is the result: The item has a stopper.
+
+- entities:
+  - entity name: player
+    - before: having an item in inventory without a stopper
+    - after: having an item in inventory with a stopper
+  - entity name: item
+    - before: not having a stopper
+    - after: having a stopper
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has the item in their inventory using (inventory).
+2. Check if the item can have a stopper using (can_be_filled).
+3. Update the state of the item to have a stopper using (has_stopper).
+
+PDDL:
+(:action put_in_stopper
+  :parameters (?player - player ?item - item)
+  :precondition (and (inventory ?player ?item) (can_be_filled ?item))
+  :effect (has_stopper ?item)
+)
+
+(Continued in the next response due to character limitations...)
+- action name: fill
+- summarize action: The player fills an item with water.
+- what is needed to do the action: The player must have the item in their inventory, and the item can be filled and should have a stopper.
+- what is the result: The item is now filled with water.
+
+- entities:
+  - entity name: player
+    - before: having an item in inventory that's not filled with water
+    - after: having an item in inventory filled with water
+  - entity name: item
+    - before: empty
+    - after: filled with water
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has the item in their inventory using (inventory).
+2. Check if the item can be filled using (can_be_filled).
+3. Check if the item has a stopper using (has_stopper).
+4. Update the state of the item to be filled with water using (full).
+
+PDDL:
+(:action fill
+  :parameters (?player - player ?item - item)
+  :precondition (and (inventory ?player ?item) (can_be_filled ?item) (has_stopper ?item))
+  :effect (full ?item)
+)
+
+- action name: purify
+- summarize action: The player purifies the water in an item.
+- what is needed to do the action: The player must have the item in their inventory, and the item should be filled with water.
+- what is the result: The water in the item is purified.
+
+- entities:
+  - entity name: player
+    - before: having an item in inventory with non-purified water
+    - after: having an item in inventory with purified water
+  - entity name: item
+    - before: filled with non-purified water
+    - after: filled with purified water
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has the item in their inventory using (inventory).
+2. Check if the item is filled with water using (full).
+3. Update the state of the item to have purified water using (purified).
+
+PDDL:
+(:action purify
+  :parameters (?player - player ?item - item)
+  :precondition (and (inventory ?player ?item) (full ?item))
+  :effect (purified ?item)
+)
+
+(Continued in the next response due to character limitations...)
+- action name: seal
+- summarize action: The player seals an item that has been filled with purified water.
+- what is needed to do the action: The player must have the item in their inventory, the item should be filled with purified water, and the item can be sealed.
+- what is the result: The item is sealed.
+
+- entities:
+  - entity name: player
+    - before: having an item in inventory with purified water, not sealed
+    - after: having an item in inventory with purified water, sealed
+  - entity name: item
+    - before: not sealed
+    - after: sealed
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has the item in their inventory using (inventory).
+2. Check if the item is filled with purified water using (purified).
+3. Check if the item can be sealed using (can_be_sealed).
+4. Update the state of the item as sealed using (sealed).
+
+PDDL:
+(:action seal
+  :parameters (?player - player ?item - item)
+  :precondition (and (inventory ?player ?item) (purified ?item) (can_be_sealed ?item))
+  :effect (sealed ?item)
+)
+
+- action name: wait
+- summarize action: The player waits for a while.
+- what is needed to do the action: Nothing.
+- what is the result: Nothing.
+
+- entities: None
+
+- describe how to match it to PDDL relevant predicates step by step: Not applicable for this action.
+
+PDDL:
+(:action wait
+  :parameters ()
+  :precondition ()
+  :effect ()
+)
+
+- action name: go
+- summarize action: The player moves from one location to another.
+- what is needed to do the action: The player must be at a location and the destination location must be connected to the starting location.
+- what is the result: The player is now at the destination location.
+
+- entities:
+  - entity name: player
+    - before: at starting location
+    - after: at destination location
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the starting location using (at).
+2. Check if the destination location is connected to the starting location using (connected).
+3. Update the location of the player to the destination location using (at).
+
+PDDL:
+(:action go
+  :parameters (?player - player ?start - location ?dest - location ?dir - direction)
+  :precondition (and (at ?player ?start) (connected ?start ?dir ?dest) (not (blocked ?start ?dir ?dest)))
+  :effect (and (not (at ?player ?start)) (at ?player ?dest))
+)
+
+(Continued in the next response due to character limitations...)
+- action name: put_batteries_in
+- summarize action: The player puts batteries into the radio.
+- what is needed to do the action: The player must have a radio in their inventory.
+- what is the result: The radio has batteries in it.
+
+- entities:
+  - entity name: player
+    - before: having a radio in inventory without batteries
+    - after: having a radio in inventory with batteries
+  - entity name: radio
+    - before: without batteries
+    - after: with batteries
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has a radio in their inventory using (inventory).
+2. Update the state of the radio to have batteries using (has_batteries).
+
+PDDL:
+(:action put_batteries_in
+  :parameters (?player - player ?radio - radio)
+  :precondition (inventory ?player ?radio)
+  :effect (has_batteries ?radio)
+)
+
+- action name: turn_on_radio
+- summarize action: The player turns on the radio.
+- what is needed to do the action: The player must have a radio with batteries in their inventory.
+- what is the result: The radio is turned on.
+
+- entities:
+  - entity name: player
+    - before: having a radio in inventory with batteries but not turned on
+    - after: having a radio in inventory with batteries and turned on
+  - entity name: radio
+    - before: turned off
+    - after: turned on
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has a radio in their inventory with batteries using (inventory) and (has_batteries).
+2. Update the state of the radio to be turned on using (on).
+
+PDDL:
+(:action turn_on_radio
+  :parameters (?player - player ?radio - radio)
+  :precondition (and (inventory ?player ?radio) (has_batteries ?radio))
+  :effect (on ?radio)
+)
+
+- action name: create_cage
+- summarize action: The player creates a Faraday cage.
+- what is needed to do the action: Nothing specifically.
+- what is the result: A Faraday cage is created.
+
+- entities:
+  - entity name: cage
+    - before: not existing
+    - after: existing
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Introduce a new Faraday cage entity.
+
+PDDL:
+(:action create_cage
+  :parameters (?cage - farraday_cage)
+  :precondition ()
+  :effect ()
+)
+
+- action name: close_cage
+- summarize action: The player closes a Faraday cage.
+- what is needed to do the action: A Faraday cage should exist.
+- what is the result: The Faraday cage is closed.
+
+- entities:
+  - entity name: cage
+    - before: open
+    - after: closed
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Update the state of the cage to be closed using (cage_closed).
+
+PDDL:
+(:action close_cage
+  :parameters (?cage - farraday_cage)
+  :precondition ()
+  :effect (cage_closed ?cage)
+)
+
+- action name: put_in_cage
+- summarize action: The player puts an item inside a closed Faraday cage.
+- what is needed to do the action: The player must have the item in their inventory, and the Faraday cage must be closed.
+- what is the result: The item is inside the Faraday cage.
+
+- entities:
+  - entity name: player
+    - before: having an item in inventory
+    - after: no longer having that item in inventory
+  - entity name: item
+    - before: in the player's inventory
+    - after: inside the Faraday cage
+  - entity name: cage
+    - before: closed
+    - after: unchanged (still closed)
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has the item in their inventory using (inventory).
+2. Check if the cage is closed using (cage_closed).
+3. Update the state of the item to be inside the cage using (in_cage).
+
+PDDL:
+(:action put_in_cage
+  :parameters (?player - player ?item - item ?cage - farraday_cage)
+  :precondition (and (inventory ?player ?item) (cage_closed ?cage))
+  :effect (and (not (inventory ?player ?item)) (in_cage ?item ?cage))
+)
