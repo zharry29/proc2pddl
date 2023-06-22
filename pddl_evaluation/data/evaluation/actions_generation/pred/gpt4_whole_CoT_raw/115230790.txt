@@ -1,0 +1,261 @@
+- action name: listen_to_astronomers_predictions
+- summarize action: The player listens to astronomers' predictions to know about potential comet impacts on Earth.
+- what is needed to do the action: The player needs a way to receive information from astronomers, such as a radio or access to the internet.
+- what is the result: The player becomes informed about potential comet impacts and their timeline.
+
+- entities:
+  - entity name: player
+    - before: uninformed about possible comet impacts
+    - after: informed about potential comet impacts
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a way to receive information from astronomers, such as a radio or access to the internet, using the "has_pc" predicate.
+
+pddl:
+(:action listen_to_astronomers_predictions
+ :parameters (?p - player)
+ :precondition (has_pc ?p)
+ :effect (listen_to_broadcast ?p)
+)
+
+- action name: move_away
+- summarize action: The player moves away from coastal areas to avoid tsunamis and flooding caused by a potential comet impact.
+- what is needed to do the action: The player needs to be in or near a coastal city and must know directions to move to an inland city.
+- what is the result: The player is in a safer location, an inland city, which is less affected by tsunamis and flooding.
+
+- entities:
+  - entity name: player
+    - before: in or near a coastal city
+    - after: in an inland city
+  - entity name: coastal city
+    - before: the player is in or near this city
+    - after: the player moved away from this city
+  - entity name: inland city
+    - before: not having the player
+    - after: having the player
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is in or near a coastal city using the "coastal" predicate.
+2. Check if the player knows the directions to move to an inland city using the "connected" predicate.
+3. Move the player to the inland city using the "at" predicate.
+
+pddl:
+(:action move_away
+ :parameters (?p - player ?c1 - city ?c2 - city ?dir - direction)
+ :precondition (and (coastal ?c1) (at ?p ?c1) (connected ?c1 ?dir ?c2) (inland ?c2))
+ :effect (and (not (at ?p ?c1)) (at ?p ?c2))
+)
+
+- action name: go
+- summarize action: The player moves between two locations within the city to buy necessary supplies or find a favorable bunker or location.
+- what is needed to do the action: The player needs to be in a city with a target location containing the necessary supplies or a favorable bunker, and the player should know the direction to this location.
+- what is the result: The player arrives at the target location within the city.
+
+- entities:
+  - entity name: player
+    - before: in a specific location within the city
+    - after: in the target location within the city
+  - entity name: location1
+    - before: having the player
+    - after: not having the player
+  - entity name: location2
+    - before: not having the player
+    - after: having the player
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is in a specific location within the city using the "at" predicate.
+2. Check if the target location is within the same city using the "in" predicate.
+3. Check if the player knows the direction to the target location using the "connected" predicate.
+4. Move the player to the target location using the "at" predicate.
+
+pddl:
+(:action go
+ :parameters (?p - player ?l1 - location ?l2 - location ?c - city ?dir - direction)
+ :precondition (and (at ?p ?l1) (in ?l1 ?c) (in ?l2 ?c) (connected ?l1 ?dir ?l2))
+ :effect (and (not (at ?p ?l1)) (at ?p ?l2))
+)
+
+- action name: buy_supplies
+- summarize action: The player buys necessary supplies like food, water, and medicine for survival in the event of a comet impact.
+- what is needed to do the action: The player needs to be at a location with these supplies, such as a market.
+- what is the result: The player has enough supplies to survive the comet impact.
+
+- entities:
+  - entity name: player
+    - before: doesn't have enough supplies
+    - after: has enough supplies
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is in a location with the necessary supplies, such as a market, using the "at" predicate.
+2. Make the player have enough supplies using the "enough_supplies" predicate.
+
+pddl:
+(:action buy_supplies
+ :parameters (?p - player ?m - market)
+ :precondition (at ?p ?m)
+ :effect (enough_supplies)
+)
+
+- action name: check_supplies
+- summarize action: The player checks the supplies they have to make sure they have enough to survive the comet impact.
+- what is needed to do the action: The player has an inventory of items to check.
+- what is the result: The player knows if they have enough supplies or not.
+
+- entities:
+  - entity name: player
+    - before: uncertain about the sufficiency of their supplies
+    - after: knows if they have enough supplies or not
+  - entity name: item
+    - before: in the player's inventory
+    - after: confirmed to be sufficient or not
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has the necessary items in their inventory using the "inventory" predicate.
+2. Determine if the player has enough supplies or not using the "enough_supplies" predicate.
+
+pddl:
+(:action check_supplies
+ :parameters (?p - player ?it - item)
+ :precondition (inventory ?it)
+ :effect (enough_supplies)
+)
+
+- action name: buy_weapons
+- summarize action: The player buys weapons and ammunition for protection after the comet impact.
+- what is needed to do the action: The player needs to be at a location with weapons, such as a weapon market.
+- what is the result: The player has enough weapons and ammunition to defend their resources.
+
+- entities:
+  - entity name: player
+    - before: doesn't have enough weapons
+    - after: has enough weapons
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is in a location where they can buy weapons, such as a weapon market, using the "at" predicate.
+2. Make the player have enough weapons using the "enough_weapons" predicate.
+
+pddl:
+(:action buy_weapons
+ :parameters (?p - player ?w - weapon_market)
+ :precondition (at ?p ?w)
+ :effect (enough_weapons)
+)
+
+- action name: check_weapons
+- summarize action: The player checks the weapons and ammunition they have to make sure they have enough for protection after the comet impact.
+- what is needed to do the action: The player has an inventory of weapons and ammunition to check.
+- what is the result: The player knows if they have enough weapons and ammunition or not.
+
+- entities:
+  - entity name: player
+    - before: uncertain about the sufficiency of their weapons
+    - after: knows if they have enough weapons and ammunition or not
+  - entity name: weapon
+    - before: in the player's inventory
+    - after: confirmed to be sufficient or not
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has the necessary weapons and ammunition in their inventory using the "inventory" predicate.
+2. Determine if the player has enough weapons and ammunition or not using the "enough_weapons" predicate.
+
+pddl:
+(:action check_weapons
+ :parameters (?p - player ?w - weapon)
+ :precondition (inventory ?w)
+ :effect (enough_weapons)
+)
+
+- action name: check_bunker
+- summarize action: The player evaluates a bunker to ensure it is suitable for protection during and after a comet impact.
+- what is needed to do the action: The player needs to be in a location with a bunker to check.
+- what is the result: The player determines if the bunker is suitable or not.
+
+- entities:
+  - entity name: player
+    - before: uncertain about the bunker's suitability
+    - after: knows if the bunker is suitable or not
+  - entity name: bunker
+    - before: not evaluated
+    - after: evaluated and deemed suitable or not suitable
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is in a location with a bunker using the "at" predicate.
+2. Determine if the bunker has an air filtration system, is made of strong material, and has proper heat using the "has_air_filtration_system", "has_strong_material", and "outfit_bunker_with_heat" predicates.
+3. Identify the bunker as a good bunker using the "find_good_bunker" predicate.
+
+pddl:
+(:action check_bunker
+ :parameters (?p - player ?bk - bunker)
+ :precondition (at ?p ?bk)
+ :effect (and (find_good_bunker ?bk) (has_air_filtration_system ?bk) (has_strong_material ?bk) (outfit_bunker_with_heat ?bk))
+)
+
+- action name: outfit_bunker_with_energy_source
+- summarize action: The player equips the bunker with an energy source for heat and other functions during their stay.
+- what is needed to do the action: The player needs to be in a location with a suitable bunker and have access to an energy_source.
+- what is the result: The bunker has a proper energy source for heat and other functions.
+
+- entities:
+  - entity name: player
+    - before: not having an energy source in the bunker
+    - after: having an energy source in the bunker
+  - entity name: bunker
+    - before: without a proper energy source
+    - after: with a proper energy source
+  - entity name: energy_source
+    - before: not in the bunker
+    - after: in the bunker
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is in a location with a good bunker using the "find_good_bunker" predicate.
+2. Check if the player has access to an energy_source using the "inventory" predicate.
+3. Equip the bunker with the energy source using the "outfit_bunker_with_heat" predicate.
+
+pddl:
+(:action outfit_bunker_with_energy_source
+ :parameters (?p - player ?bk - bunker ?es - energy_source)
+ :precondition (and (find_good_bunker ?bk) (at ?p ?bk) (inventory ?es))
+ :effect (outfit_bunker_with_heat ?bk)
+)
+
+- action name: enjoylife
+- summarize action: The player enjoys life, staying active and mentally healthy, while living in the bunker.
+- what is needed to do the action: The player needs to be in a suitable and prepared bunker.
+- what is the result: The player maintains mental well-being while living in the bunker.
+
+- entities:
+  - entity name: player
+    - before: not enjoying life in the bunker
+    - after: enjoying life in the bunker
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player is in a suitable and prepared bunker using the "find_good_bunker" and "outfit_bunker_with_heat" predicates.
+2. Make the player enjoy life in the bunker using the "enjoylife" predicate.
+
+pddl:
+(:action enjoylife
+ :parameters (?p - player ?bk - bunker)
+ :precondition (and (find_good_bunker ?bk) (outfit_bunker_with_heat ?bk))
+ :effect (enjoylife ?p ?bk)
+)
+
+- action name: connect_through_social_media_with_family
+- summarize action: The player communicates with their family through social media to inform them that they are safe in the bunker.
+- what is needed to do the action: The player needs to have a device (computer or phone) to access social media and a means of communication (Internet).
+- what is the result: The player's family knows they are safe.
+
+- entities:
+  - entity name: player
+    - before: not connected with family through social media
+    - after: connected with family through social media
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Check if the player has a device (computer or phone) to access social media using the "has_pc" predicate.
+2. Make the player's family aware that they are safe using the "family_memebers_know_you_are_safe" predicate.
+
+pddl:
+(:action connect_through_social_media_with_family
+ :parameters (?p - player)
+ :precondition (has_pc ?p)
+ :effect (family_memebers_know_you_are_safe)
+)

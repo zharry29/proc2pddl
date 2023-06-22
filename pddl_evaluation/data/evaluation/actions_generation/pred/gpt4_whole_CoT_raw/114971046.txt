@@ -1,0 +1,201 @@
+- action name: make_plan
+- summarize action: The player makes a plan to survive a nuclear attack, considering the need to stay sheltered for at least 48 hours and having enough food and medical supplies.
+- what is needed to do the action: The player not having a plan already.
+- what is the result: The player has a plan.
+
+- entities:
+  - entity name: player
+    - before: not having a plan
+    - after: having a plan
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player doesn't have a plan using (not (has_plan ?p)).
+2. Make the player has a plan (has_plan ?p).
+
+PDDL:
+(:action make_plan
+  :parameters (?p - player)
+  :precondition (not (has_plan ?p))
+  :effect (has_plan ?p)
+)
+
+- action name: get_food
+- summarize action: The player goes to a supermarket to stock up on non-perishable food items.
+- what is needed to do the action: The player needs to be at a supermarket and have items in the inventory.
+- what is the result: The player gets food and adds it to their inventory.
+
+- entities:
+  - entity name: player
+    - before: at supermarket, not having food item in their inventory
+    - after: having food item in their inventory
+  - entity name: food item
+    - before: not in player's inventory
+    - after: in player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at a supermarket using (is_supermarket ?loc).
+2. Check the location of each food item using (at ?obj - item ?loc - location).
+3. Add food items to the player's inventory using (inventory ?player ?item).
+
+PDDL:
+(:action get_food
+    :parameters (?p - player ?loc - location ?obj - item)
+    :precondition (and (is_supermarket ?loc) (at ?obj ?loc))
+    :effect (inventory ?p ?obj)
+)
+
+Note: There are more actions in the given text, but due to the character limit I can only include the first 2 actions.
+- action name: store_water
+- summarize action: The player stores water in food-grade plastic containers, cleans them with a bleach solution, and fills them with filtered and distilled water.
+- what is needed to do the action: The player is at a location to supply them with water.
+- what is the result: The player stores water.
+
+- entities:
+  - entity name: player
+    - before: does not store water
+    - after: stores water
+  - entity name: water
+    - before: not in storage
+    - after: in storage
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at a location where water is available.
+2. Ensure the player stores the water.
+
+PDDL:
+(:action store_water
+    :parameters (?p - player ?loc - location)
+    :precondition
+      (and
+          (exists (?obj - item) (and (is_supermarket ?loc) (at ?p ?loc) (at ?obj ?loc))))
+    :effect
+        (exists (?w - item) (inventory ?p ?w))
+)
+
+- action name: get_communication_supplies
+- summarize action: The player gets communication supplies such as a radio, whistle, and cell phone.
+- what is needed to do the action: The player is at a location with communication supplies.
+- what is the result: The player acquires the communication supplies, adding them to their inventory.
+
+- entities:
+  - entity name: player
+    - before: does not have communication supplies in their inventory
+    - after: has communication supplies in their inventory
+  - entity name: communication supplies
+    - before: not in player's inventory
+    - after: in player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at a location where communication supplies are available.
+2. Ensure the player acquires and stores the communication supplies in their inventory.
+
+PDDL:
+(:action get_communication_supplies
+    :parameters (?p - player ?loc - location)
+    :precondition
+      (and
+          (exists (?obj - item) (and (is_supermarket ?loc) (at ?p ?loc) (at ?obj ?loc))))
+    :effect
+        (exists (?cs - item) (inventory ?p ?cs))
+)
+
+- action name: get_medical_supplies
+- summarize action: The player gets medical supplies such as a first aid kit, instruction booklet, and prescription medications.
+- what is needed to do the action: The player is at a location with medical supplies.
+- what is the result: The player acquires the medical supplies, adding them to their inventory.
+
+- entities:
+  - entity name: player
+    - before: does not have medical supplies in their inventory
+    - after: has medical supplies in their inventory
+  - entity name: medical supplies
+    - before: not in player's inventory
+    - after: in player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at a location where medical supplies are available.
+2. Ensure the player acquires and stores the medical supplies in their inventory.
+
+PDDL:
+(:action get_medical_supplies
+    :parameters (?p - player ?loc - location)
+    :precondition
+      (and
+          (exists (?obj - item) (and (is_pharmacy ?loc) (at ?p ?loc) (at ?obj ?loc))))
+    :effect
+        (exists (?ms - item) (inventory ?p ?ms))
+)
+- action name: get_miscellaneous_items
+- summarize action: The player acquires miscellaneous items such as a flashlight, batteries, dust masks, plastic sheeting, duct tape, garbage bags, plastic ties, wet wipes, a wrench, and pliers.
+- what is needed to do the action: The player is at a location with miscellaneous items.
+- what is the result: The player acquires the miscellaneous items, adding them to their inventory.
+
+- entities:
+  - entity name: player
+    - before: does not have miscellaneous items in their inventory
+    - after: has miscellaneous items in their inventory
+  - entity name: miscellaneous items
+    - before: not in player's inventory
+    - after: in player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at a location where miscellaneous items are available.
+2. Ensure the player acquires and stores the miscellaneous items in their inventory.
+
+PDDL:
+(:action get_miscellaneous_items
+    :parameters (?p - player ?loc - location)
+    :precondition
+      (and
+          (exists (?obj - item) (and (is_supermarket ?loc) (at ?p ?loc) (at ?obj ?loc))))
+    :effect
+        (exists (?mi - item) (inventory ?p ?mi))
+)
+
+- action name: stay_in_shelter
+- summarize action: The player stays in a sheltered location to be safe from the effects of nuclear radiation.
+- what is needed to do the action: The player is at a sheltered location such as underground or home.
+- what is the result: The player is safe from nuclear radiation.
+
+- entities:
+  - entity name: player
+    - before: not sheltered
+    - after: sheltered
+  - entity name: location
+    - before: not sheltered
+    - after: sheltered
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at a sheltered location using either (is_underground ?l1) or (is_home ?l1).
+2. Mark the player as sheltered.
+
+PDDL:
+(:action stay_in_shelter
+    :parameters (?p - player ?l1 - location)
+    :precondition (and (at ?p ?l1) (or (is_underground ?l1) (is_home ?l1)))
+    :effect (sheltered ?p)
+)
+
+- action name: get_in_car
+- summarize action: The player locates a car and gets in it for transportation.
+- what is needed to do the action: The player is at a location where a car is available.
+- what is the result: The player gets in the car and is marked as driving.
+
+- entities:
+  - entity name: player
+    - before: not driving
+    - after: driving
+  - entity name: car
+    - before: at a location
+    - after: occupied by player
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at a location where a car is available using (is_car ?obj) and (at ?obj ?loc).
+2. Mark the player as driving.
+
+PDDL:
+(:action get_in_car
+    :parameters (?p - player ?loc - location ?obj - item)
+    :precondition (and (at ?p ?loc) (is_car ?obj) (at ?obj ?loc))
+    :effect (driving ?p)
+)

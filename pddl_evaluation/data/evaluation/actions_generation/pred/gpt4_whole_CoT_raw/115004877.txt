@@ -1,0 +1,356 @@
+- action name: go
+- summarize action: The player moves from one location to another.
+- what is needed to do the action: The player must be at a location connected to another location in a specific direction.
+- what is the result: The player moves to the new location in the specific direction.
+
+- entities:
+  - entity name: player
+    - before: at the initial location
+    - after: at the new location
+  - entity name: location
+    - before: initial location
+    - after: new location
+  - entity name: direction
+    - before: the direction to move
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the initial location.
+2. Check if the initial location is connected to the new location in the given direction.
+3. Remove the player from the initial location.
+4. Add the player to the new location.
+
+PDDL:
+```
+(:action go
+    :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+    :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+    :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+```
+
+- action name: get
+- summarize action: The player takes an item from a location and adds it to their inventory.
+- what is needed to do the action: The player and the item should be at the same location.
+- what is the result: The item is removed from the location and added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: at the location
+    - after: unchanged
+  - entity name: item
+    - before: at the location
+    - after: in the player's inventory
+  - entity name: location
+    - before: has the item
+    - after: item removed
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location with the item.
+2. Remove the item from the location.
+3. Add the item to the player's inventory.
+
+PDDL:
+```
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?player ?loc) (at ?item ?loc))
+    :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+```
+
+- action name: cut_plant
+- summarize action: The player cuts a healthy papyrus plant using scissors.
+- what is needed to do the action: The player should have scissors in their inventory and be at a location with a papyrus plant.
+- what is the result: The papyrus stalk is obtained.
+
+- entities:
+  - entity name: player
+    - before: has scissors in inventory
+    - after: unchanged
+  - entity name: scissors
+    - before: in the player's inventory
+    - after: unchanged
+  - entity name: papyrus plant
+    - before: at the location
+    - after: papyrus stalk obtained
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has scissors in their inventory.
+2. Check if the player is at the location with the papyrus plant.
+3. Obtain the papyrus stalk from the cut plant.
+
+Note: Since the text provided only gives a high-level description of papyrus-making and not specific locations and steps for each action, it is difficult to create highly accurate PDDL representations. The following PDDL is just an example, but may need adjustments based on the specific requirements in the actual implementation.
+
+PDDL:
+```
+(:action cut_plant
+    :parameters (?player - player ?plant - plant ?loc - location)
+    :precondition (and (inventory ?player scissors) (at ?player ?loc) (at ?plant ?loc))
+    :effect (and)
+)
+```
+
+Due to the character limit, I cannot provide PDDL for all actions. However, you can create PDDL format for remaining actions by following the same process as provided in the examples above.
+- action name: peel_stalk
+- summarize action: The player peels away the outer layer of the papyrus stalk.
+- what is needed to do the action: The player has a papyrus stalk and a sharp knife or scissors in their inventory.
+- what is the result: The papyrus stalk becomes peeled.
+
+- entities:
+  - entity name: player
+    - before: has papyrus stalk and sharp knife or scissors in inventory
+    - after: unchanged
+  - entity name: papyrus stalk
+    - before: unpeeled
+    - after: peeled
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has a papyrus stalk and a sharp knife or scissors in their inventory.
+2. Change the papyrus stalk's state to peeled.
+
+PDDL:
+```
+(:action peel_stalk
+    :parameters (?player - player ?stalk - stalk ?knife - item)
+    :precondition (and (inventory ?player ?stalk) (inventory ?player ?knife))
+    :effect (peeled ?stalk)
+)
+```
+
+- action name: cut_stalk_into_strips
+- summarize action: The player uses a sharp knife to cut the peeled papyrus stalk into thin strips.
+- what is needed to do the action: The player should have a sharp knife and a peeled stalk in their inventory.
+- what is the result: Thin strips are obtained from the papyrus stalk.
+
+- entities:
+  - entity name: player
+    - before: has a peeled papyrus stalk and a sharp knife in inventory
+    - after: unchanged
+  - entity name: peeled papyrus stalk
+    - before: in the player's inventory
+    - after: thin strips obtained
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has a sharp knife and a peeled papyrus stalk in their inventory.
+2. Remove the peeled papyrus stalk from the inventory.
+3. Obtain thin strips from the papyrus stalk.
+
+PDDL:
+```
+(:action cut_stalk_into_strips
+    :parameters (?player - player ?stalk - stalk ?knife - item ?strip - strip)
+    :precondition (and (inventory ?player ?stalk) (inventory ?player ?knife) (peeled ?stalk))
+    :effect (and (not (inventory ?player ?stalk)) (inventory ?player ?strip))
+)
+```
+
+- action name: soak_strips
+- summarize action: The player soaks the thin papyrus strips in water for a minimum of 3 days.
+- what is needed to do the action: The player should have thin strips and be at a water location.
+- what is the result: The strips become flexible and transparent.
+
+- entities:
+  - entity name: player
+    - before: has thin papyrus strips in inventory
+    - after: unchanged
+  - entity name: thin papyrus strips
+    - before: unsoaked
+    - after: soaked
+  - entity name: location
+    - before: has water
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has thin papyrus strips in their inventory.
+2. Check if the player is at a location with water.
+3. Change the state of the thin papyrus strips to soaked.
+
+PDDL:
+```
+(:action soak_strips
+    :parameters (?player - player ?strip - strip ?loc - location)
+    :precondition (and (inventory ?player ?strip) (at ?player ?loc) (has_water ?loc))
+    :effect (clean ?strip)
+)
+```
+
+For the remaining actions in the process of making papyrus, you can follow the same method as demonstrated above to create PDDL representations by identifying entities, preconditions, and effects. Depending on the specific context of your implementation, you may need to adjust or modify these descriptions and PDDL representations accordingly.
+- action name: dry_out_strips
+- summarize action: The player lays the soaked strips out on a hard, flat surface and lets them dry.
+- what is needed to do the action: The player should have soaked strips and be at a location with a hard, flat surface.
+- what is the result: The soaked strips become dry.
+
+- entities:
+  - entity name: player
+    - before: has soaked strips in inventory
+    - after: unchanged
+  - entity name: soaked strips
+    - before: soaked in player's inventory
+    - after: dry
+  - entity name: location
+    - before: has a hard flat surface
+    - after: unchanged
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has soaked strips in their inventory.
+2. Check if the player is at a location with a hard, flat surface.
+3. Change the state of the soaked strips to dry.
+
+PDDL:
+```
+(:action dry_out_strips
+    :parameters (?player - player ?strip - strip ?loc - location)
+    :precondition (and (inventory ?player ?strip) (at ?player ?loc) (clean ?strip) (has_hard_surface ?loc))
+    :effect (dry ?strip)
+)
+```
+
+- action name: weave_strips_into_sheet
+- summarize action: The player weaves the dry strips together into a sheet by creating two layers with perpendicular strips.
+- what is needed to do the action: The player should have dry strips in their inventory.
+- what is the result: A sheet is created by weaving the dry strips together.
+
+- entities:
+  - entity name: player
+    - before: has dry strips in inventory
+    - after: unchanged
+  - entity name: dry strips
+    - before: dry in player's inventory
+    - after: woven into a sheet
+  - entity name: sheet
+    - before: not created
+    - after: created by weaving dry strips
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has dry strips in their inventory.
+2. Remove the dry strips from player's inventory.
+3. Create a sheet by weaving the dry strips together.
+
+PDDL:
+```
+(:action weave_strips_into_sheet
+    :parameters (?player - player ?strip - strip ?sheet - sheet)
+    :precondition (and (inventory ?player ?strip) (dry ?strip))
+    :effect (and (not (inventory ?player ?strip)) (inventory ?player ?sheet))
+)
+```
+
+- action name: press_sheet
+- summarize action: The player places the woven sheet between two wooden boards to press and flatten it.
+- what is needed to do the action: The player should have a sheet, two wooden boards, and be at a suitable location.
+- what is the result: The sheet becomes pressed and flattened.
+
+- entities:
+  - entity name: player
+    - before: has a sheet and wooden boards in inventory
+    - after: unchanged
+  - entity name: sheet
+    - before: in player's inventory
+    - after: pressed and flattened
+  - entity name: wooden boards
+    - before: in player's inventory
+    - after: used to press and flatten the sheet
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has a sheet and wooden boards in their inventory.
+2. Use the wooden boards to press and flatten the sheet.
+
+PDDL:
+```
+(:action press_sheet
+    :parameters (?player - player ?sheet - sheet ?boards - item)
+    :precondition (and (inventory ?player ?sheet) (inventory ?player ?boards))
+    :effect (flat ?sheet)
+)
+```
+
+Due to the character limit, we cannot provide PDDL for all actions in one response. For the remaining actions in the process of making papyrus, follow the same method as demonstrated above to create PDDL representations by identifying entities, preconditions, and effects.
+- action name: flatten_sheet
+- summarize action: The player further flattens the pressed sheet, using a stone slab or rolling pin, to make it completely flat.
+- what is needed to do the action: The player should have a pressed sheet and either a stone slab or rolling pin in their inventory.
+- what is the result: The pressed sheet becomes completely flat.
+
+- entities:
+  - entity name: player
+    - before: has a pressed sheet and a stone slab or rolling pin in inventory
+    - after: unchanged
+  - entity name: pressed sheet
+    - before: in player's inventory
+    - after: completely flat
+  - entity name: stone slab or rolling pin
+    - before: in player's inventory
+    - after: used to further flatten the pressed sheet
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has a pressed sheet and either a stone slab or rolling pin in their inventory.
+2. Use the stone slab or rolling pin to further flatten the pressed sheet.
+
+PDDL:
+```
+(:action flatten_sheet
+    :parameters (?player - player ?sheet - sheet ?tool - item)
+    :precondition (and (inventory ?player ?sheet) (inventory ?player ?tool) (flat ?sheet))
+    :effect (very_flat ?sheet)
+)
+```
+
+- action name: polish_sheet
+- summarize action: The player polishes the completely flattened sheet using a shell, smooth stone, or ivory.
+- what is needed to do the action: The player should have a completely flat sheet and a polishing tool in their inventory.
+- what is the result: The flattened sheet becomes polished and smooth.
+
+- entities:
+  - entity name: player
+    - before: has a completely flat sheet and a polishing tool in inventory
+    - after: unchanged
+  - entity name: completely flat sheet
+    - before: in player's inventory
+    - after: polished and smooth
+  - entity name: polishing tool (shell, smooth stone, or ivory)
+    - before: in player's inventory
+    - after: used to polish the sheet
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has a completely flat sheet and a polishing tool in their inventory.
+2. Use the polishing tool to polish the flattened sheet.
+
+PDDL:
+```
+(:action polish_sheet
+    :parameters (?player - player ?sheet - sheet ?tool - item)
+    :precondition (and (inventory ?player ?sheet) (inventory ?player ?tool) (very_flat ?sheet))
+    :effect (smooth ?sheet)
+)
+```
+
+- action name: cut_sheet
+- summarize action: The player cuts the polished sheet into smaller sheets using a razor, scissors, or paper cutter.
+- what is needed to do the action: The player should have a polished sheet and a cutting tool in their inventory.
+- what is the result: Smaller sheets of papyrus paper are created.
+
+- entities:
+  - entity name: player
+    - before: has a polished sheet and cutting tool in inventory
+    - after: unchanged
+  - entity name: polished sheet
+    - before: in player's inventory
+    - after: cut into smaller sheets
+  - entity name: cutting tool (razor, scissors, or paper cutter)
+    - before: in player's inventory
+    - after: used to cut the sheet
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has a polished sheet and a cutting tool in their inventory.
+2. Use the cutting tool to cut the polished sheet into smaller sheets.
+
+PDDL:
+```
+(:action cut_sheet
+    :parameters (?player - player ?sheet - sheet ?tool - item ?smaller_sheet - sheet)
+    :precondition (and (inventory ?player ?sheet) (inventory ?player ?tool) (smooth ?sheet))
+    :effect (and (not (inventory ?player ?sheet)) (inventory ?player ?smaller_sheet))
+)
+```
+
+These are the PDDL representations for the actions in the papyrus-making process. As earlier, depending on the specific context of your implementation or requirements, you may need to adjust, modify, or extend these descriptions or PDDL representations accordingly.

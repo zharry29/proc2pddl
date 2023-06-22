@@ -1,0 +1,179 @@
+- action name: get
+- summarize action: Obtain a coconut and necessary tools to open it using the steps provided.
+- what is needed to do the action: coconut, screwdriver, mallet (or hammer), knife or metal skewer, towel, container for water.
+- what is the result: Acquired coconut and tools necessary to proceed with opening it.
+
+- entities:
+  - entity name: coconut
+  - before: Coconut not obtained
+  - after: Coconut obtained
+
+  - entity name: tools
+  - before: Tools not obtained
+  - after: Tools obtained
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Predicate used: (inventory ?item)
+2. Predicate used for each tool in the list: (inventory ?tool)
+
+PDDL:
+
+(:action get
+ :parameters (?c - coconut
+              ?s - screwdriver
+              ?m - mallet
+              ?k - knife
+              ?t - towel
+              ?cw - container_without_water)
+ :precondition (and (not (inventory ?c))
+                    (not (inventory ?s))
+                    (not (inventory ?m))
+                    (not (inventory ?k))
+                    (not (inventory ?t))
+                    (not (inventory ?cw)))
+ :effect (and (inventory ?c)
+              (inventory ?s)
+              (inventory ?m)
+              (inventory ?k)
+              (inventory ?t)
+              (inventory ?cw)))
+
+- action name: poke
+- summarize action: Poke the hole in the coconut's eye using a screwdriver and a mallet.
+- what is needed to do the action: Coconut, screwdriver, mallet (or hammer)
+- what is the result: A hole is made in the coconut's eye.
+
+- entities:
+  - entity name: coconut
+  - before: Coconut without a hole
+  - after: Coconut with a hole in the eye
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Predicate already used: (inventory ?item)
+2. Add predicate for coconut with a hole: (has_eyes_poked ?c - coconut)
+
+PDDL:
+
+(:action poke
+ :parameters (?c - coconut 
+              ?s - screwdriver 
+              ?m - mallet)
+ :precondition (and (inventory ?c)
+                    (inventory ?s)
+                    (inventory ?m)
+                    (not (has_eyes_poked ?c)))
+ :effect (has_eyes_poked ?c))
+
+- action name: flip
+- summarize action: Turn the coconut upside down, allowing the water to drain.
+- what is needed to do the action: Coconut with a hole in the eye, container without water.
+- what is the result: Coconut drained of water, container filled with coconut water.
+
+- entities:
+  - entity name: coconut
+  - before: Coconut with water
+  - after: Coconut without water
+
+  - entity name: container_without_water
+  - before: Empty container
+  - after: Container with coconut water
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Previously used predicates: (inventory ?item), (has_eyes_poked ?c - coconut)
+2. Add predicate for container with coconut water: (is_item_container_with_water ?cow - container_with_water)
+
+PDDL:
+
+(:action flip
+ :parameters (?c - coconut
+              ?cw - container_without_water)
+ :precondition (and (inventory ?c)
+                    (inventory ?cw)
+                    (has_eyes_poked ?c))
+ :effect (is_item_container_with_water ?cw))
+
+- action name: wrap
+- summarize action: Wrap the drained coconut in a kitchen towel.
+- what is needed to do the action: Coconut without water, towel.
+- what is the result: Wrapped coconut.
+
+- entities:
+  - entity name: coconut_wrapped
+  - before: Unwrapped coconut
+  - after: Wrapped coconut
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Previously used predicates: (inventory ?item)
+2. Add predicate for wrapped coconut: (is_item_wrapped_coconut ?c - coconut_wrapped)
+
+PDDL:
+
+(:action wrap
+ :parameters (?c - coconut
+              ?t - towel)
+ :precondition (and (inventory ?c)
+                    (inventory ?t)
+                    (not (is_item_wrapped_coconut ?c)))
+ :effect (is_item_wrapped_coconut ?c))
+
+Please find the formatting for the remaining actions below:
+
+- action name: hit
+- summarize action: Strike wrapped coconut with a mallet or hammer, breaking it apart.
+- what is needed to do the action: Wrapped coconut, mallet (or hammer)
+- what is the result: Broken coconut.
+
+- entities:
+  - entity name: coconut_broken
+  - before: Wrapped intact coconut
+  - after: Broken coconut
+
+PDDL:
+
+(:action hit
+ :parameters (?cw - coconut_wrapped
+              ?m - mallet)
+ :precondition (and (inventory ?cw)
+                    (inventory ?m)
+                    (is_item_wrapped_coconut ?cw))
+ :effect (is_item_broken_coconut ?cw))
+
+- action name: free
+- summarize action: Use a knife to separate the coconut meat from the shell.
+- what is needed to do the action: Broken coconut, knife
+- what is the result: Coconut meat separated from the shell.
+
+- entities:
+  - entity name: coconut_meat
+  - before: Meat not separated from the shell
+  - after: Meat separated from the shell
+
+PDDL:
+
+(:action free
+ :parameters (?cb - coconut_broken
+              ?k - knife)
+ :precondition (and (inventory ?cb)
+                    (inventory ?k)
+                    (is_item_broken_coconut ?cb))
+ :effect (is_item_coconut_meat ?cb))
+
+- action name: remove_fiber
+- summarize action: Use a knife to remove the fibrous layer from the outside of the coconut meat.
+- what is needed to do the action: Coconut meat with a fibrous layer, knife
+- what is the result: Coconut meat without the fibrous layer.
+
+- entities:
+  - entity name: coconut_meat_peeled
+  - before: Coconut meat with a fibrous layer
+  - after: Coconut meat without the fibrous layer
+
+PDDL:
+
+(:action remove_fiber
+ :parameters (?cm - coconut_meat
+              ?k - knife)
+ :precondition (and (inventory ?cm)
+                    (inventory ?k)
+                    (is_item_coconut_meat ?cm))
+ :effect (is_item_coconut_meat_peeled ?cm))
