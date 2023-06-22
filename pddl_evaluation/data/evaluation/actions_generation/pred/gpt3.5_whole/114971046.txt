@@ -1,0 +1,77 @@
+(:action make_plan
+   :parameters (?p - player)
+   :precondition (not (has_plan ?p))
+   :effect (has_plan ?p)
+)
+
+(:action get_food
+   :parameters (?p - player ?loc - location ?obj - item)
+   :precondition (sheltered ?p) 
+   :precondition (at ?obj ?loc) 
+   :effect (inventory ?p ?obj)
+)
+
+(:action get_medicine
+   :parameters (?p - player ?obj - item ?l1 - location)
+   :precondition (sheltered ?p) 
+   :precondition (at ?obj ?l1) 
+   :precondition (is_medicine ?obj)
+   :effect (inventory ?p ?obj)
+)
+
+(:action reinforce
+   :parameters (?p - player ?l1 - location ?l2 - location ?dir - direction)
+   :precondition (sheltered ?p) 
+   :precondition (connected ?l1 ?dir ?l2) 
+   :precondition (blocked ?l1 ?dir ?l2)
+   :effect (not (blocked ?l1 ?dir ?l2))
+)
+
+(:action stay_in_shelter
+   :parameters (?p - player)
+   :precondition (sheltered ?p) 
+   :effect (sheltered ?p)
+)
+
+(:action get
+   :parameters (?p - player ?obj - item ?loc - location)
+   :precondition (sheltered ?p) 
+   :precondition (at ?obj ?loc) 
+   :effect (inventory ?p ?obj)
+)
+
+(:action drop
+   :parameters (?p - player ?obj - item)
+   :precondition (sheltered ?p) 
+   :precondition (inventory ?p ?obj) 
+   :effect (not (inventory ?p ?obj))
+)
+
+(:action drive
+   :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location ?obj - item)
+   :precondition (sheltered ?p) 
+   :precondition (driving ?p) 
+   :precondition (at ?obj ?loc1) 
+   :precondition (connected ?loc1 ?dir ?loc2)
+   :effect (not (at ?obj ?loc1)) 
+   :effect (at ?obj ?loc2)
+)
+
+(:action walk
+   :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (sheltered ?p) 
+   :precondition (not (driving ?p)) 
+   :precondition (connected ?loc1 ?dir ?loc2)
+   :effect (not (at ?p ?loc1)) 
+   :effect (at ?p ?loc2)
+)
+
+(:action get_in_car
+   :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location ?obj - item)
+   :precondition (sheltered ?p) 
+   :precondition (at ?obj ?loc1) 
+   :precondition (is_car ?obj)
+   :effect (driving ?p)
+)
+
+)

@@ -1,0 +1,185 @@
+(:action collect_water
+  :parameters (?loc - location)
+  :precondition (and 
+                  (has_tree ?loc)
+                  (connected ?loc ?dir1 ?loc2)
+                  (connected ?loc2 ?dir2 ?loc3)
+                  (at ?obj1 ?loc3)
+                  (at ?obj2 ?loc)
+                  (or (inventory ?player ?obj1) (inventory ?player ?obj2))
+                )
+  :effect (and
+             (has_water ?loc)
+             (not (at ?obj2 ?loc))
+             (or (not (at ?obj1 ?loc)) (not (at ?obj2 ?loc)))
+         )
+)
+
+(:action filter_water
+  :parameters (?water - water)
+  :precondition (and 
+                  (at ?player ?loc)
+                  (has_water ?loc)
+                  (inventory ?player ?water)
+                )
+  :effect (filtered ?water)
+)
+
+(:action boil_water
+  :parameters (?water - water)
+  :precondition (and 
+                  (at ?player ?loc)
+                  (filtered ?water)
+                  (inventory ?player ?water)
+                )
+  :effect (boiled ?water)
+)
+
+(:action drink_water
+  :parameters (?water - water)
+  :precondition (and 
+                  (at ?player ?loc)
+                  (boiled ?water)
+                  (inventory ?player ?water)
+                  (thirsty ?player)
+                )
+  :effect (and
+             (not (thirsty ?player))
+             (not (inventory ?player ?water))
+          )
+)
+
+(:action get_wood
+  :parameters (?loc - location)
+  :precondition (has_tree ?loc)
+  :effect (at wood ?loc)
+)
+
+(:action make_drill
+  :parameters (?wood - wood)
+  :precondition (at ?player ?loc)
+  :effect (and 
+            (inventory ?player ?wood)
+            (at drill ?loc)
+         )
+)
+
+(:action make_fire
+  :parameters (?loc - location)
+  :precondition (and 
+                  (at ?player ?loc)
+                  (has_wood ?loc)
+                )
+  :effect (has_fire ?loc)
+)
+
+(:action make_spear
+  :parameters (?bamboo - wood)
+  :precondition (and 
+                  (at ?player ?loc)
+                  (at ?bamboo ?loc)
+                )
+  :effect (and 
+            (inventory ?player ?bamboo)
+            (at spear ?loc)
+         )
+)
+
+(:action catch_fish
+  :parameters (?loc - location)
+  :precondition (and 
+                  (at ?player ?loc)
+                  (has_fish ?loc)
+                )
+  :effect (and 
+            (at fish ?player)
+            (not (has_fish ?loc))
+         )
+)
+
+(:action cook_fish
+  :parameters (?fish - fish)
+  :precondition (and 
+                  (at ?player ?loc)
+                  (at ?fish ?player)
+                )
+  :effect (cooked ?fish)
+)
+
+(:action eat_fish
+  :parameters (?fish - fish)
+  :precondition (and 
+                  (at ?player ?loc)
+                  (cooked ?fish)
+                  (hungry ?player)
+                )
+  :effect (and 
+            (not (hungry ?player))
+            (not (inventory ?player ?fish))
+         )
+)
+
+(:action get_foliage
+  :parameters (?loc - location)
+  :precondition (and 
+                  (connected ?loc ?dir ?loc2)
+                  (at ?player ?loc2)
+                )
+  :effect (at foliage ?loc)
+)
+
+(:action build_shelter
+  :parameters (?loc - location)
+  :precondition (and 
+                  (at ?player ?loc)
+                  (has_foliage ?loc)
+                )
+  :effect (has_shelter ?loc)
+)
+
+(:action survive
+  :parameters (?player - player ?loc - location)
+  :precondition (and 
+                  (at ?player ?loc)
+                  (safe ?player ?loc)
+                  (or 
+                      (and (hungry ?player) (inventory ?player ?fish))
+                      (and (thirsty ?player) (has_water ?loc))
+                      (and (hungry ?player) (has_fish ?loc))
+                      (and (thirsty ?player) (inventory ?player ?water))
+                  )
+                )
+  :effect (and 
+            (not (thirsty ?player))
+            (not (hungry ?player))
+         )
+)
+
+(:action go
+  :parameters (?loc1 - location ?dir - direction ?loc2 - location ?player - player)
+  :precondition (connected ?loc1 ?dir ?loc2)
+  :effect (at ?player ?loc2)
+)
+
+(:action get
+  :parameters (?obj - item ?loc - location ?player - player)
+  :precondition (and 
+                  (at ?player ?loc)
+                  (at ?obj ?loc)
+                )
+  :effect (inventory ?player ?obj)
+)
+
+(:action drop
+  :parameters (?obj - item ?loc - location ?player - player)
+  :precondition (and 
+                  (at ?player ?loc)
+                  (inventory ?player ?obj)
+                )
+  :effect (and 
+            (not (inventory ?player ?obj))
+            (at ?obj ?loc)
+         )
+)
+
+)

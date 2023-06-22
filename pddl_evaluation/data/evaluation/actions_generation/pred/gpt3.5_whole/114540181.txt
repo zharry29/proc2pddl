@@ -1,0 +1,73 @@
+(:action go
+   :parameters (?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (connected ?loc1 ?dir ?loc2)
+   :effect (at ?player ?loc2)
+)
+
+(:action get
+   :parameters (?obj - object ?loc - location ?player - player)
+   :precondition (at ?obj ?loc)
+   :effect (inventory ?player ?obj)
+)
+
+(:action get_bamboo_container
+   :parameters (?loc - location ?player - player)
+   :precondition (has_bamboo ?loc)
+   :effect (inventory ?player bamboo_container)
+)
+
+(:action collect_rain_water
+   :parameters (?loc - location ?player - player)
+   :precondition (has_rainfall ?loc)
+   :effect (treated rain_water)
+)
+
+(:action create_fire
+   :parameters (?player - player)
+   :precondition (is hungry ?player)
+   :effect (is not hungry ?player)
+)
+
+(:action treat_water
+   :parameters (?water - water ?player - player)
+   :precondition (inventory ?player fire)
+   :effect (treated ?water)
+)
+
+(:action drink_water
+   :parameters (?player - player ?loc - location)
+   :precondition (at water ?loc)
+   :effect (is not thirsty ?player)
+)
+
+(:action drink_untreated_water
+   :parameters (?player - player ?loc - location)
+   :precondition (at water ?loc)
+   :effect (is thirsty ?player)
+)
+
+(:action create_sos_sign
+   :parameters (?player - player)
+   :precondition (inventory ?player stone wood)
+   :effect (at sos_sign ?player)
+)
+
+(:action pick_fruit
+   :parameters (?player - player ?loc - location)
+   :precondition (has_fruit ?loc)
+   :effect (has_fruit ?loc)
+)
+
+(:action eat_fruit
+   :parameters (?player - player ?fruit - fruit)
+   :precondition (inventory ?player ?fruit)
+   :effect (is not hungry ?player)
+)
+
+(:action escape
+   :parameters (?player - player)
+   :precondition (at basecamp ?player)
+   :effect (escaped ?player)
+)
+
+)

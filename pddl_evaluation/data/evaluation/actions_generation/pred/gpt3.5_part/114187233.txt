@@ -1,0 +1,173 @@
+(:action pierce
+   :parameters (?item - item ?screwdriver - appliance ?mallet - appliance ?eye - direction ?coconut - item ?hole - location)
+   :precondition (and 
+      (connected ?eye ?screwdriver ?coconut)
+      (empty ?hole)
+      (on ?screwdriver)
+      (at ?eye ?screwdriver)
+      (at ?mallet ?eye)
+      (smashed ?screwdriver)
+      (pierced ?mallet)
+      (at ?coconut ?eye)
+   )
+   :effect (and 
+      (pierced ?item)
+      (at ?item ?eye)
+      (at ?screwdriver ?hole)
+   )
+)
+
+(:action drain
+   :parameters (?coconut - item ?glass - appliance ?water - item)
+   :precondition (and 
+      (at ?coconut ?glass)
+      (empty ?water)
+      (empty ?glass)
+      (on ?coconut)
+   )
+   :effect (and 
+      (at ?water ?glass)
+      (empty ?coconut)
+      (empty ?glass)
+   )
+)
+
+(:action turn_on_oven
+   :parameters (?oven - appliance)
+   :precondition (and 
+      (empty ?oven)
+      (on ?oven)
+   )
+   :effect (and 
+      (burnt ?item)
+      (on ?oven)
+   )
+)
+
+(:action burn_item
+   :parameters (?item - item ?oven - appliance)
+   :precondition (and 
+      (on ?oven)
+      (empty ?oven)
+      (at ?item ?oven)
+   )
+   :effect (and 
+      (burnt ?item)
+      (on ?oven)
+   )
+)
+
+(:action wrap_coconut
+   :parameters (?coconut - item ?kitchen_towel - appliance)
+   :precondition (and 
+      (empty ?kitchen_towel)
+      (on ?kitchen_towel)
+      (at ?coconut ?kitchen_towel)
+      (at ?kitchen_towel)
+   )
+   :effect (and 
+      (wrapped ?coconut)
+      (at ?coconut ?kitchen_towel)
+   )
+)
+
+(:action unwrap_coconut
+   :parameters (?coconut - item ?kitchen_towel - appliance)
+   :precondition (and 
+      (on ?kitchen_towel)
+      (wrapped ?coconut)
+      (at ?coconut ?kitchen_towel)
+      (at ?kitchen_towel)
+   )
+   :effect (and 
+      (not (wrapped ?coconut))
+      (at ?coconut ?kitchen_towel)
+   )
+)
+
+(:action smash_with_hands
+   :parameters (?coconut - item ?direction - direction)
+   :precondition (and 
+      (empty ?coconut)
+      (at ?coconut ?direction)
+   )
+   :effect (and 
+      (smashed ?coconut)
+      (at ?coconut ?direction)
+   )
+)
+
+(:action separate
+   :parameters (?meat - item ?shell - item ?knife_hand - appliance ?knife_sharp - appliance)
+   :precondition (and 
+      (at ?meat ?shell)
+      (on ?meat)
+      (peeled ?meat)
+      (at ?shell ?knife_hand)
+      (at ?shell ?knife_sharp)
+   )
+   :effect (and 
+      (at ?shell ?meat)
+      (peeled ?meat)
+   )
+)
+
+(:action peel
+   :parameters (?coconut - item ?knife - appliance)
+   :precondition (and 
+      (at ?knife ?coconut)
+      (at ?coconut ?knife)
+   )
+   :effect (and 
+      (peeled ?coconut)
+      (at ?coconut ?knife)
+   )
+)
+
+(:action smash_with_mallet
+   :parameters (?coconut - item ?mallet - appliance)
+   :precondition (and 
+      (at ?mallet ?coconut)
+      (at ?coconut ?mallet)
+   )
+   :effect (and 
+      (smashed ?coconut)
+      (at ?coconut ?mallet)
+   )
+)
+
+(:action go
+   :parameters (?direction - direction ?player - player ?loc1 - location ?loc2 - location)
+   :precondition (and 
+      (at ?direction ?loc1 ?loc2)
+   )
+   :effect (and 
+      (at ?player ?loc2)
+   )
+)
+
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and 
+      (at ?player ?loc)
+      (at ?item ?loc)
+   )
+   :effect (and 
+      (inventory ?player ?item)
+      (at ?item ?player)
+   )
+)
+
+(:action drop
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and 
+      (inventory ?player ?item)
+      (at ?item ?player)
+   )
+   :effect (and 
+      (at ?item ?loc)
+      (empty ?item)
+   )
+)
+
+)

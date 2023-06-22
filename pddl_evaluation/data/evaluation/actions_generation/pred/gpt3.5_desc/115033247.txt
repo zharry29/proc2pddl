@@ -1,0 +1,127 @@
+(:action go
+   :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (and
+      (at ?player ?loc1)
+      (connected ?loc1 ?dir ?loc2)
+   )
+   :effect (and
+      (not (at ?player ?loc1))
+      (at ?player ?loc2)
+   )
+)
+
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and
+      (at ?player ?loc)
+      (at ?item ?loc)
+   )
+   :effect (and
+      (not (at ?item ?loc))
+      (inventory ?player ?item)
+   )
+)
+
+(:action pour_water
+   :parameters (?player - player ?water - water ?bowl - bowl ?loc - location)
+   :precondition (and
+      (at ?player ?loc)
+      (at ?water ?player)
+      (at ?bowl ?player)
+   )
+   :effect (and
+      (not (at ?water ?player))
+      (not (at ?bowl ?player))
+      (at ?water ?bowl)
+   )
+)
+
+(:action place_strips_between_boards
+   :parameters (?player - player ?strips - papyrus_strips ?boards - wooden_boards ?loc - location)
+   :precondition (and
+      (at ?player ?loc)
+      (inventory ?player ?strips)
+      (inventory ?player ?boards)
+      (not (strips_between_boards))
+   )
+   :effect (and
+      (strips_between_boards)
+      (not (inventory ?player ?strips))
+      (not (inventory ?player ?boards))
+   )
+)
+
+(:action cut_stalks
+   :parameters (?player - player ?stalks - papyrus_stalks ?knife - knife ?loc - location)
+   :precondition (and
+      (at ?player ?loc)
+      (inventory ?player ?stalks)
+      (inventory ?player ?knife)
+   )
+   :effect (and
+      (not (inventory ?player ?stalks))
+      (not (inventory ?player ?knife))
+      (papyrus_strips)
+   )
+)
+
+(:action papyrus_strips
+   :parameters (?player - player ?stalks - papyrus_stalks ?strips - papyrus_strips ?loc - location)
+   :precondition (and
+      (at ?player ?loc)
+      (inventory ?player ?stalks)
+      (not (papyrus_strips))
+   )
+   :effect (and
+      (papyrus_strips)
+      (not (inventory ?player ?stalks))
+      (inventory ?player ?strips)
+   )
+)
+
+(:action polish_papyrus
+   :parameters (?player - player ?strips - papyrus_strips ?stone - smooth_stone ?loc - location)
+   :precondition (and
+      (at ?player ?loc)
+      (inventory ?player ?strips)
+      (inventory ?player ?stone)
+      (papyrus_strips)
+      (not (polished ?strips))
+   )
+   :effect (and
+      (polished ?strips)
+      (not (inventory ?player ?strips))
+   )
+)
+
+(:action flatten_papyrus
+   :parameters (?player - player ?strips - papyrus_strips ?roller - roller ?loc - location)
+   :precondition (and
+      (at ?player ?loc)
+      (inventory ?player ?strips)
+      (inventory ?player ?roller)
+      (polished ?strips)
+      (not (flattened ?strips))
+   )
+   :effect (and
+      (flattened ?strips)
+      (not (inventory ?player ?strips))
+   )
+)
+
+(:action cut_papyrus
+   :parameters (?player - player ?strips - papyrus_strips ?scissors - scissors ?loc - location)
+   :precondition (and
+      (at ?player ?loc)
+      (inventory ?player ?strips)
+      (inventory ?player ?scissors)
+      (flattened ?strips)
+      (not (cut ?strips))
+   )
+   :effect (and
+      (cut ?strips)
+      (not (inventory ?player ?strips))
+   )
+)
+
+)

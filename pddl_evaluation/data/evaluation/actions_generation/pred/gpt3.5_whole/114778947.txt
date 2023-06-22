@@ -1,0 +1,142 @@
+(:action go
+  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and 
+                 (at ?player ?loc1) 
+                 (connected ?loc1 ?dir ?loc2) 
+                 (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and 
+            (not (at ?player ?loc1)) 
+            (at ?player ?loc2))
+)
+
+(:action get
+  :parameters (?player - player ?loc - location ?item - item)
+  :precondition (and 
+                 (at ?player ?loc) 
+                 (at ?item ?loc))
+  :effect (and 
+            (not (at ?item ?loc)) 
+            (inventory ?player ?item))
+)
+
+(:action pick_lock_with_card
+  :parameters (?player - player ?loc - location)
+  :precondition (and 
+                 (has_easy_lock ?loc) 
+                 (at ?player ?loc))
+  :effect (and 
+            (not (has_easy_lock ?loc)) 
+            (not (at ?player ?loc)) 
+            (latch_hooked ?loc))
+)
+
+(:action file_key_into_wrench
+  :parameters (?player - player ?loc - location)
+  :precondition (and 
+                 (wrench_in_lock ?loc) 
+                 (at ?player ?loc))
+  :effect (and 
+            (not (wrench_in_lock ?loc)) 
+            (not (at ?player ?loc)) 
+            (pick_in_lock ?loc))
+)
+
+(:action bend_paperclip_into_pick
+  :parameters (?player - player ?loc - location)
+  :precondition (and 
+                 (pick_in_lock ?loc) 
+                 (at ?player ?loc))
+  :effect (and 
+            (not (pick_in_lock ?loc)) 
+            (not (at ?player ?loc)) 
+            (push_pins_out_of_tumblers ?loc))
+)
+
+(:action insert_wrench
+  :parameters (?player - player ?loc - location)
+  :precondition (and 
+                 (has_hard_lock ?loc) 
+                 (at ?player ?loc))
+  :effect (and 
+            (not (has_hard_lock ?loc)) 
+            (not (at ?player ?loc)) 
+            (wrench_in_lock ?loc))
+)
+
+(:action insert_pick
+  :parameters (?player - player ?loc - location)
+  :precondition (and 
+                 (coathanger_inserted ?loc) 
+                 (at ?player ?loc))
+  :effect (and 
+            (not (coathanger_inserted ?loc)) 
+            (not (at ?player ?loc)) 
+            (pick_in_lock ?loc))
+)
+
+(:action push_pins_out_of_tumblers
+  :parameters (?player - player ?loc - location)
+  :precondition (and 
+                 (pick_in_lock ?loc) 
+                 (at ?player ?loc))
+  :effect (and 
+            (not (pick_in_lock ?loc)) 
+            (not (at ?player ?loc)) 
+            (locked_car ?loc))
+)
+
+(:action straighten_coathanger
+  :parameters (?player - player ?loc - location)
+  :precondition (and 
+                 (has_hard_lock ?loc) 
+                 (at ?player ?loc))
+  :effect (and 
+            (not (has_hard_lock ?loc)) 
+            (not (at ?player ?loc)) 
+            (coathanger_inserted ?loc))
+)
+
+(:action lift_weatherstripping
+  :parameters (?player - player ?loc - location)
+  :precondition (and 
+                 (locked_car ?loc) 
+                 (at ?player ?loc))
+  :effect (and 
+            (not (locked_car ?loc)) 
+            (not (at ?player ?loc)) 
+            (weatherstripping_removed ?loc))
+)
+
+(:action insert_hanger
+  :parameters (?player - player ?loc - location)
+  :precondition (and 
+                 (locked_car ?loc) 
+                 (at ?player ?loc))
+  :effect (and 
+            (not (locked_car ?loc)) 
+            (not (at ?player ?loc)) 
+            (coathanger_inserted ?loc))
+)
+
+(:action hook_latch
+  :parameters (?player - player ?loc - location)
+  :precondition (and 
+                 (coathanger_inserted ?loc) 
+                 (at ?player ?loc))
+  :effect (and 
+            (not (coathanger_inserted ?loc)) 
+            (not (at ?player ?loc)) 
+            (latch_hooked ?loc))
+)
+
+(:action pull_coathanger
+  :parameters (?player - player ?loc - location)
+  :precondition (and 
+                 (latch_hooked ?loc) 
+                 (at ?player ?loc))
+  :effect (and 
+            (not (latch_hooked ?loc)) 
+            (at ?player ?loc))
+)
+
+)

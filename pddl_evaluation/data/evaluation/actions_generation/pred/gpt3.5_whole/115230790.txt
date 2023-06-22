@@ -1,0 +1,97 @@
+(:action listen_to_astronomers_predictions
+   :parameters (?p - player ?l - location)
+   :precondition (listen_to_broadcast ?p ?l)
+   :effect (true)
+)
+
+(:action move_away
+   :parameters (?p - player ?c - city)
+   :precondition (inland ?c)
+   :effect (true)
+)
+
+(:action go
+   :parameters (?p - player ?loc - location)
+   :precondition (connected ?p ?loc1 ?dir ?loc2)
+   :effect (at ?p ?loc)
+)
+
+(:action buy_supplies
+   :parameters (?p - player ?c - city)
+   :precondition (in ?c ?p)
+   :effect (inventory food ?p)
+   :effect (inventory water ?p)
+   :effect (inventory medicine ?p)
+   :effect (true)
+)
+
+(:action check_supplies
+   :parameters (?p - player)
+   :precondition (enough_supplies)
+   :effect (true)
+)
+
+(:action buy_weapons
+   :parameters (?p - player ?c - city)
+   :precondition (in ?c ?p)
+   :effect (inventory weapon ?p)
+   :effect (inventory ammunition ?p)
+   :effect (true)
+)
+
+(:action check_weapons
+   :parameters (?p - player)
+   :precondition (enough_weapons)
+   :effect (true)
+)
+
+(:action check_bunker
+   :parameters (?p - player ?bk - bunker)
+   :precondition (find_good_bunker ?bk)
+   :effect (true)
+)
+
+(:action outfit_bunker_with_energy_source
+   :parameters (?p - player ?bk - bunker ?it - energy_source)
+   :precondition (find_good_bunker ?bk)
+   :effect (outfit_bunker_with_heat ?bk)
+   :effect (inventory ?it ?p)
+)
+
+(:action enjoylife
+   :parameters (?p - player ?bk - bunker)
+   :precondition (enjoylife ?p ?bk)
+   :effect (true)
+)
+
+(:action connect_through_social_media_with_family
+   :parameters (?p - player)
+   :precondition (family_memebers_know_you_are_safe)
+   :effect (true)
+)
+
+(:requirements :strips :typing)
+
+(:types
+)
+
+(:predicates
+   (inventory ?it - item) 
+   (at ?obj - object ?loc - location) 
+   (in ?obj - object ?c - city) 
+   (enough_supplies)
+   (enough_weapons)   
+   (connected ?loc1 - location ?dir - direction ?loc2 - location) 
+   (has_air_filtration_system ?bk - bunker) 
+   (has_strong_material ?bk - bunker) 
+   (has_pc ?p - player) 
+   (find_good_bunker ?bk - bunker) 
+   (outfit_bunker_with_heat ?bk - bunker) 
+   (enjoylife ?p - player ?bk - bunker) 
+   (family_memebers_know_you_are_safe)
+   (listen_to_broadcast ?p - player ?l - location)
+   (coastal ?c - city) 
+   (inland ?c - city) 
+)
+
+)

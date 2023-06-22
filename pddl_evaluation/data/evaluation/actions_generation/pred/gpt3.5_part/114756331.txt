@@ -1,0 +1,67 @@
+(:action drop
+   :parameters (?player - player ?item - item)
+   :precondition (or (inventory ?player ?item) (at ?item ?loc - location))
+   :effect (and (not (inventory ?player ?item)) (at ?item ?loc))
+)
+
+(:action move_horizontally
+   :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+   :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action liedown
+   :parameters (?player - player)
+   :precondition (at ?player ?loc - location)
+   :effect (laying ?player)
+)
+
+(:action breathe
+   :parameters (?player - player)
+   :precondition (and (laying ?player) (calm ?player))
+   :effect (and (not (tired ?player)) (calm ?player))
+)
+
+(:action swim
+   :parameters (?player - player ?loc1 - location ?loc2 - location)
+   :precondition (and (at ?player ?loc1) (at ?player ?loc2) (deep ?loc1) (deep ?loc2))
+   :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action usestick
+   :parameters (?player - player ?item - item)
+   :precondition (and (inventory ?player ?item) (at ?player ?loc - location))
+   :effect (and (not (inventory ?player ?item)) (aware ?player ?loc))
+)
+
+(:action rest
+   :parameters (?player - player)
+   :precondition (laying ?player)
+   :effect (and (not (tired ?player)) (calm ?player))
+)
+
+(:action go
+   :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+   :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+   :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action check_ripples
+   :parameters (?player - player ?loc - location)
+   :precondition (at ?player ?loc)
+   :effect (has_ripples ?loc)
+)
+
+(:action test_ground
+   :parameters (?player - player ?loc - location ?stick - stick)
+   :precondition (and (at ?player ?loc) (inventory ?player ?stick))
+   :effect (has_quicksand ?loc)
+)
+
+(:action research
+   :parameters (?player - player)
+   :precondition (and (inventory ?player ?stick) (at ?player ?loc - location))
+   :effect (aware ?player ?loc)
+)
+
+)

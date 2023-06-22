@@ -1,0 +1,85 @@
+(:action go ; navigate to an adjacent location
+   :parameters (?from - location ?to - location)
+   :precondition (connected ?from ?dir ?to)
+   :effect (at player ?to)
+)
+
+(:action get ; pick up an item and put it in the inventory
+   :parameters (?item - item ?loc - location)
+   :precondition (at ?item ?loc)
+   :effect (and (not (at ?item ?loc)) (inventory player ?item))
+)
+
+(:action get_water ; get water from a location that has a water source like a lake
+   :parameters (?loc - location ?water - water)
+   :precondition (and (at ?loc) (has_water_source ?loc))
+   :effect (and (not (has_water_source ?loc)) (at ?water player))
+)
+
+(:action chop_wood ; chop down wood from a nearby tree
+   :parameters (?tree - wood ?loc - location)
+   :precondition (and (at ?tree ?loc) (has_wood ?loc))
+   :effect (and (not (has_wood ?loc)) (inventory player ?tree))
+)
+
+(:action carve_groove ; create a grove in wood to light flint
+   :parameters (?wood - wood)
+   :precondition (at ?wood player)
+   :effect (groove ?wood)
+)
+
+(:action light_fire ; light a fire
+   :parameters (?loc - location ?fire - fire)
+   :precondition (and (at ?loc) (can_light_fire ?loc) (groove ?wood) (has_wood ?loc) (has_wood ?fire))
+   :effect (and (not (has_wood ?loc)) (not (groove ?wood)) (has_fire ?loc))
+)
+
+(:action build_shelter ; create a grove in wood to light flint
+   :parameters (?loc - location)
+   :precondition (and (at ?loc) (has_wood ?loc))
+   :effect (has_shelter ?loc)
+)
+
+(:action clean_water ; boil water to clean it
+   :parameters (?water - water)
+   :precondition (at ?water player)
+   :effect (treated ?water)
+)
+
+(:action drink_water ; drink water
+   :parameters (?water - water)
+   :precondition (and (at ?water player) (treated ?water))
+   :effect (drank ?water)
+)
+
+(:action find_other_survivors ; find other survivors on the deserted island
+   :parameters (?loc - location ?survivor - survivor)
+   :precondition (and (at ?loc) (has_friend ?survivor))
+   :effect (has_friend ?survivor)
+)
+
+(:action build_raft ; build a raft to escape the deserted island
+   :parameters (?loc - location)
+   :precondition (and (at_ocean ?loc) (is_safe ?loc) (has_shelter ?loc) (has_wood ?loc) (has_vines ?loc) (has_raft ?loc))
+   :effect (has_escaped player)
+)
+
+(:action make_weapon ; create a spear to hunt fish
+   :parameters (?loc - location ?spear - spear)
+   :precondition (and (at ?loc) (has_wood ?loc) (has_rock ?loc) (has_spear ?loc))
+   :effect (and (not (has_wood ?loc)) (not (has_rock ?loc)) (inventory player ?spear))
+)
+
+(:action hunt_fish ; catch fish with spear
+   :parameters (?loc - location ?fish - fish)
+   :precondition (and (at ?loc) (has_fish ?loc) (has_spear ?loc))
+   :effect (and (not (has_fish ?loc)) (inventory player ?fish))
+)
+
+(:action cook_fish ; cook fish
+   :parameters (?fish - fish)
+   :precondition (and (at ?fish player) (has_fire ?loc))
+   :effect (cooked ?fish)
+)
+
+)

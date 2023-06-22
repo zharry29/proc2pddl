@@ -1,0 +1,67 @@
+(:action turn_on_radio
+  :parameters (?radio - radio ?player - player)
+  :precondition (and (has_batteries ?radio) (inventory ?player ?radio))
+  :effect (and (on ?radio) (increase (information_gained ?player) 1))
+)
+
+(:action wait
+  :parameters (?player - player)
+  :precondition (and (has_batteries ?radio) (inventory ?player ?radio) (on ?radio))
+  :effect (increase (information_gained ?player) 1)
+)
+
+(:action go
+  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and (at ?player ?loc2) (decrease (fuel ?player) 1))
+)
+
+(:action put_batteries_in
+  :parameters (?it - item ?player - player)
+  :precondition (and (inventory ?player ?it) (has_batteries ?it))
+  :effect (has_batteries-after ?it)
+)
+
+(:action fill
+  :parameters (?it - item)
+  :precondition (and (can_be_filled ?it) (at ?player ?loc) (in ?it ?loc))
+  :effect (and (full ?it) (decrease (water_supply ?player) 1))
+)
+
+(:action purify
+  :parameters (?it - item)
+  :precondition (and (full ?it) (at ?player ?loc) (in ?it ?loc))
+  :effect (purified-after ?it)
+)
+
+(:action seal
+  :parameters (?it - item)
+  :precondition (and (purified ?it) (can_be_sealed ?it) (at ?player ?loc) (in ?it ?loc))
+  :effect (sealed-after ?it)
+)
+
+(:action put_in_stopper
+  :parameters (?it - item)
+  :precondition (and (has_stopper ?it) (sealed ?it) (at ?player ?loc) (in ?it ?loc))
+  :effect (and (decrease (stoppers ?it) 1))
+)
+
+(:action create_cage
+  :parameters (?player - player ?cage - farraday_cage)
+  :precondition (and (at ?player ?loc) (at ?cage ?loc) (not (in_cage ?it)) (cage_closed ?cage))
+  :effect (and (in_cage ?it) (decrease (capacity ?cage) 1))
+)
+
+(:action close_cage
+  :parameters (?player - player ?cage - farraday_cage)
+  :precondition (and (at ?player ?loc) (at ?cage ?loc))
+  :effect (cage_closed-after ?cage)
+)
+
+(:action put_in_cage
+  :parameters (?player - player ?cage - farraday_cage ?it - item)
+  :precondition (and (at ?player ?loc) (at ?cage ?loc) (in ?it ?loc) (not (cage_closed ?cage)))
+  :effect (and (in_cage ?it) (decrease (capacity ?cage) 1))
+)
+
+)

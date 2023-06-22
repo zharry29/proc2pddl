@@ -1,0 +1,156 @@
+(define (domain jungle_survival)
+
+   (:requirements :strips :typing)
+
+   (:types
+   )
+
+   (:predicates
+      (has_bamboo ?loc - location)
+      (has_rainfall ?loc - location)
+      (has_fruit ?loc - location)
+      (treated ?water - water)
+      (is ?c - condition ?p - player)
+      (at ?obj - item ?loc - location)
+      (inventory ?player ?item)
+      (connected ?loc1 - location ?dir - direction ?loc2 - location)
+      (blocked ?loc1 - location ?dir - direction ?loc2 - location)
+   )
+
+   (:action go
+      :parameters (?from - location ?to - location ?dir - direction)
+      :precondition (and
+         (connected ?from ?dir ?to)
+         (not (blocked ?from ?dir ?to))
+         (at ?player ?from)
+      )  
+      :effect (and
+         (not (at ?player ?from))
+         (at ?player ?to)
+      )
+   )
+
+   (:action get
+      :parameters (?item - item ?loc - location ?player - player)
+      :precondition (and
+         (at ?item ?loc)
+         (at ?player ?loc)
+      )
+      :effect (and
+         (not (at ?item ?loc))
+         (inventory ?player ?item)
+      )
+   )
+
+   (:action get_bamboo_container
+      :parameters (?player - player ?loc - location ?bamboo_container - bamboo_container)
+      :precondition (and
+         (has_bamboo ?loc)
+         (at ?player ?loc)
+      )
+      :effect (and
+         (not (has_bamboo ?loc))
+         (inventory ?player ?bamboo_container)
+      )
+   )
+
+   (:action collect_rain_water
+      :parameters (?player - player ?loc - location ?water - water)
+      :precondition (and
+         (has_rainfall ?loc)
+         (at ?player ?loc)
+      )
+      :effect (and
+         (not (has_rainfall ?loc))
+         (inventory ?player ?water)
+      )
+   )
+
+   (:action create_fire
+      :parameters (?player - player ?loc - location ?fire - fire)
+      :precondition (and
+         (at ?player ?loc)
+      )
+      :effect (inventory ?player ?fire)
+   )
+
+   (:action treat_water
+      :parameters (?player - player ?water - water)
+      :precondition (and
+         (inventory ?player ?water)
+         (not (treated ?water))
+      )
+      :effect (treated ?water)
+   )
+
+   (:action drink_water
+      :parameters (?player - player ?water - water)
+      :precondition (and
+         (inventory ?player ?water)
+         (is not dehydrated ?player)
+      )
+      :effect (and
+         (not (inventory ?player ?water))
+         (is not thirsty ?player)
+      )
+   )
+
+   (:action drink_untreated_water
+      :parameters (?player - player ?water - water)
+      :precondition (and
+         (inventory ?player ?water)
+         (is dehydrated ?player)
+      )
+      :effect (and
+         (not (inventory ?player ?water))
+         (is not thirsty ?player)
+         (is not dehydrated ?player)
+      )
+   )
+
+   (:action create_sos_sign
+      :parameters (?player - player ?loc - location ?sos_sign - sos_sign)
+      :precondition (and
+         (at ?player ?loc)
+      )
+      :effect (inventory ?player ?sos_sign)
+   )
+
+   (:action pick_fruit
+      :parameters (?player - player ?loc - location ?fruit - fruit)
+      :precondition (and
+         (has_fruit ?loc)
+         (at ?player ?loc)
+      )
+      :effect (and
+         (not (has_fruit ?loc))
+         (inventory ?player ?fruit)
+      )
+   )
+
+   (:action eat_fruit
+      :parameters (?player - player ?fruit - fruit)
+      :precondition (and
+         (inventory ?player ?fruit)
+         (is hungry ?player)
+      )
+      :effect (and
+         (not (inventory ?player ?fruit))
+         (is not hungry ?player)
+      )
+   )
+
+   (:action escape
+      :parameters (?player - player ?loc - location ?basecamp - basecamp)
+      :precondition (and
+         (at ?player ?loc)
+         (at ?basecamp ?loc)
+      )
+      :effect (and
+         (not (at ?player ?loc))
+         (at ?player ?basecamp)
+      )
+   )
+)
+
+)

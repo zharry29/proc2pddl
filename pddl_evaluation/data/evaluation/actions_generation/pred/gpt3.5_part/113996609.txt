@@ -1,0 +1,132 @@
+(:action go
+   :parameters (?player - player ?loc1 ?loc2 - location ?dir - direction)
+   :precondition (and
+                  (at ?player ?loc1)
+                  (connected ?loc1 ?dir ?loc2))
+   :effect (and
+              (not (at ?player ?loc1))
+              (at ?player ?loc2)))
+
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and
+                  (at ?player ?loc)
+                  (inventory ?player ?item))
+   :effect (and
+              (not (inventory ?player ?item))
+              (at ?item ?player)))
+
+(:action get_water
+   :parameters (?player - player ?water - water ?loc - location)
+   :precondition (and
+                  (at ?player ?loc)
+                  (has_water_source ?loc))
+   :effect (and
+              (not (has_water_source ?loc))
+              (inventory ?player ?water)))
+
+(:action chop_wood
+   :parameters (?player - player ?wood - wood ?loc - location)
+   :precondition (and
+                  (at ?player ?loc)
+                  (has_wood ?loc))
+   :effect (and
+              (not (has_wood ?loc))
+              (inventory ?player ?wood)
+              (groove ?wood)))
+
+(:action carve_groove
+   :parameters (?player -player ?wood - wood)
+   :precondition (and
+                  (groove ?wood)
+                  (inventory ?player ?wood))
+   :effect (and))
+
+(:action light_fire
+   :parameters (?player - player ?loc - location ?fire - fire)
+   :precondition (and
+                  (at ?player ?loc)
+                  (has_wood ?loc)
+                  (can_light_fire ?loc))
+   :effect (and
+              (not (can_light_fire ?loc))
+              (has_fire ?loc)))
+
+(:action build_shelter
+   :parameters (?player - player ?loc - location)
+   :precondition (and
+                  (at ?player ?loc)
+                  (has_wood ?loc)
+                  (has_shelter ?loc))
+   :effect (and
+              (not (has_wood ?loc))
+              (has_shelter ?loc)))
+
+(:action clean_water
+   :parameters (?player - player ?water - water)
+   :precondition (and
+                  (inventory ?player ?water))
+   :effect (and
+              (not (inventory ?player ?water))
+              (treated ?water)))
+
+(:action drink_water
+   :parameters (?player - player ?water - water)
+   :precondition (and
+                  (inventory ?player ?water)
+                  (treated ?water))
+   :effect (and
+              (not (treated ?water))
+              (not (inventory ?player ?water))
+              (drank ?water)))
+
+(:action find_other_survivors
+   :parameters (?player - player ?survivor - survivor)
+   :precondition (and
+                  (at ?player ?loc)
+                  (has_friend ?survivor)
+                  (is_safe ?loc))
+   :effect (and
+              (not (has_friend ?survivor))
+              (not (is_safe ?loc))))
+
+(:action build_raft
+   :parameters (?player - player ?raft - raft ?loc - location)
+   :precondition (and
+                  (at ?player ?loc)
+                  (has_wood ?loc)
+                  (has_vines ?loc))
+   :effect (and
+              (not (has_wood ?loc))
+              (not (has_vines ?loc))
+              (inventory ?player ?raft)))
+
+(:action make_weapon
+   :parameters (?player - player ?spear - spear ?loc - location)
+   :precondition (and
+                  (at ?player ?loc)
+                  (has_wood ?loc)
+                  (has_rocks ?loc))
+   :effect (and
+              (not (has_wood ?loc))
+              (not (has_rocks ?loc))
+              (inventory ?player ?spear)))
+
+(:action hunt_fish
+   :parameters (?player - player ?fish - fish ?loc - location)
+   :precondition (and
+                  (at ?player ?loc)
+                  (has_fish ?loc))
+   :effect (and
+              (not (has_fish ?loc))
+              (inventory ?player ?fish)))
+
+(:action cook_fish
+   :parameters (?player - player ?fish - fish)
+   :precondition (and
+                  (inventory ?player ?fish))
+   :effect (and
+              (not (inventory ?player ?fish))
+              (cooked ?fish)))
+
+)

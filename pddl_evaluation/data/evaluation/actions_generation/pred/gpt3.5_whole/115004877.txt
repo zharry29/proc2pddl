@@ -1,0 +1,73 @@
+(:action go
+   :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (connected ?loc1 ?dir ?loc2)
+   :effect (at ?player ?loc2)
+)
+
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (at ?item ?loc)
+   :effect (and (at ?item ?player) (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+(:action cut_plant
+   :parameters (?stalk - stalk ?player - player ?loc - location ?scissors - scissors)
+   :precondition (and (at ?stalk ?loc) (at ?scissors ?loc))
+   :effect (and (not (at ?stalk ?loc)) (inventory ?player ?stalk))
+)
+
+(:action peel_stalk
+   :parameters (?stalk - stalk)
+   :precondition (at ?stalk ?player)
+   :effect (peeled ?stalk)
+)
+
+(:action cut_stalk_into_strips
+   :parameters (?stalk - stalk)
+   :precondition (peeled ?stalk)
+   :effect (and (not (peeled ?stalk)) (clean ?strip) (inventory ?player ?strip))
+)
+
+(:action soak_strips
+   :parameters (?strip - strip ?loc - location)
+   :precondition (and (clean ?strip) (has_water ?loc) (inventory ?player ?strip))
+   :effect (and (not (clean ?strip)) (dry ?strip))
+)
+
+(:action dry_out_strips
+   :parameters (?strip - strip ?item - item)
+   :precondition (and (dry ?strip) (inventory ?player ?strip) (has_hard_surface ?loc))
+   :effect (and (not (dry ?strip)) (inventory ?player ?item))
+)
+
+(:action weave_strips_into_sheet
+   :parameters (?strip - strip ?sheet - sheet)
+   :precondition (and (at ?strip ?player) (inventory ?player ?sheet))
+   :effect (and (inventory ?player ?strip) (not (at ?strip ?player)))
+)
+
+(:action press_sheet
+   :parameters (?sheet - sheet ?board1 ?board2 - wooden_board)
+   :precondition (and (at ?sheet ?player) (inventory ?player ?board1) (inventory ?player ?board2) (not (flat ?sheet)))
+   :effect (flat ?sheet)
+)
+
+(:action flatten_sheet
+   :parameters (?sheet - sheet ?stone - shell)
+   :precondition (and (at ?sheet ?player) (inventory ?player ?stone) (not (very_flat ?sheet)))
+   :effect (very_flat ?sheet)
+)
+
+(:action polish_sheet
+   :parameters (?sheet - sheet ?stone - shell)
+   :precondition (and (at ?sheet ?player) (inventory ?player ?stone) (not (smooth ?sheet)))
+   :effect (smooth ?sheet)
+)
+
+(:action cut_sheet
+   :parameters (?sheet - sheet ?player - player ?item - item ?scissors - scissors)
+   :precondition (and (at ?sheet ?player) (inventory ?player ?scissors) (not (flat ?sheet)))
+   :effect (and (not (at ?sheet ?player)) (inventory ?player ?item))
+)
+
+)

@@ -1,0 +1,142 @@
+(:action go
+   :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (at ?player ?loc1) ;player is at loc1
+   :effect (and (at ?player ?loc2) ;player moves to loc2
+               (not (at ?player ?loc1))) ;player is no longer at loc1
+)
+
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (at ?player ?loc) ;player is at loc
+                      (at ?item ?loc)) ;item is at loc
+   :effect (and (inventory ?player ?item) ;player has item in inventory
+                (not (at ?item ?loc))) ;item is no longer at loc
+)
+
+(:action cut_plant
+   :parameters (?scissors - scissors ?papyrus - papyrus ?length - length)
+   :precondition (and (at ?scissors ?loc) ;scissors are at loc
+                      (at ?papyrus ?loc) ;papyrus is at loc
+                      (connected ?loc ?dir ?strip_loc) ;loc is connected to strip_loc
+                      (clean ?papyrus) ;papyrus is clean
+                      (peeled ?length ?papyrus)) ;papyrus is peeled to length
+   :effect (and (not (peeled ?length ?papyrus)) ;peeled predicate is updated
+                (at ?strip ?strip_loc))) ;strip is now at strip_loc
+)
+
+(:action peel_stalk
+   :parameters (?out_layer - outer_layer ?papyrus - papyrus)
+   :precondition (and (at ?out_layer ?loc) ;outer_layer is at loc
+                      (at ?papyrus ?loc) ;papyrus is at loc
+                      (connected ?loc ?dir ?strip_loc)) ;loc is connected to strip_loc
+   :effect (and (not (at ?out_layer ?loc)) ;outer_layer is no longer at loc
+                (at ?papyrus ?strip_loc) ;papyrus is now at strip_loc
+                (peeled ?papyrus) ;papyrus is peeled
+                (clean ?strip))) ;strip is clean
+)
+
+(:action cut_stalk_into_strips
+   :parameters (?knife - knife ?inner_layers - inner_layers ?papyrus - papyrus ?size - size)
+   :precondition (and (at ?knife ?loc) ;knife is at loc
+                      (at ?inner_layers ?loc) ;inner_layers is at loc
+                      (at ?papyrus ?loc) ;papyrus is at loc
+                      (connected ?loc ?dir ?strip_loc)) ;loc is connected to strip_loc
+   :effect (and (not (at ?inner_layers ?loc)) ;inner_layers is no longer at loc
+                (at ?papyrus ?strip_loc) ;papyrus is now at strip_loc
+                (clean ?strip) ;strip is clean
+                (size ?strip ?size) ;strip has size
+                (flat ?strip) ;strip is flat
+                (smooth ?strip))) ;strip is smooth
+)
+
+(:action soak_strips
+   :parameters (?strip - strip ?tray - tray ?water - water)
+   :precondition (and (inventory ?player ?strip) ;player has strip in inventory
+                      (at ?tray ?loc) ;tray is at loc
+                      (at ?water ?loc) ;water is at loc
+                      (has_water ?loc) ;loc has water
+                      (has_hard_surface ?loc)) ;loc has hard surface
+   :effect (and (not (inventory ?player ?strip)) ;strip is no longer in player's inventory
+                (at ?strip ?tray) ;strip is now at tray
+                (has_water ?tray) ;tray has water
+                (has_water ?strip))) ;strip has water
+)
+
+(:action dry_out_strips
+   :parameters (?strip - strip ?rolling_pin - rolling_pin)
+   :precondition (and (inventory ?player ?strip) ;player has strip in inventory
+                      (at ?strip ?loc) ;strip is at loc
+                      (at ?rolling_pin ?loc) ;rolling_pin is at loc
+                      (has_hard_surface ?loc)) ;loc has hard surface
+   :effect (and (not (inventory ?player ?strip)) ;strip is no longer in player's inventory
+                (dry ?strip))) ;strip is dry
+)
+
+(:action weave_strips_into_sheet
+   :parameters (?strip1 - strip ?strip2 - strip ?papyrus - papyrus ?cloth - cloth)
+   :precondition (and (at ?strip1 ?loc) ;strip1 is at loc
+                      (at ?strip2 ?loc) ;strip2 is at loc
+                      (at ?papyrus ?loc) ;papyrus is at loc
+                      (at ?cloth ?loc) ;cloth is at loc
+                      (has_hard_surface ?loc)) ;loc has hard surface
+   :effect (and (not (at ?strip1 ?loc)) ;strip1 is no longer at loc
+                (not (at ?strip2 ?loc)) ;strip2 is no longer at loc
+                (not (inventory ?player ?strip1)) ;player no longer has strip1 in inventory
+                (not (inventory ?player ?strip2)) ;player no longer has strip2 in inventory
+                (flat ?papyrus) ;papyrus is flat
+                (not (inventory ?player ?papyrus)) ;player no longer has papyrus in inventory
+                (at ?papyrus ?loc) ;papyrus is now at loc
+                (at ?cloth ?loc) ;cloth is now at loc
+                (flat ?cloth))) ;cloth is flat
+)
+
+(:action press_sheet
+   :parameters (?papyrus - papyrus ?board1 - wooden_board ?board2 - wooden_board ?stone - stone)
+   :precondition (and (at ?papyrus ?loc) ;papyrus is at loc
+                      (at ?board1 ?loc) ;board1 is at loc
+                      (at ?board2 ?loc) ;board2 is at loc
+                      (at ?stone ?loc) ;stone is at loc
+                      (has_hard_surface ?loc)) ;loc has hard surface
+   :effect (and (not (at ?papyrus ?loc)) ;papyrus is no longer at loc
+                (not (inventory ?player ?board1)) ;player no longer has board1 in inventory
+                (not (inventory ?player ?board2)) ;player no longer has board2 in inventory
+                (not (inventory ?player ?stone)) ;player no longer has stone in inventory
+                (flat ?papyrus) ;papyrus is flat
+                (very_flat ?papyrus))) ;papyrus is very flat
+)
+
+(:action flatten_sheet
+   :parameters (?papyrus - papyrus ?stone - stone ?rolling_pin - rolling_pin)
+   :precondition (and (at ?papyrus ?loc) ;papyrus is at loc
+                      (at ?stone ?loc) ;stone is at loc
+                      (at ?rolling_pin ?loc) ;rolling_pin is at loc
+                      (has_hard_surface ?loc)) ;loc has hard surface
+   :effect (and (not (inventory ?player ?stone)) ;player no longer has stone in inventory
+                (not (inventory ?player ?rolling_pin)) ;player no longer has rolling_pin in inventory
+                (very_flat ?papyrus))) ;papyrus is very flat
+)
+
+(:action polish_sheet
+   :parameters (?papyrus - papyrus ?shell - shell ?ivory - ivory ?stone - stone)
+   :precondition (and (at ?papyrus ?loc) ;papyrus is at loc
+                      (at ?shell ?loc) ;shell is at loc
+                      (at ?ivory ?loc) ;ivory is at loc
+                      (at ?stone ?loc) ;stone is at loc
+                      (has_hard_surface ?loc)) ;loc has hard surface
+   :effect (and (not (inventory ?player ?shell)) ;player no longer has shell in inventory
+                (not (inventory ?player ?ivory)) ;player no longer has ivory in inventory
+                (not (inventory ?player ?stone)) ;player no longer has stone in inventory
+                (smooth ?papyrus))) ;papyrus is smooth
+)
+
+(:action cut_sheet
+   :parameters (?papyrus - papyrus ?scissors - scissors ?size - size ?sheet - sheet)
+   :precondition (and (at ?papyrus ?loc) ;papyrus is at loc
+                      (at ?scissors ?loc) ;scissors are at loc
+                      (has_hard_surface ?loc)) ;loc has hard surface
+   :effect (and (not (at ?papyrus ?loc)) ;papyrus is no longer at loc
+                (not (inventory ?player ?scissors)) ;player no longer has scissors in inventory
+                (size ?sheet ?size))) ;sheet has size
+)
+
+)

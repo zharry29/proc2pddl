@@ -1,0 +1,80 @@
+(:action go 
+    :parameters (?loc1 - location ?loc2 - location ?dir - direction)
+    :precondition (connected ?loc1 ?dir ?loc2)
+    :effect (at player ?loc2)
+)
+
+(:action get 
+    :parameters (?item - item ?loc - location)
+    :precondition (at ?item ?loc)
+    :effect (inventory player ?item)
+)
+
+(:action get_water 
+    :parameters (?loc - location)
+    :precondition (has_freshwater_source ?loc)
+    :effect (has_water ?loc)
+)
+
+(:action bag_plant
+    :parameters (?plant - plant ?loc - location)
+    :precondition (at ?plant ?loc)
+    :effect (bagged ?plant)
+)
+
+(:action wait_and_gather_bagged_plant
+    :parameters (?loc1 - location ?loc2 - location ?plant - plant)
+    :precondition (at ?plant ?loc1)
+    :effect (at ?plant ?loc2)
+            (bagged ?plant)
+)
+
+(:action gather_tinder
+    :parameters (?loc - location)
+    :precondition (has_tinder ?loc)
+    :effect (inventory player tinder)
+)
+
+(:action build_campfire
+    :parameters (?loc - location)
+    :precondition (has_tinder ?loc)
+    :effect (lit campfire)
+)
+
+(:action light_campfire
+    :parameters (?campfire - campfire)
+    :precondition (lit ?campfire)
+    :effect (has_tinder ?loc)
+)
+
+(:action make_spear
+    :parameters ()
+    :precondition ()
+    :effect (inventory player spear)
+)
+
+(:action spear_fish
+    :parameters (?loc - location)
+    :precondition (at fish ?loc)
+    :effect (has_fish ?loc)
+)
+
+(:action cook_fish
+    :parameters (?fish - fish)
+    :precondition (has_fish ?loc)
+    :effect (cooked ?food)
+)
+
+(:action wet_tinder
+    :parameters (?loc - location)
+    :precondition ()
+    :effect (wet ?tinder)
+)
+
+(:action make_smoke_signal
+    :parameters (?campfire - campfire)
+    :precondition (lit ?campfire)
+    :effect (signaling ?campfire)
+)
+
+)
