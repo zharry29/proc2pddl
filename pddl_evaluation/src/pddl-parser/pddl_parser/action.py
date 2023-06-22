@@ -364,3 +364,67 @@ if __name__ == "__main__":
 #     :precondition (and (inventory ?player ?papyrus_plant) (inventory ?player ?knife))
 #     :effect (and (not (inventory ?player ?papyrus_plant)) (inventory ?player ?papyrus_stalks))
 # )
+
+
+def action_dist(Action1, Action2):
+    # Parameter distance
+    match_count = 0
+    paradict1 = {}
+    paradict2 = {}
+    para_number1 = len(Action1.parameters)
+    para_number2  = len(Action2.parameters)
+    for i in Action1.parameters:
+        for j in Action2.parameters:
+            if i[1] == j[1]:
+                paradict1[i[0]] = i[1]
+                paradict2[j[0]] = j[1]
+                match_count += 1
+                Action2.parameters.pop(j)
+                break
+            else:
+                continue
+    para_dist = abs(para_number1 - match_count) + abs(para_number2 - match_count)
+
+    # Precondition/effect distance
+    def entry_distance(condition1, condition2):
+        cond_number1 = len(condition1)
+        cond_number2 = len(condition2)
+        index = 0
+        countdict1 = {}
+        countdict2 = {}
+        match_count = 0
+        for i in condition1:
+            for j in condition2:
+                if i[0] == j[0] and len(i) == len(j):
+                # If two conditions have the same predicate and the same number of parameters, they may match.
+                    for k in range(1, len(i)):
+                        if j[k] not in paradict2 or i[k] not in paradict1:
+                        #If neither of the two current parameters has appeared before, i and j cannot match if these parameters are not identical.
+                            if j[k] != i[k]:
+                                break
+                        elif paradict2[j[k]] != paradict1[i[k]]:
+                        #If the two parameters have different categories, then i j do not match
+                            break
+                        elif i[k] not in countdict1 and j[k] not in countdict2:
+                        #If the two parameters have same categories and don't have index, then regard them as same parameter entity and give them same index.
+                            countdict1[i[k]] = index
+                            countdict2[j[k]] = index
+                            index += 1
+                        elif i[k] in countdict1 and j[k] in countdict2:
+                        #If the two parameters already have indexs, if their indexs are not equal, then i and j cannot match.
+                            if countdict1[i[k]] != countdict2[j[k]]:
+                                break
+                        else:
+                            break
+                    match_count += 1
+                    condition2.pop(j)
+                    break
+                else:
+                    continue
+        return abs(cond_number1 - match_count) + abs(cond_number2 - match_count)
+
+    precondition_dist = entry_distance(Action1.positive_preconditions, Action2.positive_preconditions) + entry_distance(Action1.negative_preconditions, Action2.negative_preconditions)
+    
+    effect_dist = entry_distance(Action1.add_effects,Action2.add_effects) + entry_distance(Action1.del_effects, Action2.del_effects)
+
+    return para_dist, precondition_dist, effect_dist
