@@ -1,0 +1,1 @@
+go ('npc', 'next', 'securing_machine', 'knowing_target')

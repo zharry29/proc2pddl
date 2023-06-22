@@ -1,0 +1,2 @@
+collect_rain_water ('npc', 'parkinglot')
+loot_shelter ('npc', 'parkinglot')

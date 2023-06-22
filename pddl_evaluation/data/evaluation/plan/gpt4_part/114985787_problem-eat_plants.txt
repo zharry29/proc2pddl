@@ -1,0 +1,6 @@
+go ('npc', 'west', 'camp', 'path')
+go ('npc', 'west', 'path', 'cliff')
+go ('npc', 'up', 'cliff', 'waterfall')
+go ('npc', 'east', 'waterfall', 'mountain')
+get ('npc', 'flowers', 'mountain')
+eat ('npc', 'flowers')

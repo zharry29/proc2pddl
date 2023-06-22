@@ -1,1 +1,4 @@
-No solution
+go ('npc', 'west', 'camp', 'path')
+go ('npc', 'west', 'path', 'cliff')
+go ('npc', 'up', 'cliff', 'waterfall')
+get_water ('npc', 'water', 'waterfall')

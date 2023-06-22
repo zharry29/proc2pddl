@@ -1,1 +1,1 @@
-Error: unhashable type: 'list'
+Error: Running time exceeds 30 seconds

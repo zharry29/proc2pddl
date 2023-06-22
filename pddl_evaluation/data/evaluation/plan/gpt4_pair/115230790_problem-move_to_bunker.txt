@@ -1,1 +1,1 @@
-No solution
+Error: Unexpected not in go effects

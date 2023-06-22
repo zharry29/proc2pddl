@@ -1,1 +1,1 @@
-No solution
+Error: Predicate has_secret redefined

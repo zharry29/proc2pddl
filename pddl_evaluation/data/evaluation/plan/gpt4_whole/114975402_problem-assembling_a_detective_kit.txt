@@ -1,0 +1,4 @@
+go ('npc', 'train_station', 'north', 'costume_store')
+get_costume ('npc', 'costume', 'costume_store')
+wear_detective_gear ('npc', 'costume')
+prepare_detective_kit ('npc', 'detective_kit', 'costume')

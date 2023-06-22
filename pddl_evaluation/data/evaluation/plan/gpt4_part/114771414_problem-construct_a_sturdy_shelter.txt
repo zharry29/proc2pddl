@@ -1,0 +1,1 @@
+construct_shelter ('npc', 'camp')

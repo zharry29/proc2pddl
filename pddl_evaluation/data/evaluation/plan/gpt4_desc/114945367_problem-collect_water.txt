@@ -1,0 +1,4 @@
+go ('npc', 'camp', 'path', 'west')
+go ('npc', 'path', 'cliff', 'west')
+go ('npc', 'cliff', 'waterfall', 'up')
+get_water ('npc', 'water', 'waterfall')

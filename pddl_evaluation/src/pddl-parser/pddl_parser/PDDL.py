@@ -75,7 +75,7 @@ class PDDL_Parser:
                 elif t == ':requirements':
                     for req in group:
                         if req not in requirements:
-                            raise Exception('Requirement ' + req + ' not supported')
+                            raise ValueError('Requirement ' + req + ' not supported')
                     self.requirements = group
                 elif t == ':constants':
                     self.parse_objects(group, t)
@@ -87,7 +87,7 @@ class PDDL_Parser:
                     self.parse_action(group)
                 else: self.parse_domain_extended(t, group)
         else:
-            raise Exception('File ' + domain_filename + ' does not match domain pattern')
+            raise ValueError('File ' + domain_filename + ' does not match domain pattern')
 
     def parse_domain_extended(self, t, group):
         print(str(t) + ' is not recognized in domain')
@@ -100,10 +100,10 @@ class PDDL_Parser:
         list = []
         while group:
             if redefine and group[0] in structure:
-                raise Exception('Redefined supertype of ' + group[0])
+                raise ValueError('Redefined supertype of ' + group[0])
             elif group[0] == '-':
                 if not list:
-                    raise Exception('Unexpected hyphen in ' + name)
+                    raise ValueError('Unexpected hyphen in ' + name)
                 group.pop(0)
                 type = group.pop(0)
                 if type not in structure:
@@ -139,14 +139,14 @@ class PDDL_Parser:
         for pred in group:
             predicate_name = pred.pop(0)
             if predicate_name in self.predicates:
-                raise Exception('Predicate ' + predicate_name + ' redefined')
+                raise ValueError('Predicate ' + predicate_name + ' redefined')
             arguments = {}
             untyped_variables = []
             while pred:
                 t = pred.pop(0)
                 if t == '-':
                     if not untyped_variables:
-                        raise Exception('Unexpected hyphen in predicates')
+                        raise ValueError('Unexpected hyphen in predicates')
                     type = pred.pop(0)
                     while untyped_variables:
                         arguments[untyped_variables.pop(0)] = type
@@ -163,10 +163,10 @@ class PDDL_Parser:
     def parse_action(self, group):
         name = group.pop(0)
         if type(name) is not str:
-            raise Exception('Action without name definition')
+            raise ValueError('Action without name definition')
         for act in self.actions:
             if act.name == name:
-                raise Exception('Action ' + name + ' redefined')
+                raise ValueError('Action ' + name + ' redefined')
         parameters = []
         positive_preconditions = []
         negative_preconditions = []
@@ -177,7 +177,7 @@ class PDDL_Parser:
             t = group.pop(0)
             if t == ':parameters':
                 if type(group) is not list:
-                    raise Exception('Error with ' + name + ' parameters')
+                    raise ValueError('Error with ' + name + ' parameters')
                 parameters = []
                 untyped_parameters = []
                 p = group.pop(0)
@@ -185,7 +185,7 @@ class PDDL_Parser:
                     t = p.pop(0)
                     if t == '-':
                         if not untyped_parameters:
-                            raise Exception('Unexpected hyphen in ' + name + ' parameters')
+                            raise ValueError('Unexpected hyphen in ' + name + ' parameters')
                         ptype = p.pop(0)
                         while untyped_parameters:
                             parameters.append([untyped_parameters.pop(0), ptype])
@@ -229,7 +229,7 @@ class PDDL_Parser:
                     self.problem_name = group[0]
                 elif t == ':domain':
                     if self.domain_name != group[0]:
-                        raise Exception('Different domain specified in problem file')
+                        raise ValueError('Different domain specified in problem file')
                 elif t == ':requirements':
                     pass  # Ignore requirements in problem, parse them in the domain
                 elif t == ':objects':
@@ -244,7 +244,7 @@ class PDDL_Parser:
                     self.negative_goals = frozenset_of_tuples(negative_goals)
                 else: self.parse_problem_extended(t, group)
         else:
-            raise Exception('File ' + problem_filename + ' does not match problem pattern')
+            raise ValueError('File ' + problem_filename + ' does not match problem pattern')
 
     def parse_problem_extended(self, t, group):
         print(str(t) + ' is not recognized in problem')
@@ -255,7 +255,7 @@ class PDDL_Parser:
 
     def split_predicates(self, group, positive, negative, name, part):
         if type(group) is not list:
-            raise Exception('Error with ' + name + part)
+            raise ValueError('Error with ' + name + part)
         if group:
             if group[0] == 'and':
                 group.pop(0)
@@ -264,7 +264,7 @@ class PDDL_Parser:
             for predicate in group:
                 if predicate[0] == 'not':
                     if len(predicate) != 2:
-                        raise Exception('Unexpected not in ' + name + part)
+                        raise ValueError('Unexpected not in ' + name + part)
                     negative.append(predicate[-1])
                 else:
                     positive.append(predicate)
