@@ -382,7 +382,10 @@ def action_dist(Action1, Action2):
                 paradict1[i[0]] = i[1]
                 paradict2[j[0]] = j[1]
                 match_count += 1
-                Action2.parameters.pop(j)
+                try:
+                    Action2.parameters.pop(j)
+                except AttributeError:
+                    break
                 break
             else:
                 continue
@@ -420,7 +423,10 @@ def action_dist(Action1, Action2):
                         else:
                             break
                     match_count += 1
-                    condition2.pop(j)
+                    try:
+                        condition2.pop(j)
+                    except AttributeError:
+                        break
                     break
                 else:
                     continue

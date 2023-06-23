@@ -1,0 +1,3 @@
+get ('npc', 'bag', 'counter')
+smash_with_hands ('npc', 'bag')
+separate ('npc', 'bag', 'coconut_meat')

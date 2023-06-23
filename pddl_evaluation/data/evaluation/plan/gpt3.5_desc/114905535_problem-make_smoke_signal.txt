@@ -1,0 +1,2 @@
+light_campfire ('npc', 'shore', 'campfire')
+make_smoke_signal ('npc', 'shore', 'campfire')

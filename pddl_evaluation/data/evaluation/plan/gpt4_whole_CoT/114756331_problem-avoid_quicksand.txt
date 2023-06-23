@@ -1,0 +1,3 @@
+go ('npc', 'home', 'north', 'l1')
+go ('npc', 'l1', 'east', 'l2')
+go ('npc', 'l2', 'east', 'l3')

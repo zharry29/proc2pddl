@@ -1,0 +1,1 @@
+get ('npc', 'river', 'papyrus_plant')

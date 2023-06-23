@@ -1,0 +1,3 @@
+cut_stalks ('npc', 'papyrus_plant', 'knife', 'papyrus_stalks')
+cut_strips ('npc', 'papyrus_stalks', 'knife', 'papyrus_strips')
+weave_strips ('npc', 'papyrus_strips', 'linen_sheets', 'papyrus')

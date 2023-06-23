@@ -1,0 +1,3 @@
+get ('npc', 'water', 'parkinglot')
+get ('npc', 'bandage', 'parkinglot')
+get ('npc', 'food', 'parkinglot')

@@ -1,0 +1,4 @@
+go ('npc', 'camp', 'path', 'west')
+go ('npc', 'path', 'oaks', 'south')
+log_oak ('npc', 'oak_log', 'oaks')
+stack_log ('npc', 'oak_log', 'log_stack')

@@ -1,0 +1,6 @@
+go ('npc', 'counter', 'west', 'fridge')
+get ('npc', 'coconut', 'fridge')
+turn_on_oven ('npc', 'fridge')
+burn_item ('npc', 'coconut', 'fridge')
+smash_with_hands ('npc', 'coconut')
+separate ('npc', 'coconut', 'coconut_meat')

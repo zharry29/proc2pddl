@@ -1,0 +1,3 @@
+breathe ('npc', 'qsand')
+liedown ('npc', 'qsand')
+swim ('npc', 'qsand')

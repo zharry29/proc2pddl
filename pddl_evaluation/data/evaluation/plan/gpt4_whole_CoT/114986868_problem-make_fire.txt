@@ -1,0 +1,8 @@
+go ('npc', 'camp', 'east', 'path')
+go ('npc', 'path', 'east', 'riverside')
+go ('npc', 'riverside', 'north', 'rainforest')
+get_wood ('npc', 'rainforest', 'wood')
+make_drill ('npc', 'wood', 'drill')
+get_wood ('npc', 'rainforest', 'wood')
+go ('npc', 'rainforest', 'south', 'riverside')
+make_fire ('npc', 'riverside', 'drill', 'wood')

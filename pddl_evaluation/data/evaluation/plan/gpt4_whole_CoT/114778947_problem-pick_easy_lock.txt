@@ -1,0 +1,5 @@
+go ('npc', 'living_room', 'hallway', 'up')
+go ('npc', 'hallway', 'bathroom', 'east')
+get ('npc', 'bobby_pin', 'bathroom')
+go ('npc', 'bathroom', 'bedroom', 'east')
+pick_lock_with_card ('npc', 'bedroom', 'bobby_pin')
