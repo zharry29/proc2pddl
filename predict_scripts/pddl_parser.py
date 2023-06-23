@@ -1,10 +1,12 @@
 import re
 
 class PDDL_Component_Parser:
-    def read_document(self, file_path):
+    def read_document(self, file_path,remove_desc):
         with open(file_path, 'r') as f:
             # file=f.read().strip('\n').split('\n\n')
             file = f.readlines()
+            if remove_desc:
+                file = [re.sub(r';.*$', '', line, flags=re.MULTILINE) for line in file ]
         return file
 
     def _add_pddl_components(self, lines,new_line):
@@ -26,10 +28,11 @@ class PDDL_Component_Parser:
             self.action_names.append(lines[0].strip('\n'))
         else:
             print(f'parser: cannot match any type in pddl domain: {line}')
+            # return 'error'
 
 
-    def parse_components(self,file_path):
-        file = self.read_document(file_path)
+    def parse_components(self,file_path, remove_desc=False):
+        file = self.read_document(file_path,remove_desc)
         file.append('END')
         # print(file)
 
@@ -55,3 +58,42 @@ class PDDL_Component_Parser:
                 lines=[new_line]
             else:
                 lines.append(new_line)
+    
+    def scan_tokens(self, string):
+        str = re.sub(r';.*$', '', string, flags=re.MULTILINE).lower()
+        # print(string)
+        # Tokenize
+        stack = []
+        list = []
+        # print(re.findall(r'[()]|[^\s()]+', str))
+        for t in re.findall(r'[()]|[^\s()]+', str):
+            if t == '(':
+                stack.append(list)
+                list = []
+            elif t == ')':
+                if stack:
+                    li = list
+                    list = stack.pop()
+                    list.append(li)
+                else:
+                    print('Missing open parentheses')
+                    # raise Exception('Missing open parentheses')
+            else:
+                list.append(t)
+        while stack:
+            # raise Exception('Missing close parentheses')
+            li = list
+            list = stack.pop()
+            list.append(li)
+        if len(list) != 1:
+            # print(stack)
+            # print(list)
+            # raise Exception('Malformed expression')
+            print('Malformed expression')
+            return []
+        # print(string)
+        # print(list)
+        # print('---')、
+        # if 'action' not in list[0][0]:
+        #     print(list)
+        return list[0]
