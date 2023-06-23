@@ -5,7 +5,12 @@
 The raw Proc2PDDL dataset can be found at `pddl_data/`, while the cleaned one can be found at`/pddl_annotation`.
 
 ## Predict Actions
-TODO: tianyi. Mention what is the input, what is the output, what code to run
+Code for runninng prediction is in `predict_scripts/`
+
+First, in `predict_actions.py`, specify the prompt (**prompt_instruction**) you want to use, see options in `prompts.json`, the prediction output dir (**pred_path**, **pred_raw_path**)
+
+Then running
+> python predict_actions.py
 
 ## Evaluation
 In `pddl_evaluation/`, we assume that the model predictions are already in `data/evaluation/actions_generation/pred/`, named as `[MODEL]_[PROMPT]`. 
