@@ -4,10 +4,10 @@
 ## Dataset
 The raw Proc2PDDL dataset can be found at `pddl_data/`, while the cleaned one can be found at`/pddl_annotation`.
 
-# Predict Actions
+## Predict Actions
 TODO: tianyi. Mention what is the input, what is the output, what code to run
 
-# Evaluation
+## Evaluation
 In `pddl_evaluation/`, we assume that the model predictions are already in `data/evaluation/actions_generation/pred/`, named as `[MODEL]_[PROMPT]`. 
 
 From `src/`, first, running
