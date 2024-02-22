@@ -13,16 +13,32 @@ import collections
 
 import argparse
 
+model_name_map = {
+    "gpt4": "gpt-4-32k",
+    "gpt3.5": "gpt-3.5-turbo-16k",
+}
+
+prompt_type_map = {
+    "pair": "instruction_pair",
+    "no_text": "instruction_no_text",
+    "whole": "instruction_text",
+}
+
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", type=str, default="gpt4")
-parser.add_argument("--prompt", type=str, default="")
+parser.add_argument('--model', type=str, default="gpt-4-32k", help="gpt model name")
+parser.add_argument('--prompt', type=str, default="whole", help="the type of prompt to use")
+parser.add_argument('--cot', action="store_true", help="whether to use cot prompt")
 parser.add_argument("--id", type=str, default="")
 args = parser.parse_args()
 
-prompt_str = "_" + args.prompt if args.prompt != "" else ""
-gold_dir = f"../data/evaluation/actions_generation/pred/gold/"
-pred_dir = f"../data/evaluation/actions_generation/pred/{args.model}{prompt_str}/"
-print(pred_dir)
+model = model_name_map[args.model]
+prompt = prompt_type_map[args.prompt]
+if args.cot:
+    prompt += "_CoT"
+folder_name = f"{model}_{prompt}"
+
+gold_dir = '../pddl_evaluation/true/'
+pred_dir = f'../pddl_evaluation/pred/{folder_name}/'
 
 
 def compare_actions(pred_actions, gold_actions):

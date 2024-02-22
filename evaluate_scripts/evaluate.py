@@ -16,13 +16,30 @@ def handler(signum, frame):
 signal.signal(signal.SIGALRM, handler)
 
 import argparse
+
+model_name_map = {
+    "gpt4": "gpt-4-32k",
+    "gpt3.5": "gpt-3.5-turbo-16k",
+}
+
+prompt_type_map = {
+    "pair": "instruction_pair",
+    "no_text": "instruction_no_text",
+    "whole": "instruction_text",
+}
+
 parser = argparse.ArgumentParser()
-parser.add_argument('--model', type=str)
-parser.add_argument('--prompt', type=str, default='')
+parser.add_argument('--model', type=str, default="gpt-4-32k", help="gpt model name")
+parser.add_argument('--prompt', type=str, default="whole", help="the type of prompt to use")
+parser.add_argument('--cot', action="store_true", help="whether to use cot prompt")
 parser.add_argument('--id', type=str, default='')
 args = parser.parse_args()
 
-prompt_str = "_" + args.prompt if args.prompt != "" else ""
+model = model_name_map[args.model]
+prompt = prompt_type_map[args.prompt]
+if args.cot:
+    prompt += "_CoT"
+folder_name = f"{model}_{prompt}"
 
 class Planner:
 
@@ -82,11 +99,11 @@ class Planner:
     def apply(self, state, positive, negative):
         return state.difference(negative).union(positive)
     
-true_dir = '../data/evaluation/actions_generation/true/'
-pred_dir = f'../data/evaluation/actions_generation/pred/{args.model}{prompt_str}/'
-cache_dir = '../data/evaluation/cache/'
+true_dir = '../pddl_evaluation/true/'
+pred_dir = f'../pddl_evaluation/pred/{folder_name}/'
+cache_dir = '../pddl_evaluation/cache/'
 
-Path(f"../data/evaluation/plan/{args.model}{prompt_str}").mkdir(parents=True, exist_ok=True)
+Path(f"../pddl_evaluation/plan/{folder_name}").mkdir(parents=True, exist_ok=True)
 
 class Tester:
     def __init__(self, cache_dir = '../data/evaluation/cache/'):
@@ -208,7 +225,7 @@ class Tester:
                 )
                 plan = self.eval_unit_action_generation(tmp_domain_file, problem_file)
                 #print(plan)
-                with open(f"../data/evaluation/plan/{args.model}{prompt_str}/{proc_id}_{problem[:-5]}.txt", 'w') as f:
+                with open(f"../data/evaluation/plan/{folder_name}/{proc_id}_{problem[:-5]}.txt", 'w') as f:
                     if isinstance(plan, TimeoutError):
                         case_results_raw[output_action_file]['extrinsic'][problem] = 'timeout'
                         f.write("Error: " + "Running time exceeds 30 seconds")

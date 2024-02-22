@@ -4,13 +4,38 @@ import openai
 import build_prompts
 import read_files
 import time
+import argparse
 
 os.environ["OPENAI_API_KEY"]= ''
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+model_name_map = {
+    "gpt4": "gpt-4-32k",
+    "gpt3.5": "gpt-3.5-turbo-16k",
+}
+
+prompt_type_map = {
+    "pair": "instruction_pair",
+    "no_text": "instruction_no_text",
+    "whole": "instruction_text",
+}
+
+# argparse
+parser = argparse.ArgumentParser()
+parser.add_argument('--model', type=str, default="gpt-4-32k", help="gpt model name")
+parser.add_argument('--prompt', type=str, default="whole", help="the type of prompt to use")
+parser.add_argument('--cot', action="store_true", help="whether to use cot prompt")
+
+args = parser.parse_args()
+
+model = model_name_map[args.model]
+prompt = prompt_type_map[args.prompt]
+if args.cot:
+    prompt += "_CoT"
+
 # setup function
 # "gpt-4-32k"
-def get_gpt_response(messages, gpt_model="gpt-4-32k"):
+def get_gpt_response(messages, gpt_model=model):
     response = openai.ChatCompletion.create(
     model=gpt_model,
     messages=messages,
@@ -37,7 +62,7 @@ def postprocess_completion(completion):
   return lines
 
 def save_output(folder_name, file_name, text):
-  parent_dir = '.'
+  parent_dir = '../pddl_evaluation/pred'
   path = os.path.join(parent_dir, folder_name)
 
   if not os.path.exists(path):
@@ -47,12 +72,10 @@ def save_output(folder_name, file_name, text):
     f.write(text)
 
 def main():
-  prompt_instruction=build_prompts.read_prompt('prompts.json')["instruction_pair"]
-  # prompt_instruction=build_prompts.read_prompt('prompts.json')["instruction_no_text_CoT"]
-  # prompt_instruction=build_prompts.read_prompt('prompts.json')["instruction_no_text_CoT_simple"]
-  rt_path='../pddl_annotation'
-  pred_path='gpt4_whole_CoT'
-  pred_raw_path='gpt4_whole_CoT_raw'
+  prompt_instruction=build_prompts.read_prompt('prompts.json')[prompt]
+  rt_path='../pddl_data'
+  pred_path=f'{model}_{prompt}'
+  pred_raw_path=f'{model}_{prompt}_raw'
   for path, dirs, files in os.walk(rt_path):
         # print(path,dir,files)
         if 'problem' not in path and path!=rt_path:
@@ -101,18 +124,11 @@ def main():
                     if last_action in completion_extend:
                         print('reach end')
                         break
-         
-                # print(f'comp:\n{completion}') 
-
-                # re-write post processing file:
-                # file_name=path.split('/')[-1]+'.txt'
-                # # print(path)
-                # completion = read_files.read_txt_file(os.path.join(pred_raw_path,file_name))
-                
+                    
                 comp_post = postprocess_completion(completion)
                 # print(f'post_comp:\n{comp_post}')
                 file_name=path.split('/')[-1]+'.txt'
-                if pred_raw_path:
+                if args.cot:
                   save_output(pred_raw_path,file_name,completion) 
                 save_output(pred_path,file_name,comp_post)
                 print(f'save {file_name}')
