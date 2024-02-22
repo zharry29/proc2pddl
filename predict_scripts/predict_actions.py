@@ -22,7 +22,7 @@ prompt_type_map = {
 
 # argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('--model', type=str, default="gpt-4-32k", help="gpt model name")
+parser.add_argument('--model', type=str, default="gpt4", help="gpt model name")
 parser.add_argument('--prompt', type=str, default="whole", help="the type of prompt to use")
 parser.add_argument('--cot', action="store_true", help="whether to use cot prompt")
 

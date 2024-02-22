@@ -1,5 +1,5 @@
 # Proc2PDDL
-**Proc2PDDL** is a dataset of paired procedural texts and PDDL representations. 
+**Proc2PDDL** is a dataset of paired open-domain procedural texts and PDDL representations. 
 
 ## Dataset
 The cleaned and processed Proc2PDDL dataset can be found at `/pddl_data`. Though likely not to be used, the raw dataset produced by the annotators can be found at `pddl_data_raw/`.
