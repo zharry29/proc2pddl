@@ -2,7 +2,7 @@
 **Proc2PDDL** is a dataset of paired open-domain procedural texts and PDDL representations. 
 
 ## Dataset
-The cleaned and processed Proc2PDDL dataset can be found at `/pddl_data`. Though likely not to be used, the raw dataset produced by the annotators can be found at `pddl_data_raw/`.
+The cleaned and processed Proc2PDDL dataset can be found at `/pddl_data`. Though likely not to be used, the raw dataset produced by the annotators can be found at `/pddl_data_raw`.
 
 In `/pddl_data`, there are 27 folders named by the domain ID each containing:
 - a procedural article from wikihow (`wikihow-*.txt`) containing some steps
@@ -18,10 +18,11 @@ While the above dataset can enable many possible tasks, we exemplify the task of
 - the output is the definitions of actions (parameters, preconditions, and effects)
 
 ### Prediction
-Code for runninng model prediction with OpenAI API is in `predict_scripts/`.
+Code for runninng model prediction with OpenAI API is in `/predict_scripts`.
 
 Then run:
 > python predict_actions.py --model MODEL --prompt PROMPT [--cot]
+
 where
 - `MODEL` is either gpt3.5 (`gpt-3.5-turbo-16k`) or gpt4 (`gpt-4-32k`)
 - `PROMPT` is defaulted to `whole`, meaning using all the text from the procedural article, but can also be set to `pair` including only relevant paired steps and the actions, or `no_text` including no text at all as an ablation
@@ -30,7 +31,7 @@ where
 The output is at `pddl_evaluation/pred/MODEL_PROMPT_[COT]/DOMAIN_ID.txt`, eachc containing the definitions of actions (parameters, preconditions, and effects).
 
 ### Evaluation
-Code for evaluating model prediction is in `predict_scripts/`.
+Code for evaluating model prediction is in `/evaluate_scripts`.
 
 Then run
 > python evaluate.py --model MODEL --prompt PROMPT [--cot]
