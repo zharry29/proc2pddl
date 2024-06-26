@@ -1,0 +1,289 @@
+Sure! I will provide the required information for each action as detailed.
+
+### Action: go
+- action name: go
+- summarize action: This action allows the player to navigate from one location to another if there is an active connection. 
+- what is needed to do the action: The player must be at the starting location, and there should be a connection in a specified direction to the destination location.
+- what is the result: The player moves to the new location.
+
+- entities:
+  - entity name: player
+  - before: at the starting location
+  - before provided predicates: (at ?player ?loc1)
+  - after: at the destination location
+  - after provided predicates: (at ?player ?loc2)
+
+pddl:
+```pddl
+(:action go
+  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and (at ?player ?loc1)
+                     (connected ?loc1 ?dir ?loc2)
+                     (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and (not (at ?player ?loc1))
+               (at ?player ?loc2)))
+```
+
+### Action: get
+- action name: get
+- summarize action: The player picks up an item from a location and adds it to their inventory.
+- what is needed to do the action: The player must be at the location where the item is present.
+- what is the result: The item is added to the player's inventory, and it is no longer at the location.
+
+- entities:
+  - entity name: item
+  - before: at the location
+  - before provided predicates: (at ?item ?loc)
+  - after: in the player's inventory
+  - after provided predicates: (inventory ?player ?item)
+
+pddl:
+```pddl
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc)
+                     (at ?item ?loc))
+  :effect (and (inventory ?player ?item)
+               (not (at ?item ?loc))))
+```
+
+### Action: get_water
+- action name: get_water
+- summarize action: The player collects water from a location that has a water source.
+- what is needed to do the action: The player must be at a location with a water source, and the water should be untreated.
+- what is the result: The player has the water in their inventory.
+
+- entities:
+  - entity name: water
+  - before: untreated at the location
+  - before provided predicates: (has_water_source ?loc)
+  - after: in the player's inventory
+  - after provided predicates: (inventory ?player ?water)
+
+pddl:
+```pddl
+(:action get_water
+  :parameters (?player - player ?water - water ?loc - location)
+  :precondition (and (at ?player ?loc)
+                     (has_water_source ?loc)
+                     (not (treated ?water)))
+  :effect (inventory ?player ?water))
+```
+
+### Action: drop
+- action name: drop
+- summarize action: The player drops an item from their inventory at the current location.
+- what is needed to do the action: The player must have the item in their inventory.
+- what is the result: The item is placed at the player's current location and removed from the inventory.
+
+- entities:
+  - entity name: item
+  - before: in the player's inventory
+  - before provided predicates: (inventory ?player ?item)
+  - after: at the player's current location
+  - after provided predicates: (at ?item ?loc)
+
+pddl:
+```pddl
+(:action drop
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc)
+                     (inventory ?player ?item))
+  :effect (and (not (inventory ?player ?item))
+               (at ?item ?loc)))
+```
+
+### Action: clear_spider
+- action name: clear_spider
+- summarize action: The player clears any bugs from a branch or leaves, rendering it bug-free.
+- what is needed to do the action: The item (branch or leaves) must have bugs on it.
+- what is the result: The item no longer has bugs.
+
+- entities:
+  - entity name: item
+  - before: has bugs
+  - before provided predicates: (has_bug ?item)
+  - after: bug-free
+  - after provided predicates: not (has_bug ?item)
+
+pddl:
+```pddl
+(:action clear_spider
+  :parameters (?item - item)
+  :precondition (has_bug ?item)
+  :effect (not (has_bug ?item)))
+```
+
+### Action: insert_beam
+- action name: insert_beam
+- summarize action: The player inserts the end of a branch into the split of a tree, potentially initiating or completing a frame or shelter structure.
+- what is needed to do the action: The branch must be long and thick, and the tree must have a split in its trunk.
+- what is the result: A beam is positioned as part of the frame structure.
+
+- entities:
+  - entity name: branch
+  - before: long and thick
+  - before provided predicates: (long ?b) (thick ?b)
+  - after: part of the frame
+  - after provided predicates: (part_of ?b ?frame)
+
+pddl:
+```pddl
+(:action insert_beam
+  :parameters (?b - branch ?tree - tree)
+  :precondition (and (has_split_in_trunk ?tree)
+                     (long ?b)
+                     (thick ?b))
+  :effect (part_of ?b ?frame))
+```
+
+### Action: lean_branches
+- action name: lean_branches
+- summarize action: The player leans branches against the main branch to form the structure of the shelter.
+- what is needed to do the action: The player must have branches available.
+- what is the result: A shelter structure is formed.
+
+- entities:
+  - entity name: branches
+  - before: available and not structured
+  - before provided predicates: (at ?branches ?loc)
+  - after: forming part of the structure
+  - after provided predicates: (part_of ?branches ?shelter)
+
+pddl:
+```pddl
+(:action lean_branches
+  :parameters (?branches - branches ?loc - location)
+  :precondition (at ?branches ?loc)
+  :effect (part_of ?branches ?shelter))
+```
+
+### Action: layer
+- action name: layer
+- summarize action: The player lays twigs and leaves to further build out the shelter.
+- what is needed to do the action: The player must be at the location with twigs and leaves.
+- what is the result: The twigs and leaves are positioned as part of the shelter construction.
+
+- entities:
+  - entity name: twigs
+  - before: at the location
+  - before provided predicates: (at ?twigs ?loc)
+  - after: part of the shelter
+  - after provided predicates: (part_of ?twigs ?shelter)
+
+pddl:
+```pddl
+(:action layer
+  :parameters (?twigs - twigs ?loc - location)
+  :precondition (at ?twigs ?loc)
+  :effect (part_of ?twigs ?shelter))
+```
+
+### Action: wash
+- action name: wash
+- summarize action: The player washes off plants, making them clean.
+- what is needed to do the action: The player must have access to the unwashed plants.
+- what is the result: The plants become washed and are no longer marked as unwashed.
+
+- entities:
+  - entity name: leaves
+  - before: unwashed
+  - before provided predicates: (unwashed ?leaves)
+  - after: washed
+  - after provided predicates: not (unwashed ?leaves)
+
+pddl:
+```pddl
+(:action wash
+  :parameters (?leaves - leaves)
+  :precondition (unwashed ?leaves)
+  :effect (not (unwashed ?leaves)))
+```
+
+### Action: eat
+- action name: eat
+- summarize action: The player consumes an edible item if they are hungry, which satisfies their hunger.
+- what is needed to do the action: The player should be hungry, and the item must be edible.
+- what is the result: The item is consumed from the player’s inventory, and the player is no longer hungry.
+
+- entities:
+  - entity name: item
+  - before: in the player's inventory
+  - before provided predicates: (inventory ?player ?item) (edible ?item)
+  - after: not in the player's inventory and player not hungry
+  - after provided predicates: not (inventory ?player ?item) not (hungry ?player)
+
+pddl:
+```pddl
+(:action eat
+  :parameters (?player - player ?item - item)
+  :precondition (and (hungry ?player)
+                     (inventory ?player ?item)
+                     (edible ?item))
+  :effect (and (not (inventory ?player ?item))
+               (not (hungry ?player))))
+```
+
+### Action: make_snare
+- action name: make_snare
+- summarize action: The player uses a piece of wire to create a large snare loop.
+- what is needed to do the action: The player needs to have a piece of wire in their inventory.
+- what is the result: A snare is created in the player's inventory.
+
+- entities:
+  - entity name: wire
+  - before: in the player's inventory
+  - before provided predicates: (inventory ?player ?wire)
+  - after: a snare is added to the player's inventory
+  - after provided predicates: (inventory ?player ?snare)
+
+pddl:
+```pddl
+(:action make_snare
+  :parameters (?player - player ?wire - wire)
+  :precondition (inventory ?player ?wire)
+  :effect (inventory ?player ?snare))
+```
+
+### Action: make_horizontal_bar
+- action name: make_horizontal_bar
+- summarize action: The player uses a branch to make a horizontal bar for hanging a snare.
+- what is needed to do the action: The player must possess a branch that can be used to make the horizontal bar.
+- what is the result: A horizontal bar is made and is considered an item that can be used for snares.
+
+- entities:
+  - entity name: branch
+  - before: available as a branch
+  - before provided predicates: (inventory ?player ?branch)
+  - after: transformed to a horizontal bar
+  - after provided predicates: (inventory ?player ?bar)
+
+pddl:
+```pddl
+(:action make_horizontal_bar
+  :parameters (?player - player ?branch - branch)
+  :precondition (inventory ?player ?branch)
+  :effect (inventory ?player ?bar))
+```
+
+### Action: hang_snare
+- action name: hang_snare
+- summarize action: The player hangs a snare onto a horizontal bar over a path.
+- what is needed to do the action: The player must have a snare and a horizontal bar, and there must be a path.
+- what is the result: The snare is set up over the path.
+
+- entities:
+  - entity name: snare
+  - before: in the player's inventory
+  - before provided predicates: (inventory ?player ?snare)
+  - after: hanging over an animal path
+  - after provided predicates: (hanged ?snare)
+
+pddl:
+```pddl
+(:action hang_snare
+  :parameters (?player - player ?snare - snare ?loc - location)
+  :precondition (and (inventory ?player ?snare)
+                     (made_by_animal ?loc))
+  :effect (hanged ?snare))
+```

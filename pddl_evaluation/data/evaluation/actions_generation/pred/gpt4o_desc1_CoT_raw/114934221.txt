@@ -1,0 +1,305 @@
+Sure! Let's start with the first action and proceed in the instructed order.
+
+### Action: splash_swim
+- action name: splash_swim
+- summarize action: The player creates loud splashes while swimming in the water, making it harder to monitor any nearby sharks.
+- what is needed to do the action: The player needs to be in a water location.
+- what is the result: The player's swimming generates noise, making it possibly harder to track the shark's movements.
+
+- entities:
+  - entity name: player
+    - before: at a water location
+    - before provided predicates: (is_water ?loc) (at ?player ?loc)
+    - after: still at a water location, making noise
+    - after provided predicates: (is_water ?loc) (at ?player ?loc)
+  - entity name: location
+    - before: should be marked as water location
+    - before provided predicates: (is_water ?loc)
+    - after: remains a water location
+    - after provided predicates: (is_water ?loc)
+
+pddl:
+```lisp
+(:action splash_swim
+  :parameters (?player - player ?loc - location)
+  :precondition (and (is_water ?loc) (at ?player ?loc))
+  :effect (and (at ?player ?loc))
+)
+```
+
+### Action: swim
+- action name: swim
+- summarize action: The player swims normally until they reach safety.
+- what is needed to do the action: There need to be two connected locations with the player starting at one.
+- what is the result: The player moves from one water location to a connected location.
+
+- entities:
+  - entity name: player
+    - before: at start location
+    - before provided predicates: (at ?player ?loc1)
+    - after: at connected location
+    - after provided predicates: (at ?player ?loc2)
+  - entity name: location
+    - before: should be connected (loc1 and loc2)
+    - before provided predicates: (connected ?loc1 ?dir ?loc2)
+    - after: remains connected
+    - after provided predicates: (connected ?loc1 ?dir ?loc2)
+
+pddl:
+```lisp
+(:action swim
+  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (is_water ?loc1) (is_water ?loc2))
+  :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+)
+```
+
+### Action: get
+- action name: get
+- summarize action: The player picks up an item and places it in their inventory.
+- what is needed to do the action: The player needs to be at the same location as the item.
+- what is the result: The item is added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: at the item's location
+    - before provided predicates: (at ?player ?loc)
+    - after: still at the same location
+    - after provided predicates: (at ?player ?loc)
+  - entity name: item
+    - before: at the same location as the player
+    - before provided predicates: (at ?item ?loc)
+    - after: in the player's inventory
+    - after provided predicates: (inventory ?player ?item)
+
+pddl:
+```lisp
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+```
+
+### Action: onboard
+- action name: onboard
+- summarize action: The player gets on board a ship.
+- what is needed to do the action: The player needs to be at a water location near the ship.
+- what is the result: The player will be on the ship.
+
+- entities:
+  - entity name: player
+    - before: at a water location near the ship
+    - before provided predicates: (at ?player ?loc) (is_water ?loc)
+    - after: on the ship
+    - after provided predicates: (on ?player ?ship)
+  - entity name: ship
+    - before: near water location
+    - before provided predicates: (at ?ship ?loc)
+    - after: remains stationary
+    - after provided predicates: (at ?ship ?loc)
+
+pddl:
+```lisp
+(:action onboard
+  :parameters (?player - player ?ship - ship ?loc - location)
+  :precondition (and (at ?player ?loc) (is_water ?loc) (at ?ship ?loc))
+  :effect (and (on ?player ?ship) (not (at ?player ?loc)))
+)
+```
+
+### Action: defend
+- action name: defend
+- summarize action: The player gets into a defensive position to protect themselves from a shark.
+- what is needed to do the action: The player needs to be attacked by the shark.
+- what is the result: The player will be in a defensive position.
+
+- entities:
+  - entity name: player
+    - before: being attacked by shark
+    - before provided predicates: (attacked ?player ?shark)
+    - after: in defensive position
+    - after provided predicates: (defending ?player)
+  - entity name: shark
+    - before: attacking the player
+    - before provided predicates: (attacked ?player ?shark)
+    - after: still attacking (unchanged)
+    - after provided predicates: (attacked ?player ?shark)
+
+pddl:
+```lisp
+(:action defend
+  :parameters (?player - player ?shark - shark)
+  :precondition (attacked ?player ?shark)
+  :effect (defending ?player)
+)
+```
+
+### Action: spot_ship
+- action name: spot_ship
+- summarize action: The player spots a nearby ship.
+- what is needed to do the action: The player must be in a location where a ship is visible.
+- what is the result: The ship becomes visible to the player.
+
+- entities:
+  - entity name: player
+    - before: at a location
+    - before provided predicates: (at ?player ?loc)
+    - after: at the same location
+    - after provided predicates: (at ?player ?loc)
+  - entity name: ship
+    - before: in the area but not necessarily visible
+    - before provided predicates: (at ?ship ?loc)
+    - after: visible to the player
+    - after provided predicates: (visible ?ship)
+
+pddl:
+```lisp
+(:action spot_ship
+  :parameters (?player - player ?ship - ship ?loc - location)
+  :precondition (at ?player ?loc)
+  :effect (visible ?ship)
+)
+```
+
+### Action: spot_shark
+- action name: spot_shark
+- summarize action: The player spots a nearby shark.
+- what is needed to do the action: The player must be in a location where a shark is visible.
+- what is the result: The shark becomes visible to the player.
+
+- entities:
+  - entity name: player
+    - before: at a location
+    - before provided predicates: (at ?player ?loc)
+    - after: at the same location
+    - after provided predicates: (at ?player ?loc)
+  - entity name: shark
+    - before: in the area but not necessarily visible
+    - before provided predicates: (at ?shark ?loc)
+    - after: visible to the player
+    - after provided predicates: (visible ?shark)
+
+pddl:
+```lisp
+(:action spot_shark
+  :parameters (?player - player ?shark - shark ?loc - location)
+  :precondition (at ?player ?loc)
+  :effect (visible ?shark)
+)
+```
+
+### Action: self_mobilize
+- action name: self_mobilize
+- summarize action: The player uses their own body parts as weapons to fend off the shark.
+- what is needed to do the action: The player needs to be attacked by the shark.
+- what is the result: The player uses their body parts, potentially making the shark dizzy or flee.
+
+- entities:
+  - entity name: player
+    - before: being attacked by the shark
+    - before provided predicates: (attacked ?player ?shark)
+    - after: mobilizing body parts
+    - after provided predicates: (attacked ?player ?shark)
+  - entity name: shark
+    - before: attacking the player
+    - before provided predicates: (attacked ?player ?shark)
+    - after: condition may get worse (dizzy or fleed)
+    - after provided predicates: (dizzy ?shark) or (fleed ?shark)
+
+pddl:
+```lisp
+(:action self_mobilize
+  :parameters (?player - player ?shark - shark)
+  :precondition (attacked ?player ?shark)
+  :effect (or (dizzy ?shark) (fleed ?shark))
+)
+```
+
+### Action: medicare
+- action name: medicare
+- summarize action: The player gets help to treat their wounds.
+- what is needed to do the action: The player needs to be wounded.
+- what is the result: The player's wounds get treated.
+
+- entities:
+  - entity name: player
+    - before: wounded
+    - before provided predicates: (wounded ?player)
+    - after: no longer wounded
+    - after provided predicates: (not (wounded ?player))
+
+pddl:
+```lisp
+(:action medicare
+  :parameters (?player - player)
+  :precondition (wounded ?player)
+  :effect (not (wounded ?player))
+)
+```
+
+### Action: attack_vulnerable
+- action name: attack_vulnerable
+- summarize action: The player attacks the shark on its vulnerable parts like eyes, gill, or snout.
+- what is needed to do the action: The player must be near the shark, and the shark's part must be vulnerable.
+- what is the result: The shark gets hurt and possibly flees or gets dizzy.
+
+- entities:
+  - entity name: player
+    - before: near the shark at a location
+    - before provided predicates: (at ?player ?loc) 
+    - after: near the shark
+    - after provided predicates: (at ?player ?loc)
+  - entity name: shark
+    - before: attacking the player
+    - before provided predicates: (at ?shark ?loc)
+    - after: gets hurt and condition may get worse (dizzy or fleed)
+    - after provided predicates: (dizzy ?shark) or (fleed ?shark)
+  - entity name: part
+    - before: vulnerable part of shark
+    - before provided predicates: (vulnerable ?part)
+    - after: remains vulnerable
+    - after provided predicates: (vulnerable ?part)
+
+pddl:
+```lisp
+(:action attack_vulnerable
+  :parameters (?player - player ?shark - shark ?loc - location ?part - part)
+  :precondition (and (at ?player ?loc) (at ?shark ?loc) (vulnerable ?part))
+  :effect (or (dizzy ?shark) (fleed ?shark))
+)
+```
+
+### Action: knockout
+- action name: knockout
+- summarize action: The player attempts to knock out the shark by targeting its vulnerable parts.
+- what is needed to do the action: The shark's part must be vulnerable, and the player should have the means to knock it out.
+- what is the result: The shark gets knocked out and becomes dizzy.
+
+- entities:
+  - entity name: player
+    - before: attacking the shark
+    - before provided predicates: (at ?player ?loc)
+    - after: remains in location
+    - after provided predicates: (at ?player ?loc)
+  - entity name: shark
+    - before: in the same location
+    - before provided predicates: (at ?shark ?loc)
+    - after: gets dizzy (knocked out)
+    - after provided predicates: (dizzy ?shark)
+  - entity name: part
+    - before: vulnerable part of shark
+    - before provided predicates: (vulnerable ?part)
+    - after: remains vulnerable
+    - after provided predicates: (vulnerable ?part)
+
+pddl:
+```lisp
+(:action knockout
+  :parameters (?player - player ?shark - shark ?loc - location ?part - part)
+  :precondition (and (at ?player ?loc) (at ?shark ?loc) (vulnerable ?part))
+  :effect (dizzy ?shark)
+)
+```
+
+Let me know if you need further assistance or any modifications to these PDDL actions!

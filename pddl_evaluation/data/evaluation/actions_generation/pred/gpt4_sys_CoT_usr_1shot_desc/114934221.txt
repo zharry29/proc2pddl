@@ -1,0 +1,67 @@
+(:action splash_swim
+   :parameters (?player ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (is_water ?loc2))
+   :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+ )
+
+(:action swim
+   :parameters (?player ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (is_water ?loc2))
+   :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action get
+   :parameters (?player ?item)
+   :precondition (visible ?item)
+   :effect (inventory ?player ?item)
+ )
+
+(:action onboard
+   :parameters (?player ?ship)
+   :precondition (and (at ?player ?loc) (at ?ship ?loc))
+   :effect (on ?player ?ship)
+ )
+
+(:action defend
+   :parameters (?player)
+   :precondition (attacked ?player ?shark)
+   :effect (defending ?player)
+ )
+
+(:action spot_ship
+   :parameters (?player ?ship ?loc - location)
+   :precondition (at ?player ?loc)
+   :effect (visible ?ship)
+ )
+
+(:action spot_shark
+   :parameters (?player ?shark ?loc - location)
+   :precondition (at ?player ?loc)
+   :effect (visible ?shark)
+ )
+
+(:action self_mobilize
+   :parameters (?player ?body - item)
+   :precondition (attacked ?player ?shark)
+   :effect (defending ?player)
+ )
+
+(:action medicare
+   :parameters (?player)
+   :precondition (wounded ?player)
+   :effect (not (wounded ?player))
+ )
+
+(:action attack_vulnerable
+   :parameters (?player ?shark ?part)
+   :precondition (and (visible ?shark) (vulnerable ?part))
+   :effect (and (fleed ?shark) (dizzy ?shark))
+ )
+
+(:action knockout
+   :parameters (?player ?shark ?part ?obj - object)
+   :precondition (and (visible ?shark) (inventory ?player ?obj) (heavy ?obj) (sharp ?obj) (vulnerable ?part))
+   :effect (and (fleed ?shark) (dizzy ?shark))
+)
+
+)

@@ -1,0 +1,3 @@
+go ('npc', 'living_room', 'east', 'office')
+get ('npc', 'paper_clip', 'office')
+pick_lock_with_card ('npc', 'bedroom', 'paper_clip')

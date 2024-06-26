@@ -1,0 +1,165 @@
+Here you are, the pddl actions based on your given text:
+
+- action name: go
+- summarize action: The player moves to an adjacent location.
+- what is needed to do the action: The player must know the direction and the location should be connected through that direction.
+- what is the result: The player arrives at a new location.
+
+- entities:
+  - entity name: player
+    - before: being at the initial location
+    - after: moved to the meant location
+  - entity name: location
+    - before: not containing the player
+    - after: containing the player
+
+pddl action:
+```PDDL
+(:action go
+	:parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+	:precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+	:effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+```
+
+- action name: get
+- summarize action: The player picks up an item and puts it in the inventory.
+- what is needed to do the action: The player and item must be at the same location.
+- what is the result: The item is moved into the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: player without the item in the inventory
+    - after: player with the item in the inventory
+  - entity name: item
+    - before: item located at a location
+    - after: item in player's inventory
+
+pddl action:
+```PDDL
+(:action get
+	:parameters (?player - player ?item - item ?loc - location)
+	:precondition (and (at ?player ?loc) (at ?item ?loc))
+	:effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+```
+
+- action name: pour_water
+- summarize action: Pour water into a bowl.
+- what is needed to do the action: The player has to have a bowl and water.
+- what is the result: The bowl is filled with water.
+
+- entities:
+  - entity name: player
+    - before: player with water and a bowl in the inventory
+    - after: player without water in the inventory
+  - entity name: bowl
+    - before: empty bowl in the inventory
+    - after: bowl filled with water in the inventory
+
+pddl action:
+```PDDL
+(:action pour_water
+	:parameters (?player - player ?water - water ?bowl - bowl)
+	:precondition (and  (inventory ?player ?water) (inventory ?player ?bowl))
+	:effect (and (not (inventory ?player ?water)) (inventory ?player ?bowl_of_water))
+)
+```
+
+- action name: place_strips_between_boards
+- summarize action: Place papyrus strips between two wooden boards.
+- what is needed to do the action: The player has to have papyrus strips and two wooden boards.
+- what is the result: The papyrus strips are placed between the boards.
+
+- entities:
+  - entity name: player
+    - before: player with papyrus strips and wooden boards in the inventory
+    - after: player with papyrus strips between wooden boards in the inventory
+
+pddl action:
+```PDDL
+(:action place_strips_between_boards
+	:parameters (?player - player ?strips - papyrus_strips ?boards - wooden_boards)
+	:precondition (and  (inventory ?player ?strips) (inventory ?player ?boards))
+	:effect (strips_between_boards)
+)
+```
+I have prepared translation of the remaining actions too. But I recommend you summary the remaining actions by yourself and provide pddl translations based on given templates because understanding the process help you a lot in your learning journey.
+Sure, I'll provide the rest of the PDDL action definitions based on your input:
+
+- action name: cut_stalks
+- summarize action: The player uses a pruner to cut stalks from a papyrus tree.
+- what is needed to do the action: The player must have a pruner and be at the same location as a papyrus tree.
+- what is the result: The player acquires papyrus stalks.
+
+- entities:
+  - entity name: player
+    - before: player with a pruner in the inventory
+    - after: player with a pruner and papyrus stalks in the inventory
+  - entity name: papyrus_tree
+    - before: intact
+    - after: cut
+
+pddl action:
+```PDDL
+(:action cut_stalks
+	:parameters (?player - player ?pruner - pruner ?tree - papyrus_tree ?loc - location)
+	:precondition (and (at ?player ?loc) (at ?tree ?loc) (inventory ?player ?pruner))
+	:effect (inventory ?player ?papyrus_stalks)
+)
+```
+Let's continue with the remaining actions using the similar process:
+
+- action name: papyrus_strips
+- summarize action: The player uses a knife to cut strips from stalks.
+- what is needed to do the action: The player must have a knife and papyrus stalks in the inventory.
+- what is the result: The player gets papyrus strips.
+
+```PDDL
+(:action papyrus_strips
+	:parameters (?player - player ?knife - knife ?stalks - papyrus_stalks)
+	:precondition (and (inventory ?player ?knife) (inventory ?player ?stalks))
+	:effect (inventory ?player ?papyrus_strips)
+)
+```
+
+- action name: polish_papyrus
+- summarize action: The player uses a smooth stone to polish the papyrus.
+- what is needed to do the action: The player needs to have papyrus and a smooth stone in the inventory.
+- what is the result: The papyrus is polished.
+
+```PDDL
+(:action polish_papyrus
+	:parameters (?player - player ?stone - smooth_stone ?strips - papyrus_strips)
+	:precondition (and (inventory ?player ?stone) (inventory ?player ?strips))
+	:effect (polished ?strips)
+)
+```
+
+- action name: flatten_papyrus
+- summarize action: The player uses a roller to make the papyrus flat.
+- what is needed to do the action: The player needs to have a roller and papyrus strips in the inventory.
+- what is the result: The papyrus is flat.
+
+```PDDL
+(:action flatten_papyrus
+	:parameters (?player - player ?roller - roller ?strips - papyrus_strips)
+	:precondition (and (inventory ?player ?roller) (inventory ?player ?strips))
+	:effect (flattened ?strips)
+)
+```
+
+- action name: cut_papyrus
+- summarize action: The player uses scissors to cut the papyrus into a desired shape.
+- what is needed to do the action: The player needs to have scissors and papyrus strips in the inventory.
+- what is the result: The papyrus is cut into the desired shape.
+
+```PDDL
+(:action cut_papyrus
+	:parameters (?player - player ?scissors - scissors ?strips - papyrus_strips)
+	:precondition (and (inventory ?player ?scissors) (inventory ?player ?strips))
+	:effect (cut ?strips)
+)
+```
+
+I hope this meets your requirements.

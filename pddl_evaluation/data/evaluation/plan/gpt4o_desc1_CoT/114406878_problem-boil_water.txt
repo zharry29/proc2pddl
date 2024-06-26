@@ -1,0 +1,5 @@
+get ('npc', 'pot', 'camp')
+go ('npc', 'camp', 'path', 'west')
+go ('npc', 'path', 'grassland', 'north')
+get_water ('npc', 'pot', 'water', 'grassland')
+boil_water ('npc', 'pot', 'water', 'grassland')

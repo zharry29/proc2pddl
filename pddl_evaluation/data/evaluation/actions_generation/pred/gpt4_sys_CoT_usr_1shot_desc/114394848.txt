@@ -1,0 +1,177 @@
+(:action go
+    :parameters (?player ?current - location ?new - location ?dir - direction)
+    :precondition (and (at ?player ?current) (connected ?current ?dir ?new) 
+                 (not (blocked ?current ?dir ?new)))
+    :effect (and (not (at ?player ?current)) (at ?player ?new)))
+
+(:action understand
+    :parameters (?player ?concept)
+    :precondition (not (know ?player ?concept))
+    :effect (know ?player ?concept))
+
+(:action learn
+    :parameters (?player ?skill)
+    :precondition (not (learned ?player ?skill))
+    :effect (learned ?player ?skill))
+
+(:action get
+    :parameters (?player ?item ?location)
+    :precondition (and (at ?player ?location) (at ?item ?location))
+    :effect (and (not (at ?item ?location)) (inventory ?player ?item))
+
+(:action machine_secured
+    :parameters (?player ?machine)
+    :precondition (and (at ?player ?location) (secure ?machine))
+    :effect (ready_for_next_step ?player))
+
+(:action enumeration
+    :parameters (?player ?system - digital_system)
+    :precondition (at ?player ?system)
+    :effect (known_system ?player ?system))
+
+(:action got_all_info
+    :parameters (?player)
+    :precondition (not (collected_all_info ?player))
+    :effect (collected_all_info ?player))
+
+(:action ping
+    :parameters (?player ?server - server)
+    :precondition (at ?player ?server)
+    :effect (server_pinged ?player ?server))
+
+(:action check_email_server
+    :parameters (?player ?server - server)
+    :precondition (at ?player ?server)
+    :effect (server_checked ?player ?server))
+
+(:action reached_the_remote_system
+    :parameters (?player ?system - digital_system)
+    :precondition (not (at ?player ?system))
+    :effect (at ?player ?system))
+
+(:action run_port_scan
+    :parameters (?player ?system - digital_system)
+    :precondition (at ?player ?system)
+    :effect (port_scanned ?player ?system))
+
+(:action found_path_in_system
+    :parameters (?player ?system - digital_system)
+    :precondition (at ?player ?system)
+    :effect (path_found ?player ?system))
+
+(:action contact_and_trick_a_user
+    :parameters (?player ?user - player)
+    :precondition (and (not (tricked_user_password ?player)) (at ?player ?user))
+    :effect (tricked_user_password ?player))
+
+(:action crack_password_by_social_engineering
+    :parameters (?player ?password - password)
+    :precondition (not (password_cracked ?player))
+    :effect (password_cracked ?player))
+
+(:action send_fake_email
+    :parameters (?player ?system - digital_system)
+    :precondition (at ?player ?system)
+    :effect (fake_email_sent ?player))
+
+(:action crack_password_by_phishing
+    :parameters (?player ?password - password)
+    :precondition (and (not (password_cracked ?player)) (fake_email_sent ?player))
+    :effect (password_cracked ?player))
+
+(:action create_fake_wifi_access
+    :parameters (?player ?network - network)
+    :precondition (at ?player ?network)
+    :effect (fake_wifi_created ?player))
+
+(:action crack_password_by_arp_spoofing
+    :parameters (?player ?network - network ?password - password)
+    :precondition (and (not (password_cracked ?player)) (fake_wifi_created ?player))
+    :effect (password_cracked ?player))
+
+(:action crack_password_by_brute_force
+    :parameters (?player ?password - password)
+    :precondition (not (password_cracked ?player))
+    :effect (password_cracked ?player))
+
+(:action gain_access_with_password
+    :parameters (?player ?system - digital_system ?password - password)
+    :precondition (and (at ?player ?system) (password_cracked ?player))
+    :effect (authorized ?player))
+
+(:action create_buffer_overflow
+    :parameters (?player ?system - digital_system)
+    :precondition (at ?player ?system)
+    :effect (buffer_overflow_created ?player))
+
+(:action take_control_of_system
+    :parameters (?player ?system - digital_system)
+    :precondition (and (at ?player ?system) (buffer_overflow_created ?player))
+    :effect (gained_control ?player ?system))
+
+(:action install_malware
+    :parameters (?player ?system - digital_system ?malware - malware)
+    :precondition (and (at ?player ?system) (gained_control ?player ?system))
+    :effect (malware_installed ?player ?system))
+
+(:action bypass_standard_authentication_system
+    :parameters (?player ?system - digital_system)
+    :precondition (gained_control ?player ?system)
+    :effect (authentication_bypassed ?player ?system))
+
+(:action not_let_administrator_know
+    :parameters (?player ?administrator)
+    :precondition (not (administrator_know_compromised ?player))
+    :effect (perform_action_stealthily ?player))
+
+(:action make_no_change_to_website
+    :parameters (?player ?website - digital_system)
+    :precondition (gained_control ?player ?website)
+    :effect (website_unchanged ?player))
+
+(:action create_fewest_file
+    :parameters (?player ?system - digital_system)
+    :precondition (gained_control ?player ?system)
+    :effect (fewest_file_created ?player))
+
+(:action delete_additional_users
+    :parameters (?player ?system - digital_system)
+    :precondition (additional_users ?player)
+    :effect (not (additional_users ?player)))
+
+(:action hardcode_password
+    :parameters (?player ?system - digital_system)
+    :precondition  (gained_control ?player ?system)
+    :effect (hardcoded_secret_password ?player))
+
+(:action track_covered
+    :parameters (?player)
+    :precondition (perform_action_stealthily ?player)
+    :effect (not (administrator_know_compromised ?player)))
+
+(:action learn_concepts
+    :parameters (?player ?c - concept)
+    :precondition (not (know ?player ?c))
+    :effect (know ?player ?c))
+
+(:action learn_internet
+    :parameters (?player)
+    :precondition (not (know_internet ?player))
+    :effect (know_internet ?player))
+
+(:action learn_programming
+    :parameters (?player)
+    :precondition (not (know_programming ?player))
+    :effect (know_programming ?player))
+
+(:action learn_unix
+    :parameters (?player)
+    :precondition (not (know_unix ?player))
+    :effect (know_unix ?player))
+
+(:action become_skilled
+    :parameters (?player)
+    :precondition (knows_all_skills ?player)
+    :effect (is_skilled ?player))
+
+)

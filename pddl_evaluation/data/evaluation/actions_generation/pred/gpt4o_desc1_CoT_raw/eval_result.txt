@@ -1,0 +1,31 @@
+Total PFs: 95
+Solved PFs: 42
+Unsolved PFs: 22
+Timeout PFs: 7
+Parsing Error PFs: 24
+
+Gold Plan: 3
+
+Action Accuracy: 0.19932432432432431
+Parameter Accuracy: 0.4527027027027027
+Precondition Accuracy: 0.3108108108108108
+Effect Accuracy: 0.5709459459459459
+
+114986868 # repeat part
+114406878
+114771414 # use or
+114934221
+
+Total PFs: 95
+Solved PFs: 48
+Unsolved PFs: 26
+Timeout PFs: 7
+Parsing Error PFs: 14
+
+gold plan: 5
+
+Action Accuracy: 0.2
+Parameter Accuracy: 0.48787878787878786
+Precondition Accuracy: 0.31212121212121213
+Effect Accuracy: 0.5696969696969697
+

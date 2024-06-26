@@ -1,0 +1,60 @@
+   (:action go ; navigate to an adjacent location
+      :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+      :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+      :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+   )
+
+   (:action get ; pick up an item and put it in the inventory
+      :parameters (?player - player ?item - item ?loc - location)
+      :precondition (and (at ?player ?loc) (at ?item ?loc))
+      :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+   )
+
+   (:action build_roof ; build roof with log
+      :parameters (?player - player ?log - log ?loc - location)
+      :precondition (and (at ?player ?loc) (inventory ?player ?log))
+      :effect (and (roof ?loc) (not (inventory ?player ?log)))
+   )
+
+   (:action build_wall ; build wall with small sticks
+      :parameters (?player - player ?sticks - small_sticks ?loc - location)
+      :precondition (and (at ?player ?loc) (inventory ?player ?sticks))
+      :effect (and (wall ?loc) (not (inventory ?player ?sticks)))
+   )
+
+   (:action build_bed ; build bed with leaves
+      :parameters (?player - player ?leaves - leaves ?loc - location)
+      :precondition (and (at ?player ?loc) (inventory ?player ?leaves))
+      :effect (and (bed ?loc) (not (inventory ?player ?leaves)))
+   )
+
+   (:action complete_shelter ; complete shelter with roof, wall and bed
+      :parameters (?player - player ?loc - location)
+      :precondition (and (at ?player ?loc) (roof ?loc) (wall ?loc) (bed ?loc))
+      :effect (shelter ?loc)
+   )
+
+   (:action hunt_animal ; hunt animals with a sharp stone
+      :parameters (?player - player ?animal - animal ?stone - sharp_stone ?loc - location)
+      :precondition (and (at ?player ?loc) (at ?animal ?loc) (inventory ?player ?stone))
+      :effect (inventory ?player ?animal)
+   )
+
+   (:action prepare_animal ; prepare animals with a sharp stone before eating it
+      :parameters (?player - player ?animal - animal ?stone - sharp_stone ?loc - location)
+      :precondition (and (at ?player ?loc) (inventory ?player ?animal) (inventory ?player ?stone))
+      :effect (treated ?animal)
+   )
+
+   (:action build_raft ; build a raft
+      :parameters (?player - player ?raft - raft_draft ?loc - location)
+      :precondition (and (at ?player ?loc) (inventory ?player ?raft))
+      :effect (raft_finished ?loc)
+   )
+
+   (:action test_raft ; test a raft before riding it
+      :parameters (?player - player ?raft - raft_finished ?loc - location)
+      :precondition (and (at ?player ?loc) (at ?raft ?loc))
+      :effect (tested ?raft)
+   )
+)

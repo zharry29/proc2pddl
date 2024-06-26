@@ -1,0 +1,45 @@
+Here are the actions in pddl format you requested:
+
+```
+(:action get
+ :parameters (?i - item)
+ :precondition (not (inventory ?i))
+ :effect (inventory ?i)
+)
+
+(:action poke
+ :parameters (?c - coconut ?i - item)
+ :precondition (and (inventory ?i) (not (has_eyes_poked ?c)))
+ :effect (has_eyes_poked ?c)
+)
+
+(:action flip
+ :parameters (?c - coconut ?cow - container_with_water)
+ :precondition (and (has_eyes_poked ?c) (not (is_item_container_with_water ?cow)))
+ :effect (is_item_container_with_water ?cow)
+)
+
+(:action wrap
+ :parameters (?c - coconut ?t - towel)
+ :precondition (and (is_item_container_with_water ?c) (not (is_item_wrapped_coconut ?c)))
+ :effect (is_item_wrapped_coconut ?c)
+)
+
+(:action hit
+ :parameters (?c - coconut_wrapped ?m - mallet)
+ :precondition (and (is_item_wrapped_coconut ?c) (not (is_item_broken_coconut ?c)) (inventory ?m))
+ :effect (is_item_broken_coconut ?c)
+)
+
+(:action free
+ :parameters (?c - coconut_broken ?i - item)
+ :precondition (and (is_item_broken_coconut ?c) (not (is_item_coconut_meat ?c)) (inventory ?i))
+ :effect (is_item_coconut_meat ?c)
+)
+
+(:action remove_fiber
+ :parameters (?c - coconut_meat ?p - peeler)
+ :precondition (and (is_item_coconut_meat ?c) (not (is_item_coconut_meat_peeled ?c)) (inventory ?p))
+ :effect (is_item_coconut_meat_peeled ?c)
+)
+```

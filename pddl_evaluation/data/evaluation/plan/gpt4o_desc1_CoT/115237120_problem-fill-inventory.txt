@@ -1,0 +1,8 @@
+go ('npc', 'parkinglot', 'park', 'north')
+go ('npc', 'park', 'store', 'east')
+get ('npc', 'bandage', 'store')
+go ('npc', 'store', 'park', 'west')
+go ('npc', 'park', 'car', 'west')
+collect_rain_water ('npc', 'water', 'car')
+go ('npc', 'car', 'brickhouse', 'west')
+loot_shelter ('npc', 'food', 'brickhouse')

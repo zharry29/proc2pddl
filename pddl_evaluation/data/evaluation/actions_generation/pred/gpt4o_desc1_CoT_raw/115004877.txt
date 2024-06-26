@@ -1,0 +1,399 @@
+Sure, let's start with each of the specified actions one by one.
+
+### Action: go
+- action name: go
+
+- summarize action: Navigate to an adjacent location.
+- what is needed to do the action: The player needs to be at the current location, and the two locations must be connected via a direction.
+- what is the result: The player moves from the current location to the adjacent location.
+
+- entities:
+  - entity name: player  
+  - before: The player is at the initial location.
+  - before provided predicates: (at ?player ?loc1)
+  - after: The player is at the new, connected location.
+  - after provided predicates: (at ?player ?loc2)
+
+  - entity name: location1
+  - before: The location connected to the initial location.
+  - before provided predicates: (connected ?loc1 ?dir ?loc2)
+  - after: Unchanged.
+  - after provided predicates: (connected ?loc1 ?dir ?loc2)
+  
+  - entity name: location2
+  - before: The location connected to the adjacent location.
+  - before provided predicates: (connected ?loc2 ?dir ?loc1)
+  - after: Unchanged.
+  - after provided predicates: (connected ?loc2 ?dir ?loc1)
+
+pddl:
+```pddl
+(:action go
+  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+  :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+)
+```
+
+### Action: get
+- action name: get
+
+- summarize action: Pick up an item and put it in the player's inventory.
+- what is needed to do the action: The player should be at the same location as the item.
+- what is the result: The item is removed from the location and added to the player's inventory.
+
+- entities:
+  - entity name: player
+  - before: The player is located at a specified location.
+  - before provided predicates: (at ?player ?loc)
+  - after: Unchanged.
+  - after provided predicates: (at ?player ?loc)
+  
+  - entity name: item
+  - before: The item is at the specified location.
+  - before provided predicates: (at ?item ?loc)
+  - after: The item is now in the player's inventory.
+  - after provided predicates: (inventory ?player ?item)
+  
+  - entity name: location
+  - before: Location where the item initially exists.
+  - before provided predicates: (at ?item ?loc)
+  - after: The item is no longer at this location.
+  - after provided predicates: (not (at ?item ?loc))
+
+pddl:
+```pddl
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+```
+
+### Action: cut_plant
+- action name: cut_plant
+
+- summarize action: Cutting the plant to obtain the stalk.
+- what is needed to do the action: The player needs to have scissors in their inventory and be at the location with the plant.
+- what is the result: The plant is cut, and the stalk is added to the player's inventory.
+
+- entities:
+  - entity name: player 
+  - before: The player must be at the location of the plant and have scissors in the inventory.
+  - before provided predicates: (at ?player ?loc) (inventory ?player ?scissors)
+  - after: The plant is cut, and the stalk is in the player's inventory.
+  - after provided predicates: (inventory ?player ?stalk)
+
+  - entity name: plant 
+  - before: The plant exists at the location.
+  - before provided predicates: (at ?plant ?loc)
+  - after: The plant is removed from the location as it is cut.
+  - after provided predicates: (not (at ?plant ?loc))
+
+  - entity name: stalk 
+  - before: The stalk is not yet present.
+  - before provided predicates: none 
+  - after: The stalk is added to the player's inventory.
+  - after provided predicates: (inventory ?player ?stalk)
+
+pddl:
+```pddl
+(:action cut_plant
+  :parameters (?player - player ?plant - plant ?stalk - stalk ?scissors - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?plant ?loc) (inventory ?player ?scissors))
+  :effect (and (inventory ?player ?stalk) (not (at ?plant ?loc)))
+)
+```
+
+### Action: peel_stalk
+- action name: peel_stalk
+
+- summarize action: Peel the outer layer of the stalk.
+- what is needed to do the action: The player needs to have the stalk in their inventory.
+- what is the result: The stalk is peeled.
+
+- entities:
+  - entity name: player 
+  - before: The player has the stalk in their inventory.
+  - before provided predicates: (inventory ?player ?stalk)
+  - after: The stalk is peeled.
+  - after provided predicates: (peeled ?stalk)
+
+  - entity name: stalk 
+  - before: The stalk is not peeled yet.
+  - before provided predicates: none 
+  - after: The stalk is peeled.
+  - after provided predicates: (peeled ?stalk)
+
+pddl:
+```pddl
+(:action peel_stalk
+  :parameters (?player - player ?stalk - stalk)
+  :precondition (inventory ?player ?stalk)
+  :effect (peeled ?stalk)
+)
+```
+
+### Action: cut_stalk_into_strips
+- action name: cut_stalk_into_strips
+
+- summarize action: Cut the peeled stalk into strips.
+- what is needed to do the action: The player should have the peeled stalk in their inventory and scissors.
+- what is the result: The stalk is cut into strips.
+
+- entities:
+  - entity name: player 
+  - before: The player has a peeled stalk and scissors in their inventory.
+  - before provided predicates: (inventory ?player ?stalk) (peeled ?stalk) (inventory ?player ?scissors)
+  - after: The peeled stalk is transformed into multiple strips. 
+  - after provided predicates: (inventory ?player ?strip1) (inventory ?player ?strip2) ...
+
+  - entity name: stalk 
+  - before: The stalk is peeled and in the player's inventory.
+  - before provided predicates: (peeled ?stalk)
+  - after: The stalk is no longer in the inventory.
+  - after provided predicates: (not (inventory ?player ?stalk))
+
+  - entity name: strip 
+  - before: The strip does not yet exist.
+  - before provided predicates: none
+  - after: The strips are in the player's inventory.
+  - after provided predicates: (inventory ?player ?strip1) (inventory ?player ?strip2) ...
+
+pddl:
+```pddl
+(:action cut_stalk_into_strips
+  :parameters (?player - player ?stalk - stalk ?scissors - item ?strip1 - strip ?strip2 - strip)
+  :precondition (and (inventory ?player ?stalk) (peeled ?stalk) (inventory ?player ?scissors))
+  :effect (and (inventory ?player ?strip1) (inventory ?player ?strip2) (not (inventory ?player ?stalk)))
+)
+```
+
+### Action: soak_strips
+- action name: soak_strips
+
+- summarize action: Soak the strips in water.
+- what is needed to do the action: The player needs to have the strips in their inventory and be at a location with water.
+- what is the result: The strips are cleaned.
+
+- entities:
+  - entity name: player 
+  - before: The player has the strips in their inventory and is at a location with water.
+  - before provided predicates: (inventory ?player ?strip1) (inventory ?player ?strip2) ... (at ?player ?loc) (has_water ?loc)
+  - after: The strips are soaked and cleaned.
+  - after provided predicates: (clean ?strip1) (clean ?strip2) ...
+
+  - entity name: strip 
+  - before: The strips are not cleaned yet.
+  - before provided predicates: none 
+  - after: The strips are clean.
+  - after provided predicates: (clean ?strip1) (clean ?strip2) ...
+
+pddl:
+```pddl
+(:action soak_strips
+  :parameters (?player - player ?strip1 - strip ?strip2 - strip ?loc - location)
+  :precondition (and (inventory ?player ?strip1) (inventory ?player ?strip2) (at ?player ?loc) (has_water ?loc))
+  :effect (and (clean ?strip1) (clean ?strip2))
+)
+```
+
+### Action: dry_out_strips
+- action name: dry_out_strips
+
+- summarize action: Dry out the soaked strips.
+- what is needed to do the action: The player should have the clean strips in their inventory.
+- what is the result: The strips are dried.
+
+- entities:
+  - entity name: player 
+  - before: The player has the clean strips in their inventory.
+  - before provided predicates: (inventory ?player ?strip1) (inventory ?player ?strip2) ... (clean ?strip1) (clean ?strip2) ...
+  - after: The strips are dried.
+  - after provided predicates: (dry ?strip1) (dry ?strip2) ...
+
+  - entity name: strip
+  - before: The strips are cleaned but not dried.
+  - before provided predicates: (clean ?strip1) (clean ?strip2) ...
+  - after: The strips are dry.
+  - after provided predicates: (dry ?strip1) (dry ?strip2) ...
+
+pddl:
+```pddl
+(:action dry_out_strips
+  :parameters (?player - player ?strip1 - strip ?strip2 - strip)
+  :precondition (and (inventory ?player ?strip1) (inventory ?player ?strip2) (clean ?strip1) (clean ?strip2))
+  :effect (and (dry ?strip1) (dry ?strip2))
+)
+```
+
+### Action: weave_strips_into_sheet
+- action name: weave_strips_into_sheet
+
+- summarize action: Weave the strips into a papyrus sheet.
+- what is needed to do the action: The player needs to have dried strips in their inventory.
+- what is the result: A papyrus sheet is created.
+
+- entities:
+  - entity name: player 
+  - before: The player has dried strips in their inventory.
+  - before provided predicates: (dry ?strip1) (dry ?strip2) ... (inventory ?player ?strip1) (inventory ?player ?strip2)
+  - after: A papyrus sheet is created and added to the player's inventory.
+  - after provided predicates: (inventory ?player ?sheet)
+
+  - entity name: strip 
+  - before: The strips are dried.
+  - before provided predicates: (dry ?strip1) (dry ?strip2) ...
+  - after: The strips are no longer in inventory.
+  - after provided predicates: (not (inventory ?player ?strip1)) (not (inventory ?player ?strip2))
+
+  - entity name: sheet
+  - before: The sheet does not exist.
+  - before provided predicates: none
+  - after: The papyrus sheet is added to the player's inventory.
+  - after provided predicates: (inventory ?player ?sheet)
+
+pddl:
+```pddl
+(:action weave_strips_into_sheet
+  :parameters (?player - player ?strip1 - strip ?strip2 - strip ?sheet - sheet)
+  :precondition (and (dry ?strip1) (dry ?strip2) (inventory ?player ?strip1) (inventory ?player ?strip2))
+  :effect (and (inventory ?player ?sheet) (not (inventory ?player ?strip1)) (not (inventory ?player ?strip2)))
+)
+```
+
+### Action: press_sheet
+- action name: press_sheet
+
+- summarize action: Press the papyrus sheet.
+- what is needed to do the action: The player needs to have a sheet and access to a hard surface location.
+- what is the result: The sheet is pressed and becomes flat.
+
+- entities:
+  - entity name: player 
+  - before: The player has the sheet in their inventory and is at a location with hard surface.
+  - before provided predicates: (inventory ?player ?sheet) (at ?player ?loc) (has_hard_surface ?loc)
+  - after: The sheet is pressed and becomes flat.
+  - after provided predicates: (flat ?sheet)
+
+  - entity name: sheet 
+  - before: The sheet is not flat.
+  - before provided predicates: none
+  - after: The sheet is flat.
+  - after provided predicates: (flat ?sheet)
+
+  - entity name: location 
+  - before: The location has a hard surface.
+  - before provided predicates: (has_hard_surface ?loc)
+  - after: Unchanged.
+  - after provided predicates: (has_hard_surface ?loc)
+
+pddl:
+```pddl
+(:action press_sheet
+  :parameters (?player - player ?sheet - sheet ?loc - location)
+  :precondition (and (inventory ?player ?sheet) (at ?player ?loc) (has_hard_surface ?loc))
+  :effect (flat ?sheet)
+)
+```
+
+### Action: flatten_sheet
+- action name: flatten_sheet
+
+- summarize action: Flatten the papyrus sheet thoroughly.
+- what is needed to do the action: The player must have a sheet that is already flat in inventory and a hard surface location.
+- what is the result: The sheet becomes very flat.
+
+- entities:
+  - entity name: player 
+  - before: The player has a flat sheet in their inventory and is at a location with hard surface.
+  - before provided predicates: (inventory ?player ?sheet) (flat ?sheet) (at ?player ?loc) (has_hard_surface ?loc)
+  - after: The sheet is very flat.
+  - after provided predicates: (very_flat ?sheet)
+
+  - entity name: sheet 
+  - before: The sheet is flat.
+  - before provided predicates: (flat ?sheet)
+  - after: The sheet becomes very flat.
+  - after provided predicates: (very_flat ?sheet) (not (flat ?sheet))
+
+  - entity name: location 
+  - before: The location has a hard surface.
+  - before provided predicates: (has_hard_surface ?loc)
+  - after: Unchanged.
+  - after provided predicates: (has_hard_surface ?loc)
+
+pddl:
+```pddl
+(:action flatten_sheet
+  :parameters (?player - player ?sheet - sheet ?loc - location)
+  :precondition (and (inventory ?player ?sheet) (flat ?sheet) (at ?player ?loc) (has_hard_surface ?loc))
+  :effect (and (very_flat ?sheet) (not (flat ?sheet)))
+)
+```
+
+### Action: polish_sheet
+- action name: polish_sheet
+
+- summarize action: Polish the papyrus sheet to make it smooth.
+- what is needed to do the action: The player has a very flat sheet in their inventory.
+- what is the result: The sheet becomes smooth.
+
+- entities:
+  - entity name: player 
+  - before: The player has a very flat sheet in their inventory.
+  - before provided predicates: (inventory ?player ?sheet) (very_flat ?sheet)
+  - after: The sheet becomes smooth.
+  - after provided predicates: (smooth ?sheet)
+
+  - entity name: sheet 
+  - before: The sheet is very flat.
+  - before provided predicates: (very_flat ?sheet)
+  - after: The sheet is smooth.
+  - after provided predicates: (smooth ?sheet)
+
+pddl:
+```pddl
+(:action polish_sheet
+  :parameters (?player - player ?sheet - sheet)
+  :precondition (and (inventory ?player ?sheet) (very_flat ?sheet))
+  :effect (smooth ?sheet)
+)
+```
+
+### Action: cut_sheet
+- action name: cut_sheet
+
+- summarize action: Cut the papyrus sheet into the desired shape.
+- what is needed to do the action: The player should have a smooth sheet and scissors in their inventory.
+- what is the result: The sheet is cut into papyrus.
+
+- entities:
+  - entity name: player 
+  - before: The player has a smooth sheet and scissors in their inventory.
+  - before provided predicates: (inventory ?player ?sheet) (smooth ?sheet) (inventory ?player ?scissors)
+  - after: The sheet is transformed into a papyrus sheet.
+  - after provided predicates: (inventory ?player ?papyrus) (not (inventory ?player ?sheet))
+
+  - entity name: sheet 
+  - before: The sheet is smooth.
+  - before provided predicates: (smooth ?sheet)
+  - after: The sheet is cut and no longer exists as a sheet.
+  - after provided predicates: (not (inventory ?player ?sheet))
+
+  - entity name: papyrus 
+  - before: The papyrus does not exist yet.
+  - before provided predicates: none
+  - after: The papyrus sheet is now in the player's inventory.
+  - after provided predicates: (inventory ?player ?papyrus)
+
+pddl:
+```pddl
+(:action cut_sheet
+  :parameters (?player - player ?sheet - sheet ?scissors - item ?papyrus - papyrus)
+  :precondition (and (inventory ?player ?sheet) (smooth ?sheet) (inventory ?player ?scissors))
+  :effect (and (inventory ?player ?papyrus) (not (inventory ?player ?sheet)))
+)
+```
+
+If all the elements are correct, the above actions should accurately reflect the specified tasks and align with the provided predicates, types, and requirements.

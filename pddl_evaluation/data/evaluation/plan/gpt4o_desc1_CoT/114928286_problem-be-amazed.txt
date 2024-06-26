@@ -1,0 +1,4 @@
+make_tosses_column ('npc', 'paper')
+record_tosses ('npc', 'paper')
+calculate_pi ('npc', 'paper')
+be_amazed ('npc')

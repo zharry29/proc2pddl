@@ -1,0 +1,138 @@
+  (:action go
+    :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+    :precondition (and 
+      (at ?player ?loc1)
+      (connected ?loc1 ?dir ?loc2)
+      (not (blocked ?loc1 ?dir ?loc2))
+    )
+    :effect (and 
+      (not (at ?player ?loc1))
+      (at ?player ?loc2)
+    )
+  )
+
+  (:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and 
+      (at ?player ?loc)
+      (at ?item ?loc)
+      (gettable ?item)
+    )
+    :effect (and 
+      (inventory ?player ?item)
+      (not (at ?item ?loc))
+    )
+  )
+
+  (:action drop
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and 
+      (inventory ?player ?item)
+      (at ?player ?loc)
+    )
+    :effect (and 
+      (not (inventory ?player ?item))
+      (at ?item ?loc)
+    )
+  )
+
+  (:action get_water
+    :parameters (?player - player ?loc - location ?water - water)
+    :precondition (and 
+      (at ?player ?loc)
+      (has_water_source ?loc)
+    )
+    :effect (inventory ?player ?water)
+  )
+
+  (:action boil_water
+    :parameters (?player - player ?water - water ?pot - pot ?loc - location)
+    :precondition (and 
+      (inventory ?player ?water)
+      (inventory ?player ?pot)
+      (not (treated ?water))
+    )
+    :effect (treated ?water)
+  )
+
+  (:action collect_rain_water
+    :parameters (?player - player ?pot - pot ?water - water ?loc - location)
+    :precondition (and
+      (at ?player ?loc)
+      (outdoors ?loc)
+      (inventory ?player ?pot)
+    )
+    :effect (inventory ?player ?water)
+  )
+
+  (:action loot_shelter
+    :parameters (?player - player ?food - food ?loc - location)
+    :precondition (and 
+      (at ?player ?loc)
+      (is_occupied ?loc)
+    )
+    :effect (inventory ?player ?food)
+  )
+
+  (:action break_car_window
+    :parameters (?player - player ?car - car ?food - food ?rock - rock)
+    :precondition (and 
+      (at ?player ?car)
+      (inventory ?player ?rock)
+      (has_windows ?car)
+    )
+    :effect (and 
+      (inventory ?player ?food)
+      (not (at ?food ?car))
+    )
+  )
+
+  (:action gofish
+    :parameters (?player - player ?loc - location ?fishingpole - fishingpole ?fish - fish)
+    :precondition (and 
+      (at ?player ?loc)
+      (haslake ?loc)
+      (inventory ?player ?fishingpole)
+    )
+    :effect (inventory ?player ?fish)
+  )
+
+  (:action find_shelter
+    :parameters (?player - player ?loc - location)
+    :precondition (and 
+      (at ?player ?loc)
+      (has_basement ?loc)
+    )
+    :effect (in_shelter ?player)
+  )
+
+  (:action clean_wound
+    :parameters (?player - player ?bandage - bandage)
+    :precondition (and 
+      (inventory ?player ?bandage)
+      (is_injured ?player)
+    )
+    :effect (not (is_injured ?player))
+  )
+
+  (:action clean_others_wound
+    :parameters (?player - player ?otherplayer - player ?bandage - bandage)
+    :precondition (and 
+      (inventory ?player ?bandage)
+      (is_injured ?otherplayer)
+    )
+    :effect (not (is_injured ?otherplayer))
+  )
+
+  (:action barter_food_for_healing
+    :parameters (?player - player ?food - food ?otherplayer - player ?bandage - bandage)
+    :precondition (and 
+      (inventory ?player ?food)
+      (is_injured ?otherplayer)
+    )
+    :effect (and 
+      (inventory ?otherplayer ?food)
+      (not (is_injured ?otherplayer))
+    )
+  )
+)

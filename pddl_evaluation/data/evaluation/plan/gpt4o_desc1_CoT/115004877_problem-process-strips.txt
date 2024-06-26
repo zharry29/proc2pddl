@@ -1,0 +1,5 @@
+go ('npc', 'garage', 'work_station', 'in')
+soak_strips ('npc', 'strip', 'strip', 'work_station')
+dry_out_strips ('npc', 'strip', 'strip')
+weave_strips_into_sheet ('npc', 'strip', 'strip', 'sheet')
+press_sheet ('npc', 'sheet', 'work_station')

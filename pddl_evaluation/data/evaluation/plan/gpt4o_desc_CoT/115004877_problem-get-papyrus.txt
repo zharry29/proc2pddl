@@ -1,0 +1,3 @@
+flatten_sheet ('npc', 'sheet')
+polish_sheet ('npc', 'sheet')
+cut_sheet ('npc', 'sheet', 'papyrus', 'scissors')

@@ -1,0 +1,67 @@
+(:action listen_to_astronomers_predictions
+  :parameters (?p - player ?l - location)
+  :precondition (and (at ?p ?l) (has_pc ?p))
+  :effect (listen_to_broadcast ?p ?l)
+)
+
+(:action move_away
+  :parameters (?p - player ?c - city ?c2 - city)
+  :precondition (and (in ?p ?c) (coastal ?c) (inland ?c2))
+  :effect (and (not (in ?p ?c)) (in ?p ?c2))
+)
+
+(:action go
+  :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2))
+  :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+)
+
+(:action buy_supplies
+  :parameters (?p - player ?m - market ?it - food ?it2 - water ?it3 - medicine)
+  :precondition (at ?p ?m)
+  :effect (and (inventory ?it) (inventory ?it2) (inventory ?it3))
+)
+
+(:action check_supplies
+  :parameters (?food - food ?water - water ?medicine - medicine)
+  :precondition (and (inventory ?food) (inventory ?water) (inventory ?medicine))
+  :effect (enough_supplies)
+)
+
+(:action buy_weapons
+  :parameters (?p - player ?wm - weapon_market ?w - weapon)
+  :precondition (and (at ?p ?wm) (enough_supplies))
+  :effect (inventory ?w)
+)
+
+(:action check_weapons
+  :parameters (?pistol - pistol ?ammunition - ammunition)
+  :precondition (and (inventory ?pistol) (inventory ?ammunition))
+  :effect (enough_weapons)
+)
+
+(:action check_bunker
+  :parameters (?bunker - bunker)
+  :precondition (and (has_air_filtration_system ?bunker) (has_strong_material ?bunker))
+  :effect (find_good_bunker ?bunker)
+)
+
+(:action outfit_bunker_with_energy_source
+  :parameters (?p - player ?bunker - bunker ?es - energy_source)
+  :precondition (and (inventory ?es) (at ?p ?bunker))
+  :effect (outfit_bunker_with_heat ?bunker)
+)
+
+(:action enjoylife
+  :parameters (?p - player ?bunker - bunker)
+  :precondition (and (at ?p ?bunker) (find_good_bunker ?bunker))
+  :effect (enjoylife ?p ?bunker)
+)
+
+(:action connect_through_social_media_with_family
+  :parameters (?p - player ?bunker - bunker)
+  :precondition (enjoylife ?p ?bunker)
+  :effect (family_memebers_know_you_are_safe)
+)
+
+)

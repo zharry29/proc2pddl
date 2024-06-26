@@ -1,0 +1,12 @@
+Total PFs: 95
+Solved PFs: 36 (37.89)
+Unsolved PFs: 34
+Timeout PFs: 6
+Parsing Error PFs: 19
+
+Gold Plan: 5 (5.26)
+
+Action Accuracy: 0.18181818181818182
+Parameter Accuracy: 0.45075757575757575
+Precondition Accuracy: 0.3106060606060606
+Effect Accuracy: 0.625

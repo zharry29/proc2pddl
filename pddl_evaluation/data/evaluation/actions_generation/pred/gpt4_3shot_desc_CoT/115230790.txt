@@ -1,0 +1,252 @@
+(:action go
+ :parameters (?p - player ?dir - direction ?src - location ?dst - location)
+ :precondition (and (at ?p ?src) (connected ?src ?dir ?dst) (not (blocked ?src ?dir ?dst)))
+ :effect (and (not (at ?p ?src)) (at ?p ?dst))
+)
+
+(:action get
+ :parameters (?p - player ?i - item ?loc - location)
+ :precondition (and (at ?p ?loc) (at ?i ?loc))
+ :effect (and (not (at ?i ?loc)) (inventory ?p ?i))
+)
+
+(:action breathe
+ :parameters (?p - player)
+ :precondition (not (calm ?p))
+ :effect (calm ?p)
+)
+
+(:action liedown 
+ :parameters (?p - player)
+ :precondition (not (laying ?p))
+ :effect (laying ?p)
+)
+
+(:action swim
+ :parameters (?p - player ?q - quicksand)
+ :precondition (and (stuck ?p ?q) (not (deep ?q)) (laying ?p))
+ :effect (not (stuck ?p ?q))
+)
+
+(:action usestick
+   :parameters (?p - player ?s - stick ?q - quicksand)
+   :precondition (and (stuck ?p ?q) (inventory ?p ?s))
+   :effect (not (stuck ?p ?q))
+)
+
+(:action rest
+ :parameters (?p - player)
+ :precondition (tired ?p)
+ :effect (not (tired ?p))
+)
+
+(:action drop
+  :parameters (?p - player ?i - item)
+  :precondition (inventory ?p ?i)
+  :effect (and (not (inventory ?p ?i)) (at ?i ?loc))
+)
+
+(:action check_ripples
+   :parameters (?p - player ?loc - location)
+   :precondition (at ?p ?loc)
+   :effect (if (has_ripples ?loc) (aware ?p ?loc))
+)
+
+(:action test_ground
+ :parameters (?p - player ?loc - location)
+ :precondition (at ?p ?loc)
+ :effect (if (has_quicksand ?loc) (aware ?p ?loc))
+)
+
+(:action research
+ :parameters (?p - player ?loc - location)
+ :precondition (at ?p ?loc)
+ :effect (and (if (has_quicksand ?loc) (aware ?p ?loc)) (if (has_ripples ?loc) (aware ?p ?loc)))
+)
+
+(:action move_horizontally
+  :parameters (?p - player ?q - quicksand ?loc1 - location ?loc2 - location)
+  :precondition (and (at ?p ?loc1) (connected ?loc1 ?loc2) (stuck ?p ?q) (not (deep ?q)))
+  :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+)
+
+(:action warn_friend
+ :parameters (?p - player ?f - player ?loc - location)
+ :precondition (and (at ?p ?loc) (aware ?p ?loc))
+ :effect (aware ?f ?loc)
+)
+
+(:action pull_friend
+ :parameters (?p - player ?f - player ?q - quicksand)
+ :precondition (and (stuck ?f ?q) (not (stuck ?p ?q)) (not (tired ?p)) )
+ :effect (not (stuck ?f ?q))
+)
+
+(:action warn_all
+ :parameters (?p - player)
+ :precondition (aware ?p ?loc)
+ :effect (forall (?f - player) (aware ?f ?loc))
+)
+
+(:action wait_for_help
+ :parameters (?p - player ?q - quicksand)
+ :precondition (and (stuck ?p ?q) (not (deep ?q)) (calm ?p))
+ :effect (not (tired ?p))
+)
+
+(:action throw_rope
+ :parameters (?p - player ?f - player ?r - rope ?q - quicksand)
+ :precondition (and (inventory ?p ?r) (stuck ?f ?q) (not (tired ?p)) )
+ :effect (and (not (inventory ?p ?r)) (not (stuck ?f ?q)))
+)
+
+(:action build_sand_ladder
+ :parameters (?p - player ?s - stick ?r - rope ?q - quicksand)
+ :precondition (and (inventory ?p ?s) (inventory ?p ?r) (stuck ?p ?q))
+ :effect (not (stuck ?p ?q))
+)
+
+(:action signal_for_help
+ :parameters (?p - player ?q - quicksand) 
+ :precondition (stuck ?p ?q)
+ :effect ()
+)
+
+(:action keep_moving
+ :parameters (?p - player ?q - quicksand) 
+ :precondition (and (stuck ?p ?q) (not (deep ?q)) (not (tired ?p)))
+ :effect (not (stuck ?p ?q))
+)
+
+(:action remove_items
+ :parameters (?p - player ?i - item)
+ :precondition (and (inventory ?p ?i) (tired ?p))
+ :effect (and (not (inventory ?p ?i)) (not (tired ?p)))
+)
+
+(:action call_for_help
+ :parameters (?p - player)
+ :precondition ()
+ :effect ()
+)
+
+(:action use_item
+ :parameters (?p - player ?item - item ?q - quicksand)
+ :precondition (and (inventory ?p ?item) (stuck ?p ?q))
+ :effect (not (stuck ?p ?q))
+)
+(:action throw_item
+ :parameters (?p - player ?item - item ?loc - location)
+ :precondition (inventory ?p ?item)
+ :effect (and (not (inventory ?p ?item)) (at ?item ?loc))
+)
+
+(:action yell_for_help
+ :parameters (?p - player)
+ :precondition ()
+ :effect ()
+)
+
+(:action wait
+ :parameters (?p - player)
+ :precondition ()
+ :effect (not (tired ?p))
+)
+
+(:action dig
+ :parameters (?p - player ?q - quicksand)
+ :precondition (stuck ?p ?q)
+ :effect (not (stuck ?p ?q))
+)
+
+(:action move_slowly
+ :parameters (?p - player ?q - quicksand)
+ :precondition (stuck ?p ?q)
+ :effect (and (not (deep ?q)) (calm ?p))
+)
+
+(:action make_quick_moves
+ :parameters (?p - player ?q - quicksand)
+ :precondition (and (stuck ?p ?q) (not (tired ?p)))
+ :effect (if (deep ?q) (tired ?p) (not (stuck ?p ?q)))
+)
+
+(:action use_flare
+ :parameters (?p - player ?f - flare ?loc - location)
+ :precondition (and (inventory ?p ?f) (at ?p ?loc))
+ :effect (and (not (inventory ?p ?f)) (flare_used ?loc))
+)
+
+(:action use_item_on_ground
+ :parameters (?p - player ?i - item ?loc - location)
+ :precondition (and (at ?p ?loc) (inventory ?p ?i))
+ :effect (if (has_quicksand ?loc) (aware ?p ?loc))
+)
+
+(:action fill_lungs
+ :parameters (?p - player)
+ :precondition ()
+ :effect (calm ?p)
+)
+
+(:action signal_location
+ :parameters (?p - player ?loc - location)
+ :precondition (at ?p ?loc)
+ :effect ()
+)
+
+(:action preserve_energy
+ :parameters (?p - player)
+ :precondition (tired ?p)
+ :effect (not (tired ?p))
+)
+
+(:action use_compass
+ :parameters (?p - player ?c - compass)
+ :precondition (inventory ?p ?c)
+ :effect ()
+)
+
+(:action take_off_excess_weight
+ :parameters (?p - player ?obj - object)
+ :precondition (inventory ?p ?obj)
+ :effect (not (inventory ?p ?obj))
+)
+
+(:action wait_dusk
+ :parameters (?p - player)
+ :precondition ()
+ :effect (not (tired ?p))
+)
+
+(:action call_animal
+ :parameters (?p - player ?a - animal)
+ :precondition (friend ?p ?a)
+ :effect (helps ?a ?p)
+)
+
+(:action do_not_panic
+ :parameters (?p - player)
+ :precondition ()
+ :effect (calm ?p)
+)
+
+(:action use_sand_buckets
+ :parameters (?p - player ?b - bucket ?q - quicksand)
+ :precondition (and (inventory ?p ?b) (stuck ?p ?q))
+ :effect (if (deep ?q) (not (deep ?q)) (not (inventory ?p ?b)))
+)
+
+(:action shovel_around
+ :parameters (?p - player ?s - shovel ?q - quicksand)
+ :precondition (and (inventory ?p ?s) (stuck ?p ?q))
+ :effect (not (deep ?q))
+)
+
+(:action use_cell_phone
+ :parameters (?p - player ?c - cellphone)
+ :precondition (and (inventory ?p ?c) (has_reception ?c))
+ :effect ()
+)
+
+)

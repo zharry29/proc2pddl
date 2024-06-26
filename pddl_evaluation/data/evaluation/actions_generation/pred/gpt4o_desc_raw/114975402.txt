@@ -1,0 +1,103 @@
+```pddl
+(define (domain detective_kit_making)
+  (:requirements :strips :typing)
+
+  (:types
+    bag - item
+    gloves - item
+    tape - item
+    chalk - item
+    magnifying_glass - item
+    costume - item
+    flashlights - item
+    pen - item
+    notebook - item
+    paper - item
+    detective_notebook - item
+    aluminium_foil - item
+    cardboard - item
+    badge - item
+    walkie_talkies - item
+    detective_kit - item
+    player direction location disguise
+  )
+
+  (:predicates
+    (sells_bags ?loc - location)
+    (sells_stationery ?loc - location)
+    (sells_costume ?loc - location)
+    (sells_electronics ?loc - location)
+    (at ?obj - item ?loc - location)
+    (inventory ?player ?item)
+    (connected ?loc1 - location ?dir - direction ?loc2 - location)
+    (blocked ?loc1 - location ?dir - direction ?loc2 - location)
+    (wear ?player ?costume)
+  )
+
+  (:action go
+    :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+    :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+    :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+  )
+
+  (:action get_bag
+    :parameters (?player - player ?loc - location ?bag - bag)
+    :precondition (and (at ?player ?loc) (sells_bags ?loc))
+    :effect (inventory ?player ?bag)
+  )
+
+  (:action get_stationery
+    :parameters (?player - player ?loc - location ?stationery - stationery)
+    :precondition (and (at ?player ?loc) (sells_stationery ?loc))
+    :effect (inventory ?player ?stationery)
+  )
+
+  (:action get_costume
+    :parameters (?player - player ?loc - location ?costume - costume)
+    :precondition (and (at ?player ?loc) (sells_costume ?loc))
+    :effect (inventory ?player ?costume)
+  )
+
+  (:action wear_detective_gear
+    :parameters (?player - player ?costume - costume)
+    :precondition (inventory ?player ?costume)
+    :effect (wear ?player ?costume)
+  )
+
+  (:action find_supplies_for_disguise
+    :parameters (?player - player ?supplies - item ?loc - location)
+    :precondition (at ?player ?loc)
+    :effect (inventory ?player ?supplies)
+  )
+
+  (:action wear_disguise
+    :parameters (?player - player ?disguise - disguise)
+    :precondition (inventory ?player ?disguise)
+    :effect (wear ?player ?disguise)
+  )
+
+  (:action make_badge
+    :parameters (?player - player ?supplies - item ?badge - badge)
+    :precondition (inventory ?player ?supplies)
+    :effect (inventory ?player ?badge)
+  )
+
+  (:action prepare_detective_notebook
+    :parameters (?player - player ?notebook - notebook)
+    :precondition (inventory ?player ?notebook)
+    :effect (inventory ?player detective_notebook)
+  )
+
+  (:action get_walkie_talkies
+    :parameters (?player - player ?loc - location ?walkie_talkies - walkie_talkies)
+    :precondition (and (at ?player ?loc) (sells_electronics ?loc))
+    :effect (inventory ?player ?walkie_talkies)
+  )
+
+  (:action prepare_detective_kit
+    :parameters (?player - player ?items - item ?kit - detective_kit)
+    :precondition (inventory ?player ?items)
+    :effect (inventory ?player ?kit)
+  )
+)
+```

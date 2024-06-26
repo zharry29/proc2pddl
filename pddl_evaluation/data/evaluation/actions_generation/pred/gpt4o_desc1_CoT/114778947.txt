@@ -1,0 +1,107 @@
+(:action go
+    :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+    :precondition (and 
+                    (at ?player ?loc1) 
+                    (connected ?loc1 ?dir ?loc2) 
+                    (not (blocked ?loc1 ?dir ?loc2)))
+    :effect (and 
+              (not (at ?player ?loc1)) 
+              (at ?player ?loc2))
+)
+
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and 
+                    (at ?item ?loc) 
+                    (at ?player ?loc))
+    :effect (and 
+              (not (at ?item ?loc)) 
+              (inventory ?player ?item))
+)
+
+(:action pick_lock_with_card
+    :parameters (?player - player ?loc - location ?card - item)
+    :precondition (and 
+                    (has_easy_lock ?loc) 
+                    (inventory ?player ?card))
+    :effect (not (has_easy_lock ?loc))
+)
+
+(:action file_key_into_wrench
+    :parameters (?player - player ?allen_key - item ?wrench - item)
+    :precondition (inventory ?player ?allen_key)
+    :effect (and 
+              (not (inventory ?player ?allen_key)) 
+              (inventory ?player ?wrench))
+)
+
+(:action bend_paperclip_into_pick
+    :parameters (?player - player ?paperclip - item ?pick - item)
+    :precondition (inventory ?player ?paperclip)
+    :effect (and 
+              (not (inventory ?player ?paperclip))
+              (inventory ?player ?pick))
+)
+
+(:action insert_wrench
+    :parameters (?player - player ?loc - location ?wrench - item)
+    :precondition (inventory ?player ?wrench)
+    :effect (and 
+              (not (inventory ?player ?wrench))
+              (wrench_in_lock ?loc))
+)
+
+(:action insert_pick
+    :parameters (?player - player ?loc - location ?pick - item)
+    :precondition (inventory ?player ?pick)
+    :effect (and 
+              (not (inventory ?player ?pick))
+              (pick_in_lock ?loc))
+)
+
+(:action push_pins_out_of_tumblers
+    :parameters (?loc - location)
+    :precondition (and 
+                    (has_hard_lock ?loc) 
+                    (wrench_in_lock ?loc) 
+                    (pick_in_lock ?loc))
+    :effect (not (has_hard_lock ?loc))
+)
+
+(:action straighten_coathanger
+    :parameters (?player - player ?coathanger - item ?straightened_coathanger - item)
+    :precondition (inventory ?player ?coathanger)
+    :effect (and 
+              (not (inventory ?player ?coathanger)) 
+              (inventory ?player ?straightened_coathanger))
+)
+
+(:action lift_weatherstripping
+    :parameters (?loc - location)
+    :precondition (locked_car ?loc)
+    :effect (weatherstripping_removed ?loc)
+)
+
+(:action insert_hanger
+    :parameters (?player - player ?loc - location ?straightened_coathanger - item)
+    :precondition (and 
+                    (inventory ?player ?straightened_coathanger) 
+                    (weatherstripping_removed ?loc))
+    :effect (and 
+              (not (inventory ?player ?straightened_coathanger))
+              (coathanger_inserted ?loc))
+)
+
+(:action hook_latch
+    :parameters (?loc - location)
+    :precondition (coathanger_inserted ?loc)
+    :effect (latch_hooked ?loc)
+)
+
+(:action pull_coathanger
+    :parameters (?loc - location)
+    :precondition (latch_hooked ?loc)
+    :effect (not (locked_car ?loc))
+)
+
+)

@@ -1,0 +1,92 @@
+(:action go
+ :parameters (?player ?dir - direction ?loc1 - location ?loc2 - location)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action get
+ :parameters (?player ?item)
+ :precondition (and (at ?player ?location) (at ?item ?location))
+ :effect (and (not (at ?item ?location)) (inventory ?player ?item))
+)
+
+(:action breathe
+ :parameters (?player)
+ :effect (calm ?player)
+)
+
+(:action liedown
+ :parameters (?player)
+ :effect (laying ?player))
+
+(:action swim
+ :parameters (?player ?quicksand)
+ :precondition (and (stuck ?player ?quicksand) (calm ?player) (laying ?player))
+ :effect (not (stuck ?player ?quicksand))
+)
+
+(:action usestick
+ :parameters (?player ?quicksand ?stick)
+ :precondition (and (stuck ?player ?quicksand) (inventory ?player ?stick))
+ :effect (not (stuck ?player ?quicksand))
+)
+
+(:action rest
+ :parameters (?player)
+ :precondition (tired ?player)
+ :effect (not (tired ?player))
+)
+
+(:action drop
+ :parameters (?player ?item ?location)
+ :precondition (and (at ?player ?location) (inventory ?player ?item))
+ :effect (and (not (inventory ?player ?item)) (at ?item ?location))
+)
+
+(:action check_ripples
+ :parameters (?player ?location)
+ :precondition (at ?player ?location)
+ :effect (when (has_ripples ?location) (aware ?player ?location))
+)
+
+(:action test_ground
+ :parameters (?player ?location)
+ :effect (when (has_quicksand ?location) (aware ?player ?location))
+)
+
+(:action research
+ :parameters (?player ?location)
+ :effect (aware ?player ?location)
+)
+
+(:action move_horizontally
+ :parameters (?player ?quicksand)
+ :precondition (stuck ?player ?quicksand)
+ :effect (not (stuck ?player ?quicksand))
+)
+
+(:action destroy_sand
+ :parameters (?player ?quicksand)
+ :precondition (stuck ?player ?quicksand)
+ :effect (not (stuck ?player ?quicksand))
+)
+
+(:action help_call
+ :parameters (?player ?quicksand)
+ :precondition (stuck ?player ?quicksand)
+ :effect (when (some ?saver) (not (stuck ?player ?quicksand)))
+)
+
+(:action wait_for_help
+ :parameters (?player ?quicksand)
+ :precondition (stuck ?player ?quicksand)
+ :effect (when (some ?saver) (not (stuck ?player ?quicksand)))
+)
+
+(:action scream
+ :parameters (?player ?quicksand)
+ :precondition (stuck ?player ?quicksand)
+ :effect (when (some ?saver) (not (stuck ?player ?quicksand)))
+)
+
+)

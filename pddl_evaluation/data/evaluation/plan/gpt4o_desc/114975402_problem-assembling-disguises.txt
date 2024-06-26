@@ -1,0 +1,1 @@
+find_supplies_for_disguise ('npc', 'costume', 'house')

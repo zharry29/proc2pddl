@@ -1,0 +1,270 @@
+### 1. Action: go
+- summarize action: This action defines the movement of a player from one location to an adjacent connecting location.
+- what is needed to do the action: The two locations must be connected and the path between them should not be blocked.
+- what is the result: The player will be at the new location and not at the old location anymore.
+
+- entities:
+  - entity name: player 
+    - before: at an initial location 
+    - after: at a connected new location
+  - entity name: location 
+    - before: connected to the player's initial location
+    - after: connected to the player's new location
+
+```pddl
+(:action go
+  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+  :precondition (and (at ?player ?loc1)
+                     (connected ?loc1 ?dir ?loc2)
+                     (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and (at ?player ?loc2)
+               (not (at ?player ?loc1)))
+)
+```
+
+### 2. Action: get_bag
+- summarize action: This action allows a player to obtain a bag from a store.
+- what is needed to do the action: The player must be at a location that sells bags.
+- what is the result: A bag is added to the player's inventory.
+
+- entities:
+  - entity name: player 
+    - before: has no bag
+    - after: has a bag in inventory
+  - entity name: bag 
+    - before: at a location that sells it 
+    - after: in the player's inventory
+
+```pddl
+(:action get_bag
+  :parameters (?player - player ?loc - location ?bag - bag)
+  :precondition (and (at ?player ?loc)
+                     (sells_bags ?loc)
+                     (at ?bag ?loc))
+  :effect (and (inventory ?player ?bag)
+               (not (at ?bag ?loc)))
+)
+```
+
+### 3. Action: get_stationery
+- summarize action: This action allows a player to obtain stationery from a store.
+- what is needed to do the action: The player must be at a location that sells stationery.
+- what is the result: Stationery is added to the player's inventory.
+
+- entities:
+  - entity name: player 
+    - before: has no stationery
+    - after: has stationery in inventory
+  - entity name: stationery 
+    - before: at a location that sells it
+    - after: in the player's inventory
+
+```pddl
+(:action get_stationery
+  :parameters (?player - player ?loc - location ?stationery - pen)
+  :precondition (and (at ?player ?loc)
+                     (sells_stationery ?loc)
+                     (at ?stationery ?loc))
+  :effect (and (inventory ?player ?stationery)
+               (not (at ?stationery ?loc)))
+)
+```
+
+### 4. Action: get_costume
+- summarize action: This action allows a player to obtain a costume from a store.
+- what is needed to do the action: The player must be at a location that sells costumes.
+- what is the result: A costume is added to the player's inventory.
+
+- entities:
+  - entity name: player 
+    - before: has no costume
+    - after: has a costume in inventory
+  - entity name: costume 
+    - before: at a location that sells it
+    - after: in the player's inventory
+
+```pddl
+(:action get_costume
+  :parameters (?player - player ?loc - location ?costume - costume)
+  :precondition (and (at ?player ?loc)
+                     (sells_costume ?loc)
+                     (at ?costume ?loc))
+  :effect (and (inventory ?player ?costume)
+               (not (at ?costume ?loc)))
+)
+```
+
+### 5. Action: wear_detective_gear
+- summarize action: This action allows a player to wear a uniform to get ready for the detective job.
+- what is needed to do the action: The player must have the uniform (costume) in their inventory.
+- what is the result: The player will be wearing the detective uniform.
+
+- entities:
+  - entity name: player 
+    - before: not wearing a costume
+    - after: wearing a costume
+  - entity name: costume 
+    - before: in the player's inventory
+    - after: worn by the player
+
+```pddl
+(:action wear_detective_gear
+  :parameters (?player - player ?costume - costume)
+  :precondition (inventory ?player ?costume)
+  :effect (wear ?player ?costume)
+)
+```
+
+### 6. Action: find_supplies_for_disguise
+- summarize action: This action allows a player to find supplies needed for creating a disguise for an undercover mission.
+- what is needed to do the action: The player must be at a location where the supplies are available.
+- what is the result: Supplies are added to the player's inventory.
+
+- entities:
+  - entity name: player 
+    - before: has no supplies
+    - after: has supplies in inventory
+  - entity name: supplies 
+    - before: at a location
+    - after: in the player's inventory
+
+```pddl
+(:action find_supplies_for_disguise
+  :parameters (?player - player ?loc - location ?supplies - aluminium_foil)
+  :precondition (and (at ?player ?loc)
+                     (at ?supplies ?loc))
+  :effect (and (inventory ?player ?supplies)
+               (not (at ?supplies ?loc)))
+)
+```
+
+### 7. Action: wear_disguise
+- summarize action: This action allows a player to wear a disguise to get ready for an undercover mission.
+- what is needed to do the action: The player must have the disguise in their inventory.
+- what is the result: The player will be wearing the disguise.
+
+- entities:
+  - entity name: player 
+    - before: not wearing a disguise
+    - after: wearing a disguise
+  - entity name: disguise 
+    - before: in the player's inventory
+    - after: worn by the player
+
+```pddl
+(:action wear_disguise
+  :parameters (?player - player ?disguise - aluminium_foil)
+  :precondition (inventory ?player ?disguise)
+  :effect (wear ?player ?disguise)
+)
+```
+
+### 8. Action: make_badge
+- summarize action: This action allows a player to make a detective badge.
+- what is needed to do the action: The player must have the necessary materials (paper, tape, and aluminium_foil) in their inventory.
+- what is the result: A badge is created and added to the player's inventory.
+
+- entities:
+  - entity name: player 
+    - before: has materials but no badge
+    - after: has a badge in inventory
+  - entity name: materials 
+    - before: in the player's inventory
+    - after: used to create the badge
+  - entity name: badge 
+    - before: not existing
+    - after: in the player's inventory
+
+```pddl
+(:action make_badge
+  :parameters (?player - player ?paper - paper ?tape - tape ?aluminium_foil - aluminium_foil ?badge - badge)
+  :precondition (and (inventory ?player ?paper)
+                     (inventory ?player ?tape)
+                     (inventory ?player ?aluminium_foil))
+  :effect (and (inventory ?player ?badge)
+               (not (inventory ?player ?paper))
+               (not (inventory ?player ?tape))
+               (not (inventory ?player ?aluminium_foil)))
+)
+```
+
+### 9. Action: prepare_detective_notebook
+- summarize action: This action allows a player to convert a regular notebook to a detective notebook.
+- what is needed to do the action: The player must have a notebook and the necessary stationery in their inventory.
+- what is the result: A detective notebook is created and added to the player's inventory.
+
+- entities:
+  - entity name: player 
+    - before: has a regular notebook and stationery
+    - after: has a detective notebook in inventory
+  - entity name: notebook 
+    - before: in the player's inventory
+    - after: converted to a detective notebook
+  - entity name: detective notebook 
+    - before: not existing
+    - after: in the player's inventory
+
+```pddl
+(:action prepare_detective_notebook
+  :parameters (?player - player ?notebook - notebook ?stationery - pen ?detective_notebook - detective_notebook)
+  :precondition (and (inventory ?player ?notebook)
+                     (inventory ?player ?stationery))
+  :effect (and (inventory ?player ?detective_notebook)
+               (not (inventory ?player ?notebook)))
+)
+```
+
+### 10. Action: get_walkie_talkies
+- summarize action: This action allows a player to obtain walkie-talkies from a store.
+- what is needed to do the action: The player must be at a location that sells electronics.
+- what is the result: Walkie-talkies are added to the player's inventory.
+
+- entities:
+  - entity name: player 
+    - before: has no walkie-talkies
+    - after: has walkie-talkies in inventory
+  - entity name: walkie-talkies 
+    - before: at a location that sells electronics
+    - after: in the player's inventory
+
+```pddl
+(:action get_walkie_talkies
+  :parameters (?player - player ?loc - location ?walkie_talkies - walkie_talkies)
+  :precondition (and (at ?player ?loc)
+                     (sells_electronics ?loc)
+                     (at ?walkie_talkies ?loc))
+  :effect (and (inventory ?player ?walkie_talkies)
+               (not (at ?walkie_talkies ?loc)))
+)
+```
+
+### 11. Action: prepare_detective_kit
+- summarize action: This action allows a player to put everything together to create a complete detective kit.
+- what is needed to do the action: The player must have all necessary items (badge, detective notebook, walkie-talkies, etc.) in their inventory.
+- what is the result: A detective kit is created and added to the player's inventory.
+
+- entities:
+  - entity name: player 
+    - before: has all necessary items separately
+    - after: has a complete detective kit in inventory
+  - entity name: necessary items 
+    - before: in the player's inventory
+    - after: combined into a detective kit
+  - entity name: detective kit 
+    - before: not existing
+    - after: in the player's inventory
+
+```pddl
+(:action prepare_detective_kit
+  :parameters (?player - player ?bag - bag ?badge - badge ?detective_notebook - detective_notebook ?walkie_talkies - walkie_talkies ?detective_kit - detective_kit)
+  :precondition (and (inventory ?player ?bag)
+                     (inventory ?player ?badge)
+                     (inventory ?player ?detective_notebook)
+                     (inventory ?player ?walkie_talkies))
+  :effect (and (inventory ?player ?detective_kit)
+               (not (inventory ?player ?bag))
+               (not (inventory ?player ?badge))
+               (not (inventory ?player ?detective_notebook))
+               (not (inventory ?player ?walkie_talkies)))
+)
+```

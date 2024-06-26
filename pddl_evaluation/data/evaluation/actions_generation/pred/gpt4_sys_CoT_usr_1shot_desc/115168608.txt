@@ -1,0 +1,150 @@
+(:action gather_info
+    :parameters (?p - player)
+    :precondition (not (has_info ?p))
+    :effect (has_info ?p)
+)
+
+(:action create_secret
+    :parameters (?sc - secret_society)
+    :precondition (not (has_secret ?sc))
+    :effect (has_secret ?sc)
+)
+
+(:action set_meeting_location
+    :parameters (?sc - secret_society)
+    :precondition (not (has_location ?sc))
+    :effect (has_location ?sc)
+)
+
+(:action set_dress_code
+    :parameters (?sc - secret_society)
+    :precondition (not (has_dress_code ?sc))
+    :effect (has_dress_code ?sc)
+)
+
+(:action create_name
+    :parameters (?sc - secret_society)
+    :precondition (not (has_name ?sc))
+    :effect (has_name ?sc)
+)
+
+(:action secret_society_is_ready
+    :parameters (?sc - secret_society)
+    :precondition (and (has_name ?sc) (has_location ?sc) (has_dress_code ?sc) (has_secret ?sc))
+    :effect (society_is_ready ?sc)
+)
+
+(:action initiate_new_member
+    :parameters (?p - player ?sc - secret_society)
+    :precondition (and (society_is_ready ?sc) (has_info ?p) (not (in ?p ?sc)))
+    :effect (in ?p ?sc)
+)
+
+(:action teach_new_member_secret
+    :parameters (?p - player ?sc - secret_society)
+    :precondition (and (is_trusted ?p ?sc) (has_secret ?sc) (in ?p ?sc) (not (knows_secret ?p ?sc)))
+    :effect (knows_secret ?p ?sc)
+)
+(:action remove_member
+    :parameters (?p - player ?sc - secret_society)
+    :precondition (in ?p ?sc)
+    :effect (not (in ?p ?sc))
+)
+
+(:action check_if_cult
+    :parameters (?sc - secret_society)
+    :precondition (not (is_cult ?sc))
+    :effect   
+        (when (large_enough ?sc) 
+            (is_cult ?sc))
+)
+
+(:action gather_info
+    :parameters (?p - player)
+    :precondition (not (has_info ?p))
+    :effect (has_info ?p)
+)
+
+(:action create_secret
+    :parameters (?sc - secret_society)
+    :precondition (not (has_secret ?sc))
+    :effect (has_secret ?sc)
+)
+
+(:action set_meeting_location
+    :parameters (?sc - secret_society)
+    :precondition (not (has_location ?sc))
+    :effect (has_location ?sc)
+)
+
+(:action set_dress_code
+    :parameters (?sc - secret_society)
+    :precondition (not (has_dress_code ?sc))
+    :effect (has_dress_code ?sc)
+)
+
+(:action create_name
+    :parameters (?sc - secret_society)
+    :precondition (not (has_name ?sc))
+    :effect (has_name ?sc)
+)
+
+(:action secret_society_is_ready
+    :parameters (?sc - secret_society)
+    :precondition (and (has_name ?sc) (has_location ?sc) (has_dress_code ?sc) (has_secret ?sc))
+    :effect (society_is_ready ?sc)
+)
+
+(:action initiate_new_member
+    :parameters (?p - player ?sc - secret_society)
+    :precondition (and (society_is_ready ?sc) (has_info ?p) (not (in ?p ?sc)))
+    :effect (in ?p ?sc)
+)
+
+(:action teach_new_member_secret
+    :parameters (?p - player ?sc - secret_society)
+    :precondition (and (is_trusted ?p ?sc) (has_secret ?sc) (in ?p ?sc) (not (knows_secret ?p ?sc)))
+    :effect (knows_secret ?p ?sc)
+)
+
+(:action remove_member
+    :parameters (?p - player ?sc - secret_society)
+    :precondition (in ?p ?sc)
+    :effect (not (in ?p ?sc))
+)
+
+(:action check_if_cult
+    :parameters (?sc - secret_society)
+    :precondition (not (is_cult ?sc))
+    :effect   
+        (when (large_enough ?sc) 
+            (is_cult ?sc))
+)
+
+(:objects 
+
+(:init 
+    (not (has_info player1)) 
+    (not (has_secret secretSociety1)) 
+    (not (has_name secretSociety1))
+    (not (has_location secretSociety1))
+    (not (has_dress_code secretSociety1))
+    (not (society_is_ready secretSociety1))
+    (not (in player1 secretSociety1))
+    (not (is_trusted player1 secretSociety1))
+    (not (knows_secret player1 secretSociety1))
+    (not (is_cult secretSociety1)))
+
+(:goal (and 
+    (has_info player1)
+    (has_secret secretSociety1) 
+    (has_name secretSociety1)
+    (has_location secretSociety1)
+    (has_dress_code secretSociety1)
+    (society_is_ready secretSociety1)
+    (in player1 secretSociety1)
+    (is_trusted player1 secretSociety1)
+    (knows_secret player1 secretSociety1)
+    (is_cult secretSociety1)));
+
+)

@@ -1,0 +1,67 @@
+  (:action go
+    :parameters (?player - player ?from - location ?to - location ?dir - direction)
+    :precondition (and (at ?player ?from) (connected ?from ?dir ?to))
+    :effect (and (at ?player ?to) (not (at ?player ?from)))
+  )
+  (:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (at ?item ?loc)
+    :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+  )
+  (:action drop
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (inventory ?player ?item)
+    :effect (and (at ?item ?loc) (not (inventory ?player ?item)))
+  )
+  (:action cook
+    :parameters (?player - player ?food - food ?loc - location)
+    :precondition (and (inventory ?player ?food) (has_kitchen ?loc) (at ?player ?loc))
+    :effect (inventory ?player ?food)
+  )
+  (:action order_sushi
+    :parameters (?player - player ?phone - phone ?loc - location)
+    :precondition (and (inventory ?player ?phone) (at ?player ?loc))
+    :effect (inventory ?player sushi)
+  )
+  (:action buy_sake
+    :parameters (?player - player ?money - money ?loc - location)
+    :precondition (and (inventory ?player ?money) (at ?player ?loc))
+    :effect (and (inventory ?player sake) (not (inventory ?player ?money)))
+  )
+  (:action serve
+    :parameters (?player - player ?drink - drink ?loc - location)
+    :precondition (and (inventory ?player ?drink) (at ?player ?loc))
+    :effect (at ?drink ?loc)
+  )
+
+  (:action brew
+    :parameters (?player - player ?tea - tea ?loc - location)
+    :precondition (and (inventory ?player ?tea) (has_kitchen ?loc) (at ?player ?loc))
+    :effect (inventory ?player ?tea)
+  )
+  (:action get_beer
+    :parameters (?player - player ?beer - drink ?loc - location)
+    :precondition (and (at ?beer ?loc) (has_fridge ?loc) (at ?player ?loc))
+    :effect (inventory ?player ?beer)
+  )
+  (:action open
+    :parameters (?player - player ?drink - drink)
+    :precondition (inventory ?player ?drink)
+    :effect (opened ?drink)
+  )
+  (:action hang_lantern
+    :parameters (?player - player ?lantern - lantern ?loc - location)
+    :precondition (and (inventory ?player ?lantern) (at ?player ?loc))
+    :effect (hung ?lantern)
+  )
+  (:action blow_balloon
+    :parameters (?player - player ?balloon - balloon ?loc - location)
+    :precondition (and (inventory ?player ?balloon) (at ?player ?loc))
+    :effect (inflated ?balloon)
+  )
+  (:action turn_on_tv
+    :parameters (?player - player ?tv - item ?loc - location)
+    :precondition (and (at ?tv ?loc) (at ?player ?loc))
+    :effect (on ?tv)
+  )
+)

@@ -1,0 +1,7 @@
+get ('npc', 'shell', 'garage')
+get ('npc', 'scissors', 'garage')
+go ('npc', 'west', 'garage', 'nursery')
+cut_plant ('npc', 'plant', 'stalk', 'nursery', 'scissors')
+peel_stalk ('npc', 'stalk', 'shell', 'nursery')
+cut_stalk_into_strips ('npc', 'stalk', 'strip', 'scissors', 'nursery')
+get ('npc', 'strip', 'nursery')

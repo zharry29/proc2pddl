@@ -1,0 +1,349 @@
+### Action: go
+- action name: go
+- summarize action: This action enables the player to navigate from one location to an adjacent location if the path is not blocked.
+- what is needed to do the action: The current location, the direction of the adjacent location, and the destination location are needed. The path between the locations must not be blocked.
+- what is the result: The player moves from the current location to the destination location.
+
+- entities:
+  - entity name: location
+  - before: The player is at the current location.
+  - before provided predicates: (at ?player ?loc1)
+  - after: The player is at the destination location.
+  - after provided predicates: (at ?player ?loc2)
+
+  - entity name: path (implied by connection between locations)
+  - before: Path between two locations might be blocked.
+  - before provided predicates: (connected ?loc1 ?dir ?loc2) (blocked ?loc1 ?dir ?loc2)
+  - after: Path between two locations must be not blocked.
+  - after provided predicates: (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2))
+
+pddl:
+```lisp
+(:action go
+    :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+    :precondition (and 
+                    (at ?player ?loc1) 
+                    (connected ?loc1 ?dir ?loc2) 
+                    (not (blocked ?loc1 ?dir ?loc2)))
+    :effect (and 
+              (not (at ?player ?loc1)) 
+              (at ?player ?loc2))
+)
+```
+
+### Action: get
+- action name: get
+- summarize action: This action allows the player to pick up an item and add it to their inventory, provided the item is at the same location as the player.
+- what is needed to do the action: The player, the item, and the location of the item are needed.
+- what is the result: The item is moved from the location to the player's inventory.
+
+- entities:
+  - entity name: item
+  - before: The item is at the same location as the player.
+  - before provided predicates: (at ?item ?loc) (at ?player ?loc)
+  - after: The item is in the player's inventory.
+  - after provided predicates: (inventory ?player ?item)
+
+pddl:
+```lisp
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and 
+                    (at ?item ?loc) 
+                    (at ?player ?loc))
+    :effect (and 
+              (not (at ?item ?loc)) 
+              (inventory ?player ?item))
+)
+```
+
+### Action: pick_lock_with_card
+- action name: pick_lock_with_card
+- summarize action: This action allows the player to pick an easy lock with a card, given that the lock is easy and the player has a card in their inventory.
+- what is needed to do the action: The player, the easy lock location, and the card must be in the player's inventory.
+- what is the result: The easy lock at the specified location is no longer a barrier.
+
+- entities:
+  - entity name: easy lock
+  - before: The lock is classified as an easy lock.
+  - before provided predicates: (has_easy_lock ?loc)
+  - after: The lock is no longer classified as an easy lock.
+  - after provided predicates: (not (has_easy_lock ?loc))
+
+  - entity name: card
+  - before: The player has the card in their inventory.
+  - before provided predicates: (inventory ?player ?card)
+  - after: The player still has the card in their inventory.
+  - after provided predicates: (inventory ?player ?card)
+
+pddl:
+```lisp
+(:action pick_lock_with_card
+    :parameters (?player - player ?loc - location ?card - item)
+    :precondition (and 
+                    (has_easy_lock ?loc) 
+                    (inventory ?player ?card))
+    :effect (not (has_easy_lock ?loc))
+)
+```
+
+### Action: file_key_into_wrench
+- action name: file_key_into_wrench
+- summarize action: This action allows the player to make a wrench from an allen key if they have the allen key in their inventory.
+- what is needed to do the action: The player and the allen key are needed.
+- what is the result: The allen key is replaced with a wrench in the player's inventory.
+
+- entities:
+  - entity name: allen key
+  - before: The player has the allen key in their inventory.
+  - before provided predicates: (inventory ?player ?allen_key)
+  - after: The allen key is removed from the player's inventory.
+  - after provided predicates: (not (inventory ?player ?allen_key))
+
+  - entity name: wrench
+  - before: The player does not have a wrench.
+  - before provided predicates: (not (inventory ?player ?wrench))
+  - after: The player has a wrench in their inventory.
+  - after provided predicates: (inventory ?player ?wrench)
+
+pddl:
+```lisp
+(:action file_key_into_wrench
+    :parameters (?player - player ?allen_key - item ?wrench - item)
+    :precondition (inventory ?player ?allen_key)
+    :effect (and 
+              (not (inventory ?player ?allen_key)) 
+              (inventory ?player ?wrench))
+)
+```
+
+### Action: bend_paperclip_into_pick
+- action name: bend_paperclip_into_pick
+- summarize action: This action allows the player to bend a paperclip into a lock pick if they have the paperclip in their inventory.
+- what is needed to do the action: The player and the paperclip are needed.
+- what is the result: The paperclip is replaced with a lock pick in the player's inventory.
+
+- entities:
+  - entity name: paperclip
+  - before: The paperclip is in the player's inventory.
+  - before provided predicates: (inventory ?player ?paperclip)
+  - after: The paperclip is no longer in the player's inventory.
+  - after provided predicates: (not (inventory ?player ?paperclip))
+
+  - entity name: lock pick
+  - before: The lock pick is not in the player's inventory.
+  - before provided predicates: (not (inventory ?player ?pick))
+  - after: The lock pick is in the player's inventory.
+  - after provided predicates: (inventory ?player ?pick)
+
+pddl:
+```lisp
+(:action bend_paperclip_into_pick
+    :parameters (?player - player ?paperclip - item ?pick - item)
+    :precondition (inventory ?player ?paperclip)
+    :effect (and 
+              (not (inventory ?player ?paperclip))
+              (inventory ?player ?pick))
+)
+```
+
+### Action: insert_wrench
+- action name: insert_wrench
+- summarize action: This action allows the player to insert a wrench into a lock if they have the wrench in their inventory.
+- what is needed to do the action: The player, location of the lock, and the wrench are needed.
+- what is the result: The wrench is inserted into the lock.
+
+- entities:
+  - entity name: wrench
+  - before: The player has the wrench in their inventory.
+  - before provided predicates: (inventory ?player ?wrench)
+  - after: The wrench is inserted into the lock.
+  - after provided predicates: (wrench_in_lock ?loc)
+
+pddl:
+```lisp
+(:action insert_wrench
+    :parameters (?player - player ?loc - location ?wrench - item)
+    :precondition (inventory ?player ?wrench)
+    :effect (and 
+              (not (inventory ?player ?wrench))
+              (wrench_in_lock ?loc))
+)
+```
+
+### Action: insert_pick
+- action name: insert_pick
+- summarize action: This action allows the player to insert a pick into a lock if they have the pick in their inventory.
+- what is needed to do the action: The player, location of the lock, and the pick are needed.
+- what is the result: The pick is inserted into the lock.
+
+- entities:
+  - entity name: pick
+  - before: The player has the pick in their inventory.
+  - before provided predicates: (inventory ?player ?pick)
+  - after: The pick is inserted into the lock.
+  - after provided predicates: (pick_in_lock ?loc)
+
+pddl:
+```lisp
+(:action insert_pick
+    :parameters (?player - player ?loc - location ?pick - item)
+    :precondition (inventory ?player ?pick)
+    :effect (and 
+              (not (inventory ?player ?pick))
+              (pick_in_lock ?loc))
+)
+```
+
+### Action: push_pins_out_of_tumblers
+- action name: push_pins_out_of_tumblers
+- summarize action: This action allows the player to pick a lock using a wrench and pick, provided these tools are in the lock already.
+- what is needed to do the action: The location of the lock must have the wrench and pick inserted.
+- what is the result: The hard lock at the location is no longer a barrier.
+
+- entities:
+  - entity name: hard lock
+  - before: The lock is classified as a hard lock.
+  - before provided predicates: (has_hard_lock ?loc)
+  - after: The lock is no longer classified as a hard lock.
+  - after provided predicates: (not (has_hard_lock ?loc))
+
+  - entity name: wrench and pick 
+  - before: The wrench and pick must be in the lock.
+  - before provided predicates: (wrench_in_lock ?loc) (pick_in_lock ?loc)
+  - after: The wrench and pick remain in the lock unchanged.
+  - after provided predicates: (wrench_in_lock ?loc) (pick_in_lock ?loc)
+
+pddl:
+```lisp
+(:action push_pins_out_of_tumblers
+    :parameters (?loc - location)
+    :precondition (and 
+                    (has_hard_lock ?loc) 
+                    (wrench_in_lock ?loc) 
+                    (pick_in_lock ?loc))
+    :effect (not (has_hard_lock ?loc))
+)
+```
+
+### Action: straighten_coathanger
+- action name: straighten_coathanger
+- summarize action: This action allows the player to straighten a coathanger if they have the coathanger in their inventory.
+- what is needed to do the action: The player and the coathanger are needed.
+- what is the result: The coathanger is straightened in the player's inventory.
+
+- entities:
+  - entity name: coathanger (unstraightened)
+  - before: The coathanger is in the player's inventory.
+  - before provided predicates: (inventory ?player ?coathanger)
+  - after: The coathanger is straightened in the player's inventory.
+  - after provided predicates: (inventory ?player ?straightened_coathanger)
+
+pddl:
+```lisp
+(:action straighten_coathanger
+    :parameters (?player - player ?coathanger - item ?straightened_coathanger - item)
+    :precondition (inventory ?player ?coathanger)
+    :effect (and 
+              (not (inventory ?player ?coathanger)) 
+              (inventory ?player ?straightened_coathanger))
+)
+```
+
+### Action: lift_weatherstripping
+- action name: lift_weatherstripping
+- summarize action: This action allows the player to lift the weatherstripping of a car door if the car is locked.
+- what is needed to do the action: The location of the car and the locked status are needed.
+- what is the result: The weatherstripping is removed from the car.
+
+- entities:
+  - entity name: weatherstripping
+  - before: The car's weatherstripping is in place.
+  - before provided predicates: (locked_car ?loc)
+  - after: The car's weatherstripping is removed.
+  - after provided predicates: (weatherstripping_removed ?loc)
+
+pddl:
+```lisp
+(:action lift_weatherstripping
+    :parameters (?loc - location)
+    :precondition (locked_car ?loc)
+    :effect (weatherstripping_removed ?loc)
+)
+```
+
+### Action: insert_hanger
+- action name: insert_hanger
+- summarize action: This action allows the player to insert a straightened coathanger into the car door once the weatherstripping has been removed.
+- what is needed to do the action: The player, location of the car, and the straightened coathanger are required.
+- what is the result: The coathanger is inserted into the car door.
+
+- entities:
+  - entity name: straightened coathanger
+  - before: The player has a straightened coathanger in their inventory.
+  - before provided predicates: (inventory ?player ?straightened_coathanger)
+  - after: The straightened coathanger is inserted into the car.
+  - after provided predicates: (coathanger_inserted ?loc)
+
+  - entity name: car with removed weatherstripping
+  - before: The car has removed weatherstripping.
+  - before provided predicates: (weatherstripping_removed ?loc)
+  - after: The car's state regarding weatherstripping remains unchanged.
+  - after provided predicates: (weatherstripping_removed ?loc)
+
+pddl:
+```lisp
+(:action insert_hanger
+    :parameters (?player - player ?loc - location ?straightened_coathanger - item)
+    :precondition (and 
+                    (inventory ?player ?straightened_coathanger) 
+                    (weatherstripping_removed ?loc))
+    :effect (and 
+              (not (inventory ?player ?straightened_coathanger))
+              (coathanger_inserted ?loc))
+)
+```
+
+### Action: hook_latch
+- action name: hook_latch
+- summarize action: This action allows the player to hook onto the car latch using the coathanger if the coathanger has been inserted.
+- what is needed to do the action: The location of the car with the coathanger inserted is needed.
+- what is the result: The latch inside the car is hooked.
+
+- entities:
+  - entity name: coathanger
+  - before: The coathanger is inserted in the car.
+  - before provided predicates: (coathanger_inserted ?loc)
+  - after: The coathanger is still inserted, and the latch is hooked.
+  - after provided predicates: (coathanger_inserted ?loc) (latch_hooked ?loc)
+
+pddl:
+```lisp
+(:action hook_latch
+    :parameters (?loc - location)
+    :precondition (coathanger_inserted ?loc)
+    :effect (latch_hooked ?loc)
+)
+```
+
+### Action: pull_coathanger
+- action name: pull_coathanger
+- summarize action: This action allows the player to unlock the car by pulling the coathanger after it hooks onto the latch.
+- what is needed to do the action: The location of the car with a hooked latch is required.
+- what is the result: The car at the location is unlocked.
+
+- entities:
+  - entity name: car
+  - before: The car is locked.
+  - before provided predicates: (locked_car ?loc) (latch_hooked ?loc)
+  - after: The car is unlocked.
+  - after provided predicates: (not (locked_car ?loc))
+
+pddl:
+```lisp
+(:action pull_coathanger
+    :parameters (?loc - location)
+    :precondition (latch_hooked ?loc)
+    :effect (not (locked_car ?loc))
+)
+```

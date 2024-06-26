@@ -1,0 +1,2 @@
+remove_member ('anish', 'ss')
+check_if_cult ('ss')

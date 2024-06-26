@@ -1,0 +1,64 @@
+Here are the desired pddl actions based on your given text:
+
+```
+(:action go
+   :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+   :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+   :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+   
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?item ?loc))
+   :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+(:action build_roof
+   :parameters (?player - player ?log - log)
+   :precondition (and (inventory ?player ?log))
+   :effect (exists (?roof - roof) (and (at ?roof ?player)))
+)
+
+(:action build_wall
+   :parameters (?player - player ?small_sticks - small_sticks)
+   :precondition (and (inventory ?player ?small_sticks))
+   :effect (exists (?wall - wall) (and (at ?wall ?player)))  
+)
+
+(:action build_bed
+   :parameters (?player - player ?leaves - leaves)
+   :precondition (and (inventory ?player ?leaves))
+   :effect (exists (?bed - bed) (and (at ?bed ?player)))
+)
+
+(:action complete_shelter
+   :parameters (?player - player ?roof - roof ?wall - wall ?bed - bed)
+   :precondition (and (at ?roof ?player) (at ?wall ?player) (at ?bed ?player))
+   :effect (exists (?shelter - shelter) (and (at ?shelter ?player)))  
+)
+
+(:action hunt_animal
+   :parameters (?player - player ?sharp_stone - sharp_stone ?animal - animal)
+   :precondition (and (inventory ?player ?sharp_stone) (at ?animal (location ?player)))
+   :effect (and (treated ?animal) (not (at ?animal (location ?player))))
+)
+
+(:action prepare_animal
+   :parameters (?player - player ?sharp_stone - sharp_stone ?animal - animal)
+   :precondition (and (inventory ?player ?sharp_stone) (treated ?animal))
+   :effect (and (not (treated ?animal)) (at ?animal ?player))
+)
+
+(:action build_raft
+   :parameters (?player - player ?raft_draft - raft_draft)
+   :precondition (and (inventory ?player ?raft_draft))
+   :effect (exists (?raft_finished - raft_finished) (and (at ?raft_finished ?player)))
+)
+
+(:action test_raft
+   :parameters (?player - player ?raft_finished - raft_finished)
+   :precondition (and (inventory ?player ?raft_finished))
+   :effect (at ?raft_finished ?player)
+)
+```
+Note: For the `:effect` part in some actions, I used `and (at ?variable ?player)` because, according to the given context, it is obvious that if something is built or prepared, it is located at the player's place. Also, usually another predicate is added to indicate that resource used to build/prepared has been consumed but as there are no such predicates in the given set, this step is ignored. Please adapt it according to your context if required.

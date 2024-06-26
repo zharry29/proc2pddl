@@ -1,0 +1,332 @@
+Sure, let's start with each action and fill it out based on the predicates provided.
+
+### Action 1: go
+- action name: go
+- summarize action: The player navigates from one location to an adjacent location.
+- what is needed to do the action: The origin and destination locations must be connected in a specific direction and there must be no blockage.
+- what is the result: The player will now be at the destination location.
+
+- entities:
+  - entity name: player
+  - before: at the origin location
+  - before provided predicates: (at ?player ?loc1)
+  - after: at the destination location
+  - after provided predicates: (at ?player ?loc2)
+
+  - entity name: location
+  - before: connected and not blocked
+  - before provided predicates: (connected ?loc1 ?dir ?loc2), (not (blocked ?loc1 ?dir ?loc2))
+  - after: unchanged
+
+pddl:
+```lisp
+(:action go
+  :parameters (?player - player ?loc1 ?loc2 - location ?dir - direction)
+  :precondition (and
+    (at ?player ?loc1)
+    (connected ?loc1 ?dir ?loc2)
+    (not (blocked ?loc1 ?dir ?loc2))
+  )
+  :effect (and
+    (not (at ?player ?loc1))
+    (at ?player ?loc2)
+  )
+)
+```
+
+### Action 2: get
+- action name: get
+- summarize action: The player picks up an item and puts it in their inventory.
+- what is needed to do the action: The item must be gettable and the player must be at the same location as the item.
+- what is the result: The item will be in the player's inventory.
+
+- entities:
+  - entity name: item
+  - before: at a location, gettable
+  - before provided predicates: (at ?item ?loc), (is_gettable ?item)
+  - after: in the player's inventory
+  - after provided predicates: (inventory ?player ?item)
+
+pddl:
+```lisp
+(:action get
+  :parameters (?player - player ?item - object ?loc - location)
+  :precondition (and
+    (at ?player ?loc)
+    (at ?item ?loc)
+    (is_gettable ?item)
+  )
+  :effect (and
+    (not (at ?item ?loc))
+    (inventory ?player ?item)
+  )
+)
+```
+
+### Action 3: lay_masking_tape
+- action name: lay_masking_tape
+- summarize action: The player lays masking tape at a specific location.
+- what is needed to do the action: The player must have the masking tape in their inventory.
+- what is the result: The specific location will now have masking tape laid out on it.
+
+- entities:
+  - entity name: masking tape
+  - before: in the player's inventory
+  - before provided predicates: (inventory ?player ?masking_tape)
+  - after: laid out at the location
+  - after provided predicates: (has_ten_strips ?masking_tape), (at ?masking_tape ?loc)
+
+pddl:
+```lisp
+(:action lay_masking_tape
+  :parameters (?player - player ?masking_tape - masking_tape ?loc - location)
+  :precondition (and
+    (inventory ?player ?masking_tape)
+  )
+  :effect (and
+    (not (inventory ?player ?masking_tape))
+    (has_ten_strips ?masking_tape)
+    (at ?masking_tape ?loc)
+  )
+)
+```
+
+### Action 4: make_tosses_column
+- action name: make_tosses_column
+- summarize action: The player creates a tosses column on a piece of paper.
+- what is needed to do the action: The player must have a piece of paper in their inventory.
+- what is the result: The paper will now have a tosses column.
+
+- entities:
+  - entity name: paper
+  - before: in the player's inventory
+  - before provided predicates: (inventory ?player ?paper)
+  - after: has a tosses column
+  - after provided predicates: (tosses_column ?paper)
+
+pddl:
+```lisp
+(:action make_tosses_column
+  :parameters (?player - player ?paper - paper)
+  :precondition (and
+    (inventory ?player ?paper)
+  )
+  :effect (and
+    (tosses_column ?paper)
+  )
+)
+```
+
+### Action 5: make_crosses_column
+- action name: make_crosses_column
+- summarize action: The player creates a crosses column on a piece of paper.
+- what is needed to do the action: The player must have a piece of paper in their inventory.
+- what is the result: The paper will now have a crosses column.
+
+- entities:
+  - entity name: paper
+  - before: in the player's inventory
+  - before provided predicates: (inventory ?player ?paper)
+  - after: has a crosses column
+  - after provided predicates: (crosses_column ?paper)
+
+pddl:
+```lisp
+(:action make_crosses_column
+  :parameters (?player - player ?paper - paper)
+  :precondition (and
+    (inventory ?player ?paper)
+  )
+  :effect (and
+    (crosses_column ?paper)
+  )
+)
+```
+
+### Action 6: thaw_food
+- action name: thaw_food
+- summarize action: The player thaws a food item that is currently frozen.
+- what is needed to do the action: The food item must be frozen.
+- what is the result: The food item will no longer be frozen.
+
+- entities:
+  - entity name: food item
+  - before: frozen
+  - before provided predicates: (frozen ?object), (is_food_item ?object)
+  - after: unfrozen
+  - after provided predicates: (not (frozen ?object))
+
+pddl:
+```lisp
+(:action thaw_food
+  :parameters (?object - items)
+  :precondition (and
+    (frozen ?object)
+    (is_food_item ?object)
+  )
+  :effect (and
+    (not (frozen ?object))
+  )
+)
+```
+
+### Action 7: throw
+- action name: throw
+- summarize action: The player throws a food item at a specific location.
+- what is needed to do the action: The food item must have acceptable throwing characteristics and the player must be at the same location as where the item will be thrown.
+- what is the result: The food items will be considered thrown at the location.
+
+- entities:
+  - entity name: food item
+  - before: in the player's inventory
+  - before provided predicates: (inventory ?player ?item), (has_throwing_distance ?item)
+  - after: thrown at the location
+  - after provided predicates: (thrown_food_items ?loc)
+
+pddl:
+```lisp
+(:action throw
+  :parameters (?player - player ?item - items ?loc - location)
+  :precondition (and
+    (inventory ?player ?item)
+    (at ?player ?loc)
+    (has_throwing_distance ?item)
+  )
+  :effect (and
+    (not (inventory ?player ?item))
+    (thrown_food_items ?loc)
+  )
+)
+```
+
+### Action 8: record_tosses
+- action name: record_tosses
+- summarize action: The player records the tosses on a piece of paper.
+- what is needed to do the action: There must be a tosses column on the paper.
+- what is the result: Tosses will be recorded on the paper.
+
+- entities:
+  - entity name: paper
+  - before: has tosses column
+  - before provided predicates: (tosses_column ?paper)
+  - after: tosses recorded
+  - after provided predicates: (tosses_recorded ?paper)
+
+pddl:
+```lisp
+(:action record_tosses
+  :parameters (?player - player ?paper - paper)
+  :precondition (and
+    (tosses_column ?paper)
+  )
+  :effect (and
+    (tosses_recorded ?paper)
+  )
+)
+```
+
+### Action 9: record_crosses
+- action name: record_crosses
+- summarize action: The player records the crosses on a piece of paper.
+- what is needed to do the action: There must be a crosses column on the paper.
+- what is the result: Crosses will be recorded on the paper.
+
+- entities:
+  - entity name: paper
+  - before: has crosses column
+  - before provided predicates: (crosses_column ?paper)
+  - after: crosses recorded
+  - after provided predicates: (crosses_recorded ?paper)
+
+pddl:
+```lisp
+(:action record_crosses
+  :parameters (?player - player ?paper - paper)
+  :precondition (and
+    (crosses_column ?paper)
+  )
+  :effect (and
+    (crosses_recorded ?paper)
+  )
+)
+```
+
+### Action 10: divide_crosses
+- action name: divide_crosses
+- summarize action: The player divides the crosses on the paper.
+- what is needed to do the action: Crosses must be recorded on the paper.
+- what is the result: Crosses will be divided on the paper.
+
+- entities:
+  - entity name: paper
+  - before: crosses recorded
+  - before provided predicates: (crosses_recorded ?paper)
+  - after: crosses divided
+  - after provided predicates: (crosses_divided ?paper)
+
+pddl:
+```lisp
+(:action divide_crosses
+  :parameters (?player - player ?paper - paper)
+  :precondition (and
+    (crosses_recorded ?paper)
+  )
+  :effect (and
+    (crosses_divided ?paper)
+  )
+)
+```
+
+### Action 11: calculate_pi
+- action name: calculate_pi
+- summarize action: The player calculates the value of pi using the recorded tosses.
+- what is needed to do the action: Tosses must be recorded on a piece of paper.
+- what is the result: The value of pi will be calculated and stored in the paper.
+
+- entities:
+  - entity name: paper
+  - before: tosses recorded
+  - before provided predicates: (tosses_recorded ?paper)
+  - after: pi calculated
+  - after provided predicates: (calculated_pi ?player)
+
+pddl:
+```lisp
+(:action calculate_pi
+  :parameters (?player - player ?paper - paper)
+  :precondition (and
+    (tosses_recorded ?paper)
+  )
+  :effect (and
+    (calculated_pi ?player)
+  )
+)
+```
+
+### Action 12: be_amazed
+- action name: be_amazed
+- summarize action: The player becomes amazed after calculating pi.
+- what is needed to do the action: The player must have calculated pi.
+- what is the result: The player will be amazed.
+
+- entities:
+  - entity name: player
+  - before: pi calculated
+  - before provided predicates: (calculated_pi ?player)
+  - after: amazed
+  - after provided predicates: (amazed ?player)
+
+pddl:
+```lisp
+(:action be_amazed
+  :parameters (?player - player)
+  :precondition (and
+    (calculated_pi ?player)
+  )
+  :effect (and
+    (amazed ?player)
+  )
+)
+```
+
+I hope this fulfills your requirements comprehensively. If you have any further questions or need adjustments, feel free to ask!

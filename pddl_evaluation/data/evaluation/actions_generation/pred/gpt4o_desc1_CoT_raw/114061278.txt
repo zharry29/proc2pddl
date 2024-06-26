@@ -1,0 +1,157 @@
+Sure, let's go through each action one by one, following the provided format.
+
+### Action: get
+
+- summarize action: The action 'get' involves picking up an item and placing it into the inventory.
+- what is needed to do the action: The action needs the item to be available and not already in the inventory.
+- what is the result: The item will be placed into the inventory.
+
+- entities:
+  - entity name: item
+  - before: The item is present but not in the inventory.
+  - before provided predicates: Not (inventory ?item)
+  - after: The item is now in the inventory.
+  - after provided predicates: (inventory ?item)
+
+pddl:
+```lisp
+(:action get
+  :parameters (?item - item)
+  :precondition (not (inventory ?item))
+  :effect (inventory ?item)
+)
+```
+
+### Action: poke
+
+- summarize action: The action 'poke' involves poking a hole in the top of the coconut.
+- what is needed to do the action: A whole coconut that has yet to have its eyes poked.
+- what is the result: The coconut will have holes poked in it.
+
+- entities:
+  - entity name: coconut
+  - before: A whole coconut without holes poked.
+  - before provided predicates: Not (has_eyes_poked ?c)
+  - after: The coconut with holes poked in it.
+  - after provided predicates: (has_eyes_poked ?c)
+
+pddl:
+```lisp
+(:action poke
+  :parameters (?c - coconut)
+  :precondition (not (has_eyes_poked ?c))
+  :effect (has_eyes_poked ?c)
+)
+```
+
+### Action: flip
+
+- summarize action: The action 'flip' involves turning the coconut upside down.
+- what is needed to do the action: A coconut that has holes poked in it.
+- what is the result: This might not change the predicate directly but is logically required before draining or other steps.
+
+- entities:
+  - entity name: coconut
+  - before: The coconut with holes poked.
+  - before provided predicates: (has_eyes_poked ?c)
+  - after: The coconut remains the same but flipped state is acknowledged.
+  - after provided predicates: (has_eyes_poked ?c)
+
+pddl:
+```lisp
+(:action flip
+  :parameters (?c - coconut)
+  :precondition (has_eyes_poked ?c)
+  :effect (has_eyes_poked ?c)  ; No direct change in predicates
+)
+```
+
+### Action: wrap
+
+- summarize action: The action 'wrap' involves wrapping the coconut in a towel.
+- what is needed to do the action: A whole coconut and a towel.
+- what is the result: The coconut will be wrapped in a towel.
+
+- entities:
+  - entity name: coconut
+  - before: The whole coconut.
+  - before provided predicates: Not (is_item_wrapped_coconut ?c)
+  - after: The coconut wrapped in a towel.
+  - after provided predicates: (is_item_wrapped_coconut ?c)
+
+pddl:
+```lisp
+(:action wrap
+  :parameters (?c - coconut)
+  :precondition (not (is_item_wrapped_coconut ?c))
+  :effect (is_item_wrapped_coconut ?c)
+)
+```
+
+### Action: hit
+
+- summarize action: The action 'hit' involves hitting the wrapped coconut with a mallet.
+- what is needed to do the action: A coconut wrapped in a towel and a mallet.
+- what is the result: The wrapped coconut will be broken.
+
+- entities:
+  - entity name: coconut_wrapped
+  - before: The coconut wrapped in a towel.
+  - before provided predicates: (is_item_wrapped_coconut ?c)
+  - after: The coconut will be broken but still within the towel.
+  - after provided predicates: (is_item_broken_coconut ?c)
+
+pddl:
+```lisp
+(:action hit
+  :parameters (?c - coconut_wrapped)
+  :precondition (is_item_wrapped_coconut ?c)
+  :effect (is_item_broken_coconut ?c)
+)
+```
+
+### Action: free
+
+- summarize action: The action 'free' involves running a knife between the shell and the meat to separate them.
+- what is needed to do the action: A broken coconut and a knife.
+- what is the result: The meat will be freed from the coconut shell.
+
+- entities:
+  - entity name: coconut_broken
+  - before: The broken coconut.
+  - before provided predicates: (is_item_broken_coconut ?c)
+  - after: The meat is freed from the broken coconut.
+  - after provided predicates: (is_item_coconut_meat ?c)
+
+pddl:
+```lisp
+(:action free
+  :parameters (?c - coconut_broken)
+  :precondition (is_item_broken_coconut ?c)
+  :effect (is_item_coconut_meat ?c)
+)
+```
+
+### Action: remove_fiber
+
+- summarize action: The action 'remove_fiber' involves peeling the fiber off the coconut meat.
+- what is needed to do the action: A piece of coconut meat and possibly a peeler tool.
+- what is the result: The coconut meat will be peeled.
+
+- entities:
+  - entity name: coconut_meat
+  - before: The meat of the coconut.
+  - before provided predicates: (is_item_coconut_meat ?c)
+  - after: The peeled coconut meat.
+  - after provided predicates: (is_item_coconut_meat_peeled ?c)
+
+pddl:
+```lisp
+(:action remove_fiber
+  :parameters (?c - coconut_meat)
+  :precondition (is_item_coconut_meat ?c)
+  :effect (is_item_coconut_meat_peeled ?c)
+)
+```
+
+This should cover all the actions with the required parameters, preconditions, and effects based on the provided predicates.

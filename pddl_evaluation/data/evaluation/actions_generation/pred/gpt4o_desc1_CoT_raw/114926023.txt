@@ -1,0 +1,283 @@
+Sure, I'll follow the format provided and fill out the PDDL actions based on the predicates, types, and requirements you've given. Let's go through each action one by one:
+
+### Action: go
+- action name: go
+- summarize action: Navigate to an adjacent location connected by a specific direction.
+- what is needed to do the action: The player and two locations that are connected via a direction.
+- what is the result: The player will move from the current location to the adjacent location.
+
+- entities:
+  - entity name: player 
+  - before: The player is at the starting location. 
+  - before provided predicates: (at ?player ?loc1) 
+  - after: The player is at the adjacent location. 
+  - after provided predicates: (at ?player ?loc2)
+  - entity name: location
+  - before: Two locations are connected in a specific direction.
+  - before provided predicates: (connected ?loc1 ?dir ?loc2) 
+  - after: Remains connected.
+  - after provided predicates: (connected ?loc1 ?dir ?loc2)
+
+pddl:
+```lisp
+(:action go
+    :parameters (?player - player ?loc1 ?loc2 - location ?dir - direction)
+    :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+    :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+```
+
+### Action: get
+- action name: get
+- summarize action: Pick up an item from a location and put it in the player's inventory.
+- what is needed to do the action: The player at a location and the item at the same location.
+- what is the result: The item will be added to the player's inventory.
+
+- entities:
+  - entity name: player 
+  - before: The player is at the location and does not have the item in inventory.
+  - before provided predicates: (at ?player ?loc) (not (inventory ?player ?item))
+  - after: The player has the item in inventory.
+  - after provided predicates: (inventory ?player ?item)
+  - entity name: item
+  - before: The item is at the same location as the player.
+  - before provided predicates: (at ?item ?loc)
+  - after: The item is not at the location but in the player's inventory.
+  - after provided predicates: (not (at ?item ?loc))
+
+pddl:
+```lisp
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?player ?loc) (at ?item ?loc) (not (inventory ?player ?item)))
+    :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+```
+
+### Action: build_roof
+- action name: build_roof
+- summarize action: Construct a roof using logs.
+- what is needed to do the action: Logs in the player's inventory.
+- what is the result: A roof will be built.
+
+- entities:
+  - entity name: player 
+  - before: The player has logs in the inventory.
+  - before provided predicates: (inventory ?player ?logs)
+  - after: Logs will be used to build the roof.
+  - after provided predicates: (not (inventory ?player ?logs))
+  - entity name: roof
+  - before: Roof does not exist.
+  - before provided predicates: (not (at ?roof ?loc))
+  - after: Roof is built and placed at the location.
+  - after provided predicates: (at ?roof ?loc)
+
+pddl:
+```lisp
+(:action build_roof
+    :parameters (?player - player ?logs - log ?roof - roof ?loc - location)
+    :precondition (inventory ?player ?logs)
+    :effect (and (not (inventory ?player ?logs)) (at ?roof ?loc))
+)
+```
+
+### Action: build_wall
+- action name: build_wall
+- summarize action: Construct a wall using small sticks.
+- what is needed to do the action: Small sticks in the player's inventory.
+- what is the result: A wall will be built.
+
+- entities:
+  - entity name: player 
+  - before: The player has small sticks in the inventory.
+  - before provided predicates: (inventory ?player ?sticks)
+  - after: Small sticks will be used to build the wall.
+  - after provided predicates: (not (inventory ?player ?sticks))
+  - entity name: wall
+  - before: Wall does not exist.
+  - before provided predicates: (not (at ?wall ?loc))
+  - after: Wall is built and placed at the location.
+  - after provided predicates: (at ?wall ?loc)
+
+pddl:
+```lisp
+(:action build_wall
+    :parameters (?player - player ?sticks - small_sticks ?wall - wall ?loc - location)
+    :precondition (inventory ?player ?sticks)
+    :effect (and (not (inventory ?player ?sticks)) (at ?wall ?loc))
+)
+```
+
+### Action: build_bed
+- action name: build_bed
+- summarize action: Construct a bed using leaves.
+- what is needed to do the action: Leaves in the player's inventory.
+- what is the result: A bed will be built.
+
+- entities:
+  - entity name: player 
+  - before: The player has leaves in the inventory.
+  - before provided predicates: (inventory ?player ?leaves)
+  - after: Leaves will be used to build the bed.
+  - after provided predicates: (not (inventory ?player ?leaves))
+  - entity name: bed
+  - before: Bed does not exist.
+  - before provided predicates: (not (at ?bed ?loc))
+  - after: Bed is built and placed at the location.
+  - after provided predicates: (at ?bed ?loc)
+
+pddl:
+```lisp
+(:action build_bed
+    :parameters (?player - player ?leaves - leaves ?bed - bed ?loc - location)
+    :precondition (inventory ?player ?leaves)
+    :effect (and (not (inventory ?player ?leaves)) (at ?bed ?loc))
+)
+```
+
+### Action: complete_shelter
+- action name: complete_shelter
+- summarize action: Complete the shelter by using a roof, wall, and bed.
+- what is needed to do the action: Roof, wall, and bed at the same location.
+- what is the result: The shelter will be completed.
+
+- entities:
+  - entity name: shelter 
+  - before: Shelter does not exist.
+  - before provided predicates: (not (at ?shelter ?loc))
+  - after: Shelter exists at the location.
+  - after provided predicates: (at ?shelter ?loc)
+  - entity name: roof
+  - before: Roof is at the location.
+  - before provided predicates: (at ?roof ?loc)
+  - after: Roof is part of the shelter.
+  - after provided predicates: (at ?shelter ?loc)
+  - entity name: wall
+  - before: Wall is at the location.
+  - before provided predicates: (at ?wall ?loc)
+  - after: Wall is part of the shelter.
+  - after provided predicates: (at ?shelter ?loc)
+  - entity name: bed
+  - before: Bed is at the location.
+  - before provided predicates: (at ?bed ?loc)
+  - after: Bed is part of the shelter.
+  - after provided predicates: (at ?shelter ?loc)
+
+pddl:
+```lisp
+(:action complete_shelter
+    :parameters (?shelter - shelter ?roof - roof ?wall - wall ?bed - bed ?loc - location)
+    :precondition (and (at ?roof ?loc) (at ?wall ?loc) (at ?bed ?loc))
+    :effect (at ?shelter ?loc)
+)
+```
+
+### Action: hunt_animal
+- action name: hunt_animal
+- summarize action: Hunt an animal using a sharp stone.
+- what is needed to do the action: A sharp stone in the player's inventory and an animal at the same location.
+- what is the result: The animal will be hunted.
+
+- entities:
+  - entity name: player 
+  - before: The player has a sharp stone in the inventory and is at the same location as the animal.
+  - before provided predicates: (inventory ?player ?sharp_stone) (at ?player ?loc) (at ?animal ?loc)
+  - after: The animal is no longer alive and needs to be prepared.
+  - after provided predicates: (not (at ?animal ?loc))
+  - entity name: animal
+  - before: The animal is alive at the location.
+  - before provided predicates: (at ?animal ?loc)
+  - after: The animal is hunted and not at the location.
+  - after provided predicates: (not (at ?animal ?loc))
+
+pddl:
+```lisp
+(:action hunt_animal
+    :parameters (?player - player ?sharp_stone - sharp_stone ?animal - animal ?loc - location)
+    :precondition (and (inventory ?player ?sharp_stone) (at ?player ?loc) (at ?animal ?loc))
+    :effect (not (at ?animal ?loc))
+)
+```
+
+### Action: prepare_animal
+- action name: prepare_animal
+- summarize action: Prepare an animal using a sharp stone to make it safe to eat.
+- what is needed to do the action: A sharp stone in the player's inventory and the hunted animal.
+- what is the result: The animal is treated and is safe to eat.
+
+- entities:
+  - entity name: player 
+  - before: The player has a sharp stone in the inventory.
+  - before provided predicates: (inventory ?player ?sharp_stone)
+  - after: The sharp stone remains in the inventory.
+  - after provided predicates: (inventory ?player ?sharp_stone)
+  - entity name: animal
+  - before: The animal is not treated and thus not safe to eat.
+  - before provided predicates: (not (treated ?animal))
+  - after: The animal is treated and safe to eat.
+  - after provided predicates: (treated ?animal)
+
+pddl:
+```lisp
+(:action prepare_animal
+    :parameters (?player - player ?sharp_stone - sharp_stone ?animal - animal)
+    :precondition (inventory ?player ?sharp_stone)
+    :effect (treated ?animal)
+)
+```
+
+### Action: build_raft
+- action name: build_raft
+- summarize action: Build a raft using item components.
+- what is needed to do the action: Raft components in the player's inventory.
+- what is the result: A raft draft will be created.
+
+- entities:
+  - entity name: player 
+  - before: The player has the raft components in the inventory.
+  - before provided predicates: (inventory ?player ?components)
+  - after: The raft components are not in the inventory anymore.
+  - after provided predicates: (not (inventory ?player ?components))
+  - entity name: raft_draft
+  - before: The raft draft does not exist yet.
+  - before provided predicates: (not (at ?raft_draft ?loc))
+  - after: A raft draft is created at the location.
+  - after provided predicates: (at ?raft_draft ?loc)
+
+pddl:
+```lisp
+(:action build_raft
+    :parameters (?player - player ?components - item ?raft_draft - raft_draft ?loc - location)
+    :precondition (inventory ?player ?components)
+    :effect (and (not (inventory ?player ?components)) (at ?raft_draft ?loc))
+)
+```
+
+### Action: test_raft
+- action name: test_raft
+- summarize action: Test a raft draft to ensure it is seaworthy before riding it.
+- what is needed to do the action: A raft draft at the location.
+- what is the result: A finished raft is created if the raft draft is successful.
+
+- entities:
+  - entity name: raft_draft 
+  - before: The raft draft is at the location.
+  - before provided predicates: (at ?raft_draft ?loc)
+  - after: The raft draft is removed.
+  - after provided predicates: (not (at ?raft_draft ?loc))
+  - entity name: raft_finished
+  - before: The finished raft does not exist.
+  - before provided predicates: (not (at ?raft_finished ?loc))
+  - after: The finished raft is created at the location.
+  - after provided predicates: (at ?raft_finished ?loc)
+
+pddl:
+```lisp
+(:action test_raft
+    :parameters (?raft_draft - raft_draft ?raft_finished - raft_finished ?loc - location)
+    :precondition (at ?raft_draft ?loc)
+    :effect (and (not (at ?raft_draft ?loc)) (at ?raft_finished ?loc))
+)
+```
+
+This set of actions and their corresponding PDDL representations should cover the processes described for surviving on a deserted island with nothing. Each action has been outlined with the necessary parameters, preconditions, and effects according to the provided types and predicates.

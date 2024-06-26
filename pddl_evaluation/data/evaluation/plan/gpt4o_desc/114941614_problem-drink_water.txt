@@ -1,0 +1,4 @@
+get ('npc', 'bottle', 'camp')
+go ('npc', 'camp', 'east', 'stream')
+collect_water ('npc', 'stream', 'bottle')
+drink_water ('npc', 'bottle')

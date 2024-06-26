@@ -1,0 +1,298 @@
+1. Action `get`
+   Summarize action: The player picks up an item and places it in their inventory.
+   What is needed to do the action: The player, the item, location of the item.
+   What is the result: The item is now in the player's inventory.
+   
+   - Entities:
+     - Entity Name: item
+         - Before: at location 
+         - After: in player's inventory
+     - Entity Name: player
+         - Before: not having an item 
+         - After: having an item
+
+   pddl:
+   ```pddl
+   (:action get
+       :parameters (?player ?item ?loc)
+       :precondition (and
+           (at ?item ?loc)
+           (not (inventory ?player ?item))
+       )
+       :effect (inventory ?player ?item)
+   )
+   ```
+
+2. Action `drop`
+   Summarize action: The player removes an item from their inventory, leaving it at the current location.
+   What is needed to do the action: The player, the item, location of the drop.
+   What is the result: The item is no longer in the player's inventory and now at a certain location.
+
+   - Entities:
+     - Entity Name: item
+         - Before: in player's inventory 
+         - After: at location
+     - Entity Name: player
+         - Before: having an item 
+         - After: not having an item
+
+   pddl:
+   ```pddl
+   (:action drop
+       :parameters (?player ?item ?loc)
+       :precondition (inventory ?player ?item)
+       :effect (and
+            (not (inventory ?player ?item))
+            (at ?item ?loc)
+       )
+   )
+   ```
+
+3. Action `put_in_stopper`
+    Summarize action: The player puts a stopper in an item.
+    What is needed to do the action: The player, the item that has a stopper.
+    What is the result: The item now has a stopper.
+
+    - Entities:
+     - Entity Name: item
+         - Before: without a stopper
+         - After: with a stopper
+
+   pddl:
+   ```pddl
+   (:action put_in_stopper
+       :parameters (?player ?item)
+       :precondition (and
+            (inventory ?player ?item)
+            (not (has_stopper ?item))
+       )
+       :effect (has_stopper ?item)
+   )
+   ```
+
+...
+(other actions follow the similar pattern: summarization, entity inference and then PDDL expression)
+4. Action `fill`
+   Summarize action: The player fills an item (that can be filled) with water.
+   What is needed to do the action: The player, the item that can be filled.
+   What is the result: The item is now filled with water.
+   
+   - Entities:
+     - Entity Name: item
+         - Before: empty
+         - After: filled with water
+
+   pddl:
+   ```pddl
+   (:action fill
+       :parameters (?player ?item)
+       :precondition (and
+            (can_be_filled ?item)
+            (inventory ?player ?item)
+            (not (full ?item))
+       )
+       :effect (full ?item)
+   )
+   ```
+
+5. Action `purify`
+   Summarize action: The player purifies the water in an item.
+   What is needed to do the action: The player, the item filled with water.
+   What is the result: The water in the item is now purified.
+
+   - Entities:
+     - Entity Name: item
+         - Before: filled with unpurified water
+         - After: filled with purified water
+
+   pddl:
+   ```pddl
+   (:action purify
+       :parameters (?player ?item)
+       :precondition (and
+            (full ?item)
+            (not (purified ?item))
+            (inventory ?player ?item)
+       )
+       :effect (purified ?item)
+   )
+   ```
+
+6. Action `seal`
+   Summarize action: The player seals an item.
+   What is needed to do the action: The player, the item that can be sealed, a stopper to seal the item.
+   What is the result: The item is now sealed.
+   
+   - Entities:
+     - Entity Name: item
+         - Before: open
+         - After: sealed
+
+   pddl:
+   ```pddl
+   (:action seal
+       :parameters (?player ?item)
+       :precondition (and
+            (can_be_sealed ?item)
+            (has_stopper ?item)
+            (inventory ?player ?item)
+            (not (sealed ?item))
+       )
+       :effect (sealed ?item)
+   )
+   ```
+
+(Other actions such as `wait`, `go`, `put_batteries_in`, `turn_on_radio`, `create_cage`, `close_cage`, `put_in_cage` follows the similar pattern: set up prerequisites and then draw effect)
+7. Action `wait`
+   Summarize action: The player waits for a certain amount of time.
+   What is needed to do the action: The player.
+   What is the result: Time passes.
+
+   - Entities:
+     - Entity Name: player
+         - Before: initial time
+         - After: later time
+
+   pddl: (There are no explicit parameters or predicates to represent time in your predicates; so 'wait' might be an implied action rather than explicitly defined)
+
+8. Action `go`
+   Summarize action: The player moves from one location to another in a certain direction.
+   What is needed to do the action: The player, current location, direction, destination location.
+   What is the result: The player is now at the destination location.
+
+   - Entities:
+     - Entity Name: player
+         - Before: at initial location
+         - After: at destination location
+
+   pddl:
+   ```pddl
+   (:action go
+       :parameters (?player ?loc1 ?dir ?loc2)
+       :precondition (and
+            (at ?player ?loc1)
+            (connected ?loc1 ?dir ?loc2)
+            (not (blocked ?loc1 ?dir ?loc2))
+       )
+       :effect (and
+            (not (at ?player ?loc1))
+            (at ?player ?loc2)
+       )
+   )
+   ```
+
+9. Action `put_batteries_in`
+   Summarize action: The player puts batteries in the radio.
+   What is needed to do the action: The player, the radio, batteries.
+   What is the result: The radio now has batteries.
+
+   - Entities:
+     - Entity Name: radio
+         - Before: without batteries
+         - After: with batteries
+
+   pddl:
+   ```pddl
+   (:action put_batteries_in
+       :parameters (?player ?radio ?batteries)
+       :precondition (and
+            (inventory ?player ?batteries)
+            (inventory ?player ?radio)
+            (not (has_batteries ?radio))
+       )
+       :effect (has_batteries ?radio)
+   )
+   ```
+
+10. Action `turn_on_radio`
+   Summarize action: The player turns on the radio.
+   What is needed to do the action: The player, the radio, batteries in the radio.
+   What is the result: The radio is now on.
+
+   - Entities:
+     - Entity Name: radio
+         - Before: off
+         - After: on
+
+   pddl:
+   ```pddl
+   (:action turn_on_radio
+       :parameters (?player ?radio)
+       :precondition (and
+            (has_batteries ?radio)
+            (inventory ?player ?radio)
+            (not (on ?radio))
+       )
+       :effect (on ?radio)
+   )
+   ```
+
+(Other actions such as `create_cage`, `close_cage`, `put_in_cage` follows the similar pattern: set up prerequisites and then draw effect)
+11. Action `create_cage`
+   Summarize action: The player creates a Farraday cage.
+   What is needed to do the action: The player.
+   What is the result: A Farraday cage is created.
+
+   - Entities:
+     - Entity Name: cage
+         - Before: non-existent
+         - After: created
+
+   pddl:
+   ```pddl
+   (:action create_cage
+       :parameters (?player ?cage)
+       :precondition (not (exists (?cage - farraday_cage)))
+       :effect (exists (?cage - farraday_cage))
+   )
+   ```
+
+12. Action `close_cage`
+   Summarize action: The player closes the Farraday cage.
+   What is needed to do the action: The player, the Farraday cage.
+   What is the result: The Farraday cage is closed.
+
+   - Entities:
+     - Entity Name: cage
+         - Before: open
+         - After: closed
+
+   pddl:
+   ```pddl
+   (:action close_cage
+       :parameters (?player ?cage)
+       :precondition (and
+            (exists (?cage - farraday_cage))
+            (not (cage_closed ?cage))
+       )
+       :effect (cage_closed ?cage)
+   )
+   ```
+
+13. Action `put_in_cage`
+   Summarize action: The player puts an item in the Farraday cage.
+   What is needed to do the action: The player, the item, the Farraday cage.
+   What is the result: The item is in the Farraday cage.
+
+   - Entities:
+     - Entity Name: item
+         - Before: outside of the cage
+         - After: inside the cage
+     - Entity Name: cage
+         - Before: empty or containing other items
+         - After: containing the item
+
+   pddl:
+   ```pddl
+   (:action put_in_cage
+       :parameters (?player ?item ?cage)
+       :precondition (and
+            (inventory ?player ?item)
+            (exists (?cage - farraday_cage))
+            (not (in_cage ?item))
+            (cage_closed ?cage)
+       )
+       :effect (in_cage ?item)
+   )
+   ```
+That concludes all the given actions. Please note that some of the actions might need further refining depending on the specifics of the game or story progression, such as introducing predicates for Farraday cage's existence or the state of the batteries (new or used).

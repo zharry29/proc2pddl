@@ -1,0 +1,131 @@
+(:action go
+    :parameters (?p - player ?prev - location ?next - location ?dir - direction)
+    :precondition (and 
+                    (at ?p ?prev)
+                    (connected ?prev ?dir ?next)
+                    (not (blocked ?prev ?dir ?next)))
+    :effect (and 
+              (not (at ?p ?prev))
+              (at ?p ?next)))
+(:action learn 
+    :parameters (?p - player ?s - skill)
+    :precondition (not (learned ?p ?s))
+    :effect (learned ?p ?s))
+(:action crack_password_by_brute_force 
+    :parameters (?p - player ?password - item)
+    :precondition (and 
+                     (not (password_cracked ?p))
+                     (learned ?p ?s) 
+                     (is ?s - password_cracking_skill))
+    :effect (password_cracked ?p)) 
+
+(:action install_malware 
+    :parameters (?p - player ?m - malware ?ds - digital_system)
+    :precondition (and 
+                     (at ?p ?ds)
+                     (learned ?p ?s) 
+                     (is ?s - malware_installing_skill))
+    :effect (and 
+              (not (inventory ?p ?m))
+              (installed ?m ?ds)))
+(:action bypass_standard_authentication_system 
+    :parameters (?p - player ?ds - digital_system)
+    :precondition (and 
+                     (at ?p ?ds)
+                     (learned ?p ?s) 
+                     (is ?s - system_bypassing_skill))
+    :effect (bypassed ?ds))
+(:action not_let_administrator_know 
+    :parameters (?p - player ?admin - player ?ds - digital_system)
+    :precondition (and 
+                     (at ?p ?ds)
+                     (learned ?p ?s) 
+                     (is ?s - stealth_skill))
+    :effect (and 
+              (not (know ?admin ?ds))
+              (stealth ?p ?ds)))
+
+(:action make_no_change_to_website 
+    :parameters (?p - player ?ds - digital_system)
+    :precondition (at ?p ?ds)
+    :effect (website_unchanged ?ds))
+(:action create_fewest_file 
+    :parameters (?p - player ?ds - digital_system)
+    :precondition (at ?p ?ds)
+    :effect (not (create_more_file_than_need ?ds)))
+(:action delete_additional_users 
+    :parameters (?p - player ?ds - digital_system)
+    :precondition (and 
+                     (at ?p ?ds)
+                     (additional_users ?ds))
+    :effect (not (additional_users ?ds)))
+
+(:action hardcode_password
+    :parameters (?p - player ?ds - digital_system)
+    :precondition (at ?p ?ds)
+    :effect (hardcoded_secret_password ?ds))
+(:action track_covered 
+    :parameters (?p - player ?ds - digital_system)
+    :precondition (at ?p ?ds)
+    :effect (and 
+              (not (know ?admin ?p ?ds))
+              (stealth ?p ?ds)))
+(:action learn_concepts 
+    :parameters (?p - player ?c - concept)
+    :precondition (not (know ?p ?c))
+    :effect (know ?p ?c))
+
+(:action learn_internet 
+    :parameters (?p - player)
+    :precondition (not (know ?p internet))
+    :effect (know ?p internet))
+(:action learn_programming 
+    :parameters (?p - player)
+    :precondition (not (learned ?p programming))
+    :effect (learned ?p programming))
+(:action learn_unix 
+    :parameters (?p - player)
+    :precondition (not (know ?p unix))
+    :effect (know ?p unix))
+(:action become_skilled 
+    :parameters (?p - player ?s - skill)
+    :precondition (not (learned ?p ?s))
+    :effect (learned ?p ?s))
+
+(:action learn
+ :parameters (?p - player ?s - skill)
+ :precondition (not (learned ?p ?s))
+ :effect (learned ?p ?s))
+
+(:action learn
+ :parameters (?p - player ?c - concept)
+ :precondition (not (know ?p ?c))
+ :effect (know ?p ?c))
+
+(:action get_all_info
+:parameters (?p - player)
+:precondition (not (collected_all_info ?p))
+:effect (collected_all_info ?p))
+(:action ping
+:parameters (?p - player)
+:precondition (not (ping_succeed ?p))
+:effect (ping_succeed ?p))
+(:action check_email_server
+:parameters (?p - player)
+:precondition (not (server_checked ?p))
+:effect (server_checked ?p))
+
+(:action run_port_scan
+ :parameters (?p - player ?ds - digital_system)
+ :precondition (not (port_scanned ?p))
+ :effect (port_scanned ?p))
+(:action create_fake_wifi_access
+ :parameters (?p - player ?network - network)
+ :precondition (not (created_fake_wifi ?network))
+ :effect (created_fake_wifi ?network))
+(:action become_authorized
+ :parameters (?p - player)
+ :precondition (not (authorized ?p))
+ :effect (authorized ?p))
+
+)

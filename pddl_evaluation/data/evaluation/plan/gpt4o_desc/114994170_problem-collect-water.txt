@@ -1,0 +1,4 @@
+put_in_stopper ('bathtub')
+fill ('bottles')
+purify ('bottles')
+seal ('bottles')

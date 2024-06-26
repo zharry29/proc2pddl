@@ -1,0 +1,88 @@
+Sure! Below are the PDDL actions filled out with the required predicates in the correct PDDL format:
+
+```pddl
+(:action splash_swim
+  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and
+    (at ?player ?loc1)
+    (is_water ?loc1)
+    (connected ?loc1 ?dir ?loc2)
+    (is_water ?loc2)
+  )
+  :effect (and
+    (at ?player ?loc2)
+    (not (at ?player ?loc1))
+  )
+)
+
+(:action swim
+  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and
+    (at ?player ?loc1)
+    (is_water ?loc1)
+    (connected ?loc1 ?dir ?loc2)
+    (is_water ?loc2)
+  )
+  :effect (and
+    (at ?player ?loc2)
+    (not (at ?player ?loc1))
+  )
+)
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (at ?item ?loc)
+  :effect (and
+    (inventory ?player ?item)
+    (not (at ?item ?loc))
+  )
+)
+
+(:action onboard
+  :parameters (?player - player ?ship - ship ?loc - location)
+  :precondition (at ?ship ?loc)
+  :effect (on ?player ?ship)
+)
+
+(:action defend
+  :parameters (?player - player ?shark - shark)
+  :precondition (attacked ?player ?shark)
+  :effect (defending ?player)
+)
+
+(:action spot_ship
+  :parameters (?player - player ?ship - ship ?loc - location)
+  :precondition (at ?player ?loc)
+  :effect (visible ?ship)
+)
+
+(:action spot_shark
+  :parameters (?player - player ?shark - shark ?loc - location)
+  :precondition (at ?player ?loc)
+  :effect (visible ?shark)
+)
+
+(:action self_mobilize
+  :parameters (?player - player ?item - body)
+  :precondition (inventory ?player ?item)
+  :effect (sharp ?item)
+)
+
+(:action medicare
+  :parameters (?player - player)
+  :precondition (wounded ?player)
+  :effect (not (wounded ?player))
+)
+
+(:action attack_vulnerable
+  :parameters (?player - player ?part - part ?shark - shark)
+  :precondition (vulnerable ?part)
+  :effect (fleed ?shark)
+)
+
+(:action knockout
+  :parameters (?player - player ?part - part ?shark - shark)
+  :precondition (vulnerable ?part)
+  :effect (dizzy ?shark)
+)
+```

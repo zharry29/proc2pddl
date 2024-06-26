@@ -1,0 +1,22 @@
+Total PFs: 72
+Solved PFs: 4
+Unsolved PFs: 28
+Timeout PFs: 6
+Parsing Error PFs: 34
+
+Gold Plan: 0
+
+Action Accuracy: 0.014814814814814815
+Parameter Accuracy: 0.06666666666666667
+Precondition Accuracy: 0.037037037037037035
+Effect Accuracy: 0.11851851851851852
+
+114986868 # :precondition (true)
+114061278 # action repeated; wrong gen
+114905535 # (exists (?campfire) (and (campfire ?campfire) (at ?campfire ?loc))))
+115237120 # wrong gen
+114994170 # :effect (exists (?cage - farraday_cage))
+114394848
+114756331
+115230790
+115168608

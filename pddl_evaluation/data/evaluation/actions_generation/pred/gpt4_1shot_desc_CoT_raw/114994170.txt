@@ -1,0 +1,83 @@
+Sure! Here are the actions translated to PDDL:
+
+```pddl
+(:action get
+  :parameters (?player ?item ?location)
+  :precondition (and (at ?player ?location) (at ?item ?location))
+  :effect (inventory ?player ?item)
+)
+
+(:action drop
+  :parameters (?player ?item ?location)
+  :precondition (inventory ?player ?item)
+  :effect (not (inventory ?player ?item))
+)
+
+(:action put_in_stopper
+  :parameters (?player ?item)
+  :precondition (inventory ?player ?item)
+  :effect (has_stopper ?item)
+)
+
+(:action fill
+  :parameters (?player ?item)
+  :precondition (and (inventory ?player ?item) (can_be_filled ?item) (not (full ?item)))
+  :effect (full ?item)
+)
+
+(:action purify
+  :parameters (?player ?item)
+  :precondition (and (inventory ?player ?item) (full ?item))
+  :effect (purified ?item)
+)
+
+(:action seal
+  :parameters (?player ?item)
+  :precondition (and (inventory ?player ?item) (can_be_sealed ?item) (not (sealed ?item)))
+  :effect (sealed ?item)
+)
+
+(:action wait
+  :parameters (?player)
+  :precondition true
+  :effect true
+)
+
+(:action go
+  :parameters (?player ?dir ?loc1 ?loc2)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+(:action put_batteries_in
+  :parameters (?player ?radio)
+  :precondition (and (inventory ?player ?radio) (not (has_batteries ?radio)))
+  :effect (has_batteries ?radio)
+)
+
+(:action turn_on_radio
+  :parameters (?player ?radio)
+  :precondition (and (inventory ?player ?radio) (has_batteries ?radio) (not (on ?radio)))
+  :effect (on ?radio)
+)
+
+(:action create_cage
+  :parameters (?player ?cage)
+  :precondition (and (inventory ?player ?cage) (not (cage_closed ?cage)))
+  :effect (cage_closed ?cage)
+)
+
+(:action close_cage
+  :parameters (?player ?cage)
+  :precondition (and (inventory ?player ?cage) (not (cage_closed ?cage)))
+  :effect (cage_closed ?cage)
+)
+
+(:action put_in_cage
+  :parameters (?player ?item ?cage)
+  :precondition (and (inventory ?player ?item) (inventory ?player ?cage) (cage_closed ?cage))
+  :effect (in_cage ?item)
+)
+```
+
+The actions describe the possible actions a player can take in this world, such as acquiring or dropping items, filling, purifying and sealing items, moving between locations, operating a radio, creating a Faraday cage, and placing items within a Faraday cage.

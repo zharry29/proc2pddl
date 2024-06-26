@@ -1,0 +1,406 @@
+Sure, I can help you fill out each PDDL action based on the provided predicates, requirements, and types. Let's start with each action in the order you provided:
+
+### 1. Action: go
+- action name: go
+- summarize action: This action represents navigating to an adjacent location.
+- what is needed to do the action: The current location of the object and the direction to the new location, ensuring there is a connection between these locations.
+- what is the result: The object is now located at the new location.
+
+- entities:
+  - entity name: obj (object) 
+  - before: located at the current location 
+  - before provided predicates: (at ?obj ?loc1)
+  - after: located at the new location
+  - after provided predicates: (at ?obj ?loc2)
+  - entity name: loc1 (location)
+  - before: needs to have a connection to loc2 in the specified direction 
+  - before provided predicates: (connected ?loc1 ?dir ?loc2)
+  - after: unchanged
+  - after provided predicates: (connected ?loc1 ?dir ?loc2)
+  - entity name: loc2 (location)
+  - before: needs to have a connection from loc1 in the specified direction 
+  - before provided predicates: (connected ?loc1 ?dir ?loc2)
+  - after: unchanged
+  - after provided predicates: (connected ?loc1 ?dir ?loc2)
+
+pddl:
+```lisp
+(:action go
+    :parameters (?obj - object ?loc1 - location ?dir - direction ?loc2 - location)
+    :precondition (and
+        (at ?obj ?loc1)
+        (connected ?loc1 ?dir ?loc2))
+    :effect (and
+        (not (at ?obj ?loc1))
+        (at ?obj ?loc2)))
+```
+
+### 2. Action: get
+- action name: get
+- summarize action: This action involves picking up an item and putting it in the player's inventory.
+- what is needed to do the action: The item needs to be at the same location as the player.
+- what is the result: The item is now in the player's inventory.
+
+- entities:
+  - entity name: player 
+  - before: at the same location as the item 
+  - before provided predicates: (at ?player ?loc)
+  - after: unchanged
+  - after provided predicates: (at ?player ?loc)
+  - entity name: item 
+  - before: at some location
+  - before provided predicates: (at ?item ?loc)
+  - after: in the player's inventory
+  - after provided predicates: (inventory ?player ?item)
+  - entity name: loc (location)
+  - before: contains the item and the player 
+  - before provided predicates: (at ?player ?loc), (at ?item ?loc)
+  - after: contains only the player
+  - after provided predicates: (at ?player ?loc)
+  
+pddl:
+```lisp
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and
+        (at ?player ?loc)
+        (at ?item ?loc))
+    :effect (and
+        (not (at ?item ?loc))
+        (inventory ?player ?item)))
+```
+
+### 3. Action: drop
+- action name: drop
+- summarize action: This action involves dropping an item from the player's inventory at the current location.
+- what is needed to do the action: The item must be in the player's inventory.
+- what is the result: The item is now at the player's current location.
+
+- entities:
+  - entity name: player 
+  - before: has the item in inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: unchanged, item is no longer in inventory
+  - after provided predicates: (at ?item ?loc)
+  - entity name: item 
+  - before: in the player's inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: at the player's current location
+  - after provided predicates: (at ?item ?loc)
+  - entity name: loc (location)
+  - before: needs to have the player
+  - before provided predicates: (at ?player ?loc)
+  - after: has the item and the player
+  - after provided predicates: (at ?item ?loc), (at ?player ?loc)
+  
+pddl:
+```lisp
+(:action drop
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and 
+        (inventory ?player ?item)
+        (at ?player ?loc))
+    :effect (and
+        (not (inventory ?player ?item))
+        (at ?item ?loc)))
+```
+### 4. Action: pierce
+- action name: pierce
+- summarize action: This action involves piercing the coconut.
+- what is needed to do the action: The item must be a coconut and be in the player's inventory.
+- what is the result: The item is now pierced.
+
+- entities:
+  - entity name: player 
+  - before: has the item in inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: unchanged
+  - after provided predicates: (inventory ?player ?item)
+  - entity name: item 
+  - before: in the player's inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: is now pierced
+  - after provided predicates: (pierced ?item)
+  - entity name: coconut 
+  - before: not specified directly
+  - before provided predicates: implicitly represented as (inventory ?player ?item)
+  - after: is implied as getting pierced
+  - after provided predicates: (pierced ?item)
+  
+pddl:
+```lisp
+(:action pierce
+    :parameters (?player - player ?item - item)
+    :precondition (inventory ?player ?item)
+    :effect (pierced ?item))
+```
+
+### 5. Action: drain
+- action name: drain
+- summarize action: This action involves draining the liquid out of the pierced coconut.
+- what is needed to do the action: The coconut must be pierced and in the player's inventory.
+- what is the result: The item (coconut) is now empty.
+
+- entities:
+  - entity name: player 
+  - before: has the item in inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: unchanged
+  - after provided predicates: (inventory ?player ?item)
+  - entity name: item 
+  - before: pierced and in the player's inventory 
+  - before provided predicates: (pierced ?item)
+  - after: is now empty
+  - after provided predicates: (empty ?item)
+  - entity name: coconut
+  - before: not specified directly
+  - before provided predicates: implicitly represented as (pierced ?item)
+  - after: is empty
+  - after provided predicates: (empty ?item)
+  
+pddl:
+```lisp
+(:action drain
+    :parameters (?player - player ?item - item)
+    :precondition (and 
+        (inventory ?player ?item)
+        (pierced ?item))
+    :effect (empty ?item))
+```
+
+### 6. Action: turn_on_oven
+- action name: turn_on_oven
+- summarize action: This action involves turning on an oven.
+- what is needed to do the action: The appliance must be an oven and it needs to be off.
+- what is the result: The oven is now turned on.
+
+- entities:
+  - entity name: appliance 
+  - before: must be off 
+  - before provided predicates: not (on ?appliance)
+  - after: is now on
+  - after provided predicates: (on ?appliance)
+
+pddl:
+```lisp
+(:action turn_on_oven
+    :parameters (?appliance - appliance)
+    :precondition (not (on ?appliance))
+    :effect (on ?appliance))
+```
+
+### 7. Action: burn_item
+- action name: burn_item
+- summarize action: This action involves burning an item using an oven that is turned on.
+- what is needed to do the action: The item must be in the player's inventory and an oven must be on.
+- what is the result: The item is now burnt.
+
+- entities:
+  - entity name: player 
+  - before: has the item in inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: unchanged
+  - after provided predicates: (inventory ?player ?item)
+  - entity name: item 
+  - before: in the player's inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: is now burnt
+  - after provided predicates: (burnt ?item)
+  - entity name: appliance 
+  - before: must be on 
+  - before provided predicates: (on ?appliance)
+  - after: unchanged
+  - after provided predicates: (on ?appliance)
+  
+pddl:
+```lisp
+(:action burn_item
+    :parameters (?player - player ?item - item ?appliance - appliance)
+    :precondition (and
+        (inventory ?player ?item)
+        (on ?appliance))
+    :effect (burnt ?item))
+```
+
+### 8. Action: turn_off_oven
+- action name: turn_off_oven
+- summarize action: This action involves turning off an oven.
+- what is needed to do the action: The appliance must be an oven, and it needs to be on.
+- what is the result: The oven is now turned off.
+
+- entities:
+  - entity name: appliance 
+  - before: must be on 
+  - before provided predicates: (on ?appliance)
+  - after: is now off
+  - after provided predicates: not (on ?appliance)
+
+pddl:
+```lisp
+(:action turn_off_oven
+    :parameters (?appliance - appliance)
+    :precondition (on ?appliance)
+    :effect (not (on ?appliance)))
+```
+
+### 9. Action: wrap_coconut
+- action name: wrap_coconut
+- summarize action: This action involves wrapping a coconut.
+- what is needed to do the action: The coconut must be in the player's inventory and unwrapped.
+- what is the result: The coconut is now wrapped.
+
+- entities:
+  - entity name: player 
+  - before: has the coconut in inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: unchanged
+  - after provided predicates: (inventory ?player ?item)
+  - entity name: item (coconut)
+  - before: in the player's inventory and unwrapped
+  - before provided predicates: (inventory ?player ?item)
+  - after: is now wrapped
+  - after provided predicates: (wrapped ?item)
+  
+pddl:
+```lisp
+(:action wrap_coconut
+    :parameters (?player - player ?item - item)
+    :precondition (inventory ?player ?item)
+    :effect (wrapped ?item))
+```
+
+### 10. Action: unwrap_coconut
+- action name: unwrap_coconut
+- summarize action: This action involves unwrapping a coconut.
+- what is needed to do the action: The coconut must be in the player's inventory and wrapped.
+- what is the result: The coconut is now unwrapped.
+
+- entities:
+  - entity name: player 
+  - before: has the coconut in inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: unchanged
+  - after provided predicates: (inventory ?player ?item)
+  - entity name: item (coconut)
+  - before: in the player's inventory and wrapped
+  - before provided predicates: (inventory ?player ?item)
+  - after: is now unwrapped
+  - after provided predicates: not (wrapped ?item)
+  
+pddl:
+```lisp
+(:action unwrap_coconut
+    :parameters (?player - player ?item - item)
+    :precondition (and
+        (inventory ?player ?item)
+        (wrapped ?item))
+    :effect (not (wrapped ?item)))
+```
+
+### 11. Action: smash_with_hands
+- action name: smash_with_hands
+- summarize action: This action involves smashing the coconut with hands.
+- what is needed to do the action: The coconut must be in the player's inventory.
+- what is the result: The coconut is now smashed.
+
+- entities:
+  - entity name: player 
+  - before: has the coconut in inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: unchanged
+  - after provided predicates: (inventory ?player ?item)
+  - entity name: item (coconut)
+  - before: in the player's inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: is now smashed
+  - after provided predicates: (smashed ?item)
+  
+pddl:
+```lisp
+(:action smash_with_hands
+    :parameters (?player - player ?item - item)
+    :precondition (inventory ?player ?item)
+    :effect (smashed ?item))
+```
+
+### 12. Action: separate
+- action name: separate
+- summarize action: This action involves separating the parts of the smashed coconut.
+- what is needed to do the action: The coconut must be in the player's inventory and smashed.
+- what is the result: The parts of the coconut are now separated.
+
+- entities:
+  - entity name: player 
+  - before: has the coconut in inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: unchanged
+  - after provided predicates: (inventory ?player ?item)
+  - entity name: item (coconut)
+  - before: in the player's inventory and smashed 
+  - before provided predicates: (inventory ?player ?item), (smashed ?item)
+  - after: separated (implicitly)
+  - after provided predicates: (peeled ?item)
+  
+pddl:
+```lisp
+(:action separate
+    :parameters (?player - player ?item - item)
+    :precondition (and
+        (inventory ?player ?item)
+        (smashed ?item))
+    :effect (peeled ?item))
+```
+
+### 13. Action: peel
+- action name: peel
+- summarize action: This action involves peeling the coconut.
+- what is needed to do the action: The coconut must be in the player's inventory and not peeled.
+- what is the result: The coconut is now peeled.
+
+- entities:
+  - entity name: player 
+  - before: has the coconut in inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: unchanged
+  - after provided predicates: (inventory ?player ?item)
+  - entity name: item (coconut)
+  - before: in the player's inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: is now peeled
+  - after provided predicates: (peeled ?item)
+  
+pddl:
+```lisp
+(:action peel
+    :parameters (?player - player ?item - item)
+    :precondition (inventory ?player ?item)
+    :effect (peeled ?item))
+```
+
+### 14. Action: smash_with_mallet
+- action name: smash_with_mallet
+- summarize action: This action involves smashing the coconut with a mallet.
+- what is needed to do the action: The coconut must be in the player's inventory.
+- what is the result: The coconut is now smashed.
+
+- entities:
+  - entity name: player 
+  - before: has the coconut in inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: unchanged
+  - after provided predicates: (inventory ?player ?item)
+  - entity name: item (coconut)
+  - before: in the player's inventory 
+  - before provided predicates: (inventory ?player ?item)
+  - after: is now smashed
+  - after provided predicates: (smashed ?item)
+  
+pddl:
+```lisp
+(:action smash_with_mallet
+    :parameters (?player - player ?item - item)
+    :precondition (inventory ?player ?item)
+    :effect (smashed ?item))
+```
+
+Hope this helps! These PDDL actions should model the required steps to open a coconut according to the provided requirements.

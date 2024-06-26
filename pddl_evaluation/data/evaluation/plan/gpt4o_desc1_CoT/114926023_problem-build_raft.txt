@@ -1,0 +1,6 @@
+go ('npc', 'beach', 'root_of_tree', 'north')
+go ('npc', 'root_of_tree', 'jungle', 'north')
+get ('npc', 'log', 'jungle')
+build_raft ('npc', 'log', 'raft_draft', 'jungle')
+test_raft ('raft_draft', 'raft_finished', 'jungle')
+get ('npc', 'raft_finished', 'jungle')

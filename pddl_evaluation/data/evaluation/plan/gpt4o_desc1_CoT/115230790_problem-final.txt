@@ -1,0 +1,6 @@
+move_away ('npc', 'philly', 'salt_lake')
+go ('npc', 'home', 'north', 'bunker1')
+go ('npc', 'bunker1', 'north', 'bunker2')
+check_bunker ('bunker2')
+enjoylife ('npc', 'bunker2')
+connect_through_social_media_with_family ('npc', 'bunker2')

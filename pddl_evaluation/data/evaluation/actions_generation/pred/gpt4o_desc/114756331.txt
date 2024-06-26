@@ -1,0 +1,118 @@
+    (:action go
+        :parameters (?p - player ?d - direction ?from - location ?to - location)
+        :precondition (and
+            (at ?p ?from)
+            (connected ?from ?d ?to)
+            (not (blocked ?from ?d ?to))
+            (not (has_quicksand ?to))
+        )
+        :effect (and
+            (not (at ?p ?from))
+            (at ?p ?to)
+        )
+    )
+
+    (:action get
+        :parameters (?p - player ?i - item ?l - location)
+        :precondition (and
+            (at ?p ?l)
+            (at ?i ?l)
+        )
+        :effect (and
+            (inventory ?p ?i)
+            (not (at ?i ?l))
+        )
+    )
+
+    (:action breathe
+        :parameters (?p - player)
+        :precondition (calm ?p)
+        :effect (calm ?p)
+    )
+
+    (:action liedown
+        :parameters (?p - player)
+        :precondition (not (laying ?p))
+        :effect (laying ?p)
+    )
+
+    (:action swim
+        :parameters (?p - player ?q - quicksand ?to - location)
+        :precondition (and
+            (stuck ?p ?q)
+            (deep ?q)
+            (laying ?p)
+            (connected (location ?q) ?to) ; assuming there's a function or predicate to get the location of the quicksand
+        )
+        :effect (and
+            (not (stuck ?p ?q))
+            (at ?p ?to)
+        )
+    )
+
+    (:action usestick
+        :parameters (?p - player ?s - stick ?q - quicksand)
+        :precondition (and
+            (stuck ?p ?q)
+            (inventory ?p ?s)
+        )
+        :effect (not (stuck ?p ?q))
+    )
+
+    (:action rest
+        :parameters (?p - player)
+        :precondition (and
+            (at ?p ?loc) ; assuming player is at some location
+            (tired ?p)
+        )
+        :effect (not (tired ?p))
+    )
+
+    (:action drop
+        :parameters (?p - player ?i - item ?l - location)
+        :precondition (and
+            (at ?p ?l)
+            (inventory ?p ?i)
+        )
+        :effect (and
+            (not (inventory ?p ?i))
+            (at ?i ?l)
+        )
+    )
+
+    (:action check_ripples
+        :parameters (?p - player ?l - location)
+        :precondition (at ?p ?l)
+        :effect (and
+            (aware ?p ?l)
+            (has_ripples ?l)
+        )
+    )
+
+    (:action test_ground
+        :parameters (?p - player ?l - location)
+        :precondition (at ?p ?l)
+        :effect (and
+            (aware ?p ?l)
+            (has_quicksand ?l)
+        )
+    )
+
+    (:action research
+        :parameters (?p - player ?l - location)
+        :precondition (at ?p ?l)
+        :effect (aware ?p ?l)
+    )
+
+    (:action move_horizontally
+        :parameters (?p - player ?from - location ?to - location)
+        :precondition (and
+            (at ?p ?from)
+            (connected ?from ?dir ?to) ; assuming there's a direction ?dir
+        )
+        :effect (and
+            (not (at ?p ?from))
+            (at ?p ?to)
+        )
+    )
+)

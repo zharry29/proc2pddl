@@ -1,0 +1,141 @@
+Certainly! Below is the PDDL code with the actions filled out using the predicates and meeting all your requirements:
+
+```lisp
+(define (domain papyrus_domain)
+    (:requirements :strips :typing)
+    
+    (:types
+        papyrus_plant - item
+        papyrus_stalks - item
+        papyrus_strips - item
+        water - item
+        linen_sheets - item
+        wooden_boards - item
+        rolling_pin - item
+        knife - item
+        papyrus - item
+        player location
+    )
+    
+    (:predicates
+        (inventory ?player ?item)
+        (soaked ?papyrus_strips - papyrus_strips)
+        (dried ?papyrus_strips - papyrus_strips)
+        (woven ?papyrus_strips - papyrus_strips)
+        (at ?obj - item ?loc - location)
+        (finished ?papyrus_strips - papyrus_strips)
+        (searched ?location - location)
+        (not_gettable ?item)
+    )
+    
+    (:action get
+        :parameters (?player - player ?item - item ?loc - location)
+        :precondition (and
+            (at ?item ?loc)
+            (at ?player ?loc)
+            (not (inventory ?player ?item))
+            (not (not_gettable ?item))
+        )
+        :effect (inventory ?player ?item)
+    )
+
+    (:action travel
+        :parameters (?player - player ?from - location ?to - location)
+        :precondition (at ?player ?from)
+        :effect (and 
+            (not (at ?player ?from))
+            (at ?player ?to)
+        )
+    )
+
+    (:action search_location
+        :parameters (?player - player ?location - location)
+        :precondition (and
+            (at ?player ?location)
+            (not (searched ?location))
+        )
+        :effect (searched ?location)
+    )
+
+    (:action pluck_river_reeds
+        :parameters (?player - player ?papyrus_plant - papyrus_plant ?loc - location)
+        :precondition (and
+            (not (inventory ?player ?papyrus_plant))
+            (at ?papyrus_plant ?loc)
+            (at ?player ?loc)
+            (searched ?loc)
+        )
+        :effect (inventory ?player ?papyrus_plant)
+    )
+
+    (:action cut_stalks
+        :parameters (?player - player ?knife - knife ?papyrus_plant - papyrus_plant ?loc - location)
+        :precondition (and
+            (inventory ?player ?knife)
+            (inventory ?player ?papyrus_plant)
+        )
+        :effect (and
+            (not (inventory ?player ?papyrus_plant))
+            (inventory ?player papyrus_stalks)
+        )
+    )
+
+    (:action cut_strips
+        :parameters (?player - player ?knife - knife ?papyrus_stalks - papyrus_stalks ?loc - location)
+        :precondition (and
+            (inventory ?player ?knife)
+            (inventory ?player ?papyrus_stalks)
+        )
+        :effect (and
+            (not (inventory ?player ?papyrus_stalks))
+            (inventory ?player papyrus_strips)
+        )
+    )
+
+    (:action soak_strips
+        :parameters (?player - player ?water - water ?papyrus_strips - papyrus_strips ?loc - location)
+        :precondition (and
+            (inventory ?player ?papyrus_strips)
+            (at ?water ?loc)
+            (at ?player ?loc)
+        )
+        :effect (soaked ?papyrus_strips)
+    )
+
+    (:action roll_strips
+        :parameters (?player - player ?rolling_pin - rolling_pin ?papyrus_strips - papyrus_strips ?loc - location)
+        :precondition (and
+            (soaked ?papyrus_strips)
+            (inventory ?player ?rolling_pin)
+        )
+        :effect (dried ?papyrus_strips)
+    )
+
+    (:action weave_strips
+        :parameters (?player - player ?papyrus_strips - papyrus_strips ?loc - location)
+        :precondition (dried ?papyrus_strips)
+        :effect (woven ?papyrus_strips)
+    )
+
+    (:action bundle_strips
+        :parameters (?player - player ?linen_sheets - linen_sheets ?wooden_boards - wooden_boards ?papyrus_strips - papyrus_strips ?loc - location)
+        :precondition (and
+            (woven ?papyrus_strips)
+            (inventory ?player ?linen_sheets)
+            (inventory ?player ?wooden_boards)
+        )
+        :effect (finished ?papyrus_strips)
+    )
+
+    (:action cut_sheet
+        :parameters (?player - player ?knife - knife ?papyrus_strips - papyrus_strips ?loc - location)
+        :precondition (and
+            (finished ?papyrus_strips)
+            (inventory ?player ?knife)
+        )
+        :effect (inventory ?player papyrus)
+    )
+)
+```
+
+This code outlines all the actions in the domain to make papyrus using the provided predicates, types, and requirements. Each action has its parameters, preconditions, and effects appropriately set according to the tasks they represent.

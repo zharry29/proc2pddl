@@ -1,0 +1,491 @@
+- action name: gather_info
+- summarize action: The player reads books to gather information on how to create a secret society.
+- what is needed to do the action: The player needs to have access to books and be able to read them.
+- what is the result: The player gains necessary information to create a secret society.
+
+- entities:
+  - entity name: player
+    - before: without the knowledge on creating a secret society
+    - after: with the knowledge on creating a secret society
+
+pddl:
+(:action gather_info
+  :parameters (?p - player)
+  :precondition (not (has_info ?p))
+  :effect (has_info ?p)
+)
+
+- action name: create_secret
+- summarize action: The secret for a secret society is created.
+- what is needed to do the action: The player with relevant knowledge.
+- what is the result: The secret society has a secret.
+
+- entities:
+  - entity name: secret_society
+    - before: doesn't have a secret
+    - after: has a secret
+
+pddl:
+(:action create_secret
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (has_info ?p) (not (has_secret ?sc)))
+  :effect (has_secret ?sc)
+)
+
+Performing similar steps for the remaining actions, we get:
+
+pddl:
+(:action set_meeting_location
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (has_info ?p) (not (has_location ?sc)))
+  :effect (has_location ?sc)
+)
+(:action set_dress_code
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (has_info ?p) (not (has_dress_code ?sc)))
+  :effect (has_dress_code ?sc)
+)
+(:action create_name
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (has_info ?p) (not (has_name ?sc)))
+  :effect (has_name ?sc)
+)
+(:action secret_society_is_ready
+  :parameters (?sc - secret_society)
+  :precondition (and (has_secret ?sc) (has_location ?sc) (has_dress_code ?sc) (has_name ?sc))
+  :effect (society_is_ready ?sc)
+)
+(:action initiate_new_member
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (not (in ?p ?sc)) (society_is_ready ?sc))
+  :effect (in ?p ?sc)
+)
+(:action teach_new_member_secret
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (is_trusted ?p ?sc) (in ?p ?sc) (not (knows_secret ?p ?sc)))
+  :effect (knows_secret ?p ?sc)
+)
+(:action remove_member
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (in ?p ?sc)
+  :effect (not (in ?p ?sc))
+)
+(:action check_if_cult
+  :parameters (?sc - secret_society)
+  :precondition (society_is_ready ?sc)
+  :effect (is_cult ?sc)
+)
+Sure, let's continue with the PDDL translation of additional actions based on the given predicates:
+
+- action name: make_friends
+- summarize action: This is an action in which one player makes friends with another.
+- what is needed to do the action: Two players who are not yet friends.
+- what is the result: The players become friends.
+
+- entities:
+  - entity name: player1, player2
+    - before: not friends
+    - after: friends
+
+pddl:
+(:action make_friends
+  :parameters (?p1 - player ?p2 - player)
+  :precondition (not (friends ?p1 ?p2))
+  :effect (friends ?p1 ?p2)
+)
+
+- action name: betray_friends
+- summarize action: This is an action in which one player betrays their friends in the secret society, leading to them no longer being trusted.
+- what is needed to do the action: A player who is in the secret society and is friends with others in it.
+- what is the result: The player is no longer trusted by the secret society.
+
+- entities:
+  - entity name: player, secret_society
+    - before: player is trusted in the secret society
+    - after: player is not trusted in the secret society
+
+pddl:
+(:action betray_friends
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (is_trusted ?p ?sc) (in ?p ?sc))
+  :effect (not (is_trusted ?p ?sc))
+)
+
+- action name: disband_society
+- summarize action: This is an action in which the secret society is disbanded and no longer exists.
+- what is needed to do the action: A secret society that is ready.
+- what is the result: The secret society no longer exists.
+
+- entities:
+  - entity name: secret_society
+    - before: exists and is ready
+    - after: does not exist
+
+pddl:
+(:action disband_society
+  :parameters (?sc - secret_society)
+  :precondition (exists ?sc)
+  :effect (not (exists ?sc))
+)
+- action name: rebuild_society
+- summarize action: This is an action in which a disbanded secret society is rebuilt.
+- what is needed to do the action: A disbanded secret society and a player with the requisite knowledge.
+- what is the result: The secret society is ready again.
+
+- entities:
+  - entity name: player, secret_society
+    - player: 
+      - before: with the knowledge on creating a secret society
+      - after: unchanged, still has knowledge on creating a secret society
+    - secret_society: 
+      - before: disbanded secret society
+      - after: rebuilt secret society that is ready
+
+pddl:
+(:action rebuild_society
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (not (exists ?sc)) (has_info ?p))
+  :effect (and (exists ?sc) (society_is_ready ?sc))
+)
+
+- action name: promote_member
+- summarize action: This is an action in which an ordinary member of the secret society is trusted and promoted to know the society's secrets.
+- what is needed to do the action: A player member of the secret society who does not know the society's secret.
+- what is the result: The member becomes a trusted member and knows the society's secrets.
+
+- entities:
+  - entity name: player, secret_society
+    - player: 
+      - before: Just a member who does not know the secret of the secret society
+      - after: Becomes a trusted member who knows the secret of the society
+    - secret_society: unchanged
+
+pddl:
+(:action promote_member
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (in ?p ?sc) (not (knows_secret ?p ?sc)))
+  :effect (and (is_trusted ?p ?sc) (knows_secret ?p ?sc))
+)
+
+- action name: demote_member
+- summarize action: This is an action in which a trusted member of the secret society is demoted and no longer knows the society's secrets.
+- what is needed to do the action: A player member of the secret society who knows the society's secret.
+- what is the result: The member is no longer trusted and does not know the society's secret.
+
+- entities:
+  - entity name: player, secret_society
+    - player: 
+      - before: A trusted member who knows the secret of the secret society
+      - after: A member who is not trusted and does not know the secret anymore.
+    - secret_society: unchanged
+
+pddl:
+(:action demote_member
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (in ?p ?sc) (knows_secret ?p ?sc))
+  :effect (and (not (is_trusted ?p ?sc)) (not (knows_secret ?p ?sc)))
+)
+- action name: reveal_secret
+- summarize action: This is an action where a trusted member of the secret society reveals the society's secret.
+- what is needed to do the action: A trusted member who knows the secret.
+- what is the result: The secret of the society is revealed, and the society loses its secret.
+
+- entities:
+  - entity name: player, secret_society
+    - player: 
+      - before: A trusted member who knows the secret
+      - after: unchanged, but has revealed secret
+    - secret_society: 
+      - before: Society with a secret
+      - after: Society without a secret
+
+pddl:
+(:action reveal_secret
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (is_trusted ?p ?sc) (knows_secret ?p ?sc) (has_secret ?sc))
+  :effect (not (has_secret ?sc))
+)
+
+- action name: replace_secret
+- summarize action: This is an action where a new secret is created for the secret society after the old one was revealed.
+- what is needed to do the action: A member with the necessary knowledge to create a secret and a society without a secret.
+- what is the result: The society gains a new secret.
+
+- entities:
+  - entity name: player, secret_society
+    - player: 
+      - before: Member with the requisite knowledge
+      - after: unchanged
+    - secret_society: 
+      - before: Society without a secret
+      - after: Society with a new secret
+
+pddl:
+(:action replace_secret
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (has_info ?p) (not (has_secret ?sc)))
+  :effect (has_secret ?sc)
+)
+
+- action name: expose_society
+- summarize action: This is an action where a member exposes the secret society to the public.
+- what is needed to do the action: A member who knows the society's secrets.
+- what is the result: The society is exposed and known to the public.
+
+- entities:
+  - entity name: player, secret_society
+    - player: 
+      - before: A member who knows the society's secrets
+      - after: unchanged, but has exposed the society
+    - secret_society: 
+      - before: Society is hidden from the public
+      - after: Society is exposed to the public
+
+pddl:
+(:action expose_society
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (in ?p ?sc) (knows_secret ?p ?sc))
+  :effect (publicly_known ?sc)
+)
+- action name: recruit_member
+- summarize action: This is an action where a member of the secret society recruits a new member.
+- what is needed to do the action: A current member of the secret society and a new potential member who is not currently part of the society.
+- what is the result: The new member becomes part of the secret society.
+
+- entities:
+  - entity name: current_member, new_member, secret_society
+    - current_member: 
+      - before: Member of the secret society
+      - after: unchanged
+    - new_member: 
+      - before: Not a member of the secret society
+      - after: Member of the secret society
+    - secret_society: 
+      - before: Society without the new member
+      - after: Society with the new member
+
+pddl:
+(:action recruit_member
+  :parameters (?current_member - player ?new_member - player ?sc - secret_society)
+  :precondition (and (in ?current_member ?sc) (not (in ?new_member ?sc)))
+  :effect (in ?new_member ?sc)
+)
+   
+- action name: revoke_trust
+- summarize action: This is an action where a member of the secret society loses the trust of the society.
+- what is needed to do the action: A member of the secret society who is currently trusted.
+- what is the result: The member loses the trust of the society and does not know the society's secret.
+
+- entities:
+  - entity name: member, secret_society
+    - member: 
+      - before: Trusted member of the society
+      - after: Not trusted and does not know the society's secret
+    - secret_society: unchanged
+
+pddl:
+(:action revoke_trust
+  :parameters (?member - player ?sc - secret_society)
+  :precondition (and (is_trusted ?member ?sc) (knows_secret ?member ?sc))
+  :effect (and (not (is_trusted ?member ?sc)) (not (knows_secret ?member ?sc)))
+)
+
+- action name: dissolve_cult
+- summarize action: This is an action where a large secret society is dissolved and becomes just a group.
+- what is needed to do the action: A large secret society that is a cult.
+- what is the result: The secret society is no longer a cult.
+
+- entities:
+  - entity name: secret_society
+    - secret_society: 
+      - before: Society is a cult
+      - after: Society is not a cult
+
+pddl:
+(:action dissolve_cult
+  :parameters (?sc - secret_society)
+  :precondition (is_cult ?sc)
+  :effect (not (is_cult ?sc))
+)
+- action name: grow_into_cult
+- summarize action: This is an action where a secret society grows into a cult due to increased members.
+- what is needed to do the action: A secret society that is not a cult.
+- what is the result: The secret society becomes a cult.
+
+- entities:
+  - entity name: secret_society
+    - secret_society: 
+      - before: Society is not a cult
+      - after: Society is a cult
+
+pddl:
+(:action grow_into_cult
+  :parameters (?sc - secret_society)
+  :precondition (not (is_cult ?sc))
+  :effect (is_cult ?sc)
+)
+
+- action name: hide_from_public
+- summarize action: This is an action where a secret society that has been exposed to the public becomes hidden again.
+- what is needed to do the action: A secret society that is known to the public.
+- what is the result: The secret society is no longer known to the public. 
+
+- entities:
+  - entity name: secret_society
+    - secret_society: 
+      - before: Society is known to the public
+      - after: Society is hidden from the public
+
+pddl:
+(:action hide_from_public
+  :parameters (?sc - secret_society)
+  :precondition (publicly_known ?sc)
+  :effect (not (publicly_known ?sc))
+)
+
+- action name: share_secret_with_public
+- summarize action: This is an action where the secret of the secret society is shared with the public.
+- what is needed to do the action: A member of the society who knows the secret.
+- what is the result: The secret is known to the public. 
+
+- entities:
+  - entity name: member, secret_society
+    - member:
+      - before: A member who knows the secret of the society
+      - after: unchanged
+    - secret_society: 
+      - before: Society's secret is not known to the public
+      - after: Society's secret is known to the public
+
+pddl:
+(:action share_secret_with_public
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (in ?p ?sc) (knows_secret ?p ?sc))
+  :effect (publicly_known ?sc)
+)
+
+The aforementioned actions should cover most if not all the potential scenarios based on the provided predicates.
+
+- action name: relocate_society
+- summarize action: This is an action where the secret society changes its meeting location.
+- what is needed to do the action: A secret society that already has a set meeting location.
+- what is the result: The secret society has a new meeting location.
+
+- entities:
+  - entity name: player, secret_society
+    - player: 
+      - before: Member with the requisite knowledge 
+      - after: unchanged
+    - secret_society: 
+      - before: Society with an existing meeting location
+      - after: Society with a new meeting location
+
+pddl:
+(:action relocate_society
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (has_info ?p) (has_location ?sc))
+  :effect (has_location ?sc)
+)
+
+- action name: change_dress_code
+- summarize action: This is an action where the dress code for the secret society is changed.
+- what is needed to do the action: A secret society that already has a set dress code.
+- what is the result: The secret society has a new dress code.
+
+- entities:
+  - entity name: player, secret_society
+    - player: 
+      - before: Member with the requisite knowledge 
+      - after: unchanged
+    - secret_society: 
+      - before: Society with an existing dress code
+      - after: Society with a new dress code
+
+pddl:
+(:action change_dress_code
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (has_info ?p) (has_dress_code ?sc))
+  :effect (has_dress_code ?sc)
+)
+
+- action name: rename_society
+- summarize action: This is an action where the secret society is renamed.
+- what is needed to do the action: A secret society that already has a name.
+- what is the result: The secret society has a new name.
+
+- entities:
+  - entity name: player, secret_society
+    - player: 
+      - before: Member with the requisite knowledge 
+      - after: unchanged
+    - secret_society: 
+      - before: Society with an existing name
+      - after: Society with a new name
+
+pddl:
+(:action rename_society
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (has_info ?p) (has_name ?sc))
+  :effect (has_name ?sc)
+)
+Certainly, let's continue with the following action:
+
+- action name: update_secret
+- summarize action: This is an action where a new secret is created for the secret society after the old one is deemed outdated.
+- what is needed to do the action: A member with the necessary knowledge to create a secret and a society that already has a secret.
+- what is the result: The society gains a new updated secret.
+
+- entities:
+  - entity name: player, secret_society
+    - player: 
+      - before: Member with the requisite knowledge
+      - after: unchanged 
+    - secret_society: 
+      - before: Society with an old secret
+      - after: Society with an updated secret
+
+pddl:
+(:action update_secret
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (has_info ?p) (has_secret ?sc))
+  :effect (has_secret ?sc)
+)
+
+- action name: reform_cult
+- summarize action: This is an action where a secret society that has grown into a cult is reformed back into a society.
+- what is needed to do the action: A secret society that is a cult.
+- what is the result: The secret society is not a cult anymore.
+
+- entities:
+  - entity name: secret_society
+    - secret_society: 
+      - before: society is a cult
+      - after: society is not a cult anymore
+
+pddl:
+(:action reform_cult
+  :parameters (?sc - secret_society)
+  :precondition (is_cult ?sc)
+  :effect (not (is_cult ?sc))
+)
+
+- action name: convince_public
+- summarize action: This is an action where a member convinces the public that the society is not a threat. 
+- what is needed to do the action: A society that is publicly known and a member who will convince the public.
+- what is the result: The society is not publicly known anymore.
+
+- entities:
+  - entity name: player, secret_society
+    - player: 
+      - before: A member of the society
+      - after: unchanged
+    - secret_society: 
+      - before: Society is publicly known
+      - after: Society is not publicly known
+
+pddl:
+(:action convince_public
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (in ?p ?sc) (publicly_known ?sc))
+  :effect (not (publicly_known ?sc))
+)

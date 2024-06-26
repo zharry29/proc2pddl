@@ -1,0 +1,296 @@
+Certainly, I can help you with that. Here’s the detailed description and the relevant PDDL translations for each action.
+
+### Action: go
+- summarize action: The player navigates from one location to an adjacent location.
+- what is needed to do the action: The current and adjacent locations along with the connecting direction must be specified.
+- what is the result: The player is no longer at the initial location and is now at the adjacent location.
+
+- entities:
+  - player: 
+    - before: At the initial location.
+    - after: At the adjacent location.
+  - initial location:
+    - before: Player is at this location.
+    - after: Player is no longer at this location.
+  - direction:
+    - before: Defines the connection between two locations.
+    - after: Remains unchanged.
+  - adjacent location:
+    - before: Player is not at this location.
+    - after: Player is at this location.
+
+pddl:
+```lisp
+(:action go
+  :parameters (?player - player ?initial_loc - location ?dir - direction ?adj_loc - location)
+  :precondition (and (at ?player ?initial_loc)
+                     (connected ?initial_loc ?dir ?adj_loc))
+  :effect (and (not (at ?player ?initial_loc))
+               (at ?player ?adj_loc)))
+```
+
+### Action: get
+- summarize action: The player picks up an item and adds it to their inventory.
+- what is needed to do the action: The specified item and player, with the item at a known location.
+- what is the result: The item is no longer at the initial location and is now in the player's inventory.
+
+- entities:
+  - player: 
+    - before: Not having the item in the inventory.
+    - after: Having the item in the inventory.
+  - item:
+    - before: At a specified location.
+    - after: In the player's inventory.
+  - location:
+    - before: Contains the item.
+    - after: Does not contain the item.
+
+pddl:
+```lisp
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?item ?loc)
+                     (at ?player ?loc))
+  :effect (and (inventory ?player ?item)
+               (not (at ?item ?loc))))
+```
+
+### Action: drop
+- summarize action: The player drops an item from their inventory onto a specified location.
+- what is needed to do the action: The player must have the item in their inventory.
+- what is the result: The item is no longer in the player's inventory and is now at the specified location.
+
+- entities:
+  - player: 
+    - before: Having the item in the inventory.
+    - after: Not having the item in the inventory.
+  - item:
+    - before: In the player's inventory.
+    - after: At the specified location.
+  - location:
+    - before: Does not contain the item.
+    - after: Contains the item.
+
+pddl:
+```lisp
+(:action drop
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (inventory ?player ?item)
+  :effect (and (at ?item ?loc)
+               (not (inventory ?player ?item))))
+```
+
+### Action: pierce
+- summarize action: The player pierces an item.
+- what is needed to do the action: The specific item to pierce and the player performing the action.
+- what is the result: The item is pierced.
+
+- entities:
+  - item:
+    - before: Not pierced.
+    - after: Pierced.
+
+pddl:
+```lisp
+(:action pierce
+  :parameters (?player - player ?item - item)
+  :precondition (inventory ?player ?item)
+  :effect (pierced ?item))
+```
+
+### Action: drain
+- summarize action: The player drains a pierced item, making it empty.
+- what is needed to do the action: The specific item needs to be pierced and in the player's inventory.
+- what is the result: The item becomes empty.
+
+- entities:
+  - item:
+    - before: Pierced, not empty.
+    - after: Empty.
+
+pddl:
+```lisp
+(:action drain
+  :parameters (?player - player ?item - item)
+  :precondition (and (inventory ?player ?item)
+                     (pierced ?item))
+  :effect (empty ?item))
+```
+
+### Action: turn_on_oven
+- summarize action: The player turns on a specific oven.
+- what is needed to do the action: The player and the oven to be turned on.
+- what is the result: The oven is now on.
+
+- entities:
+  - oven:
+    - before: Off.
+    - after: On.
+
+pddl:
+```lisp
+(:action turn_on_oven
+  :parameters (?player - player ?appliance - appliance)
+  :precondition (at ?player ?appliance)
+  :effect (on ?appliance))
+```
+
+### Action: burn_item
+- summarize action: The player burns an item using an appliance, turning the item into a burnt state.
+- what is needed to do the action: Player needs the item in their inventory and the appliance must be on.
+- what is the result: The item is in a burnt state.
+
+- entities:
+  - item:
+    - before: Not burnt.
+    - after: Burnt.
+
+pddl:
+```lisp
+(:action burn_item
+  :parameters (?player - player ?item - item ?appliance - appliance)
+  :precondition (and (inventory ?player ?item)
+                     (on ?appliance)
+                     (at ?player ?appliance))
+  :effect (burnt ?item))
+```
+
+### Action: turn_off_oven
+- summarize action: The player turns off a specific oven.
+- what is needed to do the action: The player and the oven to be turned off.
+- what is the result: The oven is now off.
+
+- entities:
+  - oven:
+    - before: On.
+    - after: Off.
+
+pddl:
+```lisp
+(:action turn_off_oven
+  :parameters (?player - player ?appliance - appliance)
+  :precondition (and (at ?player ?appliance)
+                     (on ?appliance))
+  :effect (not (on ?appliance)))
+```
+
+### Action: wrap_coconut
+- summarize action: The player wraps an item in another item.
+- what is needed to do the action: The item to be wrapped and the wrapping item must be specified.
+- what is the result: The item is now wrapped with another item.
+
+- entities:
+  - item:
+    - before: Not wrapped.
+    - after: Wrapped.
+  - wrapping item:
+    - before: Not used for wrapping.
+    - after: Used for wrapping.
+
+pddl:
+```lisp
+(:action wrap_coconut
+  :parameters (?player - player ?item - item ?wrapper - item)
+  :precondition (and (inventory ?player ?item)
+                     (inventory ?player ?wrapper))
+  :effect (and (wrapped_with ?item ?wrapper)
+               (wrapped ?item)))
+```
+
+### Action: unwrap_coconut
+- summarize action: The player unwraps an item from another item.
+- what is needed to do the action: The item and the wrapping item need to be specified.
+- what is the result: The item is no longer wrapped with another item.
+
+- entities:
+  - item:
+    - before: Wrapped.
+    - after: Not wrapped.
+  - wrapping item:
+    - before: Used for wrapping.
+    - after: Not used for wrapping.
+
+pddl:
+```lisp
+(:action unwrap_coconut
+  :parameters (?player - player ?item - item ?wrapper - item)
+  :precondition (and (wrapped_with ?item ?wrapper)
+                     (inventory ?player ?item)
+                     (inventory ?player ?wrapper))
+  :effect (and (not (wrapped ?item))
+               (not (wrapped_with ?item ?wrapper))))
+```
+
+### Action: smash_with_hands
+- summarize action: The player smashes an item with their hands.
+- what is needed to do the action: The item to be smashed must be specified.
+- what is the result: The item is in a smashed state.
+
+- entities:
+  - item:
+    - before: Not smashed.
+    - after: Smashed.
+
+pddl:
+```lisp
+(:action smash_with_hands
+  :parameters (?player - player ?item - item)
+  :precondition (inventory ?player ?item)
+  :effect (smashed ?item))
+```
+
+### Action: separate
+- summarize action: The player separates an item into parts.
+- what is needed to do the action: The item to be separated must be specified.
+- what is the result: The item is now in separated parts.
+
+- entities:
+  - item:
+    - before: Whole.
+    - after: Separated.
+
+pddl:
+```lisp
+(:action separate
+  :parameters (?player - player ?item - item)
+  :precondition (inventory ?player ?item)
+  :effect (separate ?item))
+```
+
+### Action: peel
+- summarize action: The player peels the skin off an item.
+- what is needed to do the action: The item to be peeled must be specified.
+- what is the result: The item is now peeled.
+
+- entities:
+  - item:
+    - before: Not peeled.
+    - after: Peeled.
+
+pddl:
+```lisp
+(:action peel
+  :parameters (?player - player ?item - item)
+  :precondition (inventory ?player ?item)
+  :effect (peeled ?item))
+```
+
+### Action: smash_with_mallet
+- summarize action: The player smashes an item with a mallet.
+- what is needed to do the action: The item to be smashed must be specified, and possibly a mallet is required.
+- what is the result: The item is in a smashed state.
+
+- entities:
+  - item:
+    - before: Not smashed.
+    - after: Smashed.
+
+pddl:
+```lisp
+(:action smash_with_mallet
+  :parameters (?player - player ?item - item)
+  :precondition (inventory ?player ?item)
+  :effect (smashed ?item))
+```
+
+These actions and their details should meet the requirements provided.

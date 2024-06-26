@@ -1,0 +1,485 @@
+- action name: get
+- summarize action: This action is to pick up an item and put it in the inventory.
+- what is needed to do the action: An item that is not currently in the inventory.
+- what is the result: The item is now in the inventory.
+
+- entities:
+  - entity name: item
+    - before: not in the inventory
+    - after: in the inventory
+
+pddl action:
+(:action get
+ :parameters (?item)
+ :precondition (not (inventory ?item))
+ :effect (inventory ?item))
+
+
+- action name: poke
+- summarize action: This action involves poking a hole in the top of the coconut.
+- what is needed to do the action: A coconut that does not yet have its eyes poked.
+- what is the result: The coconut now has its eyes poked.
+
+- entities:
+  - entity name: coconut
+    - before: does not have its eyes poked
+    - after: has its eyes poked
+
+pddl action:
+(:action poke
+ :parameters (?c - coconut)
+ :precondition (not (has_eyes_poked ?c))
+ :effect (has_eyes_poked ?c))
+
+
+- action name: flip
+- summarize action: This action involves turning the container with water upside down.
+- what is needed to do the action: The container with water in the inventory.
+- what is the result: The water is removed from the container.
+
+- entities:
+  - entity name: container_with_water
+    - before: in the inventory and filled with water
+    - after: in the inventory and empty
+
+pddl action:
+(:action flip
+ :parameters (?cow - container_with_water)
+ :precondition (is_item_container_with_water ?cow)
+ :effect (not (is_item_container_with_water ?cow)))
+
+
+- action name: wrap
+- summarize action: This action involves wrapping the coconut with a towel.
+- what is needed to do the action: A coconut and a towel in the inventory.
+- what is the result: The coconut is wrapped in a towel.
+
+- entities:
+  - entity name: coconut_wrapped
+    - before: not wrapped
+    - after: wrapped
+
+pddl action:
+(:action wrap
+ :parameters (?c - coconut)
+ :effect (is_item_wrapped_coconut ?c))
+
+
+- action name: hit
+- summarise action: This action involves hitting the wrapped coconut with a mallet.
+- what is needed to do the action: A wrapped coconut and a mallet in the inventory.
+- what is the result: The wrapped coconut is broken.
+
+- entities:
+  - entity name: coconut_broken
+    - before: not broken
+    - after: broken
+
+pddl action:
+(:action hit
+ :parameters (?c - coconut_wrapped)
+ :precondition (is_item_wrapped_coconut ?c)
+ :effect (is_item_broken_coconut ?c))
+
+
+- action name: free
+- summarise action: This action involves running a knife between the shell and the meat of the broken coconut to free it.
+- what is needed to do the action: A broken coconut and a knife in the inventory.
+- what is the result: The meat from the coconut is freed.
+
+- entities:
+  - entity name: coconut_meat
+    - before: not freed
+    - after: freed
+
+pddl action:
+(:action free
+ :parameters (?c - coconut_broken)
+ :precondition (is_item_broken_coconut ?c)
+ :effect (is_item_coconut_meat ?c))
+
+
+- action name: remove_fiber
+- summarise action: This action involves removing the fiber from the freed coconut meat using a peeler.
+- what is needed to do the action: The freed coconut meat and a peeler in the inventory.
+- what is the result: The coconut meat is peeled.
+
+- entities:
+  - entity name: coconut_meat_peeled
+    - before: not peeled
+    - after: peeled
+
+pddl action:
+(:action remove_fiber
+ :parameters (?c - coconut_meat)
+ :precondition (is_item_coconut_meat ?c)
+ :effect (is_item_coconut_meat_peeled ?c))
+Here are the extended version of the actions in pddl format:
+
+- action get:
+
+```pddl
+(:action get
+ :parameters (?item - item)
+ :precondition (not (inventory ?item))
+ :effect (inventory ?item))
+```
+
+- action poke:
+
+```pddl
+(:action poke
+ :parameters (?c - coconut)
+ :precondition (and (inventory ?c) (not (has_eyes_poked ?c)))
+ :effect (has_eyes_poked ?c))
+```
+
+- action flip:
+
+```pddl
+(:action flip
+ :parameters (?cow - container_with_water)
+ :precondition (and (inventory ?cow) (is_item_container_with_water ?cow))
+ :effect (and
+          (not (is_item_container_with_water ?cow))
+          (is_item_container_without_water ?cow)))
+```
+
+- action wrap:
+
+```pddl
+(:action wrap
+ :parameters (?c - coconut ?t - towel)
+ :precondition (and (inventory ?c) (inventory ?t) (not (is_item_wrapped_coconut ?c)))
+ :effect (is_item_wrapped_coconut ?c))
+```
+
+- action hit:
+
+```pddl
+(:action hit
+ :parameters (?c - coconut_wrapped ?m - mallet)
+ :precondition (and (inventory ?c) (inventory ?m) (is_item_wrapped_coconut ?c))
+ :effect (and
+          (not (is_item_wrapped_coconut ?c))
+          (is_item_broken_coconut ?c)))
+```
+
+- action free:
+
+```pddl
+(:action free
+ :parameters (?c - coconut_broken ?k - knife)
+ :precondition (and (inventory ?c) (inventory ?k) (is_item_broken_coconut ?c))
+ :effect (and
+          (not (is_item_broken_coconut ?c))
+          (is_item_coconut_meat ?c)))
+```
+
+- action remove_fiber:
+
+```pddl
+(:action remove_fiber
+ :parameters (?c - coconut_meat ?p - peeler)
+ :precondition (and (inventory ?c) (inventory ?p) (is_item_coconut_meat ?c))
+ :effect (and
+          (not (is_item_coconut_meat ?c))
+          (is_item_coconut_meat_peeled ?c)))
+```
+Here are the parameters, precondition, and effect of each action:
+
+- action get:
+
+```pddl
+:parameters (?item - item)
+:precondition (not (inventory ?item))
+:effect (inventory ?item)
+```
+
+- action poke:
+
+```pddl
+:parameters (?c - coconut)
+:precondition (and (inventory ?c) (not (has_eyes_poked ?c)))
+:effect (has_eyes_poked ?c)
+```
+
+- action flip:
+
+```pddl
+:parameters (?cow - container_with_water)
+:precondition (and (inventory ?cow) (is_item_container_with_water ?cow))
+:effect (and (not (is_item_container_with_water ?cow)) (is_item_container_without_water ?cow))
+```
+
+- action wrap:
+
+```pddl
+:parameters (?c - coconut ?t - towel)
+:precondition (and (inventory ?c) (inventory ?t) (not (is_item_wrapped_coconut ?c)))
+:effect (is_item_wrapped_coconut ?c)
+```
+
+- action hit:
+
+```pddl
+:parameters (?c - coconut_wrapped ?m - mallet)
+:precondition (and (inventory ?c) (inventory ?m) (is_item_wrapped_coconut ?c))
+:effect (and (not (is_item_wrapped_coconut ?c)) (is_item_broken_coconut ?c))
+```
+
+- action free:
+
+```pddl
+:parameters (?c - coconut_broken ?k - knife)
+:precondition (and (inventory ?c) (inventory ?k) (is_item_broken_coconut ?c))
+:effect (and (not (is_item_broken_coconut ?c)) (is_item_coconut_meat ?c))
+```
+
+- action remove_fiber:
+
+```pddl
+:parameters (?c - coconut_meat ?p - peeler)
+:precondition (and (inventory ?c) (inventory ?p) (is_item_coconut_meat ?c))
+:effect (and (not (is_item_coconut_meat ?c)) (is_item_coconut_meat_peeled ?c))
+```
+
+These conditions ensure that the actions are executed in the correct order and that all necessary conditions are met before executing an action.
+Sure, to provide more clarity to each action, let's add some additional predicates, effects, and preconditions that will reflect the state of the world more accurately.
+
+- action get:
+
+```pddl
+:parameters (?item - item)
+:precondition (not (inventory ?item))
+:effect (and 
+         (inventory ?item)
+         (decrease (quantity ?item)))
+```
+
+- action poke:
+
+```pddl
+:parameters (?c - coconut ?t - tool)
+:precondition (and (inventory ?c) (inventory ?t) (not (has_eyes_poked ?c)))
+:effect (has_eyes_poked ?c)
+```
+
+- action flip:
+
+```pddl
+:parameters (?cow - container_with_water)
+:precondition (and (inventory ?cow) (is_item_container_with_water ?cow))
+:effect (and 
+          (not (is_item_container_with_water ?cow))
+          (is_item_container_without_water ?cow)
+          (increase (quantity ?cow)))
+```
+
+- action wrap:
+
+```pddl
+:parameters (?c - coconut ?t - towel)
+:precondition (and (inventory ?c) (inventory ?t) (not (is_item_wrapped_coconut ?c)))
+:effect (and 
+         (is_item_wrapped_coconut ?c)
+         (increase (wrap_count ?c)))
+```
+
+- action hit:
+
+```pddl
+:parameters (?c - coconut_wrapped ?m - mallet)
+:precondition (and (inventory ?c) (inventory ?m) (is_item_wrapped_coconut ?c))
+:effect (and 
+         (not (is_item_wrapped_coconut ?c))
+         (is_item_broken_coconut ?c)
+         (increase (hit_count ?c)))
+```
+
+- action free:
+
+```pddl
+:parameters (?c - coconut_broken ?k - knife)
+:precondition (and (inventory ?c) (inventory ?k) (is_item_broken_coconut ?c))
+:effect (and 
+         (not (is_item_broken_coconut ?c))
+         (is_item_coconut_meat ?c)
+         (increase (free_count ?c)))
+```
+
+- action remove_fiber:
+
+```pddl
+:parameters (?c - coconut_meat ?p - peeler)
+:precondition (and (inventory ?c) (inventory ?p) (is_item_coconut_meat ?c))
+:effect (and 
+         (not (is_item_coconut_meat ?c))
+         (is_item_coconut_meat_peeled ?c)
+         (increase (remove_fiber_count ?c)))
+```
+
+The newly added predicates `quantity`, `wrap_count`, `hit_count`, `free_count`, `remove_fiber_count` track the status of various items in the inventory. The additional effects `increase()` and `decrease()` adjust these predicates as appropriate actions are taken.
+Continuing from there, let's add some further actions which could extend the functionality of such scenario:
+
+- action name: drink_coconut_water
+    The action is about drinking the coconut water after flipping it upside down.
+    This action requires that the coconut has been poked and flipped to obtain its water.
+    The result is the reduction of the coconut water quantity.
+
+- entities:
+  - entity name: coconut 
+    - before: has water
+    - after: has less water or no water
+    
+```pddl
+(:action drink_coconut_water
+ :parameters (?c - coconut ?cow - container_with_water)
+ :precondition (and (inventory ?c) (inventory ?cow) (has_eyes_poked ?c) (is_item_container_with_water ?cow))
+ :effect (and 
+          (not (is_item_container_with_water ?cow))
+          (is_item_container_without_water ?cow)))
+```
+
+- action name: make_coconut_milk
+    Action applies after the meat of the coconut is freed. The freed meat is then processed to make coconut milk.
+    This requires that the coconut has been freed.
+    The result is obtained, coconut milk.
+
+- entities:
+  - entity name: coconut 
+    - before: has meat
+    - after: has less meat or no meat
+    
+```pddl
+(:action make_coconut_milk
+ :parameters (?cm - coconut_meat ?t - tool)
+ :precondition (and (is_item_coconut_meat ?cm) (inventory ?t)) 
+ :effect (coconut_milk ?cm))
+```
+
+Note: Additional predicates such as `coconut_milk`, `drink_coconut_water` and `make_coconut_milk` need to be declared in your domain under predicates.
+Let's add some other potential actions:
+
+- action name: eat_coconut_meat
+Summarize action: This action is about eating the peeled coconut meat.
+Requirements: This requires that the coconut meat has been peeled and is in the inventory.
+Result: The coconut meat is consumed.
+
+- entities:
+    - entity name: coconut_meat_peeled
+    - before: in inventory
+    - after: not in inventory (consumed)
+
+```pddl
+(:action eat_coconut_meat
+ :parameters (?cmp - coconut_meat_peeled)
+ :precondition (and (inventory ?cmp) (is_item_coconut_meat_peeled ?cmp))
+ :effect (not (inventory ?cmp)))
+```
+
+- action name: dispose_of_coconut_shell
+
+Summarize action: This action is about disposing of the broken coconut shell, once the meat has been removed.
+
+Requirements: This requires that a broken coconut shell is in the inventory.
+
+Result: The broken coconut shell is removed from the inventory.
+
+- entities:
+    - entity name: coconut_broken
+    - before: in inventory
+    - after: not in inventory (disposed)
+
+```pddl
+(:action dispose_of_coconut_shell
+ :parameters (?cb - coconut_broken)
+ :precondition (and (inventory ?cb) (is_item_broken_coconut ?cb))
+ :effect (not (inventory ?cb)))
+```
+
+Please note, these new actions 'eat_coconut_meat' and 'dispose_of_coconut_shell' need to be added to your problem and domain in order to work correctly.
+
+Let's add several more actions:
+
+- action name: cook_coconut_meat
+
+Summarize action: This action involves cooking the peeled coconut meat.
+
+Requirements: Peeled coconut meat should be in the inventory.
+
+Result: The coconut meat is cooked.
+
+- entities:
+  - entity name: coconut_meat_peeled
+  - before: raw
+  - after: cooked
+
+```pddl
+(:action cook_coconut_meat
+ :parameters (?cmp - coconut_meat_peeled ?tool - tool)
+ :precondition (and (inventory ?cmp) (is_item_coconut_meat_peeled ?cmp) (inventory ?tool))
+ :effect (cooked ?cmp))
+```
+
+- action name: grate_coconut_meat
+
+Summarize action: This action involves grating the coconut meat.
+
+Requirements: Cooked coconut meat should be in the inventory.
+
+Result: The coconut meat is grated.
+
+- entities:
+  - entity name: coconut_meat_peeled
+  - before: cooked
+  - after: grated
+
+```pddl
+(:action grate_coconut_meat
+ :parameters (?cmp - coconut_meat_peeled ?tool - tool)
+ :precondition (and (inventory ?cmp) (cooked ?cmp) (inventory ?tool))
+ :effect (grated ?cmp))
+```
+
+Note: Additional predicates such as `cooked` and `grated` should be declared in the list of domain predicates. The `tool` parameter in the `cook_coconut_meat` and `grate_coconut_meat` actions could be a stove, oven, or grater depending on the specific cooking and grating tools available.
+Following up on the given actions, we could consider several other actions:
+
+- action name: extract_coconut_oil
+Summarize action: This is about extracting oil from the grated coconut meat.
+Requirements: The grated meat of the coconut should be available in the inventory.
+Result: Coconut oil is obtained.
+
+- entities:
+  - entity name: coconut_meat_peeled
+    - before: grated
+    - after: oil extracted
+
+```pddl
+(:action extract_coconut_oil
+ :parameters (?cmp - coconut_meat_peeled ?tool - tool)
+ :precondition (and (inventory ?cmp) (grated ?cmp) (inventory ?tool))
+ :effect (coconut_oil ?cmp))
+```
+
+- action name: make_coconut_dessert
+Summarize action: This action involves making a dessert from coconut meat and oil.
+Requirements: Coconut meat and coconut oil should be in the inventory.
+Result: A coconut dessert is obtained.
+
+- entities:
+  - entity name: coconut_meat_peeled
+    - before: available
+    - after: used for dessert
+  - entity name: coconut_oil
+    - before: available
+    - after: used for dessert
+  
+```pddl
+(:action make_coconut_dessert
+ :parameters (?cmp - coconut_meat_peeled ?oil - coconut_oil)
+ :precondition (and (inventory ?cmp) (coconut_oil ?cmp) (inventory ?oil))
+ :effect (and (not (inventory ?cmp)) (not (inventory ?oil)) (coconut_dessert ?cmp)))
+```
+
+Please note, new predicates like `coconut_oil`, `coconut_dessert` are to be included in the list of domain predicates.

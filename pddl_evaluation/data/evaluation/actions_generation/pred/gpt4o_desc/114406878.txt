@@ -1,0 +1,191 @@
+  (:action go
+    :parameters (?player - player ?from - location ?to - location ?dir - direction)
+    :precondition (and 
+        (at ?player ?from)
+        (connected ?from ?dir ?to)
+        (not (blocked ?from ?dir ?to))
+    )
+    :effect (and
+        (not (at ?player ?from))
+        (at ?player ?to)
+    )
+  )
+
+  (:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (at ?item ?loc)
+    )
+    :effect (and
+        (inventory ?player ?item)
+        (not (at ?item ?loc))
+    )
+  )
+
+  (:action get_grass
+    :parameters (?player - player ?grass - grass ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (at ?grass ?loc)
+    )
+    :effect (and
+        (inventory ?player ?grass)
+        (not (at ?grass ?loc))
+        (not (dry ?grass))  ; assuming freshly gathered grass is not dry
+    )
+  )
+
+  (:action dry_grass
+    :parameters (?player - player ?grass - grass)
+    :precondition (and 
+        (inventory ?player ?grass)
+        (not (dry ?grass))
+    )
+    :effect (dry ?grass)
+  )
+
+  (:action cluster_grass
+    :parameters (?player - player ?grass - grass)
+    :precondition (and 
+        (inventory ?player ?grass)
+        (dry ?grass)
+    )
+    :effect (inventory ?player (clustered-grass grass)) ; assuming clustered grass becomes a new kind of item
+  )
+
+  (:action break_branch
+    :parameters (?player - player ?branch - branch ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (at ?branch ?loc)
+        (has_large_dry_branch ?loc)
+    )
+    :effect (and
+        (inventory ?player (broken-branch branch))
+        (not (at ?branch ?loc))
+    )
+  )
+
+  (:action log_oak
+    :parameters (?player - player ?log - log ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (has_dry_oak ?loc)
+    )
+    :effect (inventory ?player ?log)
+  )
+
+  (:action get_log
+    :parameters (?player - player ?log - log ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (at ?log ?loc)
+    )
+    :effect (and
+        (inventory ?player ?log)
+        (not (at ?log ?loc))
+    )
+  )
+
+  (:action stack_log
+    :parameters (?player - player ?log - log)
+    :precondition (and 
+        (inventory ?player ?log)
+        (dry ?log))
+    :effect (inventory ?player (stacked-log log))  ; assuming stacked logs become a new kind of item
+  )
+
+  (:action build_teepee
+    :parameters (?player - player ?tinder - tinder ?kindling - kindling ?fuel - fuel ?loc - location)
+    :precondition (and 
+        (inventory ?player ?tinder)
+        (inventory ?player ?kindling)
+        (inventory ?player ?fuel)
+        (has_dry_even_area ?loc)
+        (at ?player ?loc)
+    )
+    :effect (and
+        (inventory ?player (teepee-structure teepee))
+        (not (inventory ?player ?tinder))
+        (not (inventory ?player ?kindling))
+        (not (inventory ?player ?fuel))
+    )
+  )
+
+  (:action get_wood
+    :parameters (?player - player ?wood - wood ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (at ?wood ?loc)
+    )
+    :effect (and
+        (inventory ?player ?wood)
+        (not (at ?wood ?loc))
+    )
+  )
+
+  (:action get_branch
+    :parameters (?player - player ?branch - branch ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (at ?branch ?loc)
+    )
+    :effect (and
+        (inventory ?player ?branch)
+        (not (at ?branch ?loc))
+    )
+  )
+
+  (:action ignite_wood
+    :parameters (?player - player ?wood - wood ?branch - branch)
+    :precondition (and 
+        (inventory ?player ?wood)
+        (inventory ?player ?branch)
+    )
+    :effect (ignited ?wood)
+  )
+
+  (:action ignite_teepee
+    :parameters (?player - player ?teepee - teepee ?wood - wood ?loc - location)
+    :precondition (and 
+        (inventory ?player ?teepee)
+        (ignited ?wood)
+        (at ?player ?loc)
+    )
+    :effect (ignited ?teepee)
+  )
+
+  (:action get_pot
+    :parameters (?player - player ?pot - pot ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (at ?pot ?loc)
+    )
+    :effect (and
+        (inventory ?player ?pot)
+        (not (at ?pot ?loc))
+    )
+  )
+
+  (:action get_water
+    :parameters (?player - player ?pot - pot ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (has_pond ?loc)
+        (inventory ?player ?pot)
+    )
+    :effect (and
+        (inventory ?player (water-in-pot water ?pot))  ; assuming water in pot is a new item
+    )
+  )
+
+  (:action boil_water
+    :parameters (?player - player ?pot - pot ?teepee - teepee)
+    :precondition (and 
+        (ignited ?teepee)
+        (inventory ?player ?pot)
+    )
+    :effect (boiled (water-in-pot water ?pot))
+  )
+)

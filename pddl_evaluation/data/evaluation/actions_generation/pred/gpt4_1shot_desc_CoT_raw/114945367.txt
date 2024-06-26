@@ -1,0 +1,74 @@
+Here are the actions in PDDL format based on the provided text:
+
+```
+(:action go
+   :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (at ?p ?loc2) (not (at ?p ?loc1))))
+
+(:action get 
+   :parameters (?p - player ?i - item ?loc - location)
+   :precondition (and (at ?p ?loc) (at ?i ?loc))
+   :effect (and (inventory ?p ?i) (not (at ?i ?loc))))
+
+(:action get_water
+   :parameters (?p - player ?w - water ?loc - location)
+   :precondition (and (at ?p ?loc) (has_water_source ?loc))
+   :effect (inventory ?p ?w))
+
+(:action strain_water
+   :parameters (?p - player ?w - water ?c - cloth)
+   :precondition (and (inventory ?p ?w) (inventory ?p ?c))
+   :effect (strained ?w))
+
+(:action boil_water
+   :parameters (?p - player ?w - water ?con - container)
+   :precondition (and (inventory ?p ?w) (inventory ?p ?con) (strained ?w))
+   :effect (treated ?w))
+
+(:action purify_in_sunlight
+   :parameters (?p - player ?w - water)
+   :precondition (and (inventory ?p ?w) (treated ?w))
+   :effect (and))
+
+(:action get_long_branch
+   :parameters (?p - player ?lb - long_branch ?loc - location)
+   :precondition (and (at ?p ?loc) (has_branches ?loc))
+   :effect (inventory ?p ?lb))
+
+(:action get_propped_branches
+   :parameters (?p - player ?pb - propped_branches ?loc - location)
+   :precondition (and (at ?p ?loc) (has_branches ?loc))
+   :effect (inventory ?p ?pb))
+
+(:action get_twigs_leaves
+   :parameters (?p - player ?tl - twigs_leaves ?loc - location)
+   :precondition (and (at ?p ?loc) (has_twigs_leaves ?loc))
+   :effect (inventory ?p ?tl))
+
+(:action build_shelter
+   :parameters (?p - player ?lb - long_branch ?pb - propped_branches ?tl - twigs_leaves)
+   :precondition (and (inventory ?p ?lb) (inventory ?p ?pb) (inventory ?p ?tl))
+   :effect (has_shelter ?p))
+
+(:action get_logs
+   :parameters (?p - player ?lg - logs ?loc - location)
+   :precondition (and (at ?p ?loc) (has_logs ?loc))
+   :effect (inventory ?p ?lg))
+
+(:action get_dry_materials
+   :parameters (?p - player ?dm - item ?loc - location)
+   :precondition (and (at ?p ?loc) (at ?dm ?loc))
+   :effect (and (inventory ?p ?dm) (not (at ?dm ?loc))))
+
+(:action build_teepee
+   :parameters (?p - player ?lg - logs ?tl - twigs_leaves ?tee - teepee)
+   :precondition (and (inventory ?p ?lg) (inventory ?p ?tl) (at ?tee ?loc))
+   :effect (at ?tee ?loc))
+
+(:action start_fire
+   :parameters (?p - player ?dm - item)
+   :precondition (and (inventory ?p ?dm) (has_shelter ?p))
+   :effect (has_fire ?p))
+```
+This assumes that all long_branch, propped_branches, logs, twigs_leaves, and dry materials are all considered as items. Also, it assumes that a tee (teepee) is already at the location before you build it up using logs and twigs_leaves. Please modify these based on your actual requirements and conditions. Also keep in mind that this is only a suggestion and can be modified based on your specific requirements.

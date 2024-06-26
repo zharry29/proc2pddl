@@ -1,0 +1,117 @@
+(:action go ; navigate to an adjacent location 
+    :parameters (?player - player ?from - location ?to - location ?dir - direction)
+    :precondition (and 
+        (at ?player ?from)
+        (connected ?from ?dir ?to)
+    )
+    :effect (and 
+        (not (at ?player ?from))
+        (at ?player ?to)
+    )
+)
+
+(:action get ; pick up an item and put it in the inventory
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and 
+        (at ?player ?loc) 
+        (at ?item ?loc)
+    )
+    :effect (and 
+        (not (at ?item ?loc))
+        (inventory ?player ?item)
+    )
+)
+
+(:action pour_water ; pour water into bowl
+    :parameters (?player - player ?bowl - bowl ?water - water ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (inventory ?player ?bowl)
+        (inventory ?player ?water)
+    )
+    :effect (and 
+        (not (inventory ?player ?water))
+        (inventory ?player ?bowl) ; Assuming bowl_of_water is a different item, not explicitly described 
+        (at ?water ?loc)
+    )
+)
+
+(:action place_strips_between_boards ; place papyrus strips between two wooden boards
+    :parameters (?player - player ?strips - papyrus_strips ?board1 - wooden_boards ?board2 - wooden_boards ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (inventory ?player ?strips)
+        (inventory ?player ?board1)
+        (inventory ?player ?board2)
+    )
+    :effect (and 
+        (not (inventory ?player ?strips))
+        (not (inventory ?player ?board1))
+        (not (inventory ?player ?board2))
+        (strips_between_boards)
+    )
+)
+
+(:action cut_stalks ; cut stalks
+    :parameters (?player - player ?stalks - papyrus_stalks ?pruner - pruner ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (inventory ?player ?stalks)
+        (inventory ?player ?pruner)
+    )
+    :effect (and 
+        (not (inventory ?player ?stalks))
+        (inventory ?player ?stalks) ; Presumably storing the cut stalks
+    )
+)
+
+(:action papyrus_strips ; cut strips from stalks
+    :parameters (?player - player ?stalks - papyrus_stalks ?knife - knife ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (inventory ?player ?stalks)
+        (inventory ?player ?knife)
+    )
+    :effect (and 
+        (not (inventory ?player ?stalks))
+        (inventory ?player ?strips) ; Assuming creating strips from the stalks
+    )
+)
+
+(:action polish_papyrus ; Use a stone to polish the papyrus
+    :parameters (?player - player ?papyrus - papyrus ?stone - smooth_stone ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (inventory ?player ?papyrus)
+        (inventory ?player ?stone)
+    )
+    :effect (and 
+        (polished ?papyrus)
+    )
+)
+
+(:action flatten_papyrus ; Use a roller to make the papyrus flat
+    :parameters (?player - player ?papyrus - papyrus ?roller - roller ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (inventory ?player ?papyrus)
+        (inventory ?player ?roller)
+    )
+    :effect (and 
+        (flattened ?papyrus)
+    )
+)
+
+(:action cut_papyrus ; Use a scissor to cut the papyrus
+    :parameters (?player - player ?papyrus - papyrus ?scissors - scissors ?loc - location)
+    :precondition (and 
+        (at ?player ?loc)
+        (inventory ?player ?papyrus)
+        (inventory ?player ?scissors)
+    )
+    :effect (and 
+        (cut ?papyrus)
+    )
+)
+
+)

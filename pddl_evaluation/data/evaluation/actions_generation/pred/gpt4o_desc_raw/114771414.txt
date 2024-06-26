@@ -1,0 +1,158 @@
+Sure, let's fill out the PDDL actions according to the given format and predicates:
+
+```pddl
+(define (domain desert-island-survival)
+
+  (:requirements :strips :typing)
+  
+  (:types
+    water stick tarp leave - item
+    player direction location
+    fish bird insect shellfish - animal
+  )
+  
+  (:predicates
+    (has_water_source ?loc - location)
+    (treated ?water - water)
+    (at ?obj - object ?loc - location)
+    (inventory ?player - player ?item - item)
+    (connected ?loc1 - location ?dir - direction ?loc2 - location)
+    (blocked ?loc1 - location ?dir - direction ?loc2 - location)
+    (edible ?item - item)
+    (has_fish ?loc - location)
+    (has_bird ?loc - location)
+    (has_insect ?loc - location)
+    (has_shellfish ?loc - location)
+    (has_fire ?loc - location)
+    (sheltered ?loc - location)
+  )
+
+  (:action go
+    :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+    :precondition (and 
+      (at ?player ?loc1)
+      (connected ?loc1 ?dir ?loc2)
+      (not (blocked ?loc1 ?dir ?loc2))
+    )
+    :effect (and
+      (at ?player ?loc2)
+      (not (at ?player ?loc1))
+    )
+  )
+
+  (:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and
+      (at ?player ?loc)
+      (at ?item ?loc)
+    )
+    :effect (and
+      (inventory ?player ?item)
+      (not (at ?item ?loc))
+    )
+  )
+
+  (:action get_water
+    :parameters (?player - player ?loc - location ?water - water)
+    :precondition (and
+      (at ?player ?loc)
+      (has_water_source ?loc)
+    )
+    :effect (inventory ?player ?water)
+  )
+
+  (:action sharpen_stick
+    :parameters (?player - player ?stick - stick ?loc - location)
+    :precondition (and
+      (inventory ?player ?stick)
+      (at ?player ?loc)
+    )
+    :effect (edible ?stick) ; Assuming sharpening a stick makes it useful for other tasks
+  )
+
+  (:action catch_fish
+    :parameters (?player - player ?loc - location ?fish - fish)
+    :precondition (and
+      (at ?player ?loc)
+      (has_fish ?loc)
+    )
+    :effect (inventory ?player ?fish)
+  )
+
+  (:action hunt_bird
+    :parameters (?player - player ?loc - location ?bird - bird)
+    :precondition (and
+      (at ?player ?loc)
+      (has_bird ?loc)
+    )
+    :effect (inventory ?player ?bird)
+  )
+
+  (:action hunt_insect
+    :parameters (?player - player ?loc - location ?insect - insect)
+    :precondition (and
+      (at ?player ?loc)
+      (has_insect ?loc)
+    )
+    :effect (inventory ?player ?insect)
+  )
+
+  (:action get_shellfish
+    :parameters (?player - player ?loc - location ?shellfish - shellfish)
+    :precondition (and
+      (at ?player ?loc)
+      (has_shellfish ?loc)
+    )
+    :effect (inventory ?player ?shellfish)
+  )
+
+  (:action cook
+    :parameters (?player - player ?animal - animal ?loc - location)
+    :precondition (and
+      (inventory ?player ?animal)
+      (has_fire ?loc)
+      (at ?player ?loc)
+    )
+    :effect (edible ?animal)
+  )
+
+  (:action get_stick
+    :parameters (?player - player ?loc - location ?stick - stick)
+    :precondition (at ?player ?loc)
+    :effect (inventory ?player ?stick)
+  )
+
+  (:action start_fire
+    :parameters (?player - player ?loc - location)
+    :precondition (at ?player ?loc)
+    :effect (has_fire ?loc)
+  )
+
+  (:action get_tarp
+    :parameters (?player - player ?loc - location ?tarp - tarp)
+    :precondition (at ?player ?loc)
+    :effect (inventory ?player ?tarp)
+  )
+
+  (:action get_leave
+    :parameters (?player - player ?loc - location ?leave - leave)
+    :precondition (at ?player ?loc)
+    :effect (inventory ?player ?leave)
+  )
+
+  (:action construct_shelter
+    :parameters (?player - player ?loc - location ?stick - stick ?cover - item)
+    :precondition (and
+      (inventory ?player ?stick)
+      (inventory ?player ?cover)
+      (at ?player ?loc)
+      (or
+        (inventory ?player ?tarp)
+        (inventory ?player ?leave)
+      )
+    )
+    :effect (sheltered ?loc)
+  )
+)
+```
+This code lists every action in the Plan Domain Definition Language (PDDL) ensuring that each action has predicates, parameters, preconditions, and effects as requested.

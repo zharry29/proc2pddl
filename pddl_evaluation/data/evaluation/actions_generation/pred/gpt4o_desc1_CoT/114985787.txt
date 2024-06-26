@@ -1,0 +1,81 @@
+(:action go
+  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and (at ?player ?loc1)
+                     (connected ?loc1 ?dir ?loc2)
+                     (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and (not (at ?player ?loc1))
+               (at ?player ?loc2)))
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc)
+                     (at ?item ?loc))
+  :effect (and (inventory ?player ?item)
+               (not (at ?item ?loc))))
+
+(:action get_water
+  :parameters (?player - player ?water - water ?loc - location)
+  :precondition (and (at ?player ?loc)
+                     (has_water_source ?loc)
+                     (not (treated ?water)))
+  :effect (inventory ?player ?water))
+
+(:action drop
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc)
+                     (inventory ?player ?item))
+  :effect (and (not (inventory ?player ?item))
+               (at ?item ?loc)))
+
+(:action clear_spider
+  :parameters (?item - item)
+  :precondition (has_bug ?item)
+  :effect (not (has_bug ?item)))
+
+(:action insert_beam
+  :parameters (?b - branch ?tree - tree)
+  :precondition (and (has_split_in_trunk ?tree)
+                     (long ?b)
+                     (thick ?b))
+  :effect (part_of ?b ?frame))
+
+(:action lean_branches
+  :parameters (?branches - branches ?loc - location)
+  :precondition (at ?branches ?loc)
+  :effect (part_of ?branches ?shelter))
+
+(:action layer
+  :parameters (?twigs - twigs ?loc - location)
+  :precondition (at ?twigs ?loc)
+  :effect (part_of ?twigs ?shelter))
+
+(:action wash
+  :parameters (?leaves - leaves)
+  :precondition (unwashed ?leaves)
+  :effect (not (unwashed ?leaves)))
+
+(:action eat
+  :parameters (?player - player ?item - item)
+  :precondition (and (hungry ?player)
+                     (inventory ?player ?item)
+                     (edible ?item))
+  :effect (and (not (inventory ?player ?item))
+               (not (hungry ?player))))
+
+(:action make_snare
+  :parameters (?player - player ?wire - wire)
+  :precondition (inventory ?player ?wire)
+  :effect (inventory ?player ?snare))
+
+(:action make_horizontal_bar
+  :parameters (?player - player ?branch - branch)
+  :precondition (inventory ?player ?branch)
+  :effect (inventory ?player ?bar))
+
+(:action hang_snare
+  :parameters (?player - player ?snare - snare ?loc - location)
+  :precondition (and (inventory ?player ?snare)
+                     (made_by_animal ?loc))
+  :effect (hanged ?snare))
+
+)

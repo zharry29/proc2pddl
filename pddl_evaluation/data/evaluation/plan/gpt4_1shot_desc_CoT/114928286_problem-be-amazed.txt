@@ -1,0 +1,6 @@
+get ('npc', 'items', 'hallway')
+make_crosses_column ('npc', 'paper')
+record_crosses ('npc', 'items', 'paper')
+divide_crosses ('npc', 'paper')
+calculate_pi ('npc', 'paper')
+be_amazed ('npc')

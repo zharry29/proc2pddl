@@ -1,0 +1,102 @@
+Sure, I'll fill out the PDDL actions with the given predicates accordingly.
+
+```lisp
+(define (domain survive_comet)
+   (:requirements :strips :typing)
+   
+   (:types
+      food water medicine energy_source - item 
+      weapon - item
+      pistol ammunition - weapon
+      bunker city market weapon_market - location
+      player direction
+   ) 
+
+   (:predicates
+      (inventory ?it - item)
+      (at ?obj - object ?loc - location)
+      (in ?obj - object ?c - city)
+      (enough_supplies)
+      (enough_weapons)
+      (connected ?loc1 - location ?dir - direction ?loc2 - location)
+      (has_air_filtration_system ?bk - bunker)
+      (has_strong_material ?bk - bunker)
+      (has_pc ?p - player)
+      (find_good_bunker ?bk - bunker)
+      (outfit_bunker_with_heat ?bk - bunker)
+      (enjoylife ?p - player ?bk - bunker)
+      (family_memebers_know_you_are_safe)
+      (listen_to_broadcast ?p - player ?l - location)
+      (coastal ?c - city)
+      (inland ?c - city)
+   )
+   
+   (:action listen_to_astronomers_predictions
+      :parameters (?p - player ?l - location)
+      :precondition (and (at ?p ?l) (has_pc ?p))
+      :effect (listen_to_broadcast ?p ?l)
+   )
+
+   (:action move_away
+      :parameters (?p - player ?ca - city ?ia - city)
+      :precondition (and (in ?p ?ca) (coastal ?ca) (inland ?ia))
+      :effect (and (not (in ?p ?ca)) (in ?p ?ia))
+   )
+
+   (:action go
+      :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location)
+      :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2))
+      :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+   )
+
+   (:action buy_supplies
+      :parameters (?p - player ?m - market ?it - item)
+      :precondition (at ?p ?m)
+      :effect (inventory ?it)
+   )
+
+   (:action check_supplies
+      :parameters (?p - player)
+      :precondition (at ?p ?loc) ;; Assuming location is needed
+      :effect (enough_supplies)
+   )
+
+   (:action buy_weapons
+      :parameters (?p - player ?wm - weapon_market ?w - weapon)
+      :precondition (and (at ?p ?wm) (enough_supplies))
+      :effect (inventory ?w)
+   )
+
+   (:action check_weapons
+      :parameters (?p - player)
+      :precondition (at ?p ?loc) ;; Assuming location is needed
+      :effect (enough_weapons)
+   )
+
+   (:action check_bunker
+      :parameters (?b - bunker)
+      :precondition (and (has_air_filtration_system ?b) (has_strong_material ?b))
+      :effect (find_good_bunker ?b)
+   )
+
+   (:action outfit_bunker_with_energy_source
+      :parameters (?p - player ?b - bunker ?es - energy_source)
+      :precondition (and (find_good_bunker ?b) (inventory ?es))
+      :effect (outfit_bunker_with_heat ?b)
+   )
+
+   (:action enjoylife
+      :parameters (?p - player ?b - bunker)
+      :precondition (and (at ?p ?b) (outfit_bunker_with_heat ?b))
+      :effect (enjoylife ?p ?b)
+   )
+
+   (:action connect_through_social_media_with_family
+      :parameters (?p - player ?l - location)
+      :precondition (and (at ?p ?l) (has_pc ?p))
+      :effect (family_memebers_know_you_are_safe)
+   )
+)
+```
+
+This PDDL snippet should properly define the actions and their preconditions/effects based on the provided predicates and other domain requirements.

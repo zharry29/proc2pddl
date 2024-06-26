@@ -1,0 +1,63 @@
+(:action gather_info
+  :parameters (?player)
+  :precondition (not (has_info ?player))
+  :effect (has_info ?player)
+)
+
+(:action create_secret
+  :parameters (?secret_society)
+  :precondition (not (has_secret ?secret_society))
+  :effect (has_secret ?secret_society)
+)
+
+(:action set_meeting_location
+  :parameters (?secret_society)
+  :precondition (not (has_location ?secret_society))
+  :effect (has_location ?secret_society)
+)
+
+(:action set_dress_code
+  :parameters (?secret_society)
+  :precondition (not (has_dress_code ?secret_society))
+  :effect (has_dress_code ?secret_society)
+)
+
+(:action create_name
+  :parameters (?secret_society)
+  :precondition (not (has_name ?secret_society))
+  :effect (has_name ?secret_society)
+)
+
+(:action secret_society_is_ready
+  :parameters (?secret_society)
+  :precondition (and (has_secret ?secret_society) (has_name ?secret_society) 
+                     (has_location ?secret_society) (has_dress_code ?secret_society))
+  :effect (society_is_ready ?secret_society)
+)
+
+(:action initiate_new_member
+  :parameters (?player ?secret_society)
+  :precondition (and (society_is_ready ?secret_society) (not (in ?player ?secret_society)))
+  :effect (in ?player ?secret_society)
+)
+
+(:action teach_new_member_secret
+  :parameters (?player ?secret_society)
+  :precondition (and (has_secret ?secret_society) (is_trusted ?player ?secret_society) 
+                     (in ?player ?secret_society) (not (knows_secret ?player ?secret_society)))
+  :effect (knows_secret ?player ?secret_society)
+)
+
+(:action remove_member
+  :parameters (?player ?secret_society)
+  :precondition (and (not (is_trusted ?player ?secret_society)) (in ?player ?secret_society))
+  :effect (not (in ?player ?secret_society))
+)
+
+(:action check_if_cult
+  :parameters (?secret_society)
+  :precondition (not (is_cult ?secret_society))
+  :effect (is_cult ?secret_society)
+)
+
+)

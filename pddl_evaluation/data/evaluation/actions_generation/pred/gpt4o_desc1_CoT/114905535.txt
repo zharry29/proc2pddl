@@ -1,0 +1,139 @@
+(:action go
+    :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+    :precondition (and
+                    (at ?player ?loc1)
+                    (connected ?loc1 ?dir ?loc2)
+                    (not (blocked ?loc1 ?dir ?loc2))
+                  )
+    :effect (and
+              (at ?player ?loc2)
+              (not (at ?player ?loc1))
+            )
+)
+
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and
+                    (at ?player ?loc)
+                    (at ?item ?loc)
+                  )
+    :effect (and
+              (inventory ?player ?item)
+              (not (at ?item ?loc))
+            )
+)
+
+(:action get_water
+    :parameters (?player - player ?loc - location ?water - water)
+    :precondition (and
+                    (at ?player ?loc)
+                    (has_water ?loc)
+                  )
+    :effect (inventory ?player ?water)
+)
+
+(:action bag_plant
+    :parameters (?player - player ?plant - plant ?bag - bag ?loc - location)
+    :precondition (and
+                    (at ?player ?loc)
+                    (at ?plant ?loc)
+                    (inventory ?player ?bag)
+                  )
+    :effect (bagged ?plant)
+)
+
+(:action wait_and_gather_bagged_plant
+    :parameters (?player - player ?plant - plant)
+    :precondition (bagged ?plant)
+    :effect (inventory ?player ?plant)
+)
+
+(:action gather_tinder
+    :parameters (?player - player ?tinder - tinder ?loc - location)
+    :precondition (and
+                    (at ?player ?loc)
+                    (has_tinder ?loc)
+                  )
+    :effect (inventory ?player ?tinder)
+)
+
+(:action build_campfire
+    :parameters (?player - player ?wood - wood ?tinder - tinder ?loc - location ?campfire - campfire)
+    :precondition (and
+                    (at ?player ?loc)
+                    (inventory ?player ?wood)
+                    (inventory ?player ?tinder)
+                  )
+    :effect (and
+              (at ?campfire ?loc)
+              (not (inventory ?player ?wood))
+              (not (inventory ?player ?tinder))
+            )
+)
+
+(:action light_campfire
+    :parameters (?player - player ?campfire - campfire ?loc - location)
+    :precondition (and
+                    (at ?player ?loc)
+                    (at ?campfire ?loc)
+                  )
+    :effect (lit ?campfire)
+)
+
+(:action make_spear
+    :parameters (?player - player ?stick - hardwood_stick ?stone - sharp_stone ?spear - spear)
+    :precondition (and
+                    (inventory ?player ?stick)
+                    (inventory ?player ?stone)
+                  )
+    :effect (and
+              (inventory ?player ?spear)
+              (not (inventory ?player ?stick))
+              (not (inventory ?player ?stone))
+            )
+)
+
+(:action spear_fish
+    :parameters (?player - player ?spear - spear ?fish - fish ?loc - location)
+    :precondition (and
+                    (at ?player ?loc)
+                    (has_fish ?loc)
+                    (inventory ?player ?spear)
+                  )
+    :effect (inventory ?player ?fish)
+)
+
+(:action cook_fish
+    :parameters (?player - player ?fish - fish ?campfire - campfire ?loc - location)
+    :precondition (and
+                    (at ?player ?loc)
+                    (at ?campfire ?loc)
+                    (lit ?campfire)
+                    (inventory ?player ?fish)
+                  )
+    :effect (cooked ?fish)
+)
+
+(:action wet_tinder
+    :parameters (?player - player ?tinder - tinder ?loc - location)
+    :precondition (and
+                    (at ?player ?loc)
+                    (inventory ?player ?tinder)
+                    (has_water ?loc)
+                  )
+    :effect (wet ?tinder)
+)
+
+(:action make_smoke_signal
+    :parameters (?player - player ?tinder - tinder ?campfire - campfire ?loc - location)
+    :precondition (and
+                    (at ?player ?loc)
+                    (lit ?campfire)
+                    (inventory ?player ?tinder)
+                    (wet ?tinder)
+                    (at ?campfire ?loc)
+                  )
+    :effect (signaling ?campfire)
+)
+
+)

@@ -1,0 +1,4 @@
+find_supplies_for_disguise ('npc', 'cardboard', 'house')
+find_supplies_for_disguise ('npc', 'notebook', 'house')
+find_supplies_for_disguise ('npc', 'pen', 'house')
+find_supplies_for_disguise ('npc', 'chalk', 'house')

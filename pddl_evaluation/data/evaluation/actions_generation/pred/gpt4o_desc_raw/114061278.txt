@@ -1,0 +1,68 @@
+Certainly! Here are the PDDL actions filled out with the predicates provided:
+
+```lisp
+(define (domain coconut)
+  (:requirements :strips :typing)
+  (:types
+      coconut coconut_wrapped coconut_broken coconut_meat coconut_meat_peeled tool container_without_water container_with_water towel mallet peeler - item
+  )
+  (:predicates
+      (inventory ?item - item) ; a item is in the inventory
+      (has_eyes_poked ?c - coconut) ; True if the coconut has its eyes poked 
+      (is_item_container_with_water ?cow - container_with_water) ; True if the item is the container with water filled
+      (is_item_wrapped_coconut ?c - coconut_wrapped) ; True if the item is a coconut wrapped in towel
+      (is_item_broken_coconut ?c - coconut_broken) ; True if the item is a broken coconut
+      (is_item_coconut_meat ?c - coconut_meat) ; True if the item is a the coconut meat
+      (is_item_coconut_meat_peeled ?c - coconut_meat_peeled) ; True if the item is a the peeled coconut meat
+  )
+
+  (:action get
+    :parameters (?item - item)
+    :precondition (and (not (inventory ?item)))
+    :effect (inventory ?item)
+  )
+
+  (:action poke
+    :parameters (?c - coconut ?tool - tool)
+    :precondition (and (inventory ?c) (inventory ?tool) (not (has_eyes_poked ?c)))
+    :effect (has_eyes_poked ?c)
+  )
+
+  (:action flip
+    :parameters (?c - coconut ?cow - container_with_water)
+    :precondition (and (inventory ?c) (has_eyes_poked ?c) (inventory ?cow) (not (is_item_container_with_water ?cow)))
+    :effect (is_item_container_with_water ?cow)
+  )
+
+  (:action wrap
+    :parameters (?c - coconut ?t - towel)
+    :precondition (and (inventory ?c) (inventory ?t))
+    :effect (and (not (inventory ?c)) (is_item_wrapped_coconut ?c))
+  )
+
+  (:action hit
+    :parameters (?cw - coconut_wrapped ?m - mallet)
+    :precondition (and (inventory ?cw) (inventory ?m))
+    :effect (and (not (is_item_wrapped_coconut ?cw)) (is_item_broken_coconut ?cw))
+  )
+
+  (:action free
+    :parameters (?cb - coconut_broken ?n - tool)
+    :precondition (and (inventory ?cb) (inventory ?n))
+    :effect (and (is_item_coconut_meat ?cb) (not (is_item_broken_coconut ?cb)))
+  )
+
+  (:action remove_fiber
+    :parameters (?cm - coconut_meat ?p - peeler)
+    :precondition (and (inventory ?cm) (inventory ?p))
+    :effect (and (is_item_coconut_meat_peeled ?cm) (not (is_item_coconut_meat ?cm)))
+  )
+)
+```
+
+In this specification:
+- The `:parameters` section provides the variables for each predicate.
+- The `:precondition` section defines the conditions that must be true before the action can be executed.
+- The `:effect` section specifies the changes to the predicates after the action is executed.
+  
+Each action uses the predicates and types as specified, ensuring correctness and completeness within the provided context.

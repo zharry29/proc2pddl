@@ -1,0 +1,51 @@
+(:action drive
+ :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location ?car - item)
+ :precondition (and (at ?p ?loc1) (at ?car ?loc1) (is_car ?car) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+ :effect (and (not (at ?p ?loc1)) (at ?p ?loc2)))
+
+(:action walk
+ :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location)
+ :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+ :effect (and (not (at ?p ?loc1)) (at ?p ?loc2)))
+
+(:action get_food
+ :parameters (?p - player ?loc - location ?food - item)
+ :precondition (and (at ?p ?loc) (is_supermarket ?loc) (at ?food ?loc) (is_nonperishable ?food))
+ :effect (and (not (at ?food ?loc)) (inventory ?p ?food)))
+
+(:action get_medicine
+ :parameters (?p - player ?loc - location ?medicine - item)
+ :precondition (and (at ?p ?loc) (is_pharmacy ?loc) (at ?medicine ?loc) (is_medicine ?medicine))
+ :effect (and (not (at ?medicine ?loc)) (inventory ?p ?medicine)))
+
+(:action get
+ :parameters (?p - player ?loc - location ?item - item)
+ :precondition (and (at ?p ?loc) (at ?item ?loc))
+ :effect (and (not (at ?item ?loc)) (inventory ?p ?item)))
+
+(:action drop
+ :parameters (?p - player ?loc - location ?item - item)
+ :precondition (and (at ?p ?loc) (inventory ?p ?item))
+ :effect (and (not (inventory ?p ?item)) (at ?item ?loc)))
+
+(:action make_plan
+ :parameters (?p - player)
+ :precondition (at ?p)
+ :effect (has_plan ?p))
+
+(:action reinforce
+ :parameters (?p - player ?loc - location ?material - item)
+ :precondition (and (at ?p ?loc) (inventory ?p ?material) (is_construction_material ?material))
+ :effect (and (not (inventory ?p ?material)) (is_underground ?loc)))
+
+(:action stay_in_shelter
+ :parameters (?p - player ?loc - location)
+ :precondition (and (at ?p ?loc) (is_underground ?loc))
+ :effect (sheltered ?p))
+
+(:action get_in_car
+ :parameters (?p - player ?car - item ?loc - location)
+ :precondition (and (at ?p ?loc) (is_car ?car) (at ?car ?loc))
+ :effect (driving ?p))
+
+)

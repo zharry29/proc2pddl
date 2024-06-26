@@ -1,0 +1,3 @@
+find_supplies_for_disguise ('npc', 'detective_kit', 'house')
+find_supplies_for_disguise ('npc', 'costume', 'house')
+wear_detective_gear ('npc', 'costume')

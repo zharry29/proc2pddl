@@ -1,0 +1,138 @@
+```pddl
+(define (domain survive_emp_attack)
+   (:requirements :strips :typing)
+
+   (:types
+       item player direction location radio farraday_cage
+   )
+
+   (:predicates
+      (has_batteries ?radio - radio)
+      (on ?radio - radio)
+      (full ?it - item)
+      (can_be_filled ?it - item)
+      (has_stopper ?it - item)
+      (cage_closed ?cage - farraday_cage)
+      (in_cage ?it - item)
+      (purified ?it - item)
+      (can_be_sealed ?it - item)
+      (sealed ?it)
+      (at ?obj - object ?loc - location)
+      (inventory ?player ?item)
+      (connected ?loc1 - location ?dir - direction ?loc2 - location)
+      (blocked ?loc1 - location ?dir - direction ?loc2 - location)
+   )
+
+   (:action get
+      :parameters (?player - player ?item - item ?loc - location)
+      :precondition (and 
+         (at ?player ?loc) 
+         (at ?item ?loc)
+      )
+      :effect (and 
+         (inventory ?player ?item)
+         (not (at ?item ?loc))
+      )
+   )
+
+   (:action drop
+      :parameters (?player - player ?item - item ?loc - location)
+      :precondition (and 
+         (inventory ?player ?item)
+         (at ?player ?loc)
+      )
+      :effect (and 
+         (at ?item ?loc)
+         (not (inventory ?player ?item))
+      )
+   )
+
+   (:action put_in_stopper
+      :parameters (?item - item)
+      :precondition (and  
+         (has_stopper ?item)
+      )
+      :effect (full ?item)
+   )
+
+   (:action fill
+      :parameters (?item - item)
+      :precondition (can_be_filled ?item)
+      :effect (full ?item)
+   )
+
+   (:action purify
+      :parameters (?item - item)
+      :precondition (full ?item)
+      :effect (purified ?item)
+   )
+
+   (:action seal
+      :parameters (?item - item)
+      :precondition (can_be_sealed ?item)
+      :effect (sealed ?item)
+   )
+
+   (:action wait
+      :parameters ()
+      :precondition ()
+      :effect ()
+   )
+
+   (:action go
+      :parameters (?player - player ?from - location ?dir - direction ?to - location)
+      :precondition (and 
+         (at ?player ?from)
+         (connected ?from ?dir ?to)
+         (not (blocked ?from ?dir ?to))
+      )
+      :effect (and 
+         (at ?player ?to)
+         (not (at ?player ?from))
+      )
+   )
+
+   (:action put_batteries_in
+      :parameters (?player - player ?batteries - item ?radio - radio)
+      :precondition (and 
+         (inventory ?player ?batteries)
+         (inventory ?player ?radio)
+      )
+      :effect (and 
+         (has_batteries ?radio)
+         (not (inventory ?player ?batteries))
+      )
+   )
+
+   (:action turn_on_radio
+      :parameters (?radio - radio)
+      :precondition (has_batteries ?radio)
+      :effect (on ?radio)
+   )
+
+   (:action create_cage
+      :parameters (?player - player ?cage - farraday_cage ?loc - location)
+      :precondition (at ?player ?loc)
+      :effect (at ?cage ?loc)
+   )
+
+   (:action close_cage
+      :parameters (?cage - farraday_cage)
+      :precondition (at ?cage ?loc)
+      :effect (cage_closed ?cage)
+   )
+
+   (:action put_in_cage
+      :parameters (?player - player ?item - item ?cage - farraday_cage ?loc - location)
+      :precondition (and 
+         (inventory ?player ?item)
+         (at ?cage ?loc)
+         (cage_closed ?cage)
+      )
+      :effect (and 
+         (not (inventory ?player ?item))
+         (in_cage ?item)
+      )
+   )
+)
+```

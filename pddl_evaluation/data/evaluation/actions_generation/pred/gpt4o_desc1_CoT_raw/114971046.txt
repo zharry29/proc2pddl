@@ -1,0 +1,343 @@
+Sure, let's fill out the PDDL actions based on your specifications.
+
+---
+
+- action name: drive
+- summarize action: Drive involves moving a car from one location to another.
+- what is needed to do the action: The player must be in a car and there must be a direct connection between the two locations. The connection must not be blocked.
+- what is the result: The player and the car move to the new location.
+
+- entities:
+  - entity name: player
+    - before: The player is driving and is at some location.
+    - before provided predicates: (driving ?p) (at ?player ?loc1)
+    - after: The player is still driving but is at the new location.
+    - after provided predicates: (driving ?p) (at ?player ?loc2)
+
+  - entity name: car
+    - before: The car is at the initial location.
+    - before provided predicates: (is_car ?car) (at ?car ?loc1)
+    - after: The car is at the new location.
+    - after provided predicates: (is_car ?car) (at ?car ?loc2)
+
+pddl:
+```lisp
+(:action drive
+  :parameters (?player - player ?car - item ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and 
+    (driving ?player) 
+    (is_car ?car)
+    (at ?car ?loc1)
+    (at ?player ?loc1)
+    (connected ?loc1 ?dir ?loc2)
+    (not (blocked ?loc1 ?dir ?loc2))
+  )
+  :effect (and 
+    (at ?car ?loc2)
+    (at ?player ?loc2)
+  )
+)
+```
+
+---
+
+- action name: walk
+- summarize action: Walk involves the player moving on foot from one location to another.
+- what is needed to do the action: There must be a direct connection between the two locations. The connection must not be blocked.
+- what is the result: The player moves to the new location.
+
+- entities:
+  - entity name: player
+    - before: The player is at the initial location.
+    - before provided predicates: (at ?player ?loc1)
+    - after: The player is at the new location.
+    - after provided predicates: (at ?player ?loc2)
+
+pddl:
+```lisp
+(:action walk
+  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and 
+    (at ?player ?loc1) 
+    (connected ?loc1 ?dir ?loc2)
+    (not (blocked ?loc1 ?dir ?loc2))
+  )
+  :effect (and 
+    (at ?player ?loc2)
+    (not (at ?player ?loc1))
+  )
+)
+```
+
+---
+
+- action name: get_food
+- summarize action: This action involves the player obtaining non-perishable food from a supermarket.
+- what is needed to do the action: The player must be at a supermarket where the food is located.
+- what is the result: The food will be added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: The player is at the location.
+    - before provided predicates: (at ?player ?loc)
+    - after: The player is at the location.
+    - after provided predicates: (at ?player ?loc)
+
+  - entity name: food
+    - before: The food is located at the supermarket.
+    - before provided predicates: (is_nonperishable ?food) (at ?food ?loc) (is_supermarket ?loc)
+    - after: The food is added to the player's inventory.
+    - after provided predicates: (inventory ?player ?food)
+
+pddl:
+```lisp
+(:action get_food
+  :parameters (?player - player ?food - item ?loc - location)
+  :precondition (and 
+    (at ?player ?loc) 
+    (is_supermarket ?loc)
+    (is_nonperishable ?food)
+    (at ?food ?loc)
+  )
+  :effect (and 
+    (inventory ?player ?food)
+    (not (at ?food ?loc))
+  )
+)
+```
+
+---
+
+- action name: get
+- summarize action: This action involves the player obtaining any item.
+- what is needed to do the action: The player must be at the location where the item is located.
+- what is the result: The item will be added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: The player is at the location.
+    - before provided predicates: (at ?player ?loc)
+    - after: The player is at the location.
+    - after provided predicates: (at ?player ?loc)
+
+  - entity name: item
+    - before: The item is at the location.
+    - before provided predicates: (at ?item ?loc)
+    - after: The item is added to the player's inventory.
+    - after provided predicates: (inventory ?player ?item)
+
+pddl:
+```lisp
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and 
+    (at ?player ?loc) 
+    (at ?item ?loc)
+  )
+  :effect (and 
+    (inventory ?player ?item)
+    (not (at ?item ?loc))
+  )
+)
+```
+
+---
+
+- action name: drop
+- summarize action: This action involves the player dropping an item.
+- what is needed to do the action: The item must be in the player's inventory.
+- what is the result: The item will be placed at the player's current location.
+
+- entities:
+  - entity name: player
+    - before: The player is at the location.
+    - before provided predicates: (at ?player ?loc)
+    - after: The player is at the location.
+    - after provided predicates: (at ?player ?loc)
+
+  - entity name: item
+    - before: The item is in the player's inventory.
+    - before provided predicates: (inventory ?player ?item)
+    - after: The item is dropped at the player's current location.
+    - after provided predicates: (at ?item ?loc)
+
+pddl:
+```lisp
+(:action drop
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and 
+    (inventory ?player ?item)
+    (at ?player ?loc)
+  )
+  :effect (and 
+    (at ?item ?loc)
+    (not (inventory ?player ?item))
+  )
+)
+```
+
+---
+
+- action name: make_plan
+- summarize action: This action involves the player making a plan to survive.
+- what is needed to do the action: The player must be at any location.
+- what is the result: The player will have a plan.
+
+- entities:
+  - entity name: player
+    - before: The player is at some location.
+    - before provided predicates: (at ?player ?loc)
+    - after: The player is still at the location but has a plan.
+    - after provided predicates: (at ?player ?loc) (has_plan ?player)
+
+pddl:
+```lisp
+(:action make_plan
+  :parameters (?player - player ?loc - location)
+  :precondition (and 
+    (at ?player ?loc)
+  )
+  :effect (and 
+    (has_plan ?player)
+  )
+)
+```
+
+---
+
+- action name: get_medicine
+- summarize action: This action involves the player obtaining medicine from a pharmacy.
+- what is needed to do the action: The player must be at a pharmacy where the medicine is located.
+- what is the result: The medicine will be added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: The player is at the location.
+    - before provided predicates: (at ?player ?loc)
+    - after: The player is at the location.
+    - after provided predicates: (at ?player ?loc)
+
+  - entity name: medicine
+    - before: The medicine is at the pharmacy.
+    - before provided predicates: (is_medicine ?medicine) (at ?medicine ?loc) (is_pharmacy ?loc)
+    - after: The medicine is added to the player's inventory.
+    - after provided predicates: (inventory ?player ?medicine)
+
+pddl:
+```lisp
+(:action get_medicine
+  :parameters (?player - player ?medicine - item ?loc - location)
+  :precondition (and 
+    (at ?player ?loc) 
+    (is_pharmacy ?loc)
+    (is_medicine ?medicine)
+    (at ?medicine ?loc)
+  )
+  :effect (and 
+    (inventory ?player ?medicine)
+    (not (at ?medicine ?loc))
+  )
+)
+```
+
+---
+
+- action name: reinforce
+- summarize action: This action involves the player using construction materials to reinforce a location.
+- what is needed to do the action: The player must be at the location with construction materials in their inventory.
+- what is the result: The location is reinforced.
+
+- entities:
+  - entity name: player
+    - before: The player is at the location with construction materials.
+    - before provided predicates: (at ?player ?loc) (inventory ?player ?material) (is_construction_material ?material)
+    - after: The player is at the location, the materials are used for reinforcement.
+    - after provided predicates: (at ?player ?loc)
+
+  - entity name: construction_material
+    - before: The material is in the player's inventory.
+    - before provided predicates: (is_construction_material ?material) (inventory ?player ?material)
+    - after: The material is used for reinforcement.
+    - after provided predicates: (not (inventory ?player ?material))
+
+pddl:
+```lisp
+(:action reinforce
+  :parameters (?player - player ?material - item ?loc - location)
+  :precondition (and 
+    (at ?player ?loc)
+    (inventory ?player ?material)
+    (is_construction_material ?material)
+  )
+  :effect (and 
+    (not (inventory ?player ?material))
+  )
+)
+```
+
+---
+
+- action name: stay_in_shelter
+- summarize action: This action involves the player staying in an underground location for protection.
+- what is needed to do the action: The player must be in an underground location.
+- what is the result: The player is sheltered.
+
+- entities:
+  - entity name: player
+    - before: The player is at the underground location.
+    - before provided predicates: (at ?player ?loc) (is_underground ?loc)
+    - after: The player is sheltered.
+    - after provided predicates: (at ?player ?loc) (sheltered ?player)
+
+pddl:
+```lisp
+(:action stay_in_shelter
+  :parameters (?player - player ?loc - location)
+  :precondition (and 
+    (at ?player ?loc)
+    (is_underground ?loc)
+  )
+  :effect (and 
+    (sheltered ?player)
+  )
+)
+```
+
+---
+
+- action name: get_in_car
+- summarize action: This action involves the player getting into a car to drive.
+- what is needed to do the action: The player must be at the location where the car is located.
+- what is the result: The player will be driving the car.
+
+- entities:
+  - entity name: player
+    - before: The player is at the location.
+    - before provided predicates: (at ?player ?loc)
+    - after: The player is driving the car.
+    - after provided predicates: (at ?player ?loc) (driving ?player)
+
+  - entity name: car
+    - before: The car is at the location.
+    - before provided predicates: (is_car ?car) (at ?car ?loc)
+    - after: The car is at the location.
+    - after provided predicates: (is_car ?car) (at ?car ?loc)
+
+pddl:
+```lisp
+(:action get_in_car
+  :parameters (?player - player ?car - item ?loc - location)
+  :precondition (and 
+    (at ?player ?loc)
+    (is_car ?car)
+    (at ?car ?loc)
+  )
+  :effect (and 
+    (driving ?player)
+  )
+)
+```
+
+---
+
+This completes the filling out of all the PDDL actions as required.

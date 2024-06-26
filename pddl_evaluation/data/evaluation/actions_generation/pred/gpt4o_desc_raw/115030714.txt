@@ -1,0 +1,105 @@
+Sure! Here are the actions filled out with the provided predicates in correct PDDL format:
+
+```pddl
+(define (domain anime-party)
+  (:requirements :strips :typing)
+  
+  (:types
+    player location direction
+    food drink tea sushi balloon lantern - item
+    phone money - item
+  )
+  
+  (:predicates
+    (at ?obj - object ?loc - location) ; an object is at a location 
+    (inventory ?player ?item) ; an item is in the player's inventory
+    (has_kitchen ?l - location) ; a location has a kitchen
+    (has_fridge ?l - location) ; a location has a fridge
+    (connected ?loc1 - location ?dir - direction ?loc2 - location) ; location 1 is connected to location 2 in the direction
+    (inflated ?balloon - item) ; the balloon is blown up
+    (hung ?lamp - item) ; the lamp is hung
+    (opened ?drink - drink) ; the drink is uncorked
+    (on ?tv - item) ; the tv is turned on
+  )
+  
+  (:action go
+    :parameters (?player - player ?from - location ?to - location ?dir - direction)
+    :precondition (and (at ?player ?from) (connected ?from ?dir ?to))
+    :effect (and (at ?player ?to) (not (at ?player ?from)))
+  )
+  
+  (:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (at ?item ?loc)
+    :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+  )
+  
+  (:action drop
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (inventory ?player ?item)
+    :effect (and (at ?item ?loc) (not (inventory ?player ?item)))
+  )
+  
+  (:action cook
+    :parameters (?player - player ?food - food ?loc - location)
+    :precondition (and (inventory ?player ?food) (has_kitchen ?loc) (at ?player ?loc))
+    :effect (inventory ?player ?food)
+  )
+  
+  (:action order_sushi
+    :parameters (?player - player ?phone - phone ?loc - location)
+    :precondition (and (inventory ?player ?phone) (at ?player ?loc))
+    :effect (inventory ?player sushi)
+  )
+  
+  (:action buy_sake
+    :parameters (?player - player ?money - money ?loc - location)
+    :precondition (and (inventory ?player ?money) (at ?player ?loc))
+    :effect (and (inventory ?player sake) (not (inventory ?player ?money)))
+  )
+  
+  (:action serve
+    :parameters (?player - player ?drink - drink ?loc - location)
+    :precondition (and (inventory ?player ?drink) (at ?player ?loc))
+    :effect (at ?drink ?loc)
+  )
+
+  (:action brew
+    :parameters (?player - player ?tea - tea ?loc - location)
+    :precondition (and (inventory ?player ?tea) (has_kitchen ?loc) (at ?player ?loc))
+    :effect (inventory ?player ?tea)
+  )
+  
+  (:action get_beer
+    :parameters (?player - player ?beer - drink ?loc - location)
+    :precondition (and (at ?beer ?loc) (has_fridge ?loc) (at ?player ?loc))
+    :effect (inventory ?player ?beer)
+  )
+  
+  (:action open
+    :parameters (?player - player ?drink - drink)
+    :precondition (inventory ?player ?drink)
+    :effect (opened ?drink)
+  )
+  
+  (:action hang_lantern
+    :parameters (?player - player ?lantern - lantern ?loc - location)
+    :precondition (and (inventory ?player ?lantern) (at ?player ?loc))
+    :effect (hung ?lantern)
+  )
+  
+  (:action blow_balloon
+    :parameters (?player - player ?balloon - balloon ?loc - location)
+    :precondition (and (inventory ?player ?balloon) (at ?player ?loc))
+    :effect (inflated ?balloon)
+  )
+  
+  (:action turn_on_tv
+    :parameters (?player - player ?tv - item ?loc - location)
+    :precondition (and (at ?tv ?loc) (at ?player ?loc))
+    :effect (on ?tv)
+  )
+)
+```
+
+Each action utilizes the specified predicates for parameters, preconditions, and effects, as requested.

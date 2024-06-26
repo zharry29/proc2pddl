@@ -1,0 +1,213 @@
+Sure, let's go through each of the actions step by step.
+
+### Action: gather_info
+- summarize action: This action involves reading books to gather information on how to create a secret society.
+- what is needed to do the action: A player with access to the relevant books.
+- what is the result: The player has obtained the necessary information.
+
+- entities:
+  - entity name: player
+  - before: The player lacks the necessary information.
+  - before provided predicates: None
+  - after: The player has the necessary information.
+  - after provided predicates: (has_info ?p)
+
+pddl:
+```pddl
+(:action gather_info
+  :parameters (?p - player)
+  :precondition (not (has_info ?p))
+  :effect (has_info ?p)
+)
+```
+
+### Action: create_secret
+- summarize action: This action creates a secret for the secret society.
+- what is needed to do the action: A secret society that does not already have a secret.
+- what is the result: The secret society has a created secret.
+
+- entities:
+  - entity name: secret_society
+  - before: The secret society does not have a secret.
+  - before provided predicates: None
+  - after: The secret society has a secret.
+  - after provided predicates: (has_secret ?sc)
+
+pddl:
+```pddl
+(:action create_secret
+  :parameters (?sc - secret_society)
+  :precondition (not (has_secret ?sc))
+  :effect (has_secret ?sc)
+)
+```
+
+### Action: set_meeting_location
+- summarize action: This action determines a regular secret meeting location for the society.
+- what is needed to do the action: A secret society that does not have a set meeting location.
+- what is the result: The secret society has a designated meeting location.
+
+- entities:
+  - entity name: secret_society
+  - before: The secret society does not have a set meeting location.
+  - before provided predicates: None
+  - after: The secret society has a meeting location.
+  - after provided predicates: (has_location ?sc)
+
+pddl:
+```pddl
+(:action set_meeting_location
+  :parameters (?sc - secret_society)
+  :precondition (not (has_location ?sc))
+  :effect (has_location ?sc)
+)
+```
+
+### Action: set_dress_code
+- summarize action: This action determines the dress code for the secret society.
+- what is needed to do the action: A secret society that does not have a dress code.
+- what is the result: The secret society has a dress code.
+
+- entities:
+  - entity name: secret_society
+  - before: The secret society does not have a dress code.
+  - before provided predicates: None
+  - after: The secret society has a dress code.
+  - after provided predicates: (has_dress_code ?sc)
+
+pddl:
+```pddl
+(:action set_dress_code
+  :parameters (?sc - secret_society)
+  :precondition (not (has_dress_code ?sc))
+  :effect (has_dress_code ?sc)
+)
+```
+
+### Action: create_name
+- summarize action: This action creates a name for the secret society.
+- what is needed to do the action: A secret society that does not have a name.
+- what is the result: A name is created for the secret society.
+
+- entities:
+  - entity name: secret_society
+  - before: The secret society does not have a name.
+  - before provided predicates: None
+  - after: The secret society has a name.
+  - after provided predicates: (has_name ?sc)
+
+pddl:
+```pddl
+(:action create_name
+  :parameters (?sc - secret_society)
+  :precondition (not (has_name ?sc))
+  :effect (has_name ?sc)
+)
+```
+
+### Action: secret_society_is_ready
+- summarize action: This action checks that all prerequisites of the secret society are complete.
+- what is needed to do the action: A secret society that has a secret, a name, a dress code, and a meeting location.
+- what is the result: The secret society is marked as ready to add people.
+
+- entities:
+  - entity name: secret_society
+  - before: The readiness status of the secret society is not confirmed.
+  - before provided predicates: (has_secret ?sc) (has_name ?sc) (has_dress_code ?sc) (has_location ?sc)
+  - after: The secret society is ready.
+  - after provided predicates: (society_is_ready ?sc)
+
+pddl:
+```pddl
+(:action secret_society_is_ready
+  :parameters (?sc - secret_society)
+  :precondition (and (has_secret ?sc) (has_name ?sc) (has_dress_code ?sc) (has_location ?sc))
+  :effect (society_is_ready ?sc)
+)
+```
+
+### Action: initiate_new_member
+- summarize action: This action adds a new member to the secret society.
+- what is needed to do the action: A secret society that is ready and a player who is friends with an existing trusted member.
+- what is the result: The player is now a member of the secret society.
+
+- entities:
+  - entity name: player
+  - before: The player is not a member of the secret society.
+  - before provided predicates: (friends ?p1 ?p2) (is_trusted ?p1 ?sc)
+  - after: The player is a member of the secret society.
+  - after provided predicates: (in ?p2 ?sc)
+
+pddl:
+```pddl
+(:action initiate_new_member
+  :parameters (?p1 ?p2 - player ?sc - secret_society)
+  :precondition (and (society_is_ready ?sc) (friends ?p1 ?p2) (is_trusted ?p1 ?sc))
+  :effect (in ?p2 ?sc)
+)
+```
+
+### Action: teach_new_member_secret
+- summarize action: This action teaches the society’s secret to a trusted new member.
+- what is needed to do the action: A player who is a trusted member of the secret society and another existing member who knows the secret.
+- what is the result: The new member now knows the society's secret.
+
+- entities:
+  - entity name: player
+  - before: The new member does not know the secret.
+  - before provided predicates: (is_trusted ?p - player ?sc - secret_society)
+  - after: The new member knows the secret.
+  - after provided predicates: (knows_secret ?p - player ?sc - secret_society)
+
+pddl:
+```pddl
+(:action teach_new_member_secret
+  :parameters (?p1 ?p2 - player ?sc - secret_society)
+  :precondition (and (in ?p2 ?sc) (is_trusted ?p2 ?sc) (knows_secret ?p1 ?sc))
+  :effect (knows_secret ?p2 ?sc)
+)
+```
+
+### Action: remove_member
+- summarize action: This action removes an existing member due to untrustworthiness.
+- what is needed to do the action: A member of the secret society who is no longer trusted.
+- what is the result: The member is removed from the secret society.
+
+- entities:
+  - entity name: player
+  - before: The player is a member of the secret society.
+  - before provided predicates: (is_trusted ?p ?sc)
+  - after: The player is no longer a member.
+  - after provided predicates: (not (in ?p ?sc)) (not (is_trusted ?p ?sc))
+
+pddl:
+```pddl
+(:action remove_member
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (in ?p ?sc) (not (is_trusted ?p ?sc)))
+  :effect (not (in ?p ?sc))
+)
+```
+
+### Action: check_if_cult
+- summarize action: This action checks if the group is large enough to be considered a cult.
+- what is needed to do the action: A secret society.
+- what is the result: The secret society is marked as a cult if it meets the criteria.
+
+- entities:
+  - entity name: secret_society
+  - before: It is unknown whether the secret society is a cult.
+  - before provided predicates: None
+  - after: The secret society is marked as a cult.
+  - after provided predicates: (is_cult ?sc)
+
+pddl:
+```pddl
+(:action check_if_cult
+  :parameters (?sc - secret_society)
+  :precondition (society_is_ready ?sc)
+  :effect (is_cult ?sc)
+)
+```
+
+This provides the PDDL actions with summarized descriptions, requirements, results, entities involved, and their transitions.

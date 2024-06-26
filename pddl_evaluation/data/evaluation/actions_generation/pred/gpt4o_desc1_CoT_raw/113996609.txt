@@ -1,0 +1,309 @@
+Sure! Let's break down each action, summarize what it does, what is needed to do it, and what is the result, followed by the corresponding PDDL format:
+
+### Action: `go`
+
+- summarize action: Navigate to an adjacent location.
+- what is needed to do the action: The current location and the location to move should be connected.
+- what is the result: The player moves to the new location.
+
+- entities:
+  - entity name: player
+  - before: at some location
+  - before provided predicates: (at ?player ?loc1)
+  - after: at another location
+  - after provided predicates: (at ?player ?loc2)
+
+pddl:
+```pddl
+(:action go
+ :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+```
+
+### Action: `get`
+
+- summarize action: Pick up an item and put it in the inventory.
+- what is needed to do the action: The item and the player should be at the same location.
+- what is the result: The item is added to the player's inventory.
+
+- entities:
+  - entity name: player
+  - before: not having item in inventory
+  - before provided predicates: (at ?player ?loc) (at ?item ?loc)
+  - after: having item in inventory
+  - after provided predicates: (inventory ?player ?item)
+
+pddl:
+```pddl
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?item ?loc))
+ :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+```
+
+### Action: `get_water`
+
+- summarize action: Get water from a location with a water source.
+- what is needed to do the action: The location must have a water source.
+- what is the result: The player gets the water and it is added to the inventory.
+
+- entities:
+  - entity name: player
+  - before: not having water in inventory
+  - before provided predicates: (has_water_source ?loc) (at ?player ?loc)
+  - after: having water in inventory
+  - after provided predicates: (inventory ?player ?water)
+
+pddl:
+```pddl
+(:action get_water
+ :parameters (?player - player ?water - water ?loc - location)
+ :precondition (and (has_water_source ?loc) (at ?player ?loc))
+ :effect (and (inventory ?player ?water))
+)
+```
+
+### Action: `chop_wood`
+
+- summarize action: Chop down wood from a nearby tree.
+- what is needed to do the action: The location must have wood.
+- what is the result: The player gets wood and it is added to the inventory.
+
+- entities:
+  - entity name: player
+  - before: not having wood in inventory
+  - before provided predicates: (has_wood ?loc) (at ?player ?loc)
+  - after: having wood in inventory
+  - after provided predicates: (inventory ?player ?wood)
+
+pddl:
+```pddl
+(:action chop_wood
+ :parameters (?player - player ?wood - wood ?loc - location)
+ :precondition (and (has_wood ?loc) (at ?player ?loc))
+ :effect (and (inventory ?player ?wood))
+)
+```
+
+### Action: `carve_groove`
+
+- summarize action: Create a groove in wood to light flint.
+- what is needed to do the action: The player must have wood in their inventory.
+- what is the result: A groove is created in the wood.
+
+- entities:
+  - entity name: wood
+  - before: no groove
+  - before provided predicates: (inventory ?player ?wood)
+  - after: groove created
+  - after provided predicates: (groove ?wood)
+
+pddl:
+```pddl
+(:action carve_groove
+ :parameters (?player - player ?wood - wood)
+ :precondition (inventory ?player ?wood)
+ :effect (groove ?wood)
+)
+```
+
+### Action: `light_fire`
+
+- summarize action: Light a fire.
+- what is needed to do the action: A grooved wood and the location must be safe for lighting fire.
+- what is the result: A fire is started at the location.
+
+- entities:
+  - entity name: location
+  - before: no fire
+  - before provided predicates: (can_light_fire ?loc) (groove ?wood) (at ?player ?loc)
+  - after: fire lit
+  - after provided predicates: (has_fire ?loc)
+
+pddl:
+```pddl
+(:action light_fire
+ :parameters (?player - player ?wood - wood ?loc - location)
+ :precondition (and (can_light_fire ?loc) (groove ?wood) (at ?player ?loc) (inventory ?player ?wood))
+ :effect (has_fire ?loc)
+)
+```
+
+### Action: `build_shelter`
+
+- summarize action: Build a shelter.
+- what is needed to do the action: The location must be safe to build shelter.
+- what is the result: A shelter is built at the location.
+
+- entities:
+  - entity name: location
+  - before: no shelter
+  - before provided predicates: (is_safe ?loc) (at ?player ?loc)
+  - after: shelter built
+  - after provided predicates: (has_shelter ?loc)
+
+pddl:
+```pddl
+(:action build_shelter
+ :parameters (?player - player ?loc - location)
+ :precondition (and (is_safe ?loc) (at ?player ?loc))
+ :effect (has_shelter ?loc)
+)
+```
+
+### Action: `clean_water`
+
+- summarize action: Boil water to clean it.
+- what is needed to do the action: The player should have untreated water and the location should have a fire.
+- what is the result: The water is treated.
+
+- entities:
+  - entity name: water
+  - before: untreated
+  - before provided predicates: (inventory ?player ?water) (has_fire ?loc) (at ?player ?loc)
+  - after: treated
+  - after provided predicates: (treated ?water)
+
+pddl:
+```pddl
+(:action clean_water
+ :parameters (?player - player ?water - water ?loc - location)
+ :precondition (and (inventory ?player ?water) (has_fire ?loc) (at ?player ?loc))
+ :effect (treated ?water)
+)
+```
+
+### Action: `drink_water`
+
+- summarize action: Drink water.
+- what is needed to do the action: The player should have treated water in their inventory.
+- what is the result: The player drinks water.
+
+- entities:
+  - entity name: water
+  - before: treated
+  - before provided predicates: (treated ?water) (inventory ?player ?water)
+  - after: drank
+  - after provided predicates: (drank ?water)
+
+pddl:
+```pddl
+(:action drink_water
+ :parameters (?player - player ?water - water)
+ :precondition (and (treated ?water) (inventory ?player ?water))
+ :effect (drank ?water)
+)
+```
+
+### Action: `find_other_survivors`
+
+- summarize action: Find other survivors on the deserted island.
+- what is needed to do the action: The player and the location where survivors might be found.
+- what is the result: The player finds a survivor.
+
+- entities:
+  - entity name: survivor
+  - before: not found
+  - before provided predicates: (at ?player ?loc)
+  - after: found
+  - after provided predicates: (has_friend ?survivor)
+
+pddl:
+```pddl
+(:action find_other_survivors
+ :parameters (?player - player ?survivor - survivor ?loc - location)
+ :precondition (at ?player ?loc)
+ :effect (has_friend ?survivor)
+)
+```
+
+### Action: `build_raft`
+
+- summarize action: Build a raft to escape the deserted island.
+- what is needed to do the action: The player must be at a location with ocean access and the necessary items.
+- what is the result: The player builds a raft and escapes.
+
+- entities:
+  - entity name: player
+  - before: not escaped
+  - before provided predicates: (at_ocean ?loc) (at ?player ?loc)
+  - after: escaped
+  - after provided predicates: (has_escaped ?player)
+
+pddl:
+```pddl
+(:action build_raft
+ :parameters (?player - player ?loc - location)
+ :precondition (and (at_ocean ?loc) (at ?player ?loc))
+ :effect (has_escaped ?player)
+)
+```
+
+### Action: `make_weapon`
+
+- summarize action: Create a spear to hunt fish.
+- what is needed to do the action: The player must have the necessary items to make a spear.
+- what is the result: The player makes a spear.
+
+- entities:
+  - entity name: spear
+  - before: not made
+  - before provided predicates: (inventory ?player ?wood) (inventory ?player ?rock) (at ?player ?loc)
+  - after: made
+  - after provided predicates: (inventory ?player ?spear)
+
+pddl:
+```pddl
+(:action make_weapon
+ :parameters (?player - player ?wood - wood ?rock - rock ?spear - spear ?loc - location)
+ :precondition (and (inventory ?player ?wood) (inventory ?player ?rock) (at ?player ?loc))
+ :effect (inventory ?player ?spear)
+)
+```
+
+### Action: `hunt_fish`
+
+- summarize action: Catch fish with a spear.
+- what is needed to do the action: The player must be at a location with fish and have a spear.
+- what is the result: The player catches fish.
+
+- entities:
+  - entity name: player
+  - before: not having fish
+  - before provided predicates: (at ?player ?loc) (has_fish ?loc) (inventory ?player ?spear)
+  - after: having fish in inventory
+  - after provided predicates: (inventory ?player ?fish)
+
+pddl:
+```pddl
+(:action hunt_fish
+ :parameters (?player - player ?fish - fish ?spear - spear ?loc - location)
+ :precondition (and (at ?player ?loc) (has_fish ?loc) (inventory ?player ?spear))
+ :effect (inventory ?player ?fish)
+)
+```
+
+### Action: `cook_fish`
+
+- summarize action: Cook fish.
+- what is needed to do the action: The location must have fire and the player must have fish in their inventory.
+- what is the result: The fish is cooked.
+
+- entities:
+  - entity name: fish
+  - before: not cooked
+  - before provided predicates: (at ?player ?loc) (inventory ?player ?fish) (has_fire ?loc)
+  - after: cooked
+  - after provided predicates: (cooked ?fish)
+
+pddl:
+```pddl
+(:action cook_fish
+ :parameters (?player - player ?fish - fish ?loc - location)
+ :precondition (and (at ?player ?loc) (inventory ?player ?fish) (has_fire ?loc))
+ :effect (cooked ?fish)
+)
+```

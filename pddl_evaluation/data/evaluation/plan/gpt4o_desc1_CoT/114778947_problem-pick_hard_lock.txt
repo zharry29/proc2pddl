@@ -1,0 +1,7 @@
+go ('npc', 'living_room', 'east', 'office')
+get ('npc', 'paper_clip', 'office')
+go ('npc', 'office', 'east', 'kitchen')
+get ('npc', 'credit_card', 'kitchen')
+insert_wrench ('npc', 'bedroom', 'credit_card')
+insert_pick ('npc', 'bedroom', 'paper_clip')
+push_pins_out_of_tumblers ('bedroom')

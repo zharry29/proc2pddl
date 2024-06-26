@@ -1,0 +1,295 @@
+- action name: go
+- summarize action: The action `go` allows the player to navigate from one location to an adjacent location that is connected.
+- what is needed to do the action: The player should be at the initial location, and there should be a connection between the initial location and the target location via a specific direction.
+- what is the result: The player will be at the target location.
+
+- entities:
+  - entity name: player
+  - before: The player is at the initial location.
+  - before provided predicates: (at ?player ?loc1)
+  - after: The player is at the target location.
+  - after provided predicates: (at ?player ?loc2)
+
+  - entity name: loc1
+  - before: The initial location of the player.
+  - before provided predicates: (at ?player ?loc1)
+  - after: The initial location does not have the player anymore.
+  - after provided predicates: none
+
+  - entity name: loc2
+  - before: The target location to which the player will navigate.
+  - before provided predicates: (connected ?loc1 ?dir ?loc2)
+  - after: The target location is where the player is now.
+  - after provided predicates: (at ?player ?loc2)
+
+pddl:
+```lisp
+(:action go
+  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+  :effect (and (not (at ?player ?loc1)) (at ?player ?loc2)))
+```
+
+- action name: get
+- summarize action: The action `get` allows the player to pick up an item and add it to their inventory.
+- what is needed to do the action: The player and the item should both be at the same location.
+- what is the result: The item is added to the player's inventory.
+
+- entities:
+  - entity name: player
+  - before: The player needs to be at the location of the item.
+  - before provided predicates: (at ?player ?loc)
+  - after: The player remains at the location.
+  - after provided predicates: (at ?player ?loc)
+
+  - entity name: item
+  - before: The item needs to be at the same location as the player.
+  - before provided predicates: (at ?item ?loc)
+  - after: The item is now in the player's inventory.
+  - after provided predicates: (inventory ?player ?item)
+
+pddl:
+```lisp
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (not (at ?item ?loc)) (inventory ?player ?item)))
+```
+
+- action name: pour_water
+- summarize action: The action `pour_water` involves the player pouring water into a bowl.
+- what is needed to do the action: The player must have water in their inventory and have a bowl in inventory as well.
+- what is the result: A bowl filled with water is created in the player's inventory.
+
+- entities:
+  - entity name: player
+  - before: The player has water and a bowl in their inventory.
+  - before provided predicates: (inventory ?player ?water) (inventory ?player ?bowl)
+  - after: The player has a bowl of water in their inventory.
+  - after provided predicates: (inventory ?player ?bowl_of_water)
+
+  - entity name: water
+  - before: The player has water in their inventory.
+  - before provided predicates: (inventory ?player ?water)
+  - after: The water is used up in the action.
+  - after provided predicates: none
+
+  - entity name: bowl
+  - before: The player has an empty bowl in their inventory.
+  - before provided predicates: (inventory ?player ?bowl)
+  - after: The bowl is transformed into a bowl of water.
+  - after provided predicates: none
+
+  - entity name: bowl_of_water
+  - before: Does not exist.
+  - before provided predicates: none
+  - after: Exists in the player's inventory as the result of the action.
+  - after provided predicates: (inventory ?player ?bowl_of_water)
+
+pddl:
+```lisp
+(:action pour_water
+  :parameters (?player - player ?water - water ?bowl - bowl ?bowl_of_water - bowl_of_water)
+  :precondition (and (inventory ?player ?water) (inventory ?player ?bowl))
+  :effect (and (not (inventory ?player ?water))
+               (not (inventory ?player ?bowl))
+               (inventory ?player ?bowl_of_water)))
+```
+
+- action name: place_strips_between_boards
+- summarize action: The action `place_strips_between_boards` entails the player placing papyrus strips between two wooden boards.
+- what is needed to do the action: The player must have papyrus strips and two wooden boards in their inventory.
+- what is the result: The papyrus strips are placed between the boards, possibly indicating a weaving preparation step.
+  
+- entities:
+  - entity name: player
+  - before: The player has papyrus strips and wooden boards in their inventory.
+  - before provided predicates: (inventory ?player ?papyrus_strips) (inventory ?player ?wooden_boards)
+  - after: The papyrus strips are placed between the boards.
+  - after provided predicates: (strips_between_boards)
+
+  - entity name: papyrus_strips
+  - before: The player has papyrus strips in their inventory.
+  - before provided predicates: (inventory ?player ?papyrus_strips)
+  - after: The strips are now between the wooden boards.
+  - after provided predicates: (strips_between_boards)
+
+  - entity name: wooden_boards
+  - before: The player has wooden boards in their inventory.
+  - before provided predicates: (inventory ?player ?wooden_boards)
+  - after: The wooden boards now have papyrus strips placed between them.
+  - after provided predicates: (strips_between_boards)
+  
+pddl:
+```lisp
+(:action place_strips_between_boards
+  :parameters (?player - player ?papyrus_strips - papyrus_strips ?wooden_boards - wooden_boards)
+  :precondition (and (inventory ?player ?papyrus_strips) (inventory ?player ?wooden_boards))
+  :effect (strips_between_boards))
+```
+
+- action name: cut_stalks
+- summarize action: The action `cut_stalks` involves the player cutting papyrus stalks.
+- what is needed to do the action: The player needs to have access to a knife and papyrus stalks.
+- what is the result: Papyrus stalks are cut, ready to be processed into strips.
+
+- entities:
+  - entity name: player
+  - before: The player has a knife and papyrus stalks.
+  - before provided predicates: (inventory ?player ?knife) (inventory ?player ?papyrus_stalks)
+  - after: The player still has a knife.
+  - after provided predicates: (inventory ?player ?knife)
+
+  - entity name: knife
+  - before: The knife is in the player's inventory.
+  - before provided predicates: (inventory ?player ?knife)
+  - after: The knife remains in the player's inventory.
+  - after provided predicates: (inventory ?player ?knife)
+
+  - entity name: papyrus_stalks
+  - before: The player has papyrus stalks in their inventory.
+  - before provided predicates: (inventory ?player ?papyrus_stalks)
+  - after: The stalks are cut and ready to be processed.
+  - after provided predicates: (inventory ?player ?papyrus_stalks)
+
+pddl:
+```lisp
+(:action cut_stalks
+  :parameters (?player - player ?knife - knife ?papyrus_stalks - papyrus_stalks)
+  :precondition (and (inventory ?player ?knife) (inventory ?player ?papyrus_stalks))
+  :effect (inventory ?player ?papyrus_stalks))
+```
+
+- action name: papyrus_strips
+- summarize action: The action `papyrus_strips` involves the player cutting strips from the papyrus stalks.
+- what is needed to do the action: The player needs to have papyrus stalks and a knife.
+- what is the result: The player obtains papyrus strips.
+
+- entities:
+  - entity name: player
+  - before: The player has a knife and papyrus stalks.
+  - before provided predicates: (inventory ?player ?knife) (inventory ?player ?papyrus_stalks)
+  - after: The player has papyrus strips instead of the stalks.
+  - after provided predicates: (inventory ?player ?papyrus_strips)
+
+  - entity name: knife
+  - before: The knife is in the player's inventory.
+  - before provided predicates: (inventory ?player ?knife)
+  - after: The knife remains in the player's inventory.
+  - after provided predicates: (inventory ?player ?knife)
+
+  - entity name: papyrus_stalks
+  - before: The player has papyrus stalks in their inventory.
+  - before provided predicates: (inventory ?player ?papyrus_stalks)
+  - after: The papyrus stalks are no longer in the player's inventory.
+  - after provided predicates: none
+  
+  - entity name: papyrus_strips
+  - before: Papyrus strips are not in the player's inventory.
+  - before provided predicates: none
+  - after: Papyrus strips are now in the player's inventory.
+  - after provided predicates: (inventory ?player ?papyrus_strips)
+
+pddl:
+```lisp
+(:action papyrus_strips
+  :parameters (?player - player ?knife - knife ?papyrus_stalks - papyrus_stalks ?papyrus_strips - papyrus_strips)
+  :precondition (and (inventory ?player ?knife) (inventory ?player ?papyrus_stalks))
+  :effect (and (not (inventory ?player ?papyrus_stalks)) (inventory ?player ?papyrus_strips)))
+```
+
+- action name: polish_papyrus
+- summarize action: The action `polish_papyrus` involves using a stone to polish the papyrus.
+- what is needed to do the action: The player needs to have papyrus and a smooth stone in their inventory.
+- what is the result: The papyrus is polished.
+
+- entities:
+  - entity name: player
+  - before: The player has the papyrus and smooth stone.
+  - before provided predicates: (inventory ?player ?papyrus) (inventory ?player ?smooth_stone)
+  - after: The player still has the smooth stone, and the papyrus is polished.
+  - after provided predicates: (inventory ?player ?smooth_stone) (polished ?papyrus)
+
+  - entity name: papyrus
+  - before: The papyrus is in the player's inventory but not polished.
+  - before provided predicates: (inventory ?player ?papyrus)
+  - after: The papyrus is now polished.
+  - after provided predicates: (polished ?papyrus) (inventory ?player ?papyrus)
+
+  - entity name: smooth_stone
+  - before: The smooth stone is in the player's inventory.
+  - before provided predicates: (inventory ?player ?smooth_stone)
+  - after: The smooth stone remains in the player's inventory.
+  - after provided predicates: (inventory ?player ?smooth_stone)
+
+pddl:
+```lisp
+(:action polish_papyrus
+  :parameters (?player - player ?papyrus - papyrus ?smooth_stone - smooth_stone)
+  :precondition (and (inventory ?player ?papyrus) (inventory ?player ?smooth_stone))
+  :effect (polished ?papyrus))
+```
+
+- action name: flatten_papyrus
+- summarize action: The action `flatten_papyrus` involves using a roller to make the papyrus flat.
+- what is needed to do the action: The player needs to have papyrus and a roller in their inventory.
+- what is the result: The papyrus is flattened.
+
+- entities:
+  - entity name: player
+  - before: The player has the papyrus and roller.
+  - before provided predicates: (inventory ?player ?papyrus) (inventory ?player ?roller)
+  - after: The player still has the roller, and the papyrus is flattened.
+  - after provided predicates: (inventory ?player ?roller) (flattened ?papyrus)
+
+  - entity name: papyrus
+  - before: The papyrus is in the player's inventory but not flattened.
+  - before provided predicates: (inventory ?player ?papyrus)
+  - after: The papyrus is now flattened.
+  - after provided predicates: (flattened ?papyrus) (inventory ?player ?papyrus)
+
+  - entity name: roller
+  - before: The roller is in the player's inventory.
+  - before provided predicates: (inventory ?player ?roller)
+  - after: The roller remains in the player's inventory.
+  - after provided predicates: (inventory ?player ?roller)
+
+pddl:
+```lisp
+(:action flatten_papyrus
+  :parameters (?player - player ?papyrus - papyrus ?roller - roller)
+  :precondition (and (inventory ?player ?papyrus) (inventory ?player ?roller))
+  :effect (flattened ?papyrus))
+```
+
+- action name: cut_papyrus
+- summarize action: The action `cut_papyrus` involves using scissors to cut the papyrus.
+- what is needed to do the action: The player needs to have papyrus and scissors in their inventory.
+- what is the result: The papyrus is cut correctly.
+
+- entities:
+  - entity name: player
+  - before: The player has the papyrus and scissors.
+  - before provided predicates: (inventory ?player ?papyrus) (inventory ?player ?scissors)
+  - after: The player still has the scissors, and the papyrus is cut.
+  - after provided predicates: (inventory ?player ?scissors) (cut ?papyrus)
+
+  - entity name: papyrus
+  - before: The papyrus is in the player's inventory but not cut correctly.
+  - before provided predicates: (inventory ?player ?papyrus)
+  - after: The papyrus is now cut correctly.
+  - after provided predicates: (cut ?papyrus) (inventory ?player ?papyrus)
+
+  - entity name: scissors
+  - before: The scissors are in the player's inventory.
+  - before provided predicates: (inventory ?player ?scissors)
+  - after: The scissors remain in the player's inventory.
+  - after provided predicates: (inventory ?player ?scissors)
+
+pddl:
+```lisp
+(:action cut_papyrus
+  :parameters (?player - player ?papyrus - papyrus ?scissors - scissors)
+  :precondition (and (inventory ?player ?papyrus) (inventory ?player ?scissors))
+  :effect (cut ?papyrus))
+```

@@ -1,0 +1,264 @@
+- action name: gather_info
+- summarize action: The player reads books to gather information on how to create a secret society.
+- what is needed to do the action: The player and books.
+- what is the result: The player has the information about how to create the secret society.
+
+- entities:
+  - entity name: player
+    - before: without information 
+    - after: with information 
+
+pddl:
+(:action gather_info
+  :parameters (?p - player)
+  :precondition ()
+  :effect (has_info ?p)
+)
+
+- action name: create_secret
+- summarize: The secret for the secret society is created.
+- what is needed to do the action: A secret society.
+- what is the result: The secret society has a secret.
+
+- entities:
+  - entity name: secret_society
+    - before: without secret 
+    - after: with secret 
+
+pddl:
+(:action create_secret
+  :parameters (?sc - secret_society)
+  :precondition ()
+  :effect (has_secret ?sc)
+)
+
+- action name: set_meeting_location
+- summarize: A regular secret meeting location for the society is determined.
+- what is needed to do the action: A secret society.
+- what is the result: The secret society has a set meeting location.
+
+- entities:
+  - entity name: secret_society
+    - before: without location 
+    - after: with location 
+
+pddl:
+(:action set_meeting_location
+  :parameters (?sc - secret_society)
+  :precondition ()
+  :effect (has_location ?sc)
+)
+
+- action name: set_dress_code
+- summarize: The dress code for the secret society is determined.
+- what is needed to do the action: A secret society.
+- what is the result: The secret society has a dress code.
+
+- entities:
+  - entity name: secret_society
+    - before: without dress code 
+    - after: with dress code 
+
+pddl:
+(:action set_dress_code
+  :parameters (?sc - secret_society)
+  :precondition ()
+  :effect (has_dress_code ?sc)
+)
+
+- action name: create_name
+- summarize: The name for a secret society is created.
+- what is needed to do the action: A secret society.
+- what is the result: The secret society has a name.
+
+- entities:
+  - entity name: secret_society
+    - before: without name 
+    - after: with name 
+
+pddl:
+(:action create_name
+  :parameters (?sc - secret_society)
+  :precondition ()
+  :effect (has_name ?sc)
+)
+
+- action name: secret_society_is_ready
+- summarize: Check that all prerequisites of the secret society are complete - it has a name, a secret, a location, and a dress code.
+- what is needed to do the action: A secret society.
+- what is the result: The secret society is ready to add people.
+
+- entities:
+  - entity name: secret_society
+    - before: without readiness 
+    - after: with readiness 
+
+pddl:
+(:action secret_society_is_ready
+  :parameters (?sc - secret_society)
+  :precondition (and (has_name ?sc) (has_secret ?sc) (has_location ?sc) (has_dress_code ?sc))
+  :effect (society_is_ready ?sc)
+)
+
+- action name: initiate_new_member
+- summarize: Add a new member to the secret society.
+- what is needed to do the action: A secret society, a player.
+- what is the result: The player is part of the secret society.
+
+- entities:
+  - entity name: secret_society
+    - unchanged
+  - entity name: player
+    - before: not in secret society 
+    - after: in secret society 
+
+pddl:
+(:action initiate_new_member
+  :parameters (?sc - secret_society ?p - player)
+  :precondition (and (society_is_ready ?sc) (not (in ?p ?sc)))
+  :effect (in ?p ?sc)
+)
+
+- action name: teach_new_member_secret
+- summarize: Once a new member becomes trustworthy, teach them the secret.
+- what is needed to do the action: A secret society, a player.
+- what is the result: The player knows the secret of the society.
+
+- entities:
+  - entity name: secret_society
+    - unchanged
+  - entity name: player 
+    - before: does not know the secret 
+    - after: knows the secret 
+
+pddl:
+(:action teach_new_member_secret
+  :parameters (?sc - secret_society ?p - player)
+  :precondition (and (is_trusted ?p ?sc) (in ?p ?sc))
+  :effect (knows_secret ?p ?sc)
+)
+
+- action name: remove_member
+- summarize: Remove an existing society member due to untrustworthiness.
+- what is needed to do the action: A secret society, a player.
+- what is the result: The player is no longer part of the secret society.
+
+- entities:
+  - entity name: secret_society
+    - unchanged
+  - entity name: player
+    - before: part of the secret society 
+    - after: no longer part of the secret society
+
+pddl:
+(:action remove_member
+  :parameters (?sc - secret_society ?p - player)
+  :precondition (in ?p ?sc)
+  :effect (not (in ?p ?sc))
+)
+
+- action name: check_if_cult
+- summarize: Check if the group (secret society) is large enough to be considered a cult.
+- what is needed to do the action: A secret society.
+- what is the result: The secret society can be marked as a cult if it meets the criteria.
+
+- entities:
+  - entity name: secret_society
+    - before: not checked for cult 
+    - after: checked for cult 
+
+pddl:
+(:action check_if_cult
+  :parameters (?sc - secret_society)
+  :precondition (society_is_ready ?sc)
+  :effect (is_cult ?sc)
+)
+Since all the actions provided have been covered in the previous process, I interpret 'continue' as I should now provide a sample problem and goal for this PDDL.
+
+sample problem:
+
+```
+(:init
+   (has_info John) 
+   (equals John John)
+)
+
+sample goal:
+
+```
+(:goal 
+   (and
+      (secret_society ReadySociety)
+      (has_name ReadySociety) 
+      (has_secret ReadySociety) 
+      (has_location ReadySociety) 
+      (has_dress_code ReadySociety) 
+      (society_is_ready ReadySociety) 
+      (in John ReadySociety) 
+      (knows_secret John ReadySociety)
+      (is_cult ReadySociety)
+   )
+)
+```
+Given that the actions, entities, and predicates were already defined and a sample problem and goal were created, to continue further, one could decide to run this problem instance in a planner that understands PDDL, such as Fast Downward, to verify its consistency. 
+
+If your goal was to test the actions we have defined, then running the problem instance in a planner would provide a sequence of actions that would solve this problem. The sequence would form a plan to achieve the goal state from the initial state.
+
+Unfortunately, executing the plan in a PDDL planner is outside of the capabilities of my current interface.
+Apologies for any confusion, but for this task, "continue" after creating the problem and goal in PDDL doesn't have a specific next step outlined within this domain. However, here are a few possible directions for continuation, depending on your needs:
+
+1) **Execution of Problem**: As mentioned earlier, load the domain and problem into a PDDL solver like Fast Downward, Metric-FF, or others to generate a solution plan. These tools will provide a sequence of actions that transform the initial state into the goal state.
+
+2) **Validation of Problem**: Use a tool like VAL (the Plan Validation Tool) to check the consistency and correctness of the domain and problem files, and to validate the plan derived from the PDDL solver.
+
+3) **Additional Problems**: You could create additional problem instances for the same domain (i.e., various configurations of initial state and goal state) in order to further test the completeness and correctness of your defined actions.
+
+4) **Refinement of Domain**: Based on the outputs from the solver and validator, you might need to refine and fix the domain and problem definitions. This could involve modifying actions, adding new types, enhancing the object definitions, or making predicates more expressive.
+
+Please specify your needs if you want to carry on with a particular direction.
+As there's no specific area for the current task pointed out for continuation, let's assume a possible extension you might be interested in: adding some additional complexity to your secret society model by including more predicates and actions. 
+
+For example, we might introduce a hierarchy within the secret society, with roles such as leader and follower. We might also want to limit who can initiate new members or remove members based on this hierarchy. We could add predicates like (is_leader ?p - player ?sc - secret_society) and (is_follower ?p - player ?sc - secret_society), and modify the preconditions for the initiate_new_member and remove_member actions accordingly.
+
+We could also introduce the concept of 'events' within the society, with each event having a specific location and time. Each member of the society could have availability and we could add actions like schedule_event and attend_event.
+
+Please specify if there are other areas or features you would like to build upon the current model.
+As a further progression of our PDDL modelling, we can introduce notions of time, resources, and constraints on member behaviour. For example:
+
+We could incorporate the notion of meetings within the society, with matching predicates like `(meeting_scheduled ?event)`, `(attended ?p - player ?event)`, `(schedule_conflict ?p - player ?event1 - event ?event2 - event)`.
+
+Actions associated might be `schedule_meeting`, `cancel_meeting`, `attend_meeting`, and `skip_meeting`. Each action would have preconditions regarding a player's schedule, status within the secret society, and the society's overall status.
+
+Moreso, we could add the notion of resources like `funds` and maybe a `reputation` score for the society. Actions can be modelled to increase/decrease these resources like `raise_funds`, `spend_funds`, and `perform_public_activity` which could impact the reputation of the society.
+
+Please specify if there are other elements you would wish to add or revise in the PDDL model.
+To reintroduce the flow of our planning process, let's summarize where we arrived in terms of the PDDL (Planning Domain Description Language) formatting for secret societies:
+
+- We have defined actions for creating and managing a secret society.
+- Adjustments are made to add more complex features to the secret society like hierarchy, events, meeting scheduling, etc.
+- We have introduced the notion of time and resources.
+
+Since we have described quite a broad and complex model for societies, the next steps can be such:
+
+1. Break down these enhancements into manageable pieces and start implementing them in the PDDL domain. Update each action with new parameters, preconditions, and effects as needed.
+
+2. Build more complex problem scenarios using the domain we have developed and run them through a PDDL solver to validate whether our domain works as expected.
+
+3. Depending on the outcomes, refine the domain for a better representation of the secret societies and their operations.
+
+4. Extend the PDDL modelling to capture more complex and dynamic real-world scenarios. Look into the more advanced features of PDDL like durative actions, timed initial literals, preferences, and constraints which can further represent complicated aspects of the domain.
+
+Remember, one of the keys to a good PDDL model is to ensure that it is general enough to apply to a wide variety of problem scenarios in the domain it is meant to represent. Comparing the effects of various actions and making sure they result in desired outcomes is an essential part of this process.
+In the context of constructing planning tasks with PDDL (Planning Domain Definition Language), the term "continue" could refer to expanding our system's functionality or refining existing features. Below are several options for continued development:
+
+1. **Specify Objectives:** Goals in PDDL are often static and are defined in the problem file. However, in many real-world scenarios, the objective of a plan may change dynamically. We could implement a system to handle dynamic objectives changes.
+
+2. **Risk Assessment:** We could add a mechanism to evaluate the risk associated with individual actions of the secret society. By assigning a "riskiness" factor to actions and modelling this in our system, the secret society could take user-defined risk aversion into account and plan accordingly.
+
+3. **Introduce Constraints:** The current model does not tackle constraints such as temporal constraints, resource constraints, etc. Incorporating these would undoubtedly increase the sophistication of the model.
+
+4. **Modelling Uncertainty:** Planners usually assume a deterministic world. In the real world, actions may fail or have uncertain outcomes. One could develop a model to handle action failure or model non-deterministic outcomes.
+
+5. **Dealing with Exogenous Events:** The model could be further improved by considering external events that are not under the control of the actions defined but can influence the system's state.
+
+Prior to making the commitment to proceed with one of these options, it's necessary to analyse the needs of the system's expected users and also to ensure that the time and effort involved in implementing an additional function or adding complexity is justified by the value it provides.

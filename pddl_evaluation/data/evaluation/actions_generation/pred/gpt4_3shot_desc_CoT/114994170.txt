@@ -1,0 +1,111 @@
+(:action go
+    :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+    :precondition (and 
+                    (at ?player ?loc1)
+                    (connected ?loc1 ?dir ?loc2)
+                    (not (blocked ?loc1 ?dir ?loc2))
+                    (not (stuck ?player ?quicksand))
+                 )
+    :effect (and 
+              (not (at ?player ?loc1))
+              (at ?player ?loc2)
+             )
+  )
+
+  (:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and 
+                    (at ?player ?loc)
+                    (at ?item ?loc)
+                    (not (stuck ?player ?quicksand))
+                 )
+    :effect (and
+              (not (at ?item ?loc))
+              (inventory ?player ?item)
+             )
+  )
+
+  (:action breathe
+    :parameters (?player - player)
+    :precondition (not (tired ?player))
+    :effect (calm ?player)
+  )
+
+  (:action liedown
+    :parameters (?player - player)
+    :precondition (not (tired ?player))
+    :effect (laying ?player)
+  )
+
+  (:action swim
+    :parameters (?player - player ?quicksand - quicksand)
+    :precondition (and 
+                    (stuck ?player ?quicksand)
+                    (deep ?quicksand)
+                    (laying ?player)
+                 )
+    :effect (not (stuck ?player ?quicksand))
+  )
+
+  (:action usestick
+    :parameters (?player - player ?quicksand - quicksand ?stick - stick)
+    :precondition (and 
+                    (stuck ?player ?quicksand)
+                    (inventory ?player ?stick)
+                 )
+    :effect (not (stuck ?player ?quicksand))
+  )
+
+  (:action rest
+    :parameters (?player - player)
+    :precondition (and
+                    (not (stuck ?player ?quicksand))
+                    (tired ?player)
+                 )
+    :effect (not (tired ?player))
+  )
+
+  (:action drop
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and
+                    (inventory ?player ?item)
+                    (at ?player ?loc)
+                 )
+    :effect (and 
+              (not (inventory ?player) ?item)
+              (at ?item ?loc)
+             )
+  )
+
+  (:action check_ripples
+    :parameters (?player - player ?loc - location)
+    :precondition (at ?player ?loc)
+    :effect (when (has_ripples ?loc) 
+              (aware ?player ?loc))
+  )
+
+  (:action test_ground
+    :parameters (?player - player ?loc - location ?stick - stick)
+    :precondition (and 
+                    (at ?player ?loc)
+                    (inventory ?player ?stick)
+                  )
+    :effect (when (has_quicksand ?loc) 
+              (aware ?player ?loc))
+  )
+
+  (:action research
+    :parameters (?player - player ?loc - location)
+    :effect (aware ?player ?loc)
+  )
+
+  (:action move_horizontally
+    :parameters (?player - player ?quicksand - quicksand)
+    :precondition (and
+                    (stuck ?player ?quicksand)
+                    (calm ?player)
+                 )
+    :effect (not (stuck ?player ?quicksand))
+  )
+
+)

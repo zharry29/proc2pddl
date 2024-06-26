@@ -1,0 +1,5 @@
+go ('person', 'beach', 'jungle', 'east')
+get ('person', 'vines', 'jungle')
+chop_wood ('person', 'jungle', 'wood')
+go ('person', 'jungle', 'beach', 'west')
+build_raft ('person', 'beach', 'wood', 'vines', 'vines')
