@@ -1,0 +1,5 @@
+go ('west', 'npc', 'camp', 'path')
+go ('north', 'npc', 'path', 'grassland')
+go ('north', 'npc', 'grassland', 'bush')
+break_branch ('npc', 'bush', 'branch_piece')
+get ('branch_piece', 'npc', 'bush')

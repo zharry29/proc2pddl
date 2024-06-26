@@ -1,0 +1,3 @@
+splash_swim ('out', 'npc', 'open_sea', 'deep_sea', 'shark')
+spot_ship ('npc', 'deep_sea', 'ship')
+onboard ('npc', 'ship', 'deep_sea')

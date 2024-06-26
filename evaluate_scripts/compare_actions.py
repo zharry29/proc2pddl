@@ -1,7 +1,8 @@
 import sys
 
-sys.path.insert(1, "../src/")
-sys.path.insert(1, "../src/pddl-parser")
+# sys.path.insert(1, "../src/")
+# sys.path.insert(1, "../src/pddl-parser")
+sys.path.insert(1, './pddl-parser')
 from pddl_parser.action import action_equal
 from pddl_parser.action import action_dist
 import pickle
@@ -26,7 +27,7 @@ if args.cot:
     prompt += "_CoT"
 folder_name = f"{model}_{prompt}"
 
-gold_dir = '../pddl_evaluation/true/'
+gold_dir = '../pddl_evaluation/pred/gold_actions' # ../pddl_evaluation/true
 pred_dir = f'../pddl_evaluation/pred/{folder_name}/'
 
 

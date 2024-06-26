@@ -1,0 +1,8 @@
+go ('east', 'person', 'beach', 'jungle')
+go ('east', 'person', 'jungle', 'river')
+find_other_survivors ('river', 'survivor', 'person')
+go ('west', 'person', 'river', 'jungle')
+get ('vines', 'person', 'jungle')
+chop_wood ('person', 'jungle', 'wood')
+go ('west', 'person', 'jungle', 'beach')
+build_raft ('beach', 'vines', 'person', 'wood')

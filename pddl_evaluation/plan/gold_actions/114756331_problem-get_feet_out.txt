@@ -1,0 +1,2 @@
+breathe ('npc')
+move_horizontally ('npc', 'qs')

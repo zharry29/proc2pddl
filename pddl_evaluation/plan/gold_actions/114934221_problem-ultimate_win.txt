@@ -1,0 +1,7 @@
+splash_swim ('out', 'npc', 'open_sea', 'deep_sea', 'shark')
+get ('spear', 'npc', 'deep_sea')
+defend ('npc', 'shark')
+spot_ship ('npc', 'deep_sea', 'ship')
+attack_vulnerable ('npc', 'shark', 'spear', 'eye', 'deep_sea', 'ship')
+onboard ('npc', 'ship', 'deep_sea')
+medicare ('npc', 'ship')

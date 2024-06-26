@@ -1,0 +1,6 @@
+go ('up', 'npc', 'kitchen', 'bedroom')
+get ('batteries', 'bedroom', 'npc')
+go ('down', 'npc', 'bedroom', 'kitchen')
+go ('down', 'npc', 'kitchen', 'basement')
+put_batteries_in ('npc', 'basement', 'radio')
+turn_on_radio ('npc', 'basement', 'radio')

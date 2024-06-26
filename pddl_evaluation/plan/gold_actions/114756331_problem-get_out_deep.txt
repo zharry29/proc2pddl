@@ -1,0 +1,4 @@
+get ('stick', 'npc', 'here')
+breathe ('npc')
+liedown ('npc')
+usestick ('npc', 'stick', 'qsand')

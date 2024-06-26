@@ -1,0 +1,7 @@
+cut_stalks ('npc', 'knife', 'papyrus_plant', 'papyrus_stalks')
+cut_strips ('npc', 'papyrus_strips', 'papyrus_stalks', 'knife')
+soak_strips ('npc', 'water', 'papyrus_strips')
+roll_strips ('npc', 'rolling_pin', 'papyrus_strips')
+weave_strips ('npc', 'papyrus_strips')
+bundle_strips ('npc', 'papyrus_strips', 'wooden_boards', 'linen_sheets')
+cut_sheet ('npc', 'papyrus_strips', 'knife', 'papyrus')

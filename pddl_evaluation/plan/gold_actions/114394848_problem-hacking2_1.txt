@@ -1,0 +1,3 @@
+get ('npc', 'white_permission', 'securing_machine')
+machine_secured ('npc', 'white_permission', 'securing_machine', 'next', 'knowing_target')
+go ('next', 'npc', 'securing_machine', 'knowing_target')

@@ -1,0 +1,5 @@
+get ('knife', 'npc', 'home')
+get ('rolling_pin', 'npc', 'home')
+get ('wooden_boards', 'npc', 'home')
+get ('linen_sheets', 'npc', 'home')
+get ('water', 'npc', 'home')

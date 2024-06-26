@@ -1,0 +1,8 @@
+Total PFs: 95
+Solved PFs: 79
+Unsolved PFs: 11
+Timeout PFs: 5
+Parsing Error PFs: 0
+
+Gold Plan: 79
+

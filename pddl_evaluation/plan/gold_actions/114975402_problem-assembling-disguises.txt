@@ -1,0 +1,3 @@
+go ('west', 'npc', 'house', 'bus_stop')
+go ('north', 'npc', 'bus_stop', 'costume_store')
+get_costume ('npc', 'costume_store', 'costume')

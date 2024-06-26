@@ -214,7 +214,7 @@ class Tester:
                 )
                 plan = self.eval_unit_action_generation(tmp_domain_file, problem_file)
                 #print(plan)
-                with open(f"../data/evaluation/plan/{folder_name}/{proc_id}_{problem[:-5]}.txt", 'w') as f:
+                with open(f"../pddl_evaluation/plan/{folder_name}/{proc_id}_{problem[:-5]}.txt", 'w') as f:
                     if isinstance(plan, TimeoutError):
                         case_results_raw[output_action_file]['extrinsic'][problem] = 'timeout'
                         f.write("Error: " + "Running time exceeds 30 seconds")

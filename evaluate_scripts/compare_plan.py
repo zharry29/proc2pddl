@@ -1,6 +1,8 @@
 import sys
-sys.path.insert(1, '../src/')
-sys.path.insert(1, '../src/pddl-parser')
+# sys.path.insert(1, '../src/')
+# sys.path.insert(1, '../src/pddl-parser')
+sys.path.insert(1, './pddl-parser')
+# from pddl_parser.PDDL import PDDL_Parser
 from pddl_parser.action import *
 import json
 import os
@@ -24,7 +26,7 @@ if args.cot:
     prompt += "_CoT"
 folder_name = f"{model}_{prompt}"
 
-gold_dir = '../pddl_evaluation/true/'
+gold_dir = '../pddl_evaluation/plan/gold/'
 pred_dir = f'../pddl_evaluation/plan/{folder_name}/'
 
 def parse_action(action_str):

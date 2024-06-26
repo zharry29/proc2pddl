@@ -1,0 +1,7 @@
+wait ('npc')
+go ('east', 'npc', 'work', 'backroads')
+go ('south', 'npc', 'backroads', 'school')
+get ('kids', 'school', 'npc')
+go ('west', 'npc', 'school', 'home')
+go ('down', 'npc', 'home', 'basement')
+drop ('kids', 'basement', 'npc')

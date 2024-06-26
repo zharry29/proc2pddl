@@ -1,0 +1,5 @@
+get ('shell', 'npc', 'garage')
+go ('in', 'npc', 'garage', 'work_station')
+flatten_sheet ('npc', 'work_station', 'sheet')
+polish_sheet ('npc', 'work_station', 'sheet', 'shell')
+cut_sheet ('npc', 'garage', 'sheet', 'scissors', 'papyrus')

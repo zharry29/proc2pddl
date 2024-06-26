@@ -1,0 +1,80 @@
+   (:action get
+      :parameters (?it - item ?l - location ?p - player)
+      :precondition (and (at ?it ?l) (at ?p ?l))
+      :effect (and (inventory ?p ?it) (not (at ?it ?l)))
+   )
+
+   (:action drop
+      :parameters (?it - item ?l - location ?p - player)
+      :precondition (and (inventory ?p ?it) (at ?p ?l))
+      :effect (and (not (inventory ?p ?it)) (at ?it ?l))
+   )
+
+   (:action put_in_stopper
+      :parameters (?it - item ?l - location ?p - player)
+      :precondition (and (has_stopper ?it) (not (full ?it)) (at ?it ?l) (at ?p ?l))
+      :effect (can_be_filled ?it)
+   )
+
+  (:action fill
+      :parameters (?it - item ?l - location ?p - player)
+      :precondition (and (can_be_filled ?it) (at ?p ?l) (at ?it ?l))
+      :effect (full ?it)
+   )
+
+    (:action purify
+      :parameters (?it - item ?l - location ?p - player)
+      :precondition (and (at ?it ?l) (at ?p ?l) (full ?it) (inventory ?p purification_tablets) (not (sealed ?it)))
+      :effect (and (purified ?it) (not (inventory ?p purification_tablets)))
+   )
+
+   (:action seal
+      :parameters (?it - item ?l - location ?p - player)
+      :precondition (and (can_be_sealed ?it) (at ?p ?l) (at ?it ?l))
+      :effect (sealed ?it)
+   )
+
+   (:action wait
+      :parameters (?p - player)
+      :precondition (not (at ?p home))
+      :effect (and (not (blocked work east backroads)) (not (blocked school north backroads)) 
+              (not (blocked school west home)) (not (blocked home east school)))
+   )
+
+   (:action go
+      :parameters (?dir - direction ?p - player ?l1 - location ?l2 - location) 
+      :precondition (and (at ?p ?l1) (connected ?l1 ?dir ?l2) (not (blocked ?l1 ?dir ?l2)))
+      :effect (and (at ?p ?l2) (not (at ?p ?l1)))
+   )
+
+   (:action put_batteries_in ; pick up an item and put it in the inventory
+      :parameters (?p - player ?l1 - location ?radio - radio) 
+      :precondition (and (at ?p ?l1) (inventory ?p batteries) (not (has_batteries ?radio)))
+      :effect (has_batteries ?radio)
+   )
+
+   (:action turn_on_radio ; turn on the radio
+      :parameters (?p - player ?loc - location ?radio - radio) 
+      :precondition (and (at ?p ?loc) (at ?radio ?loc) (has_batteries ?radio))
+      :effect (on ?radio)
+   )
+
+   (:action create_cage ; create a farraday cage
+      :parameters (?p - player ?loc - location)
+      :precondition (and (inventory ?p trashcan) (inventory ?p aluminum_foil))
+      :effect (and (at farraday_cage ?loc) (not (inventory ?p trashcan)) (not (inventory ?p aluminum_foil)))
+   )
+
+   (:action close_cage ; Close the farraday cage
+      :parameters (?p - player ?loc - location)
+      :precondition (and (at farraday_cage ?loc) (inventory ?p trashlid))
+      :effect (cage_closed farraday_cage)
+   )
+
+   (:action put_in_cage ; put item in the farraday cage
+      :parameters (?p - player ?loc - location ?it - item)
+      :precondition (and (at farraday_cage ?loc) (inventory ?p ?it))
+      :effect (and (in_cage ?it) (not (inventory ?p ?it))  (not (cage_closed farraday_cage)))
+   )
+
+)

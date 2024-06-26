@@ -1,0 +1,2 @@
+listen_to_astronomers_predictions ('npc', 'home')
+move_away ('npc', 'philly', 'salt_lake', 'home')
