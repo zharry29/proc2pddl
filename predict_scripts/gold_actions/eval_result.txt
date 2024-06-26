@@ -6,3 +6,7 @@ Parsing Error PFs: 0
 
 Gold Plan: 79
 
+Action Accuracy: 1.0
+Parameter Accuracy: 1.0
+Precondition Accuracy: 1.0
+Effect Accuracy: 1.0
