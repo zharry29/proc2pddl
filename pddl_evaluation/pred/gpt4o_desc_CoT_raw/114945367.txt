@@ -1,397 +1,510 @@
-Sure, let's go through each action one by one, summarizing, identifying entities, and then providing the PDDL format.
+Great! Based on the details you've provided, I'll fill out each PDDL action step by step in the requested format:
 
-### Action: go
-
-- summarize action: Navigate from the current location to an adjacent location in a specified direction.
-- what is needed to do the action: Both locations need to be connected and the player must not be blocked.
-- what is the result: The player is now at the new location.
-
-- entities:
-  - entity name: player
-  - before: at the current location
-  - after: at the new location
-  - entity name: current location
-  - before: player is at current location
-  - after: player is not at current location
-  - entity name: new location
-  - before: player is not at new location
-  - after: player is at new location
-
-pddl:
-```pddl
-(:action go
-  :parameters (?p - player ?dir - direction ?loc1 - location ?loc2 - location)
-  :precondition (and 
-    (at ?p ?loc1)
-    (connected ?loc1 ?dir ?loc2)
-    (not (blocked ?loc1 ?dir ?loc2))
+### 1. `go` action:
+- action name: `go`
+- parameters:
+  ```pddl
+  (:parameters 
+    (?p - player 
+     ?dir - direction 
+     ?loc1 ?loc2 - location)
   )
-  :effect (and 
-    (not (at ?p ?loc1))
-    (at ?p ?loc2)
+  ```
+- precondition:
+  ```pddl
+  (:precondition 
+    (and 
+      (at ?p ?loc1) 
+      (connected ?loc1 ?dir ?loc2) 
+      (not (blocked ?loc1 ?dir ?loc2))
+    )
   )
-)
-```
-
-### Action: get
-
-- summarize action: Pick up an item from a location and put it in the player's inventory.
-- what is needed to do the action: The player must be at the item's location.
-- what is the result: The item is now in the player's inventory.
-
-- entities:
-  - entity name: player
-  - before: not having the item
-  - after: having the item
-  - entity name: item
-  - before: at the location
-  - after: in the inventory
-
-pddl:
-```pddl
-(:action get
-  :parameters (?p - player ?item - item ?loc - location)
-  :precondition (and 
-    (at ?p ?loc)
-    (at ?item ?loc)
+  ```
+- effect:
+  ```pddl
+  (:effect 
+    (and 
+      (at ?p ?loc2) 
+      (not (at ?p ?loc1))
+    )
   )
-  :effect (and 
-    (not (at ?item ?loc))
-    (inventory ?p ?item)
+  ```
+- pddl:
+  ```pddl
+  (:action go
+   :parameters (?p - player ?dir - direction ?loc1 ?loc2 - location)
+   :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (at ?p ?loc2) (not (at ?p ?loc1)))
   )
-)
-```
+  ```
 
-### Action: get_water
-
-- summarize action: Collect water from a location that has a water source.
-- what is needed to do the action: The player must be at a location with a water source.
-- what is the result: Water is now in the player's inventory.
-
-- entities:
-  - entity name: player
-  - before: not having water
-  - after: having water
-  - entity name: water
-  - before: not in inventory
-  - after: in the inventory
-  - entity name: location
-  - before: has water source
-  - after: unchanged
-
-pddl:
-```pddl
-(:action get_water
-  :parameters (?p - player ?loc - location ?water - water)
-  :precondition (and 
-    (at ?p ?loc)
-    (has_water_source ?loc)
+### 2. `get` action:
+- action name: `get`
+- parameters:
+  ```pddl
+  (:parameters 
+    (?p - player 
+     ?item - item 
+     ?loc - location)
   )
-  :effect (inventory ?p ?water)
-)
-```
+  ```
+- precondition:
+  ```pddl
+  (:precondition 
+    (and 
+      (at ?p ?loc) 
+      (at ?item ?loc)
+    )
+  )
+  ```
+- effect:
+  ```pddl
+  (:effect 
+    (and 
+      (inventory ?p ?item) 
+      (not (at ?item ?loc))
+    )
+  )
+  ```
+- pddl:
+  ```pddl
+  (:action get
+   :parameters (?p - player ?item - item ?loc - location)
+   :precondition (and (at ?p ?loc) (at ?item ?loc))
+   :effect (and (inventory ?p ?item) (not (at ?item ?loc)))
+  )
+  ```
 
-### Action: strain_water
-
-- summarize action: Filter collected water using a piece of cloth.
-- what is needed to do the action: The player must have water and cloth in the inventory.
-- what is the result: The water is strained.
-
-- entities:
-  - entity name: player
-  - before: having water and cloth
-  - after: same
-  - entity name: water
-  - before: not strained
-  - after: strained
-  - entity name: cloth
-  - before: in inventory
-  - after: unchanged
-
-pddl:
-```pddl
-(:action strain_water
-  :parameters (?p - player ?water - water ?cloth - cloth)
-  :precondition (and 
+### 3. `get_water` action:
+- action name: `get_water`
+- parameters:
+  ```pddl
+  (:parameters 
+    (?p - player 
+     ?loc - location 
+     ?water - water)
+  )
+  ```
+- precondition:
+  ```pddl
+  (:precondition 
+    (and 
+      (at ?p ?loc) 
+      (has_water_source ?loc)
+    )
+  )
+  ```
+- effect:
+  ```pddl
+  (:effect 
     (inventory ?p ?water)
-    (inventory ?p ?cloth)
   )
-  :effect (strained ?water)
-)
-```
-
-### Action: boil_water
-
-- summarize action: Treat water by boiling it in a container.
-- what is needed to do the action: The player must have water and a container in the inventory.
-- what is the result: The water is treated.
-
-- entities:
-  - entity name: player
-  - before: having water and container
-  - after: same
-  - entity name: water
-  - before: not treated
-  - after: treated
-  - entity name: container
-  - before: in inventory
-  - after: unchanged
-
-pddl:
-```pddl
-(:action boil_water
-  :parameters (?p - player ?water - water ?container - container)
-  :precondition (and 
-    (inventory ?p ?water)
-    (inventory ?p ?container)
+  ```
+- pddl:
+  ```pddl
+  (:action get_water
+   :parameters (?p - player ?loc - location ?water - water)
+   :precondition (and (at ?p ?loc) (has_water_source ?loc))
+   :effect (inventory ?p ?water)
   )
-  :effect (treated ?water)
-)
-```
+  ```
 
-### Action: purify_in_sunlight
-
-- summarize action: Purify water by exposing it to sunlight.
-- what is needed to do the action: The player must have untreated water in the inventory.
-- what is the result: The water is treated.
-
-- entities:
-  - entity name: player
-  - before: having water
-  - after: same
-  - entity name: water
-  - before: not treated
-  - after: treated
-
-pddl:
-```pddl
-(:action purify_in_sunlight
-  :parameters (?p - player ?water - water)
-  :precondition (and 
-    (inventory ?p ?water)
-    (not (treated ?water))
+### 4. `strain_water` action:
+- action name: `strain_water`
+- parameters:
+  ```pddl
+  (:parameters 
+    (?p - player 
+     ?water - water 
+     ?cloth - cloth)
   )
-  :effect (treated ?water)
-)
-```
-
-### Action: get_long_branch
-
-- summarize action: Collect long branches necessary for building shelter.
-- what is needed to do the action: The player must be at a location with branches.
-- what is the result: The long branches are now in the player's inventory.
-
-- entities:
-  - entity name: player
-  - before: not having long branches
-  - after: having long branches
-  - entity name: long branch
-  - before: at location
-  - after: in the inventory
-
-pddl:
-```pddl
-(:action get_long_branch
-  :parameters (?p - player ?loc - location ?long_branch - long_branch)
-  :precondition (and 
-    (at ?p ?loc)
-    (has_branches ?loc)
+  ```
+- precondition:
+  ```pddl
+  (:precondition 
+    (and 
+      (inventory ?p ?water) 
+      (inventory ?p ?cloth)
+    )
   )
-  :effect (inventory ?p ?long_branch)
-)
-```
-
-### Action: get_propped_branches
-
-- summarize action: Collect branches that prop up the main structure of the shelter.
-- what is needed to do the action: The player must be at a location with branches.
-- what is the result: The propped branches are now in the player's inventory.
-
-- entities:
-  - entity name: player
-  - before: not having propped branches
-  - after: having propped branches
-  - entity name: propped branches
-  - before: at location
-  - after: in the inventory
-
-pddl:
-```pddl
-(:action get_propped_branches
-  :parameters (?p - player ?loc - location ?propped_branches - propped_branches)
-  :precondition (and 
-    (at ?p ?loc)
-    (has_branches ?loc)
+  ```
+- effect:
+  ```pddl
+  (:effect 
+    (strained ?water)
   )
-  :effect (inventory ?p ?propped_branches)
-)
-```
-
-### Action: get_twigs_leaves
-
-- summarize action: Collect twigs and leaves for building shelter.
-- what is needed to do the action: The player must be at a location with twigs and leaves.
-- what is the result: The twigs and leaves are now in the player's inventory.
-
-- entities:
-  - entity name: player
-  - before: not having twigs and leaves
-  - after: having twigs and leaves
-  - entity name: twigs and leaves
-  - before: at location
-  - after: in the inventory
-
-pddl:
-```pddl
-(:action get_twigs_leaves
-  :parameters (?p - player ?loc - location ?twigs_leaves - twigs_leaves)
-  :precondition (and 
-    (at ?p ?loc)
-    (has_twigs_leaves ?loc)
+  ```
+- pddl:
+  ```pddl
+  (:action strain_water
+   :parameters (?p - player ?water - water ?cloth - cloth)
+   :precondition (and (inventory ?p ?water) (inventory ?p ?cloth))
+   :effect (strained ?water)
   )
-  :effect (inventory ?p ?twigs_leaves)
-)
-```
+  ```
 
-### Action: build_shelter
-
-- summarize action: Construct a shelter using collected materials.
-- what is needed to do the action: The player must have long branches, propped branches, and twigs/leaves in the inventory.
-- what is the result: The player now has a built shelter.
-
-- entities:
-  - entity name: player
-  - before: not having shelter
-  - after: having shelter
-  - entity name: long branch
-  - before: in inventory
-  - after: used
-  - entity name: propped branches
-  - before: in inventory
-  - after: used
-  - entity name: twigs and leaves
-  - before: in inventory
-  - after: used
-
-pddl:
-```pddl
-(:action build_shelter
-  :parameters (?p - player ?long_branch - long_branch ?propped_branches - propped_branches ?twigs_leaves - twigs_leaves)
-  :precondition (and 
-    (inventory ?p ?long_branch)
-    (inventory ?p ?propped_branches)
-    (inventory ?p ?twigs_leaves)
+### 5. `boil_water` action:
+- action name: `boil_water`
+- parameters:
+  ```pddl
+  (:parameters 
+    (?p - player 
+     ?water - water 
+     ?container - container)
   )
-  :effect (has_shelter ?p)
-)
-```
-
-### Action: get_logs
-
-- summarize action: Collect logs for building a teepee structure.
-- what is needed to do the action: The player must be at a location with logs.
-- what is the result: The logs are now in the player's inventory.
-
-- entities:
-  - entity name: player
-  - before: not having logs
-  - after: having logs
-  - entity name: logs
-  - before: at location
-  - after: in the inventory
-
-pddl:
-```pddl
-(:action get_logs
-  :parameters (?p - player ?loc - location ?logs - logs)
-  :precondition (and 
-    (at ?p ?loc)
-    (has_logs ?loc)
+  ```
+- precondition:
+  ```pddl
+  (:precondition 
+    (and 
+      (inventory ?p ?water) 
+      (strained ?water) 
+      (inventory ?p ?container) 
+      (has_fire ?p)
+    )
   )
-  :effect (inventory ?p ?logs)
-)
-```
-
-### Action: get_dry_materials
-
-- summarize action: Collect dry materials for starting a fire.
-- what is needed to do the action: The player must be at a location with dry materials.
-- what is the result: The dry materials are now in the player's inventory.
-
-- entities:
-  - entity name: player
-  - before: not having dry materials
-  - after: having dry materials
-  - entity name: dry materials
-  - before: at location
-  - after: in the inventory
-
-pddl:
-```pddl
-(:action get_dry_materials
-  :parameters (?p - player ?loc - location ?dry_materials - dry_materials)
-  :precondition (and 
-    (at ?p ?loc)
-    (has_twigs_leaves ?loc)
+  ```
+- effect:
+  ```pddl
+  (:effect 
+    (treated ?water)
   )
-  :effect (inventory ?p ?dry_materials)
-)
-```
+  ```
+- pddl:
+  ```pddl
+  (:action boil_water
+   :parameters (?p - player ?water - water ?container - container)
+   :precondition (and (inventory ?p ?water) (strained ?water) (inventory ?p ?container) (has_fire ?p))
+   :effect (treated ?water)
+  )
+  ```
 
-### Action: build_teepee
+### 6. `purify_in_sunlight` action:
+- action name: `purify_in_sunlight`
+- parameters:
+  ```pddl
+  (:parameters 
+    (?p - player 
+     ?water - water 
+     ?loc - location)
+  )
+  ```
+- precondition:
+  ```pddl
+  (:precondition 
+    (and 
+      (at ?p ?loc) 
+      (inventory ?p ?water) 
+      (strained ?water)
+    )
+  )
+  ```
+- effect:
+  ```pddl
+  (:effect 
+    (treated ?water)
+  )
+  ```
+- pddl:
+  ```pddl
+  (:action purify_in_sunlight
+   :parameters (?p - player ?water - water ?loc - location)
+   :precondition (and (at ?p ?loc) (inventory ?p ?water) (strained ?water))
+   :effect (treated ?water)
+  )
+  ```
 
-- summarize action: Construct a teepee structure using collected logs and dry materials.
-- what is needed to do the action: The player must have logs and dry materials in the inventory.
-- what is the result: The player now has a built teepee.
+### 7. `get_long_branch` action:
+- action name: `get_long_branch`
+- parameters:
+  ```pddl
+  (:parameters 
+    (?p - player 
+     ?loc - location 
+     ?branch - long_branch)
+  )
+  ```
+- precondition:
+  ```pddl
+  (:precondition 
+    (and 
+      (at ?p ?loc) 
+      (has_branches ?loc)
+    )
+  )
+  ```
+- effect:
+  ```pddl
+  (:effect 
+    (inventory ?p ?branch)
+  )
+  ```
+- pddl:
+  ```pddl
+  (:action get_long_branch
+   :parameters (?p - player ?loc - location ?branch - long_branch)
+   :precondition (and (at ?p ?loc) (has_branches ?loc))
+   :effect (inventory ?p ?branch)
+  )
+  ```
 
-- entities:
-  - entity name: player
-  - before: not having teepee
-  - after: having teepee
-  - entity name: logs
-  - before: in inventory
-  - after: used
-  - entity name: dry materials
-  - before: in inventory
-  - after: used
+### 8. `get_propped_branches` action:
+- action name: `get_propped_branches`
+- parameters:
+  ```pddl
+  (:parameters 
+    (?p - player 
+     ?loc - location 
+     ?branches - propped_branches)
+  )
+  ```
+- precondition:
+  ```pddl
+  (:precondition 
+    (and 
+      (at ?p ?loc) 
+      (has_branches ?loc)
+    )
+  )
+  ```
+- effect:
+  ```pddl
+  (:effect 
+    (inventory ?p ?branches)
+  )
+  ```
+- pddl:
+  ```pddl
+  (:action get_propped_branches
+   :parameters (?p - player ?loc - location ?branches - propped_branches)
+   :precondition (and (at ?p ?loc) (has_branches ?loc))
+   :effect (inventory ?p ?branches)
+  )
+  ```
 
-pddl:
-```pddl
-(:action build_teepee
-  :parameters (?p - player ?logs - logs ?dry_materials - dry_materials)
-  :precondition (and 
+### 9. `get_twigs_leaves` action:
+- action name: `get_twigs_leaves`
+- parameters:
+  ```pddl
+  (:parameters 
+    (?p - player 
+     ?loc - location 
+     ?tl - twigs_leaves)
+  )
+  ```
+- precondition:
+  ```pddl
+  (:precondition 
+    (and 
+      (at ?p ?loc) 
+      (has_twigs_leaves ?loc)
+    )
+  )
+  ```
+- effect:
+  ```pddl
+  (:effect 
+    (inventory ?p ?tl)
+  )
+  ```
+- pddl:
+  ```pddl
+  (:action get_twigs_leaves
+   :parameters (?p - player ?loc - location ?tl - twigs_leaves)
+   :precondition (and (at ?p ?loc) (has_twigs_leaves ?loc))
+   :effect (inventory ?p ?tl)
+  )
+  ```
+
+### 10. `build_shelter` action:
+- action name: `build_shelter`
+- parameters:
+  ```pddl
+  (:parameters 
+    (?p - player 
+     ?branch - long_branch 
+     ?props - propped_branches 
+     ?tl - twigs_leaves 
+     ?loc - location)
+  )
+  ```
+- precondition:
+  ```pddl
+  (:precondition 
+    (and 
+      (at ?p ?loc) 
+      (inventory ?p ?branch) 
+      (inventory ?p ?props) 
+      (inventory ?p ?tl)
+    )
+  )
+  ```
+- effect:
+  ```pddl
+  (:effect 
+    (and 
+      (has_shelter ?p) 
+      (not (inventory ?p ?branch)) 
+      (not (inventory ?p ?props)) 
+      (not (inventory ?p ?tl))
+    )
+  )
+  ```
+- pddl:
+  ```pddl
+  (:action build_shelter
+   :parameters (?p - player ?branch - long_branch ?props - propped_branches ?tl - twigs_leaves ?loc - location)
+   :precondition (and (at ?p ?loc) (inventory ?p ?branch) (inventory ?p ?props) (inventory ?p ?tl))
+   :effect (and (has_shelter ?p) (not (inventory ?p ?branch)) (not (inventory ?p ?props)) (not (inventory ?p ?tl)))
+  )
+  ```
+
+### 11. `get_logs` action:
+- action name: `get_logs`
+- parameters:
+  ```pddl
+  (:parameters 
+    (?p - player 
+     ?loc - location 
+     ?logs - logs)
+  )
+  ```
+- precondition:
+  ```pddl
+  (:precondition 
+    (and 
+      (at ?p ?loc) 
+      (has_logs ?loc)
+    )
+  )
+  ```
+- effect:
+  ```pddl
+  (:effect 
     (inventory ?p ?logs)
-    (inventory ?p ?dry_materials)
   )
-  :effect (and 
-    (not (inventory ?p ?logs))
-    (not (inventory ?p ?dry_materials))
-    (has_shelter ?p)
+  ```
+- pddl:
+  ```pddl
+  (:action get_logs
+   :parameters (?p - player ?loc - location ?logs - logs)
+   :precondition (and (at ?p ?loc) (has_logs ?loc))
+   :effect (inventory ?p ?logs)
   )
-)
-```
+  ```
 
-### Action: start_fire
+### 12. `get_dry_materials` action:
+- action name: `get_dry_materials`
+- parameters:
+  ```pddl
+  (:parameters 
+    (?p - player 
+     ?loc - location 
+     ?dm - twigs_leaves)
+  )
+  ```
+- precondition:
+  ```pddl
+  (:precondition 
+    (and 
+      (at ?p ?loc) 
+      (has_twigs_leaves ?loc)
+    )
+  )
+  ```
+- effect:
+  ```pddl
+  (:effect 
+    (inventory ?p ?dm)
+  )
+  ```
+- pddl:
+  ```pddl
+  (:action get_dry_materials
+   :parameters (?p - player ?loc - location ?dm - twigs_leaves)
+   :precondition (and (at ?p ?loc) (has_twigs_leaves ?loc))
+   :effect (inventory ?p ?dm)
+  )
+  ```
 
-- summarize action: Start a fire using collected dry materials.
-- what is needed to do the action: The player must have dry materials in the inventory.
-- what is the result: The player now has a fire.
+### 13. `build_teepee` action:
+- action name: `build_teepee`
+- parameters:
+  ```pddl
+  (:parameters 
+    (?p - player 
+     ?logs - logs 
+     ?dm - twigs_leaves 
+     ?loc - location)
+  )
+  ```
+- precondition:
+  ```pddl
+  (:precondition 
+    (and 
+      (at ?p ?loc) 
+      (inventory ?p ?logs) 
+      (inventory ?p ?dm)
+    )
+  )
+  ```
+- effect:
+  ```pddl
+  (:effect 
+    (and 
+      (has_shelter ?p) 
+      (not (inventory ?p ?logs)) 
+      (not (inventory ?p ?dm))
+    )
+  )
+  ```
+- pddl:
+  ```pddl
+  (:action build_teepee
+   :parameters (?p - player ?logs - logs ?dm - twigs_leaves ?loc - location)
+   :precondition (and (at ?p ?loc) (inventory ?p ?logs) (inventory ?p ?dm))
+   :effect (and (has_shelter ?p) (not (inventory ?p ?logs)) (not (inventory ?p ?dm)))
+  )
+  ```
 
-- entities:
-  - entity name: player
-  - before: not having fire
-  - after: having fire
-  - entity name: dry materials
-  - before: in inventory
-  - after: used
-
-pddl:
-```pddl
-(:action start_fire
-  :parameters (?p - player ?dry_materials - dry_materials)
-  :precondition (inventory ?p ?dry_materials)
-  :effect (has_fire ?p)
-)
-```
-
-By following this structure, each action is clearly defined with its preconditions, effects, and entities. This ensures that the PDDL domain model accurately reflects the actions required for survival in the woods.
+### 14. `start_fire` action:
+- action name: `start_fire`
+- parameters:
+  ```pddl
+  (:parameters 
+    (?p - player 
+     ?loc - location 
+     ?twigs_leaves - twigs_leaves 
+     ?logs - logs)
+  )
+  ```
+- precondition:
+  ```pddl
+  (:precondition 
+    (and 
+      (at ?p ?loc) 
+      (inventory ?p ?twigs_leaves) 
+      (inventory ?p ?logs)
+    )
+  )
+  ```
+- effect:
+  ```pddl
+  (:effect 
+    (and 
+      (has_fire ?p) 
+      (not (inventory ?p ?twigs_leaves)) 
+      (not (inventory ?p ?logs))
+    )
+  )
+  ```
+- pddl:
+  ```pddl
+  (:action start_fire
+   :parameters (?p - player ?loc - location ?twigs_leaves - twigs_leaves ?logs - logs)
+   :precondition (and (at ?p ?loc) (inventory ?p ?twigs_leaves) (inventory ?p ?logs))
+   :effect (and (has_fire ?p) (not (inventory ?p ?twigs_leaves)) (not (inventory ?p ?logs)))
+  )
+  ```
+  
+I hope this captures all your requirements. If you need further adjustments or any additional actions, feel free to let me know!

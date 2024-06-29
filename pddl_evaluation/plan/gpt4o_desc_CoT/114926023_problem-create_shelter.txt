@@ -1,1 +1,12 @@
-No solution
+go ('npc', 'beach', 'root_of_tree', 'north')
+go ('npc', 'root_of_tree', 'top_of_tree', 'up')
+get ('npc', 'leaves', 'top_of_tree')
+go ('npc', 'top_of_tree', 'root_of_tree', 'down')
+go ('npc', 'root_of_tree', 'jungle', 'north')
+get ('npc', 'small_sticks', 'jungle')
+get ('npc', 'log', 'jungle')
+go ('npc', 'jungle', 'root_of_tree', 'south')
+build_roof ('npc', 'log', 'root_of_tree')
+build_wall ('npc', 'small_sticks', 'root_of_tree')
+build_bed ('npc', 'leaves', 'root_of_tree')
+complete_shelter ('npc', 'root_of_tree')

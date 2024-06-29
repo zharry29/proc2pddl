@@ -1,3 +1,2 @@
-go ('npc', 'north', 'kitchen', 'cabinet')
-get ('npc', 'wooden_boards', 'cabinet')
-place_strips_between_boards ('npc', 'papyrus_strips', 'wooden_boards')
+go ('npc', 'kitchen', 'cabinet', 'north')
+place_strips_between_boards ('npc', 'papyrus_strips', 'wooden_boards', 'cabinet')

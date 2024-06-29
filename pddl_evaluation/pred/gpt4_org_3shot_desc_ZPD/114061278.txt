@@ -1,0 +1,36 @@
+(:action get
+ :parameters (?item)
+ :precondition (not (inventory ?item))
+ :effect (inventory ?item))
+
+(:action poke
+ :parameters (?c - coconut)
+ :precondition (not (has_eyes_poked ?c))
+ :effect (has_eyes_poked ?c))
+
+(:action flip
+ :parameters (?c - coconut)
+ :precondition (not (upside_down ?c))
+ :effect (upside_down ?c))
+
+(:action wrap
+ :parameters (?c - coconut)
+ :precondition (not (is_item_wrapped_coconut ?c))
+ :effect (is_item_wrapped_coconut ?c))
+
+(:action hit
+ :parameters (?c - coconut_wrapped)
+ :precondition (not (is_item_broken_coconut ?c))
+ :effect (is_item_broken_coconut ?c))
+
+(:action free
+ :parameters (?c - coconut_broken)
+ :precondition (not (is_item_coconut_meat ?c))
+ :effect (is_item_coconut_meat ?c))
+
+(:action remove_fiber
+ :parameters (?c - coconut_meat)
+ :precondition (not (is_item_coconut_meat_peeled ?c))
+ :effect (is_item_coconut_meat_peeled ?c))
+
+)

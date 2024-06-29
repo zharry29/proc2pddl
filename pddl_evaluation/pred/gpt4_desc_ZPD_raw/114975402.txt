@@ -1,0 +1,150 @@
+- action name: go
+- summarize action: The player navigates to an adjacent location.
+- what is needed to do the action: The connection between the current location and the adjacent location should be unblocked.
+- what is the result: The player moves from the current location to the new location.
+ 
+- entities:
+  - entity name: current location 
+    - before: player is at this location
+    - after: player is no longer at this location
+  - entity name: new location
+    - before: player is not at this location
+    - after: player is at this location
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Add the connected predicate to indicate the connection between the current and new locations.
+2. Add the at predicate before and after to show the change in the player's location.
+
+pddl:
+```
+(:action go
+  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+```
+
+- action name: get_bag
+- summarize action: The player gets a bag from a store that sells bags.
+- what is needed to do the action: The player must be at a location where bags are sold.
+- what is the result: The player gets the bag and adds it to the inventory.
+
+- entities:
+  - entity name: bag 
+    - before: not in the player's inventory 
+    - after: in the player's inventory
+  - entity name: location
+    - before: player is at the location where bags are sold
+    - after: no change
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Add the sells_bags predicate to identify locations that sell bags.
+2. Add the inventory predicate to represent that the bag is now in the player's inventory.
+
+pddl:
+```
+(:action get_bag
+  :parameters (?player - player ?bag - bag ?loc - location)
+  :precondition (and (at ?player ?loc) (sells_bags ?loc))
+  :effect (inventory ?player ?bag)
+)
+```
+
+- action name: get_stationery
+- summarize action: The player gets stationery items from a store that sells stationery; specifically, pen, paper, gloves, tape, chalk, and magnifying_glass.
+- what is needed to do the action: The player must be at a location where stationery is sold.
+- what is the result: The player gets the stationery items and adds them to the inventory.
+
+- entities:
+  - entity name: pen, paper, gloves, tape, chalk, magnifying_glass 
+    - before: not in the player's inventory 
+    - after: in the player's inventory
+  - entity name: location
+    - before: player is at the location where stationery is sold
+    - after: no change
+
+- describe how to match it to pddl relevant predicates step by step:
+1. Add the sells_stationery predicate to identify locations that sell stationery.
+2. Add the inventory predicate for each item to represent that the items are now in the player's inventory.
+
+pddl:
+```
+(:action get_stationery
+  :parameters (?player - player ?loc - location ?pen - pen ?paper - paper ?gloves - gloves ?tape - tape ?chalk - chalk ?magnifying_glass - magnifying_glass)
+  :precondition (and (at ?player ?loc) (sells_stationery ?loc))
+  :effect (and (inventory ?player ?pen) (inventory ?player ?paper) (inventory ?player ?gloves) (inventory ?player ?tape) (inventory ?player ?chalk) (inventory ?player ?magnifying_glass))
+)
+```
+
+I provide the pddl for the next actions:
+
+get_costume:
+```
+(:action get_costume
+  :parameters (?player - player ?costume - costume ?loc - location)
+  :precondition (and (at ?player ?loc) (sells_costume ?loc))
+  :effect (inventory ?player ?costume)
+)
+```
+
+wear_detective_gear:
+```
+(:action wear_detective_gear
+  :parameters (?player - player ?costume - costume)
+  :precondition (inventory ?player ?costume)
+  :effect (wear ?player ?costume)
+)
+```
+
+find_supplies_for_disguise: (to simplify, I will assume this action finds a disguise available in the player's inventory after executing)
+```
+(:action find_supplies_for_disguise
+  :parameters (?player - player ?disguise - disguise)
+  :effect (inventory ?player ?disguise)
+)
+```
+
+wear_disguise:
+```
+(:action wear_disguise
+  :parameters (?player - player ?disguise - disguise)
+  :precondition (inventory ?player ?disguise)
+  :effect (wear ?player ?disguise)
+)
+```
+
+make_badge:
+```
+(:action make_badge
+  :parameters (?player - player ?badge - badge ?aluminium_foil - aluminium_foil ?cardboard - cardboard)
+  :precondition (and (inventory ?player ?aluminium_foil) (inventory ?player ?cardboard))
+  :effect (inventory ?player ?badge)
+)
+```
+
+prepare_detective_notebook:
+```
+(:action prepare_detective_notebook
+  :parameters (?player - player ?notebook - notebook ?pen - pen ?detective_notebook - detective_notebook)
+  :precondition (and (inventory ?player ?notebook) (inventory ?player ?pen))
+  :effect (and (not (inventory ?player ?notebook)) (inventory ?player ?detective_notebook))
+)
+```
+
+get_walkie_talkies:
+```
+(:action get_walkie_talkies
+  :parameters (?player - player ?walkie_talkies - walkie_talkies ?loc - location)
+  :precondition (and (at ?player ?loc) (sells_electronics ?loc))
+  :effect (inventory ?player ?walkie_talkies)
+)
+```
+
+prepare_detective_kit:
+```
+(:action prepare_detective_kit
+  :parameters (?player - player ?detective_kit - detective_kit ?bag - bag ?gloves - gloves ?tape - tape ?chalk - chalk ?magnifying_glass - magnifying_glass ?costume - costume ?flashlights - flashlights ?pen - pen ?detective_notebook - detective_notebook ?badge - badge ?walkie_talkies - walkie_talkies)
+  :precondition (and (inventory ?player ?bag) (inventory ?player ?gloves) (inventory ?player ?tape) (inventory ?player ?chalk) (inventory ?player ?magnifying_glass) (inventory ?player ?costume) (inventory ?player ?flashlights) (inventory ?player ?pen) (inventory ?player ?detective_notebook) (inventory ?player ?badge) (inventory ?player ?walkie_talkies))
+  :effect (and (inventory ?player ?detective_kit) (not (inventory ?player ?bag)) (not (inventory ?player ?gloves)) (not (inventory ?player ?tape)) (not (inventory ?player ?chalk)) (not (inventory ?player ?magnifying_glass)) (not (inventory ?player ?costume)) (not (inventory ?player ?flashlights)) (not (inventory ?player ?pen)) (not (inventory ?player ?detective_notebook)) (not (inventory ?player ?badge)) (not (inventory ?player ?walkie_talkies)))
+)
+```

@@ -1,0 +1,244 @@
+Alright, I'll use the structure specified and fill out the PDDL actions based on the context of surviving on a deserted island with the provided predicates, types, and actions.
+
+### Action: go
+
+- action name: go
+- summarize action: This action allows the player to navigate from one location to an adjacent location.
+- what is needed to do the action: The location where the player currently is, and a direction that leads to another connected location.
+- what is the result: The player moves from the current location to the new location.
+
+- entities:
+  - entity name: player
+    - before: at a location
+    - after: at a new location
+  - entity name: location
+    - before: player at the current location
+    - after: player at the new location
+
+pddl action:
+```pddl
+(:action go
+ :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+```
+
+### Action: get
+
+- action name: get
+- summarize action: This action involves picking up an item and adding it to the player's inventory.
+- what is needed to do the action: The player should be at the location where the item is.
+- what is the result: The item is added to the player's inventory.
+
+- entities:
+  - entity name: item
+    - before: at a location
+    - after: in the player's inventory
+  - entity name: player
+    - before: at the same location as the item
+    - after: has the item in inventory
+
+pddl action:
+```pddl
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?item ?loc))
+ :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+```
+
+### Action: build_roof
+
+- action name: build_roof
+- summarize action: This action involves building a roof using logs.
+- what is needed to do the action: The player must have logs in their inventory.
+- what is the result: The roof is built.
+
+- entities:
+  - entity name: log
+    - before: in the player's inventory
+    - after: used to build the roof
+  - entity name: roof
+    - before: not built
+    - after: built
+
+pddl action:
+```pddl
+(:action build_roof
+ :parameters (?player - player ?log - log)
+ :precondition (inventory ?player ?log)
+ :effect (roof ?log)
+)
+```
+
+### Action: build_wall
+
+- action name: build_wall
+- summarize action: This action involves building a wall using small sticks.
+- what is needed to do the action: The player must have small sticks in their inventory.
+- what is the result: The wall is built.
+
+- entities:
+  - entity name: small_sticks
+    - before: in the player's inventory
+    - after: used to build the wall
+  - entity name: wall
+    - before: not built
+    - after: built
+
+pddl action:
+```pddl
+(:action build_wall
+ :parameters (?player - player ?sticks - small_sticks)
+ :precondition (inventory ?player ?sticks)
+ :effect (wall ?sticks)
+)
+```
+
+### Action: build_bed
+
+- action name: build_bed
+- summarize action: This action involves building a bed using leaves.
+- what is needed to do the action: The player must have leaves in their inventory.
+- what is the result: The bed is built.
+
+- entities:
+  - entity name: leaves
+    - before: in the player's inventory
+    - after: used to build the bed
+  - entity name: bed
+    - before: not built
+    - after: built
+
+pddl action:
+```pddl
+(:action build_bed
+ :parameters (?player - player ?leaves - leaves)
+ :precondition (inventory ?player ?leaves)
+ :effect (bed ?leaves)
+)
+```
+
+### Action: complete_shelter
+
+- action name: complete_shelter
+- summarize action: This action involves completing the shelter by combining a roof, wall, and bed.
+- what is needed to do the action: The player must have a built roof, wall, and bed.
+- what is the result: The shelter is completed.
+
+- entities:
+  - entity name: roof
+    - before: built
+    - after: part of the shelter
+  - entity name: wall
+    - before: built
+    - after: part of the shelter
+  - entity name: bed
+    - before: built
+    - after: part of the shelter
+  - entity name: shelter
+    - before: not completed
+    - after: completed
+
+pddl action:
+```pddl
+(:action complete_shelter
+ :parameters (?roof - roof ?wall - wall ?bed - bed)
+ :precondition (and (roof ?roof) (wall ?wall) (bed ?bed))
+ :effect (shelter)
+)
+```
+
+### Action: hunt_animal
+
+- action name: hunt_animal
+- summarize action: This action involves hunting an animal using a sharp stone.
+- what is needed to do the action: The player must have a sharp stone in their inventory.
+- what is the result: The animal is hunted.
+
+- entities:
+  - entity name: animal
+    - before: unhunted
+    - after: hunted
+  - entity name: sharp_stone
+    - before: in the player's inventory
+    - after: used to hunt the animal
+
+pddl action:
+```pddl
+(:action hunt_animal
+ :parameters (?player - player ?animal - animal ?stone - sharp_stone)
+ :precondition (inventory ?player ?stone)
+ :effect (treated ?animal)
+)
+```
+
+### Action: prepare_animal
+
+- action name: prepare_animal
+- summarize action: This action involves preparing an animal using a sharp stone before it can be eaten.
+- what is needed to do the action: The player must have a sharp stone in their inventory and the animal must be hunted.
+- what is the result: The animal is prepared for eating.
+
+- entities:
+  - entity name: animal
+    - before: hunted
+    - after: prepared
+  - entity name: sharp_stone
+    - before: in the player's inventory
+    - after: used to prepare the animal
+
+pddl action:
+```pddl
+(:action prepare_animal
+ :parameters (?player - player ?animal - animal ?stone - sharp_stone)
+ :precondition (and (inventory ?player ?stone) (treated ?animal))
+ :effect (prepared ?animal)
+)
+```
+
+### Action: build_raft
+
+- action name: build_raft
+- summarize action: This action involves building a raft.
+- what is needed to do the action: The player must have the necessary items in their inventory.
+- what is the result: The raft is built.
+
+- entities:
+  - entity name: raft_draft
+    - before: in the player's inventory
+    - after: used to build the raft
+  - entity name: raft_finished
+    - before: not built
+    - after: built
+
+pddl action:
+```pddl
+(:action build_raft
+ :parameters (?player - player ?raft_draft - raft_draft)
+ :precondition (inventory ?player ?raft_draft)
+ :effect (raft_finished ?raft_draft)
+)
+```
+
+### Action: test_raft
+
+- action name: test_raft
+- summarize action: This action involves testing a built raft before the player rides it.
+- what is needed to do the action: The player must have a raft.
+- what is the result: The raft is tested.
+
+- entities:
+  - entity name: raft_finished
+    - before: built
+    - after: tested
+
+pddl action:
+```pddl
+(:action test_raft
+ :parameters (?player - player ?raft_finished - raft_finished)
+ :precondition (inventory ?player ?raft_finished)
+ :effect (tested ?raft_finished)
+)
+```

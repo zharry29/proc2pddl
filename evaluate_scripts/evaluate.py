@@ -148,7 +148,7 @@ class Tester:
         case_results_raw = {}
         for fname in os.listdir(pred_dir):
             if any([item in fname for item in ["actions", ".DS", "copy"]]) or not fname.startswith(args.id):
-                    # or not '114994170' in fname:
+                    # or not '114406878' in fname:
                 continue
             proc_id = fname[:-4]
             print(proc_id)

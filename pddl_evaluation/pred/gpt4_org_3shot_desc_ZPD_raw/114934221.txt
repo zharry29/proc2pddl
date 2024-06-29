@@ -1,0 +1,186 @@
+- action name: splash_swim
+- summarize action: Swim with loud sounds. You don't get to monitor the shark!
+- what is needed to do the action: The presence of water.
+- what is the result: You successfully swam and caused disturbance, possibly deterring the shark.
+
+- entities:
+  - entity name: player
+    - before: In the water, possibly near a shark.
+    - after: Has swum causing disturbance.
+  - entity name: location
+    - before: The player's location
+    - after: The player moved to another location
+
+pddl action:
+(:action splash_swim
+  :parameters (?player ?loc - location)
+  :precondition (and (is_water ?loc) (at ?player ?loc))
+  :effect (and (not (at ?player ?loc)) (at ?player ?loc')))
+
+- action name: swim
+- summarize action: Swim normally till you reach safety.
+- what is needed to do the action: The presence of water.
+- what is the result: You moved to another location / closer to safety.
+
+- entities:
+  - entity name: player
+    - before: In the water, possibly near a shark.
+    - after: Has moved to a new location/closer to safety.
+  - entity name: location
+    - before: The player's location
+    - after: The player moved to another location
+
+pddl action:
+(:action swim
+  :parameters (?player ?loc - location ?loc' - location ?dir - direction)
+  :precondition (and (is_water ?loc) (at ?player ?loc) (connected ?loc ?dir ?loc'))
+  :effect (and (not (at ?player ?loc)) (at ?player ?loc')))
+
+- action name: get
+- summarize action: Pick up an item and put it in the inventory.
+- what is needed to do the action: An item available at the player's location.
+- what is the result: The item is added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: Player doesn't have the item.
+    - after: Player has the item in the inventory.
+  - entity name: item
+    - before: Item is at the player's location.
+    - after: Item is in the player's inventory.
+
+pddl action:
+(:action get
+  :parameters (?player ?item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (inventory ?player ?item))
+
+- action name: onboard
+- summarize action: Get on to the ship.
+- what is needed to do the action: A ship at the current location.
+- what is the result: The player is on the ship.
+
+- entities:
+  - entity name: player
+    - before: Not on the ship.
+    - after: On the ship.
+  - entity name: ship
+    - before: Ship is at the player's location, player not on it.
+    - after: Player is on the ship.
+
+pddl action:
+ (:action onboard
+  :parameters (?player ?ship ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?ship ?loc))
+  :effect (on ?player ?ship))
+
+- action name: defend
+- summarize action: Defend yourself.
+- what is needed to do the action: The player is being attacked.
+- what is the result: The player is defending themselves.
+
+- entities:
+  - entity name: player
+  - before: Player is being attacked.
+  - after: Player is defending.
+
+pddl action:
+ (:action defend
+  :parameters (?player ?shark)
+  :precondition (attacked ?player ?shark)
+  :effect (defending ?player))
+- action name: spot_ship
+- summarize action: Spot ships that are nearby.
+- what is needed to do the action: The player being at a location and the ship being visible.
+- what is the result: Player recognizes the presence of the ship at a location.
+- entities:
+  - entity name: player
+        - before: Doesn't recognize ship.
+        - after: Recognizes ship.
+  - entity name: ship
+        - before: At a specific location, but not recognized by the player.
+        - after: Recognized by the player.
+
+pddl action:
+ (:action spot_ship
+  :parameters (?player ?ship)
+  :precondition (visible ?ship)
+  :effect (known (?at ?ship ?loc)))
+
+- action name: spot_shark
+- summarize action: Spot a shark nearby.
+- what is needed to do the action: The player being at a location and visibility of shark.
+- what is the result: Player acknowledges the presence of a shark.
+- entities:
+  - entity name: player
+        - before: Does not recognize a shark's presence.
+        - after: Acknowledges a shark's presence.
+  - entity name: shark
+        - before: At a specific location, but unacknowledged by the player.
+        - after: Acknowledged by the player.
+
+pddl action:
+ (:action spot_shark
+  :parameters (?player ?shark)
+  :precondition (visible ?shark)
+  :effect (known (?at ?shark ?loc)))
+
+- action name: self_mobilize
+- summarize action: Use your own body as weapons.
+- what is needed to do the action: Body parts available for defending.
+- what is the result: No specific result is mentioned.
+- entities:
+  - entity name: body
+    - before: Body is not used for defensive actions.
+    - after: Body is used for defensive actions.
+
+pddl action:
+ (:action self_mobilize
+  :parameters (?player ?part - body)
+  :precondition (connected ?player ?part)
+  :effect (and))
+
+- action name: medicare
+- summarize action: Get help from medicare, to deal with your wounds.
+- what is needed to do the action: Player has wounds, medicare can be contacted.
+- what is the result: Player's wounds are treated.
+- entities:
+  - entity name: player
+    - before: Wounded.
+    - after: Wounds treated.
+
+pddl action:
+ (:action medicare
+  :parameters (?player)
+  :precondition (wounded ?player)
+  :effect (not (wounded ?player)))
+
+- action name: attack_vulnerable
+- summarize action: Attack shark on its eyes/gill/snout.
+- what is needed to do the action:  Presence of a shark and its vulnerable parts identified.
+- what is the result: The shark is affected/disoriented.
+- entities:
+  - entity name: shark
+    - before: Not attacked.
+    - after: Attacked on vulnerable part.
+
+pddl action:
+ (:action attack_vulnerable
+  :parameters (?player ?shark ?part - part)
+  :precondition (and (at ?shark ?loc) (vulnerable ?part))
+  :effect (dizzy ?shark))
+
+- action name: knockout
+- summarize action: Attack shark on its eyes/gill/snout.
+- what is needed to do the action:  Presence of the shark, its vulnerable parts identified.
+- what is the result: The shark is affected/disoriented or flees.
+- entities:
+  - entity name: shark
+    - before: Not attacked.
+    - after: Attacked on vulnerable part, possibly flees.
+
+pddl action:
+ (:action knockout
+  :parameters (?player ?shark ?part - part)
+  :precondition (and (at ?shark ?loc) (vulnerable ?part))
+  :effect (or (dizzy ?shark) (fleed ?shark)))

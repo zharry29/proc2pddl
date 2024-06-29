@@ -1,0 +1,343 @@
+Certainly! Let's go through each action step by step, summarizing them and identifying the relevant entity states before translating them into PDDL format.
+
+---
+
+### Action: go
+- summarize action: This action allows the player to navigate from one location to an adjacent connected location.
+- what is needed to do the action: The player needs to be at a location that has an unblocked connection to an adjacent location.
+- what is the result: The player moves from the current location to the connected adjacent location.
+- entities:
+  - entity name: player
+    - before: at the initial location
+    - after: at the destination location
+  - entity name: location connection
+    - before: connected and unblocked
+    - after: connected and unblocked
+
+pddl action:
+```pddl
+(:action go
+ :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+ :precondition (and 
+                (at ?player ?loc1)
+                (connected ?loc1 ?dir ?loc2)
+                (not (blocked ?loc1 ?dir ?loc2)))
+ :effect (and 
+          (at ?player ?loc2)
+          (not (at ?player ?loc1))))
+```
+
+---
+
+### Action: get
+- summarize action: This action involves a player picking up an item and placing it in their inventory.
+- what is needed to do the action: The player needs to be at a location where the item is present.
+- what is the result: The item is now in the player's inventory.
+- entities:
+  - entity name: player
+    - before: at location with item
+    - after: at location with item in inventory
+  - entity name: item
+    - before: at a location
+    - after: in the player's inventory
+  - entity name: location
+    - before: has the item
+    - after: does not have the item
+
+pddl action:
+```pddl
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and 
+                (at ?player ?loc)
+                (at ?item ?loc))
+ :effect (and 
+          (inventory ?player ?item)
+          (not (at ?item ?loc))))
+```
+
+---
+
+### Action: pick_lock_with_card
+- summarize action: This action allows a player to pick an easy lock using a card.
+- what is needed to do the action: A player needs to have a card in their inventory and the location must have an easy lock.
+- what is the result: The easy lock on the location is picked.
+- entities:
+  - entity name: player
+    - before: inventory contains card and at location with easy lock
+    - after: inventory contains card and easy lock picked
+  - entity name: easy lock
+    - before: present at location
+    - after: picked at location
+
+pddl action:
+```pddl
+(:action pick_lock_with_card
+ :parameters (?player - player ?loc - location ?card - item)
+ :precondition (and 
+                (has_easy_lock ?loc)
+                (inventory ?player ?card)
+                (at ?player ?loc))
+ :effect (not (has_easy_lock ?loc)))
+```
+
+---
+
+### Action: file_key_into_wrench
+- summarize action: This action involves a player filing a key into a wrench.
+- what is needed to do the action: The player needs to have an allen key in their inventory.
+- what is the result: The allen key is transformed into a wrench.
+- entities:
+  - entity name: player
+    - before: inventory contains allen key
+    - after: inventory contains wrench
+  - entity name: allen key
+    - before: in the inventory
+    - after: not in the inventory
+  - entity name: wrench
+    - before: not in the inventory
+    - after: in the inventory
+
+pddl action:
+```pddl
+(:action file_key_into_wrench
+ :parameters (?player - player ?allen_key - item ?wrench - item)
+ :precondition (inventory ?player ?allen_key)
+ :effect (and 
+          (inventory ?player ?wrench)
+          (not (inventory ?player ?allen_key))))
+```
+
+---
+
+### Action: bend_paperclip_into_pick
+- summarize action: The player bends a paperclip into a pick.
+- what is needed to do the action: The player needs to have a paperclip in their inventory.
+- what is the result: The paperclip is transformed into a pick.
+- entities:
+  - entity name: player
+    - before: inventory contains paperclip
+    - after: inventory contains pick
+  - entity name: paperclip
+    - before: in the inventory
+    - after: not in the inventory
+  - entity name: pick
+    - before: not in the inventory
+    - after: in the inventory
+
+pddl action:
+```pddl
+(:action bend_paperclip_into_pick
+ :parameters (?player - player ?paperclip - item ?pick - item)
+ :precondition (inventory ?player ?paperclip)
+ :effect (and 
+          (inventory ?player ?pick)
+          (not (inventory ?player ?paperclip))))
+```
+
+---
+
+### Action: insert_wrench
+- summarize action: The player inserts a wrench into a lock.
+- what is needed to do the action: The player needs to be at a location with a lock and have a wrench in their inventory.
+- what is the result: The wrench is inserted into the lock.
+- entities:
+  - entity name: player
+    - before: at location with lock and wrench in inventory
+    - after: at location with wrench in lock
+  - entity name: wrench
+    - before: in the inventory
+    - after: in the lock
+
+pddl action:
+```pddl
+(:action insert_wrench
+ :parameters (?player - player ?loc - location ?wrench - item)
+ :precondition (and 
+                (at ?player ?loc)
+                (inventory ?player ?wrench))
+ :effect (and 
+          (wrench_in_lock ?loc)
+          (not (inventory ?player ?wrench))))
+```
+
+---
+
+### Action: insert_pick
+- summarize action: The player inserts a pick into a lock.
+- what is needed to do the action: The player needs to be at a location with a lock and have a pick in their inventory.
+- what is the result: The pick is inserted into the lock.
+- entities:
+  - entity name: player
+    - before: at location with lock and pick in inventory
+    - after: at location with pick in lock
+  - entity name: pick
+    - before: in the inventory
+    - after: in the lock
+
+pddl action:
+```pddl
+(:action insert_pick
+ :parameters (?player - player ?loc - location ?pick - item)
+ :precondition (and 
+                (at ?player ?loc)
+                (inventory ?player ?pick))
+ :effect (and 
+          (pick_in_lock ?loc)
+          (not (inventory ?player ?pick))))
+```
+
+---
+
+### Action: push_pins_out_of_tumblers
+- summarize action: The player picks a lock by pushing the pins out of the tumblers using a wrench and a pick.
+- what is needed to do the action: The player needs to have a wrench and pick both inserted into the lock at the location.
+- what is the result: The lock is picked.
+- entities:
+  - entity name: wrench
+    - before: inserted in lock
+    - after: still inserted
+  - entity name: pick
+    - before: inserted in lock
+    - after: still inserted
+  - entity name: lock
+    - before: not picked
+    - after: picked
+
+pddl action:
+```pddl
+(:action push_pins_out_of_tumblers
+ :parameters (?player - player ?loc - location)
+ :precondition (and 
+                (wrench_in_lock ?loc)
+                (pick_in_lock ?loc)
+                (at ?player ?loc))
+ :effect (not (has_hard_lock ?loc)))
+```
+
+---
+
+### Action: straighten_coathanger
+- summarize action: The player straightens a coathanger.
+- what is needed to do the action: The player needs to have a bent coathanger in their inventory.
+- what is the result: The coathanger is straightened.
+- entities:
+  - entity name: player
+    - before: inventory contains bent coathanger
+    - after: inventory contains straight coathanger
+  - entity name: bent coathanger
+    - before: in the inventory
+    - after: not in the inventory
+  - entity name: straight coathanger
+    - before: not in the inventory
+    - after: in the inventory
+
+pddl action:
+```pddl
+(:action straighten_coathanger
+ :parameters (?player - player ?bent_coathanger - item ?straight_coathanger - item)
+ :precondition (inventory ?player ?bent_coathanger)
+ :effect (and 
+          (inventory ?player ?straight_coathanger)
+          (not (inventory ?player ?bent_coathanger))))
+```
+
+---
+
+### Action: lift_weatherstripping
+- summarize action: The player lifts the weatherstripping from a location.
+- what is needed to do the action: The player needs to be at the location with weatherstripping.
+- what is the result: The weatherstripping is lifted.
+- entities:
+  - entity name: weatherstripping
+    - before: present
+    - after: removed
+
+pddl action:
+```pddl
+(:action lift_weatherstripping
+ :parameters (?player - player ?loc - location)
+ :precondition (and 
+                (at ?player ?loc)
+                (not (weatherstripping_removed ?loc)))
+ :effect (weatherstripping_removed ?loc))
+```
+
+---
+
+### Action: insert_hanger
+- summarize action: The player inserts a straightened coathanger into the lock.
+- what is needed to do the action: The player needs to have a straightened coathanger in their inventory.
+- what is the result: The straightened coathanger is inserted.
+- entities:
+  - entity name: player
+    - before: inventory contains straightened coathanger
+    - after: straightened coathanger inserted
+  - entity name: straightened coathanger
+    - before: in the inventory
+    - after: inserted
+
+pddl action:
+```pddl
+(:action insert_hanger
+ :parameters (?player - player ?loc - location ?hanger - item)
+ :precondition (and 
+                (at ?player ?loc)
+                (inventory ?player ?hanger))
+ :effect (and 
+          (coathanger_inserted ?loc)
+          (not (inventory ?player ?hanger))))
+```
+
+---
+
+### Action: hook_latch
+- summarize action: The player hooks the latch with the inserted coathanger.
+- what is needed to do the action: The player needs to be at a location where the coathanger is inserted.
+- what is the result: The latch is hooked.
+- entities:
+  - entity name: coathanger
+    - before: inserted
+    - after: still inserted
+  - entity name: latch
+    - before: not hooked
+    - after: hooked
+
+pddl action:
+```pddl
+(:action hook_latch
+ :parameters (?player - player ?loc - location)
+ :precondition (and 
+                (coathanger_inserted ?loc)
+                (at ?player ?loc))
+ :effect (latch_hooked ?loc))
+```
+
+---
+
+### Action: pull_coathanger
+- summarize action: The player pulls the coathanger to unlock a car.
+- what is needed to do the action: The player needs to be at the location with a hooked latch.
+- what is the result: The car is unlocked.
+- entities:
+  - entity name: coathanger
+    - before: hooked on latch
+    - after: still hooked
+  - entity name: car
+    - before: locked
+    - after: unlocked
+
+pddl action:
+```pddl
+(:action pull_coathanger
+ :parameters (?player - player ?loc - location)
+ :precondition (and 
+                (latch_hooked ?loc)
+                (locked_car ?loc)
+                (at ?player ?loc))
+ :effect (not (locked_car ?loc)))
+```
+
+---
+
+These steps should comprehensively address each of the actions provided and translate them into the correct PDDL format with all necessary parameters, preconditions, and effects.

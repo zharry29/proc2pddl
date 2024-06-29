@@ -1,3 +1,4 @@
-find_shelter ('old_man', 'brickhouse')
-loot_shelter ('old_man', 'food', 'brickhouse')
-barter_food_for_healing ('old_man', 'food')
+go ('npc', 'north', 'parkinglot', 'park')
+go ('npc', 'east', 'park', 'store')
+get ('npc', 'bandage', 'store')
+clean_others_wound ('npc', 'old_man', 'bandage')

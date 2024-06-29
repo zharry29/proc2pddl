@@ -1,1 +1,4 @@
-No solution
+go ('npc', 'camp', 'path', 'west')
+go ('npc', 'path', 'grassland', 'north')
+go ('npc', 'grassland', 'bush', 'north')
+break_branch ('npc', 'branch', 'bush')

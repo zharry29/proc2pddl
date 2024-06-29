@@ -1,0 +1,262 @@
+Sure! Below, I have translated each action based on your task requirements.
+
+### Action 1: go
+- action name: go
+- summarize action: This action allows the player to navigate to an adjacent location if the path between the locations is not blocked.
+- what is needed to do the action: A connection between the current location and an adjacent location in a specific direction that is not blocked.
+- what is the result: The player moves from the current location to the adjacent location.
+
+- entities:
+  - entity name: player
+    - before: at the current location
+    - after: at the adjacent location
+  - entity name: current location
+    - before: contains player
+    - after: does not contain player
+  - entity name: adjacent location
+    - before: does not contain player
+    - after: contains player
+
+pddl action:
+```lisp
+(:action go
+  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+```
+
+### Action 2: get_bag
+- action name: get_bag
+- summarize action: This action involves the player obtaining a bag from a store that sells bags.
+- what is needed to do the action: The player should be at a location that sells bags.
+- what is the result: The player acquires a bag and it is added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: doesn't have the bag in inventory
+    - after: has the bag in inventory
+  - entity name: bag
+    - before: at the store
+    - after: in the player's inventory
+
+pddl action:
+```lisp
+(:action get_bag
+  :parameters (?player - player ?bag - bag ?loc - location)
+  :precondition (and (at ?player ?loc) (sells_bags ?loc) (not (inventory ?player ?bag)))
+  :effect (inventory ?player ?bag)
+)
+```
+
+### Action 3: get_stationery
+- action name: get_stationery
+- summarize action: This action involves the player obtaining stationery items from a store that sells stationery.
+- what is needed to do the action: The player should be at a location that sells stationery.
+- what is the result: The player acquires stationery items like pens and notebooks which are added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: doesn't have stationery in inventory
+    - after: has stationery in inventory
+  - entity name: pen
+    - before: at the store
+    - after: in the player's inventory
+  - entity name: notebook
+    - before: at the store
+    - after: in the player's inventory
+
+pddl action:
+```lisp
+(:action get_stationery
+  :parameters (?player - player ?pen - pen ?notebook - notebook ?loc - location)
+  :precondition (and (at ?player ?loc) (sells_stationery ?loc) (not (inventory ?player ?pen)) (not (inventory ?player ?notebook)))
+  :effect (and (inventory ?player ?pen) (inventory ?player ?notebook))
+)
+```
+
+### Action 4: get_costume
+- action name: get_costume
+- summarize action: This action involves the player obtaining a costume from a store that sells costumes.
+- what is needed to do the action: The player should be at a location that sells costumes.
+- what is the result: The player acquires a costume and it is added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: doesn't have the costume in inventory
+    - after: has the costume in inventory
+  - entity name: costume
+    - before: at the store
+    - after: in the player's inventory
+
+pddl action:
+```lisp
+(:action get_costume
+  :parameters (?player - player ?costume - costume ?loc - location)
+  :precondition (and (at ?player ?loc) (sells_costume ?loc) (not (inventory ?player ?costume)))
+  :effect (inventory ?player ?costume)
+)
+```
+
+### Action 5: wear_detective_gear
+- action name: wear_detective_gear
+- summarize action: This action involves the player wearing a uniform to get ready for the detective job.
+- what is needed to do the action: The player must have the costume in their inventory.
+- what is the result: The player wears the costume.
+
+- entities:
+  - entity name: player
+    - before: does not wear the costume
+    - after: wears the costume
+  - entity name: costume
+    - before: in the player's inventory
+    - after: being worn by the player
+
+pddl action:
+```lisp
+(:action wear_detective_gear
+  :parameters (?player - player ?costume - costume)
+  :precondition (and (inventory ?player ?costume) (not (wear ?player ?costume)))
+  :effect (wear ?player ?costume)
+)
+```
+
+### Action 6: find_supplies_for_disguise
+- action name: find_supplies_for_disguise
+- summarize action: This action involves the player finding supplies for a disguise to use in an undercover mission.
+- what is needed to do the action: The player should be at a location where disguise supplies are available.
+- what is the result: The player acquires disguise supplies which are added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: doesn't have disguise supplies in inventory
+    - after: has disguise supplies in inventory
+  - entity name: disguise supplies
+    - before: at a specific location
+    - after: in the player's inventory
+
+pddl action:
+```lisp
+(:action find_supplies_for_disguise
+  :parameters (?player - player ?disguise - disguise ?loc - location)
+  :precondition (and (at ?player ?loc) (not (inventory ?player ?disguise)))
+  :effect (inventory ?player ?disguise)
+)
+```
+
+### Action 7: wear_disguise
+- action name: wear_disguise
+- summarize action: This action involves the player wearing a disguise to prepare for an undercover mission.
+- what is needed to do the action: The player must have the disguise in their inventory.
+- what is the result: The player wears the disguise.
+
+- entities:
+  - entity name: player
+    - before: does not wear the disguise
+    - after: wears the disguise
+  - entity name: disguise
+    - before: in the player's inventory
+    - after: being worn by the player
+
+pddl action:
+```lisp
+(:action wear_disguise
+  :parameters (?player - player ?disguise - disguise)
+  :precondition (and (inventory ?player ?disguise) (not (wear ?player ?disguise)))
+  :effect (wear ?player ?disguise)
+)
+```
+
+### Action 8: make_badge
+- action name: make_badge
+- summarize action: This action involves the player creating a detective badge.
+- what is needed to do the action: The player must have the necessary materials, such as foil and cardboard.
+- what is the result: The player creates a badge, which is added to their inventory.
+
+- entities:
+  - entity name: player
+    - before: doesn't have a badge in inventory
+    - after: has a badge in inventory
+  - entity name: badge materials (foil and cardboard)
+    - before: in the player's inventory
+    - after: transformed into a badge
+
+pddl action:
+```lisp
+(:action make_badge
+  :parameters (?player - player ?foil - aluminium_foil ?cardboard - cardboard ?badge - badge)
+  :precondition (and (inventory ?player ?foil) (inventory ?player ?cardboard) (not (inventory ?player ?badge)))
+  :effect (and (inventory ?player ?badge) (not (inventory ?player ?foil)) (not (inventory ?player ?cardboard)))
+)
+```
+
+### Action 9: prepare_detective_notebook
+- action name: prepare_detective_notebook
+- summarize action: This action involves the player converting a regular notebook into a detective notebook.
+- what is needed to do the action: The player must have a notebook in their inventory.
+- what is the result: The player creates a detective notebook, which is added to their inventory.
+
+- entities:
+  - entity name: player
+    - before: has a regular notebook in inventory
+    - after: has a detective notebook in inventory
+  - entity name: notebook
+    - before: in the player's inventory
+    - after: transformed into a detective notebook
+
+pddl action:
+```lisp
+(:action prepare_detective_notebook
+  :parameters (?player - player ?notebook - notebook ?detective_notebook - detective_notebook)
+  :precondition (and (inventory ?player ?notebook) (not (inventory ?player ?detective_notebook)))
+  :effect (and (inventory ?player ?detective_notebook) (not (inventory ?player ?notebook)))
+)
+```
+
+### Action 10: get_walkie_talkies
+- action name: get_walkie_talkies
+- summarize action: This action involves the player obtaining walkie-talkies from a store that sells electronics.
+- what is needed to do the action: The player should be at a location that sells electronics.
+- what is the result: The player acquires walkie-talkies and they are added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: doesn't have walkie-talkies in inventory
+    - after: has walkie-talkies in inventory
+  - entity name: walkie-talkies
+    - before: at the store
+    - after: in the player's inventory
+
+pddl action:
+```lisp
+(:action get_walkie_talkies
+  :parameters (?player - player ?walkie_talkies - walkie_talkies ?loc - location)
+  :precondition (and (at ?player ?loc) (sells_electronics ?loc) (not (inventory ?player ?walkie_talkies)))
+  :effect (inventory ?player ?walkie_talkies)
+)
+```
+
+### Action 11: prepare_detective_kit
+- action name: prepare_detective_kit
+- summarize action: This action involves the player putting all necessary items into a detective kit.
+- what is needed to do the action: The player must have all necessary detective items (e.g., bag, badge, notebook, walkie-talkies).
+- what is the result: All the items are placed into the detective kit, and the kit is ready for use.
+
+- entities:
+  - entity name: player
+    - before: has all detective items separately in inventory
+    - after: has a prepared detective kit in inventory
+  - entity name: detective kit
+    - before: not prepared
+    - after: contains all necessary items
+
+pddl action:
+```lisp
+(:action prepare_detective_kit
+  :parameters (?player - player ?bag - bag ?badge - badge ?detective_notebook - detective_notebook ?walkie_talkies - walkie_talkies ?kit - detective_kit)
+  :precondition (and (inventory ?player ?bag) (inventory ?player ?badge) (inventory ?player ?detective_notebook) (inventory ?player ?walkie_talkies) (not (inventory ?player ?kit)))
+  :effect (inventory ?player ?kit)
+)
+```
+
+I hope this meets your requirements!

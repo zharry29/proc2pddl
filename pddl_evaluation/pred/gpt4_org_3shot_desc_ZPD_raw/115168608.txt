@@ -1,0 +1,54 @@
+Then we can define the following actions in the Problem Domain Description Language (PDDL):
+
+For the action of `get`:
+
+- action name: get
+- summarize action: This action involves the player picking up an item and putting it in their inventory.
+- what is needed to do the action: A player and an item that exists in the location they're currently at.
+- what's the result: The item is moved from the location to the player's inventory.
+- entities:
+  - entity name: player
+    - before: not possessing the item
+    - after: possesses the item
+  - entity name: item
+    - before: located at a location
+    - after: located in player's inventory
+
+pddl action:
+```pddl
+(:action get
+  :parameters (?player - player ?item - item ?location - location)
+  :precondition (and (at ?item ?location) (not (not_gettable ?item)))
+  :effect (and (inventory ?player ?item) (not (at ?item ?location)))
+)
+```
+
+...
+
+Moving to `cut_sheet` action:
+
+- action name: cut_sheet
+- summarize action: This action includes cutting the finished papyrus sheet to size.
+- what is needed to do the action: A player, a knife, and finished papyrus strips.
+- what is the result: The papyrus is created from the finished papyrus strips.
+- entities:
+  - entity name: player
+    - before: possessing knife and finished strips
+    - after: possessing knife and papyrus
+  - entity name: finished strips
+    - before: present in player's inventory
+    - after: absent in player's inventory
+  - entity name: papyrus
+    - before: not present in player's inventory
+    - after: present in player's inventory
+
+pddl action:
+```pddl
+(:action cut_sheet
+  :parameters (?player - player ?knife - knife ?finished_strips - finished_strips ?papyrus - papyrus)
+  :precondition (and (inventory ?player ?knife) (inventory ?player ?finished_strips))
+  :effect (and (inventory ?player ?papyrus) (not (inventory ?player ?finished_strips)))
+)
+```
+
+Please note that if you have additional predicates which reflect the different states of items (e.g., `(cuttable ?item)`), they would need to be reflected in the preconditions of the corresponding actions (e.g., the `cut_papyrus` action could require `(cuttable ?papyrus)`).

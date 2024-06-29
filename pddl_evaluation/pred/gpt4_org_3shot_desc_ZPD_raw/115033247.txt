@@ -1,0 +1,200 @@
+- action name: go
+- summarize action: This action involves the player moving from their current location to an adjacent location.
+- what is needed to do the action: The player, a connected location, and a direction to the new location.
+- what is the result: The player is at the new location.
+
+- entities:
+    - entity name: player
+        - before: at current location
+        - after: at target location 
+
+pddl action:
+(:action go
+ :parameters (?player - player ?from - location ?dir - direction ?to - location)
+ :precondition (and
+                (at ?player ?from)
+                (connected ?from ?dir ?to))
+ :effect (and
+          (not (at ?player ?from))
+          (at ?player ?to))
+)
+
+- action name: get
+- summarize action: This action involves the player picking up an item and putting it in their inventory.
+- what is needed to do the action: The player, the item, and the item being at the player's location.
+- what is the result: The item is in the player's inventory and is no longer in the location.
+
+- entities:
+    - entity name: player
+        - unchanged
+    - entity name: item
+        - before: at location
+        - after: in player inventory
+
+pddl action:
+(:action get
+ :parameters (?player - player ?item - item)
+ :precondition (at ?item ?loc) (at ?player ?loc)
+ :effect (and
+          (not (at ?item ?loc))
+          (inventory ?player ?item))
+)
+
+- action name: cut_stalks
+- summarize action: This action involves the player using a tool (a pruner) to cut the papyrus stalks from a papyrus tree.
+- what is needed to do the action: The player, papyrus tree, and pruner. The pruner should be in the player's inventory and the player should be at the same location as the papyrus tree.
+- what is the result: Papyrus Stalks are at the player's location
+
+- entities:
+    - entity name: player
+        - unchanged
+    - entity name: papyrus tree
+        - unchanged
+    - entity name: pruner
+        - before: in player inventory
+        - after: in player inventory
+    - entity name: papyrus stalks
+        - added at the player's location
+
+pddl action:
+(:action cut_stalks
+ :parameters (?player - player ?tree - papyrus_tree ?stalks - papyrus_stalks ?pruner - pruner ?loc - location)
+ :precondition (and
+                (at ?player ?loc)
+                (at ?tree ?loc)
+                (inventory ?player ?pruner)
+                )
+ :effect (at ?stalks ?loc)
+)
+
+I have added and defined all the actions you mentioned except for `pour_water`, `place_strips_between_boards`, `papyrus_strips`, `polish_papyrus`, `flatten_papyrus` and `cut_papyrus` as they require more detailed information. Please provide a brief description of these actions (including entities involved, their initial and final states, and the purpose of each action) to assist in defining them in PDDL.
+- action name: pour_water
+- summarize action: This action involves the player pouring water into a bowl.
+- what is needed to do the action: The player, a bowl, and water. The water and bowl should be in the player's inventory.
+- what is the result: Bowl of water is in player's inventory.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: water
+    - before: in player inventory
+    - after: in bowl
+  - entity name: bowl
+    - before: in player inventory
+    - after: filled with water in player inventory
+
+pddl action:
+(:action pour_water
+ :parameters (?player - player ?water - water ?bowl - bowl)
+ :precondition (and
+                (inventory ?player ?water)
+                (inventory ?player ?bowl))
+ :effect (and
+          (not (inventory ?player ?water))
+          (inventory ?player bowl_of_water))
+)
+
+- action name: place_strips_between_boards
+- summarize action: This action involves the player placing papyrus strips between two wooden boards.
+- what is needed to do the action: The player, papyrus strips, and wooden boards. The papyrus strips should be in the player's inventory.
+- what is the result: The papyrus strips are between the wooden boards.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: papyrus_strips
+    - before: in player inventory
+    - after: between wooden boards
+  - entity name: wooden_boards
+    - before: empty
+    - after: containing papyrus strips
+
+pddl action:
+(:action place_strips_between_boards
+ :parameters (?player - player ?strips - papyrus_strips ?boards - wooden_boards)
+ :precondition (inventory ?player ?strips)
+ :effect (and
+          (not (inventory ?player ?strips))
+          (strips_between_boards))
+)
+
+- action name: polish_papyrus
+- summarize action: This action involves the player polishing the papyrus using a smooth stone.
+- what is needed to do the action: The player, papyrus, and a smooth stone. The papyrus and smooth stone should be in the player's inventory.
+- what is the result: The papyrus is polished.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: papyrus
+    - before: unpolished in player inventory
+    - after: polished in player inventory
+  - entity name: smooth_stone
+    - before: in player inventory
+    - after: in player inventory
+
+pddl action:
+(:action polish_papyrus
+ :parameters (?player - player ?papyrus - papyrus ?stone - smooth_stone)
+ :precondition (and
+                (inventory ?player ?papyrus)
+                (inventory ?player ?stone))
+ :effect (and
+          (not (unpolished ?papyrus))
+          (polished ?papyrus))
+)
+
+I'll write the PDDL of the last two remaining actions (`flatten_papyrus` and `cut_papyrus`) in the next response.
+- action name: flatten_papyrus
+- summarize action: This action involves the player using a roller to make the papyrus flat.
+- what is needed to do the action: The player, papyrus, and a roller. The papyrus and roller should be in the player's inventory.
+- what is the result: The papyrus is flat.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: papyrus
+    - before: unflattened in player inventory
+    - after: flattened in player inventory
+  - entity name: roller
+    - before: in player inventory
+    - after: in player inventory
+
+pddl action:
+(:action flatten_papyrus
+ :parameters (?player - player ?papyrus - papyrus ?roller - roller)
+ :precondition (and
+                (inventory ?player ?papyrus)
+                (inventory ?player ?roller))
+ :effect (and
+          (not (unflattened ?papyrus))
+          (flattened ?papyrus))
+)
+
+- action name: cut_papyrus
+- summarize action: This action involves the player using scissors to cut the papyrus.
+- what is needed to do the action: The player, papyrus, and scissors. The papyrus and scissors should be in the player's inventory.
+- what is the result: The papyrus is cut.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: papyrus
+    - before: uncut in player inventory
+    - after: cut in player inventory
+  - entity name: scissors
+    - before: in player inventory
+    - after: in player inventory
+
+pddl action:
+(:action cut_papyrus
+ :parameters (?player - player ?papyrus - papyrus ?scissors - scissors)
+ :precondition (and
+                (inventory ?player ?papyrus)
+                (inventory ?player ?scissors))
+ :effect (and
+          (not (uncut ?papyrus))
+          (cut ?papyrus))
+)
+
+This completes the translation of your specific actions to PDDL! If you have more actions to translate or any other aspect of your game to work on, feel free to ask!

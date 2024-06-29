@@ -1,0 +1,343 @@
+- action name: go
+- summarize action: This action describes the player moving from one location to another in a certain direction.
+- what is needed to do the action: The player must be at a certain location, and the next location must be connected to the current location. The connection should not be blocked.
+- what is the result: The player moves from one location to another.
+
+- entities:
+  - entity name: location
+    - before: The player is at this location.
+    - after: The player has moved to the other location.
+  - entity name: direction
+    - before: The direction to the next location.
+    - after: Not changed.
+  - entity name: player
+    - before: The player's current location.
+    - after: The player moved to the next location.
+
+pddl action:
+(:action go
+  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+Note: For each action, there would be a similar process to go through for determining the effect and changes in the state of entities before and after the action. For the sake of brevity, only one action template has been given above, but following the same pattern, one can translate every action in your model into PDDL format.									 
+Sure, let's continue.
+
+- action name: get
+- summarize action: This action depicts the player picking up an item from a location and putting it into their inventory.
+- what is needed to do the action: The item needs to be at the same location where the player is.
+- what is the result: The item is moved from the location into the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: The player is at a location without the item in their inventory.
+    - after: The player has the item in their inventory.
+  - entity name: item
+    - before: The item is at the location.
+    - after: The item is in the player's inventory.
+  - entity name: location
+    - before: The item is at this location.
+    - after: The item is no longer at this location.
+
+pddl action:
+(:action get
+  :parameters (?player - player ?item - item ?location - location)
+  :precondition (and (at ?player ?location) (at ?item ?location))
+  :effect (and (inventory ?player ?item) (not (at ?item ?location)))
+)
+
+- action name: drop
+- summarize action: This action represents the player dropping an item from their inventory onto their current location.
+- what is needed to do the action: The player needs to have the item in their inventory.
+- what is the result: The item is no longer in the player's inventory, and is now at their current location.
+
+- entities:
+  - entity name: player
+    - before: The player has the item in their inventory.
+    - after: The player no longer has the item in their inventory.
+  - entity name: item
+    - before: The item is in the player's inventory.
+    - after: The item is at the player's current location.
+  - entity name: location
+    - before: The item is not at this location.
+    - after: The item is at this location.
+
+pddl action:
+(:action drop
+  :parameters (?player - player ?item - item ?location - location)
+  :precondition (and (at ?player ?location) (inventory ?player ?item))
+  :effect (and (not (inventory ?player ?item)) (at ?item ?location))
+)
+- action name: collect_water
+- summarize action: This action represents the player collecting water in a suitable container in a location that has a water source.
+- what is needed to do the action: The player needs to have a container in their inventory and be at a location that has water.
+- what is the result: Water is inside the container in the player's inventory.
+
+- entities:
+    - entity name: player
+        - before: The player is in a location with water and has a container.
+        - after: The player has a container with water.
+    - entity name: container
+        - before: Container is empty in the inventory.
+        - after: Container is filled with water.
+    - entity name: location
+        - before: The location has water.
+        - after: Not changed.
+ 
+pddl action:
+(:action collect_water
+  :parameters (?player - player ?container - container ?location - location)
+  :precondition (and (at ?player ?location) (has_water ?location) (inventory ?player ?container))
+  :effect (inventory ?player (filled ?container)))
+ 
+- action name: filter_water
+- summarize action: This action shows the player filtering water to remove impurities.
+- what is needed to do the action: The player needs to have water in their inventory.
+- what is the result: The water is filtered in the player's inventory.
+
+- entities:
+    - entity name: water
+        - before: The water in the container is unfiltered.
+        - after: The water in the container is filtered.
+    - entity name: player
+        - before: The player has unfiltered water.
+        - after: The player has filtered water.
+
+pddl action:
+(:action filter_water
+  :parameters (?player - player ?water - water)
+  :precondition (and (inventory ?player ?water) (not (filtered ?water)))
+  :effect (filtered ?water)) 
+
+Please note that these are just examples and may need to be adjusted depending on your specific game mechanics and requirements. More predicates may be needed to better represent the game state, etc.
+- action name: boil_water
+- summarize action: This action is about the player boiling filtered water to kill any bacteria.
+- what is needed to do the action: The player needs to be at a location with fire and have filtered water in their inventory.
+- what is the result: The water becomes boiled (Safe to drink).
+
+- entities:
+  - entity name: player
+    - before: The player is at a location with fire and has filtered water.
+    - after: The player has boiled water.
+  - entity name: water
+    - before: The water is filtered.
+    - after: The water is boiled.
+  - entity name: location
+    - before: The location has fire.
+    - after: Not changed.
+
+pddl action:
+
+(:action boil_water
+  :parameters (?player - player ?water - water ?location - location)
+  :precondition (and (at ?player ?location) (has_fire ?location) (filtered ?water) (inventory ?player ?water))
+  :effect (and (not (filtered ?water)) (boiled ?water)))
+
+- action name: drink_water
+- summarize action: This action represents the player drinking boiled water to quench their thirst.
+- what is needed to do the action: The player should have boiled water in their inventory and be thirsty.
+- what is the result: The player is no longer thirsty, and the water is no longer in the inventory.
+
+- entities:
+  - entity name: player
+    - before: The player is thirsty and has boiled water in their inventory.
+    - after: The player is not thirsty.
+  - entity name: water
+    - before: The water is boiled and in the player's inventory.
+    - after: The water is no longer in the player's inventory.
+  
+pddl action:
+
+(:action drink_water
+  :parameters (?player - player ?water - water)
+  :precondition (and (thirsty ?player) (boiled ?water) (inventory ?player ?water))
+  :effect (and (not (thirsty ?player)) (not (inventory ?player ?water))))
+  
+Be sure to adjust these examples as per your specific game requirements and mechanics.
+- action name: get_wood
+- summarize action: This action represents the player collecting wood from a location that has trees.
+- what is needed to do the action: The player needs to be at a location that has trees.
+- what is the result: The player has wood in their inventory.
+
+- entities:
+  - entity name: player
+    - before: The player is at a location with trees but doesn't have wood in their inventory.
+    - after: The player has wood in their inventory.
+  - entity name: location
+    - before: The location has trees.
+    - after: Not changed, assuming trees are not depleted.
+  - entity name: wood
+    - before: Wood is at the location.
+    - after: Wood is in the player's inventory.
+
+pddl action:
+
+(:action get_wood
+  :parameters (?player - player ?location - location ?wood - wood)
+  :precondition (and (at ?player ?location) (has_tree ?location))
+  :effect (and (inventory ?player ?wood)))
+
+- action name: make_drill
+- summarize action: This action outlines the player making a drill using wood to create fire.
+- what is needed to do the action: The player needs to have wood in their inventory.
+- what is the result: The player has a drill in their inventory.
+
+- entities:
+  - entity name: player
+    - before: The player has wood in their inventory.
+    - after: The player has a drill in their inventory.
+  - entity name: wood
+    - before: Wood is in the player's inventory.
+    - after: Wood is not in the player's inventory.
+  - entity name: drill
+    - before: Drill is not present.
+    - after: Drill is in the player's inventory.
+
+pddl action:
+
+(:action make_drill
+  :parameters (?player - player ?wood - wood ?drill - drill)
+  :precondition (and (inventory ?player ?wood))
+  :effect (and (not (inventory ?player ?wood)) (inventory ?player ?drill)))
+
+Note: These examples might need adjustment according to your specific game mechanics and requirements.
+- action name: make_fire
+- summarize action: In this action, the player fires up a location using a drill made from wood.
+- what is needed to do the action: The player must have a drill in their inventory and be at the location where fire needs to be made.
+- what is the result: The location now has fire.
+
+- entities:
+  - entity name: player
+    - before: The player is at the location and has a drill in their inventory.
+    - after: Not changed.
+  - entity name: drill
+    - before: The drill is in the player's inventory.
+    - after: Not changed, assuming the drill can be reused.
+  - entity name: location
+    - before: The location does not have a fire.
+    - after: The location has a fire.
+
+pddl action:
+
+(:action make_fire
+  :parameters (?player - player ?drill - drill ?location - location)
+  :precondition (and (at ?player ?location) (inventory ?player ?drill))
+  :effect (has_fire ?location))
+
+- action name: make_spear
+- summarize action: This action involves the player making a spear using wood to catch fish or defend against predators.
+- what is needed to do the action: The player must have wood in their inventory.
+- what is the result: The player now has a spear in their inventory.
+
+- entities:
+  - entity name: player
+    - before: The player has wood in their inventory.
+    - after: The player has a spear in their inventory.
+  - entity name: wood
+    - before: Wood is in the player's inventory.
+    - after: Wood is no longer in the player's inventory.
+  - entity name: spear
+    - before: The spear is not present.
+    - after: The spear is in the player's inventory.
+
+pddl action:
+
+(:action make_spear
+  :parameters (?player - player ?wood - wood ?spear - spear)
+  :precondition (inventory ?player ?wood)
+  :effect (and (not (inventory ?player ?wood)) (inventory ?player ?spear)))
+  
+Remember to modify these actions according to the specific tasks in your game, as these are just examples.
+- action name: catch_fish
+- summarize action: This action depicts the player catching a fish using a spear at a location that has fish.
+- what is needed to do the action: The player needs to have a spear in their inventory and be at a location that has fish.
+- what is the result: The player has a fish in their inventory.
+
+- entities:
+  - entity name: player
+    - before: The player is at a location with fish and has a spear 
+    - after: The player has a fish in their inventory.
+  - entity name: spear
+    - before: The spear is in the player's inventory.
+    - after: Not changed assuming spear is reusable.
+  - entity name: location
+    - before: The location has fish.
+    - after: Not changed assuming fish are not all caught.
+  - entity name: fish
+    - before: Fish is in the location.
+    - after: Fish is in the player's inventory.
+
+pddl action:
+
+(:action catch_fish
+  :parameters (?player - player ?spear - spear ?location - location ?fish - fish)
+  :precondition (and (at ?player ?location) (has_fish ?location) (inventory ?player ?spear))
+  :effect (and (inventory ?player ?fish)))
+
+- action name: cook_fish
+- summarize action: This action represents the player cooking a fish by using fire.
+- what is needed to do the action: The player needs to be at a location with fire and have a fish in their inventory.
+- what is the result: The player has a cooked fish in their inventory.
+
+- entities:
+  - entity name: player
+    - before: The player is at a location with fire and has a fish.
+    - after: The player has a cooked fish.
+  - entity name: fish
+    - before: The fish is in the player's inventory and is raw.
+    - after: The fish in the player's inventory is cooked.
+  - entity name: location
+    - before: The location has fire.
+    - after: Not changed.
+
+pddl action:
+
+(:action cook_fish
+  :parameters (?player - player ?fish - fish ?location - location)
+  :precondition (and (at ?player ?location) (has_fire ?location) (inventory ?player ?fish) (not (cooked ?fish)))
+  :effect (and (not (inventory ?player ?fish)) (inventory ?player (cooked ?fish))))
+  
+Again, adjust these examples as per your specific game requirements and mechanics.
+- action name: eat_fish
+- summarize action: This action represents the player eating cooked fish to satisfy their hunger.
+- what is needed to do the action: The player should have cooked fish in their inventory and feel hungry.
+- what is the result: The player is no longer hungry, and the cooked fish is no longer in the inventory.
+
+- entities:
+  - entity name: player
+    - before: The player is hungry and has cooked fish in their inventory.
+    - after: The player isn't hungry.
+  - entity name: fish
+    - before: Cooked fish is in the player's inventory.
+    - after: Cooked fish is no longer in the player's inventory.
+
+pddl action:
+(:action eat_fish
+ :parameters (?player - player ?fish - fish)
+ :precondition (and (hungry ?player) (cooked ?fish) (inventory ?player ?fish))
+ :effect (and (not (hungry ?player)) (not (inventory ?player ?fish))))
+
+- action name: get_foliage
+- summarize action: This action pertains to the player retrieving foliage from a location containing trees.
+- what is needed to do the action: The player must be located in an area with trees.
+- what is the result: The player has foliage in their inventory.
+
+- entities:
+  - entity name: player
+    - before: The player is at a location with trees but doesn't have foliage in their inventory.
+    - after: Player has foliage in their inventory.
+  - entity name: location
+    - before: The location has trees.
+    - after: Not changed, assuming trees aren't depleted.
+  - entity name: foliage
+    - before: Foliage is at the location.
+    - after: Foliage is in the player's inventory.
+
+pddl action:
+(:action get_foliage
+ :parameters (?player - player ?location - location ?foliage - foliage)
+ :precondition (and (at ?player ?location) (has_tree ?location))
+ :effect (and (inventory ?player ?foliage)))
+
+Note: To better model the state of the game, please modify these examples to suit your specific game mechanics and necessities.

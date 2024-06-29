@@ -1,0 +1,79 @@
+(:action go
+ :parameters (?p - player ?dir - direction ?from - location ?to - location)
+ :precondition (and (at ?p ?from) (connected ?from ?dir ?to))
+ :effect (and (not (at ?p ?from)) (at ?p ?to))
+)
+
+(:action get
+ :parameters (?p - player ?i - item ?loc - location)
+ :precondition (and (at ?p ?loc) (at ?i ?loc))
+ :effect (and (not (at ?i ?loc)) (inventory ?p ?i))
+)
+
+(:action get_water
+ :parameters (?p - player ?w - water ?loc - location)
+ :precondition (and (at ?p ?loc) (has_water_source ?loc))
+ :effect (and (not (at ?w ?loc)) (inventory ?p ?w))
+)
+
+(:action strain_water
+ :parameters (?p - player ?w - water ?c - cloth)
+ :precondition (and (inventory ?p ?w) (inventory ?p ?c) (not (strained ?w)))
+ :effect (strained ?w)
+)
+
+(:action boil_water
+ :parameters (?p - player ?w - water ?container - container)
+ :precondition (and (inventory ?p ?w) (inventory ?p ?container) (strained ?w))
+ :effect (treated ?w)
+)
+
+(:action purify_in_sunlight
+ :parameters (?p - player ?w - water)
+ :precondition (and (inventory ?p ?w) (not (treated ?w)))
+ :effect (treated ?w)
+)
+
+(:action get_long_branch
+ :parameters (?p - player ?b - long_branch ?loc - location)
+ :precondition (and (at ?p ?loc) (has_branches ?loc))
+ :effect (and (not (at ?b ?loc)) (inventory ?p ?b))
+)
+
+(:action get_propped_branches
+ :parameters (?p - player ?b - propped_branches ?loc - location)
+ :precondition (and (at ?p ?loc) (has_branches ?loc))
+ :effect (and (not (at ?b ?loc)) (inventory ?p ?b))
+)
+
+(:action get_twigs_leaves
+ :parameters (?p - player ?t - twigs_leaves ?loc - location)
+ :precondition (and (at ?p ?loc) (has_twigs_leaves ?loc))
+ :effect (and (not (at ?t ?loc)) (inventory ?p ?t))
+)
+
+(:action build_shelter
+ :parameters (?p - player ?b - long_branch ?pb - propped_branches ?t - twigs_leaves)
+ :precondition (and (inventory ?p ?b) (inventory ?p ?pb) (inventory ?p ?t))
+ :effect (has_shelter ?p)
+) 
+
+(:action get_logs
+ :parameters (?p - player ?l - logs ?loc - location)
+ :precondition (and (at ?p ?loc) (has_logs ?loc))
+ :effect (and (not (at ?l ?loc)) (inventory ?p ?l))
+)
+
+(:action build_teepee
+ :parameters (?p - player ?l - logs ?t - teepee)
+ :precondition (inventory ?p ?l)
+ :effect (and (not (inventory ?p ?l)) (at ?t ?p))
+)
+
+(:action start_fire
+ :parameters (?p - player ?d - dry_materials ?l - logs)
+ :precondition (and (inventory ?p ?d) (inventory ?p ?l) (at ?t ?p))
+ :effect (has_fire ?p)
+)
+
+)

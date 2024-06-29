@@ -1,1 +1,2 @@
-No solution
+walk ('npc', 'home', 'in', 'basement')
+stay_in_shelter ('npc', 'basement')

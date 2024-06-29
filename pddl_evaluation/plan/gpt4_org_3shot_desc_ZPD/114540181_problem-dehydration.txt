@@ -1,0 +1,6 @@
+go ('npc', 'basecamp', 'west', 'bamboo_forrest')
+get_bamboo_container ('npc', 'bamboo_forrest')
+go ('npc', 'bamboo_forrest', 'east', 'basecamp')
+go ('npc', 'basecamp', 'east', 'jungle')
+collect_rain_water ('npc', 'jungle')
+drink_untreated_water ('npc')

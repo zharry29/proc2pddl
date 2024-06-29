@@ -1,184 +1,97 @@
-- action name: get
-- summarize action: pick up an item and put it in the inventory
-- what is needed to do the action: an item
-- what is the result: the item is added to the inventory
+- action name: Get
+- parameters: a item
+- precondition: there exists an item.
+- effect: the item is in the inventory.
+- pddl: 
 
-- entities:
-  - entity name: item
-  - before: item is not in inventory
-  - after: item is in inventory
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Check if the item is not in the inventory
-2. Add the item to the inventory
-
-pddl:
-```
-(:action get
-   :parameters (?item - item)
-   :precondition (not (inventory ?item))
-   :effect (inventory ?item)
-)
-```
+    ```
+    (:action get  
+        :parameters (?i - item)
+        :precondition (exists (?i - item))
+        :effect (inventory ?i)
+    )
+    ```
 
 - action name: poke
-- summarize action: poke a hole in the top of the coconut
-- what is needed to do the action: a coconut and a tool
-- what is the result: the coconut has its eyes poked
+- parameters: a coconut
+- precondition: a coconut is in the inventory.
+- effect: The eyes of the coconut are poked.
+- pddl: 
 
-- entities:
-  - entity name: coconut
-  - before: coconut does not have eyes poked
-  - after: coconut has eyes poked
-
-  - entity name: tool
-  - before: tool is in inventory
-  - after: tool is still in inventory
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Check if the coconut is not poked and the tool is in the inventory
-2. Set the coconut as having its eyes poked
-
-pddl:
-```
-(:action poke
-    :parameters (?c - coconut ?tool - tool)
-    :precondition (and (not (has_eyes_poked ?c)) (inventory ?tool))
-    :effect (has_eyes_poked ?c)
-)
-```
+    ```
+    (:action poke  
+        :parameters (?c - coconut)
+        :precondition (inventory ?c) 
+        :effect (has_eyes_poked ?c)
+    )
+    ```
 
 - action name: flip
-- summarize action: turn the coconut upside down
-- what is needed to do the action: a poked coconut and a container without water
-- what is the result: the container is filled with water
+- parameters: a container without water
+- precondition: The container without water exists and the coconut has its eyes poked.
+- effect: The container is with water filled.
+- pddl: 
 
-- entities:
-  - entity name: coconut
-  - before: coconut has eyes poked
-  - after: unchanged
-
-  - entity name: container without water
-  - before: container is empty
-  - after: container is filled with water
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Check if the coconut has its eyes poked and the container is empty
-2. Fill the container with water
-
-pddl:
-```
-(:action flip
-    :parameters (?c - coconut ?cw - container_without_water)
-    :precondition (and (has_eyes_poked ?c) (not (is_item_container_with_water ?cw)))
-    :effect (is_item_container_with_water ?cw)
-)
-```
+    ```
+    (:action flip  
+        :parameters (?cow - container_without_water ?c - coconut)
+        :precondition (and (exists (?cow - container_without_water)) (has_eyes_poked ?c))
+        :effect (is_item_container_with_water ?cow)
+    )
+    ```
 
 - action name: wrap
-- summarize action: wrap the coconut
-- what is needed to do the action: a poked coconut and a towel
-- what is the result: the coconut is wrapped in a towel
+- parameters: a coconut and a towel
+- precondition: The coconut and the towel exist and the coconut has its eyes poked.
+- effect: The coconut is wrapped in the towel.
+- pddl: 
 
-- entities:
-  - entity name: coconut
-  - before: coconut has eyes poked
-  - after: coconut is wrapped in a towel
-
-  - entity name: towel
-  - before: towel is in inventory
-  - after: unchanged
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Check if the coconut has its eyes poked and the towel is in the inventory
-2. Wrap the coconut with the towel
-
-pddl:
-```
-(:action wrap
-    :parameters (?c - coconut ?t - towel)
-    :precondition (and (has_eyes_poked ?c) (inventory ?t))
-    :effect (is_item_wrapped_coconut ?c)
-)
-```
+    ```
+    (:action wrap  
+        :parameters (?c - coconut ?t - towel)
+        :precondition (and (exists (?c - coconut ?t - towel)) (has_eyes_poked ?c))
+        :effect (is_item_wrapped_coconut ?c)
+    )
+    ```
 
 - action name: hit
-- summarize action: hit the wrapped coconut with a mallet
-- what is needed to do the action: a wrapped coconut and a mallet
-- what is the result: the coconut is broken
+- parameters: a coconut wrapped and a mallet
+- precondition: The wrapped coconut and the mallet exist.
+- effect: The coconut is broken.
+- pddl: 
 
-- entities:
-  - entity name: wrapped coconut
-  - before: coconut is wrapped in a towel
-  - after: coconut is broken
-
-  - entity name: mallet
-  - before: mallet is in inventory
-  - after: unchanged
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Check if the coconut is wrapped and the mallet is in the inventory
-2. Break the coconut into pieces
-
-pddl:
-```
-(:action hit
-    :parameters (?c - coconut_wrapped ?m - mallet)
-    :precondition (and (is_item_wrapped_coconut ?c) (inventory ?m))
-    :effect (is_item_broken_coconut ?c)
-)
-```
+   ```
+    (:action hit  
+        :parameters (?cw - coconut_wrapped ?m - mallet)
+        :precondition (and (exists (?cw - coconut_wrapped ?m - mallet)) (is_item_wrapped_coconut ?cw))
+        :effect (is_item_broken_coconut ?cw)
+    )
+   ```
 
 - action name: free
-- summarize action: run a knife between the shell and the meat to free it
-- what is needed to do the action: a broken coconut and a knife
-- what is the result: the meat is separated from the shell
+- parameters: a broken coconut
+- precondition: The broken coconut exists.
+- effect: We have the coconut meat.
+- pddl: 
 
-- entities:
-  - entity name: broken coconut
-  - before: coconut is broken
-  - after: meat is separated from the shell
-
-  - entity name: knife
-  - before: knife is in inventory
-  - after: unchanged
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Check if the coconut is broken and the knife is in the inventory
-2. Separate the meat from the shell
-
-pddl:
-```
-(:action free
-    :parameters (?c - coconut_broken ?k - tool) ; Assuming tool as knife
-    :precondition (and (is_item_broken_coconut ?c) (inventory ?k))
-    :effect (is_item_coconut_meat ?c)
-)
-```
+    ```
+    (:action free
+        :parameters (?cb - coconut_broken)
+        :precondition (and (exists (?cb - coconut_broken)) (is_item_broken_coconut ?cb))
+        :effect (is_item_coconut_meat ?cb)
+    )
+    ```
 
 - action name: remove_fiber
-- summarize action: remove the fiber from the meat
-- what is needed to do the action: coconut meat and a peeler
-- what is the result: the meat is peeled
+- parameters: coconut meat
+- precondition: The coconut meat exists.
+- effect: We have the peeled coconut meat.
+- pddl: 
 
-- entities:
-  - entity name: coconut meat
-  - before: meat has fiber
-  - after: meat is peeled
-
-  - entity name: peeler
-  - before: peeler is in inventory
-  - after: unchanged
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Check if the coconut meat has fiber and the peeler is in the inventory
-2. Peel the coconut meat
-
-pddl:
-```
-(:action remove_fiber
-    :parameters (?c - coconut_meat ?p - peeler)
-    :precondition (and (is_item_coconut_meat ?c) (inventory ?p))
-    :effect (is_item_coconut_meat_peeled ?c)
-)
-```
+    ```
+    (:action remove_fiber
+        :parameters (?cm - coconut_meat)
+        :precondition (and (exists (?cm - coconut_meat)) (is_item_coconut_meat ?cm))
+        :effect (is_item_coconut_meat_peeled ?cm)
+    )
+    ```

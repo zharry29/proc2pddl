@@ -1,0 +1,156 @@
+Sure, let's go through each of the actions one by one:
+
+### 1. Action: get
+
+- action name: get
+- summarize action: The action of picking up an item and placing it into the inventory.
+- what is needed to do the action: An item that is not currently in the inventory.
+- what is the result: The item is now placed in the inventory.
+
+- entities:
+  - entity name: item
+  - before: The item is not in the inventory.
+  - after: The item is in the inventory.
+
+pddl:
+```pddl
+(:action get
+ :parameters (?item - item)
+ :precondition (not (inventory ?item))
+ :effect (inventory ?item)
+)
+```
+
+### 2. Action: poke
+
+- action name: poke
+- summarize action: The action of poking a hole in the top of the coconut to create an opening.
+- what is needed to do the action: A coconut that does not yet have its eyes poked.
+- what is the result: The coconut has its eyes poked.
+
+- entities:
+  - entity name: coconut
+  - before: The coconut does not have its eyes poked.
+  - after: The coconut has its eyes poked.
+
+pddl:
+```pddl
+(:action poke
+ :parameters (?c - coconut)
+ :precondition (not (has_eyes_poked ?c))
+ :effect (has_eyes_poked ?c)
+)
+```
+
+### 3. Action: flip
+
+- action name: flip
+- summarize action: The action of turning the coconut upside down to start draining.
+- what is needed to do the action: A coconut that has had its eyes poked and a container that can collect water.
+- what is the result: The container becomes a container with water and the coconut remains the same.
+
+- entities:
+  - entity name: coconut
+  - before: A coconut with eyes poked.
+  - after: The coconut remains the same.
+  - entity name: container_without_water
+  - before: A container without water.
+  - after: The container becomes a container with water.
+
+pddl:
+```pddl
+(:action flip
+ :parameters (?c - coconut ?cw - container_without_water ?cc - container_with_water)
+ :precondition (and (has_eyes_poked ?c) (is_item_container_with_water ?cw))
+ :effect (and (not (is_item_container_with_water ?cw)) (is_item_container_with_water ?cc))
+)
+```
+
+### 4. Action: wrap
+
+- action name: wrap
+- summarize action: The action of wrapping the coconut in a towel.
+- what is needed to do the action: A coconut and a towel.
+- what is the result: A coconut is wrapped in a towel.
+
+- entities:
+  - entity name: coconut
+  - before: A regular coconut.
+  - after: The coconut becomes a wrapped coconut.
+
+pddl:
+```pddl
+(:action wrap
+ :parameters (?c - coconut)
+ :precondition (not (is_item_wrapped_coconut ?c))
+ :effect (is_item_wrapped_coconut ?c)
+)
+```
+
+### 5. Action: hit
+
+- action name: hit
+- summarize action: The action of hitting a wrapped coconut with a mallet to break its shell.
+- what is needed to do the action: A wrapped coconut and a mallet.
+- what is the result: The wrapped coconut becomes a broken coconut.
+
+- entities:
+  - entity name: coconut_wrapped
+  - before: A wrapped coconut.
+  - after: The wrapped coconut becomes a broken coconut.
+
+pddl:
+```pddl
+(:action hit
+ :parameters (?c - coconut_wrapped ?m - mallet)
+ :precondition (is_item_wrapped_coconut ?c)
+ :effect (and (not (is_item_wrapped_coconut ?c)) (is_item_broken_coconut ?c))
+)
+```
+
+### 6. Action: free
+
+- action name: free
+- summarize action: The action of running a knife between the shell and the meat of the coconut to free the meat.
+- what is needed to do the action: A broken coconut and a knife.
+- what is the result: The broken coconut is partially free of the shell with meat separated.
+
+- entities:
+  - entity name: coconut_broken
+  - before: A broken coconut.
+  - after: The broken coconut has meat freed.
+  - entity name: meat
+  - before: Coconut meat is within the shell.
+  - after: The coconut meat is outside the shell.
+
+pddl:
+```pddl
+(:action free
+ :parameters (?c - coconut_broken ?k - tool)
+ :precondition (and (is_item_broken_coconut ?c))
+ :effect (is_item_coconut_meat ?c)
+)
+```
+
+### 7. Action: remove_fiber
+
+- action name: remove_fiber
+- summarize action: The action of removing the fiber from the meat of the coconut.
+- what is needed to do the action: A piece of coconut meat.
+- what is the result: The piece of coconut meat is peeled.
+
+- entities:
+  - entity name: coconut_meat
+  - before: Coconut meat with fiber.
+  - after: Peeled coconut meat without fiber.
+
+pddl:
+```pddl
+(:action remove_fiber
+ :parameters (?c - coconut_meat ?p - peeler)
+ :precondition (is_item_coconut_meat ?c)
+ :effect (and (not (is_item_coconut_meat ?c)) (is_item_coconut_meat_peeled ?c))
+)
+```
+
+By following these steps and correlating the entities with their respective states before and after the actions, you will have a comprehensive overview of all the actions involved in opening a coconut.

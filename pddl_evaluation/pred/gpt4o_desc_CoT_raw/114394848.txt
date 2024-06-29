@@ -1,789 +1,495 @@
-#### Action: go
-- Action name: go
-- Summarize action: The 'go' action involves navigating from one location to an adjacent location.
-- What is needed to do the action: The locations should be connected, and there should be no blockage in the direction.
-- What is the result: The player or object changes its location to the new location.
-
-- Entities:
-  - Entity name: player/object
-  - Before: at the initial location
-  - After: at the destination location
-  - Entity name: initial location
-  - Before: connected to the destination location in a specific direction
-  - After: unchanged
-  - Entity name: destination location
-  - Before: connected to the initial location in the specific direction
-  - After: unchanged
-  - Entity name: direction
-  - Before: specifies the direction of connection
-  - After: unchanged
-
-pddl:
-```lisp
-(:action go
-  :parameters (?obj - object ?loc1 - location ?dir - direction ?loc2 - location)
-  :precondition (and 
-                  (at ?obj ?loc1) 
-                  (connected ?loc1 ?dir ?loc2)
-                  (not (blocked ?loc1 ?dir ?loc2)))
-  :effect (and 
-            (not (at ?obj ?loc1)) 
-            (at ?obj ?loc2)))
-```
-
-#### Action: understand
-- Action name: understand
-- Summarize action: The 'understand' action involves a player understanding a specific concept.
-- What is needed to do the action: The player and the concept must be specified.
-- What is the result: The player gains an understanding of the specified concept.
-
-- Entities:
-  - Entity name: player
-  - Before: does not understand the concept
-  - After: understands the concept
-  - Entity name: concept
-  - Before: not understood by the player
-  - After: understood by the player
-
-pddl:
-```lisp
-(:action understand
-  :parameters (?player - player ?concept - concept)
-  :precondition (not (know ?player ?concept))
-  :effect (know ?player ?concept))
-```
-
-#### Action: learn
-- Action name: learn
-- Summarize action: The 'learn' action involves a player learning a new skill.
-- What is needed to do the action: The player and the skill must be specified.
-- What is the result: The player acquires the specified skill.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have the skill
-  - After: has the skill
-  - Entity name: skill
-  - Before: not acquired by the player
-  - After: acquired by the player
-
-pddl:
-```lisp
-(:action learn
-  :parameters (?player - player ?skill - skill)
-  :precondition (not (learned ?player ?skill))
-  :effect (learned ?player ?skill))
-```
-
-#### Action: get
-- Action name: get
-- Summarize action: The 'get' action involves a player obtaining an item and adding it to their inventory.
-- What is needed to do the action: The player and the item must be specified.
-- What is the result: The item is added to the player's inventory.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have the item in inventory
-  - After: has the item in inventory
-  - Entity name: item
-  - Before: not in the player's inventory
-  - After: in the player's inventory
-
-pddl:
-```lisp
-(:action get
-  :parameters (?player - player ?item - item)
-  :precondition (not (inventory ?player ?item))
-  :effect (inventory ?player ?item))
-```
-#### Action: machine_secured
-- Action name: machine_secured
-- Summarize action: The 'machine_secured' action involves securing a machine, marking progress to step 2.
-- What is needed to do the action: The player must be present and authorized to secure a machine.
-- What is the result: The machine is secured and progresses to step 2.
-
-- Entities:
-  - Entity name: player
-  - Before: authorized but hasn't secured the machine
-  - After: authorized and has secured the machine
-  - Entity name: machine
-  - Before: unsecured
-  - After: secured and marked as step 2
-
-pddl:
-```lisp
-(:action machine_secured
-  :parameters (?player - player)
-  :precondition (authorized ?player)
-  :effect (step2))
-```
-
-#### Action: enumeration
-- Action name: enumeration
-- Summarize action: Enumeration involves gathering information from the target system.
-- What is needed to do the action: The player must have permission or access to the system.
-- What is the result: Information is gathered and the enumeration process is flagged as complete.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have all information
-  - After: started collecting information
-  - Entity name: all_information
-  - Before: not collected
-  - After: started to be collected
-
-pddl:
-```lisp
-(:action enumeration
-  :parameters (?player - player)
-  :precondition (authorized ?player)
-  :effect (collected_all_info ?player))
-```
-
-#### Action: got_all_info
-- Action name: got_all_info
-- Summarize action: The 'got_all_info' action indicates that the player has gathered all necessary information, advancing to step 3.
-- What is needed to do the action: The player must have started collecting information.
-- What is the result: The player has collected all information needed, moving to step 3.
-
-- Entities:
-  - Entity name: player
-  - Before: collecting information
-  - After: has all the information
-  - Entity name: all_information
-  - Before: being collected
-  - After: fully collected
-
-pddl:
-```lisp
-(:action got_all_info
-  :parameters (?player - player)
-  :precondition (collected_all_info ?player)
-  :effect (step3))
-```
-
-#### Action: ping
-- Action name: ping
-- Summarize action: The 'ping' action involves sending a ping to test if a remote system is reachable.
-- What is needed to do the action: The player must have permission and a target system to ping.
-- What is the result: The player knows if the ping was successful or not.
-
-- Entities:
-  - Entity name: player
-  - Before: does not know if the remote system is reachable
-  - After: knows if the remote system is reachable
-  - Entity name: remote_system
-  - Before: reachability unknown
-  - After: reachability known (success or fail)
-
-pddl:
-```lisp
-(:action ping
-  :parameters (?player - player ?remote_system - digital_system)
-  :precondition (authorized ?player)
-  :effect (ping_succeed ?player))
-```
-
-#### Action: check_email_server
-- Action name: check_email_server
-- Summarize action: The 'check_email_server' action involves checking the status or configuration of an email server.
-- What is needed to do the action: The player must have permission and access to the email server.
-- What is the result: The email server status or configuration is checked.
-
-- Entities:
-  - Entity name: player
-  - Before: does not know the status/configuration of the email server
-  - After: knows the status/configuration of the email server
-  - Entity name: email_server
-  - Before: status/configuration unknown
-  - After: status/configuration known
-
-pddl:
-```lisp
-(:action check_email_server
-  :parameters (?player - player ?email_server - server_checked)
-  :precondition (authorized ?player)
-  :effect (server_checked ?player ?email_server))
-```
-
-#### Action: reached_the_remote_system
-- Action name: reached_the_remote_system
-- Summarize action: The 'reached_the_remote_system' action indicates that the player has successfully accessed or reached a remote system.
-- What is needed to do the action: The player must have permission and access to the remote system.
-- What is the result: The player has reached the target remote system.
-
-- Entities:
-  - Entity name: player
-  - Before: has not reached the remote system
-  - After: has reached the remote system
-  - Entity name: remote_system
-  - Before: not reached
-  - After: reached
-
-pddl:
-```lisp
-(:action reached_the_remote_system
-  :parameters (?player - player ?remote_system - digital_system)
-  :precondition (authorized ?player)
-  :effect (reached_remote_system ?player ?remote_system))
-```
-
-#### Action: run_port_scan
-- Action name: run_port_scan
-- Summarize action: The 'run_port_scan' action involves scanning the target system's ports to gather information about open services.
-- What is needed to do the action: The player must have permission and access to the target system.
-- What is the result: The ports of the target system are scanned and the player gets the necessary information.
-
-- Entities:
-  - Entity name: player
-  - Before: has not scanned the ports
-  - After: has scanned the ports
-  - Entity name: target_system
-  - Before: ports not scanned
-  - After: ports scanned
-
-pddl:
-```lisp
-(:action run_port_scan
-  :parameters (?player - player ?target_system - digital_system)
-  :precondition (authorized ?player)
-  :effect (port_scanned ?player))
-```
-
-#### Action: found_path_in_system
-- Action name: found_path_in_system
-- Summarize action: The 'found_path_in_system' action involves the player discovering a viable path to navigate through the target system.
-- What is needed to do the action: The player must have permission and access to the target system.
-- What is the result: The player finds a path and navigates the target system successfully.
-
-- Entities:
-  - Entity name: player
-  - Before: has not found a path
-  - After: has found a path
-  - Entity name: target_system
-  - Before: path not discovered
-  - After: path discovered
-
-pddl:
-```lisp
-(:action found_path_in_system
-  :parameters (?player - player ?target_system - digital_system)
-  :precondition (authorized ?player)
-  :effect (found_path ?player ?target_system))
-```
-
-(To be continued upon request)
-#### Action: contact_and_trick_a_user
-- Action name: contact_and_trick_a_user
-- Summarize action: The 'contact_and_trick_a_user' action involves the player contacting a user and tricking them into revealing sensitive information or credentials.
-- What is needed to do the action: The player must have access to contact the user.
-- What is the result: The user is tricked, and the player gains the disclosed information.
-
-- Entities:
-  - Entity name: player
-  - Before: has not tricked the user
-  - After: has tricked the user
-  - Entity name: user
-  - Before: not tricked
-  - After: tricked
-
-pddl:
-```lisp
-(:action contact_and_trick_a_user
-  :parameters (?player - player)
-  :precondition (authorized ?player)
-  :effect (tricked_user_password ?player))
-```
-
-#### Action: crack_password_by_social_engineering
-- Action name: crack_password_by_social_engineering
-- Summarize action: The 'crack_password_by_social_engineering' action involves the player using social engineering techniques to crack a password.
-- What is needed to do the action: The player must be authorized and knowledgeable about social engineering.
-- What is the result: The player successfully cracks the password.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have the cracked password
-  - After: has cracked the password
-  - Entity name: password
-  - Before: not cracked
-  - After: cracked
-
-pddl:
-```lisp
-(:action crack_password_by_social_engineering
-  :parameters (?player - player)
-  :precondition (and (authorized ?player) (know_hacking ?player))
-  :effect (password_cracked ?player))
-```
-
-#### Action: send_fake_email
-- Action name: send_fake_email
-- Summarize action: The 'send_fake_email' action involves the player sending a fake email to deceive the recipient.
-- What is needed to do the action: The player must have the ability to send emails and access to the target's email.
-- What is the result: The fake email is sent and possibly trusted by the recipient.
-
-- Entities:
-  - Entity name: player
-  - Before: has not sent a fake email
-  - After: has sent a fake email
-  - Entity name: recipient
-  - Before: not deceived
-  - After: possibly deceived
-
-pddl:
-```lisp
-(:action send_fake_email
-  :parameters (?player - player)
-  :precondition (authorized ?player)
-  :effect (user_trusted_fake_email ?player))
-```
-
-#### Action: crack_password_by_phishing
-- Action name: crack_password_by_phishing
-- Summarize action: The 'crack_password_by_phishing' action involves the player using phishing techniques to crack a password.
-- What is needed to do the action: The player must have knowledge of phishing techniques and be authorized.
-- What is the result: The player successfully cracks the password via phishing.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have the cracked password
-  - After: has cracked the password
-  - Entity name: password
-  - Before: not cracked
-  - After: cracked
-
-pddl:
-```lisp
-(:action crack_password_by_phishing
-  :parameters (?player - player)
-  :precondition (and (authorized ?player) (know_hacking ?player))
-  :effect (password_cracked ?player))
-```
-
-#### Action: create_fake_wifi_access
-- Action name: create_fake_wifi_access
-- Summarize action: The 'create_fake_wifi_access' action involves the player setting up a fake WiFi access point to intercept communications.
-- What is needed to do the action: The player must have the necessary equipment and permissions.
-- What is the result: A fake WiFi access point is created, and users may connect to it.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have the fake WiFi access point
-  - After: has set up the fake WiFi access point
-  - Entity name: WiFi access
-  - Before: not in existence
-  - After: in existence
-
-pddl:
-```lisp
-(:action create_fake_wifi_access
-  :parameters (?player - player)
-  :precondition (authorized ?player)
-  :effect (people_use_unencrypted_connection ?player))
-```
-
-#### Action: crack_password_by_arp_spoofing
-- Action name: crack_password_by_arp_spoofing
-- Summarize action: The 'crack_password_by_arp_spoofing' action involves using ARP spoofing techniques to intercept passwords.
-- What is needed to do the action: The player must have knowledge of ARP spoofing and access to the network.
-- What is the result: The player successfully intercepts and cracks passwords through ARP spoofing.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have the cracked password
-  - After: has cracked the password
-  - Entity name: password
-  - Before: not cracked
-  - After: cracked
-
-pddl:
-```lisp
-(:action crack_password_by_arp_spoofing
-  :parameters (?player - player)
-  :precondition (and (authorized ?player) (know_hacking ?player))
-  :effect (password_cracked ?player))
-```
-
-#### Action: crack_password_by_brute_force
-- Action name: crack_password_by_brute_force
-- Summarize action: The 'crack_password_by_brute_force' action involves attempting all possible combinations to crack a password.
-- What is needed to do the action: The player must have the necessary computational resources and authorization.
-- What is the result: The player successfully cracks the password through brute-force attempts.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have the cracked password
-  - After: has cracked the password
-  - Entity name: password
-  - Before: not cracked
-  - After: cracked
-
-pddl:
-```lisp
-(:action crack_password_by_brute_force
-  :parameters (?player - player)
-  :precondition (authorized ?player)
-  :effect (password_cracked ?player))
-```
-
-#### Action: gain_access_with_password
-- Action name: gain_access_with_password
-- Summarize action: The 'gain_access_with_password' action involves the player using a cracked password to gain access.
-- What is needed to do the action: The player must have the cracked password.
-- What is the result: The player gains access to the target system.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have access
-  - After: has access
-  - Entity name: target_system
-  - Before: access not granted
-  - After: access granted
-
-pddl:
-```lisp
-(:action gain_access_with_password
-  :parameters (?player - player ?target_system - digital_system)
-  :precondition (password_cracked ?player)
-  :effect (is_root_user ?player))
-```
-
-(To be continued upon request)
-#### Action: create_buffer_overflow
-- Action name: create_buffer_overflow
-- Summarize action: The 'create_buffer_overflow' action involves the player exploiting a buffer overflow vulnerability to gain unauthorized access or control.
-- What is needed to do the action: The player must have the knowledge of exploiting buffer overflows and access to the vulnerable system.
-- What is the result: The player successfully exploits the buffer overflow vulnerability.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have the memory exploit
-  - After: has exploited the memory
-  - Entity name: system
-  - Before: system is secure from buffer overflow
-  - After: system is compromised through buffer overflow
-
-pddl:
-```lisp
-(:action create_buffer_overflow
-  :parameters (?player - player ?system - digital_system)
-  :precondition (authorized ?player)
-  :effect (memory_layout ?system))
-```
-
-#### Action: take_control_of_system
-- Action name: take_control_of_system
-- Summarize action: The 'take_control_of_system' action involves the player taking full control of a compromised system.
-- What is needed to do the action: The player must have exploited a vulnerability or have access credentials.
-- What is the result: The player gains full control of the target system.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have control
-  - After: has control
-  - Entity name: system
-  - Before: not under player's control
-  - After: under player's control
-
-pddl:
-```lisp
-(:action take_control_of_system
-  :parameters (?player - player ?system - digital_system)
-  :precondition (or (memory_layout ?system) (is_root_user ?player))
-  :effect (take_control ?player ?system))
-```
-
-#### Action: install_malware
-- Action name: install_malware
-- Summarize action: The 'install_malware' action involves the player installing malicious software on the target system.
-- What is needed to do the action: The player must have control of the system and access to the malware.
-- What is the result: Malware is installed on the target system.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have installed malware
-  - After: has installed malware
-  - Entity name: malware
-  - Before: not installed
-  - After: installed
-  - Entity name: system
-  - Before: not infected
-  - After: infected
-
-pddl:
-```lisp
-(:action install_malware
-  :parameters (?player - player ?malware - malware ?system - digital_system)
-  :precondition (take_control ?player ?system)
-  :effect (and (malware ?player ?malware) 
-               (infected ?system ?malware)))
-```
-
-#### Action: bypass_standard_authentication_system
-- Action name: bypass_standard_authentication_system
-- Summarize action: The 'bypass_standard_authentication_system' action involves the player circumventing standard security measures to gain access.
-- What is needed to do the action: The player must have knowledge of bypassing authentication systems and be authorized to attempt the bypass.
-- What is the result: The player successfully bypasses the standard authentication system.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have bypassed authentication
-  - After: has bypassed authentication
-  - Entity name: authentication system
-  - Before: secure
-  - After: bypassed
-
-pddl:
-```lisp
-(:action bypass_standard_authentication_system
-  :parameters (?player - player ?system - digital_system)
-  :precondition (and (authorized ?player) (take_control ?player ?system))
-  :effect (is_root_user ?player))
-```
-
-#### Action: not_let_administrator_know
-- Action name: not_let_administrator_know
-- Summarize action: The 'not_let_administrator_know' action involves the player taking steps to prevent the system administrator from detecting their activities.
-- What is needed to do the action: The player must have access and control over the target system.
-- What is the result: The administrator remains unaware of the compromise.
-
-- Entities:
-  - Entity name: player
-  - Before: activities may be detected by administrator
-  - After: activities concealed
-  - Entity name: administrator
-  - Before: may know about the compromise
-  - After: does not know about the compromise
-
-pddl:
-```lisp
-(:action not_let_administrator_know
-  :parameters (?player - player)
-  :precondition (take_control ?player ?system)
-  :effect (not (administrator_know_compromised ?system)))
-```
-
-#### Action: make_no_change_to_website
-- Action name: make_no_change_to_website
-- Summarize action: The 'make_no_change_to_website' action involves accessing a website without altering its content.
-- What is needed to do the action: The player must have access to the website.
-- What is the result: The website remains unchanged despite being accessed.
-
-- Entities:
-  - Entity name: player
-  - Before: may make changes to website
-  - After: does not make changes to website
-  - Entity name: website
-  - Before: content unchanged
-  - After: content remains unchanged
-
-pddl:
-```lisp
-(:action make_no_change_to_website
-  :parameters (?player - player ?website - digital_system)
-  :precondition (authorized ?player)
-  :effect (website_unchanged ?player))
-```
-
-#### Action: create_fewest_file
-- Action name: create_fewest_file
-- Summarize action: The 'create_fewest_file' action involves the player creating the minimal number of files required for their activities.
-- What is needed to do the action: The player must have access and control over the target system.
-- What is the result: The player creates the fewest possible files to achieve their goal.
-
-- Entities:
-  - Entity name: player
-  - Before: files may be created unnecessarily
-  - After: fewest files created
-  - Entity name: target system
-  - Before: file system intact
-  - After: minimal changes to file system
-
-pddl:
-```lisp
-(:action create_fewest_file
-  :parameters (?player - player ?system - digital_system)
-  :precondition (take_control ?player ?system)
-  :effect (not (create_more_file_than_need ?player)))
-```
-
-#### Action: delete_additional_users
-- Action name: delete_additional_users
-- Summarize action: The 'delete_additional_users' action involves the player removing additional users that were added to the system.
-- What is needed to do the action: The player must have control over the target system.
-- What is the result: Additional users are deleted from the system.
-
-- Entities:
-  - Entity name: player
-  - Before: additional users present
-  - After: additional users removed
-  - Entity name: additional_users
-  - Before: present
-  - After: removed
-
-pddl:
-```lisp
-(:action delete_additional_users
-  :parameters (?player - player ?system - digital_system)
-  :precondition (take_control ?player ?system)
-  :effect (not (additional_users ?player)))
-```
-
-#### Action: hardcode_password
-- Action name: hardcode_password
-- Summarize action: The 'hardcode_password' action involves the player embedding a hardcoded password into the target system for later use.
-- What is needed to do the action: The player must have access and control over the target system.
-- What is the result: A hardcoded password is embedded in the system.
-
-- Entities:
-  - Entity name: player
-  - Before: hardcoded password not present
-  - After: hardcoded password present
-  - Entity name: system
-  - Before: password not hardcoded
-  - After: password hardcoded
-
-pddl:
-```lisp
-(:action hardcode_password
-  :parameters (?player - player ?system - digital_system)
-  :precondition (take_control ?player ?system)
-  :effect (hardcoded_secret_password ?player))
-```
-
-#### Action: track_covered
-- Action name: track_covered
-- Summarize action: The 'track_covered' action involves the player hiding any signs of their activities to avoid detection.
-- What is needed to do the action: The player must have control of the system and know the methods to cover tracks.
-- What is the result: The player's activities are concealed.
-
-- Entities:
-  - Entity name: player
-  - Before: activities traceable
-  - After: activities concealed
-  - Entity name: system
-  - Before: logs and traces present
-  - After: logs and traces concealed
-
-pddl:
-```lisp
-(:action track_covered
-  :parameters (?player - player ?system - digital_system)
-  :precondition (take_control ?player ?system)
-  :effect (not (track_covered ?player)))
-```
-
-#### Action: learn_concepts
-- Action name: learn_concepts
-- Summarize action: The 'learn_concepts' action involves the player gaining an understanding of fundamental concepts necessary for hacking activities.
-- What is needed to do the action: The player must be engaged in learning.
-- What is the result: The player understands the specified concepts.
-
-- Entities:
-  - Entity name: player
-  - Before: does not understand the concept
-  - After: understands the concept
-  - Entity name: concept
-  - Before: not understood by the player
-  - After: understood by the player
-
-pddl:
-```lisp
-(:action learn_concepts
-  :parameters (?player - player ?concept - concept)
-  :precondition (not (know ?player ?concept))
-  :effect (know ?player ?concept))
-```
-
-#### Action: learn_internet
-- Action name: learn_internet
-- Summarize action: The 'learn_internet' action involves the player gaining an understanding of how the internet works.
-- What is needed to do the action: The player must engage in learning about the internet.
-- What is the result: The player understands internet concepts.
-
-- Entities:
-  - Entity name: player
-  - Before: does not understand the internet
-  - After: understands the internet
-  - Entity name: internet
-  - Before: not understood by the player
-  - After: understood by the player
-
-pddl:
-```lisp
-(:action learn_internet
-  :parameters (?player - player)
-  :precondition (not (know_internet ?player))
-  :effect (know_internet ?player))
-```
-
-#### Action: learn_programming
-- Action name: learn_programming
-- Summarize action: The 'learn_programming' action involves the player acquiring programming skills.
-- What is needed to do the action: The player must engage in learning programming.
-- What is the result: The player gains programming skills.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have programming skills
-  - After: has programming skills
-  - Entity name: programming
-  - Before: not known by the player
-  - After: known by the player
-
-pddl:
-```lisp
-(:action learn_programming
-  :parameters (?player - player)
-  :precondition (not (learned ?player programming))
-  :effect (learned ?player programming))
-```
-
-#### Action: learn_unix
-- Action name: learn_unix
-- Summarize action: The 'learn_unix' action involves the player gaining an understanding of Unix operating system.
-- What is needed to do the action: The player must engage in learning Unix.
-- What is the result: The player understands Unix concepts.
-
-- Entities:
-  - Entity name: player
-  - Before: does not understand Unix
-  - After: understands Unix
-  - Entity name: Unix
-  - Before: not understood by the player
-  - After: understood by the player
-
-pddl:
-```lisp
-(:action learn_unix
-  :parameters (?player - player)
-  :precondition (not (know_unix ?player))
-  :effect (know_unix ?player))
-```
-
-#### Action: become_skilled
-- Action name: become_skilled
-- Summarize action: The 'become_skilled' action involves the player acquiring advanced skills necessary for hacking activities.
-- What is needed to do the action: The player must have learned various basic skills and concepts related to hacking.
-- What is the result: The player becomes skilled in hacking.
-
-- Entities:
-  - Entity name: player
-  - Before: does not have comprehensive hacking skills
-  - After: has comprehensive hacking skills
-  - Entity name: hacking (skill set)
-  - Before: not acquired by the player
-  - After: acquired by the player
-
-pddl:
-```lisp
-(:action become_skilled
-  :parameters (?player - player)
-  :precondition (and (know_hacking ?player) 
-                     (know_ethics ?player) 
-                     (know_internet ?player) 
-                     (learned ?player programming)
-                     (learned ?player unix))
-  :effect (learned ?player hacking))
-```
+Let's begin by defining the PDDL actions in the correct format with parameters, preconditions, and effects.
+
+### Action 1: go
+- action name: go
+- parameters: (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+- precondition: (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+- effect: (and (not (at ?player ?loc1)) (at ?player ?loc2))
+- pddl:
+  ```
+  (:action go
+    :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+    :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+    :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+  )
+  ```
+
+### Action 2: understand
+- action name: understand
+- parameters: (?player - player ?concept - concept)
+- precondition: (and)
+- effect: (and (know ?player ?concept))
+- pddl:
+  ```
+  (:action understand
+    :parameters (?player - player ?concept - concept)
+    :precondition (and)
+    :effect (and (know ?player ?concept))
+  )
+  ```
+
+### Action 3: learn
+- action name: learn
+- parameters: (?player - player ?skill - skill)
+- precondition: (know ?player hacking)
+- effect: (and (learned ?player ?skill))
+- pddl:
+  ```
+  (:action learn
+    :parameters (?player - player ?skill - skill)
+    :precondition (know ?player hacking)
+    :effect (and (learned ?player ?skill))
+  )
+  ```
+
+### Action 4: get
+- action name: get
+- parameters: (?player - player ?item - item ?loc - location)
+- precondition: (at ?player ?loc)
+- effect: (inventory ?player ?item)
+- pddl:
+  ```
+  (:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (at ?player ?loc)
+    :effect (inventory ?player ?item)
+  )
+  ```
+
+### Action 5: machine_secured
+- action name: machine_secured
+- parameters: (?player - player)
+- precondition: (and (collected_all_info ?player))
+- effect: (authorized ?player)
+- pddl:
+  ```
+  (:action machine_secured
+    :parameters (?player - player)
+    :precondition (and (collected_all_info ?player))
+    :effect (authorized ?player)
+  )
+  ```
+
+### Action 6: enumeration
+- action name: enumeration
+- parameters: (?player - player)
+- precondition: (authorized ?player)
+- effect: (and (collected_all_info ?player))
+- pddl:
+  ```
+  (:action enumeration
+    :parameters (?player - player)
+    :precondition (authorized ?player)
+    :effect (collected_all_info ?player)
+  )
+  ```
+
+### Action 7: got_all_info
+- action name: got_all_info
+- parameters: (?player - player)
+- precondition: (collected_all_info ?player)
+- effect: (and (authorized ?player))
+- pddl:
+  ```
+  (:action got_all_info
+    :parameters (?player - player)
+    :precondition (collected_all_info ?player)
+    :effect (authorized ?player)
+  )
+  ```
+
+### Action 8: ping
+- action name: ping
+- parameters: (?player - player ?item - ping_succeed)
+- precondition: (and)
+- effect: (inventory ?player ?item)
+- pddl:
+  ```
+  (:action ping
+    :parameters (?player - player ?item - ping_succeed)
+    :precondition (and)
+    :effect (inventory ?player ?item)
+  )
+  ```
+
+### Action 9: check_email_server
+- action name: check_email_server
+- parameters: (?player - player ?item - server_checked)
+- precondition: (inventory ?player ?item)
+- effect: (and (not (inventory ?player ?item)))
+- pddl:
+  ```
+  (:action check_email_server
+    :parameters (?player - player ?item - server_checked)
+    :precondition (inventory ?player ?item)
+    :effect (and (not (inventory ?player ?item)))
+  )
+  ```
+
+### Action 10: reached_the_remote_system
+- action name: reached_the_remote_system
+- parameters: (?player - player)
+- precondition: (and)
+- effect: (and (authorized ?player))
+- pddl:
+  ```
+  (:action reached_the_remote_system
+    :parameters (?player - player)
+    :precondition (and)
+    :effect (and (authorized ?player))
+  )
+  ```
+
+### Action 11: run_port_scan
+- action name: run_port_scan
+- parameters: (?player - player ?item - network_scanner)
+- precondition: (inventory ?player ?item)
+- effect: (port_scanned ?player)
+- pddl:
+  ```
+  (:action run_port_scan
+    :parameters (?player - player ?item - network_scanner)
+    :precondition (inventory ?player ?item)
+    :effect (port_scanned ?player)
+  )
+  ```
+
+### Action 12: found_path_in_system
+- action name: found_path_in_system
+- parameters: (?player - player)
+- precondition: (port_scanned ?player)
+- effect: (authorized ?player)
+- pddl:
+  ```
+  (:action found_path_in_system
+    :parameters (?player - player)
+    :precondition (port_scanned ?player)
+    :effect (authorized ?player)
+  )
+  ```
+
+### Action 13: contact_and_trick_a_user
+- action name: contact_and_trick_a_user
+- parameters: (?player - player)
+- precondition: (know ?player hacking)
+- effect: (tricked_user_password ?player)
+- pddl:
+  ```
+  (:action contact_and_trick_a_user
+    :parameters (?player - player)
+    :precondition (know ?player hacking)
+    :effect (tricked_user_password ?player)
+  )
+  ```
+
+### Action 14: crack_password_by_social_engineering
+- action name: crack_password_by_social_engineering
+- parameters: (?player - player)
+- precondition: (tricked_user_password ?player)
+- effect: (password_cracked ?player)
+- pddl:
+  ```
+  (:action crack_password_by_social_engineering
+    :parameters (?player - player)
+    :precondition (tricked_user_password ?player)
+    :effect (password_cracked ?player)
+  )
+  ```
+
+### Action 15: send_fake_email
+- action name: send_fake_email
+- parameters: (?player - player)
+- precondition: (know ?player hacking)
+- effect: (user_trusted_fake_email ?player)
+- pddl:
+  ```
+  (:action send_fake_email
+    :parameters (?player - player)
+    :precondition (know ?player hacking)
+    :effect (user_trusted_fake_email ?player)
+  )
+  ```
+
+### Action 16: crack_password_by_phishing
+- action name: crack_password_by_phishing
+- parameters: (?player - player)
+- precondition: (user_trusted_fake_email ?player)
+- effect: (password_cracked ?player)
+- pddl:
+  ```
+  (:action crack_password_by_phishing
+    :parameters (?player - player)
+    :precondition (user_trusted_fake_email ?player)
+    :effect (password_cracked ?player)
+  )
+  ```
+
+### Action 17: create_fake_wifi_access
+- action name: create_fake_wifi_access
+- parameters: (?player - player)
+- precondition: (know ?player hacking)
+- effect: (people_use_unencrypted_connection ?player)
+- pddl:
+  ```
+  (:action create_fake_wifi_access
+    :parameters (?player - player)
+    :precondition (know ?player hacking)
+    :effect (people_use_unencrypted_connection ?player)
+  )
+  ```
+
+### Action 18: crack_password_by_arp_spoofing
+- action name: crack_password_by_arp_spoofing
+- parameters: (?player - player)
+- precondition: (people_use_unencrypted_connection ?player)
+- effect: (password_cracked ?player)
+- pddl:
+  ```
+  (:action crack_password_by_arp_spoofing
+    :parameters (?player - player)
+    :precondition (people_use_unencrypted_connection ?player)
+    :effect (password_cracked ?player)
+  )
+  ```
+
+### Action 19: crack_password_by_brute_force
+- action name: crack_password_by_brute_force
+- parameters: (?player - player)
+- precondition: (know ?player hacking)
+- effect: (password_cracked ?player)
+- pddl:
+  ```
+  (:action crack_password_by_brute_force
+    :parameters (?player - player)
+    :precondition (know ?player hacking)
+    :effect (password_cracked ?player)
+  )
+  ```
+
+### Action 20: gain_access_with_password
+- action name: gain_access_with_password
+- parameters: (?player - player)
+- precondition: (password_cracked ?player)
+- effect: (authorized ?player)
+- pddl:
+  ```
+  (:action gain_access_with_password
+    :parameters (?player - player)
+    :precondition (password_cracked ?player)
+    :effect (authorized ?player)
+  )
+  ```
+
+### Action 21: create_buffer_overflow
+- action name: create_buffer_overflow
+- parameters: (?player - player)
+- precondition: (know ?player hacking)
+- effect: (is_root_user ?player)
+- pddl:
+  ```
+  (:action create_buffer_overflow
+    :parameters (?player - player)
+    :precondition (know ?player hacking)
+    :effect (is_root_user ?player)
+  )
+  ```
+
+### Action 22: take_control_of_system
+- action name: take_control_of_system
+- parameters: (?player - player)
+- precondition: (is_root_user ?player)
+- effect: (authorized ?player)
+- pddl:
+  ```
+  (:action take_control_of_system
+    :parameters (?player - player)
+    :precondition (is_root_user ?player)
+    :effect (authorized ?player)
+  )
+  ```
+
+### Action 23: install_malware
+- action name: install_malware
+- parameters: (?player - player ?item - malware)
+- precondition: (authorized ?player)
+- effect: (inventory ?player ?item)
+- pddl:
+  ```
+  (:action install_malware
+    :parameters (?player - player ?item - malware)
+    :precondition (authorized ?player)
+    :effect (inventory ?player ?item)
+  )
+  ```
+
+### Action 24: bypass_standard_authentication_system
+- action name: bypass_standard_authentication_system
+- parameters: (?player - player)
+- precondition: (know ?player hacking)
+- effect: (authorized ?player)
+- pddl:
+  ```
+  (:action bypass_standard_authentication_system
+    :parameters (?player - player)
+    :precondition (know ?player hacking)
+    :effect (authorized ?player)
+  )
+  ```
+
+### Action 25: not_let_administrator_know
+- action name: not_let_administrator_know
+- parameters: (?player - player)
+- precondition: (authorized ?player)
+- effect: (and (not (administrator_know_compromised ?player)))
+- pddl:
+  ```
+  (:action not_let_administrator_know
+    :parameters (?player - player)
+    :precondition (authorized ?player)
+    :effect (not (administrator_know_compromised ?player))
+  )
+  ```
+
+### Action 26: make_no_change_to_website
+- action name: make_no_change_to_website
+- parameters: (?player - player)
+- precondition: (authorized ?player)
+- effect: (and (website_unchanged ?player))
+- pddl:
+  ```
+  (:action make_no_change_to_website
+    :parameters (?player - player)
+    :precondition (authorized ?player)
+    :effect (website_unchanged ?player)
+  )
+  ```
+
+### Action 27: create_fewest_file
+- action name: create_fewest_file
+- parameters: (?player - player)
+- precondition: (authorized ?player)
+- effect: (and (not (create_more_file_than_need ?player)))
+- pddl:
+  ```
+  (:action create_fewest_file
+    :parameters (?player - player)
+    :precondition (authorized ?player)
+    :effect (not (create_more_file_than_need ?player))
+  )
+  ```
+
+### Action 28: delete_additional_users
+- action name: delete_additional_users
+- parameters: (?player - player)
+- precondition: (authorized ?player)
+- effect: (and (not (additional_users ?player)))
+- pddl:
+  ```
+  (:action delete_additional_users
+    :parameters (?player - player)
+    :precondition (authorized ?player)
+    :effect (not (additional_users ?player))
+  )
+  ```
+
+### Action 29: hardcode_password
+- action name: hardcode_password
+- parameters: (?player - player)
+- precondition: (authorized ?player)
+- effect: (hardcoded_secret_password ?player)
+- pddl:
+  ```
+  (:action hardcode_password
+    :parameters (?player - player)
+    :precondition (authorized ?player)
+    :effect (hardcoded_secret_password ?player)
+  )
+  ```
+
+### Action 30: track_covered
+- action name: track_covered
+- parameters: (?player - player)
+- precondition: (authorized ?player)
+- effect: (and
+                (not (administrator_know_compromised ?player))
+                 (website_unchanged ?player))
+- pddl:
+  ```
+  (:action track_covered
+    :parameters (?player - player)
+    :precondition (authorized ?player)
+    :effect (and (not (administrator_know_compromised ?player)) (website_unchanged ?player))
+  )
+  ```
+
+### Action 31: learn_concepts
+- action name: learn_concepts
+- parameters: (?player - player)
+- precondition: (and)
+- effect: (and (know_hacking ?player) (know_ethics ?player))
+- pddl:
+  ```
+  (:action learn_concepts
+    :parameters (?player - player)
+    :precondition (and)
+    :effect (and (know_hacking ?player) (know_ethics ?player))
+  )
+  ```
+
+### Action 32: learn_internet
+- action name: learn_internet
+- parameters: (?player - player)
+- precondition: (and)
+- effect: (know_internet ?player)
+- pddl:
+  ```
+  (:action learn_internet
+    :parameters (?player - player)
+    :precondition (and)
+    :effect (know_internet ?player)
+  )
+  ```
+
+### Action 33: learn_programming
+- action name: learn_programming
+- parameters: (?player - player ?skill - skill)
+- precondition: (and (or (eq ?skill html) (eq ?skill cpp) (eq ?skill py) (eq ?skill php) (eq ?skill bash) (eq ?skill assembly)) (authorized ?player))
+- effect: (learned ?player ?skill)
+- pddl:
+  ```
+  (:action learn_programming
+    :parameters (?player - player ?skill - skill)
+    :precondition (and (or (eq ?skill html) (eq ?skill cpp) (eq ?skill py) (eq ?skill php) (eq ?skill bash) (eq ?skill assembly)) (authorized ?player))
+    :effect (learned ?player ?skill)
+  )
+  ```
+
+### Action 34: learn_unix
+- action name: learn_unix
+- parameters: (?player - player)
+- precondition: (and)
+- effect: (know_unix ?player)
+- pddl:
+  ```
+  (:action learn_unix
+    :parameters (?player - player)
+    :precondition (and)
+    :effect (know_unix ?player)
+  )
+  ```
+
+### Action 35: become_skilled
+- action name: become_skilled
+- parameters: (?player - player)
+- precondition: (and)
+- effect: (and (learned ?player hacking) (learned ?player unix))
+- pddl:
+  ```
+  (:action become_skilled
+    :parameters (?player - player)
+    :precondition (and)
+    :effect (and (learned ?player hacking) (learned ?player unix))
+  )
+  ```
+
+This concludes the PDDL action definitions for the hack scenario using the given predicates and required format.

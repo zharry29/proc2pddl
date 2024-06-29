@@ -1,1 +1,2 @@
-swim ('npc', 'qsand')
+get ('npc', 'stick', 'here')
+usestick ('npc', 'stick', 'qsand', 'here')

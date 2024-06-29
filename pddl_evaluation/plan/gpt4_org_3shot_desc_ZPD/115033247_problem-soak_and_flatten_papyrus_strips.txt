@@ -1,0 +1,1 @@
+place_strips_between_boards ('npc', 'papyrus_strips', 'wooden_boards')

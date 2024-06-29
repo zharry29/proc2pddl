@@ -1,0 +1,213 @@
+Sure, let's transform each action into the specified PDDL format. We'll go through each action step by step.
+
+### 1. Action: gather_info
+- action name: gather_info
+- summarize action: This action involves a player reading books to gather information on how to create a secret society.
+- what is needed to do the action: A player who is capable of reading or acquiring information.
+- what is the result: The player has the gathered information.
+
+- entities:
+  - entity name: player
+    - before: Does not have the information.
+    - after: Has the information.
+
+pddl action:
+```lisp
+(:action gather_info
+  :parameters (?p - player)
+  :precondition (not (has_info ?p))
+  :effect (has_info ?p)
+)
+```
+
+### 2. Action: create_secret
+- action name: create_secret
+- summarize action: This action involves creating a secret for the secret society.
+- what is needed to do the action: A secret society that has been established.
+- what is the result: The secret society now has a secret.
+
+- entities:
+  - entity name: secret_society
+    - before: Does not have a secret.
+    - after: Has a secret.
+
+pddl action:
+```lisp
+(:action create_secret
+  :parameters (?sc - secret_society)
+  :precondition (not (has_secret ?sc))
+  :effect (has_secret ?sc)
+)
+```
+
+### 3. Action: set_meeting_location
+- action name: set_meeting_location
+- summarize action: This action involves determining a regular secret meeting location for the society.
+- what is needed to do the action: A secret society that needs a meeting location.
+- what is the result: The secret society will have a set meeting location.
+
+- entities:
+  - entity name: secret_society
+    - before: Does not have a set meeting location.
+    - after: Has a set meeting location.
+
+pddl action:
+```lisp
+(:action set_meeting_location
+  :parameters (?sc - secret_society)
+  :precondition (not (has_location ?sc))
+  :effect (has_location ?sc)
+)
+```
+
+### 4. Action: set_dress_code
+- action name: set_dress_code
+- summarize action: This action involves determining the dress code for the secret society.
+- what is needed to do the action: A secret society that needs a dress code.
+- what is the result: The secret society will have a dress code.
+
+- entities:
+  - entity name: secret_society
+    - before: Does not have a dress code.
+    - after: Has a dress code.
+
+pddl action:
+```lisp
+(:action set_dress_code
+  :parameters (?sc - secret_society)
+  :precondition (not (has_dress_code ?sc))
+  :effect (has_dress_code ?sc)
+)
+```
+
+### 5. Action: create_name
+- action name: create_name
+- summarize action: This action involves creating a name for the secret society.
+- what is needed to do the action: A secret society that needs a name.
+- what is the result: The secret society will have a name.
+
+- entities:
+  - entity name: secret_society
+    - before: Does not have a name.
+    - after: Has a name.
+
+pddl action:
+```lisp
+(:action create_name
+  :parameters (?sc - secret_society)
+  :precondition (not (has_name ?sc))
+  :effect (has_name ?sc)
+)
+```
+
+### 6. Action: secret_society_is_ready
+- action name: secret_society_is_ready
+- summarize action: This action checks if all prerequisites of the secret society are complete.
+- what is needed to do the action: A secret society that has a secret, name, meeting location, and dress code.
+- what is the result: The secret society is marked as ready to add people.
+
+- entities:
+  - entity name: secret_society
+    - before: May or may not have all prerequisites.
+    - after: Marked as ready if all prerequisites are met.
+
+pddl action:
+```lisp
+(:action secret_society_is_ready
+  :parameters (?sc - secret_society)
+  :precondition (and (has_secret ?sc) (has_name ?sc) (has_location ?sc) (has_dress_code ?sc))
+  :effect (society_is_ready ?sc)
+)
+```
+
+### 7. Action: initiate_new_member
+- action name: initiate_new_member
+- summarize action: This action involves adding a new member to the secret society.
+- what is needed to do the action: A secret society that is ready and a player who is trusted.
+- what is the result: The player becomes a member of the secret society.
+
+- entities:
+  - entity name: player
+    - before: Not in the secret society.
+    - after: Member of the secret society.
+  - entity name: secret_society
+    - before: With current members.
+    - after: With one more member.
+
+pddl action:
+```lisp
+(:action initiate_new_member
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (society_is_ready ?sc) (is_trusted ?p ?sc) (not (in ?p ?sc)))
+  :effect (in ?p ?sc)
+)
+```
+
+### 8. Action: teach_new_member_secret
+- action name: teach_new_member_secret
+- summarize action: This action involves teaching the secret to a new member once they are deemed trustworthy.
+- what is needed to do the action: A player who is a member of the society and is trusted.
+- what is the result: The player knows the secret of the society.
+
+- entities:
+  - entity name: player
+    - before: Does not know the secret.
+    - after: Knows the secret.
+  - entity name: secret_society
+    - before: Has a secret.
+    - after: No change.
+
+pddl action:
+```lisp
+(:action teach_new_member_secret
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (in ?p ?sc) (is_trusted ?p ?sc) (has_secret ?sc) (not (knows_secret ?p ?sc)))
+  :effect (knows_secret ?p ?sc)
+)
+```
+
+### 9. Action: remove_member
+- action name: remove_member
+- summarize action: This action involves removing an existing member from the secret society due to untrustworthiness.
+- what is needed to do the action: A player who is a member and untrusted.
+- what is the result: The player is removed from the secret society.
+
+- entities:
+  - entity name: player
+    - before: Member of the secret society.
+    - after: Not a member of the secret society.
+
+- entity name: secret_society
+    - before: With current members.
+    - after: With one less member.
+
+pddl action:
+```lisp
+(:action remove_member
+  :parameters (?p - player ?sc - secret_society)
+  :precondition (and (in ?p ?sc) (not (is_trusted ?p ?sc)))
+  :effect (not (in ?p ?sc))
+)
+```
+
+### 10. Action: check_if_cult
+- action name: check_if_cult
+- summarize action: This action checks if the group meets the size requirement to be considered a cult.
+- what is needed to do the action: A secret society with a large number of members.
+- what is the result: The secret society is marked as a cult if it meets the requirement.
+
+- entities:
+  - entity name: secret_society
+    - before: May or may not be considered a cult.
+    - after: Marked as a cult if it meets the requirement.
+
+pddl action:
+```lisp
+(:action check_if_cult
+  :parameters (?sc - secret_society)
+  :precondition (large_enough ?sc) ; assuming there is a way to check if the society has enough members
+  :effect (is_cult ?sc)
+)
+```
+
+Note: The predicate `(large_enough ?sc)` must be defined elsewhere in your PDDL domain to check the size of the secret society. If it isn't, you'll need to include it as part of your predicates and ensure your precondition logic aligns with however you wish to determine when a society is "large enough."

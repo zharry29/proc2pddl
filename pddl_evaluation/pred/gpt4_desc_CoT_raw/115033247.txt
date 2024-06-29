@@ -1,135 +1,116 @@
-- action name: go
-- summarize action: Navigate to an adjacent location.
-- what is needed to do the action: The player needs to move from their current location to an adjacent location in a specified direction.
-- what is the result: The player will be at the new location.
-
-- entities:
-  - entity name: player
-    - before: at the current location
-    - after: at the adjacent location
-
-- describe how to match it to PDDL relevant predicates step by step:
-1. Match the current location of the player in the predicate (at ?obj - object ?loc - location) to represent their starting position.
-2. Match the adjacent location the player wants to go to using the predicate (connected ?loc1 - location ?dir - direction ?loc2 - location).
-3. Update the player's location with the new location using the (at ?obj - object ?loc - location) predicate.
-
-pddl:
+Action 1: go (navigate to an adjacent location)
+- parameters: (?player - player, ?dir - direction, ?loc - location)
+- precondition: (at ?player ?loc)
+- effect: (not (at ?player ?loc)) (at ?player ?loc2) (defined by connected location 1->direction->location 2)
+- pddl:
 ```
 (:action go
-  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
-  :precondition (and
-    (at ?player ?loc1)
-    (connected ?loc1 ?dir ?loc2))
-  :effect (and
-    (at ?player ?loc2)
-    (not (at ?player ?loc1))))
+   :parameters (?player - player, ?dir - direction, ?loc - location)
+   :precondition (at ?player ?loc)
+   :effect (and (not (at ?player ?loc)) (at ?player ?loc2))
+)
 ```
 
-- action name: get
-- summarize action: Pick up an item and put it in the inventory.
-- what is needed to do the action: The player needs to be at the same location as the item.
-- what is the result: The item will be in the player's inventory.
-
-- entities:
-  - entity name: item
-    - before: at a location
-    - after: in the player's inventory
-
-- describe how to match it to PDDL relevant predicates step by step:
-1. Check if the player and the item are at the same location using the (at ?obj - object ?loc - location) predicate.
-2. Add the item to the player's inventory using the (inventory ?player ?item) predicate.
-
-pddl:
+Action 2: get (pick up an item and put it in the inventory)
+- parameters: (?player - player, ?item - item, ?loc - location)
+- precondition: (at ?item ?loc) (at ?player ?loc)
+- effect: (not (at ?item ?loc)) (inventory ?player ?item)
+- pddl:
 ```
 (:action get
-  :parameters (?player - player ?item - item ?loc - location)
-  :precondition (and
-    (at ?player ?loc)
-    (at ?item ?loc))
-  :effect (and
-    (inventory ?player ?item)
-    (not (at ?item ?loc))))
+   :parameters (?player - player, ?item - item, ?loc - location)
+   :precondition (and (at ?item ?loc) (at ?player ?loc))
+   :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
 ```
 
-I will now provide PDDL for the remainder of the actions since the output format is clear. Please refer to the previous examples for guidance on mapping entities and predicates.
-
-- action name: pour_water
-pddl:
+Action 3: pour_water (pour water into bowl)
+- parameters: (?player - player, ?water - water, ?bowl - bowl)
+- precondition: (inventory ?player ?water) (inventory ?player ?bowl)
+- effect: (inventory ?player bowl_of_water)
+- pddl:
 ```
 (:action pour_water
-  :parameters (?player - player ?bowl - bowl ?bowl_of_water - bowl_of_water)
-  :precondition (inventory ?player ?bowl)
-  :effect (and
-    (inventory ?player ?bowl_of_water)
-    (not (inventory ?player ?bowl))))
+   :parameters (?player - player, ?water - water, ?bowl - bowl)
+   :precondition (and (inventory ?player ?water) (inventory ?player ?bowl))
+   :effect (inventory ?player bowl_of_water)
+)
 ```
 
-- action name: place_strips_between_boards
-pddl:
+Action 4: place_strips_between_boards (place papyrus strips between two wooden boards)
+- parameters: (?player - player, ?strips - papyrus_strips, ?board - wooden_boards)
+- precondition: (inventory ?player ?strips) (inventory ?player ?board)
+- effect: (strips_between_boards)
+- pddl:
 ```
 (:action place_strips_between_boards
-  :parameters (?player - player ?strips - papyrus_strips ?boards - wooden_boards)
-  :precondition (and
-    (inventory ?player ?strips)
-    (inventory ?player ?boards))
-  :effect (strips_between_boards))
+   :parameters (?player - player, ?strips - papyrus_strips, ?board - wooden_boards)
+   :precondition (and (inventory ?player ?strips) (inventory ?player ?board))
+   :effect (strips_between_boards)
+)
 ```
 
-- action name: cut_stalks
-pddl:
+Action 5: cut_stalks (cut stalks)
+- parameters: (?player - player, ?tree - papyrus_tree, ?pruner - pruner)
+- precondition: (inventory ?player ?pruner) (at ?player ?loc) (at ?tree ?loc)
+- effect: (inventory ?player papyrus_stalks)
+- pddl:
 ```
 (:action cut_stalks
-  :parameters (?player - player ?tree - papyrus_tree ?pruner - pruner ?stalks - papyrus_stalks)
-  :precondition (and
-    (inventory ?player ?pruner)
-    (at ?player ?tree))
-  :effect (and
-    (inventory ?player ?stalks)
-    (not (at ?player ?tree))))
+   :parameters (?player - player, ?tree - papyrus_tree, ?pruner - pruner)
+   :precondition (and (inventory ?player ?pruner) (at ?player ?loc) (at ?tree ?loc))
+   :effect (inventory ?player papyrus_stalks)
+)
 ```
 
-- action name: papyrus_strips
-pddl:
+Action 6: papyrus_strips (cut strips from stalks)
+- parameters: (?player - player, ?stalks - papyrus_stalks, ?knife - knife)
+- precondition: (inventory ?player ?stalks) (inventory ?player ?knife)
+- effect: (inventory ?player papyrus_strips)
+- pddl:
 ```
 (:action papyrus_strips
-  :parameters (?player - player ?stalks - papyrus_stalks ?knife - knife ?strips - papyrus_strips)
-  :precondition (and
-    (inventory ?player ?stalks)
-    (inventory ?player ?knife))
-  :effect (and
-    (inventory ?player ?strips)
-    (not (inventory ?player ?stalks))))
+   :parameters (?player - player, ?stalks - papyrus_stalks, ?knife - knife)
+   :precondition (and (inventory ?player ?stalks) (inventory ?player ?knife))
+   :effect (inventory ?player papyrus_strips)
+)
 ```
 
-- action name: polish_papyrus
-pddl:
+Action 7: polish_papyrus (use a stone to polish the papyrus)
+- parameters: (?player - player, ?papyrus - papyrus, ?stone - smooth_stone)
+- precondition: (inventory ?player ?papyrus) (inventory ?player ?stone)
+- effect: (polished ?papyrus)
+- pddl:
 ```
 (:action polish_papyrus
-  :parameters (?player - player ?papyrus - papyrus ?stone - smooth_stone)
-  :precondition (and
-    (inventory ?player ?papyrus)
-    (inventory ?player ?stone))
-  :effect (polished ?papyrus))
+   :parameters (?player - player, ?papyrus - papyrus, ?stone - smooth_stone)
+   :precondition (and (inventory ?player ?papyrus) (inventory ?player ?stone))
+   :effect (polished ?papyrus)
+)
 ```
 
-- action name: flatten_papyrus
-pddl:
+Action 8: flatten_papyrus (use a roller to make the papyrus flat)
+- parameters: (?player - player, ?roller - roller, ?papyrus - papyrus)
+- precondition: (inventory ?player ?roller) (strips_woven)
+- effect: (flattened ?papyrus)
+- pddl:
 ```
 (:action flatten_papyrus
-  :parameters (?player - player ?papyrus - papyrus ?roller - roller)
-  :precondition (and
-    (inventory ?player ?papyrus)
-    (inventory ?player ?roller))
-  :effect (flattened ?papyrus))
+   :parameters (?player - player, ?roller - roller, ?papyrus - papyrus)
+   :precondition (and (inventory ?player ?roller) (strips_woven))
+   :effect (flattened ?papyrus)
+)
 ```
 
-- action name: cut_papyrus
-pddl:
+Action 9: cut_papyrus (use a scissor to cut the papyrus)
+- parameters: (?player - player, ?papyrus - papyrus, ?scissors - scissors)
+- precondition: (inventory ?player ?scissors) (flattened ?papyrus)
+- effect: (cut ?papyrus)
+- pddl:
 ```
 (:action cut_papyrus
-  :parameters (?player - player ?papyrus - papyrus ?scissors - scissors)
-  :precondition (and
-    (inventory ?player ?papyrus)
-    (inventory ?player ?scissors))
-  :effect (cut ?papyrus))
+   :parameters (?player - player, ?papyrus - papyrus, ?scissors - scissors)
+   :precondition (and (inventory ?player ?scissors) (flattened ?papyrus))
+   :effect (cut ?papyrus)
+)
 ```

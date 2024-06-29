@@ -1,0 +1,234 @@
+Let's break down each action, summarize it, identify all the entities involved, describe their state changes, and finally translate the action into the correct PDDL format.
+
+### Action 1: listen_to_astronomers_predictions
+
+- action name: listen_to_astronomers_predictions
+- summarize action: This action involves listening to astronomers' predictions about a potential collision with Earth.
+- what is needed to do the action: The player needs to have a PC to listen to the broadcast and be at any location.
+- what is the result: The player will have listened to the astronomers' predictions.
+
+- entities:
+  - entity name: player
+    - before: having a PC
+    - after: listened to astronomers' predictions
+  
+pddl action:
+```pddl
+(:action listen_to_astronomers_predictions
+  :parameters (?p - player ?l - location)
+  :precondition (and (has_pc ?p) (at ?p ?l)) 
+  :effect (listen_to_broadcast ?p ?l)
+)
+```
+
+### Action 2: move_away
+
+- action name: move_away
+- summarize action: This action involves moving from a coastal area to an inland area.
+- what is needed to do the action: The player needs to be in a coastal area.
+- what is the result: The player will be in an inland area.
+
+- entities:
+  - entity name: player
+    - before: at a coastal area
+    - after: at an inland area
+  
+pddl action:
+```pddl
+(:action move_away
+  :parameters (?p - player ?c1 - city ?c2 - city)
+  :precondition (and (at ?p ?c1) (coastal ?c1) (inland ?c2) (connected ?c1 ?direction ?c2))
+  :effect (and (not (at ?p ?c1)) (at ?p ?c2))
+)
+```
+
+### Action 3: go
+
+- action name: go
+- summarize action: This action involves navigating from one location to an adjacent location.
+- what is needed to do the action: The player needs to be at an initial location and the destination should be an adjacent location.
+- what is the result: The player will move to the adjacent location.
+
+- entities:
+  - entity name: player
+    - before: at origin location
+    - after: at destination location
+  
+pddl action:
+```pddl
+(:action go
+  :parameters (?p - player ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2))
+  :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+)
+```
+
+### Action 4: buy_supplies
+
+- action name: buy_supplies
+- summarize action: This action involves buying supplies and putting them in the inventory.
+- what is needed to do the action: The player needs to be at a market location.
+- what is the result: Supplies will be added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: at market location
+    - after: has supplies in inventory
+  
+pddl action:
+```pddl
+(:action buy_supplies
+  :parameters (?p - player ?m - market ?s - item)
+  :precondition (and (at ?p ?m))
+  :effect (inventory ?s)
+)
+```
+
+### Action 5: check_supplies
+
+- action name: check_supplies
+- summarize action: This action involves checking if there are enough supplies in the inventory.
+- what is needed to do the action: Supplies should be in the inventory.
+- what is the result: It will be determined whether there are enough supplies.
+
+- entities:
+  - entity name: player
+    - before: has supplies in inventory
+    - after: determined if enough supplies
+    
+pddl action:
+```pddl
+(:action check_supplies
+  :parameters (?p - player)
+  :precondition (and (inventory ?s))
+  :effect (enough_supplies)
+)
+```
+
+### Action 6: buy_weapons
+
+- action name: buy_weapons
+- summarize action: This action involves buying weapons and putting them in the inventory.
+- what is needed to do the action: The player needs to be at a weapon market location and needs to have bought supplies first.
+- what is the result: Weapons will be added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: at weapon market location, having supplies
+    - after: has weapons in inventory
+  
+pddl action:
+```pddl
+(:action buy_weapons
+  :parameters (?p - player ?wm - weapon_market ?w - weapon)
+  :precondition (and (at ?p ?wm) (enough_supplies))
+  :effect (inventory ?w)
+)
+```
+
+### Action 7: check_weapons
+
+- action name: check_weapons
+- summarize action: This action involves checking if there are enough weapons in the inventory.
+- what is needed to do the action: Weapons should be in the inventory.
+- what is the result: It will be determined whether there are enough weapons.
+  
+- entities:
+  - entity name: player
+    - before: has weapons in inventory
+    - after: determined if enough weapons
+    
+pddl action:
+```pddl
+(:action check_weapons
+  :parameters (?p - player)
+  :precondition (and (inventory ?w))
+  :effect (enough_weapons)
+)
+```
+
+### Action 8: check_bunker
+
+- action name: check_bunker
+- summarize action: This action involves checking if the bunker is good for shielding (having an air filtration system and strong material).
+- what is needed to do the action: The player needs to be at the bunker location.
+- what is the result: It will be determined if the bunker is good for shielding.
+
+- entities:
+  - entity name: player
+    - before: at bunker location
+    - after: determined if the bunker is good for shielding
+    
+pddl action:
+```pddl
+(:action check_bunker
+  :parameters (?p - player ?b - bunker)
+  :precondition (and (at ?p ?b))
+  :effect (find_good_bunker ?b)
+)
+```
+
+### Action 9: outfit_bunker_with_energy_source
+
+- action name: outfit_bunker_with_energy_source
+- summarize action: This action involves outfitting the bunker with an energy source for heat.
+- what is needed to do the action: The player needs to be at the bunker location and have the energy source in their inventory.
+- what is the result: The bunker will be outfitted with heat.
+
+- entities:
+  - entity name: player
+    - before: has energy source in inventory
+    - after: bunker outfitted with heat
+    
+pddl action:
+```pddl
+(:action outfit_bunker_with_energy_source
+  :parameters (?p - player ?b - bunker ?e - energy_source)
+  :precondition (and (at ?p ?b) (inventory ?e))
+  :effect (outfit_bunker_with_heat ?b)
+)
+```
+
+### Action 10: enjoylife
+
+- action name: enjoylife
+- summarize action: This action involves enjoying life in a bunker after all preparations are done.
+- what is needed to do the action: The player needs to be at a bunker and the bunker needs to be outfitted with all required features.
+- what is the result: The player will enjoy life in the bunker.
+
+- entities:
+  - entity name: player
+    - before: at the bunker
+    - after: enjoying life in the bunker
+    
+pddl action:
+```pddl
+(:action enjoylife
+  :parameters (?p - player ?b - bunker)
+  :precondition (and (at ?p ?b) (outfit_bunker_with_heat ?b) (has_air_filtration_system ?b) (has_strong_material ?b))
+  :effect (enjoylife ?p ?b)
+)
+```
+
+### Action 11: connect_through_social_media_with_family
+
+- action name: connect_through_social_media_with_family
+- summarize action: This action involves letting family members know you are safe through social media.
+- what is needed to do the action: The player needs to have access to social media.
+- what is the result: Family members will be informed that the player is safe.
+
+- entities:
+  - entity name: player
+    - before: access to social media
+    - after: family members are informed
+    
+pddl action:
+```pddl
+(:action connect_through_social_media_with_family
+  :parameters (?p - player ?l - location)
+  :precondition (and (has_pc ?p) (at ?p ?l))
+  :effect (family_memebers_know_you_are_safe)
+)
+```
+
+All actions are translated per your requirements and utilize the necessary predicates and entities.

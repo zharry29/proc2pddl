@@ -1,0 +1,61 @@
+(:action go 
+ :parameters (?player ?location1 ?location2 ?direction)
+ :precondition (and (at ?player ?location1) (connected ?location1 ?direction ?location2) (not (blocked ?location1 ?direction ?location2)))
+ :effect (and (not (at ?player ?location1)) (at ?player ?location2)))
+
+(:action get 
+ :parameters (?player - player ?item - item ?location - location)
+ :precondition (and (at ?player ?location) (at ?item ?location))
+ :effect (and (not (at ?item ?location)) (inventory ?player ?item)))
+
+(:action breathe 
+ :parameters (?player - player)
+ :precondition (and (not (calm ?player)))
+ :effect (and (calm ?player)))
+
+(:action lie_down 
+ :parameters (?player - player)
+ :precondition (and (not (laying ?player)))
+ :effect (laying ?player))
+
+(:action swim 
+ :parameters (?player - player ?quicksand - quicksand)
+ :precondition (and (stuck ?player ?quicksand) (deep ?quicksand))
+ :effect (not (stuck ?player ?quicksand)))
+
+(:action use_stick 
+ :parameters (?player - player ?quicksand - quicksand ?stick - item)
+ :precondition (and (inventory ?player ?stick) (stuck ?player ?quicksand))
+ :effect (not (stuck ?player ?quicksand)))
+
+(:action rest 
+ :parameters (?player - player)
+ :precondition (tired ?player)
+ :effect (not (tired ?player)))
+
+(:action drop 
+ :parameters (?player - player ?item - item ?location - location)
+ :precondition (and (at ?player ?location) (inventory ?player ?item))
+ :effect (and (not (inventory ?player ?item)) (at ?item ?location)))
+
+(:action check_ripples 
+ :parameters (?player - player ?location - location)
+ :precondition (and (at ?player ?location) (has_ripples ?location))
+ :effect (and (aware ?player ?location)))
+
+(:action test_ground 
+ :parameters (?player - player ?location - location)
+ :precondition (at ?player ?location)
+ :effect (when (has_quicksand ?location) (aware ?player ?location)))
+
+(:action research 
+ :parameters (?player - player)
+ :precondition (not (calm ?player))
+ :effect (calm ?player))
+
+(:action move_horizontally 
+ :parameters (?player - player ?quicksand - quicksand)
+ :precondition (stuck ?player ?quicksand)
+ :effect (not (stuck ?player ?quicksand)))
+
+)

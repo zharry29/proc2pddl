@@ -1,3 +1,4 @@
-go ('npc', 'camp', 'stream', 'east')
-collect_water ('npc', 'bottle', 'stream', 'water')
+get ('npc', 'bottle', 'camp')
+go ('npc', 'camp', 'east', 'stream')
+collect_water ('npc', 'stream', 'bottle', 'water')
 drink_water ('npc', 'bottle', 'water')

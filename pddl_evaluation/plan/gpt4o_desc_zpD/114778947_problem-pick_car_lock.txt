@@ -1,0 +1,6 @@
+go ('npc', 'living_room', 'east', 'office')
+get ('npc', 'paper_clip', 'office')
+lift_weatherstripping ('car')
+insert_hanger ('npc', 'car', 'paper_clip')
+hook_latch ('car')
+pull_coathanger ('car')

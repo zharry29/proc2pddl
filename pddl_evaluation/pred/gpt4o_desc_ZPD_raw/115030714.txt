@@ -1,0 +1,326 @@
+Sure, I'll follow the format you've provided to fill in the PDDL actions given your requirements and types. 
+
+### 1. Action: go
+
+- summarize action: The player moves from one location to another that is connected by a specific direction.
+- what is needed to do the action: The two locations must be connected by a direction.
+- what is the result: The player will be at the new location.
+
+- entities:
+  - entity name: player 
+  - before: at(loc1) 
+  - after: not at(loc1), at(loc2)
+  - entity name: loc1 
+  - before: connected(loc1, direction, loc2) 
+  - after: unchanged
+  - entity name: loc2 
+  - before: connected(loc1, direction, loc2) 
+  - after: unchanged
+
+pddl:
+```
+(:action go
+  :parameters (?player - player ?loc1 ?loc2 - location ?dir - direction) 
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+  :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+```
+
+### 2. Action: get
+
+- summarize action: The player picks up an item from a location.
+- what is needed to do the action: The item must be at the player's current location.
+- what is the result: The player will have the item in their inventory.
+
+- entities:
+  - entity name: player 
+  - before: at(loc), not inventory(player, item) 
+  - after: inventory(player, item)
+  - entity name: item 
+  - before: at(loc, item) 
+  - after: not at(loc, item), inventory(player, item)
+
+pddl:
+```
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+```
+
+### 3. Action: drop
+
+- summarize action: The player drops an item at their current location.
+- what is needed to do the action: The player must have the item in their inventory.
+- what is the result: The item will be at the player's current location, and it will no longer be in their inventory.
+
+- entities:
+  - entity name: player 
+  - before: inventory(player, item) 
+  - after: not inventory(player, item)
+  - entity name: item 
+  - before: inventory(player, item) 
+  - after: at(loc, item)
+
+pddl:
+```
+(:action drop
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (inventory ?player ?item))
+  :effect (and (not (inventory ?player ?item)) (at ?item ?loc))
+)
+```
+
+### 4. Action: cook
+
+- summarize action: The player cooks food using the kitchen at their current location.
+- what is needed to do the action: The location must have a kitchen, and the player must have the food in their inventory.
+- what is the result: The food remains in the player's inventory (assumed to be cooked).
+
+- entities:
+  - entity name: player 
+  - before: inventory(player, food) 
+  - after: inventory(player, food)
+  - entity name: food 
+  - before: inventory(player, food) 
+  - after: unchanged
+  - entity name: location 
+  - before: has_kitchen(loc) 
+  - after: unchanged
+
+pddl:
+```
+(:action cook
+  :parameters (?player - player ?food - food ?loc - location)
+  :precondition (and (at ?player ?loc) (has_kitchen ?loc) (inventory ?player ?food))
+  :effect (and (inventory ?player ?food))
+)
+```
+
+### 5. Action: order_sushi
+
+- summarize action: The player orders sushi using a phone available in their inventory.
+- what is needed to do the action: The player must have a phone in their inventory.
+- what is the result: The player will have sushi in their inventory.
+
+- entities:
+  - entity name: player 
+  - before: inventory(player, phone), not inventory(player, sushi) 
+  - after: inventory(player, sushi)
+  - entity name: sushi 
+  - before: not inventory(player, sushi) 
+  - after: inventory(player, sushi)
+  - entity name: phone 
+  - before: inventory(player, phone) 
+  - after: unchanged
+
+pddl:
+```
+(:action order_sushi
+  :parameters (?player - player ?phone - phone ?sushi - sushi)
+  :precondition (inventory ?player ?phone)
+  :effect (inventory ?player ?sushi)
+)
+```
+
+### 6. Action: buy_sake
+
+- summarize action: The player buys sake using money available in their inventory.
+- what is needed to do the action: The player must have money in their inventory.
+- what is the result: The player will have sake in their inventory.
+
+- entities:
+  - entity name: player 
+  - before: inventory(player, money), not inventory(player, sake) 
+  - after: inventory(player, sake)
+  - entity name: sake 
+  - before: not inventory(player, sake) 
+  - after: inventory(player, sake)
+  - entity name: money 
+  - before: inventory(player, money) 
+  - after: unchanged
+
+pddl:
+```
+(:action buy_sake
+  :parameters (?player - player ?money - money ?sake - drink)
+  :precondition (inventory ?player ?money)
+  :effect (inventory ?player ?sake)
+)
+```
+
+### 7. Action: serve
+
+- summarize action: The player serves food or drink from their inventory at a location.
+- what is needed to do the action: The player must have the food or drink in their inventory.
+- what is the result: The food or drink will be placed at the player's current location.
+
+- entities:
+  - entity name: player 
+  - before: inventory(player, item) 
+  - after: not inventory(player, item)
+  - entity name: item 
+  - before: inventory(player, item) 
+  - after: at(loc, item)
+  - entity name: location 
+  - before: at(loc, player) 
+  - after: unchanged
+
+pddl:
+```
+(:action serve
+  :parameters (?player - player ?item - (either food drink) ?loc - location)
+  :precondition (and (at ?player ?loc) (inventory ?player ?item))
+  :effect (and (not (inventory ?player ?item)) (at ?item ?loc))
+)
+```
+
+### 8. Action: brew
+
+- summarize action: The player brews tea using their inventory.
+- what is needed to do the action: The player must have tea ingredients in their inventory.
+- what is the result: The player will have brewed tea in their inventory.
+
+- entities:
+  - entity name: player 
+  - before: inventory(player, tea_ingredients) 
+  - after: inventory(player, tea)
+  - entity name: tea_ingredients 
+  - before: inventory(player, tea_ingredients) 
+  - after: not inventory(player, tea_ingredients)
+  - entity name: tea 
+  - before: not inventory(player, tea) 
+  - after: inventory(player, tea)
+
+pddl:
+```
+(:action brew
+  :parameters (?player - player ?tea_ingredients - item ?tea - tea)
+  :precondition (inventory ?player ?tea_ingredients)
+  :effect (and (not (inventory ?player ?tea_ingredients)) (inventory ?player ?tea))
+)
+```
+
+### 9. Action: get_beer
+
+- summarize action: The player gets beer from a fridge at a location.
+- what is needed to do the action: The location must have a fridge.
+- what is the result: The player will have beer in their inventory.
+
+- entities:
+  - entity name: player 
+  - before: at(loc), not inventory(player, beer) 
+  - after: inventory(player, beer)
+  - entity name: fridge 
+  - before: has_fridge(loc) 
+  - after: unchanged
+  - entity name: beer 
+  - before: not inventory(player, beer) 
+  - after: inventory(player, beer)
+
+pddl:
+```
+(:action get_beer
+  :parameters (?player - player ?beer - drink ?loc - location)
+  :precondition (and (at ?player ?loc) (has_fridge ?loc))
+  :effect (inventory ?player ?beer)
+)
+```
+
+### 10. Action: open
+
+- summarize action: The player opens a drink in their inventory.
+- what is needed to do the action: The player must have the drink in their inventory.
+- what is the result: The drink will be flagged as opened.
+
+- entities:
+  - entity name: player 
+  - before: inventory(player, drink) 
+  - after: inventory(player, drink)
+  - entity name: drink 
+  - before: inventory(player, drink) 
+  - after: opened(drink)
+
+pddl:
+```
+(:action open
+  :parameters (?player - player ?drink - drink)
+  :precondition (inventory ?player ?drink)
+  :effect (opened ?drink)
+)
+```
+
+### 11. Action: hang_lantern
+
+- summarize action: The player hangs a lantern at a location.
+- what is needed to do the action: The player must have the lantern in their inventory.
+- what is the result: The lantern will be hung at the location.
+
+- entities:
+  - entity name: player 
+  - before: inventory(player, lantern) 
+  - after: not inventory(player, lantern)
+  - entity name: lantern 
+  - before: inventory(player, lantern) 
+  - after: hung(lantern)
+  - entity name: location 
+  - before: at(loc, player) 
+  - after: unchanged
+
+pddl:
+```
+(:action hang_lantern
+  :parameters (?player - player ?lantern - lantern ?loc - location)
+  :precondition (and (at ?player ?loc) (inventory ?player ?lantern))
+  :effect (and (not (inventory ?player ?lantern)) (hung ?lantern))
+)
+```
+
+### 12. Action: blow_balloon
+
+- summarize action: The player inflates a balloon.
+- what is needed to do the action: The player must have the balloon in their inventory.
+- what is the result: The balloon will be inflated.
+
+- entities:
+  - entity name: player 
+  - before: inventory(player, balloon) 
+  - after: inventory(player, balloon)
+  - entity name: balloon 
+  - before: inventory(player, balloon) 
+  - after: inflated(balloon)
+
+pddl:
+```
+(:action blow_balloon
+  :parameters (?player - player ?balloon - balloon)
+  :precondition (inventory ?player ?balloon)
+  :effect (inflated ?balloon)
+)
+```
+
+### 13. Action: turn_on_tv
+
+- summarize action: The player turns on the TV at their current location.
+- what is needed to do the action: The TV must be at the player's current location.
+- what is the result: The TV will be turned on.
+
+- entities:
+  - entity name: player 
+  - before: at(loc) 
+  - after: at(loc)
+  - entity name: tv 
+  - before: at(loc, tv), not on(tv) 
+  - after: on(tv)
+
+pddl:
+```
+(:action turn_on_tv
+  :parameters (?player - player ?tv - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?tv ?loc))
+  :effect (on ?tv)
+)
+```
+
+I hope this meets your requirements! Each action includes a summary, what is needed to perform it, the result, and the entities involved. The corresponding PDDL notation reflects this structure.

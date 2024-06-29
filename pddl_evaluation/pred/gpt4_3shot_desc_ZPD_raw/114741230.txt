@@ -1,0 +1,124 @@
+Here are the actions translated into pddl based on your specification:
+
+- action name: gather_info
+  - summarize action: The player reads books to gather information on how to create a secret society.
+  - what is needed to do the action: A player.
+  - what is the result: The player has the information.
+  pddl action:
+  ```
+  (:action gather_info
+    :parameters (?p - player)
+    :precondition (not (has_info ?p))
+    :effect (has_info ?p)
+  )
+  ```
+- action name: create_secret
+  - summarize action: Create a secret for a secret society.
+  - what is needed to do the action: A secret society.
+  - what is the result: The secret society has a secret.
+  pddl action:
+  ```
+  (:action create_secret
+    :parameters (?sc - secret_society)
+    :precondition (not (has_secret ?sc))
+    :effect (has_secret ?sc)
+  )
+  ```
+- action name: set_meeting_location
+  - summarize action: Determine a regular secret meeting location for the society.
+  - what is needed to do the action: A secret society.
+  - what is the result: The secret society has a location.
+  pddl action:
+  ```
+  (:action set_meeting_location
+    :parameters (?sc - secret_society)
+    :precondition (not (has_location ?sc))
+    :effect (has_location ?sc)
+  )
+  ```
+- action name: set_dress_code
+  - summarize action: Determines the dress code for the secret society.
+  - what is needed to do the action: A secret society.
+  - what is the result: The secret society has a dress code.
+  pddl action:
+  ```
+  (:action set_dress_code
+    :parameters (?sc - secret_society)
+    :precondition (not (has_dress_code ?sc))
+    :effect (has_dress_code ?sc)
+  )
+  ```
+- action name: create_name
+  - summarize action: Create a name for a secret society.
+  - what is needed to do the action: A secret society.
+  - what is the result: The secret society has a name.
+  pddl action:
+  ```
+  (:action create_name
+    :parameters (?sc - secret_society)
+    :precondition (not (has_name ?sc))
+    :effect (has_name ?sc)
+  )
+  ```
+- action name: secret_society_is_ready
+  - summarize action: Check that all prerequisites of the secret society are complete.
+  - what is needed to do the action: A secret society.
+  - what is the result: The secret society is ready.
+  pddl action:
+  ```
+  (:action secret_society_is_ready
+    :parameters (?sc - secret_society)
+    :precondition (and (has_name ?sc) (has_dress_code ?sc) (has_location ?sc) (has_secret ?sc))
+    :effect (society_is_ready ?sc)
+  )
+  ```
+- action name: initiate_new_member
+  - summarize action: Add a new member to secret society.
+  - what is needed to do the action: A player and a ready secret society.
+  - what is the result: The player is in the secret society.
+  pddl action:
+  ```
+  (:action initiate_new_member
+    :parameters (?p - player ?sc - secret_society)
+    :precondition (and (not (in ?p ?sc)) (society_is_ready ?sc))
+    :effect (in ?p ?sc)
+  )
+  ```
+- action name: teach_new_member_secret
+  - summarize action: Once a new member becomes trustworthy, teach them the secret.
+  - what is needed to do the action: A player who is in the secret society, who does not know the secret, but is trusted.
+  - what is the result: The player knows the secret.
+  pddl action:
+  ```
+  (:action teach_new_member_secret
+    :parameters (?p - player ?sc - secret_society)
+    :precondition (and (in ?p ?sc) (is_trusted ?p ?sc) (not (knows_secret ?p ?sc)))
+    :effect (knows_secret ?p ?sc)
+  )
+  ```
+- action name: remove_member
+  - summarize action: Remove an existing society member due to untrustworthiness.
+  - what is needed to do the action: A player who is in the secret society.
+  - what is the result: The player is not in the secret society.
+  pddl action:
+  ```
+  (:action remove_member
+    :parameters (?p - player ?sc - secret_society)
+    :precondition (in ?p ?sc)
+    :effect (not (in ?p ?sc))
+  )
+  ```
+- action name: check_if_cult
+  - summarize action: Check if the group is large enough for a cult.
+  - what is needed to do the action: An Internet and a secret society.
+  - what is the result: The secret society is a cult.
+  This action is unspecified and needs more elaboration to be translated into a meaningful pddl action.
+  However, assuming that there's a fixed number (for example 10) of members required to be recognized as a cult, and keeping track of the member count, we can write the following pddl action:
+  ```
+  (:action check_if_cult
+    :parameters (?sc - secret_society)
+    :precondition (>= (count_member ?sc) 10)
+    :effect (is_cult ?sc)
+  ) 
+  ```
+Please note, you'll need to define the `count_member` operator (which counts the number of members in a secret society) in your domain. Keep in mind that PDDL doesn't support the counting function or inequality natively, so you might need an extension or workaround depending on the planner you're using. Your available predicates also need to track every society member for this to work.

@@ -1,102 +1,67 @@
 (:action splash_swim
- :parameters (?player - player ?loc - location ?dir - direction ?dest - location)
- :precondition (and 
-                 (at ?player ?loc)
-                 (is_water ?loc)
-                 (not (on ?player ?ship))
-                 (connected ?loc ?dir ?dest)
-                 (is_water ?dest)
-               )
- :effect (and
-            (at ?player ?dest)
-            (not (at ?player ?loc))
-          )
+  :parameters (?player - player ?loc - location)
+  :precondition (and (at ?player ?loc)  (is_water ?loc))
+  :effect (fleed ?shark)
 )
 
 (:action swim
- :parameters (?player - player ?loc - location ?dir - direction ?dest - location)
- :precondition (and 
-                 (at ?player ?loc)
-                 (is_water ?loc)
-                 (not (on ?player ?ship))
-                 (connected ?loc ?dir ?dest)
-                 (is_water ?dest)
-               )
- :effect (and
-            (at ?player ?dest)
-            (not (at ?player ?loc))
-          )
+  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (is_water ?loc2))
+  :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
 )
 
 (:action get
- :parameters (?player - player ?item - item ?loc - location)
- :precondition (and 
-                 (at ?player ?loc)
-                 (at ?item ?loc)
-               )
- :effect (and
-            (inventory ?player ?item)
-            (not (at ?item ?loc))
-          )
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
 )
 
 (:action onboard
- :parameters (?player - player ?ship - ship ?loc - location)
- :precondition (and
-                 (at ?player ?loc)
-                 (at ?ship ?loc)
-               )
- :effect (on ?player ?ship)
-) 
+  :parameters (?player - player ?ship - ship)
+  :precondition (visible ?ship)
+  :effect (on ?player ?ship)
+)
 
 (:action defend
- :parameters (?player - player ?shark - shark)
- :precondition (attacked ?player ?shark)
- :effect (defending ?player)
+  :parameters (?player - player)
+  :precondition (wounded ?player)
+  :effect (defending ?player)
 )
 
 (:action spot_ship
- :parameters (?player - player ?ship - ship)
- :precondition (visible ?ship)
- :effect (and)
+  :parameters (?player - player ?ship - ship)
+  :precondition (at ?ship ?loc)
+  :effect (visible ?ship)
 )
 
 (:action spot_shark
- :parameters (?player - player ?shark - shark)
- :precondition (visible ?shark)
- :effect (and)
+  :parameters (?player - player ?shark - shark)
+  :precondition (at ?shark ?loc)
+  :effect (visible ?shark)
 )
 
 (:action self_mobilize
- :parameters (?player - player)
- :precondition (defending ?player)
- :effect (and)
+  :parameters (?player - player ?shark - shark)
+  :precondition (at ?player ?loc)
+  :effect (defending ?player)
 )
 
 (:action medicare
- :parameters (?player - player)
- :precondition (wounded ?player)
- :effect (not (wounded ?player))
+  :parameters (?player - player)
+  :precondition (wounded ?player)
+  :effect (not (wounded ?player))
 )
 
 (:action attack_vulnerable
- :parameters (?player - player ?shark - shark ?part - part ?tool - object)
- :precondition (and 
-                 (vulnerable ?part)
-                 (inventory ?player ?tool)
-                 (or (sharp ?tool) (heavy ?tool))
-               )
- :effect (dizzy ?shark)
+  :parameters (?player - player ?shark - shark ?part - part ?obj - object)
+  :precondition (and (vulnerable ?part) (sharp ?obj) (inventory ?player ?obj))
+  :effect (dizzy ?shark)
 )
 
 (:action knockout
- :parameters (?player - player ?shark - shark ?part - part ?tool - object)
- :precondition (and 
-                 (vulnerable ?part)
-                 (inventory ?player ?tool)
-                 (or (sharp ?tool) (heavy ?tool))
-               )
- :effect (fleed ?shark)
+  :parameters (?player - player ?shark - shark ?part - part ?obj - object)
+  :precondition (and (vulnerable ?part) (heavy ?obj) (inventory ?player ?obj))
+  :effect (dizzy ?shark)
 )
 
 )

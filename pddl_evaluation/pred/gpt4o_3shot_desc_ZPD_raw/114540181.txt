@@ -1,0 +1,300 @@
+Sure, let's formulate the actions based on your provided requirements, types, and predicates.
+
+### Action: Go
+- action name: go
+- summarize action: Navigate to an adjacent location.
+- what is needed to do the action: A current location, a direction and the adjacent location that is not blocked.
+- what is the result: The player is at the new location.
+
+- entities:
+  - entity name: player
+    - before: at an initial location
+    - after: at an adjacent location
+  - entity name: location
+    - before: connected by direction
+    - after: player at the new location
+  - entity name: direction
+    - before: available
+    - after: unchanged
+
+pddl action:
+```pddl
+(:action go
+   :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+   :precondition (and (at ?player ?loc1) 
+                      (connected ?loc1 ?dir ?loc2)
+                      (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+)
+```
+
+### Action: Get
+- action name: get
+- summarize action: Pick up an item and put it in the inventory.
+- what is needed to do the action: A player, an item and their location must be the same.
+- what is the result: The item is placed in the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: at the location
+    - after: at the location with item in inventory
+  - entity name: item
+    - before: at the location
+    - after: in the player's inventory
+
+pddl action:
+```pddl
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (at ?player ?loc)
+                       (at ?item ?loc))
+   :effect (and (inventory ?player ?item)
+                (not (at ?item ?loc)))
+)
+```
+
+### Action: Get Bamboo Container
+- action name: get_bamboo_container
+- summarize action: Get a bamboo container using surrounding bamboo.
+- what is needed to do the action: The player needs to be at a location with bamboo.
+- what is the result: The bamboo container is in the player's inventory.
+
+- entities:
+  - entity name: bamboo container
+    - before: not in inventory
+    - after: in inventory
+  - entity name: player
+    - before: at a location with bamboo
+    - after: at the location with bamboo container in inventory
+
+pddl action:
+```pddl
+(:action get_bamboo_container
+   :parameters (?player - player ?loc - location)
+   :precondition (and (at ?player ?loc) 
+                       (has_bamboo ?loc))
+   :effect (inventory ?player ?bamboo_container)
+)
+```
+
+### Action: Collect Rain Water
+- action name: collect_rain_water
+- summarize action: Collect rainwater using a bamboo container.
+- what is needed to do the action: The player needs a bamboo container, and there must be rainfall at the location.
+- what is the result: The player collects rainwater in the bamboo container.
+
+- entities:
+  - entity name: player
+    - before: having an empty bamboo container
+    - after: having a bamboo container with water
+  - entity name: bamboo container
+    - before: empty
+    - after: filled with water
+
+pddl action:
+```pddl
+(:action collect_rain_water
+   :parameters (?player - player ?loc - location ?container - bamboo_container)
+   :precondition (and (at ?player ?loc)
+                      (inventory ?player ?container)
+                      (has_rainfall ?loc))
+   :effect (inventory ?player ?water)
+)
+```
+
+### Action: Create Fire
+- action name: create_fire
+- summarize action: Create a fire using wood and stone.
+- what is needed to do the action: The player needs wood, stone, and a location to create the fire.
+- what is the result: The player creates a fire at the location.
+
+- entities:
+  - entity name: player
+    - before: having wood and stone in inventory
+    - after: having created a fire at the location
+  - entity name: fire
+    - before: not existing
+    - after: existing at the location
+
+pddl action:
+```pddl
+(:action create_fire
+   :parameters (?player - player ?loc - location ?wood - wood ?stone - stone)
+   :precondition (and (inventory ?player ?wood)
+                      (inventory ?player ?stone)
+                      (at ?player ?loc))
+   :effect (at ?fire ?loc)
+)
+```
+
+### Action: Treat Water
+- action name: treat_water
+- summarize action: Treat contaminated water by boiling it using fire.
+- what is needed to do the action: Contaminated water, a bamboo container, and fire.
+- what is the result: The water is treated and safe for drinking.
+
+- entities:
+  - entity name: water
+    - before: untreated
+    - after: treated
+  - entity name: fire
+    - before: existing
+    - after: unchanged
+
+pddl action:
+```pddl
+(:action treat_water
+   :parameters (?player - player ?container - bamboo_container ?water - water ?loc - location)
+   :precondition (and (inventory ?player ?container)
+                      (at ?fire ?loc)
+                      (not (treated ?water)))
+   :effect (treated ?water)
+)
+```
+
+### Action: Drink Water
+- action name: drink_water
+- summarize action: Drink treated water to lessen dehydration.
+- what is needed to do the action: The player must have treated water in the inventory.
+- what is the result: The player's dehydration condition is resolved.
+
+- entities:
+  - entity name: player
+    - before: dehydrated
+    - after: not dehydrated
+  - entity name: container
+    - before: containing treated water
+    - after: containing less or no water
+
+pddl action:
+```pddl
+(:action drink_water
+   :parameters (?player - player ?water - water ?container - bamboo_container)
+   :precondition (and (inventory ?player ?container)
+                      (treated ?water)
+                      (is dehydrated ?player))
+   :effect (and (not (is dehydrated ?player)))
+)
+```
+
+### Action: Drink Untreated Water
+- action name: drink_untreated_water
+- summarize action: Drink untreated water from a bamboo container.
+- what is needed to do the action: The player must have untreated water in the bamboo container.
+- what is the result: The player's dehydration is resolved, but there is a risk of illness.
+
+- entities:
+  - entity name: player
+    - before: dehydrated
+    - after: not dehydrated, but possibly ill
+  - entity name: container
+    - before: containing untreated water
+    - after: containing less or no water
+
+pddl action:
+```pddl
+(:action drink_untreated_water
+   :parameters (?player - player ?water - water ?container - bamboo_container)
+   :precondition (and (inventory ?player ?container)
+                      (not (treated ?water))
+                      (is dehydrated ?player))
+   :effect (and (not (is dehydrated ?player))
+                (is ill ?player))
+)
+```
+
+### Action: Create SOS Sign
+- action name: create_sos_sign
+- summarize action: Create an SOS sign to signal for help.
+- what is needed to do the action: The player needs stones and wood.
+- what is the result: The SOS sign is created at the player's location.
+
+- entities:
+  - entity name: player
+    - before: having stones and wood in inventory
+    - after: having created an SOS sign
+  - entity name: sos_sign
+    - before: not existing
+    - after: existing at the location
+
+pddl action:
+```pddl
+(:action create_sos_sign
+   :parameters (?player - player ?loc - location ?stone - stone ?wood - wood)
+   :precondition (and (inventory ?player ?stone)
+                      (inventory ?player ?wood)
+                      (at ?player ?loc))
+   :effect (at ?sos_sign ?loc)
+)
+```
+
+### Action: Pick Fruit
+- action name: pick_fruit
+- summarize action: Pick fruit from a location with available fruit.
+- what is needed to do the action: The player must be at a location with fruit.
+- what is the result: The fruit is placed in the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: at a location with fruit
+    - after: having fruit in the inventory
+  - entity name: fruit
+    - before: on tree or ground
+    - after: in the inventory
+
+pddl action:
+```pddl
+(:action pick_fruit
+   :parameters (?player - player ?fruit - fruit ?loc - location)
+   :precondition (and (at ?player ?loc)
+                      (has_fruit ?loc))
+   :effect (inventory ?player ?fruit)
+)
+```
+
+### Action: Eat Fruit
+- action name: eat_fruit
+- summarize action: Eat fruit to satisfy hunger.
+- what is needed to do the action: The player must have fruit in the inventory.
+- what is the result: The player is no longer hungry.
+
+- entities:
+  - entity name: player
+    - before: hungry
+    - after: not hungry
+  - entity name: fruit
+    - before: in inventory
+    - after: consumed
+
+pddl action:
+```pddl
+(:action eat_fruit
+   :parameters (?player - player ?fruit - fruit)
+   :precondition (and (inventory ?player ?fruit)
+                      (is hungry ?player))
+   :effect (and (not (is hungry ?player))
+                (not (inventory ?player ?fruit)))
+)
+```
+
+### Action: Escape
+- action name: escape
+- summarize action: Escape from the jungle.
+- what is needed to do the action: No special requirement.
+- what is the result: The player escapes the jungle.
+
+- entities:
+  - entity name: player
+    - before: in the jungle
+    - after: escaped
+
+pddl action:
+```pddl
+(:action escape
+   :parameters (?player - player)
+   :precondition (at ?player)
+   :effect (not (at ?player))
+)
+```
+
+Note that some actions like "collect_rain_water", and "treat_water" might need refining depending on the exact details of inventory management and conditions in your domain specification. Please adjust them accordingly based on additional specifics if necessary.

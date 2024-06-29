@@ -1,0 +1,290 @@
+action name: go
+summarize action: This action is about navigating from one location to another which is adjacent to the current location.
+what is needed to do the action: Player at a specific location, connected direction and end location.
+what is the result: The player reaches the new location.
+
+entities:
+  - entity name: player
+    - before: At current location
+    - after: At new location
+  - entity name: locations
+    - before: Initial and final locations
+    - after: Unchanged, only player position changes
+
+pddl action:
+(:action go
+ :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+
+The remaining actions can be translated in a similar manner. Here is one more for example.
+
+action name: get_water
+summarize action: This action is about a player getting water from a location that has a water source.
+what is needed to do the action: Location with water source, player
+what is the result: Player has water in their inventory.
+
+entities:
+  - entity name: player
+    - before: Without water
+    - after: With water
+  - entity name: water
+    - before: In location
+    - after: In player's inventory
+  - entity name: location
+    - before: Has water source
+    - after: Unchanged
+
+pddl action:
+(:action get_water
+ :parameters (?player - player ?location - location ?water - water)
+ :precondition (and (at ?player ?location) (has_water_source ?location))
+ :effect (inventory ?player ?water)
+)
+Action name: chop_wood
+Summarize action: In this action, the player chops down wood from a nearby tree.
+What is needed to do the action: A location with available wood and a player.
+What is the result: The player holds the chopped wood in their inventory.
+
+Entities:
+  - Entity name: player
+    - Before: Without wood.
+    - After: With wood.
+  - Entity name: wood
+    - Before: In the location (tree).
+    - After: In player’s inventory.
+  - Entity name: location
+    - Before: Has wood.
+    - After: Unchanged
+
+PDDL action:
+(:action chop_wood
+ :parameters (?player - player ?location - location ?wood - wood)
+ :precondition (and (at ?player ?location) (has_wood ?location))
+ :effect (inventory ?player ?wood)
+)
+
+Action name: carve_groove
+Summarize action: In this action, the player carves a groove in a piece of wood.
+What is needed to do the action: A player and a piece of wood that is not already grooved.
+What is the result: The wood that the player is holding is grooved.
+
+Entities:
+  - Entity name: player 
+    - Before: Holding wood.
+    - After: Holding grooved wood.
+  - Entity name: wood 
+    - Before: Not grooved.
+    - After: Grooved.
+
+PDDL action:
+(:action carve_groove
+ :parameters (?player - player ?wood - wood)
+ :precondition (and (inventory ?player ?wood) (not (groove ?wood)))
+ :effect (groove ?wood)
+)
+
+We can follow this pattern for other actions as well.
+Action name: light_fire
+Summarize action: This action allows the player to light a fire in a location that is safe for lighting a fire.
+What is needed to do the action: A location that is safe for lighting a fire and a player.
+What is the result: A fire is lit in the location.
+
+Entities:
+  - Entity name: player
+    - Before: At location without fire
+    - After: At location with fire
+  - Entity name: location
+    - Before: Does not have fire
+    - After: Has fire
+
+PDDL action:
+(:action light_fire
+ :parameters (?player - player ?location - location)
+ :precondition (and (at ?player ?location) (can_light_fire ?location))
+ :effect (has_fire ?location)
+)
+
+Action name: build_shelter
+Summarize action: In this action, the player builds a shelter on a safe location.
+What is needed to do the action: A player and a safe location.
+What is the result: A shelter is built on the location.
+
+Entities:
+  - Entity name: player
+    - Before: At safe location without shelter
+    - After: At safe location with shelter
+  - Entity name: location
+    - Before: Safe but without shelter
+    - After: Safe with shelter
+
+PDDL action:
+(:action build_shelter
+ :parameters (?player - player ?location - location)
+ :precondition (and (at ?player ?location) (is_safe ?location))
+ :effect (has_shelter ?location)
+) 
+
+I have provided PDDL format for five of the actions. Similar approach can be followed for writing PDDL for the remaining actions.
+Action name: clean_water
+Summarize action: This action involves cleaning water by boiling it in a location with a fire.
+What is needed to do the action: A player, a location with fire, and water from the player's inventory.
+What is the result: The water has been cleaned (treated), and is now drinkable.
+
+Entities:
+  - Entity name: player
+    - Before: Has untreated water.
+    - After: Has treated water.
+  - Entity name: water
+    - Before: Untreated (not drinkable).
+    - After: Treated (drinkable).
+  - Entity name: location
+    - before: Has fire.
+    - after: Unchanged.
+
+PDDL action:
+(:action clean_water
+ :parameters (?player - player ?location - location ?water - water)
+ :precondition (and (at ?player ?location) (has_fire ?location) (inventory ?player ?water) (not(treated ?water)))
+ :effect (treated ?water)
+)
+
+Action name: drink_water
+Summarize action: This action involves the player drinking the cleaned (treated) water from their inventory.
+What is needed to do the action: A player and treated (drinkable) water in their inventory.
+What is the result: The player has drunk the water, so it's no longer in their inventory.
+
+Entities:
+  - Entity name: player
+    - Before: Has treated (drinkable) water in inventory.
+    - After: Doesn't have treated water in inventory.
+  - Entity name: water
+    - Before: Treated (in player's inventory).
+    - After: Drank (not in player's inventory).
+
+PDDL action:
+(:action drink_water
+ :parameters (?player - player ?water - water)
+ :precondition (and (treated ?water) (inventory ?player ?water))
+ :effect (and (drank ?water) (not (inventory ?player ?water)))
+)
+This same process can be finished for the remaining actions.
+Action name: find_other_survivors
+Summarize action: This action involves the player finding other survivors on the deserted island.
+What is needed to do the action: A location and a player.
+What is the result: The player has found a survivor.
+
+Entities:
+  - Entity name: player
+    - Before: Without companion
+    - After: With companion
+  - Entity name: survivor
+    - Before: Alone
+    - After: Found by the player
+  - Entity name: location
+    - Before: Contains a survivor
+    - After: Unchanged 
+
+PDDL action:
+(:action find_other_survivors
+ :parameters (?player - player ?location - location ?survivor - survivor)
+ :precondition (and (at ?player ?location) (at ?survivor ?location))
+ :effect (has_friend ?survivor)
+)
+
+Action name: build_raft
+Summarize action: The player builds a raft to escape the deserted island.
+What is needed to do the action: A location near an ocean, a player, and some necessary materials like wood and vines.
+What is the result: A raft is built.
+
+Entities:
+  - Entity name: player
+    - Before: Without raft
+    - After: With raft
+  - Entity name: raft
+    - Before: Not built
+    - After: Built
+  - Entity name: location
+    - Before: Near an ocean, contains the player and necessary materials
+    - After: Unchanged
+
+PDDL action:
+(:action build_raft
+ :parameters (?player - player ?location - location ?raft - raft)
+ :precondition (and (at ?player ?location) (at_ocean ?location) (inventory ?player ?wood) (inventory ?player ?vines))
+ :effect (and (at ?raft ?location) (not (inventory ?player ?wood)) (not (inventory ?player ?vines)))
+) 
+
+Remaining actions can be similarly translated.
+Action name: make_weapon
+Summarize action: This action involves the player making a spear for hunting fish.
+What is needed to do the action: A player, and necessary materials like wood and stone.
+What is the result: The player has a spear.
+
+Entities:
+  - Entity name: player
+    - Before: Without a spear
+    - After: With a spear
+  - Entity name: spear
+    - Before: Not created
+    - After: Created 
+  - Entity name: wood, stone
+    - Before: In player's inventory
+    - After: Used to make a spear 
+
+PDDL action:
+(:action make_weapon
+ :parameters (?player - player ?spearr - spear ?wood - wood ?stone - stone)
+ :precondition (and (inventory ?player ?wood) (inventory ?player ?stone) (not (inventory ?player ?spear)))
+ :effect (and (not (inventory ?player ?wood)) (not (inventory ?player ?stone)) (inventory ?player ?spear))
+)
+
+Action name: hunt_fish
+Summarize action: This action involves the player hunting fish with a spear.
+What is needed to do the action: A player with a spear, location with fish.
+What is the result: The player has a fish.
+
+Entities:
+  - Entity name: player
+    - Before: With a spear and without a fish
+    - After: With a fish
+  - Entity name: fish
+    - Before: Available in location
+    - After: In player's inventory
+  - Entity name: location
+    - Before: Contains fish
+    - After: Lacks one fish
+
+PDDL action:
+(:action hunt_fish
+ :parameters (?player - player ?location - location ?fish - fish)
+ :precondition (and (at ?player ?location) (inventory ?player ?spear) (has_fish ?location))
+ :effect (and (not (has_fish ?location)) (inventory ?player ?fish))
+) 
+
+Similarly, the final action can be translated.
+Action name: cook_fish
+Summarize action: This action involves the player cooking a fish.
+What is needed to do the action: A player, a location with a fire, and a fish from the player's inventory.
+What is the result: The fish has been cooked.
+
+Entities:
+  - Entity name: player
+    - Before: Has uncooked fish in inventory
+    - After: Has cooked fish in inventory
+  - Entity name: fish
+    - Before: Raw (in player's inventory)
+    - After: Cooked (in player's inventory)
+  - Entity name: location
+    - Before: Has fire
+    - After: Unchanged
+
+PDDL action:
+(:action cook_fish
+ :parameters (?player - player ?location - location ?fish - fish)
+ :precondition (and (at ?player ?location) (has_fire ?location) (inventory ?player ?fish) (not (cooked ?fish)))
+ :effect (cooked ?fish)
+)
+
+With this last action, all actions in the given survival scenario were translated into the PDDL format. Each action was translated by identifying its main constituents (parameters), its preconditions, and its final effects. Please apply the same methods for translating actions in other scenarios.

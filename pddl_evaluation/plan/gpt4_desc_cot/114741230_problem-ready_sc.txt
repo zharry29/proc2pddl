@@ -1,1 +1,1 @@
-Error: Action initiate_new_member redefined
+Error: Error with check_if_cult preconditions

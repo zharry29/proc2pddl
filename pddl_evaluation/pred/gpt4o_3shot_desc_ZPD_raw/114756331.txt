@@ -1,0 +1,273 @@
+Sure, let's define each of the actions in PDDL format based on the given types and predicates.
+
+### Action 1: Go
+- action name: `go`
+- summarize action: This action allows the player to navigate to an adjacent location that is connected in a specific direction.
+- what is needed to do the action: The player needs to be at a location and there must be a connected location in the given direction that is not blocked.
+- what is the result: The player moves to the adjacent connected location.
+
+- entities:
+  - entity name: player
+    - before: at a starting location
+    - after: at a connected location
+  - entity name: location
+    - before: player at starting location
+    - after: player at connected location
+  - entity name: direction
+    - unchanged
+  - entity name: connecting path
+    - unchanged
+
+PDDL Action:
+```pddl
+(:action go
+  :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+)
+```
+
+### Action 2: Get
+- action name: `get`
+- summarize action: This action involves picking up an item and placing it into the player's inventory.
+- what is needed to do the action: The item must be at the same location as the player.
+- what is the result: The item is added to the player's inventory and is no longer at the original location.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: item
+    - before: at a location
+    - after: in player's inventory
+  - entity name: location
+    - unchanged
+
+PDDL Action:
+```pddl
+(:action get
+  :parameters (?p - player ?i - item ?loc - location)
+  :precondition (and (at ?p ?loc) (at ?i ?loc))
+  :effect (and (not (at ?i ?loc)) (inventory ?p ?i))
+)
+```
+
+### Action 3: Breathe
+- action name: `breathe`
+- summarize action: This action involves the player breathing in to fill their lungs with air.
+- what is needed to do the action: The player must be calm.
+- what is the result: The action helps the player fill their lungs with air, often preparing for another action.
+
+- entities:
+  - entity name: player
+    - before: calm
+    - after: calm (unchanged but with filled lungs)
+
+PDDL Action:
+```pddl
+(:action breathe
+  :parameters (?p - player)
+  :precondition (calm ?p)
+  :effect (calm ?p) ; no change in predicates
+)
+```
+
+### Action 4: Lie Down
+- action name: `liedown`
+- summarize action: This action involves the player lying down on their back.
+- what is needed to do the action: The player must be calm.
+- what is the result: The player is in a lying position.
+
+- entities:
+  - entity name: player
+    - before: not laying
+    - after: laying
+
+PDDL Action:
+```pddl
+(:action liedown
+  :parameters (?p - player)
+  :precondition (calm ?p)
+  :effect (and (laying ?p) (not (calm ?p)))
+)
+```
+
+### Action 5: Swim
+- action name: `swim`
+- summarize action: This action involves the player swimming through the quicksand.
+- what is needed to do the action: The player must be stuck in the quicksand.
+- what is the result: The player is no longer stuck in that position and is able to move.
+
+- entities:
+  - entity name: player
+    - before: stuck in quicksand
+    - after: not stuck
+  - entity name: quicksand
+    - unchanged
+
+PDDL Action:
+```pddl
+(:action swim
+  :parameters (?p - player ?q - quicksand)
+  :precondition (stuck ?p ?q)
+  :effect (not (stuck ?p ?q))
+)
+```
+
+### Action 6: Use Stick
+- action name: `usestick`
+- summarize action: This action involves the player using a stick to help them get out of the quicksand.
+- what is needed to do the action: The player must have a stick in their inventory and be stuck in the quicksand.
+- what is the result: The player is no longer stuck in the quicksand.
+
+- entities:
+  - entity name: player
+    - before: stuck in quicksand
+    - after: not stuck
+  - entity name: stick
+    - before: in inventory
+    - after: in inventory
+  - entity name: quicksand
+    - unchanged
+
+PDDL Action:
+```pddl
+(:action usestick
+  :parameters (?p - player ?s - stick ?q - quicksand)
+  :precondition (and (inventory ?p ?s) (stuck ?p ?q))
+  :effect (not (stuck ?p ?q))
+)
+```
+
+### Action 7: Rest
+- action name: `rest`
+- summarize action: This action involves the player resting to regain calmness.
+- what is needed to do the action: The player must be tired.
+- what is the result: The player becomes calm.
+
+- entities:
+  - entity name: player
+    - before: tired
+    - after: calm
+
+PDDL Action:
+```pddl
+(:action rest
+  :parameters (?p - player)
+  :precondition (tired ?p)
+  :effect (and (calm ?p) (not (tired ?p)))
+)
+```
+
+### Action 8: Drop
+- action name: `drop`
+- summarize action: This action involves the player dropping an item from their inventory at the current location.
+- what is needed to do the action: The player must have the item in their inventory and be at a location.
+- what is the result: The item is no longer in the player's inventory and is now at the current location.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: item
+    - before: in inventory
+    - after: at the location
+  - entity name: location
+    - unchanged
+
+PDDL Action:
+```pddl
+(:action drop
+  :parameters (?p - player ?i - item ?loc - location)
+  :precondition (and (at ?p ?loc) (inventory ?p ?i))
+  :effect (and (not (inventory ?p ?i)) (at ?i ?loc))
+)
+```
+
+### Action 9: Check Ripples
+- action name: `check_ripples`
+- summarize action: This action involves the player checking the location for ripples that might indicate quicksand.
+- what is needed to do the action: The player must be at the location.
+- what is the result: The player becomes aware if there are ripples indicating quicksand at the location.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: location
+    - unchanged
+  - entity name: ripples
+    - before: unknown
+    - after: aware if ripples are present
+
+PDDL Action:
+```pddl
+(:action check_ripples
+  :parameters (?p - player ?loc - location)
+  :precondition (at ?p ?loc)
+  :effect (aware ?p ?loc)
+)
+```
+
+### Action 10: Test Ground
+- action name: `test_ground`
+- summarize action: This action involves the player testing the ground to see if it contains quicksand.
+- what is needed to do the action: The player must be at the location.
+- what is the result: The player becomes aware of whether the location has quicksand.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: location
+    - unchanged
+  - entity name: quicksand presence
+    - before: unknown
+    - after: aware of quicksand presence
+
+PDDL Action:
+```pddl
+(:action test_ground
+  :parameters (?p - player ?loc - location)
+  :precondition (at ?p ?loc)
+  :effect (aware ?p ?loc)
+)
+```
+
+### Action 11: Research
+- action name: `research`
+- summarize action: This action involves the player researching quicksand to better understand it.
+- what is needed to do the action: The player must not be in immediate danger (i.e., not stuck in quicksand).
+- what is the result: The player gains knowledge about quicksand.
+
+- entities:
+  - entity name: player
+    - before: possibly lacking knowledge
+    - after: knowledgeable
+
+PDDL Action:
+```pddl
+(:action research
+  :parameters (?p - player)
+  :precondition (not (stuck ?p ?q))
+  :effect (knowledgeable ?p)
+)
+```
+
+### Action 12: Move Horizontally
+- action name: `move_horizontally`
+- summarize action: This action involves the player moving horizontally through the quicksand.
+- what is needed to do the action: The player must be on the quicksand.
+- what is the result: The player moves to another part of the quicksand.
+
+- entities:
+  - entity name: player
+    - before: in one part of quicksand
+    - after: in another part of quicksand
+  - entity name: quicksand
+    - unchanged
+
+PDDL Action:
+```pddl
+(:action move_horizontally
+  :parameters (?p - player ?q1 - quicksand ?q2 - quicksand)
+  :precondition (stuck ?p ?q1)
+  :effect (and (stuck ?p ?q2) (not (stuck ?p ?q1)))
+)
+```

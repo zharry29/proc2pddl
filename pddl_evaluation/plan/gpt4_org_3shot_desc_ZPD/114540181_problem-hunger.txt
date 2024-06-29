@@ -1,0 +1,3 @@
+go ('npc', 'basecamp', 'east', 'jungle')
+pick_fruit ('npc', 'jungle')
+eat_fruit ('npc')

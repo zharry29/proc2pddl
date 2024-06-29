@@ -1,0 +1,240 @@
+- action name: go
+- summarize action: The player navigates to an adjacent location.
+- what is needed to do the action: The locations are required to be connected and the path between them should not be blocked.
+- what is the result: The player's location changes to the connected location.
+
+- entities:
+  - entity name: player location
+    - before: original location
+    - after: connected location
+
+pddl action:
+(:action go
+  :parameters (?player - player ?dir - direction ?from - location ?to - location)
+  :precondition (and (at ?player ?from) (connected ?from ?dir ?to) (not (blocked ?from ?dir ?to)))
+  :effect (and (at ?player ?to) (not (at ?player ?from))))
+
+The rest of the "//action name//" follows the similar pattern, which you've outlined in the given actions list. The process will involve identifying the entities involved in the actions, describing whether they change or not, and translating it into the proper PDDL format. You can use the "go" action as a template to carry out this process.
+
+Please, note that your game/project will also need some initiation and goal condition. Initiation condition describes the initial conditions of the game or problem space, and the Goal conditions describe what conditions have to be met in order to reach the goal or follow a certain plan.
+- action name: get
+- summarize action: The player picks up an item and puts it in the inventory.
+- what is needed to do the action: The item needs to be in the same location as the player.
+- what is the result: The item is moved from the location to the player’s inventory.
+
+- entities:
+  - entity name: item
+    - before: at the same location as the player
+    - after: in the player’s inventory
+
+pddl action:
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (inventory ?player ?item) (not (at ?item ?loc))))
+
+- action name: get_water
+- summarize action: The player collects water from a water source.
+- what is needed to do the action: The location needs to have a water source, and the player needs to be at that location.
+- what is the result: The player adds water to the inventory.
+
+- entities:
+  - entity name: water
+    - before: at a location with a water source
+    - after: in the player’s inventory
+
+pddl action:
+(:action get_water
+  :parameters (?player - player ?water - water ?loc - location)
+  :precondition (and (at ?player ?loc) (has_water_source ?loc))
+  :effect (inventory ?player ?water))
+- action name: sharpen_stick
+- summarize action: The player sharpens a stick from their inventory.
+- what is needed to do the action: The player needs to have a stick in their inventory.
+- what is the result: The stick in the player's inventory is now sharpened.
+
+- entities:
+  - entity name: stick
+    - before: in the player’s inventory
+    - after: in the player’s inventory but now sharpened
+
+pddl action:
+(:action sharpen_stick
+  :parameters (?player - player ?stick - stick)
+  :precondition (inventory ?player ?stick)
+  :effect (sharpened ?stick))
+
+- action name: catch_fish
+- summarize action: The player catches a fish from a location with fish.
+- what is needed to do the action: The player needs to have a sharpened stick in their inventory and be at a location with fish.
+- what is the result: The player adds a fish to their inventory.
+
+- entities:
+  - entity name: fish
+    - before: at a location with fish
+    - after: in the player’s inventory
+  - entity name: stick
+    - before: in the player's inventory and sharpened
+    - after: still in the player’s inventory and sharpened
+
+pddl action:
+(:action catch_fish
+  :parameters (?player - player ?stick - stick ?fish - fish ?loc - location)
+  :precondition (and (inventory ?player ?stick) (sharpened ?stick) (at ?player ?loc) (has_fish ?loc))
+  :effect (inventory ?player ?fish))
+
+- action name: hunt_bird
+- summarize action: The player hunts a bird from a location that has birds.
+- what is needed to do the action: The player needs to have a sharpened stick in their inventory and be at a location that has birds.
+- what is the result: The player adds a bird to their inventory.
+
+- entities:
+  - entity name: bird
+    - before: at a location with birds
+    - after: in the player’s inventory
+  - entity name: stick
+    - before: in the player's inventory and sharpened
+    - after: still in the player’s inventory and sharpened
+
+pddl action:
+(:action hunt_bird
+  :parameters (?player - player ?stick - stick ?bird - bird ?loc - location)
+  :precondition (and (inventory ?player ?stick) (sharpened ?stick) (at ?player ?loc) (has_bird ?loc))
+  :effect (inventory ?player ?bird))
+- action name: hunt_insect
+- summarize action: The player hunts an insect from a location that has insects.
+- what is needed to do the action: The player needs to have a sharpened stick in their inventory and be at a location that has insects.
+- what is the result: The player adds an insect to their inventory.
+
+- entities:
+  - entity name: insect
+    - before: at a location with insects
+    - after: in the player’s inventory
+  - entity name: stick
+    - before: in the player's inventory and sharpened
+    - after: still in the player’s inventory and sharpened
+
+pddl action:
+(:action hunt_insect
+  :parameters (?player - player ?stick - stick ?insect - insect ?loc - location)
+  :precondition (and (inventory ?player ?stick) (sharpened ?stick) (at ?player ?loc) (has_insect ?loc))
+  :effect (inventory ?player ?insect))
+
+- action name: get_shellfish
+- summarize action: The player gets shellfish from a location that has shellfish.
+- what is needed to do the action: The player needs to be at a location that has shellfish.
+- what is the result: The player adds shellfish to their inventory.
+
+- entities:
+  - entity name: shellfish
+    - before: at a location with shellfish
+    - after: in the player’s inventory
+
+pddl action:
+(:action get_shellfish
+  :parameters (?player - player ?shellfish - shellfish ?loc - location)
+  :precondition (and (at ?player ?loc) (has_shellfish ?loc))
+  :effect (inventory ?player ?shellfish))
+
+- action name: cook
+- summarize action: The player cooks to make an animal edible.
+- what is needed to do the action: The player needs to have an animal in their inventory and be at a location with fire.
+- what is the result: The animal in the player's inventory becomes edible.
+
+- entities:
+  - entity name: animal
+    - before: in the player’s inventory but not edible
+    - after: in the player’s inventory and edible
+  - entity name: fire
+    - before: present at player's location
+    - after: still present at player's location
+
+pddl action:
+(:action cook
+  :parameters (?player - player ?animal - animal ?loc - location)
+  :precondition (and (inventory ?player ?animal) (at ?player ?loc) (has_fire ?loc))
+  :effect (edible ?animal))
+- action name: get_stick
+- summarize action: The player gets a stick.
+- what is needed to do the action: The player needs to be at a location that has sticks.
+- what is the result: The player adds a stick to their inventory.
+
+- entities:
+  - entity name: stick
+    - before: at a location
+    - after: in the player’s inventory
+
+pddl action:
+(:action get_stick
+  :parameters (?player - player ?stick - stick ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?stick ?loc))
+  :effect (and (inventory ?player ?stick) (not (at ?stick ?loc))))
+
+- action name: start_fire
+- summarize action: The player starts a fire at a location.
+- what is needed to do the action: The player needs to have a stick in their inventory and be at a location.
+- what is the result: The location now has a fire.
+
+- entities:
+  - entity name: location
+    - before: a location without fire
+    - after: a location with fire
+  - entity name: stick
+    - before: in the player's inventory
+    - after: still in the player'sinventory
+
+pddl action:
+(:action start_fire
+  :parameters (?player - player ?stick - stick ?loc - location)
+  :precondition (and (inventory ?player ?stick) (at ?player ?loc))
+  :effect (has_fire ?loc))
+
+- action name: get_tarp
+- summarize action: The player gets a tarp.
+- what is needed to do the action: The player needs to be at a location that has a tarp.
+- what is the result: The player adds a tarp to their inventory.
+
+- entities:
+  - entity name: tarp
+    - before: at a location
+    - after: in the player’s inventory
+
+pddl action:
+(:action get_tarp
+  :parameters (?player - player ?tarp - tarp ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?tarp ?loc))
+  :effect (and (inventory ?player ?tarp) (not (at ?tarp ?loc))))
+- action name: get_leave
+- summarize action: The player gets leaves.
+- what is needed to do the action: The player needs to be at a location that has leaves.
+- what is the result: The player adds leaves to their inventory.
+
+- entities:
+  - entity name: leave
+    - before: at a location
+    - after: in the player’s inventory
+
+pddl action:
+(:action get_leave
+  :parameters (?player - player ?leave - leave ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?leave ?loc))
+  :effect (and (inventory ?player ?leave) (not (at ?leave ?loc))))
+
+- action name: construct_shelter
+- summarize action: The player constructs a shelter with stick plus either tarp or leaves.
+- what is needed to do the action: The player needs to have sticks and either a tarp or leaves in their inventory.
+- what is the result: The player's current location becomes sheltered.
+
+- entities:
+  - entity name: location
+    - before: not sheltered
+    - after: sheltered
+  - entity name: stick, tarp and leave
+    - before: in the player's inventory
+    - after: still in the player's inventory
+
+pddl action:
+(:action construct_shelter
+  :parameters (?player - player ?stick - stick ?tarp - tarp ?leave - leave ?loc - location)
+  :precondition (and (inventory ?player ?stick) (or (inventory ?player ?tarp) (inventory ?player ?leave)) (at ?player ?loc))
+  :effect (sheltered ?loc))

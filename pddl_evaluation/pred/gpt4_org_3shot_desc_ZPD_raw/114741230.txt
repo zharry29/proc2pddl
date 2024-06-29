@@ -1,0 +1,111 @@
+Sure, let's translate them into PDDL actions. And I will also add the reader and location parameters and types as they were used but not previously defined.
+
+PDDL types:
+```pddl
+(:types
+    player secret_society reader location
+)
+```
+
+PDDL Actions:
+
+1. Gather Info
+
+```pddl
+(:action gather_info
+    :parameters (?p - player ?r - reader)
+    :precondition (and)
+    :effect (has_info ?p)
+)
+```
+
+2. Create Secret
+
+```pddl
+(:action create_secret
+   :parameters (?sc - secret_society)
+   :precondition (and)
+   :effect (has_secret ?sc)
+)
+```
+
+3. Set Meeting Location
+
+```pddl
+(:action set_meeting_location
+   :parameters (?sc - secret_society ?l - location)
+   :precondition (and)
+   :effect (has_location ?sc)
+)
+```
+
+4. Set Dress Code
+
+```pddl
+(:action set_dress_code
+   :parameters (?sc - secret_society)
+   :precondition (and)
+   :effect (has_dress_code ?sc)
+)
+```
+
+5. Create Name
+
+```pddl
+(:action create_name
+   :parameters (?sc - secret_society)
+   :precondition (and)
+   :effect (has_name ?sc)
+)
+```
+
+6. Secret Society is Ready
+
+```pddl
+(:action secret_society_is_ready
+   :parameters (?sc - secret_society)
+   :precondition (and (has_name ?sc) (has_secret ?sc) (has_location ?sc) (has_dress_code ?sc))
+   :effect (society_is_ready ?sc)
+)
+```
+
+7. Initiate New Member
+
+```pddl
+(:action initiate_new_member
+   :parameters (?p - player ?sc - secret_society)
+   :precondition (society_is_ready ?sc)
+   :effect (in ?p ?sc)
+)
+```
+
+8. Teach New Member Secret
+
+```pddl
+(:action teach_new_member_secret
+   :parameters (?p - player ?sc - secret_society)
+   :precondition (and (in ?p ?sc) (is_trusted ?p ?sc))
+   :effect (knows_secret ?p ?sc)
+)
+```
+
+9. Remove Member
+
+```pddl
+(:action remove_member
+   :parameters (?p - player ?sc - secret_society)
+   :precondition (and (in ?p ?sc) (not (is_trusted ?p ?sc)))
+   :effect (not (in ?p ?sc))
+)
+```
+
+10. Check if Cult
+
+```pddl
+(:action check_if_cult
+   :parameters (?sc - secret_society)
+   :precondition (and (society_is_ready ?sc) (not (is_cult ?sc)))
+   :effect (is_cult ?sc)
+)
+```
+Please update the precondition for the `check_if_cult` action to reflect the criteria for being a cult in your domain (e.g., minimum number of members). Additionally, if the `equals` and `friends` predicates are important for your domain, you may need to add related actions to handle these aspects (e.g., `make_friends`, `identify_same_player`).

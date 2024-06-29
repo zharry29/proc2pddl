@@ -1,0 +1,258 @@
+For each action, I will infer from the text what we need to perform each action, their effects, and changes in entity states.
+
+Action: go
+- summarize action: The player moves from one location to another in a specific direction.
+- what is needed to do the action: The player is able to move, and the two locations are connected in that direction.
+- what is the result: The player's location changes.
+
+- entities:
+  - entity name: player
+    - before: at current location
+    - after: at new location
+  - entity name: location
+    - before: without player 
+    - after: with player
+
+pddl action:
+(:action go
+  :parameters (?player - player ?start - location ?dir - direction ?end - location)
+  :precondition (and (at ?player ?start) (connected ?start ?dir ?end) (not (blocked ?start ?dir ?end))) 
+  :effect (and (not (at ?player ?start)) (at ?player ?end))
+)
+
+Action: get
+- summarize action: The player takes an item from a location into their inventory.
+- what is needed to do the action: The player and gettable item are at the same location.
+- what is the result: The item is in the player's inventory and no longer at the location.
+
+- entities:
+  - entity name: player
+    - before: without item in inventory
+    - after: with item in inventory
+  - entity name: item
+    - before: at location
+    - after: in player's inventory
+
+pddl action:
+(:action get
+  :parameters (?player - player ?item - gettable ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc)) 
+  :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+Action: drop
+- summarize action: The player drops an item from their inventory to current location.
+- what is needed to do the action: The player has the item in their inventory.
+- what is the result: The item is at the player's current location and no longer in the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: with item in inventory
+    - after: without item in inventory
+  - entity name: item
+    - before: in player's inventory
+    - after: at player's location
+
+pddl action:
+(:action drop
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (inventory ?player ?item)) 
+  :effect (and (not (inventory ?player ?item)) (at ?item ?loc))
+)
+
+Follow this pattern for the rest of your actions. Substitute proper preconditions and effects keeping in mind the effects of each action on the world state. The entities involved are mostly the player, the items, and the location(s).
+Sure, let's continue with the rest of your actions.
+
+Action: get_water
+- summarize action: The player collects water from a location that has a water source like a lake.
+- what is needed to do the action: The player is at a location that has a water source.
+- what is the result: The player collects water which enters into his/her inventory, this could effect the quantity of water at the source.
+
+- entities:
+  - entity name: player
+    - before: without water in inventory
+    - after: with water in inventory
+  - entity name: water_source
+    - before: has water
+    - after: has less water or unchanged if water is abundant
+
+pddl action:
+(:action get_water
+  :parameters (?player - player ?loc - location ?water - water)
+  :precondition (and (at ?player ?loc) (has_water_source ?loc)) 
+  :effect (inventory ?player ?water))
+
+Action: boil_water
+- summarize action: The player boils water that has not been treated.
+- what is needed to do the action: The player has untreated water in their inventory and a way to boil it.
+- what is the result: The untreated water in player's inventory becomes treated.
+
+- entities:
+  - entity name: player
+    - before: has untreated water in inventory
+    - after: has treated water in inventory
+  - entity name: water
+    - before: untreated
+    - after: treated
+
+pddl action:
+(:action boil_water
+  :parameters (?player - player ?water - water)
+  :precondition (and (inventory ?player ?water) (not (treated ?water))) 
+  :effect (treated ?water))
+
+Continue this way for the rest of your actions. You should modify the preconditions and effects based on the individual action requirements. The entities participating are generally the player, items, and the location(s).
+Continuing with the translation:
+
+Action: collect_rain_water
+- summarize action: The player collects rainwater to be treated.
+- what is needed to do the action: The player is at an outdoor location and it's raining.
+- what is the result: The player has untreated water in their inventory.
+- entities:
+  - entity name: player
+    - before: without water in inventory
+    - after: with untreated water in inventory
+  - entity name: location
+    - before: raining
+    - after: raining or not raining, depending on the duration of rain
+
+pddl action:
+(:action collect_rain_water
+  :parameters (?player - player ?loc - location ?water - water)
+  :precondition (and (at ?player ?loc) (outdoors ?loc)) 
+  :effect (inventory ?player ?water)
+)
+
+Action: loot_shelter
+- summarize action: The player steals food from a location that is occupied.
+- what is needed to do the action: The player is at a location that is occupied and has food.
+- what is the result: The player has more food in their inventory, and the location has less food.
+- entities:
+  - entity name: player
+    - before: with certain amount of food in inventory
+    - after: with more food in inventory
+  - entity name: location
+    - before: occupied with certain amount of food
+    - after: still occupied, with less food
+
+pddl action:
+(:action loot_shelter
+  :parameters (?player - player ?loc - location ?food - food)
+  :precondition (and (at ?player ?loc) (is_occupied ?loc) (at ?food ?loc)) 
+  :effect (and (not (at ?food ?loc)) (inventory ?player ?food))
+)
+
+Action: break_car_window
+- summarize action: The player breaks a car window to steal food from the car.
+- what is needed to do the action: The player is at the car location, the car has windows, and has food.
+- what is the result: The car no longer has windows, the player has more food in their inventory, and the car has less food.
+- entities:
+  - entity name: player
+    - before: with certain amount of food in inventory
+    - after: with more food in inventory
+  - entity name: car
+    - before: has windows and certain amount of food
+    - after: no windows, and less food
+
+pddl action:
+(:action break_car_window
+  :parameters (?player - player ?car - car ?food - food)
+  :precondition (and (at ?player ?car) (has_windows ?car) (at ?food ?car)) 
+  :effect (and (not (at ?food ?car)) (inventory ?player ?food) (not (has_windows ?car)))
+)
+
+Following the same pattern, continue translating the rest of your actions.
+Continuing with the remaining actions:
+
+Action: gofish
+- summarize action: The player fishes at a location that has a lake, using the fishing pole.
+- what is needed to do the action: The player is at a location that has a lake and player has a fishing pole in inventory.
+- what is the result: The player's inventory has gained a fish.
+- entities:
+  - entity name: player
+    - before: without fish in inventory
+    - after: with fish in inventory
+  - entity name: fishingpole
+    - before: in player's inventory
+    - after: in player's inventory
+  - entity name: fish
+    - before: in the lake
+    - after: in the player's inventory
+
+pddl action:
+(:action gofish
+  :parameters (?player - player ?loc - location ?pole - fishingpole ?fish - fish)
+  :precondition (and (at ?player ?loc) (haslake ?loc) (inventory ?player ?pole))
+  :effect (inventory ?player ?fish))
+
+Action: find_shelter
+- summarize action: The player finds a shelter at a location.
+- what is needed to do the action: The player is at a location that has a basement (i.e., a shelter).
+- what is the result: The player's location has a basement (shelter).
+- entities:
+  - entity name: player
+    - before: not in shelter
+    - after: in shelter
+
+pddl action:
+(:action find_shelter
+  :parameters (?player - player ?loc - location)
+  :precondition (and (at ?player ?loc) (has_basement ?loc))
+  :effect (in_shelter ?player))
+
+Action: clean_wound
+- summarize action: The player cleans and heals their injury.
+- what is needed to do the action: The player is injured and has something in their inventory to clean the wound (e.g., water, bandage).
+- what is the result: The player is no longer injured.
+- entities:
+  - entity name: player
+    - before: injured
+    - after: not injured
+
+pddl action:
+(:action clean_wound
+  :parameters (?player - player ?water - water ?bandage - bandage)
+  :precondition (and (is_injured ?player) (inventory ?player ?water) (inventory ?player ?bandage))
+  :effect (not (is_injured ?player)))
+  
+Continue this way for the rest of your actions. Please adjust the preconditions and effects appropriately.
+Continuing with the rest of the actions:
+
+Action: clean_others_wound
+- summarize action: The player cleans and heals someone else's injury.
+- what is needed to do the action: Another player is injured and the actor player has things like water, bandages in their inventory to clean the wound.
+- what is the result: The other player is no longer injured.
+- entities:
+  - entity name: other_player
+    - before: injured
+    - after: not injured
+  - entity name: player
+    - before: has water and bandages in inventory
+    - after: have less water and bandages in inventory
+
+pddl action:
+(:action clean_others_wound
+  :parameters (?player - player ?other_player - player ?water - water ?bandage - bandage)
+  :precondition (and (is_injured ?other_player) (inventory ?player ?water) (inventory ?player ?bandage)) 
+  :effect (not (is_injured ?other_player))
+)
+
+Action: barter_food_for_healing
+- summarize action: Player tries to get food in exchange for healing someone else.
+- what is needed to do the action: Another player is injured and the actor player has things like water, bandages in their inventory to clean the wound, the other player has food.
+- what is the result: The other player is no longer injured, the actor player has more food in their inventory.
+- entities:
+  - entity name: other_player
+    - before: injured and has food in inventory
+    - after: not injured and has less food in inventory
+  - entity name: player
+    - before: has water and bandages in inventory and less food
+    - after: has less water and bandages in inventory and more food 
+
+pddl action:
+(:action barter_food_for_healing
+  :parameters (?player - player ?other_player - player ?water - water ?bandage - bandage ?food - food)
+  :precondition (and (is_injured ?other_player) (inventory ?player ?water) (inventory ?player ?bandage) (inventory ?other_player ?food)) 
+  :effect (and (not (is_injured ?other_player)) (not (inventory ?other_player ?food)) (inventory ?player ?food)))
+
+You should be able to complete your PDDL now! Note that these are common actions in survival domains and you may need to adjust them to better fit the specifics of your game.

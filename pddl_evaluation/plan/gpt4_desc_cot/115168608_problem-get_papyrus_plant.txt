@@ -1,3 +1,1 @@
-travel ('npc', 'home', 'river')
-get ('npc', 'papyrus_plant', 'river')
-travel ('npc', 'river', 'home')
+No solution

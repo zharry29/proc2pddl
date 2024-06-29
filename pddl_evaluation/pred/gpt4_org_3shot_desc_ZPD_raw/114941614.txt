@@ -1,0 +1,205 @@
+Here are the PDDL actions based on your given constraints:
+
+1. Action: action go
+   summarization: the player moves from one location to another that is connected. Disallows moving if the path is blocked.
+   Preconditions: a connection exists and unblocked between two locations, and the player is at one of those locations.
+   Effect: the player is now at the new location.
+PDDL action::
+```PDDL
+(:action go
+   :parameters (?p - player ?from - location ?to - location ?dir - direction)
+   :precondition (and (at ?p ?from) (connected ?from ?dir ?to) (not (blocked ?from ?dir ?to)))
+   :effect (and (not (at ?p ?from)) (at ?p ?to))
+)
+```
+
+2. Action: get
+   Summarization: The player collects an item at their current location and puts it in their inventory.
+   Preconditions: The player and the item are both at the same location.
+   Effect: The item is now in the player's inventory.
+PDDL action:
+```PDDL
+(:action get
+   :parameters (?p - player ?item - item ?loc - location)
+   :precondition (and (at ?p ?loc) (at ?item ?loc))
+   :effect (and (not (at ?item ?loc)) (inventory ?p ?item))
+)
+```
+
+The remaining PDDL actions follow a similar pattern of defining parameters, establishing preconditions, and describing effects. For example, the "make_fire" action could have a precondition of having an igniter and sticks in the inventory, and the effect is that the current location now has a fire. Similarly, the "build_shelter" action would have the precondition of having sticks and leaves in the inventory, with the effect of having a shelter in the current location. 
+
+3. Action: make_fire
+Preconditions: The player has an igniter and fuel in their inventory. The player is at a location that does not already have a fire.
+Effect: The location now has a fire.
+PDDL action:
+```PDDL
+(:action make_fire
+   :parameters (?p - player ?fuel - fuel ?igniter - igniter ?loc - location)
+   :precondition (and (inventory ?p ?igniter) (inventory ?p ?fuel) (at ?p ?loc) (not (has_fire ?loc)))
+   :effect (has_fire ?loc)
+)
+```
+
+4. Action: build_shelter
+Preconditions: The player has sticks and leaves in their inventory. The player is at a location that does not already have a shelter.
+Effect: The location now has a shelter.
+PDDL action:
+```PDDL
+(:action build_shelter
+   :parameters (?p - player ?loc - location)
+   :precondition (and (inventory ?p leaves) (inventory ?p sticks) (at ?p ?loc) (not (has_shelter ?loc)))
+   :effect (has_shelter ?loc)
+)
+```
+
+The other actions can also be created in a similar manner. One important thing to remember is that actions that involve consuming an item should include the deletion of that item from the inventory in their effect clause.
+
+Please note that whether actions such as "eat_poisoned_food", "drink_contaminated_water" etc., should cause the player to become sick is programmatically uncertain, as you may want to include a chance mechanic such that consuming such items only sometimes causes sickness. If so, these complexities will need to be handled through your deeper game logic, not the PDDL actions.
+Continuing from where we left off:
+
+5. Action: collect_water
+   Summarization: The player collects water from a location that has a water source into a container they have.
+   Preconditions: The player and the container are both at the location which has a water source, and the container is not full.
+   Effect: The container now contains water and is full.
+PDDL action:
+```PDDL
+(:action collect_water
+   :parameters (?p - player ?container - container ?loc - location)
+   :precondition (and (at ?p ?loc) (at ?container ?loc) (has_water_source ?loc) (not (is_full ?container)))
+   :effect (and (contains ?container water) (is_full ?container))
+)
+```
+
+6. Action: gather_sticks
+   Summarization: The player gathers sticks from a location that has sticks.
+   Preconditions: The player is at the location which has sticks.
+   Effect: The player now has sticks in their inventory.
+   Note: This action assumes that the location will still have sticks after the action (has an infinite supply of sticks). If this is not the case, an additional effect would be needed to remove "has_sticks" from the location.
+PDDL action:
+```PDDL
+(:action gather_sticks
+   :parameters (?p - player ?loc - location)
+   :precondition (and (at ?p ?loc) (has_sticks ?loc))
+   :effect (inventory ?p sticks)
+)
+```
+
+7. Action: boil_water
+   Summarization: The player boils container of water using a fire at their location. This action will make the water in the container uncontaminated.
+   Preconditions: The player and the container full of water are both at a location which has a fire.
+   Effect: The water in the container is not contaminated.
+PDDL action:
+```PDDL
+(:action boil_water
+   :parameters (?p - player ?container - container ?loc - location)
+   :precondition (and (at ?p ?loc) (at ?container ?loc) (has_fire ?loc) (is_full ?container) (is_contaminated water))
+   :effect (not (is_contaminated water))
+)
+```
+
+8. Action: cook_food
+   Summarization: The player cooks food using a fire at their location. This action will make the food uncontaminated.
+   Preconditions: The player and the food are both at a location which has a fire, and the food is contaminated.
+   Effect: The food is not contaminated.
+PDDL action:
+```PDDL
+(:action cook_food
+   :parameters (?p - player ?food - food ?loc - location)
+   :precondition (and (at ?p ?loc) (at ?food ?loc) (has_fire ?loc) (is_contaminated ?food))
+   :effect (not (is_contaminated ?food))
+)
+```
+
+The rest of the actions(get, collect_water, gather_sticks, cook_food, eat_poisoned_food etc) will follow similar patterns.
+Sure, let's continue:
+
+9. Action: eat_poisoned_food
+   Summarization: The player consumes food from their inventory that is poisonous.
+   Preconditions: The player has the poisonous food in their inventory.
+   Effect: The player is now sick, but not hungry.
+PDDL action:
+```PDDL
+(:action eat_poisoned_food
+   :parameters (?p - player ?food - food)
+   :precondition (and (inventory ?p ?food) (is_poisonous ?food))
+   :effect (and (not (is_hungry ?p)) (is_sick ?p) (not (inventory ?p ?food)))
+)
+```
+
+10. Action: eat_contaminated_food
+    Summarization: The player consumes food from their inventory that is contaminated.
+    Preconditions: The player has the contaminated food in their inventory.
+    Effect: The player is now sick, but not hungry.
+PDDL action:
+```PDDL
+(:action eat_contaminated_food
+   :parameters (?p - player ?food - food)
+   :precondition (and (inventory ?p ?food) (is_contaminated ?food))
+   :effect (and (not (is_hungry ?p)) (is_sick ?p) (not (inventory ?p ?food)))
+)
+```
+
+11. Action: eat_food
+    Summarization: The player consumes food from their inventory that isn't harmful.
+    Preconditions: The player has the food in their inventory and the food is neither poisoned nor contaminated.
+    Effect: The player is now not hungry.
+PDDL action:
+```PDDL
+(:action eat_food
+   :parameters (?p - player ?food - food)
+   :precondition (and (inventory ?p ?food) (not (is_contaminated ?food)) (not (is_poisonous ?food)))
+   :effect (and (not (is_hungry ?p)) (not (inventory ?p ?food)))
+)
+```
+
+12. Action: drink_contaminated_water
+    Summarization: The player consumes contaminated water from a container in their inventory.
+    Preconditions: The player has a container full of contaminated water in their inventory.
+    Effect: The player is now sick, but not thirsty. The container is empty.
+PDDL action:
+```PDDL
+(:action drink_contaminated_water
+   :parameters (?p - player ?container - container)
+   :precondition (and (inventory ?p ?container) (is_full ?container) (is_contaminated water))
+   :effect (and (not (is_thirsty ?p)) (is_sick ?p) (not (is_full ?container)) (not (contains ?container water)))
+)
+```
+
+13. Action: drink_water
+    Summarization: The player consumes clean water from a container in their inventory.
+    Preconditions: The player has a container full of clean, un-contaminated water in their inventory.
+    Effect: The player is now not thirsty. The container is empty.
+PDDL action:
+```PDDL
+(:action drink_water
+   :parameters (?p - player ?container - container)
+   :precondition (and (inventory ?p ?container) (is_full ?container) (not (is_contaminated water)))
+   :effect (and (not (is_thirsty ?p)) (not (is_full ?container)) (not (contains ?container water)))
+)
+```
+
+14. Action: build_shelter 
+    Summarization: The player builds shelter from stick and leaves in their inventory.
+    Preconditions: The player is at a location that has no shelter and they have both sticks and leaves in their inventory.
+    Effect: There is now a shelter at the player's location.
+PDDL action:
+```PDDL
+(:action build_shelter
+   :parameters (?p - player ?loc - location)
+   :precondition (and (at ?p ?loc) (inventory ?p sticks) (inventory ?p leaves) (not (has_shelter ?loc)))
+   :effect (has_shelter ?loc)
+)
+```
+
+15. Action: sleep_in_shelter 
+    Summarization: The player sleeps in a shelter and becomes untired.
+    Preconditions: The player is tired and is at a location that has a shelter.
+    Effect: The player is now not tired.
+PDDL action:
+```PDDL
+(:action sleep_in_shelter
+   :parameters (?p - player ?loc - location)
+   :precondition (and (at ?p ?loc) (has_shelter ?loc) (is_tired ?p))
+   :effect (not (is_tired ?p))
+)
+```

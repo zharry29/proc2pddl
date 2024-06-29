@@ -1,0 +1,79 @@
+Great! Now I'll help you translate the actions you've mentioned into PDDL format:
+
+- Action name: get
+  - summarize action: the action involves picking up an item and adding it to the inventory.
+  - what is needed to do the action: the desired item is not yet in the inventory.
+  - what is the result: the desired item is added to the inventory.
+- pddl action:
+```
+(:action get
+   :parameters (?item - item)
+   :precondition (not (inventory ?item))
+   :effect (inventory ?item)
+)
+```
+
+- Action name: poke
+  - summarize action: the action involves poking a hole in the top of the coconut.
+  - what is needed to do the action: a coconut that hasn't had its eyes poked yet.
+  - what is the result: the coconut has its eyes poked.
+- pddl action:
+```
+(:action poke
+   :parameters (?c - coconut)
+   :precondition (not (has_eyes_poked ?c))
+   :effect (has_eyes_poked ?c)
+)
+```
+
+- Action name: wrap
+  - summarize action: This action wraps the coconut in a towel.
+  - what is needed to do the action: a coconut that is not yet wrapped, and a towel.
+  - what is the result: the coconut is wrapped.
+- pddl action:
+```
+(:action wrap
+   :parameters (?c - coconut)
+   :precondition (and (not (is_item_wrapped_coconut ?c)) (inventory ?t - towel))
+   :effect (is_item_wrapped_coconut ?c)
+)
+```
+
+- Action name: hit
+  - summarize action: This action involves hitting a wrapped coconut with a mallet.
+  - what is needed to do the action: a wrapped coconut and a mallet.
+  - what is the result: the coconut is broken.
+- pddl action:
+```
+(:action hit
+   :parameters (?c - coconut_wrapped)
+   :precondition (and (is_item_wrapped_coconut ?c) (inventory ?mallet - mallet))
+   :effect (is_item_broken_coconut ?c)
+)
+```
+
+-Action name: feel
+  - summarize action: This action involves running a knife between the shell and the meat to free it.
+  - what is needed to do the action: a broken coconut.
+  - what is the result: the meat of the coconut is freed.
+- pddl action:
+```
+(:action feel
+   :parameters (?c - coconut_broken)
+   :precondition (is_item_broken_coconut ?c)
+   :effect (is_item_coconut_meat ?c)
+)
+```
+
+-Action name: remove_fiber
+  - summarize action: This action involves removing the fiber from the coconut meat.
+  - what is needed to do the action: coconut meat and a peeler.
+  - what is the result: the fiber is removed from the coconut meat.
+- pddl action:
+```
+(:action remove_fiber
+   :parameters (?c - coconut_meat)
+   :precondition (and (is_item_coconut_meat ?c) (inventory ?p - peeler))
+   :effect (is_item_coconut_meat_peeled ?c)
+)
+```

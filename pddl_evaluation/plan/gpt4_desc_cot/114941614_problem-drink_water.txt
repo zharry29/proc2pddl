@@ -1,4 +1,1 @@
-get ('npc', 'bottle', 'camp')
-go ('npc', 'camp', 'east', 'stream')
-collect_water ('npc', 'stream', 'bottle', 'water')
-drink_water ('npc', 'bottle', 'water')
+Error: Running time exceeds 30 seconds

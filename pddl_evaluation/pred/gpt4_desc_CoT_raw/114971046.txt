@@ -1,263 +1,121 @@
-- action name: drive
-- summarize action: The player drives from one location to another if there is a connection and they have a car.
-- what is needed to do the action: A player, car, starting location, direction, and destination location.
-- what is the result: The player is at the destination location, and the car's location does not change.
-
-- entities:
-  - entity name: player
-    - before: at starting location
-    - after: at destination location
-  - entity name: car
-    - before: in player's inventory, at starting location
-    - after: in player's inventory, at destination location
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Identify the player is driving and has a car in their inventory.
-2. Check if the starting location is connected to destination location in a certain direction.
-3. Move the player to the destination location.
-
-pddl:
-```
+1. action name: drive
+- parameters: a player, a car and a direction
+- precondition: The player has the car, the player isn't driving and there is a blocked path in the input direction
+- effect: The player starts driving and the path in the direction is not blocked anymore
+- pddl: 
+```pddl
 (:action drive
-  :parameters (?p - player ?car - item ?start - location ?dir - direction ?end - location)
-  :precondition (and (inventory ?p ?car) 
-                      (is_car ?car) 
-                      (driving ?p)
-                      (connected ?start ?dir ?end)
-                      (at ?p ?start))
-  :effect (and (not (at ?p ?start))
-               (at ?p ?end)))
+  :parameters (?p - player ?c - car ?dir - direction)
+  :precondition (and (inventory ?p ?c) (not (driving ?p)) (blocked ?loc1 ?dir ?loc2))
+  :effect (and (driving ?p) (not (blocked ?loc1 ?dir ?loc2)))
+)
 ```
-
-- action name: walk
-- summarize action: The player walks from one location to another if there is a connection.
-- what is needed to do the action: A player, starting location, direction, and destination location.
-- what is the result: The player is at the destination location.
-
-- entities:
-  - entity name: player
-    - before: at starting location
-    - after: at destination location
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Check if the starting location is connected to destination location in a certain direction.
-2. Move the player to the destination location.
-
-pddl:
-```
+2. action name: walk
+- parameters: a player and a direction
+- precondition: The player isn't driving and there is a connected path in the input direction
+- effect: The player has moved to the location in the input direction
+- pddl: 
+```pddl
 (:action walk
-  :parameters (?p - player ?start - location ?dir - direction ?end - location)
-  :precondition (and (connected ?start ?dir ?end)
-                      (at ?p ?start))
-  :effect (and (not (at ?p ?start))
-               (at ?p ?end)))
+  :parameters (?p - player ?dir - direction)
+  :precondition (and (not (driving ?p)) (connected ?loc1 ?dir ?loc2))
+  :effect (at ?p ?loc2)
+)
 ```
-
-I have provided examples for two actions, drive and walk. Please let me know if you need help with the remaining actions, and I would be happy to assist you.
-- action name: get_food
-- summarize action: The player collects non-perishable food from a supermarket.
-- what is needed to do the action: A player, supermarket location, and an item of nonperishable food.
-- what is the result: The player gains the non-perishable food item in their inventory.
-
-- entities:
-  - entity name: player
-    - before: at supermarket location
-    - after: at supermarket location
-  - entity name: nonperishable item
-    - before: at supermarket location
-    - after: in player's inventory
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Check if the player is at the supermarket location, where the non-perishable food item is.
-2. Add the non-perishable food item to the player's inventory.
-
-pddl:
-```
+3. action name: get_food
+- parameters: a player, a supermarket and a non-perishable item 
+- precondition: The player is at the supermarket and the food is at the same location
+- effect: The player has the food in their inventory
+- pddl: 
+```pddl
 (:action get_food
-  :parameters (?p - player ?loc - location ?item - item)
-  :precondition (and (is_supermarket ?loc)
-                      (is_nonperishable ?item)
-                      (at ?p ?loc)
-                      (at ?item ?loc))
-  :effect (and (not (at ?item ?loc))
-               (inventory ?p ?item)))
+  :parameters (?p - player ?s - supermarket ?f - nonperishable)
+  :precondition (and (at ?p ?s) (at ?f ?s))
+  :effect (inventory ?p ?f)
+)
 ```
-
-- action name: get
-- summarize action: The player picks up an item from a location.
-- what is needed to do the action: A player, the location of the item, and the item.
-- what is the result: The player obtains the item in their inventory.
-
-- entities:
-  - entity name: player
-    - before: at item location
-    - after: at item location
-  - entity name: item
-    - before: at the location
-    - after: in player's inventory
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Check if the player is at the item location.
-2. Add the item to the player's inventory.
-
-pddl:
+4. action name: get_medicine
+- parameters: a player, a pharmacy and a medicine
+- precondition: The player is at the pharmacy and the medicine is at the same location
+- effect: The player has the medicine in their inventory
+- pddl: 
+```pddl
+(:action get_medicine
+  :parameters (?p - player ?ph - pharmacy ?m - medicine)
+  :precondition (and (at ?p ?ph) (at ?m ?ph))
+  :effect (inventory ?p ?m)
+)
 ```
-(:action get
-  :parameters (?p - player ?loc - location ?item - item)
-  :precondition (and (at ?p ?loc)
-                      (at ?item ?loc))
-  :effect (and (not (at ?item ?loc))
-               (inventory ?p ?item)))
-```
-
-- action name: drop
-- summarize action: The player drops an item from their inventory at a location.
-- what is needed to do the action: A player, the location where the item will be dropped, and the item.
-- what is the result: The item is removed from the player's inventory and added to the location.
-
-- entities:
-  - entity name: player
-    - before: at location with item
-    - after: at location without item
-  - entity name: item
-    - before: in player's inventory
-    - after: at the location
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Check if the player has the item in their inventory.
-2. Remove the item from the player's inventory and place it at the location.
-
-pddl:
-```
-(:action drop
-  :parameters (?p - player ?loc - location ?item - item)
-  :precondition (and (at ?p ?loc)
-                      (inventory ?p ?item))
-  :effect (and (not (inventory ?p ?item))
-               (at ?item ?loc)))
-```
-- action name: make_plan
-- summarize action: The player creates a plan to survive the nuclear attack.
-- what is needed to do the action: A player.
-- what is the result: The player has a survival plan.
-
-- entities:
-  - entity name: player
-    - before: without a plan
-    - after: with a plan
-
-- describe how to match it to PDDL relevant predicates step by step:
-1. Check if the player does not have a plan.
-2. Add the plan to the player.
-
-PDDL:
-```
+5. action name: make_plan
+- parameters: a player
+- precondition: The player has no plan
+- effect: The player now has a plan
+- pddl: 
+```pddl
 (:action make_plan
   :parameters (?p - player)
   :precondition (not (has_plan ?p))
-  :effect (has_plan ?p))
+  :effect (has_plan ?p)
+)
 ```
-
-- action name: get_medicine
-- summarize action: The player collects medicine from a pharmacy.
-- what is needed to do the action: A player, a pharmacy location, and a medicine item.
-- what is the result: The player gains the medicine item in their inventory.
-
-- entities:
-  - entity name: player
-    - before: at pharmacy location
-    - after: at pharmacy location
-  - entity name: medicine item
-    - before: at pharmacy location
-    - after: in player's inventory
-
-- describe how to match it to PDDL relevant predicates step by step:
-1. Check if the player is at the pharmacy location, where the medicine item is.
-2. Add the medicine item to the player's inventory.
-
-PDDL:
+6. action name: get
+- parameters: a player and an item
+- precondition: The item is at the same location as the player
+- effect: The player now has the item in their inventory
+- pddl: 
+```pddl
+(:action get
+  :parameters (?p - player ?obj - item)
+  :precondition (at ?obj ?loc)
+  :effect (inventory ?p ?obj)
+)
 ```
-(:action get_medicine
-  :parameters (?p - player ?loc - location ?item - item)
-  :precondition (and (is_pharmacy ?loc)
-                      (is_medicine ?item)
-                      (at ?p ?loc)
-                      (at ?item ?loc))
-  :effect (and (not (at ?item ?loc))
-               (inventory ?p ?item)))
+7. action name: drop
+- parameters: a player and an item
+- precondition: The player has the item in their inventory
+- effect: The player no longer has the item in their inventory
+- pddl: 
+```pddl
+(:action drop
+  :parameters (?p - player ?obj - item)
+  :precondition (inventory ?p ?obj)
+  :effect (not (inventory ?p ?obj))
+)
 ```
-
-- action name: reinforce
-- summarize action: The player reinforces a location using construction materials.
-- what is needed to do the action: A player, a location, and a construction material item.
-- what is the result: The player is at a reinforced location.
-
-- entities:
-  - entity name: player
-    - before: at location
-    - after: at reinforced location
-  - entity name: construction material item
-    - before: in player's inventory
-    - after: used for reinforcement
-
-- describe how to match it to PDDL relevant predicates step by step:
-1. Check if the player has a construction material item in their inventory.
-2. Use the construction material item to reinforce the location.
-3. Update the player's location to be reinforced.
-
-PDDL:
-```
+8. action name: reinforce
+- parameters: a player, a location and construction material
+- precondition: The player has the construction material in their inventory and is at the location
+- effect: The location becomes sheltered
+- pddl: 
+```pddl
 (:action reinforce
-  :parameters (?p - player ?loc - location ?item - item)
-  :precondition (and (inventory ?p ?item)
-                      (is_construction_material ?item)
-                      (at ?p ?loc))
-  :effect (and (not (inventory ?p ?item))
-               (sheltered ?p)))
+  :parameters (?p - player ?loc - location ?cm - construction_material)
+  :precondition (and (inventory ?p ?cm) (at ?p ?loc))
+  :effect (sheltered ?loc)
+)
 ```
-
-- action name: stay_in_shelter
-- summarize action: The player stays inside a sheltered location.
-- what is needed to do the action: A player and a sheltered location.
-- what is the result: The player remains sheltered.
-
-- entities:
-  - entity name: player
-    - before: at a sheltered location
-    - after: at a sheltered location
-
-- describe how to match it to PDDL relevant predicates step by step:
-1. Check if the player is at a sheltered location.
-2. The player remains at the sheltered location.
-
-PDDL:
-```
+9. action name: stay_in_shelter
+- parameters: a player and a sheltered location
+- precondition: The player is at a sheltered location
+- effect: The player becomes sheltered
+- pddl: 
+```pddl
 (:action stay_in_shelter
   :parameters (?p - player ?loc - location)
-  :precondition (and (at ?p ?loc)
-                      (sheltered ?p))
-  :effect (at ?p ?loc))
+  :precondition (sheltered ?loc)
+  :effect (sheltered ?p)
+)
 ```
-
-- action name: get_in_car
-- summarize action: The player gets into a car.
-- what is needed to do the action: A player and a car item.
-- what is the result: The player is driving a car.
-
-- entities:
-  - entity name: player
-    - before: not driving
-    - after: driving
-
-- describe how to match it to PDDL relevant predicates step by step:
-1. Check if the player has a car in their inventory.
-2. Update the player state to be driving.
-
-PDDL:
-```
+10. action name: get_in_car
+- parameters: a player and a car
+- precondition: The player has the car in their inventory
+- effect: The player starts driving
+- pddl: 
+```pddl
 (:action get_in_car
-  :parameters (?p - player ?item - item)
-  :precondition (and (inventory ?p ?item)
-                      (is_car ?item))
-  :effect (driving ?p))
+  :parameters (?p - player ?c - car)
+  :precondition (inventory ?p ?c)
+  :effect (driving ?p)
+)
 ```
+Please make sure to replace terms like `?loc1`, `?loc2`, etc. that I used to illustrate the conditions/effects with actual items you are using in your domain.

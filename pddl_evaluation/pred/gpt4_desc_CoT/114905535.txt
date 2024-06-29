@@ -1,158 +1,78 @@
 (:action go
- :parameters (?player - player ?loc1 -location ?dir - direction ?loc2 - location)
- :precondition (and
-                (at ?player ?loc1) 
-                (connected ?loc1 ?dir ?loc2)
-                (not (blocked ?loc1 ?dir ?loc2))
-               )
- :effect (and
-            (not (at ?player ?loc1))
-            (at ?player ?loc2))
+   :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+   :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
 )
 
 (:action get
- :parameters (?player - player ?loc - location ?item - item)
- :precondition (and 
-                (at ?player ?loc)
-                (at ?item ?loc)
-                (not (inventory ?player ?item))
-               )
- :effect (and 
-           (not (at ?item ?loc))
-           (inventory ?player ?item))
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?item ?loc))
+   :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
 )
 
 (:action get_water
- :parameters (?player - player ?loc - location ?water - water ?container - container)
- :precondition (and 
-                (at ?player ?loc)
-                (has_water ?loc)
-                (not (inventory ?player ?container))
-               )
- :effect (and 
-           (inventory ?player ?container)
-           (at ?water ?container))
+   :parameters (?player - player ?water - water ?loc - location)
+   :precondition (and (at ?player ?loc) (has_freshwater_source ?loc))
+   :effect (inventory ?player ?water)
 )
 
 (:action bag_plant
- :parameters (?player - player ?loc - location ?plant - plant ?bag - bag)
- :precondition (and 
-                (at ?player ?loc)
-                (not (bagged ?plant))
-                (not (inventory ?player ?bag))
-               )
- :effect (and 
-           (bagged ?plant)
-           (inventory ?player ?bag))
+   :parameters (?player - player ?plant - plant ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?plant ?loc))
+   :effect (and (bagged ?plant) (not (at ?plant ?loc)))
 )
 
 (:action wait_and_gather_bagged_plant
- :parameters (?player - player ?loc - location ?bagged_plant - plant ?bag - bag)
- :precondition (and 
-                (at ?player ?loc)
-                (at ?bagged_plant ?loc)
-                (bagged ?bagged_plant)
-                (not (inventory ?player ?bag))
-               )
- :effect (and 
-           (not (at ?bagged_plant ?loc))
-           (inventory ?player ?bag))
+   :parameters (?player - player ?plant - plant ?loc - location)
+   :precondition (and (at ?player ?loc) (bagged ?plant))
+   :effect (inventory ?player ?plant)
 )
 
 (:action gather_tinder
- :parameters (?player - player ?loc - location ?tinder - tinder)
- :precondition (and 
-                (at ?player ?loc)
-                (has_tinder ?loc)
-               )
- :effect (and
-            (not (has_tinder ?loc))
-            (inventory ?player ?tinder))
+   :parameters (?player - player ?tinder - tinder ?loc - location)
+   :precondition (and (at ?player ?loc) (has_tinder ?loc))
+   :effect (and (inventory ?player ?tinder) (not (has_tinder ?loc)))
 )
 
 (:action build_campfire
- :parameters (?player - player ?loc - location ?tinder - tinder ?campfire - campfire)
- :precondition (and 
-                (at ?player ?loc)
-                (inventory ?player ?tinder)
-                (not (at ?campfire ?loc))
-               )
- :effect (and 
-           (not (inventory ?player ?tinder))
-           (at ?campfire ?loc))
+   :parameters (?player - player ?campfire - campfire ?loc - location)
+   :precondition (at ?player ?loc)
+   :effect (at ?campfire ?loc)
 )
-
 (:action light_campfire
- :parameters (?player - player ?loc - location ?tinder - tinder ?campfire - campfire)
- :precondition (and 
-                (at ?player ?loc)
-                (inventory ?player ?tinder)
-                (at ?campfire ?loc)
-                (not (lit ?campfire))
-               )
- :effect (and 
-           (not (inventory ?player ?tinder))
-           (lit ?campfire))
+   :parameters (?player - player ?campfire - campfire ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?campfire ?loc))
+   :effect (lit ?campfire)
 )
 
 (:action make_spear
- :parameters (?player - player ?sharp_stone - sharp_stone ?hardwood_stick - hardwood_stick ?spear - spear)
- :precondition (and 
-                (inventory ?player ?sharp_stone)
-                (inventory ?player ?hardwood_stick)
-                (not (inventory ?player ?spear))
-               )
- :effect (and 
-           (not (inventory ?player ?sharp_stone))
-           (not (inventory ?player ?hardwood_stick))
-           (inventory ?player ?spear))
+   :parameters (?player - player ?stone - sharp_stone ?wood - wood ?spear - spear)
+   :precondition (and (inventory ?player ?stone) (inventory ?player ?wood))
+   :effect (and (inventory ?player ?spear) (not (inventory ?player ?stone)) (not (inventory ?player ?wood)))
 )
 
 (:action spear_fish
- :parameters (?player - player ?loc - location ?spear - spear ?fish - fish)
- :precondition (and 
-                (at ?player ?loc)
-                (inventory ?player ?spear)
-                (has_fish ?loc)
-               )
- :effect (and 
-            (not (has_fish ?loc))
-            (inventory ?player ?fish))
+   :parameters (?player - player ?spear - spear ?fish - fish ?loc - location)
+   :precondition (and (at ?player ?loc) (has_fish ?loc) (inventory ?player ?spear))
+   :effect (and (inventory ?player ?fish) (not (has_fish ?loc)))
 )
 
 (:action cook_fish
- :parameters (?player - player ?loc - location ?campfire - campfire ?fish - fish)
- :precondition (and 
-                (at ?player ?loc)
-                (at ?campfire ?loc)
-                (lit ?campfire)
-                (inventory ?player ?fish)
-                (not (cooked ?fish))
-               )
- :effect (cooked ?fish)
+   :parameters (?player - player ?fish - fish ?campfire - campfire)
+   :precondition (and (inventory ?player ?fish) (lit ?campfire))
+   :effect (cooked ?fish)
 )
 
 (:action wet_tinder
- :parameters (?player - player ?loc - location ?tinder - tinder ?water - water)
- :precondition (and 
-                (at ?player ?loc)
-                (inventory ?player ?tinder)
-                (not (wet ?tinder))
-                (has_water ?loc)
-               )
- :effect (wet ?tinder)
+   :parameters (?player - player ?tinder - tinder ?water - water)
+   :precondition (and (inventory ?player ?tinder) (inventory ?player ?water))
+   :effect (wet ?tinder)
 )
 
 (:action make_smoke_signal
- :parameters (?player - player ?loc - location ?campfire - campfire ?tinder - tinder)
- :precondition (and 
-                (at ?player ?loc)
-                (at ?campfire ?loc)
-                (lit ?campfire)
-                (inventory ?player ?tinder)
-                (wet ?tinder)
-               )
- :effect (signaling ?campfire)
+   :parameters (?player - player ?campfire - campfire ?tinder - tinder ?loc - location)
+   :precondition (and (at ?player ?loc) (lit ?campfire) (wet ?tinder))
+   :effect (signaling ?campfire)
 )
 
 )

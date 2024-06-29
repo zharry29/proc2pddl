@@ -1,71 +1,64 @@
 (:action go
-  :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
-  :precondition (and
-    (at ?player ?loc1)
-    (connected ?loc1 ?dir ?loc2)
-    (not (blocked ?loc1 ?dir ?loc2)))
-  :effect (and
-    (not (at ?player ?loc1))
-    (at ?player ?loc2)))
+        :parameters (?p - player ?d - direction ?l1 - location ?l2 - location)
+        :precondition (and (connected ?l1 ?d ?l2) 
+                            (not (blocked ?l1 ?d ?l2)) 
+                            (at ?p ?l1))
+        :effect (and (not (at ?p ?l1)) 
+                     (at ?p ?l2)))
 
-(:action get
-  :parameters (?player - player ?item - item ?loc - location)
-  :precondition (and
-    (at ?player ?loc)
-    (at ?item ?loc)
-    (not (inventory ?player ?item)))
-  :effect (and
-    (not (at ?item ?loc))
-    (inventory ?player ?item)))
+    (:action get
+        :parameters (?p - player ?i - item)
+        :precondition (at ?i ?p)
+        :effect (and (not (at ?i ?p)) 
+                     (inventory ?p ?i)))
 
-(:action breathe
- :parameters (?player - player ?loc - location)
- :precondition (at ?player ?loc)
- :effect (calm ?player))
+    (:action breathe
+        :parameters (?p - player)
+        :precondition (not (calm ?p)) 
+        :effect (calm ?p))
 
-(:action liedown
- :parameters (?player - player ?loc - location)
- :precondition (at ?player ?loc)
- :effect (laying ?player))
+    (:action liedown
+        :parameters (?p - player ?q - quicksand)
+        :precondition (and (stuck ?p ?q) (not (laying ?p))) 
+        :effect (laying ?p))
 
-(:action swim
- :parameters (?player - player ?loc - location)
- :precondition (and (at ?player ?loc) (stuck ?player ?quicksand))
- :effect (not (stuck ?player ?quicksand)))
+    (:action swim
+        :parameters (?p - player ?q - quicksand)
+        :precondition (and (laying ?p) (deep ?q) (not (tired ?p)))
+        :effect (tired ?p))
 
-(:action usestick
- :parameters (?player - player ?stick - stick)
- :precondition (inventory ?player ?stick)
- :effect (calm ?player))
+    (:action usestick
+        :parameters (?p - player ?i - item ?q - quicksand)
+        :precondition (and (inventory ?p ?i) (stuck ?p ?q)) 
+        :effect (not (stuck ?p ?q)))
 
-(:action rest
- :parameters (?player - player)
- :precondition (tired ?player)
- :effect (not (tired ?player)))
+    (:action rest
+        :parameters (?p - player)
+        :precondition (tired ?p) 
+        :effect (not (tired ?p)))
 
-(:action drop
- :parameters (?player - player ?item - item ?loc - location)
- :precondition (and (inventory ?player ?item) (at ?player ?loc))
- :effect (and (not (inventory ?player ?item)) (at ?item ?loc)))
+    (:action drop
+        :parameters (?p - player ?i - item)
+        :precondition (inventory ?p ?i) 
+        :effect (and (not (inventory ?p ?i)) 
+                      (at ?i ?loc)))
 
-(:action check_ripples
- :parameters (?player - player ?loc - location)
- :precondition (at ?player ?loc)
- :effect (aware ?player ?loc))
+    (:action check_ripples
+        :parameters (?p - player ?l - location)
+        :effect (aware ?p ?l))
 
-(:action test_ground
- :parameters (?player - player ?loc - location)
- :precondition (and (at ?player ?loc) (has_quicksand ?loc))
- :effect (stuck ?player ?quicksand))
+    (:action test_ground
+        :parameters (?p - player ?l - location)
+        :precondition (aware ?p ?l)
+        :effect (when (has_quicksand ?l) (known (has_quicksand ?l))))
 
-(:action research
- :parameters (?player - player ?loc - location)
- :precondition (at ?player ?loc)
- :effect (aware ?player ?potential_quicksand_location))
+    (:action research
+        :parameters (?p - player)
+        :effect (forall (?l) (when (has_quicksand ?l) (known (has_quicksand ?l)))))
 
-(:action move_horizontally
- :parameters (?player - player)
- :precondition (laying ?player)
- :effect (and (not (laying ?player)) (tired ?player)))
+    (:action move_horizontally
+        :parameters (?p - player ?q - quicksand ?d - direction)
+        :precondition (and (laying ?p) (stuck ?p ?q))
+        :effect (not (stuck ?p ?q)))
 
 )

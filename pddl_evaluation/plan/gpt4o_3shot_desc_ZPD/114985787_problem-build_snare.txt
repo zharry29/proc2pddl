@@ -1,0 +1,8 @@
+go ('npc', 'camp', 'west', 'path')
+get ('npc', 'wire', 'path')
+go ('npc', 'path', 'west', 'cliff')
+go ('npc', 'cliff', 'up', 'waterfall')
+go ('npc', 'waterfall', 'west', 'footpath')
+make_snare ('npc', 'wire', 'snare')
+drop ('npc', 'snare', 'footpath')
+hang_snare ('snare', 'footpath')

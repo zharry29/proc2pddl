@@ -1,0 +1,71 @@
+(:action get
+  :parameters (?player - player ?loc - location ?item - item)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (inventory ?player ?item)
+)
+
+(:action drop
+  :parameters (?player - player ?item - item)
+  :precondition (inventory ?player ?item)
+  :effect (not (inventory ?player ?item))
+)
+(:action put_in_stopper
+  :parameters (?item - item)
+  :precondition (and (has_stopper ?item) (not (sealed ?item)))
+  :effect (sealed ?item)
+)
+(:action fill
+  :parameters (?, ?)
+  :precondition (?, ?)
+  :effect (?, ?)
+)
+(:action purify
+  :parameters (?, ?)
+  :precondition (?, ?)
+  :effect (?, ?)
+)
+(:action seal
+  :parameters (?, ?)
+  :precondition (?, ?)
+  :effect (?, ?)
+)
+(:action wait
+  :parameters (?, ?)
+  :precondition (?, ?)
+  :effect (?, ?)
+)
+(:action go
+  :parameters (?, ?)
+  :precondition (?, ?)
+  :effect (?, ?)
+)
+(:action put_batteries_in
+  :parameters (?, ?)
+  :precondition (?, ?)
+  :effect (?, ?)
+)
+
+(:action turn_on_radio
+  :parameters (?radio - radio)
+  :precondition (has_batteries ?radio)
+  :effect (on ?radio)
+)
+
+(:action create_cage
+  :parameters (?cage - farraday_cage)
+  :effect (exists ?cage)
+)
+
+(:action close_cage
+  :parameters (?cage - farraday_cage)
+  :precondition (not (cage_closed ?cage))
+  :effect (cage_closed ?cage)
+)
+
+(:action put_in_cage
+  :parameters (?item - item ?cage - farraday_cage)
+  :precondition (and (not (cage_closed ?cage)) (not (in_cage ?item)))
+  :effect (in_cage ?item)
+)
+
+)

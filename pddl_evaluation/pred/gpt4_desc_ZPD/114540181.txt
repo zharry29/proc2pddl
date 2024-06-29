@@ -1,0 +1,111 @@
+(:action go
+  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+  :precondition (and
+    (at ?player ?loc1)
+    (connected ?loc1 ?dir ?loc2))
+  :effect (and
+    (not (at ?player ?loc1))
+    (at ?player ?loc2)))
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and
+    (at ?player ?loc)
+    (at ?item ?loc)
+    (not (inventory ?player ?item)))
+  :effect (and
+    (inventory ?player ?item)
+    (not (at ?item ?loc))))
+
+(:action get_bamboo_container
+  :parameters (?player - player ?loc - location)
+  :precondition (and
+    (at ?player ?loc)
+    (has_bamboo ?loc)
+    (not (inventory ?player ?obj - bamboo_container)))
+  :effect (inventory ?player ?obj - bamboo_container))
+
+(:action collect_rain_water
+  :parameters (?player - player ?loc - location ?container - bamboo_container ?water - water)
+  :precondition (and
+    (at ?player ?loc)
+    (has_rainfall ?loc)
+    (inventory ?player ?container))
+  :effect (inventory ?player ?water))
+
+(:action create_fire
+  :parameters (?player - player ?wood - wood ?stone - stone ?fire - fire)
+  :precondition (and
+    (inventory ?player ?wood)
+    (inventory ?player ?stone))
+  :effect (inventory ?player ?fire))
+
+(:action treat_water
+  :parameters (?player - player ?untreated_water - water ?fire - fire ?treated_water - water)
+  :precondition (and
+    (inventory ?player ?untreated_water)
+    (not (treated ?untreated_water))
+    (inventory ?player ?fire))
+  :effect (and
+    (not (inventory ?player ?untreated_water))
+    (inventory ?player ?treated_water)
+    (treated ?treated_water)))
+
+(:action drink_water
+  :parameters (?player - player ?treated_water - water)
+  :precondition (and
+    (inventory ?player ?treated_water)
+    (treated ?treated_water)
+    (is dehydrated ?player))
+  :effect (and
+    (not (inventory ?player ?treated_water))
+    (not (is dehydrated ?player))))
+
+(:action drink_untreated_water
+  :parameters (?player - player ?untreated_water - water)
+  :precondition (and
+    (inventory ?player ?untreated_water)
+    (not (treated ?untreated_water))
+    (is dehydrated ?player))
+  :effect (and
+    (not (inventory ?player ?untreated_water))
+    (not (is dehydrated ?player))
+    (is ill ?player)))
+
+(:action create_sos_sign
+  :parameters (?player - player ?stones - stone ?wood - wood ?sos_sign - sos_sign)
+  :precondition (and
+    (inventory ?player ?stones)
+    (inventory ?player ?wood))
+  :effect (inventory ?player ?sos_sign))
+
+(:action pick_fruit
+  :parameters (?player - player ?fruit - fruit ?loc - location)
+  :precondition (and
+    (at ?player ?loc)
+    (has_fruit ?loc)
+    (not (inventory ?player ?fruit)))
+  :effect (and
+    (inventory ?player ?fruit)
+    (not (has_fruit ?loc))))
+
+(:action eat_fruit
+  :parameters (?player - player ?fruit - fruit)
+  :precondition (and
+    (inventory ?player ?fruit)
+    (is hungry ?player))
+  :effect (and
+    (not (inventory ?player ?fruit))
+    (not (is hungry ?player))))
+
+(:action escape
+  :parameters (?player - player ?sos_sign - sos_sign)
+  :precondition (and
+    (at ?player ?loc - basecamp)
+    (inventory ?player ?sos_sign)
+    (not (is hungry ?player))
+    (not (is dehydrated ?player))
+    (not (is ill ?player)))
+  :effect (escaped ?player))
+
+)

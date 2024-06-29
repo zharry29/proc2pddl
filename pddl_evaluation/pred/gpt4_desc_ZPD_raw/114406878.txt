@@ -1,0 +1,169 @@
+- action name: go
+- summarize action: The player navigates to an adjacent location.
+- what is needed to do the action: A connection between the current location and the destination location, and that it is not blocked.
+- what is the result: The player moves to the destination location.
+
+- entities:
+  - entity name: player
+    - before: at the current location
+    - after: at the destination location
+  - entity name: current location
+    - before: player is here
+    - after: no change
+  - entity name: destination location
+    - before: no player
+    - after: player is here
+  - entity name: direction
+    - before: connected to locations
+    - after: no change
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if there is a connection between the current location and the destination location in the desired direction.
+2. Check if there is no blocked path between the current location and the destination location in the desired direction.
+3. Update the player's location to the destination location.
+
+pddl:
+
+(:action go
+  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+  :precondition (and
+    (at ?player ?loc1)
+    (connected ?loc1 ?dir ?loc2)
+    (not (blocked ?loc1 ?dir ?loc2))
+  )
+  :effect (and
+    (not (at ?player ?loc1))
+    (at ?player ?loc2)
+  )
+)
+
+Note that due to the character limit, I can only provide one action example in this response. If you need information on other actions, please submit requests for individual actions.
+- action name: get
+- summarize action: The player picks up an item and puts it in their inventory.
+- what is needed to do the action: The player is at the location of the item.
+- what is the result: The item is in the player's inventory, and no longer at the location.
+
+- entities:
+  - entity name: player
+    - before: at the location of the item
+    - after: no change
+  - entity name: item
+    - before: at the location
+    - after: in the player's inventory
+  - entity name: location
+    - before: item is here
+    - after: item is not here
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location of the item.
+2. Remove the item from the location and add it to the player's inventory.
+
+pddl:
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and
+    (at ?player ?loc)
+    (at ?item ?loc)
+  )
+  :effect (and
+    (not (at ?item ?loc))
+    (inventory ?player ?item)
+  )
+)
+- action name: get_grass
+- summarize action: The player gathers grass that is not dry for the first time.
+- what is needed to do the action: The player is at the location with grass that is not dry.
+- what is the result: The player has the grass in their inventory.
+
+- entities:
+  - entity name: player
+    - before: at the location with grass
+    - after: no change
+  - entity name: grass
+    - before: at the location, not dry
+    - after: in the player's inventory
+  - entity name: location
+    - before: grass is here
+    - after: grass is not here
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player is at the location with grass that is not dry.
+2. Remove the grass from the location and add it to the player's inventory.
+
+pddl:
+
+(:action get_grass
+  :parameters (?player - player ?grass - grass ?loc - location)
+  :precondition (and
+    (at ?player ?loc)
+    (at ?grass ?loc)
+    (not (dry ?grass))
+  )
+  :effect (and
+    (not (at ?grass ?loc))
+    (inventory ?player ?grass)
+  )
+)
+- action name: dry_grass
+- summarize action: The player dries the grass so that it can be used as tinder.
+- what is needed to do the action: The player has the grass in their inventory.
+- what is the result: The grass in the player's inventory becomes dry.
+
+- entities:
+  - entity name: player
+    - before: has grass in the inventory
+    - after: no change
+  - entity name: grass
+    - before: in the player's inventory, not dry
+    - after: in the player's inventory, dry
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has the grass in their inventory and it is not dry.
+2. Change the grass state to dry.
+
+pddl:
+
+(:action dry_grass
+  :parameters (?player - player ?grass - grass)
+  :precondition (and
+    (inventory ?player ?grass)
+    (not (dry ?grass))
+  )
+  :effect (and
+    (dry ?grass)
+  )
+)
+- action name: cluster_grass
+- summarize action: The player clusters gathered dry grass to make tinder.
+- what is needed to do the action: The player has dry grass in their inventory.
+- what is the result: The dry grass in the player's inventory becomes tinder.
+
+- entities:
+  - entity name: player
+    - before: has dry grass in the inventory
+    - after: no change
+  - entity name: grass
+    - before: in the player's inventory, dry
+    - after: in the player's inventory, tinder
+  - entity name: tinder
+    - before: not in the inventory
+    - after: in the player's inventory
+
+- describe how to match it to PDDL relevant predicates step by step:
+1. Check if the player has dry grass in their inventory.
+2. Change the dry grass in the player's inventory to tinder.
+
+pddl:
+
+(:action cluster_grass
+  :parameters (?player - player ?grass - grass ?tinder - tinder)
+  :precondition (and
+    (inventory ?player ?grass)
+    (dry ?grass)
+  )
+  :effect (and
+    (not (inventory ?player ?grass))
+    (inventory ?player ?tinder)
+  )
+)

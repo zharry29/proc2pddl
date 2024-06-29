@@ -1,1 +1,7 @@
-No solution
+go ('npc', 'beach', 'root_of_tree', 'north')
+go ('npc', 'root_of_tree', 'jungle', 'north')
+go ('npc', 'jungle', 'hills', 'east')
+get ('npc', 'sharp_stone', 'hills')
+go ('npc', 'hills', 'jungle', 'west')
+hunt_animal ('npc', 'sharp_stone', 'animal', 'jungle')
+prepare_animal ('npc', 'animal', 'sharp_stone', 'jungle')

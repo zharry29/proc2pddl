@@ -1,1 +1,1 @@
-Error: 'str' object has no attribute 'pop'
+Error: Missing open parentheses

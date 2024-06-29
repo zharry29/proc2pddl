@@ -1,0 +1,3 @@
+get_grass ('npc', 'grass', 'camp')
+dry_grass ('npc', 'grass')
+cluster_grass ('npc', 'grass', 'grass_tinder')

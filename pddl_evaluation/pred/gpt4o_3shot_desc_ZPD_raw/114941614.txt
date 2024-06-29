@@ -1,0 +1,342 @@
+Let's use the provided information to detail each action in the requested format.
+
+### Action: go
+- summarize action: This action involves navigating from one location to an adjacent connected location.
+- what is needed to do the action: The player at the starting location, an adjacent connected location in a specific direction.
+- what is the result: The player moves from the start location to the adjacent location.
+
+- entities:
+  - entity name: player 
+    - before: at starting location
+    - after: at adjacent location
+  - entity name: start_location 
+    - before: contains player
+    - after: does not contain player
+  - entity name: end_location 
+    - before: does not contain player
+    - after: contains player
+
+pddl action:
+```lisp
+(:action go
+  :parameters (?p - player ?start_loc - location ?end_loc - location ?dir - direction)
+  :precondition (and (at ?p ?start_loc) (connected ?start_loc ?dir ?end_loc) (not (blocked ?start_loc ?dir ?end_loc)))
+  :effect (and (not (at ?p ?start_loc)) (at ?p ?end_loc))
+)
+```
+
+### Action: get
+- summarize action: This action involves picking up an item from a location and placing it in the player's inventory.
+- what is needed to do the action: The player at the location of the item, and the item at the same location.
+- what is the result: The item is added to the player's inventory.
+
+- entities:
+  - entity name: player 
+    - before: at location of item
+    - after: at same location
+  - entity name: item 
+    - before: at location
+    - after: in player's inventory
+  - entity name: location 
+    - before: contains item
+    - after: does not contain item
+
+pddl action:
+```lisp
+(:action get
+  :parameters (?p - player ?item - item ?loc - location)
+  :precondition (and (at ?p ?loc) (at ?item ?loc))
+  :effect (and (not (at ?item ?loc)) (inventory ?p ?item))
+)
+```
+
+### Action: collect_water
+- summarize action: This action involves collecting water from a location that has a water source and filling a container.
+- what is needed to do the action: The player at the location with a water source, an empty container.
+- what is the result: The container is filled with water.
+
+- entities:
+  - entity name: player 
+    - before: at location with water source
+    - after: at same location
+  - entity name: container 
+    - before: empty
+    - after: full with water
+  - entity name: water 
+    - before: at water source
+    - after: in container
+
+pddl action:
+```lisp
+(:action collect_water
+  :parameters (?p - player ?container - container ?loc - location ?water - water)
+  :precondition (and (at ?p ?loc) (has_water_source ?loc) (not (is_full ?container)))
+  :effect (and (contains ?container ?water) (is_full ?container))
+)
+```
+
+### Action: gather_sticks
+- summarize action: This action involves gathering sticks from the ground at a location that has sticks available.
+- what is needed to do the action: The player at the location with sticks.
+- what is the result: Sticks are added to the player's inventory.
+
+- entities:
+  - entity name: player 
+    - before: at location with sticks
+    - after: at same location
+  - entity name: sticks 
+    - before: on the ground
+    - after: in player's inventory
+
+pddl action:
+```lisp
+(:action gather_sticks
+  :parameters (?p - player ?loc - location ?sticks - sticks)
+  :precondition (and (at ?p ?loc) (has_sticks ?loc))
+  :effect (inventory ?p ?sticks)
+)
+```
+
+### Action: make_fire
+- summarize action: This action involves creating a fire at the current location using available sticks.
+- what is needed to do the action: The player at a location, sticks in the player's inventory, and an igniter.
+- what is the result: The current location now has a man-made fire.
+
+- entities:
+  - entity name: player 
+    - before: at location
+    - after: at same location
+  - entity name: sticks 
+    - before: in player's inventory
+    - after: not in player's inventory (used for fire)
+  - entity name: location 
+    - before: no fire
+    - after: has fire
+  - entity name: igniter
+    - before: in player's inventory
+    - after: in player's inventory (unchanged)
+
+pddl action:
+```lisp
+(:action make_fire
+  :parameters (?p - player ?loc - location ?sticks - sticks ?igniter - igniter)
+  :precondition (and (at ?p ?loc) (inventory ?p ?sticks) (inventory ?p ?igniter))
+  :effect (and (has_fire ?loc) (not (inventory ?p ?sticks)))
+)
+```
+
+### Action: boil_water
+- summarize action: This action involves boiling water that is inside a container at a location with fire.
+- what is needed to do the action: The player at the location with a fire, a container with water.
+- what is the result: The water in the container is boiled and becomes safe to drink.
+
+- entities:
+  - entity name: player 
+    - before: at location with fire
+    - after: at same location
+  - entity name: container 
+    - before: contains water
+    - after: contains boiled water
+  - entity name: water 
+    - before: not boiled
+    - after: boiled
+  - entity name: location 
+    - before: has fire 
+    - after: has fire (unchanged)
+
+pddl action:
+```lisp
+(:action boil_water
+  :parameters (?p - player ?loc - location ?container - container ?water - water)
+  :precondition (and (at ?p ?loc) (has_fire ?loc) (contains ?container ?water) (not (is_contaminated ?water)))
+  :effect (is_contaminated ?water)
+)
+```
+
+### Action: cook_food
+- summarize action: This action involves cooking food inside a container at a location with fire.
+- what is needed to do the action: The player at the location with a fire, the container with food that is contaminated.
+- what is the result: The food in the container is cooked, removing the contamination.
+
+- entities:
+  - entity name: player 
+    - before: at location with fire
+    - after: at same location
+  - entity name: container 
+    - before: contains contaminated food
+    - after: contains cooked food (not contaminated)
+  - entity name: food 
+    - before: contaminated
+    - after: not contaminated
+  - entity name: location 
+    - before: has fire
+    - after: has fire (unchanged)
+
+pddl action:
+```lisp
+(:action cook_food
+  :parameters (?p - player ?loc - location ?container - container ?food - food)
+  :precondition (and (at ?p ?loc) (has_fire ?loc) (contains ?container ?food) (is_contaminated ?food))
+  :effect (and (not (is_contaminated ?food)))
+)
+```
+
+### Action: eat_poisoned_food
+- summarize action: This action involves eating food that is poisonous, resulting in the player getting sick.
+- what is needed to do the action: The player with poisonous food in their inventory.
+- what is the result: The player becomes sick.
+
+- entities:
+  - entity name: player 
+    - before: has poisonous food in inventory, not sick
+    - after: does not have poisonous food in inventory, sick
+  - entity name: food 
+    - before: poisonous, in inventory
+    - after: not in inventory
+
+pddl action:
+```lisp
+(:action eat_poisoned_food
+  :parameters (?p - player ?food - food)
+  :precondition (and (inventory ?p ?food) (is_poisonous ?food))
+  :effect (and (is_sick ?p) (not (inventory ?p ?food)))
+)
+```
+
+### Action: eat_contaminated_food
+- summarize action: This action involves eating food that is contaminated, resulting in the player getting sick.
+- what is needed to do the action: The player with contaminated food in their inventory.
+- what is the result: The player becomes sick.
+
+- entities:
+  - entity name: player 
+    - before: has contaminated food in inventory, not sick
+    - after: does not have contaminated food in inventory, sick
+  - entity name: food 
+    - before: contaminated, in inventory
+    - after: not in inventory
+
+pddl action:
+```lisp
+(:action eat_contaminated_food
+  :parameters (?p - player ?food - food)
+  :precondition (and (inventory ?p ?food) (is_contaminated ?food))
+  :effect (and (is_sick ?p) (not (inventory ?p ?food)))
+)
+```
+
+### Action: eat_food
+- summarize action: This action involves eating food that isn't harmful, satisfying the player's hunger.
+- what is needed to do the action: The player with non-contaminated, non-poisonous food in their inventory.
+- what is the result: The player is no longer hungry.
+
+- entities:
+  - entity name: player 
+    - before: has non-harmful food in inventory, hungry
+    - after: does not have food in inventory, not hungry
+  - entity name: food 
+    - before: non-harmful, in inventory
+    - after: not in inventory
+
+pddl action:
+```lisp
+(:action eat_food
+  :parameters (?p - player ?food - food)
+  :precondition (and (inventory ?p ?food) (not (is_contaminated ?food)) (not (is_poisonous ?food)))
+  :effect (and (not (is_hungry ?p)) (not (inventory ?p ?food)))
+)
+```
+
+### Action: drink_contaminated_water
+- summarize action: This action involves drinking contaminated water from a container, resulting in the player getting sick.
+- what is needed to do the action: The player with contaminated water in a container.
+- what is the result: The player becomes sick.
+
+- entities:
+  - entity name: player 
+    - before: has contaminated water in container, not sick
+    - after: does not have contaminated water, sick
+  - entity name: water 
+    - before: contaminated
+    - after: not in container
+
+pddl action:
+```lisp
+(:action drink_contaminated_water
+  :parameters (?p - player ?container - container ?water - water)
+  :precondition (and (inventory ?p ?container) (contains ?container ?water) (is_contaminated ?water))
+  :effect (and (is_sick ?p) (not (is_thirsty ?p)) (not (contains ?container ?water)))
+)
+```
+
+### Action: drink_water
+- summarize action: This action involves drinking clean water from a container, satisfying the player's thirst.
+- what is needed to do the action: The player with clean water in a container.
+- what is the result: The player is no longer thirsty.
+
+- entities:
+  - entity name: player 
+    - before: has clean water in container, thirsty
+    - after: does not have clean water, not thirsty
+  - entity name: water 
+    - before: clean
+    - after: not in container
+
+pddl action:
+```lisp
+(:action drink_water
+  :parameters (?p - player ?container - container ?water - water)
+  :precondition (and (inventory ?p ?container) (contains ?container ?water) (not (is_contaminated ?water)))
+  :effect (and (not (is_thirsty ?p)) (not (contains ?container ?water)))
+)
+```
+
+### Action: build_shelter
+- summarize action: This action involves building a shelter at the current location using sticks and leaves.
+- what is needed to do the action: The player at the location, and sticks and leaves in the player's inventory.
+- what is the result: The current location now has a shelter.
+
+- entities:
+  - entity name: player 
+    - before: at location
+    - after: at same location
+  - entity name: sticks 
+    - before: in player's inventory
+    - after: not in player's inventory (used for shelter)
+  - entity name: leaves 
+    - before: in player's inventory
+    - after: not in player's inventory (used for shelter)
+  - entity name: location 
+    - before: no shelter
+    - after: has shelter
+
+pddl action:
+```lisp
+(:action build_shelter
+  :parameters (?p - player ?loc - location ?sticks - sticks ?leaves - leaves)
+  :precondition (and (at ?p ?loc) (inventory ?p ?sticks) (inventory ?p ?leaves))
+  :effect (and (has_shelter ?loc) (not (inventory ?p ?sticks)) (not (inventory ?p ?leaves)))
+)
+```
+
+### Action: sleep_in_shelter
+- summarize action: This action involves sleeping in a shelter at the current location, making the player untired.
+- what is needed to do the action: The player at a location with a shelter.
+- what is the result: The player is no longer tired.
+
+- entities:
+  - entity name: player 
+    - before: tired, at location with shelter
+    - after: not tired, at same location
+  - entity name: location 
+    - before: has shelter
+    - after: has shelter (unchanged)
+
+pddl action:
+```lisp
+(:action sleep_in_shelter
+  :parameters (?p - player ?loc - location)
+  :precondition (and (at ?p ?loc) (has_shelter ?loc) (is_tired ?p))
+  :effect (not (is_tired ?p))
+)
+```

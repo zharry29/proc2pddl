@@ -1,3 +1,1 @@
-go ('npc', 'kitchen', 'hallway', 'east')
-lay_masking_tape ('npc', 'masking_tape', 'hallway')
-throw ('npc', 'pen', 'hallway')
+No solution

@@ -1,0 +1,111 @@
+Okay, based on your requirements, here are the actions in pddl format.
+
+Action Get:
+```
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?player ?loc) (at ?item ?loc))
+    :effect (and 
+             (not (at ?item ?loc))
+             (inventory ?player ?item)))
+```
+
+Action Drop:
+```
+(:action drop
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?player ?loc) (inventory ?player ?item))
+    :effect (and 
+            (not (inventory ?player ?item))
+            (at ?item ?loc)))
+```
+
+Action Put_in_stopper:
+```
+(:action put_in_stopper
+    :parameters (?player - player ?item - item)
+    :precondition (and (inventory ?player ?item) (can_be_filled ?item))
+    :effect (has_stopper ?item))
+```
+
+Action Fill:
+```
+ (:action fill
+    :parameters (?player - player ?item - item)
+    :precondition (and (inventory ?player ?item) (can_be_filled ?item) (has_stopper ?item))
+    :effect (full ?item))
+```
+
+Action Purify:
+```
+ (:action purify
+    :parameters (?player - player ?item - item)
+    :precondition (and (inventory ?player ?item) (full ?item))
+    :effect (purified ?item))
+```
+
+Action Seal:
+```
+ (:action seal
+    :parameters (?player - player ?item - item)
+    :precondition (and (inventory ?player ?item) (can_be_sealed ?item) (purified ?item))
+    :effect (sealed ?item))
+```
+
+Action Wait:
+```
+ (:action wait
+    :parameters ()
+    :precondition ()
+    :effect ())
+```
+
+Action Go:
+```
+ (:action go
+    :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+    :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+    :effect (and 
+            (not (at ?player ?loc1))
+            (at ?player ?loc2)))
+```
+
+Action Put_Batteries_In:
+```
+ (:action put_batteries_in
+    :parameters (?player - player ?radio - radio)
+    :precondition (and (inventory ?player ?radio))
+    :effect (has_batteries ?radio))
+```
+
+Action Turn_On_Radio:
+```
+ (:action turn_on_radio
+    :parameters (?player - player ?radio - radio)
+    :precondition (and (inventory ?player ?radio) (has_batteries ?radio))
+    :effect (on ?radio))
+```
+
+Action Create_Cage:
+```
+  (:action create_cage
+    :parameters (?player - player ?cage - farraday_cage)
+    :precondition (inventory ?player ?cage)
+    :effect (in_cage ?cage))
+```
+
+Action Close_Cage:
+```
+  (:action close_cage
+    :parameters (?player - player ?cage - farraday_cage)
+    :precondition (and (inventory ?player ?cage) (in_cage ?cage))
+    :effect (cage_closed ?cage))
+``` 
+
+Action Put_In_Cage:
+```
+ (:action put_in_cage
+    :parameters (?player - player ?item - item ?cage - farraday_cage)
+    :precondition (and (inventory ?player ?cage) (inventory ?player ?item) (cage_closed ?cage))
+    :effect (in_cage ?item))
+```

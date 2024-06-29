@@ -1,0 +1,13 @@
+(:action get
+  :parameters (?player - player ?item - item ?location - location)
+  :precondition (and (at ?item ?location) (not (not_gettable ?item)))
+  :effect (and (inventory ?player ?item) (not (at ?item ?location)))
+)
+
+(:action cut_sheet
+  :parameters (?player - player ?knife - knife ?finished_strips - finished_strips ?papyrus - papyrus)
+  :precondition (and (inventory ?player ?knife) (inventory ?player ?finished_strips))
+  :effect (and (inventory ?player ?papyrus) (not (inventory ?player ?finished_strips)))
+)
+
+)

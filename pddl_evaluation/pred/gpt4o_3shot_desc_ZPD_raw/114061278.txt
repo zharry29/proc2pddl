@@ -1,0 +1,146 @@
+Certainly! Here is the PDDL output for each action based on the provided details:
+
+### Action 1: get
+- action name: get
+- summarize action: This action involves picking up an item and placing it in the inventory.
+- what is needed to do the action: The action requires any item and an empty inventory slot.
+- what is the result: The item is now in the inventory.
+
+- entities:
+  - entity name: item
+      - before: not in inventory
+      - after: in inventory
+
+pddl action:
+```pddl
+(:action get
+ :parameters (?item - item)
+ :precondition (not (inventory ?item))
+ :effect (inventory ?item)
+)
+```
+
+### Action 2: poke
+- action name: poke
+- summarize action: This action involves poking a hole in the top of the coconut.
+- what is needed to do the action: The action requires a coconut.
+- what is the result: The coconut has its eyes poked.
+
+- entities:
+  - entity name: coconut
+      - before: whole coconut
+      - after: coconut with holes
+
+pddl action:
+```pddl
+(:action poke
+ :parameters (?c - coconut)
+ :precondition (and (not (has_eyes_poked ?c)))
+ :effect (has_eyes_poked ?c)
+)
+```
+
+### Action 3: flip
+- action name: flip
+- summarize action: This action involves turning the coconut upside down.
+- what is needed to do the action: The action requires a container with water and a coconut with holes.
+- what is the result: The water drains out of the coconut.
+
+- entities:
+  - entity name: coconut
+      - before: has eyes poked
+      - after: emptied into container
+  - entity name: container
+      - before: without water
+      - after: with water
+
+pddl action:
+```pddl
+(:action flip
+ :parameters (?c - coconut ?cow - container_without_water ?cw - container_with_water)
+ :precondition (and (has_eyes_poked ?c) (is_item_container_with_water ?cow))
+ :effect (and (not (is_item_container_with_water ?cow)) (is_item_container_with_water ?cw))
+)
+```
+
+### Action 4: wrap
+- action name: wrap
+- summarize action: This action involves wrapping the coconut.
+- what is needed to do the action: The action requires a coconut and a towel.
+- what is the result: The coconut is wrapped in the towel.
+
+- entities:
+  - entity name: coconut
+      - before: not wrapped
+      - after: wrapped
+
+pddl action:
+```pddl
+(:action wrap
+ :parameters (?c - coconut ?t - towel)
+ :precondition (and (not (is_item_wrapped_coconut ?c)))
+ :effect (is_item_wrapped_coconut ?c)
+)
+```
+
+### Action 5: hit
+- action name: hit
+- summarize action: This action involves hitting the wrapped coconut with a mallet.
+- what is needed to do the action: The action requires a wrapped coconut and a mallet.
+- what is the result: The coconut gets broken.
+
+- entities:
+  - entity name: coconut
+      - before: wrapped
+      - after: broken
+
+pddl action:
+```pddl
+(:action hit
+ :parameters (?cw - coconut_wrapped ?m - mallet)
+ :precondition (and (is_item_wrapped_coconut ?cw))
+ :effect (is_item_broken_coconut ?cw)
+)
+```
+
+### Action 6: free
+- action name: free
+- summarize action: This action involves running a knife between the shell and the meat to free the meat.
+- what is needed to do the action: The action requires a broken coconut and a knife.
+- what is the result: The coconut meat is freed from the shell.
+
+- entities:
+  - entity name: coconut
+      - before: broken coconut
+      - after: coconut meat
+
+pddl action:
+```pddl
+(:action free
+ :parameters (?cb - coconut_broken ?knife - tool)
+ :precondition (and (is_item_broken_coconut ?cb))
+ :effect (is_item_coconut_meat ?cb)
+)
+```
+
+### Action 7: remove_fiber
+- action name: remove_fiber
+- summarize action: This action involves removing the fiber from the coconut meat using a peeler.
+- what is needed to do the action: The action requires coconut meat and a peeler.
+- what is the result: The fiber is removed and the coconut meat is peeled.
+
+- entities:
+  - entity name: coconut meat
+      - before: coconut meat with fiber
+      - after: peeled coconut meat
+
+pddl action:
+```pddl
+(:action remove_fiber
+ :parameters (?cm - coconut_meat ?peeler - tool)
+ :precondition (and (is_item_coconut_meat ?cm))
+ :effect (is_item_coconut_meat_peeled ?cm)
+)
+```
+
+This completes the PDDL actions for opening a coconut, ensuring each action follows the required preconditions and effects closely based on the provided predicates and types.

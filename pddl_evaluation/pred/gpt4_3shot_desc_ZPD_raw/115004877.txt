@@ -1,0 +1,230 @@
+Text to PDDL translation by considering the actions described:
+
+- Action: Go:
+   - Summarize action: This action involves the player navigating to an adjacent location.
+   - What is needed to do the action: Initial and intended locations, and the direction to go.
+   - What is the result: The player arrives at the intended location.
+
+   (Entities)
+   - Entity name: player
+       - before: in initial location
+       - after: in intended location
+   - Entity name: location
+       - before: location not visited
+       - after: location visited
+
+PDDL action:
+``` 
+(:action go
+  :parameters (?player ?loc1 - location ?dir - direction ?loc2 - location)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+  :effect (and (not (at ?player ?loc1)) (at ?player ?loc2)))
+```
+
+I am assuming you mean the `get` action is to pick up an item, so:
+
+- Action: Get
+   - Summarize action: This action involves the player picking up an item and putting it into the inventory.
+   - What is needed to do the action: An accessible item at the player's location.
+   - What is the result: The item resides in the player's inventory.
+
+   (Entities)
+   - Entity name: player
+       - before: inventory without item
+       - after: inventory with item
+   - Entity name: item
+       - before: at location
+       - after: in player's inventory
+
+PDDL action:
+```
+(:action get
+  :parameters (?player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (not (at ?item ?loc)) (inventory ?player ?item)))
+```
+
+- Action: cut_plant
+   - Summarize action: This action involves the player cutting a plant
+   - What is needed to do the action: A plant, player, scissors
+   - What is the result: A stalk of a plant.
+   
+   (Entities)
+   - Entity name: plant
+       - before: full plant
+       - after: stalk
+   - Entity name: player
+       - before: no stalk
+       - after: has stalk
+
+PDDL action:
+```
+(:action cut_plant
+   :parameters (?player ?plant - plant ?scissors - scissors)
+   :precondition (and (inventory ?player ?scissors) (at ?player ?plant))
+   :effect (and (not (at ?player ?plant)) (inventory ?player ?stalk))
+)
+```
+Complete the rest actions in a similar manner to form a complete PDDL plan.
+Continuing with the PDDL actions for the rest of the described actions:
+
+- Action: peel_stalk
+   - Summarize action: This action involves the player peeling the plant stalk.
+   - What is needed to do the action: A plant stalk.
+   - What is the result: A peeled stalk.
+
+   (Entities)
+   - Entity name: stalk
+       - before: unpeeled
+       - after: peeled
+
+PDDL action:
+```
+(:action peel_stalk
+  :parameters (?player ?stalk - stalk)
+  :precondition (inventory ?player ?stalk)
+  :effect (peeled ?stalk))
+```  
+
+- Action: cut_stalk_into_strips
+   - Summarize action: This action involves the player cutting the peeled stalk into strips.
+   - What is needed to do the action: A peeled stalk and scissors.
+   - What is the result: Strips of the stalk.
+
+   (Entities)
+   - Entity name: stalk
+       - before: whole
+       - after: cut into strips
+
+PDDL action:
+```
+(:action cut_stalk_into_strips
+  :parameters (?player ?stalk - stalk ?scissors - scissors)
+  :precondition (and (inventory ?player ?stalk) (peeled ?stalk) (inventory ?player ?scissors))
+  :effect (and (not (inventory ?player ?stalk)) (inventory ?player ?strip)))
+```  
+
+- Action: soak_strips
+   - Summarize action: This action involves the player soaking the cut strips in water.
+   - What is needed to do the action: Strips of a stalk and a location with water.
+   - What is the result: Clean strips of a stalk.
+
+   (Entities)
+   - Entity name: strip
+       - before: dry
+       - after: soaked and clean
+
+PDDL action:
+```
+(:action soak_strips
+  :parameters (?player ?strip - strip ?loc - location)
+  :precondition (and (inventory ?player ?strip) (at ?player ?loc) (has_water ?loc))
+  :effect (clean ?strip))
+```  
+
+Continue this process for each remaining action (dry_out_strips, weave_strips_into_sheet, press_sheet, flatten_sheet, polish_sheet, cut_sheet) to form a complete PDDL problem for the task of creating papyrus. Use the same processes as before - summarization, identifying preconditions and effects, defining entities, and finally creating the action in PDDL syntax.
+Continuing with the PDDL actions:
+
+- Action: dry_out_strips
+   - Summarize action: This action involves drying out the soaked strips.
+   - What is needed to do the action: Soaked and clean strips.
+   - What is the result: Dry strips.
+
+   (Entities)
+   - Entity name: strip
+       - before: soaked and clean
+       - after: dry
+
+PDDL action:
+```
+(:action dry_out_strips
+  :parameters (?player ?strip - strip)
+  :precondition (and (inventory ?player ?strip) (clean ?strip))
+  :effect (dry ?strip))
+```
+- Action: weave_strips_into_sheet
+   - Summarize action: This action involves weaving dried strips into a sheet.
+   - What is needed to do the action: Dry strips.
+   - What is the result: A sheet.
+    
+   (Entities)
+   - Entity name: strip
+       - before: dry
+       - after: woven into a sheet
+
+PDDL action:
+```
+(:action weave_strips_into_sheet
+  :parameters (?player ?strip - strip)
+  :precondition (and (inventory ?player ?strip) (dry ?strip))
+  :effect (and (not (inventory ?player ?strip)) (inventory ?player ?sheet)))
+```
+- Action: press_sheet
+   - Summarize action: This action involves pressing the woven sheet.
+   - What is needed to do the action: Unpressed sheet.
+   - What is the result: A flat sheet.
+   
+   (Entities)
+   - Entity name: sheet
+       - before: not flat
+       - after: flat
+
+PDDL action:
+```
+(:action press_sheet
+  :parameters (?player ?sheet - sheet)
+  :precondition (and (inventory ?player ?sheet) (not (flat ?sheet)))
+  :effect (flat ?sheet))
+```
+- Action: flatten_sheet
+   - Summarize action: This action involves heavily flattening the pressed sheet.
+   - What is needed to do the action: A flat sheet.
+   - What is the result: A very flat sheet.
+
+   (Entities)
+   - Entity name: sheet
+       - before: flat
+       - after: very flat
+
+PDDL action:
+```
+(:action flatten_sheet
+  :parameters (?player ?sheet - sheet ?location - location)
+  :precondition (and (inventory ?player ?sheet) (flat ?sheet) (has_hard_surface ?location))
+  :effect (very_flat ?sheet))
+```
+- Action: polish_sheet
+   - Summarize action: This action involves polishing the very flat sheet.
+   - What is needed to do the action: A very flat sheet and a polishing shell.
+   - What is the result: A smooth sheet.
+
+   (Entities)
+   - Entity name: sheet
+       - before: very flat
+       - after: smooth
+
+PDDL action:
+```
+(:action polish_sheet
+  :parameters (?player ?sheet - sheet ?shell - shell)
+  :precondition (and (inventory ?player ?sheet) (inventory ?player ?shell) (very_flat ?sheet))
+  :effect (smooth ?sheet))
+```
+- Action: cut_sheet
+   - Summarize action: This action involves cutting the smooth papyrus sheet.
+   - What is needed to do the action: A smooth sheet and scissors.
+   - What is the result: A cut sheet of papyrus.
+
+   (Entities)
+   - Entity name: sheet
+       - before: smooth and uncut
+       - after: cut to form papyrus
+
+PDDL action:
+```
+(:action cut_sheet
+  :parameters (?player ?sheet - sheet ?scissors - scissors)
+  :precondition (and (inventory ?player ?sheet) (smooth ?sheet) (inventory ?player ?scissors))
+  :effect (and (not (inventory ?player ?sheet)) (inventory ?player ?papyrus)))
+```
+With these actions, the full PDDL problem of creating papyrus should now be defined.

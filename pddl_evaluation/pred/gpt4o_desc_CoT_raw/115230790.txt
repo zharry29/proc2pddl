@@ -1,283 +1,157 @@
-Sure, I will fill out the PDDL actions orderly with the predicates based on the provided description.
+Great! Let's go through each action step-by-step and fill out the parameters, preconditions, and effects using the provided predicates:
 
----
+### 1. listen_to_astronomers_predictions
+- action name: listen_to_astronomers_predictions
+- parameters: `(?p - player ?l - location)`
+- precondition: `(has_pc ?p)`
+- effect: `(listen_to_broadcast ?p ?l)`
+- pddl:
+  ```pddl
+  (:action listen_to_astronomers_predictions
+       :parameters (?p - player ?l - location)
+       :precondition (has_pc ?p)
+       :effect (listen_to_broadcast ?p ?l)
+  )
+  ```
 
-- **action name:** listen_to_astronomers_predictions
-- **summarize action:** The player listens to astronomers' predictions on the comet collision with Earth through a broadcast.
-- **what is needed to do the action:** The player needs to have a PC to listen to the broadcast.
-- **what is the result:** The player receives the predictions on the collision.
+### 2. move_away
+- action name: move_away
+- parameters: `(?p - player ?c - city)`
+- precondition: `(at ?p ?c) (coastal ?c)`
+- effect: `(inland ?c)`
+- pddl:
+  ```pddl
+  (:action move_away
+       :parameters (?p - player ?c - city)
+       :precondition (and (at ?p ?c) (coastal ?c))
+       :effect (inland ?c)
+  )
+  ```
 
-- **entities:**
-  - **entity name:** player
-    - **before:** Player does not have the predictions information.
-    - **after:** Player receives the predictions information through the broadcast.
-  - **entity name:** location
-    - **before:** Location where the player is.
-    - **after:** Unchanged.
+### 3. go
+- action name: go
+- parameters: `(?p - player ?loc1 ?loc2 - location ?dir - direction)`
+- precondition: `(and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2))`
+- effect: `(at ?p ?loc2)`
+- pddl:
+  ```pddl
+  (:action go
+       :parameters (?p - player ?loc1 ?loc2 - location ?dir - direction)
+       :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2))
+       :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+  )
+  ```
 
-pddl:
-```lisp
-(:action listen_to_astronomers_predictions
-   :parameters (?p - player ?l - location)
-   :precondition (and (has_pc ?p))
-   :effect (listen_to_broadcast ?p ?l)
-)
-```
+### 4. buy_supplies
+- action name: buy_supplies
+- parameters: `(?p - player ?it - item ?m - market)`
+- precondition: `(and (at ?p ?m) (or (food ?it) (water ?it) (medicine ?it)))`
+- effect: `(inventory ?it)`
+- pddl:
+  ```pddl
+  (:action buy_supplies
+       :parameters (?p - player ?it - item ?m - market)
+       :precondition (and (at ?p ?m) (or (food ?it) (water ?it) (medicine ?it)))
+       :effect (inventory ?it)
+  )
+  ```
 
----
+### 5. check_supplies
+- action name: check_supplies
+- parameters: `(?p - player)`
+- precondition: `(inventory ?it)`
+- effect: `(enough_supplies)`
+- pddl:
+  ```pddl
+  (:action check_supplies
+       :parameters (?p - player)
+       :precondition (inventory ?it)
+       :effect (enough_supplies)
+  )
+  ```
 
-- **action name:** move_away
-- **summarize action:** The player moves from a coastal area to an inland area to avoid potential hazards from the collision.
-- **what is needed to do the action:** The player needs to be in a coastal area.
-- **what is the result:** The player moves to an inland area.
+### 6. buy_weapons
+- action name: buy_weapons
+- parameters: `(?p - player ?w - weapon ?wm - weapon_market)`
+- precondition: `(and (at ?p ?wm) (enough_supplies))`
+- effect: `(inventory ?w)`
+- pddl:
+  ```pddl
+  (:action buy_weapons
+       :parameters (?p - player ?w - weapon ?wm - weapon_market)
+       :precondition (and (at ?p ?wm) (enough_supplies))
+       :effect (inventory ?w)
+  )
+  ```
 
-- **entities:**
-  - **entity name:** player
-    - **before:** Player is in a coastal city.
-    - **after:** Player moves to an inland city.
-  - **entity name:** city
-    - **before:** Coastal or inland designation is clear.
-    - **after:** Unchanged.
+### 7. check_weapons
+- action name: check_weapons
+- parameters: `(?p - player)`
+- precondition: `(inventory ?w)`
+- effect: `(enough_weapons)`
+- pddl:
+  ```pddl
+  (:action check_weapons
+       :parameters (?p - player)
+       :precondition (inventory ?w)
+       :effect (enough_weapons)
+  )
+  ```
 
-pddl:
-```lisp
-(:action move_away
-   :parameters (?p - player ?c1 - city ?c2 - city)
-   :precondition (and (at ?p ?c1) (coastal ?c1) (inland ?c2) )
-   :effect (and (at ?p ?c2) (not (at ?p ?c1)))
-)
-```
+### 8. check_bunker
+- action name: check_bunker
+- parameters: `(?p - player ?bk - bunker)`
+- precondition: `(at ?p ?bk)`
+- effect: `(find_good_bunker ?bk)`
+- pddl:
+  ```pddl
+  (:action check_bunker
+       :parameters (?p - player ?bk - bunker)
+       :precondition (at ?p ?bk)
+       :effect (find_good_bunker ?bk)
+  )
+  ```
 
----
+### 9. outfit_bunker_with_energy_source
+- action name: outfit_bunker_with_energy_source
+- parameters: `(?p - player ?bk - bunker ?es - energy_source)`
+- precondition: `(and (at ?p ?bk) (find_good_bunker ?bk) (inventory ?es))`
+- effect: `(outfit_bunker_with_heat ?bk)`
+- pddl:
+  ```pddl
+  (:action outfit_bunker_with_energy_source
+       :parameters (?p - player ?bk - bunker ?es - energy_source)
+       :precondition (and (at ?p ?bk) (find_good_bunker ?bk) (inventory ?es))
+       :effect (outfit_bunker_with_heat ?bk)
+  )
+  ```
 
-- **action name:** go
-- **summarize action:** The player navigates to an adjacent location.
-- **what is needed to do the action:** There needs to be a connection between the current location and an adjacent location through a specific direction.
-- **what is the result:** The player moves to the adjacent location.
+### 10. enjoylife
+- action name: enjoylife
+- parameters: `(?p - player ?bk - bunker)`
+- precondition: `(and (at ?p ?bk) (outfit_bunker_with_heat ?bk))`
+- effect: `(enjoylife ?p ?bk)`
+- pddl:
+  ```pddl
+  (:action enjoylife
+       :parameters (?p - player ?bk - bunker)
+       :precondition (and (at ?p ?bk) (outfit_bunker_with_heat ?bk))
+       :effect (enjoylife ?p ?bk)
+  )
+  ```
 
-- **entities:**
-  - **entity name:** player
-    - **before:** Player is at the current location.
-    - **after:** Player moves to an adjacent location.
-  - **entity name:** locations (loc1 and loc2)
-    - **before:** Both locations are connected.
-    - **after:** Unchanged.
-  - **entity name:** direction
-    - **before:** Direction connects both locations.
-    - **after:** Unchanged.
+### 11. connect_through_social_media_with_family
+- action name: connect_through_social_media_with_family
+- parameters: `(?p - player)`
+- precondition: `(has_pc ?p)`
+- effect: `(family_memebers_know_you_are_safe)`
+- pddl:
+  ```pddl
+  (:action connect_through_social_media_with_family
+       :parameters (?p - player)
+       :precondition (has_pc ?p)
+       :effect (family_memebers_know_you_are_safe)
+  )
+  ```
 
-pddl:
-```lisp
-(:action go
-   :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location)
-   :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2))
-   :effect (and (at ?p ?loc2) (not (at ?p ?loc1)))
-)
-```
-
----
-
-- **action name:** buy_supplies
-- **summarize action:** The player buys supplies and adds them to their inventory.
-- **what is needed to do the action:** The player needs to be at the market.
-- **what is the result:** Supplies are added to the player's inventory.
-
-- **entities:**
-  - **entity name:** player
-    - **before:** Player does not have supplies in inventory.
-    - **after:** Supplies added to inventory.
-  - **entity name:** supplies (food, water, medicine)
-    - **before:** Not in inventory.
-    - **after:** In inventory.
-  - **entity name:** market
-    - **before:** Player is at the market.
-    - **after:** Unchanged.
-
-pddl:
-```lisp
-(:action buy_supplies
-   :parameters (?p - player ?m - market ?it - item)
-   :precondition (and (at ?p ?m) (or (food ?it) (water ?it) (medicine ?it)))
-   :effect (inventory ?it)
-)
-```
-
----
-
-- **action name:** check_supplies
-- **summarize action:** The player checks if they have enough supplies in their inventory.
-- **what is needed to do the action:** The action does not require anything specific apart from the player’s provision for supplies to check.
-- **what is the result:** Confirmation of having enough supplies.
-
-- **entities:**
-  - **entity name:** player
-    - **before:** Player unsure if they have enough supplies.
-    - **after:** Player confirms they have enough supplies.
-  - **entity name:** supplies
-    - **before:** Supplies in player's inventory.
-    - **after:** Unchanged.
-
-pddl:
-```lisp
-(:action check_supplies
-   :parameters (?p - player)
-   :precondition (and)
-   :effect (enough_supplies)
-)
-```
-
----
-
-- **action name:** buy_weapons
-- **summarize action:** The player buys weapons and adds them to their inventory.
-- **what is needed to do the action:** The player needs to be at the weapon market and have previously purchased supplies.
-- **what is the result:** Weapons are added to the player's inventory.
-
-- **entities:**
-  - **entity name:** player
-    - **before:** Player does not have weapons in inventory.
-    - **after:** Weapons added to inventory.
-  - **entity name:** weapons (pistol, ammunition)
-    - **before:** Not in inventory.
-    - **after:** In inventory.
-  - **entity name:** weapon_market
-    - **before:** Player is at the weapon market.
-    - **after:** Unchanged.
-
-pddl:
-```lisp
-(:action buy_weapons
-   :parameters (?p - player ?wm - weapon_market ?wp - weapon)
-   :precondition (and (at ?p ?wm) (enough_supplies) (or (pistol ?wp) (ammunition ?wp)))
-   :effect (inventory ?wp)
-)
-```
-
----
-
-- **action name:** check_weapons
-- **summarize action:** The player checks if they have enough weapons in their inventory.
-- **what is needed to do the action:** Nothing specific prior to checking.
-- **what is the result:** Confirmation of having enough weapons.
-
-- **entities:**
-  - **entity name:** player
-    - **before:** Player unsure if they have enough weapons.
-    - **after:** Player confirms they have enough weapons.
-  - **entity name:** weapons
-    - **before:** Weapons in player's inventory.
-    - **after:** Unchanged.
-
-pddl:
-```lisp
-(:action check_weapons
-   :parameters (?p - player)
-   :precondition (and)
-   :effect (enough_weapons)
-)
-```
-
----
-
-- **action name:** check_bunker
-- **summarize action:** The player checks if the bunker is suitable for shielding during the comet collision.
-- **what is needed to do the action:** The player needs to locate a bunker having necessary attributes.
-- **what is the result:** Bunker's suitability is confirmed.
-
-- **entities:**
-  - **entity name:** player
-    - **before:** Player unsure of the bunker's suitability.
-    - **after:** Confirms the bunker's suitability.
-  - **entity name:** bunker
-    - **before:** Suitability needs to be determined.
-    - **after:** Confirmed as a good bunker.
-  - **entity name:** air filtration system
-    - **before:** Needs confirmation.
-    - **after:** Confirmed.
-  - **entity name:** strong material
-    - **before:** Needs confirmation.
-    - **after:** Confirmed.
-
-pddl:
-```lisp
-(:action check_bunker
-   :parameters (?p - player ?bk - bunker)
-   :precondition (and (has_air_filtration_system ?bk) (has_strong_material ?bk))
-   :effect (find_good_bunker ?bk)
-)
-```
-
----
-
-- **action name**: outfit_bunker_with_energy_source
-- **summarize action:** The player outfits their bunker with an energy source for heat.
-- **what is needed to do the action:** The player needs to have an energy source item.
-- **what is the result:** Bunker is equipped with a heating source.
-
-- **entities:**
-  - **entity name**: player
-      - **before**: Player possesses an energy source in the inventory.
-      - **after**: The energy source is used to outfit the bunker.
-  - **entity name**: bunker
-      - **before**: No heating source.
-      - **after**: Equipped with a heating source.
-  - **entity name**: energy source
-      - **before**: In player's inventory.
-      - **after**: In the bunker.
-
-pddl:
-```lisp
-(:action outfit_bunker_with_energy_source
-   :parameters (?p - player ?bk - bunker ?es - energy_source)
-   :precondition (and (inventory ?es))
-   :effect (and (outfit_bunker_with_heat ?bk) (not (inventory ?es)))
-)
-```
-
----
-
-- **action name**: enjoylife
-- **summarize action:** After all preparations are complete, the player enjoys life in the bunker.
-- **what is needed to do the action:** All previous preparation steps need to be completed.
-- **what is the result:** The player enjoys life peacefully in the bunker.
-
-- **entities:**
-  - **entity name**: player
-      - **before**: Engaged in preparations.
-      - **after**: Enjoying life.
-  - **entity name**: bunker
-      - **before**: Being prepared.
-      - **after**: Inhabited by the player for enjoyment.
-
-pddl:
-```lisp
-(:action enjoylife
-   :parameters (?p - player ?bk - bunker)
-   :precondition (and (outfit_bunker_with_heat ?bk) (find_good_bunker ?bk) (enough_supplies) (enough_weapons))
-   :effect (enjoylife ?p ?bk)
-)
-```
-
----
-
-- **action name**: connect_through_social_media_with_family
-- **summarize action:** The player uses social media to inform their family members that they are safe in the bunker.
-- **what is needed to do the action:** The player needs to be in the bunker and have social media connectivity.
-- **what is the result:** Family members are informed of the player's safety.
-
-- **entities:**
-  - **entity name**: player
-      - **before**: Not yet informed the family members.
-      - **after**: Family members are informed.
-  - **entity name**: bunker
-      - **before**: Player inside the bunker.
-      - **after**: Unchanged.
-
-pddl:
-```lisp
-(:action connect_through_social_media_with_family
-   :parameters (?p - player ?bk - bunker)
-   :precondition (and (at ?p ?bk))
-   :effect (family_memebers_know_you_are_safe)
-)
-```
+This should cover all the actions with the corresponding parameters, preconditions, and effects as per your requirements.

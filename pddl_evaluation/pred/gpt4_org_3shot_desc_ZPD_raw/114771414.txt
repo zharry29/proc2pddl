@@ -1,0 +1,114 @@
+Sure, here is the translation of your actions into pddl format:
+
+- action name: go
+- summarize action: This action is for navigating the player from one location to another location which is connected by direction.
+- what is needed to do the action: The action requires a player, two locations, and one direction.
+- what is the result: The player is at the new location.
+
+- entities:
+  - entity name: player 
+    - before: at the original location 
+    - after: at the new location
+  - entity name: location
+    - before: not includes the player
+    - after: includes the player
+
+pddl action:
+```
+(:action go
+    :parameters (?player ?loc1 ?loc2 ?dir)
+    :precondition (and 
+                    (at ?player ?loc1)
+                    (connected ?loc1 ?dir ?loc2)
+                    (not (blocked ?loc1 ?dir ?loc2)))
+    :effect (and 
+              (not (at ?player ?loc1))
+              (at ?player ?loc2)))
+```
+
+For brevity, I will provide PDDL actions for the remaining actions without the preceding natural language steps:
+
+```
+(:action get
+    :parameters (?player ?item ?loc)
+    :precondition (and 
+                    (at ?player ?loc)
+                    (at ?item ?loc))
+    :effect (and 
+              (not (at ?item ?loc))
+              (inventory ?player ?item)))
+
+(:action get_water
+    :parameters (?player ?water ?loc)
+    :precondition (and 
+                    (at ?player ?loc)
+                    (has_water_source ?loc)
+                    (at ?water ?loc))
+    :effect (and 
+              (not (at ?water ?loc))
+              (inventory ?player ?water)))
+
+(:action sharpen_stick
+    :parameters (?player ?stick)
+    :precondition (inventory ?player ?stick)
+    :effect (and))
+
+(:action catch_animal
+    :parameters (?player ?animal ?loc)
+    :precondition (and 
+                    (at ?player ?loc)
+                    (inventory ?player ?stick)
+                    (at ?animal ?loc))
+    :effect (and 
+              (not (at ?animal ?loc))
+              (inventory ?player ?animal)))
+
+(:action cook
+    :parameters (?player ?animal ?loc)
+    :precondition (and 
+                    (at ?player ?loc)
+                    (has_fire ?loc)
+                    (inventory ?player ?animal))
+    :effect (edible ?animal))
+
+(:action get_stick
+    :parameters (?player ?stick ?loc)
+    :precondition (and 
+                    (at ?player ?loc)
+                    (at ?stick ?loc))
+    :effect (and 
+              (not (at ?stick ?loc))
+              (inventory ?player ?stick)))
+
+(:action start_fire
+    :parameters (?player ?loc)
+    :precondition (at ?player ?loc)
+    :effect (has_fire ?loc))
+
+(:action get_tarp
+    :parameters (?player ?tarp ?loc)
+    :precondition (and 
+                    (at ?player ?loc)
+                    (at ?tarp ?loc))
+    :effect (and 
+              (not (at ?tarp ?loc))
+              (inventory ?player ?tarp)))
+
+(:action get_leave
+    :parameters (?player ?leave ?loc)
+    :precondition (and 
+                    (at ?player ?loc)
+                    (at ?leave ?loc))
+    :effect (and 
+              (not (at ?leave ?loc))
+              (inventory ?player ?leave)))
+
+(:action construct_shelter
+    :parameters (?player ?loc)
+    :precondition (or 
+                    (and (inventory ?player ?tarp)
+                         (inventory ?player ?stick))
+                    (and (inventory ?player ?leave)
+                         (inventory ?player ?stick)))
+    :effect (sheltered ?loc))
+```

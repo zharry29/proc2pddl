@@ -1,0 +1,89 @@
+(:action go
+   :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+   :precondition (and
+       (connected ?loc1 ?dir ?loc2)
+       (not (blocked ?loc1 ?dir ?loc2))
+       (at ?player ?loc1)
+   )
+   :effect (and
+       (not (at ?player ?loc1))
+       (at ?player ?loc2)
+   )
+)
+
+(:action get
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and
+       (gettable ?item)
+       (at ?item ?loc)
+       (at ?player ?loc)
+   )
+   :effect (and
+       (inventory ?player ?item)
+       (not (at ?item ?loc))
+   )
+)
+
+(:action drop
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and
+       (inventory ?player ?item)
+       (at ?player ?loc)
+   )
+   :effect (and
+       (not (inventory ?player ?item))
+       (at ?item ?loc)
+   )
+)
+
+(:action get_water
+   :parameters (?player - player ?loc - location ?water - water)
+   :precondition (and
+       (has_water_source ?loc)
+       (at ?player ?loc)
+       (not (inventory ?player ?water))
+   )
+   :effect (and
+       (inventory ?player ?water)
+   )
+)
+
+(:action boil_water
+   :parameters (?player - player ?water - water ?pot - pot)
+   :precondition (and
+       (not (treated ?water))
+       (inventory ?player ?water)
+       (inventory ?player ?pot)
+   )
+   :effect (and
+       (treated ?water)
+   )
+)
+
+(:action collect_rain_water
+   :parameters (?player - player ?loc - location ?water - water ?pot - pot)
+   :precondition (and
+       (outdoors ?loc)
+       (at ?player ?loc)
+       (inventory ?player ?pot)
+       (not (inventory ?player ?water))
+   )
+   :effect (and
+       (inventory ?player ?water)
+       (not (treated ?water))
+   )
+)
+
+(:action loot_shelter
+   :parameters (?player - player ?loc - location ?food - food)
+   :precondition (and
+       (is_occupied ?loc)
+       (at ?player ?loc)
+       (not (inventory ?player ?food))
+   )
+   :effect (and
+       (inventory ?player ?food)
+   )
+)
+
+)

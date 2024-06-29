@@ -1,0 +1,56 @@
+(:action splash_swim
+  :parameters (?player ?from - location ?dir - direction ?to - location)
+  :precondition (and (at ?player ?from) (connected ?from ?dir ?to) (is_water ?to))
+  :effect (and (not (at ?player ?from)) (at ?player ?to)))
+
+(:action swim
+  :parameters (?player ?from - location ?dir - direction ?to - location)
+  :precondition (and (at ?player ?from) (connected ?from ?dir ?to) (is_water ?to) (not (wounded ?player)))
+  :effect (and (not (at ?player ?from)) (at ?player ?to)))
+
+(:action get
+  :parameters (?player ?item)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (not (at ?item ?loc)) (inventory ?player ?item)))
+
+(:action onboard
+  :parameters (?player ?ship)
+  :precondition (and (at ?player ?loc) (at ?ship ?loc))
+  :effect (and (not (at ?player ?loc)) (on ?player ?ship)))
+
+(:action defend
+  :parameters (?player ?shark)
+  :precondition (and (at ?player ?loc) (at ?shark ?loc) (not (wounded ?player)))
+  :effect (defending ?player))
+
+(:action spot_ship
+  :parameters (?player ?ship)
+  :precondition (and (at ?player ?loc) (is_water ?loc) (visible ?ship))
+  :effect (at ?ship ?loc))
+
+(:action spot_shark
+  :parameters (?player ?shark)
+  :precondition (and (at ?player ?loc) (is_water ?loc) (visible ?shark))
+  :effect (at ?shark ?loc)) 
+
+(:action self_mobilize
+  :parameters (?player ?shark)
+  :precondition (and (at ?player ?loc) (at ?shark ?loc) (not (wounded ?player)))
+  :effect (fleed ?shark))
+
+(:action medicare
+  :parameters (?player)
+  :precondition (wounded ?player)
+  :effect (not (wounded ?player)))
+
+(:action attack_vulnerable
+  :parameters (?player ?shark ?part ?item)
+  :precondition (and (at ?player ?loc) (at ?shark ?loc) (vulnerable ?part) (or (sharp ?item) (heavy ?item)) (inventory ?player ?item))
+  :effect (fleed ?shark))
+
+(:action knockout
+  :parameters (?player ?shark ?part ?item)
+  :precondition (and (at ?player ?loc) (at ?shark ?loc) (vulnerable ?part) (or (sharp ?item) (heavy ?item)) (inventory ?player ?item))
+  :effect (dizzy ?shark))
+
+)

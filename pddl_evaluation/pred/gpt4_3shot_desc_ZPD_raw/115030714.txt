@@ -1,0 +1,188 @@
+Based on the provided information, we can define the actions in the following way: 
+
+Action 1: Go:
+This action involves the player moving from one location to another in a specified direction.
+Entities involved:
+- Player: Position change from location1 to location2.
+- Location: Change from not being visited by the player to being visited by the player.
+PDDL Action:
+```
+(:action go
+  :parameters (?player - player ?loc - location ?loc2 - location ?dir - direction)
+  :precondition (and (at ?player ?loc) (connected ?loc ?dir ?loc2))
+  :effect (and (not (at ?player ?loc)) (at ?player ?loc2))
+)
+```
+
+Action 2: Get: 
+This action involves the player taking an item, adding it to their inventory.
+Entities involved:
+- Item: Changes from being at a location to being in the player's inventory.
+PDDL Action:
+```
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+```
+For the rest actions, you would follow a similar pattern, defining which entities are involved and how they change during the action. Then, you can write these changes as the precondition and effect parts of each action. 
+
+Due to the absence of some necessary information such as the entities related to each action and their possible statuses in the provided text, it would not be wise to make assumptions and create artificial scenarios to define the rest of the actions completely. However, some of them are quite straightforward to map so we can give an incomplete list of potential PDDL definitions for some of these actions.
+
+- For the `drop` action, it could be the inverse of `get`, removing an item from the inventory and placing it in the current location.
+- `cook` could verify that the player is in a location with a kitchen, has the required food in their inventory, and then changes the food's status to cooked.
+- `serve` could require that the player has a particular type of cooked food in their inventory and is in a location with a table, then removes the food from the inventory and places it on the table.
+- `brew` might be similar to cook but for tea.
+- `open` could change the status of a drink to opened.
+- The actions `turn_on_tv`, `blow_balloon`, and `hang_lantern` could simply change the status of the TV, balloon or lantern respectively.
+- For the actions `order_sushi`, `get_beer`, and `buy_sake`, without more information it's not possible to fully define these actions, but they likely involve the player using a phone or money item to acquire a sushi, beer, or sake item under certain conditions.
+Continuing with the rest of the actions:
+
+Action 3: Drop:
+This action involves the player removing an item from their inventory and leaving it at their current location.
+Entities involved:
+- Item: Changes from being in the player's inventory to being at a location.
+PDDL Action:
+```
+(:action drop
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (inventory ?player ?item))
+  :effect (and (not (inventory ?player ?item)) (at ?item ?loc))
+)
+```
+
+Action 4: Cook:
+This action involves cooking a food item in a location with a kitchen.
+Entities involved:
+- Food item: Changes from being raw to being cooked.
+PDDL Action:
+``` 
+(:action cook
+  :parameters (?player - player ?loc - location ?food - food)
+  :precondition (and (at ?player ?loc) (has_kitchen ?loc) (inventory ?player ?food))
+  :effect (cooked ?food)
+)
+```
+
+Action 5: Serve:
+This action involves serving a food item to a table from the player's inventory.
+Entities involved:
+- Food: Changes from being in player's inventory to being at the location.
+PDDL Action:
+```
+(:action serve
+  :parameters (?player - player ?loc - location ?food - food)
+  :precondition (and (at ?player ?loc) (inventory ?player ?food))
+  :effect (and (not (inventory ?player ?food)) (at ?food ?loc))
+) 
+```
+
+Action 6: Brew:
+The 'brew' action requires a player to brew tea in a location with a kettle.
+Entities involved:
+- Tea: Changes from raw to brewed.
+PDDL Action:
+```
+(:action brew
+  :parameters (?player - player ?loc - location ?tea - tea)
+  :precondition (and (at ?player ?loc) (has_kettle ?loc) (inventory ?player ?tea))
+  :effect (brewed ?tea)
+)
+```
+
+For the remaining actions (order_sushi, get_beer, buy_sake, open, hang_lantern, blow_balloon, turn_on_tv), we would need further information about the objects associated with these actions and their states to write PDDL representations of them.
+Continuing with the rest of the actions:
+
+Action 7: Order_sushi:
+This action models the player ordering sushi using a phone.
+Entities involved:
+- Sushi: Changes from not being with the player to being in the player's inventory.
+PDDL Action:
+``` 
+(:action order_sushi
+  :parameters (?player - player ?phone - phone ?sushi - sushi)
+  :precondition (and (inventory ?player ?phone))
+  :effect (inventory ?player ?sushi)
+)
+```
+
+Action 8: Buy_sake:
+In this action, the player buys Sake using money.
+Entities involved:
+- Sake: Changes from not being with the player to being in the player's inventory.
+PDDL Action:
+``` 
+(:action buy_sake
+  :parameters (?player - player ?money - money ?sake - sake)
+  :precondition (and (inventory ?player ?money))
+  :effect (inventory ?player ?sake)
+)
+```
+
+Action 9: Get_beer:
+This action involves the player getting beer from a fridge.
+Entities involved:
+- Beer: Changes from being in the fridge to being in the player’s inventory.
+PDDL Action:
+```
+(:action get_beer
+  :parameters (?player - player ?loc - location ?beer - beer)
+  :precondition (and (at ?player ?loc) (has_fridge ?loc))
+  :effect (inventory ?player ?beer)
+)
+```
+
+Action 10: Open:
+In this action, a drink (sake or beer) is opened by the player.
+Entities involved:
+- Drink: Changes from being not open to being opened.
+PDDL Action:
+```
+(:action open
+  :parameters (?player - player ?drink - drink)
+  :precondition (and (inventory ?player ?drink) (not (opened ?drink)))
+  :effect (opened ?drink)
+)
+```
+
+Action 11: Hang_lantern:
+This action represents the player hanging a lantern at a location.
+Entities involved:
+- Lantern: Changes from not being hung to being hung.
+PDDL Action:
+```
+(:action hang_lantern
+  :parameters (?player - player ?loc - location ?lantern - lantern)
+  :precondition (and (at ?player ?loc) (inventory ?player ?lantern) (not (hung ?lantern)))
+  :effect (hung ?lantern)
+)
+```
+
+Action 12: Blow_balloon:
+In this action, the player inflates a balloon.
+Entities involved:
+- Balloon: Changes from being not inflated to being inflated.
+PDDL Action:
+```
+(:action blow_balloon
+  :parameters (?player - player ?balloon - balloon)
+  :precondition (and (inventory ?player ?balloon) (not (inflated ?balloon)))
+  :effect (inflated ?balloon)
+)
+```
+
+Action 13: Turn_on_tv:
+This action models the player turning on a TV at a location.
+Entities involved:
+- TV: Changes from being not on to being on.
+PDDL Action:
+```
+(:action turn_on_tv
+  :parameters (?player - player ?loc - location ?tv - tv)
+  :precondition (and (at ?player ?loc) (not (on ?tv)))
+  :effect (on ?tv)
+)
+```
+
+Please note that the specific conditions and effects of each action might be different in your domain. This representation assumes ideal conditions and may not handle every possible situation that could happen in your story or game.

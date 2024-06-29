@@ -1,0 +1,71 @@
+Here are the PDDL actions:
+
+(:action go
+    :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+    :precondition (and (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)) (at ?player ?loc1))
+    :effect (and (not (at ?player ?loc1)) (at ?player ?loc2)))
+
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?item ?loc) (at ?player ?loc))
+    :effect (and (not (at ?item ?loc)) (inventory ?player ?item)))
+
+(:action get_grass
+    :parameters (?player - player ?grass - grass ?loc - location)
+    :precondition (and (at ?grass ?loc) (at ?player ?loc) (not (dry ?grass)))
+    :effect (inventory ?player ?grass))
+
+(:action dry_grass
+    :parameters (?player - player ?grass - grass)
+    :precondition (and (inventory ?player ?grass) (not (dry ?grass)))
+    :effect (dry ?grass))
+
+(:action cluster_grass
+    :parameters (?player - player ?grass - grass ?tinder - tinder)
+    :precondition (and (inventory ?player ?grass) (dry ?grass))
+    :effect (and (not (inventory ?player ?grass)) (inventory ?player ?tinder)))
+
+(:action break_branch
+    :parameters (?player - player ?branch - branch ?loc - location ?kindling - kindling)
+    :precondition (and (at ?branch ?loc) (has_large_dry_branch ?loc) (at ?player ?loc))
+    :effect (and (not (at ?branch ?loc)) (inventory ?player ?kindling)))
+
+(:action log_oak
+    :parameters (?player - player ?loc - location ?log - log)
+    :precondition (and (at ?player ?loc) (has_dry_oak ?loc))
+    :effect (inventory ?player ?log))
+
+(:action stack_log
+    :parameters (?player - player ?log - log ?fuel - fuel)
+    :precondition (and (inventory ?player ?log) (dry ?log))
+    :effect (and (not (inventory ?player ?log)) (inventory ?player ?fuel)))
+
+(:action build_teepee
+    :parameters (?player - player ?tinder - tinder ?kindling - kindling ?fuel - fuel ?teepee - teepee)
+    :precondition (and (inventory ?player ?tinder) (inventory ?player ?kindling) (inventory ?player ?fuel) (not (inventory ?player ?teepee)))
+    :effect (and (inventory ?player ?teepee)))
+
+(:action ignite_wood
+    :parameters (?player - player ?wood - wood)
+    :precondition (and (inventory ?player ?wood) (not (ignited ?wood)))
+    :effect (ignited ?wood))
+
+(:action ignite_teepee
+    :parameters (?player - player ?wood - wood ?teepee - teepee)
+    :prerequisite (and (inventory ?player ?wood) (ignited ?wood))
+    :effect (ignited ?teepee))
+
+(:action boil_water
+    :parameters (?player - player ?pot - pot ?water - water ?teepee - teepee)
+    :precondition (and (inventory ?player ?pot) (ignited ?teepee) (inventory ?player ?water) (not (boiled ?water)))
+    :effect (boiled ?water))
+
+(:action get_pot
+    :parameters (?player - player ?pot - pot ?loc - location)
+    :precondition (and (at ?player ?loc) (at ?pot ?loc))
+    :effect (inventory ?player ?pot))
+
+(:action get_water
+    :parameters (?player - player ?water - water ?loc - location)
+    :precondition (and (at ?player ?loc) (has_pond ?loc))
+    :effect (inventory ?player ?water))

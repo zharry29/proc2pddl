@@ -1,0 +1,84 @@
+(:action go
+ :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc2)))
+
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?item ?loc) (is_gettable ?item))
+ :effect (and (not (at ?item ?loc)) (inventory ?player ?item)))
+
+(:action lay_masking_tape
+ :parameters (?player - player ?tape - masking_tape ?loc - location)
+ :precondition (and (at ?player ?loc) (inventory ?player ?tape))
+ :effect (and 
+         (not (inventory ?player ?tape)) 
+         (at ?tape ?loc))
+)
+
+(:action make_tosses_column
+ :parameters (?player - player ?pen - pen ?paper - paper)
+ :precondition (and (inventory ?player ?pen) (inventory ?player ?paper))
+ :effect (and 
+         (tosses_column ?paper))
+)
+
+(:action make_crosses_column
+ :parameters (?player - player ?pen - pen ?paper - paper)
+ :precondition (and (inventory ?player ?pen) (inventory ?player ?paper))
+ :effect (and 
+         (crosses_column ?paper))
+)
+
+(:action thaw_food
+ :parameters (?player - player ?item - items)
+ :precondition (and (inventory ?player ?item) (frozen ?item))
+ :effect (and 
+         (not (frozen ?item)))
+)
+
+(:action throw
+ :parameters (?player - player ?item - items ?loc - location)
+ :precondition (and (at ?player ?loc) (inventory ?player ?item) (is_food_item ?item))
+ :effect (and 
+         (not (inventory ?player ?item)) 
+         (thrown_food_items ?loc))
+)
+
+(:action record_tosses
+ :parameters (?player - player ?pen - pen ?paper - paper)
+ :precondition (and (inventory ?player ?pen) (inventory ?player ?paper) (tosses_column ?paper))
+ :effect (and 
+         (tosses_recorded ?paper))
+)
+
+(:action record_crosses
+ :parameters (?player - player ?pen - pen ?paper - paper)
+ :precondition (and (inventory ?player ?pen) (inventory ?player ?paper) (crosses_column ?paper))
+ :effect (and 
+         (crosses_recorded ?paper))
+)
+
+(:action divide_crosses
+ :parameters (?player - player ?pen - pen ?paper - paper)
+ :precondition (and (inventory ?player ?pen) (inventory ?player ?paper) (crosses_recorded ?paper))
+ :effect (and 
+         (crosses_divided ?paper))
+)
+
+(:action calculate_pi
+ :parameters (?player - player ?pen - pen ?paper - paper)
+ :precondition (and (inventory ?player ?pen) (inventory ?player ?paper) 
+                     (tosses_recorded ?paper) (crosses_divided ?paper))
+ :effect (and 
+         (calculated_pi ?player))
+)
+
+(:action be_amazed
+ :parameters (?player - player)
+ :precondition (and (calculated_pi ?player))
+ :effect (and 
+         (amazed ?player))
+)
+
+)

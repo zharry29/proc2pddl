@@ -1,0 +1,138 @@
+- action name: go
+- summarize action: Player navigates to an adjacent location.
+- what is needed to do the action: Player, present location, direction, and adjacent location.
+- what is the result: Player moves to a new location.
+
+- entities:
+  - entity name: player
+    - before: at the present location
+    - after: at the adjacent location
+  - entity name: location
+    - before: not having the player
+    - after: having the player
+
+pddl action:
+```
+(:action go
+ :parameters (?p - player ?dir - direction ?loc1 - location ?loc2 - location)
+ :preconditions (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+ :effect (and (at ?p ?loc2) (not (at ?p ?loc1)))
+)
+```
+Let me continue for other actions.
+
+- action name: get
+- summarize action: Player picks up an item and puts it in the inventory.
+- what is needed to do the action: Player, item at the same location as the player.
+- what is the result: Item is in the player's inventory.
+
+- entities:
+  - entity name: player
+    - unchanged
+  - entity name: item
+    - before: at the same location as the player
+    - after: in the inventory of the player
+
+pddl action:
+```
+(:action get
+ :parameters (?p - player ?i - item ?l - location)
+ :preconditions (and (at ?p ?l) (at ?i ?l))
+ :effect (and (inventory ?p ?i) (not (at ?i ?l)))
+)
+```
+
+- action name: breathe
+- summarize action: Player breathes in to fill lungs with air.
+- what is needed to do the action: Player.
+- what is the result: Player becomes calm.
+
+- entities:
+  - entity name: player
+    - before: not calm
+    - after: calm
+
+pddl action:
+```
+(:action breathe
+ :parameters (?p - player)
+ :preconditions (and (not (calm ?p)))
+ :effect (and (calm ?p))
+)
+```
+
+I'll cite the other actions in a shorter format for the sake of space.
+
+- action: liedown
+summary: Player gets on their back.
+preconditions: not laying player
+postconditions: laying player
+```
+(:action liedown :parameters (?p - player) :preconditions (not (laying ?p)) :effect (laying ?p))
+```
+
+- action: swim
+summary: Player starts to swim through the sand.
+preconditions: Player is in a deep quicksand, player is lying down, player is calm.
+postconditions: Player is not stuck in quicksand, player is tired.
+```
+(:action swim :parameters (?p - player ?q - quicksand) :preconditions (and (stuck ?p ?q) (deep ?q) (laying ?p) (calm ?p)) :effect (and (not (stuck ?p ?q)) (tired ?p)))
+```
+
+- action: usestick
+summary: Player uses the stick to help get out of sand.
+preconditions: Player has stick in inventory, player is stuck in quicksand.
+postconditions: Player is not stuck in quicksand.
+```
+(:action usestick :parameters (?p - player ?q - quicksand ?s - stick) :preconditions (and (inventory ?p ?s) (stuck ?p ?q)) :effect (not (stuck ?p ?q)))
+```
+
+- action: rest
+summary: Player rests.
+preconditions: Player is tired.
+postconditions: Player is not tired.
+```
+(:action rest :parameters (?p - player) :preconditions (tired ?p) :effect (not (tired ?p)))
+```
+
+- action: drop
+summary: Player drops item.
+preconditions: Player has item in inventory.
+postconditions: Item is at the same location as player, item is not in player's inventory.
+```
+(:action drop :parameters (?p - player ?i - item ?l - location) :preconditions (and (at ?p ?l) (inventory ?p ?i)) :effect (and (at ?i ?l) (not (inventory ?p ?i))))
+```
+
+- action: check_ripples
+summary: Player checks the location for ripples.
+preconditions: Player is at the location.
+postconditions: Player is aware of possible quicksand in location.
+```
+(:action check_ripples :parameters (?p - player ?l - location) :preconditions (at ?p ?l) :effect (and (aware ?p ?l)))
+```
+
+- action: test_ground
+summary: Player checks the ground for stability.
+preconditions: Player is at the location, player is aware of possible quicksand.
+postconditions: If there's quicksand, player is stuck in it.
+```
+(:action test_ground :parameters (?p - player ?l - location ?q - quicksand) :preconditions (and (at ?p ?l) (aware ?p ?l)) :effect (when (has_quicksand ?l) (stuck ?p ?q)))
+```
+
+- action: research
+summary: Player researches about quicksand.
+preconditions: None.
+postconditions: Player is aware of possible quicksand in every location.
+```
+(:action research :parameters (?p - player) :effect (forall (?l - location) (aware ?p ?l)))
+```
+
+- action: move_horizontally
+summary: The player moves horizontally in the quicksand to get out.
+preconditions: Player is stuck in quicksand.
+postconditions: Player is not stuck in quicksand.
+```
+(:action move_horizontally :parameters (?p - player ?q - quicksand) :preconditions (stuck ?p ?q) :effect (not (stuck ?p ?q)))
+```
+
+Please note that the syntax above assumes that your planner supports the `:when` and `:forall` constructs in effects. If your planner does not, you need to rephrase these actions to fit within the STRIPS subset of PDDL.

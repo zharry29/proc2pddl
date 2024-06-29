@@ -1,4 +1,1 @@
-go ('npc', 'west', 'camp', 'path')
-go ('npc', 'north', 'path', 'grassland')
-go ('npc', 'north', 'grassland', 'bush')
-break_branch ('npc', 'bush', 'branch_piece')
+No solution

@@ -1,0 +1,236 @@
+Sure, let's go through each action step-by-step to provide the required summary and translate it into PDDL format.
+
+### Action: gather_info
+- Summarize action: 
+    The player reads books to gather information on how to create a secret society.
+- What is needed to do the action: 
+    The player must exist.
+- What is the result: 
+    The player now has the required information.
+    
+- Entities:
+  - Entity name: player 
+  - Before: The player has no information.
+  - After: The player has gathered information.
+
+pddl:
+```pddl
+(:action gather_info
+ :parameters (?p - player)
+ :precondition ()
+ :effect (has_info ?p)
+)
+```
+ 
+### Action: create_secret
+- Summarize action: 
+    Create a secret that will be shared among the members of the secret society.
+- What is needed to do the action: 
+    The secret society must exist.
+- What is the result: 
+    The secret society now has a secret.
+
+- Entities:
+  - Entity name: secret_society 
+  - Before: The society has no secret.
+  - After: The society has a secret.
+
+pddl:
+```pddl
+(:action create_secret
+ :parameters (?sc - secret_society)
+ :precondition ()
+ :effect (has_secret ?sc)
+)
+```
+ 
+### Action: set_meeting_location
+- Summarize action: 
+    Determine a regular secret meeting location for the society.
+- What is needed to do the action: 
+    The secret society must exist.
+- What is the result: 
+    The secret society now has a meeting location.
+
+- Entities:
+  - Entity name: secret_society 
+  - Before: No meeting location is set.
+  - After: A meeting location is set.
+
+pddl:
+```pddl
+(:action set_meeting_location
+ :parameters (?sc - secret_society)
+ :precondition ()
+ :effect (has_location ?sc)
+)
+```
+ 
+### Action: set_dress_code
+- Summarize action: 
+    Determine the dress code for the secret society.
+- What is needed to do the action: 
+    The secret society must exist.
+- What is the result: 
+    The secret society now has a dress code.
+
+- Entities:
+  - Entity name: secret_society 
+  - Before: No dress code is set.
+  - After: The society has a dress code.
+
+pddl:
+```pddl
+(:action set_dress_code
+ :parameters (?sc - secret_society)
+ :precondition ()
+ :effect (has_dress_code ?sc)
+)
+```
+
+### Action: create_name
+- Summarize action: 
+    Create a name for the secret society.
+- What is needed to do the action: 
+    The secret society must exist.
+- What is the result: 
+    The secret society now has a name.
+
+- Entities:
+  - Entity name: secret_society 
+  - Before: No name is set.
+  - After: The society has a name.
+
+pddl:
+```pddl
+(:action create_name
+ :parameters (?sc - secret_society)
+ :precondition ()
+ :effect (has_name ?sc)
+)
+```
+
+### Action: secret_society_is_ready
+- Summarize action: 
+    Check that all prerequisites of the secret society are complete.
+- What is needed to do the action: 
+    The secret society must have a secret, a name, a meeting location, and a dress code.
+- What is the result: 
+    The secret society is marked as ready.
+
+- Entities:
+  - Entity name: secret_society 
+  - Before: The prerequisites for the society might not be fulfilled.
+  - After: The society is ready if all prerequisites are complete.
+
+pddl:
+```pddl
+(:action secret_society_is_ready
+ :parameters (?sc - secret_society)
+ :precondition (and (has_secret ?sc) (has_name ?sc) (has_location ?sc) (has_dress_code ?sc))
+ :effect (society_is_ready ?sc)
+)
+```
+
+### Action: initiate_new_member
+- Summarize action: 
+    Add a new member to the secret society.
+- What is needed to do the action: 
+    The player must exist, and the secret society must be ready.
+- What is the result: 
+    The player is now a member of the secret society.
+
+- Entities:
+  - Entity name: player 
+  - Before: The player is not a member of the secret society.
+  - After: The player is a member of the secret society.
+  
+  - Entity name: secret_society 
+  - Before: The society might have one less member.
+  - After: The society has one more member.
+
+pddl:
+```pddl
+(:action initiate_new_member
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (society_is_ready ?sc)
+ :effect (in ?p ?sc)
+)
+```
+ 
+### Action: teach_new_member_secret
+- Summarize action: 
+    Teach the secret to a new member once they become trustworthy.
+- What is needed to do the action: 
+    The player must exist, be a member, and be trusted in the secret society.
+- What is the result: 
+    The player now knows the secret of the secret society.
+
+- Entities:
+  - Entity name: player 
+  - Before: The player does not know the secret.
+  - After: The player knows the secret.
+
+  - Entity name: secret_society 
+  - Unchanged: The secret society retains its secret.
+
+pddl:
+```pddl
+(:action teach_new_member_secret
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (and (in ?p ?sc) (is_trusted ?p ?sc))
+ :effect (knows_secret ?p ?sc)
+)
+```
+
+### Action: remove_member
+- Summarize action: 
+    Remove an existing society member due to untrustworthiness.
+- What is needed to do the action: 
+    The player must exist and be a member of the secret society.
+- What is the result: 
+    The player is no longer a member of the secret society.
+
+- Entities:
+  - Entity name: player 
+  - Before: The player is a member of the secret society.
+  - After: The player is not a member of the secret society.
+
+  - Entity name: secret_society 
+  - Before: The society might have one more member.
+  - After: The society has one less member.
+
+pddl:
+```pddl
+(:action remove_member
+ :parameters (?p - player ?sc - secret_society)
+ :precondition (in ?p ?sc)
+ :effect (not (in ?p ?sc))
+)
+```
+
+### Action: check_if_cult
+- Summarize action: 
+    Check if the group is large enough for a cult.
+- What is needed to do the action: 
+    The secret society must exist and have a sufficient number of members.
+- What is the result: 
+    The secret society is marked as a cult.
+
+- Entities:
+  - Entity name: secret_society 
+  - Before: The society might not be marked as a cult.
+  - After: The society is marked as a cult if it has a sufficient number of members.
+
+pddl:
+```pddl
+(:action check_if_cult
+ :parameters (?sc - secret_society)
+ :precondition (exists (?p - player) (and (in ?p ?sc) > required_number))
+ :effect (is_cult ?sc)
+)
+```
+
+**Note: The condition `(exists (?p - player) (and (in ?p ?sc) > required_number))` within the precondition for the `check_if_cult` action assumes a suitable method for threshold checking exists or is implemented elsewhere. Adjust this accordingly to your specific setup.**
+
+This should cover all the given actions with their respective requirements, aims, and changes to entities.

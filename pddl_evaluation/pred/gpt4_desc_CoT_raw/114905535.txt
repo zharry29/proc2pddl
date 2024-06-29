@@ -1,446 +1,180 @@
-- action name: go
-- summarize action: Navigate to an adjacent location.
-- what is needed to do the action: Player at a location, another location connected in a specific direction, and the connection should not be blocked.
-- what is the result: Player moves to the new location.
+Alright. Let's create the PDDL actions for survival on a deserted island.
 
-- entities:
-  - entity name: player 
-    - before: at location A
-    - after: at location B
-  - entity name: location A
-  - entity name: location B
-  - entity name: direction
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Player should be at a specific location (e.g., at the player the current location).
-2. The connection between two locations should exist in a certain direction (connected current_location direction new_location).
-3. The connection between those two locations should not be blocked (not blocked current_location direction new_location).
-
-pddl:
+1. Action: go
+   - Parameters: (player, direction, location1, location2)
+   - Precondition: player is 'at' location1, location1 is 'connected' to location2 through specified 'direction', and the way is not 'blocked'.
+   - Effect: player is 'at' location2 and not 'at' location1 anymore.
+   - PDDL:
 ```
 (:action go
- :parameters (?player - player ?loc1 -location ?dir - direction ?loc2 - location)
- :precondition (and
-                (at ?player ?loc1) 
-                (connected ?loc1 ?dir ?loc2)
-                (not (blocked ?loc1 ?dir ?loc2))
-               )
- :effect (and
-            (not (at ?player ?loc1))
-            (at ?player ?loc2))
+   :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+   :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
 )
 ```
 
-- action name: get
-- summarize action: Pick up an item and put it in the inventory.
-- what is needed to do the action: Player at a location, item at the same location, item is not already in the player's inventory.
-- what is the result: Item is added to the player's inventory and removed from the location.
-
-- entities:
-  - entity name: player
-  - entity name: location
-  - entity name: item
-    - before: at location
-    - after: in player inventory
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Player should be at a specific location (e.g., at the player location).
-2. The item should be at the same location as the player (e.g., at item location).
-3. Item should not already be in the player's inventory (not (inventory ?player ?item)).
-
-pddl:
+2. Action: get
+   - Parameters: (player, item, location)
+   - Precondition: player is 'at' location, and item is 'at' location.
+   - Effect: player has 'inventory' of item, and item is not 'at' location anymore.
+   - PDDL:
 ```
 (:action get
- :parameters (?player - player ?loc - location ?item - item)
- :precondition (and 
-                (at ?player ?loc)
-                (at ?item ?loc)
-                (not (inventory ?player ?item))
-               )
- :effect (and 
-           (not (at ?item ?loc))
-           (inventory ?player ?item))
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?item ?loc))
+   :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
 )
 ```
 
-I'll give you two more examples as the response format limit does not allow for the complete list of actions:
-
-- action name: get_water
-- summarize action: Get water from a location that has a water source like a lake.
-- what is needed to do the action: Player at a location, location has a water source, a container not in player's inventory.
-- what is the result: Water is added to the container, the container is in the player's inventory.
-
-- entities:
-  - entity name: player
-  - entity name: location
-  - entity name: container
-    - before: not in player inventory
-    - after: in player inventory
-  - entity name: water
-    - before: in location
-    - after: in container
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Player should be at a specific location (at ?player ?loc).
-2. Location should have a water source (has_water ?loc)
-3. A container should not be in the player's inventory (not (inventory ?player ?container))
-
-pddl:
+3. Action: get_water
+   - Parameters: (player, water, location)
+   - Precondition: player is 'at' location, and location 'has_freshwater_source'.
+   - Effect: player has 'inventory' of water.
+   - PDDL:
 ```
 (:action get_water
- :parameters (?player - player ?loc - location ?water - water ?container - container)
- :precondition (and 
-                (at ?player ?loc)
-                (has_water ?loc)
-                (not (inventory ?player ?container))
-               )
- :effect (and 
-           (inventory ?player ?container)
-           (at ?water ?container))
+   :parameters (?player - player ?water - water ?loc - location)
+   :precondition (and (at ?player ?loc) (has_freshwater_source ?loc))
+   :effect (inventory ?player ?water)
 )
 ```
 
-- action name: bag_plant
-- summarize action: Bag a plant for later use or consumption.
-- what is needed to do the action: Player at a location, a plant not bagged, a bag not already in the player's inventory.
-- what is the result: Plant is bagged and the bag is added to the player's inventory.
+We'll fill out the rest in a similar format. Since the filling out ALL the actions will take quite a bit of time and space, I'll just do one more for example's purpose.
 
-- entities:
-  - entity name: player
-  - entity name: location
-  - entity name: plant
-    - before: not bagged
-    - after: bagged
-  - entity name: bag
-    - before: not in player inventory
-    - after: in player inventory
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Player should be at a specific location (at ?player ?loc).
-2. The plant should not be bagged (not (bagged ?plant)).
-3. Bag should not already be in the player's inventory (not (inventory ?player ?bag)).
-
-pddl:
+4. Action: bag_plant
+   - Parameters: (player, plant, location)
+   - Precondition: player is 'at' location, and plant is 'at' location.
+   - Effect: plant is 'bagged', and it's no longer 'at' location.
+   - PDDL:
 ```
 (:action bag_plant
- :parameters (?player - player ?loc - location ?plant - plant ?bag - bag)
- :precondition (and 
-                (at ?player ?loc)
-                (not (bagged ?plant))
-                (not (inventory ?player ?bag))
-               )
- :effect (and 
-           (bagged ?plant)
-           (inventory ?player ?bag))
+   :parameters (?player - player ?plant - plant ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?plant ?loc))
+   :effect (and (bagged ?plant) (not (at ?plant ?loc)))
 )
 ```
-- action name: wait_and_gather_bagged_plant
-- summarize action: Wait for a bagged plant to grow or ripen, and then gather the plant.
-- what is needed to do the action: Player at a location, bagged plant at the same location, a bag containing the plant not already in the player's inventory.
-- what is the result: Bag containing the plant is added to the player's inventory.
 
-- entities:
-  - entity name: player
-  - entity name: location
-  - entity name: bagged_plant
-    - before: at location
-    - after: in player inventory
-  - entity name: bag
-    - before: not in player inventory
-    - after: in player inventory
+Using the format and steps above, please continue to write out actions for: 'wait_and_gather_bagged_plant', 'gather_tinder', 'build_campfire', 'light_campfire', 'make_spear', 'spear_fish', 'cook_fish', 'wet_tinder' and 'make_smoke_signal'. Remember, for each action, list the parameters, preconditions, and effects, and then write out the final PDDL.
+Sure, let's continue:
 
-- describe how to match it to pddl relevant predicates step by step:
-1. Player should be at a specific location (at ?player ?loc).
-2. The bagged plant should be at the same location as the player (at ?bagged_plant ?loc).
-3. Bag containing the plant should not already be in the player's inventory (not (inventory ?player ?bag)).
-
-pddl:
+5. Action: wait_and_gather_bagged_plant
+   - Parameters: (player, plant, location)  
+   - Precondition: player is 'at' location, and plant is 'bagged'.
+   - Effect: player has an 'inventory' of plant.
+   - PDDL:
 ```
 (:action wait_and_gather_bagged_plant
- :parameters (?player - player ?loc - location ?bagged_plant - plant ?bag - bag)
- :precondition (and 
-                (at ?player ?loc)
-                (at ?bagged_plant ?loc)
-                (bagged ?bagged_plant)
-                (not (inventory ?player ?bag))
-               )
- :effect (and 
-           (not (at ?bagged_plant ?loc))
-           (inventory ?player ?bag))
+   :parameters (?player - player ?plant - plant ?loc - location)
+   :precondition (and (at ?player ?loc) (bagged ?plant))
+   :effect (inventory ?player ?plant)
 )
 ```
 
-- action name: gather_tinder
-- summarize action: Gather tinder from a location.
-- what is needed to do the action: Player at a location, location having gatherable tinder.
-- what is the result: Tinder is gathered and added to the player's inventory.
-
-- entities:
-  - entity name: player
-  - entity name: location
-  - entity name: tinder
-    - before: at location
-    - after: in player inventory
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Player should be at a specific location (at ?player ?loc).
-2. The location should have gatherable tinder (has_tinder ?loc).
-
-pddl:
+6. Action: gather_tinder
+   - Parameters: (player, tinder, location)
+   - Precondition: player is 'at' location, and location 'has_tinder'.
+   - Effect: player has an 'inventory' of tinder, and location no longer 'has_tinder'.
+   - PDDL:
 ```
 (:action gather_tinder
- :parameters (?player - player ?loc - location ?tinder - tinder)
- :precondition (and 
-                (at ?player ?loc)
-                (has_tinder ?loc)
-               )
- :effect (and
-            (not (has_tinder ?loc))
-            (inventory ?player ?tinder))
+   :parameters (?player - player ?tinder - tinder ?loc - location)
+   :precondition (and (at ?player ?loc) (has_tinder ?loc))
+   :effect (and (inventory ?player ?tinder) (not (has_tinder ?loc)))
 )
 ```
 
-- action name: build_campfire
-- summarize action: Build a campfire at a location.
-- what is needed to do the action: Player at a location, tinder in player's inventory, campfire not already at the location.
-- what is the result: Campfire built at the location, tinder removed from player's inventory.
-
-- entities:
-  - entity name: player
-  - entity name: location
-  - entity name: tinder
-    - before: in player inventory
-    - after: used for building campfire
-  - entity name: campfire
-    - before: not at location
-    - after: at location
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Player should be at a specific location (e.g., at ?player ?loc).
-2. Tinder should be in the player's inventory (inventory ?player ?tinder).
-3. Campfire should not already be at the location (not (at ?campfire ?loc)).
-
-pddl:
+7. Action: build_campfire
+   - Parameters: (player, campfire, location)
+   - Precondition: player is 'at' location.
+   - Effect: campfire is 'at' location.
+   - PDDL:
 ```
 (:action build_campfire
- :parameters (?player - player ?loc - location ?tinder - tinder ?campfire - campfire)
- :precondition (and 
-                (at ?player ?loc)
-                (inventory ?player ?tinder)
-                (not (at ?campfire ?loc))
-               )
- :effect (and 
-           (not (inventory ?player ?tinder))
-           (at ?campfire ?loc))
+   :parameters (?player - player ?campfire - campfire ?loc - location)
+   :precondition (at ?player ?loc)
+   :effect (at ?campfire ?loc)
 )
 ```
-
-I will continue in the next response due to response format limit.
-- action name: light_campfire
-- summarize action: Light a campfire at a location.
-- what is needed to do the action: Player at a location, tinder in player's inventory, unlit campfire at the location.
-- what is the result: Campfire becomes lit, tinder is removed from player's inventory.
-
-- entities:
-  - entity name: player
-  - entity name: location
-  - entity name: tinder
-    - before: in player inventory
-    - after: used to light campfire
-  - entity name: campfire
-    - before: unlit at location
-    - after: lit at location
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Player should be at a specific location (at ?player ?loc).
-2. Tinder should be in the player's inventory (inventory ?player ?tinder).
-3. Unlit campfire should be at the location (at ?campfire ?loc).
-4. The campfire should not be lit (not (lit ?campfire))
-
-pddl:
+   
+8. Action: light_campfire
+   - Parameters: (player, campfire, location)
+   - Preconditions: player and campfire are 'at' the same location.
+   - Effect: campfire becomes 'lit'.
+   - PDDL:
 ```
 (:action light_campfire
- :parameters (?player - player ?loc - location ?tinder - tinder ?campfire - campfire)
- :precondition (and 
-                (at ?player ?loc)
-                (inventory ?player ?tinder)
-                (at ?campfire ?loc)
-                (not (lit ?campfire))
-               )
- :effect (and 
-           (not (inventory ?player ?tinder))
-           (lit ?campfire))
+   :parameters (?player - player ?campfire - campfire ?loc - location)
+   :precondition (and (at ?player ?loc) (at ?campfire ?loc))
+   :effect (lit ?campfire)
 )
 ```
 
-- action name: make_spear
-- summarize action: Make a spear using a sharp stone and a hardwood stick.
-- what is needed to do the action: Stone and stick in player's inventory, spear not already in player's inventory.
-- what is the result: Spear is made and added to the player's inventory, the stone and stick are removed from player's inventory.
+I'll continue the remaining actions in the next message.
+Sure, continuing from where we left:
 
-- entities:
-  - entity name: player
-  - entity name: sharp_stone
-    - before: in player inventory
-    - after: used to make spear
-  - entity name: hardwood_stick
-    - before: in player inventory
-    - after: used to make spear
-  - entity name: spear
-    - before: not in player inventory
-    - after: in player inventory
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Sharp stone should be in the player's inventory (inventory ?player ?sharp_stone).
-2. Hardwood stick should be in the player's inventory (inventory ?player ?hardwood_stick).
-3. Spear should not already be in the player's inventory (not (inventory ?player ?spear)).
-
-pddl:
+9. Action: make_spear
+   - Parameters: (player, sharp_stone, wood, spear)  
+   - Precondition: player has 'inventory' of sharp_stone and wood.
+   - Effect: player has 'inventory' of spear, and player no longer has 'inventory' of sharp_stone and wood.
+   - PDDL:
 ```
 (:action make_spear
- :parameters (?player - player ?sharp_stone - sharp_stone ?hardwood_stick - hardwood_stick ?spear - spear)
- :precondition (and 
-                (inventory ?player ?sharp_stone)
-                (inventory ?player ?hardwood_stick)
-                (not (inventory ?player ?spear))
-               )
- :effect (and 
-           (not (inventory ?player ?sharp_stone))
-           (not (inventory ?player ?hardwood_stick))
-           (inventory ?player ?spear))
+   :parameters (?player - player ?stone - sharp_stone ?wood - wood ?spear - spear)
+   :precondition (and (inventory ?player ?stone) (inventory ?player ?wood))
+   :effect (and (inventory ?player ?spear) (not (inventory ?player ?stone)) (not (inventory ?player ?wood)))
 )
 ```
 
-I will continue in the next response due to response format limit.
-- action name: spear_fish
-- summarize action: Spear fish at a location with a spear.
-- what is needed to do the action: Player with a spear at a location with fish.
-- what is the result: Fish is caught and added to the player's inventory.
-
-- entities:
-  - entity name: player
-  - entity name: spear
-  - entity name: location
-  - entity name: fish
-    - before: in location
-    - after: in player inventory
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Player should be at a specific location (at ?player ?loc).
-2. Spear should be in the player's inventory (inventory ?player ?spear).
-3. Location should have fish to catch (has_fish ?loc).
-
-pddl:
+10. Action: spear_fish
+   - Parameters: (player, spear, fish, location)
+   - Precondition: player is 'at' location, location 'has_fish' and player has 'inventory' of spear.
+   - Effect: player has an 'inventory' of fish, and location no longer 'has_fish'.
+   - PDDL:
 ```
 (:action spear_fish
- :parameters (?player - player ?loc - location ?spear - spear ?fish - fish)
- :precondition (and 
-                (at ?player ?loc)
-                (inventory ?player ?spear)
-                (has_fish ?loc)
-               )
- :effect (and 
-            (not (has_fish ?loc))
-            (inventory ?player ?fish))
+   :parameters (?player - player ?spear - spear ?fish - fish ?loc - location)
+   :precondition (and (at ?player ?loc) (has_fish ?loc) (inventory ?player ?spear))
+   :effect (and (inventory ?player ?fish) (not (has_fish ?loc)))
 )
 ```
 
-- action name: cook_fish
-- summarize action: Cook fish on a lit campfire.
-- what is needed to do the action: Player at a location with a lit campfire, uncooked fish in the player's inventory.
-- what is the result: Fish becomes cooked.
-
-- entities:
-  - entity name: player
-  - entity name: location
-  - entity name: campfire
-  - entity name: fish
-    - before: uncooked in player inventory
-    - after: cooked in player inventory
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Player should be at a specific location (at ?player ?loc).
-2. Lit campfire should be at the location (at ?campfire ?loc) and (lit ?campfire).
-3. Uncooked fish should be in the player's inventory (inventory ?player ?fish) and (not (cooked ?fish)).
-
-pddl:
+11. Action: cook_fish
+   - Parameters: (player, fish, campfire)
+   - Precondition: player has 'inventory' of fish, and campfire is 'lit'.
+   - Effect: fish is 'cooked'.
+   - PDDL:
 ```
 (:action cook_fish
- :parameters (?player - player ?loc - location ?campfire - campfire ?fish - fish)
- :precondition (and 
-                (at ?player ?loc)
-                (at ?campfire ?loc)
-                (lit ?campfire)
-                (inventory ?player ?fish)
-                (not (cooked ?fish))
-               )
- :effect (cooked ?fish)
+   :parameters (?player - player ?fish - fish ?campfire - campfire)
+   :precondition (and (inventory ?player ?fish) (lit ?campfire))
+   :effect (cooked ?fish)
 )
 ```
 
-- action name: wet_tinder
-- summarize action: Wet tinder to prepare it for making a smoke signal.
-- what is needed to do the action: Tinder in the player's inventory, a water source.
-- what is the result: Tinder becomes wet.
-
-- entities:
-  - entity name: player
-  - entity name: location
-  - entity name: tinder
-    - before: dry in player inventory
-    - after: wet in player inventory
-  - entity name: water
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Player should be at a specific location (at ?player ?loc).
-2. Tinder should be in the player's inventory (inventory ?player ?tinder) and (not (wet ?tinder)).
-3. There should be a water source at the location (has_water ?loc).
-
-pddl:
+12. Action: wet_tinder
+   - Parameters: (player, tinder, water)
+   - Precondition: player has 'inventory' of tinder and water.
+   - Effect: tinder is 'wet'.
+   - PDDL:
 ```
 (:action wet_tinder
- :parameters (?player - player ?loc - location ?tinder - tinder ?water - water)
- :precondition (and 
-                (at ?player ?loc)
-                (inventory ?player ?tinder)
-                (not (wet ?tinder))
-                (has_water ?loc)
-               )
- :effect (wet ?tinder)
+   :parameters (?player - player ?tinder - tinder ?water - water)
+   :precondition (and (inventory ?player ?tinder) (inventory ?player ?water))
+   :effect (wet ?tinder)
 )
 ```
 
-- action name: make_smoke_signal
-- summarize action: Make a smoke signal using wet tinder and a lit campfire.
-- what is needed to do the action: Player at a location with a lit campfire, wet tinder in the player's inventory.
-- what is the result: Campfire becomes a smoke signal.
-
-- entities:
-  - entity name: player
-  - entity name: location
-  - entity name: campfire
-    - before: lit at location
-    - after: signaling at location
-  - entity name: wet_tinder
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Player should be at a specific location (at ?player ?loc).
-2. Lit campfire should be at the location (at ?campfire ?loc) and (lit ?campfire).
-3. Wet tinder should be in the player's inventory (inventory ?player ?tinder) and (wet ?tinder).
-
-pddl:
+13. Action: make_smoke_signal
+   - Parameters: (player, campfire, tinder)
+   - Precondition: player is 'at' location with 'lit' campfire and 'wet' tinder in inventory.
+   - Effect: campfire is 'signaling'.
+   - PDDL:
 ```
 (:action make_smoke_signal
- :parameters (?player - player ?loc - location ?campfire - campfire ?tinder - tinder)
- :precondition (and 
-                (at ?player ?loc)
-                (at ?campfire ?loc)
-                (lit ?campfire)
-                (inventory ?player ?tinder)
-                (wet ?tinder)
-               )
- :effect (signaling ?campfire)
+   :parameters (?player - player ?campfire - campfire ?tinder - tinder ?loc - location)
+   :precondition (and (at ?player ?loc) (lit ?campfire) (wet ?tinder))
+   :effect (signaling ?campfire)
 )
 ```
 
-This completes the PDDL actions for your initial list.
+That completes all the actions.

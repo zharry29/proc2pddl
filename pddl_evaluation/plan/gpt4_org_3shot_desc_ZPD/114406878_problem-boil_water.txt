@@ -1,0 +1,6 @@
+get ('npc', 'pot', 'camp')
+go ('npc', 'camp', 'west', 'path')
+go ('npc', 'path', 'north', 'grassland')
+ignite_teepee ('npc', 'flat_wood', 'teepee_structure')
+get_water ('npc', 'water', 'grassland')
+boil_water ('npc', 'pot', 'water', 'teepee_structure')

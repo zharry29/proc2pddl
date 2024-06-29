@@ -1,150 +1,165 @@
+1. The first action is "go". This action allows the player to navigate to an adjacent location.
+
 - action name: go
-- summarize action: The player navigates to an adjacent location.
-- what is needed to do the action: The connection between the current location and the adjacent location should be unblocked.
-- what is the result: The player moves from the current location to the new location.
- 
-- entities:
-  - entity name: current location 
-    - before: player is at this location
-    - after: player is no longer at this location
-  - entity name: new location
-    - before: player is not at this location
-    - after: player is at this location
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Add the connected predicate to indicate the connection between the current and new locations.
-2. Add the at predicate before and after to show the change in the player's location.
-
-pddl:
+- parameters: (player - Player, dir - Direction, loc1 - Location, loc2 - Location)
+- precondition: (connected ?loc1 ?dir ?loc2) and not (blocked ?loc1 ?dir ?loc2) and (at ?player ?loc1)
+- effect: (at ?player ?loc2) and not (at ?player ?loc1)
+- pddl:
 ```
 (:action go
-  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
-  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
-  :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+   :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+   :precondition (and (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)) (at ?player ?loc1))
+   :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
 )
 ```
+
+2. The second action is "get_bag". This action enables the player to get a bag from a store if the store sells bags.
 
 - action name: get_bag
-- summarize action: The player gets a bag from a store that sells bags.
-- what is needed to do the action: The player must be at a location where bags are sold.
-- what is the result: The player gets the bag and adds it to the inventory.
-
-- entities:
-  - entity name: bag 
-    - before: not in the player's inventory 
-    - after: in the player's inventory
-  - entity name: location
-    - before: player is at the location where bags are sold
-    - after: no change
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Add the sells_bags predicate to identify locations that sell bags.
-2. Add the inventory predicate to represent that the bag is now in the player's inventory.
-
-pddl:
+- parameters: (?player - Player, ?bag - Bag, ?loc - Location)
+- precondition: (sells_bags ?loc) and (at ?player ?loc) and (at ?bag ?loc)
+- effect: (inventory ?player ?bag) and not (at ?bag ?loc)
+- pddl:
 ```
 (:action get_bag
-  :parameters (?player - player ?bag - bag ?loc - location)
-  :precondition (and (at ?player ?loc) (sells_bags ?loc))
-  :effect (inventory ?player ?bag)
+   :parameters (?player - player ?bag - bag ?loc - location)
+   :precondition (and (sells_bags ?loc) (at ?player ?loc) (at ?bag ?loc))
+   :effect (and (inventory ?player ?bag) (not (at ?bag ?loc)))
 )
 ```
+
+3. The third action is "get_stationery". This action involves getting stationery from a store that sells them.
 
 - action name: get_stationery
-- summarize action: The player gets stationery items from a store that sells stationery; specifically, pen, paper, gloves, tape, chalk, and magnifying_glass.
-- what is needed to do the action: The player must be at a location where stationery is sold.
-- what is the result: The player gets the stationery items and adds them to the inventory.
-
-- entities:
-  - entity name: pen, paper, gloves, tape, chalk, magnifying_glass 
-    - before: not in the player's inventory 
-    - after: in the player's inventory
-  - entity name: location
-    - before: player is at the location where stationery is sold
-    - after: no change
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Add the sells_stationery predicate to identify locations that sell stationery.
-2. Add the inventory predicate for each item to represent that the items are now in the player's inventory.
-
-pddl:
+- parameters: (?player - Player, ?pen - Pen, ?loc - Location)
+- precondition: (sells_stationery ?loc) and (at ?player ?loc) and (at ?pen ?loc)
+- effect: (inventory ?player ?pen) and not (at ?pen ?loc)
+- pddl:
 ```
 (:action get_stationery
-  :parameters (?player - player ?loc - location ?pen - pen ?paper - paper ?gloves - gloves ?tape - tape ?chalk - chalk ?magnifying_glass - magnifying_glass)
-  :precondition (and (at ?player ?loc) (sells_stationery ?loc))
-  :effect (and (inventory ?player ?pen) (inventory ?player ?paper) (inventory ?player ?gloves) (inventory ?player ?tape) (inventory ?player ?chalk) (inventory ?player ?magnifying_glass))
+   :parameters (?player - player ?pen - pen ?loc - location)
+   :precondition (and (sells_stationery ?loc) (at ?player ?loc) (at ?pen ?loc))
+   :effect (and (inventory ?player ?pen) (not (at ?pen ?loc)))
 )
 ```
 
-I provide the pddl for the next actions:
+Please notice that for each action, I am considering only one item at a time. According to your problem specification, the same pattern should be followed for the rest of the actions. The corresponding parameters, precondition, and effect for the rest of the actions should be prepared accordingly.
+4. The fourth action is "get_costume". This action is about getting a costume from a store that sells costumes.
 
-get_costume:
+- action name: get_costume
+- parameters: (?player - Player, ?costume - Costume, ?loc - Location)
+- precondition: (sells_costume ?loc) and (at ?player ?loc) and (at ?costume ?loc)
+- effect: (inventory ?player ?costume) and not (at ?costume ?loc)
+- pddl:
 ```
 (:action get_costume
-  :parameters (?player - player ?costume - costume ?loc - location)
-  :precondition (and (at ?player ?loc) (sells_costume ?loc))
-  :effect (inventory ?player ?costume)
+   :parameters (?player - player ?costume - costume ?loc - location)
+   :precondition (and (sells_costume ?loc) (at ?player ?loc) (at ?costume ?loc))
+   :effect (and (inventory ?player ?costume) (not (at ?costume ?loc)))
 )
 ```
+5. The fifth action is "wear_detective_gear". The player wears the detective costume to get ready for the job.
 
-wear_detective_gear:
+- action name: wear_detective_gear
+- parameters: (?player - Player, ?costume - Costume)
+- precondition: (inventory ?player ?costume)
+- effect: (wear ?player ?costume) and not (inventory ?player ?costume)
+- pddl:
 ```
 (:action wear_detective_gear
-  :parameters (?player - player ?costume - costume)
-  :precondition (inventory ?player ?costume)
-  :effect (wear ?player ?costume)
+   :parameters (?player - player ?costume - costume)
+   :precondition (inventory ?player ?costume)
+   :effect (and (wear ?player ?costume) (not (inventory ?player ?costume)))
 )
 ```
+6. The sixth action is "find_supplies_for_disguise". This action allows the player to find supplies to get ready for an undercover mission.
 
-find_supplies_for_disguise: (to simplify, I will assume this action finds a disguise available in the player's inventory after executing)
+For simplicity, let's assume "find_supplies_for_disguise" involves getting a certain item known as "disguise" from a location. Hence, we will proceed with this assumption.
+
+- action name: find_supplies_for_disguise
+- parameters: (?player - Player, ?loc - Location, ?disguise - Disguise)
+- precondition: (at ?player ?loc) and (at ?disguise ?loc)
+- effect: (inventory ?player ?disguise) and not (at ?disguise ?loc)
+- pddl:
 ```
 (:action find_supplies_for_disguise
-  :parameters (?player - player ?disguise - disguise)
-  :effect (inventory ?player ?disguise)
+   :parameters (?player - player ?loc - location ?disguise - disguise)
+   :precondition (and (at ?player ?loc) (at ?disguise ?loc))
+   :effect (and (inventory ?player ?disguise) (not (at ?disguise ?loc)))
 )
 ```
+To be continued next for the rest actions...
+7. The seventh action is "wear_disguise", where the player puts on the disguise for the undercover mission.
 
-wear_disguise:
+- action name: wear_disguise
+- parameters: (?player - Player, ?disguise - disguise)
+- precondition: (inventory ?player ?disguise)
+- effect: (wear ?player ?disguise) and not (inventory ?player ?disguise)
+- pddl:
 ```
 (:action wear_disguise
-  :parameters (?player - player ?disguise - disguise)
-  :precondition (inventory ?player ?disguise)
-  :effect (wear ?player ?disguise)
+   :parameters (?player - player ?disguise - disguise)
+   :precondition (inventory ?player ?disguise)
+   :effect (and (wear ?player ?disguise) (not (inventory ?player ?disguise)))
 )
 ```
+8. The eighth action is "make_badge". This action allows the player to make a detective badge. For the sake of simplicity, let's assume the player can make a badge from paper and pen.
 
-make_badge:
+- action name: make_badge
+- parameters: (?player - Player, ?pen - pen, ?paper - paper, ?badge - badge)
+- precondition: (inventory ?player ?pen) and (inventory ?player ?paper)
+- effect: (inventory ?player ?badge) and not (inventory ?player ?pen) and not (inventory ?player ?paper)
+- pddl:
 ```
 (:action make_badge
-  :parameters (?player - player ?badge - badge ?aluminium_foil - aluminium_foil ?cardboard - cardboard)
-  :precondition (and (inventory ?player ?aluminium_foil) (inventory ?player ?cardboard))
-  :effect (inventory ?player ?badge)
+   :parameters (?player - player ?pen - pen ?paper - paper ?badge - badge)
+   :precondition (and (inventory ?player ?pen) (inventory ?player ?paper))
+   :effect (and (inventory ?player ?badge) (not (inventory ?player ?pen)) (not (inventory ?player ?paper)))
 )
 ```
+9. The ninth action is "prepare_detective_notebook", where the player transforms a regular notebook into a detective notebook.
 
-prepare_detective_notebook:
+- action name: prepare_detective_notebook
+- parameters: (?player - Player, ?notebook - notebook, ?detective_notebook - detective_notebook)
+- precondition: (inventory ?player ?notebook)
+- effect: (inventory ?player ?detective_notebook) and not (inventory ?player ?notebook)
+- pddl:
 ```
 (:action prepare_detective_notebook
-  :parameters (?player - player ?notebook - notebook ?pen - pen ?detective_notebook - detective_notebook)
-  :precondition (and (inventory ?player ?notebook) (inventory ?player ?pen))
-  :effect (and (not (inventory ?player ?notebook)) (inventory ?player ?detective_notebook))
+   :parameters (?player - player ?notebook - notebook ?detective_notebook - detective_notebook)
+   :precondition (inventory ?player ?notebook)
+   :effect (and (inventory ?player ?detective_notebook) (not (inventory ?player ?notebook)))
 )
 ```
+Next actions will be prepared upon request...
+10. The tenth action is "get_walkie_talkies". This action involves the player getting walkie-talkies from a store that sells electronics.
 
-get_walkie_talkies:
+- action name: get_walkie_talkies
+- parameters: (?player - Player, ?walkie_talkies - walkie_talkies, ?loc - Location)
+- precondition: (sells_electronics ?loc) and (at ?player ?loc) and (at ?walkie_talkies ?loc)
+- effect: (inventory ?player ?walkie_talkies) and not (at ?walkie_talkies ?loc)
+- pddl:
 ```
 (:action get_walkie_talkies
-  :parameters (?player - player ?walkie_talkies - walkie_talkies ?loc - location)
-  :precondition (and (at ?player ?loc) (sells_electronics ?loc))
-  :effect (inventory ?player ?walkie_talkies)
+   :parameters (?player - player ?walkie_talkies - walkie_talkies ?loc - location)
+   :precondition (and (sells_electronics ?loc) (at ?player ?loc) (at ?walkie_talkies ?loc))
+   :effect (and (inventory ?player ?walkie_talkies) (not (at ?walkie_talkies ?loc)))
 )
 ```
+11. The last action is "prepare_detective_kit". This action involves the player putting everything in the detective kit.
 
-prepare_detective_kit:
+Since we aren't told exactly what goes in the detective kit, let's make an assumption for this example that it contains a bag, a disguise, a badge, and walkie-talkies.
+
+- action name: prepare_detective_kit
+- parameters: (?player - Player, ?bag - bag, ?disguise - disguise, ?badge - badge, ?walkie_talkies - walkie_talkies, ?detective_kit - detective_kit)
+- precondition: (inventory ?player ?bag) and (inventory ?player ?disguise) and (inventory ?player ?badge) and (inventory ?player ?walkie_talkies)
+- effect: (inventory ?player ?detective_kit) and not (inventory ?player ?bag) and not (inventory ?player ?disguise) and not (inventory ?player ?badge) and not (inventory ?player ?walkie_talkies)
+- pddl:
 ```
 (:action prepare_detective_kit
-  :parameters (?player - player ?detective_kit - detective_kit ?bag - bag ?gloves - gloves ?tape - tape ?chalk - chalk ?magnifying_glass - magnifying_glass ?costume - costume ?flashlights - flashlights ?pen - pen ?detective_notebook - detective_notebook ?badge - badge ?walkie_talkies - walkie_talkies)
-  :precondition (and (inventory ?player ?bag) (inventory ?player ?gloves) (inventory ?player ?tape) (inventory ?player ?chalk) (inventory ?player ?magnifying_glass) (inventory ?player ?costume) (inventory ?player ?flashlights) (inventory ?player ?pen) (inventory ?player ?detective_notebook) (inventory ?player ?badge) (inventory ?player ?walkie_talkies))
-  :effect (and (inventory ?player ?detective_kit) (not (inventory ?player ?bag)) (not (inventory ?player ?gloves)) (not (inventory ?player ?tape)) (not (inventory ?player ?chalk)) (not (inventory ?player ?magnifying_glass)) (not (inventory ?player ?costume)) (not (inventory ?player ?flashlights)) (not (inventory ?player ?pen)) (not (inventory ?player ?detective_notebook)) (not (inventory ?player ?badge)) (not (inventory ?player ?walkie_talkies)))
+   :parameters (?player - player ?bag - bag ?disguise - disguise ?badge - badge ?walkie_talkies - walkie_talkies ?detective_kit - detective_kit)
+   :precondition (and (inventory ?player ?bag) (inventory ?player ?disguise) (inventory ?player ?badge) (inventory ?player ?walkie_talkies))
+   :effect (and (inventory ?player ?detective_kit) (not (inventory ?player ?bag)) (not (inventory ?player ?disguise)) (not (inventory ?player ?badge)) (not (inventory ?player ?walkie_talkies)))
 )
 ```
+Please adjust the parameters, preconditions, and effects of the actions according to your problem complexity and requirements.

@@ -1,0 +1,7 @@
+go ('npc', 'up', 'living_room', 'hallway')
+go ('npc', 'east', 'hallway', 'bathroom')
+get ('npc', 'bobby_pin', 'bathroom')
+go ('npc', 'east', 'bathroom', 'bedroom')
+insert_wrench ('npc', 'bobby_pin', 'bedroom')
+insert_pick ('npc', 'bobby_pin', 'bedroom')
+push_pins_out_of_tumblers ('npc', 'bedroom')

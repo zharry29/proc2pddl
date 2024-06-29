@@ -1,11 +1,1 @@
-go ('person', 'beach', 'east', 'jungle')
-go ('person', 'jungle', 'east', 'river')
-get_water ('person', 'river', 'water')
-go ('person', 'river', 'west', 'jungle')
-chop_wood ('person', 'jungle', 'wood')
-go ('person', 'jungle', 'west', 'beach')
-get ('person', 'tinder', 'beach')
-carve_groove ('person', 'wood')
-light_fire ('person', 'beach', 'wood', 'tinder')
-clean_water ('person', 'beach', 'water')
-drink_water ('person', 'water')
+No solution

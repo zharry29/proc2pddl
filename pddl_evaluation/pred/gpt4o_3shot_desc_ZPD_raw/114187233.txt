@@ -1,0 +1,289 @@
+Based on the provided requirements and instructions, here are all the PDDL actions for "open a coconut":
+
+### Action 1: go
+- action name: go
+- summarize action: This action involves navigating to an adjacent location.
+- what is needed to do the action: The current location, a direction, and a destination location.
+- what is the result: The player will be at the new location.
+
+- entities:
+    - entity name: current location
+        - before: player is at the current location
+        - after: player leaves the current location
+    - entity name: destination location
+        - before: player is not at the new location
+        - after: player is at the new location
+
+pddl action:
+```plaintext
+(:action go
+  :parameters (?player - player ?current_loc - location ?direction - direction ?destination_loc - location)
+  :precondition (and (at ?player ?current_loc) (connected ?current_loc ?direction ?destination_loc))
+  :effect (and (not (at ?player ?current_loc)) (at ?player ?destination_loc))
+)
+```
+
+### Action 2: get
+- action name: get
+- summarize action: This action involves picking up an item and putting it in the inventory.
+- what is needed to do the action: The player, the item, and the item's current location.
+- what is the result: The item will be in the player's inventory.
+
+- entities:
+    - entity name: item
+        - before: item is at a location
+        - after: item is in the player's inventory
+
+pddl action:
+```plaintext
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?item ?loc) (at ?player ?loc))
+  :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+```
+
+### Action 3: drop
+- action name: drop
+- summarize action: This action involves dropping an item from the inventory at the current location.
+- what is needed to do the action: The player with the item in their inventory and the current location.
+- what is the result: The item will be at the player's current location.
+
+- entities:
+    - entity name: item
+        - before: item is in the player's inventory
+        - after: item is at the player's current location
+
+pddl action:
+```plaintext
+(:action drop
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (inventory ?player ?item) (at ?player ?loc))
+  :effect (and (at ?item ?loc) (not (inventory ?player ?item)))
+)
+```
+
+### Action 4: pierce
+- action name: pierce
+- summarize action: This action involves piercing the coconut.
+- what is needed to do the action: The player, the coconut, and some piercing tool.
+- what is the result: The coconut will be pierced.
+
+- entities:
+    - entity name: coconut
+        - before: coconut is not pierced
+        - after: coconut is pierced
+
+pddl action:
+```plaintext
+(:action pierce
+  :parameters (?player - player ?coconut - item)
+  :precondition (and (inventory ?player ?coconut) (not (pierced ?coconut)))
+  :effect (pierced ?coconut)
+)
+```
+
+### Action 5: drain
+- action name: drain
+- summarize action: This action involves draining the liquid from the coconut.
+- what is needed to do the action: The player and the pierced coconut.
+- what is the result: The coconut will be empty.
+
+- entities:
+    - entity name: coconut
+        - before: coconut contains liquid
+        - after: coconut is empty
+
+pddl action:
+```plaintext
+(:action drain
+  :parameters (?player - player ?coconut - item)
+  :precondition (and (inventory ?player ?coconut) (pierced ?coconut))
+  :effect (empty ?coconut)
+)
+```
+
+### Action 6: turn_on_oven
+- action name: turn_on_oven
+- summarize action: This action involves turning on an oven.
+- what is needed to do the action: The oven that is currently off.
+- what is the result: The oven will be on.
+
+- entities:
+    - entity name: oven
+        - before: oven is off
+        - after: oven is on
+
+pddl action:
+```plaintext
+(:action turn_on_oven
+  :parameters (?oven - appliance)
+  :precondition (not (on ?oven))
+  :effect (on ?oven)
+)
+```
+
+### Action 7: burn_item
+- action name: burn_item
+- summarize action: This action involves burning an item using an oven.
+- what is needed to do the action: The player, the oven is on, and the item.
+- what is the result: The item will be burnt.
+
+- entities:
+    - entity name: item
+        - before: item is not burnt
+        - after: item is burnt
+
+pddl action:
+```plaintext
+(:action burn_item
+  :parameters (?player - player ?item - item ?oven - appliance)
+  :precondition (and (on ?oven) (inventory ?player ?item))
+  :effect (burnt ?item)
+)
+```
+
+### Action 8: turn_off_oven
+- action name: turn_off_oven
+- summarize action: This action involves turning off an oven.
+- what is needed to do the action: The oven that is currently on.
+- what is the result: The oven will be off.
+
+- entities:
+    - entity name: oven
+        - before: oven is on
+        - after: oven is off
+
+pddl action:
+```plaintext
+(:action turn_off_oven
+  :parameters (?oven - appliance)
+  :precondition (on ?oven)
+  :effect (not (on ?oven))
+)
+```
+
+### Action 9: wrap_coconut
+- action name: wrap_coconut
+- summarize action: This action involves wrapping the coconut with another item.
+- what is needed to do the action: The player and the items to wrap with.
+- what is the result: The coconut will be wrapped.
+
+- entities:
+    - entity name: coconut
+        - before: coconut is not wrapped
+        - after: coconut is wrapped
+
+pddl action:
+```plaintext
+(:action wrap_coconut
+  :parameters (?player - player ?coconut - item ?wrapper - item)
+  :precondition (and (inventory ?player ?coconut) (inventory ?player ?wrapper) (not (wrapped ?coconut)))
+  :effect (wrapped_with ?coconut ?wrapper)
+)
+```
+
+### Action 10: unwrap_coconut
+- action name: unwrap_coconut
+- summarize action: This action involves unwrapping the coconut.
+- what is needed to do the action: The player and the wrapped coconut.
+- what is the result: The coconut will be unwrapped.
+
+- entities:
+    - entity name: coconut
+        - before: coconut is wrapped
+        - after: coconut is unwrapped
+
+pddl action:
+```plaintext
+(:action unwrap_coconut
+  :parameters (?player - player ?coconut - item ?wrapper - item)
+  :precondition (and (inventory ?player ?coconut) (wrapped_with ?coconut ?wrapper))
+  :effect (not (wrapped_with ?coconut ?wrapper))
+)
+```
+
+### Action 11: smash_with_hands
+- action name: smash_with_hands
+- summarize action: This action involves smashing the coconut with one's hands.
+- what is needed to do the action: The player and the coconut.
+- what is the result: The coconut will be smashed.
+
+- entities:
+    - entity name: coconut
+        - before: coconut is not smashed
+        - after: coconut is smashed
+
+pddl action:
+```plaintext
+(:action smash_with_hands
+  :parameters (?player - player ?coconut - item)
+  :precondition (and (inventory ?player ?coconut) (not (smashed ?coconut)))
+  :effect (smashed ?coconut)
+)
+```
+
+### Action 12: separate
+- action name: separate
+- summarize action: This action involves separating the smashed coconut from its shell.
+- what is needed to do the action: The player and the smashed coconut.
+- what is the result: The coconut will be separated into its shell and flesh.
+
+- entities:
+    - entity name: coconut shell
+        - before: whole coconut
+        - after: shell separated from coconut
+    - entity name: coconut flesh
+        - before: whole coconut
+        - after: flesh separated from coconut
+
+pddl action:
+```plaintext
+(:action separate
+  :parameters (?player - player ?coconut - item)
+  :precondition (and (inventory ?player ?coconut) (smashed ?coconut))
+  :effect (and (peeled ?coconut))
+)
+```
+
+### Action 13: peel
+- action name: peel
+- summarize action: This action involves peeling the separated coconut flesh.
+- what is needed to do the action: The player and the separated coconut flesh.
+- what is the result: The coconut flesh will be peeled.
+
+- entities:
+    - entity name: coconut flesh
+        - before: not peeled
+        - after: peeled
+
+pddl action:
+```plaintext
+(:action peel
+  :parameters (?player - player ?coconut - item)
+  :precondition (and (inventory ?player ?coconut) (peeled ?coconut))
+  :effect (peeled ?coconut)
+)
+```
+
+### Action 14: smash_with_mallet
+- action name: smash_with_mallet
+- summarize action: This action involves smashing the coconut with a mallet.
+- what is needed to do the action: The player, the mallet, and the coconut.
+- what is the result: The coconut will be smashed.
+
+- entities:
+    - entity name: coconut
+        - before: coconut is not smashed
+        - after: coconut is smashed
+
+pddl action:
+```plaintext
+(:action smash_with_mallet
+  :parameters (?player - player ?coconut - item ?mallet - item)
+  :precondition (and (inventory ?player ?coconut) (inventory ?player ?mallet) (not (smashed ?coconut)))
+  :effect (smashed ?coconut)
+)
+```
+
+These actions provide a comprehensive set for interacting with and opening a coconut using the specified conditions and outcomes in PDDL format.

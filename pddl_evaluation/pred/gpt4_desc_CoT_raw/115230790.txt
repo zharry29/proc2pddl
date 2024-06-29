@@ -1,338 +1,148 @@
+Sure, let's start with the first action "listen_to_astronomers_predictions" 
+
 - action name: listen_to_astronomers_predictions
-- summarize action: The player listens to astronomers' predictions about the collision with Earth.
-- what is need to do the action: The player must have a pc and be at a location.
-- what is the result: The player listens to the broadcast.
+- parameters: For this action, the player is involved as they will be the one listening to the broadcast about the comet, so we need a parameter for a player.
+- precondition: To listen, the player should have a pc where they can listen to broadcasts. So, the precondition is having a pc.
+- effect: The effect of performing this action would be that the player has listened to astronomers’ predictions about the collision with earth.
 
-- entities:
-  - entity name: player
-    - before: Not listening to broadcast
-    - after: Listening to broadcast
-  - entity name: location
-    - before: No interaction with player
-    - after: Player listens to the broadcast at this location
+- pddl: ..
+    (:action listen_to_astronomers_predictions
+        :parameters (?p - player)
+        :precondition (has_pc ?p)
+        :effect (listen_to_broadcast ?p))
 
-- describe how to match it to pddl relevant predicates step by step:
-1. Ensure the player has a pc using "has_pc" predicate.
-2. Establish the player's location using "at" predicate.
-3. Connect the action to broadcast using "listen_to_broadcast" predicate.
-
-pddl:
-```
-(:action listen_to_astronomers_predictions
-  :parameters (?p - player ?l - location)
-  :precondition (and
-      (has_pc ?p)
-      (at ?p ?l)
-  )
-  :effect (listen_to_broadcast ?p ?l)
-)
-```
+Continue this process for all the actions. Here are the next four, for example:
 
 - action name: move_away
-- summarize action: The player moves from a coastal area to an inland area.
-- what is need to do the action: The player must be in a coastal city and know of an inland city.
-- what is the result: The player is now in an inland city.
+- parameters: Both the player and the city are involved here. The player is at a coastal city and will move away to an inland city. All are parameters.
+- precondition: At least one city is coastal and the other is inland, and the player is currently at a coastal city.
+- effect: After this action, the player will be at the inland city.
 
-- entities:
-  - entity name: player
-    - before: In a coastal city
-    - after: In an inland city
-  - entity name: coastal_city
-    - before: Player's current location
-    - after: No longer the player's location
-  - entity name: inland_city
-    - before: A targeted inland location
-    - after: The player's new location
-   
-- describe how to match it to pddl relevant predicates step by step:
-1. Check if the player is in a coastal city using "coastal" and "at" predicates.
-2. Move the player to inland city using "at" predicate, removing the current coastal city.
-   
-pddl:
-```
-(:action move_away
-  :parameters (?p - player ?c1 - city ?c2 - city)
-  :precondition (and
-      (coastal ?c1)
-      (at ?p ?c1)
-  )
-  :effect (and
-      (inland ?c2)
-      (not (at ?p ?c1))
-      (at ?p ?c2)
-  )
-)
-```
-
-I am writing the rest of the actions in the same format as the first two. Note that for some actions you may need to change the existing predicates or create new ones, but this can still provide a good starting point for the overall structure of the actions.
+- pddl: ..
+    (:action move_away
+        :parameters (?p - player ?c1 ?c2 - city)
+        :precondition (and 
+                        (at ?p ?c1)
+                        (coastal ?c1)
+                        (inland ?c2))
+        :effect (at ?p ?c2))
 
 - action name: go
-- summarize action: Navigate to an adjacent location.
-- what is need to do the action: The player must be at a location and want to move in a certain direction.
-- what is the result: The player moves to the connected location in the given direction.
+- parameters: This requires locations and direction.
+- precondition: The current location is connected to another location in some direction.
+- effect: The object is at a different location.
 
-- entities:
-  - entity name: player
-    - before: At a location
-    - after: At a new location in the given direction
-  - entity name: location1
-    - before: Player's current location
-    - after: No longer the player's location
-  - entity name: location2
-    - before: Player wants to move here
-    - after: Player's new location
-  - entity name: direction
-    - before: Desired direction to move
-    - after: Unchanged
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Check if the current location is connected to the desired location and direction using the "connected" predicate.
-2. Update the player's location from location1 to location2 using the "at" predicate.
-
-pddl:
-```
-(:action go
-  :parameters (?p - player ?l1 - location ?dir - direction ?l2 - location)
-  :precondition (and
-      (at ?p ?l1)
-      (connected ?l1 ?dir ?l2)
-  )
-  :effect (and
-      (not (at ?p ?l1))
-      (at ?p ?l2)
-  )
-)
-```
+- pddl: ..
+    (:action go
+        :parameters (?obj - object ?dir - direction ?loc1 ?loc2 - location)
+        :precondition (connected ?loc1 ?dir ?loc2)
+        :effect (at ?obj ?loc2))
 
 - action name: buy_supplies
-- summarize action: Buy supplies and put them in the inventory.
-- what is need to do the action: The player must be at a market location.
-- what is the result: The player's inventory contains the purchased supplies.
+- parameters: The player buys supplies, which include food, water, and medicine.
+- precondition: The player is at a market (location).
+- effect: The supplies are in the inventory.
 
-- entities:
-  - entity name: player
-    - before: At market location
-    - after: Unchanged
-  - entity name: market_location
-    - before: Player is here
-    - after: Unchanged
-  - entity name: supplies
-    - before: Not in inventory
-    - after: In player's inventory
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Ensure the player is at a market location using the "in" and "at" predicates.
-2. Add the purchased supplies to the player's inventory using the "inventory" predicate.
-
-pddl:
-```
-(:action buy_supplies
-  :parameters (?p - player ?c - city ?it - item)
-  :precondition (and
-      (at ?p ?c)
-      (in ?c market)
-  )
-  :effect (inventory ?it)
-)
-```
+- pddl: ..
+    (:action buy_supplies
+        :parameters (?supply - item ?p - player ?loc - location)
+        :precondition (at ?p ?loc)
+        :effect (inventory ?supply))
 
 - action name: check_supplies
-- summarize action: Check if there are enough supplies in the inventory.
-- what is need to do the action: The player must have items in their inventory.
-- what is the result: The player knows if they have enough supplies.
+- parameters: Items to check
+- precondition: The items are in the inventory.
+- effect: The supplies in the inventory have been checked and enough supplies have been found.
 
-- entities:
-  - entity name: supplies
-    - before: In player's inventory
-    - after: Unchanged
+- pddl: ..
+    (:action check_supplies
+        :parameters (?supply - item)
+        :precondition (inventory ?supply)
+        :effect (enough_supplies))
 
-- describe how to match it to pddl relevant predicates step by step:
-1. Confirm items in the player's inventory using the "inventory" predicate.
-2. Assign the "enough_supplies" fact if the player meets the supplies requirement.
+Please note that you also need to compliment these predicates with some other logic/conditions based upon your specific use case scenario to make a complete and meaningful planning problem and solution.
+Certainly, continuing:
 
-pddl:
-```
-(:action check_supplies
-  :parameters (?it - item)
-  :precondition (inventory ?it)
-  :effect (enough_supplies)
-)
-```
-
-...
-```
 - action name: buy_weapons
-- summarize action: Buy weapons and put them in the inventory (after buy_supplies).
-- what is need to do the action: The player must be at a weapon_market location.
-- what is the result: The player's inventory contains the purchased weapons.
+- parameters: The player is involved, so is the item (weapon).
+- precondition: The player needs to be at a weapons market.
+- effect: The weapons are in the player's inventory.
 
-- entities:
-  - entity name: player
-    - before: At weapon_market location
-    - after: Unchanged
-  - entity name: weapon_market_location
-    - before: Player is here
-    - after: Unchanged
-  - entity name: weapons
-    - before: Not in inventory
-    - after: In player's inventory
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Ensure the player is at a weapon_market location using the "in" and "at" predicates.
-2. Add the purchased weapons to the player's inventory using the "inventory" predicate.
-
-pddl:
-```
-(:action buy_weapons
-  :parameters (?p - player ?c - city ?w - weapon)
-  :precondition (and
-      (at ?p ?c)
-      (in ?c weapon_market)
-  )
-  :effect (inventory ?w)
-)
-```
+- pddl: ..
+    (:action buy_weapons
+        :parameters (?weapon - weapon ?p - player ?loc - location)
+        :precondition (at ?p ?loc)
+        :effect (inventory ?weapon))
 
 - action name: check_weapons
-- summarize action: Check if there are enough weapons in the inventory.
-- what is need to do the action: The player must have weapons in their inventory.
-- what is the result: The player knows if they have enough weapons.
+- parameters: Requires the weapons.
+- precondition: The weapons must be in the inventory.
+- effect: The weapons in inventory have been counted and enough weapons have been found.
 
-- entities:
-  - entity name: weapons
-    - before: In player's inventory
-    - after: Unchanged
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Confirm weapons in the player's inventory using the "inventory" predicate.
-2. Assign the "enough_weapons" fact if the player meets the weapons requirement.
-
-pddl:
-```
-(:action check_weapons
-  :parameters (?w - weapon)
-  :precondition (inventory ?w)
-  :effect (enough_weapons)
-)
-```
+- pddl: ..
+    (:action check_weapons
+        :parameters (?weapon - weapon)
+        :precondition (inventory ?weapon)
+        :effect (enough_weapons))
 
 - action name: check_bunker
-- summarize action: Check if the bunker is suitable for shielding.
-- what is need to do the action: The player must be at a bunker location.
-- what is the result: The player knows if the bunker is good for shielding.
+- parameters: A bunker is required to check.
+- precondition: The bunker exists.
+- effect: The player has found a good bunker (with an air filtration system and strong material).
 
-- entities:
-  - entity name: player
-    - before: At bunker location
-    - after: Unchanged
-  - entity name: bunker_location
-    - before: Player is here
-    - after: Unchanged
-  - entity name: bunker
-    - before: Not checked
-    - after: Evaluated for air filtration system and strong material
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Ensure the player is at a bunker location using the "at" predicate.
-2. Check if the bunker has an air filtration system and strong material using "has_air_filtration_system" and "has_strong_material" predicates.
-3. Assign the "find_good_bunker" fact if the bunker meets the shielding requirements.
-
-pddl:
-```
-(:action check_bunker
-  :parameters (?p - player ?l - location ?bk - bunker)
-  :precondition (and
-      (at ?p ?l)
-      (at ?bk ?l)
-      (has_air_filtration_system ?bk)
-      (has_strong_material ?bk)
-  )
-  :effect (find_good_bunker ?bk)
-)
-```
+- pddl: ..
+    (:action check_bunker
+        :parameters (?bk - bunker)
+        :precondition (and (has_air_filtration_system ?bk) 
+                            (has_strong_material ?bk))
+        :effect (find_good_bunker ?bk))
 
 - action name: outfit_bunker_with_energy_source
-- summarize action: Outfit the bunker with an energy source for heat.
-- what is need to do the action: The player must be at the bunker and have an energy_source in their inventory.
-- what is the result: The bunker is outfitted with an energy source for heat.
+- parameters: Need the player, bunker, and energy source.
+- precondition: The bunker and energy source should both be in the inventory.
+- effect: The bunker is outfitted with the energy source for heat.
 
-- entities:
-  - entity name: player
-    - before: At bunker location with energy_source
-    - after: Unchanged
-  - entity name: bunker
-    - before: Does not have an energy source
-    - after: Has an energy source
-  - entity name: energy_source
-    - before: In player's inventory
-    - after: In bunker as a heat source
+- pddl: ..
+    (:action outfit_bunker_with_energy_source
+        :parameters (?p - player ?bk - bunker ?it - item)
+        :precondition (and 
+                         (inventory ?it)
+                         (inventory ?bk)
+                         (find_good_bunker ?bk))
+        :effect (outfit_bunker_with_heat ?bk))
 
-- describe how to match it to pddl relevant predicates step by step:
-1. Ensure the player is at the bunker location using the "at" predicate.
-2. Check if the player has an energy_source in their inventory using the "inventory" predicate.
-3. Assign the "outfit_bunker_with_heat" fact to the bunker.
-
-pddl:
-```
-(:action outfit_bunker_with_energy_source
-  :parameters (?p - player ?bk - bunker ?es - energy_source)
-  :precondition (and
-      (at ?p ?bk)
-      (inventory ?es)
-  )
-  :effect (outfit_bunker_with_heat ?bk)
-)
-```
+For the last two actions, I'll need a better description of how they are achieved to provide complete PDDL descriptions.
+Alright, let's move forward:
 
 - action name: enjoylife
-- summarize action: After all preparation, enjoy life in a bunker.
-- what is need to do the action: The player must be in the equipped bunker.
-- what is the result: The player enjoys life in the bunker.
+- parameters: The player and the bunker are involved here as the player will enjoy their life in the bunker.
+- precondition: The bunker must have been found by player and outfitted with an energy source. The player should be in the bunker.
+- effect: The player is enjoying life in the bunker.
 
-- entities:
-  - entity name: player
-    - before: In the equipped bunker
-    - after: Enjoying life in the bunker
-  - entity name: bunker
-    - before: Player is here
-    - after: Unchanged
+- pddl: ..
+    (:action enjoylife
+        :parameters (?p - player ?bk - bunker)
+        :precondition (and 
+                        (at ?p ?bk)
+                        (find_good_bunker ?bk)
+                        (outfit_bunker_with_heat ?bk))
+        :effect (enjoylife ?p ?bk))
 
-- describe how to match it to pddl relevant predicates step by step:
-1. Ensure the player is in the bunker with the "at" predicate.
-2. Check if the bunker is outfitted with a heat source using the "outfit_bunker_with_heat" predicate.
-3. Assign the "enjoylife" fact to the player.
-
-pddl:
-```
-(:action enjoylife
-  :parameters (?p - player ?bk - bunker)
-  :precondition (and
-      (at ?p ?bk)
-      (outfit_bunker_with_heat ?bk)
-  )
-  :effect (enjoylife ?p ?bk)
-)
-```
+Now, the last action:
 
 - action name: connect_through_social_media_with_family
-- summarize action: Let other family members know the player is safe.
-- what is need to do the action: The player must have a pc.
-- what is the result: Family members are informed that the player is safe.
+- parameters: The player needs to connect with family, and needs a PC to do so.
+- precondition: The player has a PC and is safe in the bunker.
+- effect: The family members know the player is safe.
 
-- entities:
-  - entity name: player
-    - before: Has a pc
-    - after: Informed family members
+- pddl: ..
+    (:action connect_through_social_media_with_family
+        :parameters (?p - player)
+        :precondition (and 
+                        (has_pc ?p)
+                        (at ?p ?bk)
+                        (find_good_bunker ?bk)
+                        (outfit_bunker_with_heat ?bk))
+        :effect (family_memebers_know_you_are_safe))
 
-- describe how to match it to pddl relevant predicates step by step:
-1. Confirm the player has a pc using the "has_pc" predicate.
-2. Assign the "family_memebers_know_you_are_safe" fact to the player.
-
-pddl:
-```
-(:action connect_through_social_media_with_family
-  :parameters (?p - player)
-  :precondition (has_pc ?p)
-  :effect (family_memebers_know_you_are_safe)
-)
-```
+And that’s it! We've described all the actions using PDDL based on your description. Remember, these examples assume several details and may not fully fit your scenario; you need to adjust some conditions/effects based on your specific requirements. It's just a skeleton to demonstrate how your actions and predicates can be converted into PDDL format.

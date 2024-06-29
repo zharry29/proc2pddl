@@ -1,0 +1,254 @@
+Sure, let's go through each of your actions following the format and instructions provided.
+
+### Action: go
+- summarize action: This action involves navigating from one location to an adjacent location in a given direction.
+- what is needed to do the action: The player needs to be at the starting location, and there needs to be a connection to the destination location in the specified direction which should not be blocked.
+- what is the result: The player will be at the new location.
+
+- entities:
+  - entity name: player
+    - before: at the starting location
+    - after: at the destination location
+  - entity name: location
+    - before: player is at the starting location
+    - after: player is at the destination location
+
+pddl action:
+```pddl
+(:action go
+  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+)
+```
+
+### Action: get
+- summarize action: This action involves picking up an item from a location and placing it in the player's inventory.
+- what is needed to do the action: The player needs to be at the location where the item is present.
+- what is the result: The item will be in the player's inventory.
+
+- entities:
+  - entity name: item
+    - before: at the location
+    - after: in the player's inventory
+  - entity name: player
+    - before: at a location
+    - after: at the same location
+
+pddl action:
+```pddl
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+```
+
+### Action: get_water
+- summarize action: This action involves collecting water from a location that has a water source.
+- what is needed to do the action: The player needs to be at a location that has a water source.
+- what is the result: The player will have the water in their inventory.
+
+- entities:
+  - entity name: water
+    - before: at the location
+    - after: in the player's inventory
+
+pddl action:
+```pddl
+(:action get_water
+  :parameters (?player - player ?loc - location ?container - container ?water - water)
+  :precondition (and (at ?player ?loc) (has_water ?loc))
+  :effect (and (inventory ?player ?water) (at ?water ?container))
+)
+```
+
+### Action: bag_plant
+- summarize action: This action involves putting a plant into a bag to gather it later.
+- what is needed to do the action: The player needs to be at a location with a plant and have a bag in their inventory.
+- what is the result: The plant will be bagged.
+
+- entities:
+  - entity name: plant
+    - before: unbagged
+    - after: bagged
+
+pddl action:
+```pddl
+(:action bag_plant
+  :parameters (?player - player ?plant - plant ?loc - location ?bag - bag)
+  :precondition (and (at ?player ?loc) (at ?plant ?loc) (inventory ?player ?bag))
+  :effect (bagged ?plant)
+)
+```
+
+### Action: wait_and_gather_bagged_plant
+- summarize action: This action involves waiting for some time until a bagged plant can be gathered.
+- what is needed to do the action: The player needs to have bagged the plant.
+- what is the result: The player will have the plant in their inventory.
+
+- entities:
+  - entity name: plant
+    - before: bagged
+    - after: in the player's inventory
+
+pddl action:
+```pddl
+(:action wait_and_gather_bagged_plant
+  :parameters (?player - player ?plant - plant)
+  :precondition (bagged ?plant)
+  :effect (and (inventory ?player ?plant) (not (bagged ?plant)))
+)
+```
+
+### Action: gather_tinder
+- summarize action: This action involves gathering tinder material from a location.
+- what is needed to do the action: The player needs to be at a location where there is gatherable tinder.
+- what is the result: The player will have the tinder in their inventory.
+
+- entities:
+  - entity name: tinder
+    - before: at the location
+    - after: in the player's inventory
+
+pddl action:
+```pddl
+(:action gather_tinder
+  :parameters (?player - player ?loc - location ?tinder - tinder)
+  :precondition (and (at ?player ?loc) (has_tinder ?loc))
+  :effect (and (inventory ?player ?tinder) (not (has_tinder ?loc)))
+)
+```
+
+### Action: build_campfire
+- summarize action: This action involves building a campfire from gathered materials.
+- what is needed to do the action: The player needs to have the necessary materials in their inventory.
+- what is the result: A campfire will be constructed at the player's location.
+
+- entities:
+  - entity name: campfire
+    - before: not present
+    - after: present
+
+pddl action:
+```pddl
+(:action build_campfire
+  :parameters (?player - player ?loc - location)
+  :precondition (and (at ?player ?loc))
+  :effect (at ?campfire ?loc)
+)
+```
+
+### Action: light_campfire
+- summarize action: This action involves lighting an already constructed campfire.
+- what is needed to do the action: The player needs to be at the location with the campfire.
+- what is the result: The campfire will be lit.
+
+- entities:
+  - entity name: campfire
+    - before: constructed but not lit
+    - after: lit
+
+pddl action:
+```pddl
+(:action light_campfire
+  :parameters (?player - player ?campfire - campfire ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?campfire ?loc))
+  :effect (lit ?campfire)
+)
+```
+
+### Action: make_spear
+- summarize action: This action involves creating a spear using gathered materials.
+- what is needed to do the action: The player needs to have the necessary materials in their inventory.
+- what is the result: A spear will be created and placed in the player's inventory.
+
+- entities:
+  - entity name: spear
+    - before: not present
+    - after: present in the player's inventory
+
+pddl action:
+```pddl
+(:action make_spear
+  :parameters (?player - player ?sharp_stone - sharp_stone ?wood - wood)
+  :precondition (and (inventory ?player ?sharp_stone) (inventory ?player ?wood))
+  :effect (inventory ?player ?spear)
+)
+```
+
+### Action: spear_fish
+- summarize action: This action involves catching fish using a spear.
+- what is needed to do the action: The player needs to have a spear and be at a location that has fish.
+- what is the result: The player will have fish in their inventory.
+
+- entities:
+  - entity name: fish
+    - before: at the location
+    - after: in the player's inventory
+
+pddl action:
+```pddl
+(:action spear_fish
+  :parameters (?player - player ?spear - spear ?fish - fish ?loc - location)
+  :precondition (and (inventory ?player ?spear) (has_fish ?loc) (at ?player ?loc))
+  :effect (and (inventory ?player ?fish) (not (has_fish ?loc)))
+)
+```
+
+### Action: cook_fish
+- summarize action: This action involves cooking fish over a lit campfire.
+- what is needed to do the action: The player needs to have fish and be at a location with a lit campfire.
+- what is the result: The fish will be cooked.
+
+- entities:
+  - entity name: fish
+    - before: uncooked
+    - after: cooked
+
+pddl action:
+```pddl
+(:action cook_fish
+  :parameters (?player - player ?fish - fish ?campfire - campfire ?loc - location)
+  :precondition (and (inventory ?player ?fish) (lit ?campfire) (at ?campfire ?loc) (at ?player ?loc))
+  :effect (cooked ?fish)
+)
+```
+
+### Action: wet_tinder
+- summarize action: This action involves wetting tinder to produce smoke for signaling.
+- what is needed to do the action: The player needs to have tinder and access to a water source.
+- what is the result: The tinder will be wet.
+
+- entities:
+  - entity name: tinder
+    - before: dry
+    - after: wet
+
+pddl action:
+```pddl
+(:action wet_tinder
+  :parameters (?player - player ?tinder - tinder ?water - water ?loc - location)
+  :precondition (and (inventory ?player ?tinder) (has_water ?loc) (at ?player ?loc))
+  :effect (and (wet ?tinder))
+)
+```
+
+### Action: make_smoke_signal
+- summarize action: This action involves making a smoke signal using wet tinder and a lit campfire.
+- what is needed to do the action: The player needs to have wet tinder and be at a location with a lit campfire.
+- what is the result: The campfire will produce smoke for signaling.
+
+- entities:
+  - entity name: campfire
+    - before: lit but not signaling
+    - after: lit and signaling
+
+pddl action:
+```pddl
+(:action make_smoke_signal
+  :parameters (?player - player ?tinder - tinder ?campfire - campfire ?loc - location)
+  :precondition (and (wet ?tinder) (lit ?campfire) (at ?campfire ?loc) (at ?player ?loc))
+  :effect (signaling ?campfire)
+)
+```

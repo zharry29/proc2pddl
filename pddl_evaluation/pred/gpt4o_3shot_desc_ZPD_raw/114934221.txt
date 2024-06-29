@@ -1,0 +1,277 @@
+Certainly! Below is the detailed translation of the actions you provided into PDDL format with summarizations based on the context of surviving a shark attack.
+
+### Action 1: splash_swim
+
+**Summarize action:** This action involves swimming loudly to create sounds that might deter the shark. The player doesn’t get to monitor the shark while doing this.
+
+**What is needed to do the action:** The player must be in a location that is water.
+
+**What is the result:** The player will proceed to a new water location.
+
+- entities:
+  - entity name: player
+    - before: at a water location
+    - after: at a different water location
+  - entity name: location
+    - before: water location
+    - after: unchanged
+
+**PDDL Action:**
+```lisp
+(:action splash_swim
+  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and (is_water ?loc1) (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+  :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+)
+```
+
+### Action 2: swim
+
+**Summarize action:** This action involves swimming normally until the player reaches safety.
+
+**What is needed to do the action:** The player must be in a water location and connected to another location through a direction.
+
+**What is the result:** The player moves to a new location.
+
+- entities:
+  - entity name: player
+    - before: at a water location
+    - after: at a different location
+  - entity name: location
+    - before: water location
+    - after: unchanged
+
+**PDDL Action:**
+```lisp
+(:action swim
+  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and (is_water ?loc1) (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+  :effect (and (at ?player ?loc2) (not (at ?player ?loc1)))
+)
+```
+
+### Action 3: get
+
+**Summarize action:** This action involves picking up an item and putting it into the player’s inventory.
+
+**What is needed to do the action:** The item must be at the player’s location.
+
+**What is the result:** The item is added to the player’s inventory.
+
+- entities:
+  - entity name: player
+    - before: without specific item in inventory
+    - after: with item in inventory
+  - entity name: item
+    - before: at a location
+    - after: in player's inventory
+  - entity name: location
+    - before: containing the item
+    - after: no longer containing the item
+
+**PDDL Action:**
+```lisp
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?item ?loc) (at ?player ?loc))
+  :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+```
+
+### Action 4: onboard
+
+**Summarize action:** This action involves getting on to the ship to evade the shark attack and reach safety.
+
+**What is needed to do the action:** The player must be at a location connected to the ship.
+
+**What is the result:** The player is on the ship.
+
+- entities:
+  - entity name: player
+    - before: at a location
+    - after: on the ship
+  - entity name: ship
+    - before: not having the player on it
+    - after: having the player on it
+
+**PDDL Action:**
+```lisp
+(:action onboard
+  :parameters (?player - player ?ship - ship ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?ship ?loc))
+  :effect (and (on ?player ?ship) (not (at ?player ?loc)))
+)
+```
+
+### Action 5: defend
+
+**Summarize action:** This action involves the player defending themselves from a shark attack.
+
+**What is needed to do the action:** The player must be under attack by a shark.
+
+**What is the result:** The player enters a defensive position.
+
+- entities:
+  - entity name: player
+    - before: not defending
+    - after: defending
+  - entity name: shark
+    - before: attacking
+    - after: unchanged
+
+**PDDL Action:**
+```lisp
+(:action defend
+  :parameters (?player - player ?shark - shark)
+  :precondition (attacked ?player ?shark)
+  :effect (defending ?player)
+)
+```
+
+### Action 6: spot_ship
+
+**Summarize action:** This action involves the player spotting nearby ships.
+
+**What is needed to do the action:** The player must be in a location.
+
+**What is the result:** The nearby ship becomes visible to the player.
+
+- entities:
+  - entity name: player
+    - before: at a location
+    - after: unchanged
+  - entity name: ship
+    - before: not visible
+    - after: visible
+
+**PDDL Action:**
+```lisp
+(:action spot_ship
+  :parameters (?player - player ?ship - ship ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?ship ?loc))
+  :effect (visible ?ship)
+)
+```
+
+### Action 7: spot_shark
+
+**Summarize action:** This action involves the player spotting a nearby shark.
+
+**What is needed to do the action:** The player must be in a location.
+
+**What is the result:** The nearby shark becomes visible to the player.
+
+- entities:
+  - entity name: player
+    - before: at a location
+    - after: unchanged
+  - entity name: shark
+    - before: not visible
+    - after: visible
+
+**PDDL Action:**
+```lisp
+(:action spot_shark
+  :parameters (?player - player ?shark - shark ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?shark ?loc))
+  :effect (visible ?shark)
+)
+```
+### Action 8: self_mobilize
+
+**Summarize action:** This action involves using the player's own body as weapons to defend against the shark.
+
+**What is needed to do the action:** The player must be in a location and in a defensive position.
+
+**What is the result:** The player uses their body parts as weapons.
+
+- entities:
+  - entity name: player
+    - before: in a defensive position
+    - after: using body as weapons
+  - entity name: body
+    - before: not being used as weapons
+    - after: mobilized as weapons
+
+**PDDL Action:**
+```lisp
+(:action self_mobilize
+  :parameters (?player - player ?body - body ?loc - location)
+  :precondition (and (at ?player ?loc) (defending ?player))
+  :effect 
+)
+```
+
+### Action 9: medicare
+
+**Summarize action:** This action involves getting medical help to deal with the player's wounds.
+
+**What is needed to do the action:** The player must be wounded.
+
+**What is the result:** The player receives medical care and is no longer wounded.
+
+- entities:
+  - entity name: player
+    - before: wounded
+    - after: not wounded
+
+**PDDL Action:**
+```lisp
+(:action medicare
+  :parameters (?player - player)
+  :precondition (wounded ?player)
+  :effect (not (wounded ?player))
+)
+```
+
+### Action 10: attack_vulnerable
+
+**Summarize action:** This action involves attacking the shark on its vulnerable parts like eyes, gills, or snout.
+
+**What is needed to do the action:** The shark must have vulnerable parts, and the player must have a weapon.
+
+**What is the result:** The shark is no longer attacking the player and it might leave.
+
+- entities:
+  - entity name: player
+    - before: in a defensive position with a weapon
+    - after: after an attack
+  - entity name: shark
+    - before: attacking the player
+    - after: possibly fleed
+
+**PDDL Action:**
+```lisp
+(:action attack_vulnerable
+  :parameters (?player - player ?shark - shark ?part - part ?item - item)
+  :precondition (and (vulnerable ?part) (attacked ?player ?shark) (inventory ?player ?item) (sharp ?item))
+  :effect (or (fleed ?shark) (dizzy ?shark))
+)
+```
+
+### Action 11: knockout
+
+**Summarize action:** This action involves attacking the shark on its eyes, gills, or snout to knock it out.
+
+**What is needed to do the action:** The shark must have vulnerable parts, and the player must have a heavy weapon.
+
+**What is the result:** The shark is knocked out and no longer poses a threat.
+
+- entities:
+  - entity name: player
+    - before: in a defensive position with a heavy weapon
+    - after: after knocking out the shark
+  - entity name: shark
+    - before: attacking the player
+    - after: knocked out
+
+**PDDL Action:**
+```lisp
+(:action knockout
+  :parameters (?player - player ?shark - shark ?part - part ?item - item)
+  :precondition (and (vulnerable ?part) (attacked ?player ?shark) (inventory ?player ?item) (heavy ?item))
+  :effect (dizzy ?shark)
+)
+```
+
+I hope these PDDL actions provide the accurate detail for the context of surviving a shark attack. These should help clearly outline all steps and expected results for each specified action.

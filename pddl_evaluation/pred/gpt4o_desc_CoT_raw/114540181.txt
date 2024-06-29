@@ -1,300 +1,397 @@
-Sure, let's go through each action one by one as per your instructions:
+Sure! Let's proceed step by step and fill out the actions as required. We'll ensure each action has parameters, preconditions, and effects, formatted correctly in PDDL.
 
-### 1. Go to an adjacent location
-- action name: go
-- summarize action: This action involves navigating from the current location to an adjacent location if the path is not blocked.
-- what is needed to do the action: The current location, the direction, the destination location, and no blockage between the two locations.
-- what is the result: The player changes their location from the current location to the adjacent location.
+### Action 1: go
 
-- entities:
-  - entity name: player 
-  - before: at one location 
-  - after: at an adjacent location
-  - entity name: current location
-  - before: player at the current location
-  - after: player is no longer at the current location
-  - entity name: adjacent location
-  - before: player is not at the adjacent location
-  - after: player is at the adjacent location
+1. **Parameters**:
+    ``` 
+    (?player - player ?loc1 - location ?dir - direction ?loc2 - location) 
+    ```
+2. **Precondition**:
+    ``` 
+    (and 
+        (at ?player ?loc1) 
+        (connected ?loc1 ?dir ?loc2) 
+        (not (blocked ?loc1 ?dir ?loc2))
+    )
+    ```
+3. **Effect**:
+    ``` 
+    (and 
+        (at ?player ?loc2) 
+        (not (at ?player ?loc1))
+    )
+    ```
+4. **PDDL**:
+    ```pddl
+    (:action go
+        :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
+        :precondition (and 
+            (at ?player ?loc1) 
+            (connected ?loc1 ?dir ?loc2) 
+            (not (blocked ?loc1 ?dir ?loc2))
+        )
+        :effect (and 
+            (at ?player ?loc2) 
+            (not (at ?player ?loc1))
+        )
+    )
+    ```
 
-pddl:
-```lisp
-(:action go
-  :parameters (?p - player ?curLoc - location ?dir - direction ?nextLoc - location)
-  :precondition (and (at ?p ?curLoc) (connected ?curLoc ?dir ?nextLoc) (not (blocked ?curLoc ?dir ?nextLoc)))
-  :effect (and (at ?p ?nextLoc) (not (at ?p ?curLoc)))
-)
-```
+---
 
-### 2. Pick up an item and put it in the inventory
-- action name: get
-- summarize action: This action involves picking an item from the current location and placing it in the player's inventory.
-- what is needed to do the action: The player, the item, and the location where the item is.
-- what is the result: The item is transferred from the current location to the player's inventory.
+### Action 2: get
 
-- entities:
-  - entity name: item
-  - before: at a location 
-  - after: in the player's inventory
-  - entity name: player
-  - before: no item in inventory
-  - after: item in inventory
-  - entity name: location
-  - before: item at a location
-  - after: item no longer at location
+1. **Parameters**:
+    ```
+    (?player - player ?item - item ?loc - location)
+    ```
+2. **Precondition**:
+    ```
+    (and 
+        (at ?player ?loc) 
+        (at ?item ?loc)
+    )
+    ```
+3. **Effect**:
+    ```
+    (and 
+        (inventory ?player ?item) 
+        (not (at ?item ?loc))
+    )
+    ```
+4. **PDDL**:
+    ```pddl
+    (:action get
+        :parameters (?player - player ?item - item ?loc - location)
+        :precondition (and 
+            (at ?player ?loc) 
+            (at ?item ?loc)
+        )
+        :effect (and 
+            (inventory ?player ?item) 
+            (not (at ?item ?loc))
+        )
+    )
+    ```
 
-pddl:
-```lisp
-(:action get
-  :parameters (?p - player ?i - item ?loc - location)
-  :precondition (and (at ?i ?loc) (at ?p ?loc))
-  :effect (and (inventory ?p ?i) (not (at ?i ?loc)))
-)
-```
+---
 
-### 3. Get a bamboo container using surrounding bamboo
-- action name: get_bamboo_container
-- summarize action: This action involves creating a bamboo container at the current location if bamboo is available.
-- what is needed to do the action: The player and the location with bamboo.
-- what is the result: A bamboo container is added to the player's inventory.
+### Action 3: get_bamboo_container
 
-- entities:
-  - entity name: bamboo_container
-  - before: not in inventory
-  - after: in inventory
-  - entity name: player
-  - before: no bamboo container in inventory
-  - after: has a bamboo container in inventory
-  - entity name: bamboo
-  - before: at location
-  - after: unchanged
+1. **Parameters**:
+    ```
+    (?player - player ?loc - location)
+    ```
+2. **Precondition**:
+    ```
+    (and 
+        (at ?player ?loc) 
+        (has_bamboo ?loc)
+    )
+    ```
+3. **Effect**:
+    ```
+    (inventory ?player bamboo_container)
+    ```
+4. **PDDL**:
+    ```pddl
+    (:action get_bamboo_container
+        :parameters (?player - player ?loc - location)
+        :precondition (and 
+            (at ?player ?loc) 
+            (has_bamboo ?loc)
+        )
+        :effect (inventory ?player bamboo_container)
+    )
+    ```
 
-pddl:
-```lisp
-(:action get_bamboo_container
-  :parameters (?p - player ?loc - location)
-  :precondition (and (at ?p ?loc) (has_bamboo ?loc))
-  :effect (inventory ?p bamboo_container)
-)
-```
+---
 
-### 4. Collect rain water
-- action name: collect_rain_water
-- summarize action: This action involves collecting rainwater using a bamboo container if it has rained at the location.
-- what is needed to do the action: The player, a bamboo container in the inventory, and a location with rainfall.
-- what is the result: Rainwater is collected and added as an item.
+### Action 4: collect_rain_water
 
-- entities:
-  - entity name: bamboo_container
-  - before: in inventory
-  - after: unchanged
-  - entity name: rainwater
-  - before: not collected
-  - after: collected in bamboo container
-  - entity name: player
-  - before: no rainwater in inventory
-  - after: rainwater in inventory
+1. **Parameters**:
+    ```
+    (?player - player ?loc - location ?container - bamboo_container)
+    ```
+2. **Precondition**:
+    ```
+    (and 
+        (at ?player ?loc) 
+        (has_rainfall ?loc) 
+        (inventory ?player ?container)
+    )
+    ```
+3. **Effect**:
+    ```
+    (inventory ?player water)
+    ```
+4. **PDDL**:
+    ```pddl
+    (:action collect_rain_water
+        :parameters (?player - player ?loc - location ?container - bamboo_container)
+        :precondition (and 
+            (at ?player ?loc) 
+            (has_rainfall ?loc) 
+            (inventory ?player ?container)
+        )
+        :effect (inventory ?player water)
+    )
+    ```
 
-pddl:
-```lisp
-(:action collect_rain_water
-  :parameters (?p - player ?loc - location)
-  :precondition (and (at ?p ?loc) (inventory ?p bamboo_container) (has_rainfall ?loc))
-  :effect (inventory ?p water)
-)
-```
+---
 
-### 5. Create fire
-- action name: create_fire
-- summarize action: This action involves creating a fire using the items available in the player's inventory like wood and stones.
-- what is needed to do the action: The player, wood, and stones in the inventory.
-- what is the result: A fire is created in the current location.
+### Action 5: create_fire
 
-- entities:
-  - entity name: fire
-  - before: not present
-  - after: present in location
-  - entity name: wood
-  - before: in inventory
-  - after: consumed
-  - entity name: stone
-  - before: in inventory
-  - after: consumed
-  - entity name: player
-  - before: has wood and stone
-  - after: no wood and stone
+1. **Parameters**:
+    ```
+    (?player - player ?loc - location ?wood - wood ?stone - stone)
+    ```
+2. **Precondition**:
+    ```
+    (and 
+        (at ?player ?loc) 
+        (inventory ?player ?wood) 
+        (inventory ?player ?stone)
+    )
+    ```
+3. **Effect**:
+    ```
+    (at fire ?loc)
+    ```
+4. **PDDL**:
+    ```pddl
+    (:action create_fire
+        :parameters (?player - player ?loc - location ?wood - wood ?stone - stone)
+        :precondition (and 
+            (at ?player ?loc) 
+            (inventory ?player ?wood) 
+            (inventory ?player ?stone)
+        )
+        :effect (at fire ?loc)
+    )
+    ```
 
-pddl:
-```lisp
-(:action create_fire
-  :parameters (?p - player ?loc - location)
-  :precondition (and (at ?p ?loc) (inventory ?p wood) (inventory ?p stone))
-  :effect (and (at fire ?loc) (not (inventory ?p wood)) (not (inventory ?p stone)))
-)
-```
+---
 
-### 6. Treat water
-- action name: treat_water
-- summarize action: This action involves treating water by boiling it using a fire.
-- what is needed to do the action: The player, untreated water in the inventory, and a fire at the location.
-- what is the result: The water is treated and made safe for drinking.
+### Action 6: treat_water
 
-- entities:
-  - entity name: water
-  - before: untreated
-  - after: treated
-  - entity name: fire
-  - before: at location
-  - after: unchanged
-  - entity name: player
-  - before: has untreated water
-  - after: has treated water
+1. **Parameters**:
+    ```
+    (?player - player ?loc - location ?water - water)
+    ```
+2. **Precondition**:
+    ```
+    (and 
+        (at ?player ?loc) 
+        (at fire ?loc) 
+        (inventory ?player ?water)
+    )
+    ```
+3. **Effect**:
+    ```
+    (treated ?water)
+    ```
+4. **PDDL**:
+    ```pddl
+    (:action treat_water
+        :parameters (?player - player ?loc - location ?water - water)
+        :precondition (and 
+            (at ?player ?loc) 
+            (at fire ?loc) 
+            (inventory ?player ?water)
+        )
+        :effect (treated ?water)
+    )
+    ```
 
-pddl:
-```lisp
-(:action treat_water
-  :parameters (?p - player ?loc - location)
-  :precondition (and (at ?p ?loc) (inventory ?p water) (at fire ?loc) (not (treated water)))
-  :effect (treated water)
-)
-```
+---
 
-### 7. Drink water
-- action name: drink_water
-- summarize action: This action involves drinking treated water to alleviate dehydration.
-- what is needed to do the action: The player and treated water in the inventory.
-- what is the result: The player is no longer dehydrated, and the treated water is consumed.
+### Action 7: drink_water
 
-- entities:
-  - entity name: treated water
-  - before: in inventory
-  - after: consumed
-  - entity name: player
-  - before: dehydrated
-  - after: not dehydrated
+1. **Parameters**:
+    ```
+    (?player - player ?water - water)
+    ```
+2. **Precondition**:
+    ```
+    (and 
+        (inventory ?player ?water) 
+        (treated ?water)
+    )
+    ```
+3. **Effect**:
+    ```
+    (and 
+        (not (is dehydrated ?player)) 
+        (not (inventory ?player ?water))
+        (treated ?water)
+    )
+    ```
+4. **PDDL**:
+    ```pddl
+    (:action drink_water
+        :parameters (?player - player ?water - water)
+        :precondition (and 
+            (inventory ?player ?water) 
+            (treated ?water)
+        )
+        :effect (and 
+            (not (is dehydrated ?player))
+            (not (inventory ?player ?water))
+            (treated ?water)
+        )
+    )
+    ```
 
-pddl:
-```lisp
-(:action drink_water
-  :parameters (?p - player ?w - water)
-  :precondition (and (inventory ?p ?w) (treated ?w) (is dehydrated ?p))
-  :effect (and (not (is dehydrated ?p)) (not (inventory ?p ?w)))
-)
-```
+---
 
-### 8. Drink untreated water
-- action name: drink_untreated_water
-- summarize action: This action involves drinking untreated water, which may cause illness.
-- what is needed to do the action: The player and untreated water in the inventory.
-- what is the result: The player may become ill, and the untreated water is consumed.
+### Action 8: drink_untreated_water
 
-- entities:
-  - entity name: untreated water
-  - before: in inventory
-  - after: consumed
-  - entity name: player
-  - before: dehydrated
-  - after: not dehydrated and potentially ill
+1. **Parameters**:
+    ```
+    (?player - player ?water - water)
+    ```
+2. **Precondition**:
+    ```
+    (inventory ?player ?water)
+    ```
+3. **Effect**:
+    ```
+    (and 
+        (not (is dehydrated ?player)) 
+        (is ill ?player) 
+        (not (inventory ?player ?water))
+    )
+    ```
+4. **PDDL**:
+    ```pddl
+    (:action drink_untreated_water
+        :parameters (?player - player ?water - water)
+        :precondition (inventory ?player ?water)
+        :effect (and 
+            (not (is dehydrated ?player))
+            (is ill ?player)
+            (not (inventory ?player ?water))
+        )
+    )
+    ```
 
-pddl:
-```lisp
-(:action drink_untreated_water
-  :parameters (?p - player ?w - water)
-  :precondition (and (inventory ?p ?w) (not (treated ?w)) (is dehydrated ?p))
-  :effect (and (not (is dehydrated ?p)) (is ill ?p) (not (inventory ?p ?w)))
-)
-```
+---
 
-### 9. Create SOS sign
-- action name: create_sos_sign
-- summarize action: This action involves creating an SOS sign at the current location using materials gathered by the player.
-- what is needed to do the action: The player and the required items for making an SOS sign.
-- what is the result: An SOS sign is created at the current location.
+### Action 9: create_sos_sign
 
-- entities:
-  - entity name: sos_sign
-  - before: not present
-  - after: present
-  - entity name: player
-  - before: has materials
-  - after: no materials
+1. **Parameters**:
+    ```
+    (?player - player ?loc - location ?stone - stone)
+    ```
+2. **Precondition**:
+    ```
+    (and 
+        (at ?player ?loc) 
+        (inventory ?player ?stone)
+    )
+    ```
+3. **Effect**:
+    ```
+    (at sos_sign ?loc)
+    ```
+4. **PDDL**:
+    ```pddl
+    (:action create_sos_sign
+        :parameters (?player - player ?loc - location ?stone - stone)
+        :precondition (and 
+            (at ?player ?loc) 
+            (inventory ?player ?stone)
+        )
+        :effect (at sos_sign ?loc)
+    )
+    ```
 
-pddl:
-```lisp
-(:action create_sos_sign
-  :parameters (?p - player ?loc - location)
-  :precondition (and (at ?p ?loc) (inventory ?p stone) (inventory ?p wood))
-  :effect (and (at sos_sign ?loc) (not (inventory ?p stone)) (not (inventory ?p wood)))
-)
-```
+---
 
-### 10. Pick fruit
-- action name: pick_fruit
-- summarize action: This action involves picking fruit from the current location if there are fruits available.
-- what is needed to do the action: The player and a location with fruits.
-- what is the result: Fruits are added to the player's inventory.
+### Action 10: pick_fruit
 
-- entities:
-  - entity name: fruit
-  - before: at a location
-  - after: in inventory
-  - entity name: player
-  - before: no fruit in inventory
-  - after: fruit in inventory
+1. **Parameters**:
+    ```
+    (?player - player ?loc - location ?fruit - fruit)
+    ```
+2. **Precondition**:
+    ```
+    (and 
+        (at ?player ?loc) 
+        (has_fruit ?loc)
+    )
+    ```
+3. **Effect**:
+    ```
+    (inventory ?player ?fruit)
+    ```
+4. **PDDL**:
+    ```pddl
+    (:action pick_fruit
+        :parameters (?player - player ?loc - location ?fruit - fruit)
+        :precondition (and 
+            (at ?player ?loc) 
+            (has_fruit ?loc)
+        )
+        :effect (inventory ?player ?fruit)
+    )
+    ```
 
-pddl:
-```lisp
-(:action pick_fruit
-  :parameters (?p - player ?loc - location)
-  :precondition (and (at ?p ?loc) (has_fruit ?loc))
-  :effect (inventory ?p fruit)
-)
-```
+---
 
-### 11. Eat fruit
-- action name: eat_fruit
-- summarize action: This action involves eating fruit from the player's inventory to satisfy hunger.
-- what is needed to do the action: The player and fruit in the inventory.
-- what is the result: The player is no longer hungry, and the fruit is consumed.
+### Action 11: eat_fruit
 
-- entities:
-  - entity name: fruit
-  - before: in inventory
-  - after: consumed
-  - entity name: player
-  - before: hungry
-  - after: not hungry
+1. **Parameters**:
+    ```
+    (?player - player ?fruit - fruit)
+    ```
+2. **Precondition**:
+    ```
+    (inventory ?player ?fruit)
+    ```
+3. **Effect**:
+    ```
+    (and 
+        (not (is hungry ?player)) 
+        (not (inventory ?player ?fruit))
+    )
+    ```
+4. **PDDL**:
+    ```pddl
+    (:action eat_fruit
+        :parameters (?player - player ?fruit - fruit)
+        :precondition (inventory ?player ?fruit)
+        :effect (and 
+            (not (is hungry ?player))
+            (not (inventory ?player ?fruit))
+        )
+    )
+    ```
 
-pddl:
-```lisp
-(:action eat_fruit
-  :parameters (?p - player ?f - fruit)
-  :precondition (and (inventory ?p ?f) (is hungry ?p))
-  :effect (and (not (is hungry ?p)) (not (inventory ?p ?f)))
-)
-```
+---
 
-### 12. Escape
-- action name: escape
-- summarize action: This action involves escaping the jungle if the player has created an SOS sign at the basecamp and waits there for rescue.
-- what is needed to do the action: The player and an SOS sign at the basecamp.
-- what is the result: The player successfully escapes the jungle.
+### Action 12: escape
 
-- entities:
-  - entity name: player
-  - before: in the jungle
-  - after: escaped
-  - entity name: sos_sign
-  - before: at basecamp
-  - after: unchanged
+1. **Parameters**:
+    ```
+    (?player - player ?loc - location)
+    ```
+2. **Precondition**:
+    ```
+    (at ?player ?loc)
+    ```
+3. **Effect**:
+    ```
+    (at ?player basecamp)
+    ```
+4. **PDDL**:
+    ```pddl
+    (:action escape
+        :parameters (?player - player ?loc - location)
+        :precondition (at ?player ?loc)
+        :effect (at ?player basecamp)
+    )
+    ```
 
-pddl:
-```lisp
-(:action escape
-  :parameters (?p - player ?loc - location)
-  :precondition (and (at ?p basecamp) (at sos_sign basecamp))
-  :effect (at ?p escaped)
-)
-```
-
-This completes the detailed descriptions and PDDL translations for all the actions required to survive in the jungle.
+This should cover all the actions with their parameters, preconditions, and effects in the correct PDDL format.

@@ -1,0 +1,220 @@
+Sure, let's break down each of the actions you mentioned and translate them into PDDL format.
+
+### Action `drive`
+- summarize action: This action involves the player driving a car from one location to another.
+- what is needed to do the action: The player must be at a location with a car, and the player must be driving.
+- what is the result: The player and the car move to a new location.
+
+- entities:
+  - entity name: player 
+    - before: at a location
+    - after: at a different location
+  - entity name: car
+    - before: at a location
+    - after: at a different location
+
+pddl action:
+```pddl
+(:action drive
+ :parameters (?p - player ?car - item ?loc1 - location ?loc2 - location ?dir - direction)
+ :precondition (and (is_car ?car) (at ?car ?loc1) (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)) (driving ?p))
+ :effect (and (at ?car ?loc2) (at ?p ?loc2) (not (at ?car ?loc1)) (not (at ?p ?loc1)))
+)
+```
+
+### Action `walk`
+- summarize action: This action involves the player walking from one location to another.
+- what is needed to do the action: The player must be at the starting location, and there must be a connected, unblocked path.
+- what is the result: The player moves to the new location.
+
+- entities:
+  - entity name: player 
+    - before: at a location
+    - after: at a different location
+
+pddl action:
+```pddl
+(:action walk
+ :parameters (?p - player ?loc1 - location ?loc2 - location ?dir - direction)
+ :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+ :effect (and (at ?p ?loc2) (not (at ?p ?loc1)))
+)
+```
+
+### Action `get_food`
+- summarize action: This action involves the player picking up food from a supermarket.
+- what is needed to do the action: The player must be at the supermarket where the non-perishable food is located.
+- what is the result: The food is added to the player's inventory.
+
+- entities:
+  - entity name: player 
+    - before: not have the food
+    - after: have the food
+  - entity name: food
+    - before: at a location (supermarket)
+    - after: in the player's inventory
+
+pddl action:
+```pddl
+(:action get_food
+ :parameters (?p - player ?food - item ?loc - location)
+ :precondition (and (is_nonperishable ?food) (at ?food ?loc) (is_supermarket ?loc) (at ?p ?loc))
+ :effect (and (inventory ?p ?food) (not (at ?food ?loc)))
+)
+```
+
+### Action `get`
+- summarize action: This action involves the player picking up an item.
+- what is needed to do the action: The player must be at the location where the item is situated.
+- what is the result: The item is added to the player's inventory.
+
+- entities:
+  - entity name: player 
+    - before: not have the item
+    - after: have the item
+  - entity name: item
+    - before: at a location
+    - after: in the player's inventory
+
+pddl action:
+```pddl
+(:action get
+ :parameters (?p - player ?item - item ?loc - location)
+ :precondition (and (at ?item ?loc) (at ?p ?loc))
+ :effect (and (inventory ?p ?item) (not (at ?item ?loc)))
+)
+```
+
+### Action `drop`
+- summarize action: This action involves the player dropping an item from their inventory at a specific location.
+- what is needed to do the action: The player must have the item in their inventory and be at the location.
+- what is the result: The item is removed from the player's inventory and placed at the location.
+
+- entities:
+  - entity name: player 
+    - before: have the item
+    - after: not have the item
+  - entity name: item
+    - before: in inventory
+    - after: at the location
+
+pddl action:
+```pddl
+(:action drop
+ :parameters (?p - player ?item - item ?loc - location)
+ :precondition (and (inventory ?p ?item) (at ?p ?loc))
+ :effect (and (at ?item ?loc) (not (inventory ?p ?item)))
+)
+```
+
+### Action `make_plan`
+- summarize action: This action involves the player making a plan to survive.
+- what is needed to do the action: The player must be in any location.
+- what is the result: The player has a plan to survive.
+
+- entities:
+  - entity name: player 
+    - before: not have a plan
+    - after: have a plan
+
+pddl action:
+```pddl
+(:action make_plan
+ :parameters (?p - player)
+ :precondition (not (has_plan ?p))
+ :effect (has_plan ?p)
+)
+```
+
+### Action `get_medicine`
+- summarize action: This action involves the player picking up medicine from a pharmacy.
+- what is needed to do the action: The player must be at the pharmacy where the medicine is located.
+- what is the result: The medicine is added to the player's inventory.
+
+- entities:
+  - entity name: player 
+    - before: not have the medicine
+    - after: have the medicine
+  - entity name: medicine
+    - before: at a location (pharmacy)
+    - after: in the player's inventory
+
+pddl action:
+```pddl
+(:action get_medicine
+ :parameters (?p - player ?medicine - item ?loc - location)
+ :precondition (and (is_medicine ?medicine) (at ?medicine ?loc) (is_pharmacy ?loc) (at ?p ?loc))
+ :effect (and (inventory ?p ?medicine) (not (at ?medicine ?loc)))
+)
+```
+
+### Action `reinforce`
+- summarize action: This action involves the player using construction materials to reinforce a location.
+- what is needed to do the action: The player must have the construction materials in their inventory and be at the location.
+- what is the result: The location is reinforced.
+
+- entities:
+  - entity name: player 
+    - before: have the construction materials
+    - after: not have the construction materials
+  - entity name: construction materials
+    - before: in inventory
+    - after: used
+  - entity name: location
+    - before: not reinforced
+    - after: reinforced
+
+pddl action:
+```pddl
+(:action reinforce
+ :parameters (?p - player ?material - item ?loc - location)
+ :precondition (and (is_construction_material ?material) (inventory ?p ?material) (at ?p ?loc))
+ :effect (and (reinforced ?loc) (not (inventory ?p ?material)))
+)
+```
+
+### Action `stay_in_shelter`
+- summarize action: This action involves the player staying in a sheltered location.
+- what is needed to do the action: The player must be at the sheltered location.
+- what is the result: The player remains in the sheltered location.
+
+- entities:
+  - entity name: player 
+    - before: not sheltered
+    - after: sheltered
+  - entity name: location
+    - before: not at location
+    - after: at location
+
+pddl action:
+```pddl
+(:action stay_in_shelter
+ :parameters (?p - player ?loc - location)
+ :precondition (and (at ?p ?loc) (is_underground ?loc))
+ :effect (sheltered ?p)
+)
+```
+
+### Action `get_in_car`
+- summarize action: This action involves the player getting into a car.
+- what is needed to do the action: The player must be at the location with the car.
+- what is the result: The player is driving the car.
+
+- entities:
+  - entity name: player 
+    - before: not driving
+    - after: driving
+  - entity name: car
+    - before: at a location
+    - after: at the same location with the player inside it
+
+pddl action:
+```pddl
+(:action get_in_car
+ :parameters (?p - player ?car - item ?loc - location)
+ :precondition (and (is_car ?car) (at ?car ?loc) (at ?p ?loc))
+ :effect (driving ?p)
+)
+```
+
+I hope this helps! If you have any further modifications or additional actions, feel free to ask.

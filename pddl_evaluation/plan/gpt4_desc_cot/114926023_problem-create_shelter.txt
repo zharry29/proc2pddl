@@ -1,12 +1,1 @@
-go ('npc', 'beach', 'north', 'root_of_tree')
-go ('npc', 'root_of_tree', 'north', 'jungle')
-get ('npc', 'small_sticks', 'jungle')
-get ('npc', 'log', 'jungle')
-go ('npc', 'jungle', 'south', 'root_of_tree')
-go ('npc', 'root_of_tree', 'up', 'top_of_tree')
-get ('npc', 'leaves', 'top_of_tree')
-go ('npc', 'top_of_tree', 'down', 'root_of_tree')
-build_roof ('npc', 'log', 'roof', 'root_of_tree')
-build_wall ('npc', 'small_sticks', 'wall', 'root_of_tree')
-build_bed ('npc', 'leaves', 'bed', 'root_of_tree')
-complete_shelter ('npc', 'roof', 'wall', 'bed', 'shelter', 'root_of_tree')
+No solution

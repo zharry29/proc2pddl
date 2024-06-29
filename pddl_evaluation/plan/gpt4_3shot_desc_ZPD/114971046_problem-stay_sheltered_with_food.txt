@@ -1,0 +1,2 @@
+walk ('npc', 'in', 'home', 'basement')
+stay_in_shelter ('npc', 'basement')

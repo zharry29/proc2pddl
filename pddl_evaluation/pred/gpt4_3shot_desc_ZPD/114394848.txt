@@ -1,0 +1,49 @@
+(:action go
+  :parameters (?player - player ?origin - location ?direction - direction ?destination - location)
+  :precondition (and (at ?player ?origin) (connected ?origin ?direction ?destination) (not (blocked ?origin ?direction ?destination)) (authorized ?player))
+  :effect (and (not (at ?player ?origin)) (at ?player ?destination))
+)
+
+(:action learn
+  :parameters (?player - player ?skill - skill)
+  :precondition (and (know ?player ?concept) (not (learned ?player ?skill)))
+  :effect (learned ?player ?skill)
+)
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc) (not (inventory ?player ?item)))
+  :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+(:action machine_secured
+  :parameters (?player - player ?machine - digital_system)
+  :precondition (and (at ?player ?machine) (authorized ?player))
+  :effect (secured ?machine)
+)
+
+(:action enumeration
+  :parameters (?player - player ?system - digital_system)
+  :precondition (and (at ?player ?loc) (access ?loc ?system) (not (enumerated ?system)) (authorized ?player))
+  :effect (enumerated ?system)
+)
+
+(:action got_all_info
+  :parameters (?player - player ?all_information - all_information)
+  :precondition (and (not (collected_all_info ?player ?all_information)))
+  :effect (collected_all_info ?player ?all_information)
+)
+
+(:action ping
+  :parameters (?player - player ?system - digital_system)
+  :precondition (and (at ?player ?loc) (access ?loc ?system) (not (ping_succeed ?system)) (authorized ?player))
+  :effect (ping_succeed ?system)
+)
+
+(:action check_email_server
+  :parameters (?player - player ?server - digital_system)
+  :precondition (and (access ?player ?server) (not (server_checked ?server)))
+  :effect (server_checked ?server)
+)
+
+)

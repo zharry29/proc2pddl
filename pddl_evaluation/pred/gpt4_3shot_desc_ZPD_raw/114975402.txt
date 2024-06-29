@@ -1,0 +1,136 @@
+Here are the actions you requested to be written in PDDL language.
+
+- Action: Go
+    - Summary of Action: This action represents the player navigating to an adjacent location.
+    - Required for Action: The player needs to be at a certain location, the destination location must not be blocked.
+    - Result of Action: The player moves to the destination location.
+
+- Action: Get_Bag
+    - Summary of Action: Purchase a bag from a store
+    - Required for Action: The store which sells bags and the player at the location of the store.
+    - Result of Action: The bag enters the inventory of the player.
+
+- Action: Get_Stationery
+    - Summary of Action: Purchase stationery from a store
+    - Required for Action: The location which sells stationeries and the player at the location of the store.
+    - Result of Action: The stationery enters the player's inventory.
+
+- Action: Get_Costume
+    - Summary of Action: Purchase costume from a store
+    - Required for Action: The location which sells costumes and the player at the location of the store.
+    - Result of Action: The costume enters the player's inventory.
+
+Note: In a similar way rest of the actions can be written in PDDL language. However, please note that some of these actions might require additional predicates to ensure the requirements and the effects mentioned above.
+
+Here's how these actions can be translated into PDDL:
+
+```pddl
+(:action go
+    :parameters (?p - player ?from - location ?dir - direction ?to - location)
+    :precondition (and (at ?p ?from) (connected ?from ?dir ?to) (not (blocked ?from ?dir ?to)))
+    :effect (and (not (at ?p ?from)) (at ?p ?to))
+)
+
+(:action get_bag
+    :parameters (?p - player ?l - location ?b - bag)
+    :precondition (and (at ?p ?l) (at ?b ?l) (sells_bags ?l))
+    :effect (and (not (at ?b ?l)) (inventory ?p ?b))
+)
+
+(:action get_stationery
+    :parameters (?p - player ?l - location ?s - stationery)
+    :precondition (and (at ?p ?l) (at ?s ?l) (sells_stationery ?l))
+    :effect (and (not (at ?s ?l)) (inventory ?p ?s))
+)
+
+(:action get_costume
+    :parameters (?p - player ?l - location ?c - costume)
+    :precondition (and (at ?p ?l) (at ?c ?l) (sells_costume ?l))
+    :effect (and (not (at ?c ?l)) (inventory ?p ?c))
+)
+```
+
+Please make sure to provide all the necessary predicates to complete the rest of the actions.
+Sure, I will continue with the rest of the actions:
+
+- Action: Wear_Detective_Gear
+    - Summary of Action: The player wears the detective costume.
+    - Required for Action: The player and the costume in the player's inventory.
+    - Result of Action: The player is wearing the detective costume.
+
+- Action: Find_Supplies_For_Disguise
+    - Summary of Action: The player finds supplies for a disguise.
+    - Required for Action: The player and location where the supplies are found.
+    - Result of Action: The disguise supplies are in the player's inventory.
+
+- Action: Wear_Disguise
+    - Summary of Action: The player wears a disguise.
+    - Required for Action: The player and the disguise in player's inventory.
+    - Result of Action: The player is dressed in a disguise.
+
+- Action: Make_Badge
+    - Summary of Action: The player makes a detective badge.
+    - Required for Action: The player, cardboard and aluminium foil in player's inventory.
+    - Result of Action: The badge is in the player's inventory.
+
+- Action: Prepare_Detective_Notebook
+    - Summary of Action: The player prepares a detective notebook.
+    - Required for Action: The player and a notebook in the player's inventory.
+    - Result of Action: The detective notebook is in the player's inventory.
+
+- Action: Get_Walkie_talkies
+    - Summary of Action: The player gets walkie-talkies from the store.
+    - Required for Action: The player and the store which sells electronics where the player's location.
+    - Result of Action: The walkie-talkies are in the player's inventory.
+
+- Action: Prepare_Detective_Kit
+    - Summary of Action: The player prepare a detective kit.
+    - Required for Action: The player and all items necessary for a detective kit in the player's inventory.
+    - Result of Action: The detective kit is in the player's inventory.
+
+Here are the actions translated into PDDL:
+
+```pddl
+(:action wear_detective_gear
+    :parameters (?p - player ?c - costume)
+    :precondition (and (inventory ?p ?c))
+    :effect (wear ?p ?c)
+)
+
+(:action find_supplies_for_disguise
+    :parameters (?p - player ?d - disguise ?l - location)
+    :precondition (at ?p ?l)
+    :effect (inventory ?p ?d)
+)
+
+(:action wear_disguise
+    :parameters (?p - player ?d - disguise)
+    :precondition (and (inventory ?p ?d))
+    :effect (wear ?p ?d)
+)
+
+(:action make_badge
+    :parameters (?p - player ?cardboard - cardboard ?foil - aluminium_foil ?b - badge)
+    :precondition (and (inventory ?p ?cardboard) (inventory ?p ?foil))
+    :effect (and (not (inventory ?p ?cardboard)) (not (inventory ?p ?foil)) (inventory ?p ?b))
+)
+
+(:action prepare_detective_notebook
+    :parameters (?p - player ?n - notebook ?dn - detective_notebook)
+    :precondition (inventory ?p ?n)
+    :effect (and (not (inventory ?p ?n)) (inventory ?p ?dn))
+)
+
+(:action get_walkie_talkies
+    :parameters (?p - player ?l - location ?w - walkie_talkies)
+    :precondition (and (at ?p ?l) (at ?w ?l) (sells_electronics ?l))
+    :effect (and (not (at ?w ?l)) (inventory ?p ?w))
+)
+
+(:action prepare_detective_kit
+    :parameters (?p - player ?stuff - item ?kit - detective_kit)
+    :precondition (and (forall (?stuff) (inventory ?p ?stuff)))
+    :effect (inventory ?p ?kit)
+)
+```
+Please note that in the prepare_detective_kit action, I assumed '?stuff' to be a list of all the necessary things for a detective kit. If the items for the kit are specific, they should be listed out and separated by spaces.

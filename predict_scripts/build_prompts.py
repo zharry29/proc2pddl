@@ -4,7 +4,7 @@ import os
 import json
 
 def process_action_text_pair(wikihow_text, actions_steps):
-  action_text_pairs = []
+  action_text_pairs = {}
 
   wikihow_text=wikihow_text.split('\n\n')
   wiki_step = {re.findall(r'^\d+', step)[0]: step for step in wikihow_text}
@@ -19,10 +19,10 @@ def process_action_text_pair(wikihow_text, actions_steps):
       step = '\n'+'\n'.join([wiki_step[s_id] for s_id in step_ids if s_id.isdigit()])
     else:
       step=''
-    # action_text_pairs.append(f'action name:\n{act}\ntext:{step}')
-    action_text_pairs.append(f'{act}\n{step}\n------')
-  
-  return '\n\n'.join(action_text_pairs)
+    # action_text_pairs.append(f'{act}\n{step}\n------')
+    action_text_pairs[act]=step
+  return action_text_pairs
+  # return '\n\n'.join(action_text_pairs)
 
 def process_action_text_whole(wikihow_text, actions_steps):
   step_ids = set()

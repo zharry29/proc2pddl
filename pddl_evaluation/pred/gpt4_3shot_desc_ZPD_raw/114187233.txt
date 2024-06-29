@@ -1,0 +1,87 @@
+Sure, based on the given requirements, types, and predicates, here is a translation into PDDL format for each of the actions you provided:
+
+- action name: go
+  (:action go
+    :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+    :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+    :effect (and (not (at ?player ?loc1)) (at ?player ?loc2)))
+
+- action name: get
+  (:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?player ?loc) (at ?item ?loc))
+    :effect (and (not (at ?item ?loc)) (inventory ?player ?item)))
+
+- action name: drop
+  (:action drop
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?player ?loc) (inventory ?player ?item))
+    :effect (and (not (inventory ?player ?item)) (at ?item ?loc)))
+
+- action name: pierce
+  (:action pierce
+    :parameters (?item - item)
+    :precondition (inventory ?player ?item)
+    :effect (pierced ?item))
+
+- action name: drain
+  (:action drain
+    :parameters (?item - item)
+    :precondition (and (inventory ?player ?item) (pierced ?item))
+    :effect (empty ?item))
+
+- action name: turn_on_oven
+  (:action turn_on_oven
+    :parameters (?appliance - appliance)
+    :precondition (at ?player ?appliance)
+    :effect (on ?appliance))
+
+- action name: burn_item
+  (:action burn_item
+    :parameters (?player - player ?item - item ?appliance - appliance)
+    :precondition (and (on ?appliance) (inventory ?player ?item))
+    :effect (burnt ?item))
+
+- action name: turn_off_oven
+  (:action turn_off_oven
+    :parameters (?appliance - appliance)
+    :precondition (on ?appliance)
+    :effect (not (on ?appliance)))
+
+- action name: wrap_coconut
+  (:action wrap_coconut
+    :parameters (?item1 - item ?item2 - item)
+    :precondition (and (inventory ?player ?item1) (inventory ?player ?item2))
+    :effect (and (wrapped ?item1) (wrapped_with ?item1 ?item2)))
+
+- action name: unwrap_coconut
+  (:action unwrap_coconut
+    :parameters (?item1 - item ?item2 - item)
+    :precondition (wrapped_with ?item1 ?item2)
+    :effect (not (wrapped ?item1)))
+
+- action name: smash_with_hands
+  (:action smash_with_hands
+    :parameters (?item - item)
+    :precondition (inventory ?player ?item)
+    :effect (smashed ?item))
+
+- action name: separate
+  (:action separate
+    :parameters (?item - item)
+    :precondition (smashed ?item)
+    :effect (peeled ?item))
+
+- action name: peel
+  (:action peel
+    :parameters (?item - item)
+    :precondition (peeled ?item)
+    :effect (not (peeled ?item)))
+
+- action name: smash_with_mallet
+  (:action smash_with_mallet
+    :parameters (?item - item)
+    :precondition (and (inventory ?player ?item) (wrapped ?item))
+    :effect (smashed ?item))
+
+Please note that these are representations of the actions in PDDL format based on the schemas provided. The actual effects and preconditions might vary depending on the specific situation and game rules.

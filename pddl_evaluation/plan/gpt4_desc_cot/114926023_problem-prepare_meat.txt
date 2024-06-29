@@ -1,7 +1,1 @@
-go ('npc', 'beach', 'north', 'root_of_tree')
-go ('npc', 'root_of_tree', 'north', 'jungle')
-go ('npc', 'jungle', 'east', 'hills')
-get ('npc', 'sharp_stone', 'hills')
-go ('npc', 'hills', 'west', 'jungle')
-hunt_animal ('npc', 'animal', 'sharp_stone', 'jungle')
-prepare_animal ('npc', 'animal', 'sharp_stone')
+No solution

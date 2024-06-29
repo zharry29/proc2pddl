@@ -1,0 +1,6 @@
+go ('npc', 'parkinglot', 'park', 'north')
+collect_rain_water ('npc', 'park', 'water')
+go ('npc', 'park', 'store', 'east')
+get ('npc', 'bandage', 'store')
+loot_shelter ('old_man', 'brickhouse', 'food')
+barter_food_for_healing ('old_man', 'npc', 'food')

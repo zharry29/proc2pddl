@@ -1,0 +1,56 @@
+(:action go
+ :parameters (?player ?loc1 ?loc2 ?dir)
+ :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+ :effect (and (not (at ?player ?loc1)) (at ?player ?loc2)))
+
+(:action cut_plant
+ :parameters (?player ?plant ?tool)
+ :precondition (and (at ?player ?loc) (at ?tool ?loc) (at ?plant ?loc))
+ :effect (and (not (at ?plant ?loc)) (at ?stalk ?loc)))
+
+(:action peel_stalk
+ :parameters (?player ?stalk)
+ :precondition (and (inventory ?player ?stalk) (not (peeled ?stalk)))
+ :effect (peeled ?stalk))
+
+(:action cut_stalk_into_strips
+ :parameters (?player ?stalk ?scissors)
+ :precondition (and (inventory ?player ?stalk) (inventory ?player ?scissors) (peeled ?stalk))
+ :effect (and (not (inventory ?player ?stalk)) (inventory ?player ?strips)))
+
+(:action soak_strips
+ :parameters (?player ?strips ?loc)
+ :precondition (and (inventory ?player ?strips) (has_water ?loc) (at ?player ?loc) (not (clean ?strips)))
+ :effect (clean ?strips))
+
+(:action dry_out_strips
+ :parameters (?player ?strips)
+ :precondition (and (inventory ?player ?strips) (clean ?strips))
+ :effect (dry ?strips))
+
+(:action weave_strips_into_sheet
+ :parameters (?player ?strips)
+ :precondition (and (inventory ?player ?strips) (dry ?strips))
+ :effect (and (not (inventory ?player ?strips)) (inventory ?player ?sheet)))
+
+(:action press_sheet
+ :parameters (?player ?sheet ?loc)
+ :precondition (and (inventory ?player ?sheet) (has_hard_surface ?loc) (at ?player ?loc))
+ :effect (flat ?sheet))
+
+(:action flatten_sheet
+ :parameters (?player ?sheet ?loc)
+ :precondition (and (inventory ?player ?sheet) (has_hard_surface ?loc) (at ?player ?loc) (flat ?sheet))
+ :effect (very_flat ?sheet))
+
+(:action polish_sheet
+ :parameters (?player ?sheet)
+ :precondition (and (inventory ?player ?sheet) (very_flat ?sheet))
+ :effect (smooth ?sheet))
+
+(:action cut_sheet
+ :parameters (?player ?sheet ?scissors)
+ :precondition (and (inventory ?player ?sheet) (inventory ?player ?scissors) (smooth ?sheet))
+ :effect (and (not (inventory ?player ?sheet)) (inventory ?player ?papyrus)))
+
+)

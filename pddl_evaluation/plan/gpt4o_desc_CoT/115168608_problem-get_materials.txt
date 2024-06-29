@@ -1,5 +1,1 @@
-get ('npc', 'knife', 'home')
-get ('npc', 'rolling_pin', 'home')
-get ('npc', 'wooden_boards', 'home')
-get ('npc', 'linen_sheets', 'home')
-get ('npc', 'water', 'home')
+No solution

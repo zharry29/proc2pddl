@@ -1,79 +1,79 @@
 (:action get
-    :parameters (?player - player ?item - item ?loc - location)
-    :precondition (and (at ?player ?loc) (at ?item ?loc))
-    :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
-)
+   :parameters (?player - player ?item - item)
+   :precondition (and (not (inventory ?player ?item)))
+   :effect (and (inventory ?player ?item))
+  )
 
 (:action drop
-    :parameters (?player - player ?item - item ?loc - location)
-    :precondition (and (at ?player ?loc) (inventory ?player ?item))
-    :effect (and (not (inventory ?player ?item)) (at ?item ?loc))
-)
+   :parameters (?player - player ?item - item ?loc - location)
+   :precondition (and (inventory ?player ?item) (at ?player ?loc))
+   :effect (and (not (inventory ?player ?item)) (at ?item ?loc))
+  )
 
 (:action put_in_stopper
-    :parameters (?player - player ?item - item)
-    :precondition (and (inventory ?player ?item) (can_be_filled ?item))
-    :effect (has_stopper ?item)
-)
+   :parameters (?item - item)
+   :precondition (and (not (has_stopper ?item)))
+   :effect (and (has_stopper ?item))
+  )
 
 (:action fill
-    :parameters (?player - player ?item - item ?loc - location)
-    :precondition (and (at ?player ?loc) (inventory ?player ?item) (can_be_filled ?item) (has_stopper ?item))
-    :effect (full ?item)
-)
+   :parameters (?item - item)
+   :precondition (and (can_be_filled ?item) (not (full ?item)))
+   :effect (and (full ?item))
+  )
 
 (:action purify
-    :parameters (?player - player ?item - item)
-    :precondition (and (inventory ?player ?item) (full ?item))
-    :effect (purified ?item)
-)
+   :parameters (?item - item)
+   :precondition (and (full ?item) (not (purified ?item)))
+   :effect (and (purified ?item))
+  )
 
 (:action seal
-    :parameters (?player - player ?item - item)
-    :precondition (and (inventory ?player ?item) (can_be_sealed ?item))
-    :effect (sealed ?item)
-)
+   :parameters (?item - item)
+   :precondition (and (can_be_sealed ?item) (not (sealed ?item)))
+   :effect (and (sealed ?item))
+  )
 
 (:action wait
-    :parameters (?player - player)
-    :precondition (at ?player ?loc)
-    :effect (at ?player ?loc)
-)
+   :parameters ()
+   :precondition (and)
+   :effect (and)
+  )
 
 (:action go
-    :parameters (?player - player ?loc1 - location ?dir - direction ?loc2 - location)
-    :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
-    :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
-)
+   :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+   :precondition (and (connected ?loc1 ?dir ?loc2) (at ?player ?loc1) (not (blocked ?loc1 ?dir ?loc2)))
+   :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+  )
 
 (:action put_batteries_in
-    :parameters (?player - player ?radio - radio)
-    :precondition (and (inventory ?player ?radio))
-    :effect (has_batteries ?radio)
-)
+   :parameters (?player - player ?radio - radio)
+   :precondition (and (inventory ?player ?radio) (not (has_batteries ?radio)))
+   :effect (and (has_batteries ?radio))
+  )
 
 (:action turn_on_radio
-    :parameters (?player - player ?radio - radio)
-    :precondition (and (inventory ?player ?radio) (has_batteries ?radio))
-    :effect (on ?radio)
-)
+   :parameters (?radio - radio)
+   :precondition (and (has_batteries ?radio) (not (on ?radio)))
+   :effect (and (on ?radio))
+  )
 
 (:action create_cage
-    :parameters (?player - player)
-    :precondition (and (inventory ?player ?component1) (inventory ?player ?component2))
-    :effect (and (not (inventory ?player ?component1)) (not (inventory ?player ?component2)) (inventory ?player ?cage))
-)
+   :parameters (?player - player ?cage - farraday_cage)
+   :precondition (and (not (inventory ?player ?cage)))
+   :effect (and (inventory ?player ?cage))
+  )
 
 (:action close_cage
-    :parameters (?player - player ?cage - farraday_cage)
-    :precondition (inventory ?player ?cage)
-    :effect (cage_closed ?cage)
-)
+   :parameters (?cage - farraday_cage)
+   :precondition (and (not (cage_closed ?cage)))
+   :effect (and (cage_closed ?cage))
+  )
 
 (:action put_in_cage
-    :parameters (?player - player ?item - item ?cage - farraday_cage)
-    :precondition (and (inventory ?player ?item) (inventory ?player ?cage) (not (cage_closed ?cage)))
-    :effect (and (not (inventory ?player ?item)) (in_cage ?item))
-)
+   :parameters (?item - item ?cage - farraday_cage)
+   :precondition (and (not (in_cage ?item)))
+   :effect (and (in_cage ?item))
+  )
 
 )

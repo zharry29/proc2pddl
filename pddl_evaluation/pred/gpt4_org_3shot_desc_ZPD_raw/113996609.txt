@@ -1,0 +1,298 @@
+Sure! Here comes the pddl actions you asked for based on the provided text.
+- action name: go
+    - summarize action: The player navigates to an adjacent location.
+    - what is needed to do the action: Player and nearby location.
+    - what is the result: Player is at new location.
+- entities:
+   - entity name: player
+      - before: at location A
+      - after: at location B
+   - entity name: location (B)
+      - before: without presence of player
+      - after: presence of player  
+pddl action:
+```
+(:action go
+   :parameters  (?player - player ?dir - direction ?loc1 ?loc2 - location)
+   :precondition  (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+   :effect  (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+```
+- action name: get
+  - summarize action: Player picks up an item and puts it in the inventory.
+  - what is needed to do the action: Player, Item, Location of that item.
+  - what is the result: Item is in player's inventory.
+- entities:
+    - entity name: item
+        - before: at location
+        - after: in player's inventory
+    - entity name: location
+        - before: contains item
+        - after: item removed  
+pddl action:
+```
+(:action get
+   :parameters  (?player - player ?item - item ?loc - location)
+   :precondition  (and (at ?player ?loc) (at ?item ?loc))
+   :effect  (and (not(at ?item ?loc)) (inventory ?player ?item))
+)
+```
+Incomplete due to the character limit. Please submit a list of only some actions in one request. For further actions, please submit another request with the remaining actions.
+Sure, I'll continue on with the next three actions:
+
+- action name: get_water
+   - summarize action: Player gets water from a location that has a water source like a lake.
+   - what is needed to do the action: Player, water source.
+   - what is the result: Player has water.
+- entities:
+   - entity name: player
+      - before: does not have water
+      - after: has water
+   - entity name: location (water source)
+      - before: full of water
+      - after: less water
+pddl action:
+```
+(:action get_water
+   :parameters  (?player - player ?water - water ?loc - location)
+   :precondition  (and (at ?player ?loc) (has_water_source ?loc))
+   :effect  (inventory ?player ?water)
+)
+```
+
+- action name: chop_wood
+   - summarize action: Player chops down wood from a nearby tree.
+   - what is needed to do the action: Player, location with wood.
+   - what is the result: Wood is in player's inventory.
+- entities:
+   - entity name: player
+      - before: does not have wood
+      - after: has wood
+   - entity name: location (with trees)
+      - before: full of trees
+      - after: less trees
+pddl action:
+```
+(:action chop_wood
+   :parameters  (?player - player ?wood - wood ?loc - location)
+   :precondition  (and (at ?player ?loc) (has_wood ?loc))
+   :effect  (inventory ?player ?wood)
+)
+```
+
+- action name: carve_groove
+   - summarize action: Player creates a groove in wood to light flint.
+   - what is needed to do the action: Player, piece of wood.
+   - what is the result: Groove is carved into wood.
+- entities:
+   - entity name: wood
+      - before: smooth
+      - after: having a groove
+pddl action:
+```  
+(:action carve_groove
+   :parameters  (?player - player ?wood - wood)
+   :precondition  (inventory ?player ?wood)
+   :effect  (groove ?wood)
+)
+```
+Sure, I'll continue on with the next three actions:
+
+- Action name: light_fire
+   - Summarize action: Player uses a piece of wood with a groove and flint to start a fire.
+   - What is needed to do the action: Player, a piece of wood with a groove, flint, and a safe location.
+   - What is the result: A fire is started at a designated location.
+- Entities:
+   - Entity name: player
+      - Before: Not near the fire.
+      - After: Near the fire.
+   - Entity name: wood
+      - Before: Has a groove.
+      - After: Used to start the fire.
+   - Entity name: location with flint
+      - Before: Without fire.
+      - After: Fire started.
+Pddl action:
+```  
+(:action light_fire
+   :parameters  (?player - player ?wood - wood ?loc - location)
+   :precondition  (and (at ?player ?loc) (groove ?wood) (can_light_fire ?loc) (inventory ?player ?wood))
+   :effect  (has_fire ?loc)
+)
+```
+
+- Action name: build_shelter
+   - Summarize action: Player uses wood to build a shelter for protection.
+   - What is needed to do the action: Player, suitable location, sufficient wood.
+   - What is the result: A shelter is built at the designated safe location.
+- Entities:
+   - Entity name: player
+      - Before: No shelter.
+      - After: Shelter is built.
+   - Entity name: wood
+      - Before: In player's inventory.
+      - After: Used to build shelter.
+   - Entity name: location
+      - Before: Empty.
+      - After: Contains shelter.
+Pddl action:
+```  
+(:action build_shelter
+   :parameters  (?player - player ?location - location ?wood - wood)
+   :precondition  (and (at ?player ?location) (is_safe ?location) (inventory ?player ?wood))
+   :effect  (has_shelter ?location)
+)
+```
+
+- Action name: clean_water
+   - Summarize action: Player boils water to make it safe for drinking.
+   - What is needed to do the action: Player, source of fire, contaminated water.
+   - What is the result: Water is treated and now safe for drinking.
+- Entities:
+   - Entity name: water
+      - Before: Contaminated.
+      - After: Treated.
+   - Entity name: fire source
+      - Before: Has fire.
+      - After: Used to boil water.
+Pddl action:
+```  
+(:action clean_water
+   :parameters  (?player - player ?water - water ?fire_source - location )
+   :precondition  (and (at ?player ?fire_source) (has_fire ?fire_source) (inventory ?player ?water))
+   :effect  (and (not (inventory ?player ?water)) (treated ?water))
+)
+```
+Sure, here are more actions translated into PDDL format:
+
+- action name: drink_water
+   - summarize action: Player drinks the treated water.
+   - what is needed to do the action: Player, treated water.
+   - what is the result: The treated water has been drunk by the player.
+- entities:
+   - entity name: player
+      - before: Thirsty
+      - after: Hydrated
+   - entity name: treated water
+      - before: In player's inventory
+      - after: Drunk
+pddl action:
+```
+(:action drink_water
+   :parameters (?player - player ?water - water)
+   :precondition (and (inventory ?player ?water) (treated ?water))
+   :effect (drank ?water)
+)
+```
+
+- action name: find_other_survivors
+   - summarize action: Player finds other survivors on the deserted island.
+   - what is needed to do the action: Player
+   - what is the result: The player now has a friend.
+- entities:
+   - entity name: player
+      - before: Alone
+      - after: Has a friend
+   - entity name: survivor
+      - before: Unknown
+      - after: Found
+pddl action:
+```
+(:action find_other_survivors
+   :parameters (?player - player ?survivor - survivor)
+   :precondition (attend ?player)
+   :effect (has_friend ?survivor)
+)
+```
+
+- action name: build_raft
+   - summarize action: Player builds a raft in order to escape the deserted island.
+   - what is needed to do the action: Player, Wood, Vines
+   - what is the result: A built raft.
+- entities:
+   - entity name: player
+      - before: does not have a raft
+      - after: has a built raft
+   - entity name: wood
+      - before: In player's inventory
+      - after: Used in raft
+   - entity name: vines
+      - before: In player's inventory
+      - after: Used in raft
+pddl action:
+```
+(:action build_raft
+   :parameters (?player - player ?wood - wood ?vines - vines)
+   :precondition (and (inventory ?player ?wood) (inventory ?player ?vines))
+   :effect (has_escaped ?player)
+)
+```
+Of course, I'll continue with the next two actions:
+
+- action name: make_weapon
+  - summarize action: Player makes a weapon, specifically a spear.
+  - what is needed to do the action: Player, wood.
+  - what is the result: Player has a spear.
+- entities:
+  - entity name: wood
+    - before: in player's inventory
+    - after: used for spear
+  - entity name: spear
+    - before: does not exist
+    - after: in player's inventory
+pddl action:
+```
+(:action make_weapon
+  :parameters (?player - player ?wood - wood)
+  :precondition (inventory ?player ?wood)
+  :effect (inventory ?player ?spear)
+)
+```
+- action name: hunt_fish
+  - summarize action: Player uses a spear to hunt fish.
+  - what is needed to do the action: Player, a location with fish, spear.
+  - what is the result: Player has fish.
+- entities:
+  - entity name: location (with fish)
+    - before: contains fish
+    - after: less fish
+  - entity name: fish
+    - before: freely swimming
+    - after: caught by the player
+  - entity name: spear
+    - before: unused
+    - after: used to catch fish
+pddl action:
+```
+(:action hunt_fish
+  :parameters (?player - player ?location - location ?spear - spear)
+  :precondition (and (inventory ?player ?spear) (at ?player ?location) (has_fish ?location))
+  :effect (inventory ?player ?fish)
+)
+```
+Due to the character limit, other actions will be presented in further requests.
+Certainly, continuing on:
+
+- action name: cook_fish
+    - summarize action: Player cooks the fish they caught over a fire.
+    - what is needed to do the action: Player, fire source, caught fish.
+    - what is the result: Player now has cooked fish.
+- entities:
+    - entity name: fish
+        - before: raw in the player's inventory
+        - after: cooked
+    - entity name: fire source
+        - before: controlled fire
+        - after: used to cook fish
+    - entity name: player
+        - before: has raw fish
+        - after: has cooked fish
+pddl action:
+```  
+(:action cook_fish
+    :parameters (?player - player ?fish - fish ?fire_source - location)
+    :precondition (and (inventory ?player ?fish) (at ?player ?fire_source) (has_fire ?fire_source))
+    :effect (and (not (inventory ?player ?fish)) (cooked ?fish) (inventory ?player ?fish))
+)
+```
+That concludes the list of actions shared in the request. Now each action has associated parameters, preconditions and effects in PDDL format.

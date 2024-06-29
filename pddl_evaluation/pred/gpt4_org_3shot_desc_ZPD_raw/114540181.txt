@@ -1,0 +1,210 @@
+- action name: go
+- summarize action: This action represents the player moving from one location to another in a specific direction.
+- what is needed to do the action: The current location of the player, the direction to move in, and the destination location.
+- what is the result: The player moves to a new location.
+
+- entities:
+  - entity name: player 
+    - before: at starting location 
+    - after: at destination location
+
+pddl action:
+(:action go
+ :parameters (?player - player ?start - location ?dir - direction ?dest - location)
+ :precondition (and (at ?player ?start) (connected ?start ?dir ?dest) (not (blocked ?start ?dir ?dest)))
+ :effect (and (not (at ?player ?start)) (at ?player ?dest))
+)
+
+- action name: get
+- summarize action: This action refers to the player picking up an item and placing it in their inventory.
+- what is needed to do the action: The item to be picked up, the player, and the location where the item is found.
+- what is the result: The item is added to the player’s inventory.
+
+- entities:
+  - entity name: item 
+    - before: at location 
+    - after: in player's inventory
+  
+pddl action:
+(:action get
+ :parameters (?player - player ?item - item ?loc - location)
+ :precondition (and (at ?player ?loc) (at ?item ?loc))
+ :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
+)
+
+You can follow the same pattern for remaining actions using the text to PDDL translation method demonstrated above. Each action should have all appropriate parameters defined, clear and complete precondition and effect clauses, and include all related entities.
+- action name: get_bamboo_container
+- summarize action: This action involves the player creating a bamboo container at a location where bamboo is available.
+- what is needed to do the action: Player, bamboo.
+- what is the result: Bamboo container is added to the player’s inventory.
+
+- entities:
+  - entity name: bamboo 
+    - before: at location 
+    - after: transformed into bamboo container in player's inventory
+
+pddl action:
+(:action get_bamboo_container
+ :parameters (?player - player ?loc - location)
+ :precondition (and (at ?player ?loc) (has_bamboo ?loc))
+ :effect (and (not (has_bamboo ?loc)) (inventory ?player bamboo_container))
+)
+
+- action name: collect_rain_water
+- summarize action: This action represents the player collecting rainwater using bamboo container.
+- what is needed to do the action: Player, rainfall, bamboo container.
+- what is the result: Water is added into the bamboo container in the player's inventory.
+
+- entities:
+  - entity name: rainwater 
+    - before: at location 
+    - after: collected into bamboo container in player's inventory
+
+pddl action:
+(:action collect_rain_water
+ :parameters (?player - player ?loc - location)
+ :precondition (and (at ?player ?loc) (has_rainfall ?loc) (inventory ?player bamboo_container))
+ :effect (inventory ?player water))
+ 
+Note: You might want to add a water predicate in the player's inventory to track water presence as you did for bamboo_container.
+
+Follow the similar approach for remaining actions. Each of them should have clearly defined parameters, precondition and effects. Make sure all involved entities are covered.
+- action name: create_fire
+- summarize action: This action pertains to the player creating fire using resources available in the player's inventory.
+- what is needed to do the action: Player, certain resources like wood and stone in the player's inventory.
+- what is the result: Fire is created and added to the player’s inventory.
+
+- entities:
+  - entity name: wood and stone
+    - before: in player's inventory
+    - after: transformed into fire in player's inventory
+
+pddl action:
+(:action create_fire
+ :parameters (?player - player)
+ :precondition (and (inventory ?player stone) (inventory ?player wood))
+ :effect (and (not (inventory ?player stone)) (not (inventory ?player wood)) (inventory ?player fire))
+)
+
+- action name: treat_water
+- summarize action: This action implies the player treating the collected water using fire from their inventory making the water safe for drinking.
+- what is needed to do the action: Player, water, and fire in the player's inventory.
+- what is the result: The water in the player's inventory is now treated.
+
+- entities:
+  - entity name: water
+    - before: in player's inventory, untreated
+    - after: in player's inventory, treated
+
+pddl action:
+(:action treat_water
+ :parameters (?player - player)
+ :precondition (and (inventory ?player water) (inventory ?player fire))
+ :effect (treated water))
+  
+Please note that you may need to adjust the actions based on your exact requirements, for instance, tracking treated and untreated water separately in the inventory. Continue similarly for other actions.
+- action name: drink_water
+- summarize action: This action consists of a player drinking treated water from their inventory to quench thirst.
+- what is needed to do the action: Player, treated water in the player's inventory.
+- what is the result: The water is removed from the player's inventory and the player is no longer in dehydrated condition.
+
+- entities:
+  - entity name: treated water 
+    - before : in player's inventory 
+    - after : consumed, no longer in player's inventory
+
+pddl action:
+(:action drink_water
+ :parameters (?player - player)
+ :precondition (and (inventory ?player water) (treated water) (is dehydrated ?player)) 
+ :effect (and (not (inventory ?player water)) (not (is dehydrated ?player)))
+)
+
+- action name: drink_untreated_water
+- summarize action: This action involves a player drinking untreated water from their inventory which may result in illness.
+- what is needed to do the action: Player, untreated water in the player's inventory.
+- what is the result: The untreated water is removed from the player's inventory and the player may become ill.
+
+- entities:
+  - entity name: untreated water 
+    - before: in player's inventory 
+    - after: consumed, no longer in player's inventory
+
+pddl action:
+(:action drink_untreated_water
+ :parameters (?player - player)
+ :precondition (and (inventory ?player water) (not (treated water)) (is dehydrated ?player))
+ :effect (and (not (inventory ?player water)) (not (is dehydrated ?player)) (is ill ?player))
+)
+
+You can follow the same pattern for remaining actions. Remember that each action needs to have all relevant parameters defined, clear & complete precondition and effect clauses, and must include all related entities.
+- action name: create_sos_sign
+- summarize action: This action indicates creating an SOS sign that may attract the attention of rescuers.
+- what is needed to do the action: Player, wood or stones in the player's inventory.
+- what is the result: SOS sign created at the player's location.
+
+- entities:
+  - entity name: Wood or stone 
+    - before: In player's inventory
+    - after: Used to create an SOS sign, no longer in player's inventory
+
+pddl action:
+(:action create_sos_sign
+ :parameters (?player - player ?loc - location ?material - item)
+ :precondition (and (inventory ?player ?material) (at ?player ?loc))
+ :effect (and (not (inventory ?player ?material)) (at SOS_sign ?loc))
+)
+
+- action name: pick_fruit
+- summarize action: This action involves picking fruits available at the player's location.
+- what is needed to do the action: Player, location with fruits.
+- what is the result: Fruit is added to the player's inventory.
+
+- entities:
+  - entity name: Fruit 
+    - before: At location 
+    - after: In the player's inventory
+
+pddl action:
+(:action pick_fruit
+ :parameters (?player - player ?loc - location)
+ :precondition (and (at ?player ?loc) (has_fruit ?loc))
+ :effect (and (not (has_fruit ?loc)) (inventory ?player fruit))
+)
+
+Again, remember that each action must have all the relevant parameters adequately identified, clear and complete precondition and effect clauses, and involve all related entities.
+- action name: eat_fruit
+- summarize action: This action represents the player consuming a fruit from their inventory to satiate hunger.
+- what is needed to do the action: Player, fruit in the player's inventory.
+- what is the result: The fruit is removed from the player's inventory and the player is no longer in a hungry condition.
+
+- entities:
+  - entity name: fruit 
+    - before : in player's inventory 
+    - after : consumed, no longer in player's inventory
+
+pddl action:
+(:action eat_fruit
+ :parameters (?player - player)
+ :precondition (and (inventory ?player fruit) (is hungry ?player)) 
+ :effect (and (not (inventory ?player fruit)) (not (is hungry ?player)))
+)
+
+- action name: escape
+- summarize action: This action stages the player blinking out from the current location when an SOS_sign is placed and thus escaping from the jungle.
+- what is needed to do the action: Player, SOS sign at the player's location.
+- what is the result: The player escapes from the jungle.
+
+- entities:
+  - entity name: player
+    - before : at location in jungle
+    - after : escaped from jungle
+
+pddl action:
+(:action escape
+ :parameters (?player - player ?loc - location)
+ :precondition (and (at ?player ?loc) (at SOS_sign ?loc) (not (is ill ?player)) (not (is dehydrated ?player)) (not (is hungry ?player))) 
+ :effect (escaped ?player)
+)
+
+Remember to always identify all key parameters involved in an action and accurately define precondition and effect while including all related entities.

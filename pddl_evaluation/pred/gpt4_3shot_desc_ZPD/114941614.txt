@@ -1,0 +1,88 @@
+(:action go
+ :parameters (?p - player ?loc1 - location ?loc2 - location ?dir - direction)
+ :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+ :effect (and (not (at ?p ?loc1)) (at ?p ?loc2)))
+
+(:action get
+ :parameters (?p - player ?i - item ?loc - location)
+ :precondition (and (at ?p ?loc) (at ?i ?loc))
+ :effect (and (not (at ?i ?loc)) (inventory ?p ?i)))
+(:action collect_water
+ :parameters (?p - player ?container - container ?loc - location)
+ :precondition (and (at ?p ?loc) (has_water_source ?loc) (inventory ?p ?container))
+ :effect (and (contains ?container water) (is_full ?container)))
+(:action gather_sticks
+ :parameters (?p - player ?loc - location)
+ :precondition (and (at ?p ?loc) (has_sticks ?loc))
+ :effect (inventory ?p sticks))
+
+(:action make_fire
+ :parameters (?p - player ?loc - location ?sticks - sticks ?igniter - igniter)
+ :precondition (and (at ?p ?loc) (inventory ?p ?sticks) (inventory ?p ?igniter))
+ :effect (and (not (inventory ?p ?sticks)) (has_fire ?loc)))
+ (:action boil_water
+  :parameters (?p - player ?container - container ?water - water ?loc - location)
+  :precondition (and (at ?p ?loc)
+                     (has_fire ?loc)
+                     (contains ?container ?water)
+                     (is_full ?container)
+                     (is_contaminated ?water))
+  :effect (not (is_contaminated ?water)))
+ (:action cook_food
+  :parameters (?p - player ?f - food ?loc - location)
+  :precondition (and (at ?p ?loc) (has_fire ?loc) (is_contaminated ?f) (inventory ?p ?f))
+  :effect (not (is_contaminated ?f)))
+
+(:action eat_poisoned_food
+ :parameters (?p - player ?food - food)
+ :precondition (and (inventory ?p ?food) (is_poisonous ?food) (not (is_sick ?p)))
+ :effect (and 
+          (not (inventory ?p ?food))
+          (is_sick ?p)))
+(:action eat_contaminated_food
+ :parameters (?p - player ?food - food)
+ :precondition (and (inventory ?p ?food) (is_contaminated ?food) (not (is_sick ?p)))
+ :effect (and 
+          (not (inventory ?p ?food))
+          (is_sick ?p)))
+(:action eat_food
+ :parameters (?p - player ?food - food)
+ :precondition (and (inventory ?p ?food) (is_hungry ?p) (not(is_contaminated ?food)) (not(is_poisonous ?food)))
+ :effect (and 
+          (not (inventory ?p ?food))
+          (not (is_hungry ?p))))
+
+(:action drink_contaminated_water
+ :parameters (?p - player ?container - container ?water - water)
+ :precondition (and (inventory ?p ?container) 
+                    (contains ?container ?water) 
+                    (is_thirsty ?p) 
+                    (is_contaminated ?water))
+ :effect (and 
+          (not (is_thirsty ?p))
+          (is_sick ?p)))
+(:action drink_water
+ :parameters (?p - player ?container - container ?water - water)
+ :precondition (and (inventory ?p ?container) 
+                    (contains ?container ?water) 
+                    (is_thirsty ?p) 
+                    (not (is_contaminated ?water)))
+ :effect (and 
+            (not (contains ?container ?water))
+            (not (is_thirsty ?p))))
+(:action build_shelter
+ :parameters (?p - player ?loc - location ?sticks - sticks ?leaves - leaves)
+ :precondition (and (at ?p ?loc) (inventory ?p ?sticks) (inventory ?p ?leaves))
+ :effect (and 
+            (not (inventory ?p ?sticks))
+            (not (inventory ?p ?leaves))
+            (has_shelter ?loc)))
+(:action sleep_in_shelter
+ :parameters (?p - player ?loc - location)
+ :precondition (and (at ?p ?loc) 
+                     (has_shelter ?loc) 
+                     (is_tired ?p))
+ :effect (and 
+            (not (is_tired ?p))))
+
+)

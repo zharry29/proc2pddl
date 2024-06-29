@@ -1,0 +1,312 @@
+Alright, let's go through each of the requested actions and define them with their requirements and PDDL format.
+
+### 1. Action: `go`
+
+- **action name:** `go`
+- **summarize action:** Navigate to an adjacent location from the current position of the player.
+- **what is needed to do the action:** The locations must be connected and not blocked.
+- **what is the result:** The player will change their location to the new connected location.
+
+- **entities:**
+  - **entity name:** player
+    - **before:** at the current location
+    - **after:** at the new location
+  - **entity name:** loc1
+    - **before:** player's current location
+    - **after:** unchanged
+  - **entity name:** loc2
+    - **before:** player's target location
+    - **after:** now the player's location
+
+pddl:
+```lisp
+(:action go
+    :parameters (?p - player ?loc1 - location ?dir - direction ?loc2 - location)
+    :precondition (and (at ?p ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+    :effect (and (not (at ?p ?loc1)) (at ?p ?loc2))
+)
+```
+
+### 2. Action: `get`
+
+- **action name:** `get`
+- **summarize action:** Pick up an item and put it into the player's inventory.
+- **what is needed to do the action:** The item must be at the current location of the player.
+- **what is the result:** The item will be removed from the location and added to the player's inventory.
+
+- **entities:**
+  - **entity name:** item
+    - **before:** at the current location
+    - **after:** in the player's inventory
+  - **entity name:** player
+    - **before:** at the location
+    - **after:** unchanged
+
+pddl:
+```lisp
+(:action get
+    :parameters (?p - player ?item - item ?loc - location)
+    :precondition (and (at ?item ?loc) (at ?p ?loc))
+    :effect (and (inventory ?p ?item) (not (at ?item ?loc)))
+)
+```
+
+### 3. Action: `get_water`
+
+- **action name:** `get_water`
+- **summarize action:** Get water from a location that has a water source like a lake.
+- **what is needed to do the action:** The player must be at a location with a water source.
+- **what is the result:** Water will be added to the player's inventory.
+
+- **entities:**
+  - **entity name:** water
+    - **before:** not in the player's inventory
+    - **after:** in the player's inventory
+  - **entity name:** player
+    - **before:** at the water source location
+    - **after:** unchanged
+
+pddl:
+```lisp
+(:action get_water
+    :parameters (?p - player ?water - water ?loc - location)
+    :precondition (and (at ?p ?loc) (has_water_source ?loc))
+    :effect (inventory ?p ?water)
+)
+```
+
+### 4. Action: `drop`
+
+- **action name:** `drop`
+- **summarize action:** Drop an item and remove it from the player's inventory to place it at the current location.
+- **what is needed to do the action:** The player must currently have the item in their inventory.
+- **what is the result:** The item will be removed from the inventory and placed at the player's current location.
+
+- **entities:**
+  - **entity name:** item
+    - **before:** in the player's inventory
+    - **after:** at the player's current location
+  - **entity name:** player
+    - **before:** at a location
+    - **after:** unchanged
+
+pddl:
+```lisp
+(:action drop
+    :parameters (?p - player ?item - item ?loc - location)
+    :precondition (and (inventory ?p ?item) (at ?p ?loc))
+    :effect (and (at ?item ?loc) (not (inventory ?p ?item)))
+)
+```
+
+### 5. Action: `clear_spider`
+
+- **action name:** `clear_spider`
+- **summarize action:** Clear off any critters or spiders that may be on the branch or leaves.
+- **what is needed to do the action:** The item (branch or leaves) must have bugs.
+- **what is the result:** The item will no longer have bugs on it.
+
+- **entities:**
+  - **entity name:** item
+    - **before:** has bugs
+    - **after:** cleaned, no bugs
+
+pddl:
+```lisp
+(:action clear_spider
+    :parameters (?item - item)
+    :precondition (has_bug ?item)
+    :effect (not (has_bug ?item))
+)
+```
+
+### 6. Action: `insert_beam`
+
+- **action name:** `insert_beam`
+- **summarize action:** Insert end(s) of the beam into the split(s) of the tree(s).
+- **what is needed to do the action:** The tree must have a split in its trunk.
+- **what is the result:** The beam will be supported by the tree with the split trunk.
+
+- **entities:**
+  - **entity name:** beam
+    - **before:** not inserted in the split
+    - **after:** inserted in the split
+  - **entity name:** tree
+    - **before:** has a split in its trunk
+    - **after:** unchanged, still has the split
+
+pddl:
+```lisp
+(:action insert_beam
+    :parameters (?beam - beam ?tree - tree)
+    :precondition (and (has_split_in_trunk ?tree))
+    :effect (inserted_in_split ?beam ?tree)
+)
+```
+
+### 7. Action: `lean_branches`
+
+- **action name:** `lean_branches`
+- **summarize action:** Lean branches against the main branch to form the structure of your shelter.
+- **what is needed to do the action:** The main branch and additional branches must be available.
+- **what is the result:** The branches will be leaned to form the structure.
+
+- **entities:**
+  - **entity name:** branches
+    - **before:** available but not leaned
+    - **after:** leaned to form structure
+  - **entity name:** main branch
+    - **before:** available but not forming shelter
+    - **after:** remains as part of the structure
+
+pddl:
+```lisp
+(:action lean_branches
+    :parameters (?branches - branches ?main_branch - branch)
+    :precondition (and)
+    :effect (and)
+)
+```
+
+### 8. Action: `layer`
+
+- **action name:** `layer`
+- **summarize action:** Lay twigs and leaves as part of creating or enhancing the shelter.
+- **what is needed to do the action:** Twigs and leaves must be available.
+- **what is the result:** The twigs and leaves will be laid as part of the shelter.
+
+- **entities:**
+  - **entity name:** twigs
+    - **before:** not laid
+    - **after:** laid in the shelter
+  - **entity name:** leaves
+    - **before:** not laid
+    - **after:** laid in the shelter
+
+pddl:
+```lisp
+(:action layer
+    :parameters (?twigs - twigs ?leaves - leaves)
+    :precondition (and)
+    :effect (and)
+)
+```
+
+### 9. Action: `wash`
+
+- **action name:** `wash`
+- **summarize action:** Wash off plants to remove any dirt or contaminants.
+- **what is needed to do the action:** The item (plant) must be unwashed.
+- **what is the result:** The plant will be clean.
+
+- **entities:**
+  - **entity name:** plant
+    - **before:** unwashed
+    - **after:** washed
+
+pddl:
+```lisp
+(:action wash
+    :parameters (?item - item)
+    :precondition (unwashed ?item)
+    :effect (not (unwashed ?item))
+)
+```
+
+### 10. Action: `eat`
+
+- **action name:** `eat`
+- **summarize action:** Eat an edible item to satisfy hunger.
+- **what is needed to do the action:** The player must be hungry, and the item must be edible.
+- **what is the result:** The player will no longer be hungry.
+
+- **entities:**
+  - **entity name:** item
+    - **before:** edible
+    - **after:** consumed
+  - **entity name:** player
+    - **before:** hungry
+    - **after:** not hungry
+
+pddl:
+```lisp
+(:action eat
+    :parameters (?p - player ?item - item)
+    :precondition (and (hungry ?p) (edible ?item) (inventory ?p ?item))
+    :effect (and (not (hungry ?p)) (not (inventory ?p ?item)))
+)
+```
+
+### 11. Action: `make_snare`
+
+- **action name:** `make_snare`
+- **summarize action:** Create a large circular snare using a piece of wire.
+- **what is needed to do the action:** The wire must be available in the player’s inventory.
+- **what is the result:** A snare will be created and added to the player’s inventory.
+
+- **entities:**
+  - **entity name:** wire
+    - **before:** available for use
+    - **after:** used to make snare
+  - **entity name:** snare
+    - **before:** not created
+    - **after:** created and in inventory
+
+pddl:
+```lisp
+(:action make_snare
+    :parameters (?p - player ?wire - wire ?snare - snare)
+    :precondition (inventory ?p ?wire)
+    :effect (and (inventory ?p ?snare) (not (inventory ?p ?wire)))
+)
+```
+
+### 12. Action: `make_horizontal_bar`
+
+- **action name:** `make_horizontal_bar`
+- **summarize action:** Create a horizontal bar from a branch to hang a snare.
+- **what is needed to do the action:** The branch must be available.
+- **what is the result:** A horizontal bar will be created.
+
+- **entities:**
+  - **entity name:** branch
+    - **before:** available for use
+    - **after:** used as a bar
+  - **entity name:** bar
+    - **before:** not created
+    - **after:** created from the branch
+
+pddl:
+```lisp
+(:action make_horizontal_bar
+    :parameters (?branch - branch ?bar - bar)
+    :precondition (and)
+    :effect (and (created ?bar) (not (available ?branch)))
+)
+```
+
+### 13. Action: `hang_snare`
+
+- **action name:** `hang_snare`
+- **summarize action:** Hang the snare over a path frequented by animals.
+- **what is needed to do the action:** The snare must be available, and the path must be animal-made.
+- **what is the result:** The snare will be hanged.
+
+- **entities:**
+  - **entity name:** snare
+    - **before:** available in inventory
+    - **after:** hanged
+  - **entity name:** location
+    - **before:** animal-made path
+    - **after:** unchanged, snare is hanged over it
+
+pddl:
+```lisp
+(:action hang_snare
+    :parameters (?snare - snare ?loc - location)
+    :precondition (and (inventory ?snare) (made_by_animal ?loc))
+    :effect (and (hanged ?snare) (not (inventory ?snare)))
+)
+```
+
+These are the PDDL representations of actions required for surviving in the woods based on the provided text.

@@ -1,0 +1,98 @@
+Alright, let's convert each action to pddl format with the given entities. 
+
+Here are the PDDL for each action.
+
+```pddl
+(:action go
+  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (not (blocked ?loc1 ?dir ?loc2)))
+  :effect (and 
+          (not (at ?player ?loc1))
+          (at ?player ?loc2))
+)
+
+(:action get
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and 
+          (not (at ?item ?loc))
+          (inventory ?player ?item))
+)
+
+(:action get_water
+  :parameters (?player - player ?water - water ?loc - location)
+  :precondition (and (at ?player ?loc) (has_water_source ?loc) (not (inventory ?player ?water)))
+  :effect (inventory ?player ?water)
+)
+
+(:action drop
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (inventory ?player ?item))
+  :effect (and 
+          (not (inventory ?player ?item))
+          (at ?item ?loc))
+)
+
+(:action clear_spider
+  :parameters (?item - item)
+  :precondition (has_bug ?item)
+  :effect (not (has_bug ?item))
+)
+
+(:action insert_beam
+  :parameters (?beam - beam ?tree - tree)
+  :precondition (has_split_in_trunk ?tree)
+  :effect (at ?beam ?tree)
+)
+
+(:action lean_branches
+  :parameters (?branches - branches ?beam - beam)
+  :precondition (long ?branches)
+  :effect (at ?branches ?beam)
+)
+
+(:action layer
+  :parameters (?branch - branch ?twigs - twigs ?leaves - leaves ?frame - frame)
+  :precondition (and (thick ?branch) (at ?branch ?frame))
+  :effect (at ?leaves ?frame)
+)
+
+(:action wash
+  :parameters (?player - player ?items - item ?water - water)
+  :precondition (and (unwashed ?items) (inventory ?player ?water))
+  :effect (not (unwashed ?items))
+)
+
+(:action eat
+  :parameters (?player - player ?item - item)
+  :precondition (and (hungry ?player) (edible ?item) (inventory ?player ?item))
+  :effect (not (hungry ?player))
+)
+
+(:action make_snare
+  :parameters (?wire - wire ?snare - snare)
+  :precondition (at ?wire ?player)
+  :effect (at ?snare ?player)
+)
+
+(:action make_horizontal_bar
+  :parameters (?branch - branch ?bar - bar)
+  :precondition (long ?branch)
+  :effect (at ?bar ?branch)
+)
+
+(:action hang_snare
+  :parameters (?player - player ?snare - snare ?location - location ?bar - bar)
+  :precondition (and (made_by_animal ?location) (at ?bar ?location) (at ?snare ?player))
+  :effect (and 
+          (not (at ?snare ?player))
+          (at ?snare ?bar)
+          (hanged ?snare))
+)
+``` 
+
+Notice that the :effects portion not only includes the effects of the action but also what the action negates i.e the negation of the preconditions. This helps in ensuring the correct state of the world after the action has been executed. The order of the parameters should be consistently followed in both the precondition and the effect. 
+
+Note that the correctness and completeness of the PDDL representation heavily depends on how accurate your requirements, predicates, types, and each action's preconditions and effects are represented.
+
+These actions are formulated based on the given info, there might be more detailed actions, preconditions or effects according to the world described in the problem. Being more specific with the actions and situations in the predicates might be needed for a more complicated and detailed problem.

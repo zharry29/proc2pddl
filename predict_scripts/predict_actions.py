@@ -7,9 +7,12 @@ import few_shot_examples
 import time
 from pprint import pprint
 import argparse
+from openai import OpenAI
 
 os.environ["OPENAI_API_KEY"]= ''
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(
+  api_key=os.environ['OPENAI_API_KEY'],
+)
 
 model_name_map = {
     "gpt4": "gpt-4-32k",
@@ -38,16 +41,17 @@ if args.cot:
 # setup function
 # "gpt-4-32k"
 def get_gpt_response(messages, model="gpt-4-32k"):
-    response = openai.ChatCompletion.create(
-    model=model,
-    messages=messages,
-    # temperature=1,
-    max_tokens=10000 # 32768, # 8192 #4096
-    # top_p=1,
-    # frequency_penalty=0,
-    # presence_penalty=0
-    )
-    return response['choices'][0]['message']['content']
+    response = client.chat.completions.create(
+        model=model,
+        messages=messages,
+        # prompt = messages,
+        # temperature=1,
+        # max_tokens=4000 # 32768, # 8192 #4096
+        # top_p=1,
+        # frequency_penalty=0,
+        # presence_penalty=0
+        )
+    return response.choices[0].message.content
 
 def postprocess_completion(completion):
   lines=['']
@@ -70,17 +74,27 @@ def postprocess_completion_whole_domain(completion):
       if line:
         line = line.replace('```','')
         # remove (To be continued upon request)
+        # (continued in next response...)
+        # if not re.findall(r'\(:action|:parameters|:precondition|:effect|^\(|^\)', line.strip()) or \
         if not re.findall(r'^(\(:action|:parameters|:precondition|:effect|\?|\(|\))',line.strip()) or \
-               any([t in line for t in ['Note', 'actions']]):
+               any([t in line for t in ['Note', 'actions', 'continued']]):
           continue
       if lines[-1].strip() or line.strip():
         lines.append(line)
   lines='\n'.join(lines).strip()
-  s_idx = re.search(r' *\(:action', lines, ).start() #, flags=re.MULTILINE
+  try:
+    s_idx = re.search(r' *\(:action', lines, ).start() #, flags=re.MULTILINE
+  except:
+    print(lines)
   lines = lines[s_idx:]
   if s_idx==0: # start with action
       lines += '\n\n)'
   return lines
+
+def postprocess_completion_action(completion):
+    pattern = re.compile(r"```\S*\s*(\(:action.*?)\s*```", re.DOTALL)
+    action_code_blocks = pattern.findall(completion)
+    return '\n\n'.join(action_code_blocks)+'\n\n)'
 
 def save_output(folder_name, file_name, text):
   parent_dir = '.'
@@ -93,32 +107,37 @@ def save_output(folder_name, file_name, text):
     f.write(text)
 
 def main():
-  model = "gpt-4-32k"
-  rt_path = '../pddl_annotation'
-  pred_path = 'gpt4_3shot_desc_CoT'
-  pred_raw_path = 'gpt4_3shot_desc_CoT_raw'
-  instruct_prompt_type = "instruction_CoT"
+  model = "gpt-4o"
+  rt_path = '../pddl_data'
+  pred_path = 'gpt4o_3shot_desc_ZPD'
+  pred_raw_path = 'gpt4o_3shot_desc_ZPD_raw'
   # pred_path = f'{model}_{prompt}'
   # pred_raw_path = f'{model}_{prompt}_raw'
+
+  instruct_prompt_type = "instruction_ZPD"
   pddl_prompt_type = "instruction_no_text" # "instruction_no_text_CoT", "instruction_pair_CoT"
   few_shot = True
 
-  instruct_prompt = build_prompts.read_prompt('prompts.json')[instruct_prompt_type]
-  pddl_prompt = build_prompts.read_prompt('prompts.json')[pddl_prompt_type]
+  prompts = build_prompts.read_prompt("prompts.json")
+  instruct_prompt = prompts['instruction_task'] +'\n'+ prompts[instruct_prompt_type]
   if few_shot:
       prefix='here are 3 examples for the text to pddl translation task.'
       few_shot_prompt = prefix
       for i, key in enumerate(few_shot_examples.examples.keys()):
           few_shot_prompt += '\n' + build_prompts.compose_prompt(
-              build_prompts.read_prompt('prompts.json')['instruction_few_shot'],
+              prompts['instruction_few_shot'],
               few_shot_examples.examples[key]
           ).replace('<i>', str(i+1))
   # print(few_shot_prompt)
 
   for path, dirs, files in os.walk(rt_path):
         # print(path,dir,files)
-        if 'problem' not in path and path!=rt_path and '113996609' not in path:
-                # all([id not in path for id in ['114905535','114756331','115230790','114994170']]): # 113996609
+        if 'problem' not in path and path!=rt_path:
+            # all([id not in path for id in ['114905535', '114934221', '115230790', '114994170', '114971046','114756331']]):
+                # any([id in path for id in ['114394848', '114985787', '114778947']]):
+                # all([id not in path for id in ['114905535','114756331','115230790','114994170']]):
+                # not '114756331' in path:
+
             print(path)
             components={}
             for file in files:
@@ -133,16 +152,19 @@ def main():
             # print(components)
 
             if components:
-                # need below if action_step pair:
-                action_steps=read_files.read_txt_file(os.path.join(path, 'action_step_map.txt'))
-                components['action_text_pairs']=build_prompts.process_action_text_pair(components['text'], action_steps)
 
-                # need below in only keep relevant actions in text:
+                # need below if action_step pair:
+                # action_steps=read_files.read_txt_file(os.path.join(path, 'action_step_map.txt'))
+                # action_text_pairs=build_prompts.process_action_text_pair(components['text'], action_steps)
+                # components['action_text_pairs']='\n\n'.join(['\n'.join([act,steps]) for act, steps in action_text_pairs.items()])
+
+                # need below if only keep relevant actions in text:
                 # action_steps=read_files.read_txt_file(os.path.join(path, 'action_step_map.txt'))
                 # components['text'] = build_prompts.process_action_text_whole(components['text'], action_steps)
 
+                pddl_prompt = prompts[pddl_prompt_type]
                 pddl_prompt = build_prompts.compose_prompt(pddl_prompt,components)
-                # print(f'prompt:\n{prompt}')
+                # print(f'prompt:\n{pddl_prompt}')
 
                 messages = [
                     {"role": "system", "content": 'you are a helpful assistant.'}, # few_shot_prompt
@@ -165,7 +187,7 @@ def main():
                 if not last_action in completion:
                   completion_extend = completion
                   for i in range(7):
-                    messages.extend([{"role": "assistant", "content": completion_extend}]) # ,{"role": "user", "content":"continue"}
+                    messages.extend([{"role": "assistant", "content": completion_extend},{"role": "user", "content": "continue"}]) # ,{"role": "user", "content":"continue"}
                     try:
                         completion_extend = get_gpt_response(messages, model=model)
                     except:
@@ -174,7 +196,8 @@ def main():
                         completion_extend = get_gpt_response(messages, model=model)
                     completion+='\n'+completion_extend
                     print(f'continue {i+1} time')
-                    if last_action in completion_extend:
+                    # if last_action in completion_extend:
+                    if last_action in completion:
                         print('reach end')
                         break
                 else:
@@ -186,8 +209,7 @@ def main():
                 # # print(path)
                 # completion = read_files.read_txt_file(os.path.join(pred_raw_path,file_name))
 
-                comp_post = postprocess_completion_whole_domain(completion)
-                # comp_post = postprocess_completion(completion)
+                comp_post = postprocess_completion_action(completion)
                 # print(f'post_comp:\n{comp_post}')
                 file_name=path.split('/')[-1]+'.txt'
                 if pred_raw_path:

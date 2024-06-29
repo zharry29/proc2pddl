@@ -1,281 +1,154 @@
-- action name: splash_swim
-- summarize action: The player swims with loud sounds, making it harder to monitor the shark.
-- what is needed to do the action: The player must be in the water and not on a ship.
-- what is the result: The player moves from one water location to another in a direction.
+Given the predicate definitions, types and requirements provided, each action could be defined with Parameters, Precondition, and Effect. Here, I will illustrate this one by one.
 
-- entities:
-  - entity name: player
-    - before: at starting water location
-    - after: at destination water location in a direction
-   
-- describe how to match it to pddl relevant predicates step by step:
-1. Identify that the player is at a certain water location.
-2. Identify that the destination location is water.
-3. Identify that the current location is connected to the destination location in the direction given.
+Here is how you can implement each PDDL action:
 
-pddl:
+1. Action name: splash_swim
+- parameters: (?player - player ?loc - location)
+- precondition: (and (at ?player ?loc) (is_water ?loc))
+- effect: (fleed ?shark)
+- PDDL: 
+```
 (:action splash_swim
- :parameters (?player - player ?loc - location ?dir - direction ?dest - location)
- :precondition (and 
-                 (at ?player ?loc)
-                 (is_water ?loc)
-                 (not (on ?player ?ship))
-                 (connected ?loc ?dir ?dest)
-                 (is_water ?dest)
-               )
- :effect (and
-            (at ?player ?dest)
-            (not (at ?player ?loc))
-          )
+  :parameters (?player - player ?loc - location)
+  :precondition (and (at ?player ?loc)  (is_water ?loc))
+  :effect (fleed ?shark)
 )
+```
 
-- action name: swim
-- summarize action: The player swims normally toward safety.
-- what is needed to do the action: The player must be in the water and not on a ship.
-- what is the result: The player moves from one water location to another in a direction.
-
-- entities:
-  - entity name: player
-    - before: at starting water location
-    - after: at destination water location in a direction
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Identify that the player is at a certain water location.
-2. Identify that the destination location is water.
-3. Identify that the current location is connected to the destination location in the direction given.
-
-pddl:
+2. action name: swim
+- parameters: (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+- precondition: (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (is_water ?loc2))
+- effect: (and (not (at ?player ?loc1)) (at ?player ?loc2))
+- PDDL: 
+```
 (:action swim
- :parameters (?player - player ?loc - location ?dir - direction ?dest - location)
- :precondition (and 
-                 (at ?player ?loc)
-                 (is_water ?loc)
-                 (not (on ?player ?ship))
-                 (connected ?loc ?dir ?dest)
-                 (is_water ?dest)
-               )
- :effect (and
-            (at ?player ?dest)
-            (not (at ?player ?loc))
-          )
+  :parameters (?player - player ?loc1 - location ?loc2 - location ?dir - direction)
+  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2) (is_water ?loc2))
+  :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
 )
+```
 
-- action name: get
-- summarize action: The player picks up an item and puts it in the inventory.
-- what is needed to do the action: The player must be at the same location as the item.
-- what is the result: The item is added to the player's inventory.
-
-- entities:
-  - entity name: player
-    - before: not having the item in the inventory
-    - after: having the item in the inventory
-  - entity name: item
-    - before: at location
-    - after: in player's inventory
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Identify that the player is at the same location as the item.
-2. Add the item to the player's inventory.
-
-pddl:
+3. action name: get
+- parameters: (?player - player ?item - item ?loc - location)
+- precondition: (and (at ?player ?loc) (at ?item ?loc))
+- effect: (and (not (at ?item ?loc)) (inventory ?player ?item))
+- PDDL: 
+```
 (:action get
- :parameters (?player - player ?item - item ?loc - location)
- :precondition (and 
-                 (at ?player ?loc)
-                 (at ?item ?loc)
-               )
- :effect (and
-            (inventory ?player ?item)
-            (not (at ?item ?loc))
-          )
+  :parameters (?player - player ?item - item ?loc - location)
+  :precondition (and (at ?player ?loc) (at ?item ?loc))
+  :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
 )
+```
 
-- action name: onboard
-- summarize action: The player gets on to the ship.
-- what is needed to do the action: The player must be at the same location as the ship.
-- what is the result: The player is on the ship.
-
-- entities:
-  - entity name: player
-    - before: not on the ship
-    - after: on the ship
-  - entity name: ship
-    - before: at location
-    - after: at location and the player is on it
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Identify that the player is at the same location as the ship.
-2. Add the player to the ship's passengers.
-
-pddl:
+4. action name: onboard
+- parameters: (?player - player ?ship - ship)
+- precondition: (visible ?ship)
+- effect: (on ?player ?ship)
+- PDDL: 
+```
 (:action onboard
- :parameters (?player - player ?ship - ship ?loc - location)
- :precondition (and
-                 (at ?player ?loc)
-                 (at ?ship ?loc)
-               )
- :effect (on ?player ?ship)
-) 
+  :parameters (?player - player ?ship - ship)
+  :precondition (visible ?ship)
+  :effect (on ?player ?ship)
+)
+```
 
-- action name: defend
-- summarize action: The player defends themselves.
-- what is needed to do the action: The player must be attacked by the shark.
-- what is the result: The player is in a defensive position.
-
-- entities:
-  - entity name: player
-    - before: not in a defensive position
-    - after: in a defensive position
-  - entity name: shark
-    - before: attacking the player
-    - after: attacking the player
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Identify that the shark is attacking the player.
-2. Put the player in a defensive position.
-
-pddl:
+5. Action name: defend
+- parameters: (?player - player)
+- precondition: (wounded ?player)
+- effect: (defending ?player)
+- PDDL: 
+```
 (:action defend
- :parameters (?player - player ?shark - shark)
- :precondition (attacked ?player ?shark)
- :effect (defending ?player)
+  :parameters (?player - player)
+  :precondition (wounded ?player)
+  :effect (defending ?player)
 )
+```
 
-- action name: spot_ship
-- summarize action: The player spots ships that are nearby.
-- what is needed to do the action: A ship must be visible to the player.
-- what is the result: The player is aware of nearby ships.
+Please note that you need to fix the `knockout` and `attack_vulnerable` because you wrote the same description for both. Likewise, it's unclear what object the `spot_ship` and `spot_shark` actions are supposed to be attached to. You must clearly define what role a shark, ship, or player performs in these actions. 
 
-- entities:
-  - entity name: ship
-    - before: not visible
-    - after: visible
+Moreover, the predicate `dizzy` is provided, but it's not used in any of the actions, leading to inconsistency. 
 
-- describe how to match it to pddl relevant predicates step by step:
-1. Identify that the ship is visible to the player.
+Consequently, you may need to revisit these actions to provide more detailed descriptions or perhaps alter your predicates. I hope this is helpful!
+Apologies for the confusion for previous 5 actions, but let's keep moving:
 
-pddl:
+6. Action name: spot_ship
+- parameters: (?player - player ?ship - ship)
+- precondition: (at ?ship ?loc)
+- effect: (visible ?ship)
+- PDDL: 
+```
 (:action spot_ship
- :parameters (?player - player ?ship - ship)
- :precondition (visible ?ship)
- :effect (and)
+  :parameters (?player - player ?ship - ship)
+  :precondition (at ?ship ?loc)
+  :effect (visible ?ship)
 )
+```
 
-- action name: spot_shark
-- summarize action: The player spots a shark nearby.
-- what is needed to do the action: A shark must be visible to the player.
-- what is the result: The player is aware of the nearby shark.
-
-- entities:
-  - entity name: shark
-    - before: not visible
-    - after: visible
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Identify that the shark is visible to the player.
-
-pddl:
+7. Action name: spot_shark
+- parameters: (?player - player ?shark - shark)
+- precondition: (at ?shark ?loc)
+- effect: (visible ?shark)
+- PDDL: 
+```
 (:action spot_shark
- :parameters (?player - player ?shark - shark)
- :precondition (visible ?shark)
- :effect (and)
+  :parameters (?player - player ?shark - shark)
+  :precondition (at ?shark ?loc)
+  :effect (visible ?shark)
 )
+```
 
-- action name: self_mobilize
-- summarize action: The player uses their own body as weapons.
-- what is needed to do the action: The player must be defending.
-- what is the result: The player remains in a defensive position.
-
-- entities:
-  - entity name: player
-    - before: in a defensive position
-    - after: in a defensive position
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Identify that the player is defending.
-   
-pddl:
+8. Action name: self_mobilize
+- parameters: (?player - player ?shark - shark)
+- precondition: (at ?player ?loc)
+- effect: (defending ?player)
+- PDDL: 
+```
 (:action self_mobilize
- :parameters (?player - player)
- :precondition (defending ?player)
- :effect (and)
+  :parameters (?player - player ?shark - shark)
+  :precondition (at ?player ?loc)
+  :effect (defending ?player)
 )
+```
 
-- action name: medicare
-- summarize action: The player gets help from medicare to deal with their wounds.
-- what is needed to do the action: The player must be wounded.
-- what is the result: The player is no longer wounded.
-
-- entities:
-  - entity name: player
-    - before: wounded
-    - after: not wounded
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Identify that the player is wounded.
-2. Remove the wounded status from the player.
-
-pddl:
+9. Action name: medicare
+- parameters: (?player - player)
+- precondition: (wounded ?player)
+- effect: (not (wounded ?player))
+- PDDL: 
+```
 (:action medicare
- :parameters (?player - player)
- :precondition (wounded ?player)
- :effect (not (wounded ?player))
+  :parameters (?player - player)
+  :precondition (wounded ?player)
+  :effect (not (wounded ?player))
 )
+```
 
-- action name: attack_vulnerable
-- summarize action: The player attacks the shark on its eyes, gill, or snout.
-- what is needed to do the action: The shark part must be vulnerable and the player must have a suitable tool in their inventory.
-- what is the result: The shark becomes dizzy.
-
-- entities:
-  - entity name: player
-    - before: has suitable tool in inventory
-    - after: has suitable tool in inventory
-  - entity name: shark
-    - before: not dizzy
-    - after: dizzy
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Identify that the shark part is vulnerable.
-2. Identify that the player has a suitable tool in their inventory.
-3. Make the shark dizzy.
-
-pddl:
+10. Action name: attack_vulnerable
+- parameters: (?player - player ?shark - shark ?part - part ?obj - object)
+- precondition: (and (vulnerable ?part) (sharp ?obj) (inventory ?player ?obj))
+- effect: (dizzy ?shark)
+- PDDL: 
+```
 (:action attack_vulnerable
- :parameters (?player - player ?shark - shark ?part - part ?tool - object)
- :precondition (and 
-                 (vulnerable ?part)
-                 (inventory ?player ?tool)
-                 (or (sharp ?tool) (heavy ?tool))
-               )
- :effect (dizzy ?shark)
+  :parameters (?player - player ?shark - shark ?part - part ?obj - object)
+  :precondition (and (vulnerable ?part) (sharp ?obj) (inventory ?player ?obj))
+  :effect (dizzy ?shark)
 )
+```
 
-- action name: knockout
-- summarize action: The player attacks the shark on its eyes, gill, or snout.
-- what is needed to do the action: The shark part must be vulnerable and the player must have a suitable tool in their inventory.
-- what is the result: The shark flees.
-
-- entities:
-  - entity name: player
-    - before: has suitable tool in inventory
-    - after: has suitable tool in inventory
-  - entity name: shark
-    - before: not fleeing
-    - after: fleeing
-
-- describe how to match it to pddl relevant predicates step by step:
-1. Identify that the shark part is vulnerable.
-2. Identify that the player has a suitable tool in their inventory.
-3. Make the shark flee.
-
-pddl:
+11. Action name: knockout
+- parameters: (?player - player ?shark - shark ?part - part ?obj - object)
+- precondition: (and (vulnerable ?part) (heavy ?obj) (inventory ?player ?obj))
+- effect: (dizzy ?shark)
+- PDDL: 
+```
 (:action knockout
- :parameters (?player - player ?shark - shark ?part - part ?tool - object)
- :precondition (and 
-                 (vulnerable ?part)
-                 (inventory ?player ?tool)
-                 (or (sharp ?tool) (heavy ?tool))
-               )
- :effect (fleed ?shark)
+  :parameters (?player - player ?shark - shark ?part - part ?obj - object)
+  :precondition (and (vulnerable ?part) (heavy ?obj) (inventory ?player ?obj))
+  :effect (dizzy ?shark)
 )
+```
+In this way, each action is properly described and configured. Ensure you have a solid understanding of your problem space and how each action interacts with the world and the player.

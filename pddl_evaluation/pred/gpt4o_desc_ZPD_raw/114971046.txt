@@ -1,0 +1,302 @@
+### Action: drive
+
+- action name: drive
+- summarize action: The player drives from one location to another if they are in a car and the connection is not blocked.
+- what is needed to do the action: The player must be driving a car, and the locations must be connected and not blocked.
+- what is the result: The player's location changes from the starting location to the destination location.
+
+- entities:
+  - entity name: player 
+    - before: located at the starting location 
+    - after: located at the destination location
+  - entity name: car 
+    - before: located at the starting location
+    - after: located at the destination location
+
+pddl:
+```lisp
+(:action drive
+  :parameters (?p - player ?start - location ?end - location ?dir - direction ?car - item)
+  :precondition (and
+    (driving ?p)
+    (is_car ?car)
+    (at ?car ?start)
+    (connected ?start ?dir ?end)
+    (not (blocked ?start ?dir ?end))
+  )
+  :effect (and
+    (not (at ?p ?start))
+    (at ?p ?end)
+    (not (at ?car ?start))
+    (at ?car ?end)
+  )
+)
+```
+
+### Action: walk
+
+- action name: walk
+- summarize action: The player walks from one location to another if the connection is not blocked.
+- what is needed to do the action: The locations must be connected and the connection must not be blocked.
+- what is the result: The player's location changes from the starting location to the destination location.
+
+- entities:
+  - entity name: player
+    - before: located at the starting location
+    - after: located at the destination location
+
+pddl:
+```lisp
+(:action walk
+  :parameters (?p - player ?start - location ?end - location ?dir - direction)
+  :precondition (and
+    (at ?p ?start)
+    (connected ?start ?dir ?end)
+    (not (blocked ?start ?dir ?end))
+  )
+  :effect (and
+    (not (at ?p ?start))
+    (at ?p ?end)
+  )
+)
+```
+
+### Action: get_food
+
+- action name: get_food
+- summarize action: The player acquires a non-perishable item located at a supermarket and adds it to their inventory.
+- what is needed to do the action: The non-perishable item should be at the same location as the player which is a supermarket.
+- what is the result: The item is added to the player's inventory and removed from its previous location.
+
+- entities:
+  - entity name: non-perishable item
+    - before: located at a supermarket
+    - after: located in the player's inventory
+  - entity name: player
+    - before: located at the supermarket
+    - after: remains at the supermarket
+
+pddl:
+```lisp
+(:action get_food
+  :parameters (?p - player ?item - item ?loc - location)
+  :precondition (and
+    (is_nonperishable ?item)
+    (at ?p ?loc)
+    (at ?item ?loc)
+    (is_supermarket ?loc)
+  )
+  :effect (and
+    (inventory ?p ?item)
+    (not (at ?item ?loc))
+  )
+)
+```
+
+### Action: get
+
+- action name: get
+- summarize action: The player picks up an item from their current location and adds it to their inventory.
+- what is needed to do the action: The item should be located at the same location as the player.
+- what is the result: The item is added to the player's inventory and removed from the current location.
+
+- entities:
+  - entity name: item
+    - before: located at the player's current location
+    - after: located in the player's inventory
+  - entity name: player
+    - before: located at the location
+    - after: remains at the location
+
+pddl:
+```lisp
+(:action get
+  :parameters (?p - player ?item - item ?loc - location)
+  :precondition (and
+    (at ?p ?loc)
+    (at ?item ?loc)
+  )
+  :effect (and
+    (inventory ?p ?item)
+    (not (at ?item ?loc))
+  )
+)
+```
+
+### Action: drop
+
+- action name: drop
+- summarize action: The player drops an item from their inventory at the current location.
+- what is needed to do the action: The player should have the item in their inventory.
+- what is the result: The item is removed from the player's inventory and placed at the current location.
+
+- entities:
+  - entity name: item
+    - before: located in the player's inventory
+    - after: located at the player's current location
+  - entity name: player
+    - before: located at the location
+    - after: remains at the location
+
+pddl:
+```lisp
+(:action drop
+  :parameters (?p - player ?item - item ?loc - location)
+  :precondition (and
+    (inventory ?p ?item)
+    (at ?p ?loc)
+  )
+  :effect (and
+    (not (inventory ?p ?item))
+    (at ?item ?loc)
+  )
+)
+```
+
+### Action: make_plan
+
+- action name: make_plan
+- summarize action: The player creates a survival plan.
+- what is needed to do the action: The player must be unsheltered and have no plan yet.
+- what is the result: The player has made a survival plan.
+
+- entities:
+  - entity name: player
+    - before: unsheltered and has no plan
+    - after: unsheltered and has a plan
+
+pddl:
+```lisp
+(:action make_plan
+  :parameters (?p - player)
+  :precondition (and
+    (not (sheltered ?p))
+    (not (has_plan ?p))
+  )
+  :effect (has_plan ?p)
+)
+```
+
+### Action: get_medicine
+
+- action name: get_medicine
+- summarize action: The player acquires medicine from a pharmacy and adds it to their inventory.
+- what is needed to do the action: The medicine should be at the same location as the player which is a pharmacy.
+- what is the result: The medicine is added to the player's inventory and removed from its previous location.
+
+- entities:
+  - entity name: medicine
+    - before: located at a pharmacy
+    - after: located in the player's inventory
+  - entity name: player
+    - before: located at the pharmacy
+    - after: remains at the pharmacy
+
+pddl:
+```lisp
+(:action get_medicine
+  :parameters (?p - player ?item - item ?loc - location)
+  :precondition (and
+    (is_medicine ?item)
+    (at ?p ?loc)
+    (at ?item ?loc)
+    (is_pharmacy ?loc)
+  )
+  :effect (and
+    (inventory ?p ?item)
+    (not (at ?item ?loc))
+  )
+)
+```
+
+### Action: reinforce
+
+- action name: reinforce
+- summarize action: The player uses construction materials to reinforce their home, making it a sheltered place.
+- what is needed to do the action: The player should be at home and the home should be unsheltered. The player should have construction materials in their inventory.
+- what is the result: The home becomes a sheltered place and construction materials are used up from the player's inventory.
+
+- entities:
+  - entity name: construction materials
+    - before: located in the player's inventory
+    - after: removed from the player's inventory
+  - entity name: player's home
+    - before: unsheltered
+    - after: sheltered
+  - entity name: player
+    - before: located at home
+    - after: remains at home
+
+pddl:
+```lisp
+(:action reinforce
+  :parameters (?p - player ?item - item ?home - location)
+  :precondition (and
+    (is_construction_material ?item)
+    (inventory ?p ?item)
+    (at ?p ?home)
+    (is_home ?home)
+    (not (sheltered ?home))
+  )
+  :effect (and
+    (not (inventory ?p ?item))
+    (sheltered ?home)
+  )
+)
+```
+
+### Action: stay_in_shelter
+
+- action name: stay_in_shelter
+- summarize action: The player remains in a sheltered place to ensure safety.
+- what is needed to do the action: The player must be in a sheltered place.
+- what is the result: The player remains safe in the sheltered location.
+
+- entities:
+  - entity name: player
+    - before: located in a sheltered place
+    - after: remains in the sheltered place
+
+pddl:
+```lisp
+(:action stay_in_shelter
+  :parameters (?p - player ?loc - location)
+  :precondition (and
+    (at ?p ?loc)
+    (sheltered ?loc)
+  )
+  :effect (and
+    ;; The player remains in the same place, no change.
+  )
+)
+```
+
+### Action: get_in_car
+
+- action name: get_in_car
+- summarize action: The player enters a car to start driving.
+- what is needed to do the action: The car must be at the same location as the player.
+- what is the result: The player starts driving the car.
+
+- entities:
+  - entity name: car
+    - before: located at the player's location
+    - after: remains at the location
+  - entity name: player
+    - before: located at the same place as car
+    - after: starts driving the car
+
+pddl:
+```lisp
+(:action get_in_car
+  :parameters (?p - player ?car - item ?loc - location)
+  :precondition (and
+    (is_car ?car)
+    (at ?p ?loc)
+    (at ?car ?loc)
+  )
+  :effect (and
+    (driving ?p)
+  )
+)
+```

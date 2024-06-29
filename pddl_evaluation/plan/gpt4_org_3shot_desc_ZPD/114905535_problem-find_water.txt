@@ -1,0 +1,4 @@
+go ('npc', 'shore', 'forest_edge', 'east')
+go ('npc', 'forest_edge', 'forest', 'east')
+go ('npc', 'forest', 'river', 'north')
+get_water ('npc', 'river', 'water')

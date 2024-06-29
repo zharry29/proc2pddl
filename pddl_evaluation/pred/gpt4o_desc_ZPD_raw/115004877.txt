@@ -1,0 +1,277 @@
+Sure, here’s the step-by-step response for each action, following your requirements:
+
+### Action: go
+- summarize action: The player navigates from one location to an adjacent connected location.
+- what is needed to do the action: The player must be at a current location, and there must be a connection to the target location in a particular direction.
+- what is the result: The player will be at the new location.
+
+- entities:
+  - entity name: player
+    - before: at a starting location
+    - after: at an adjacent connected location
+  - entity name: starting location
+    - before: connected to an adjacent location in a specific direction
+    - after: unchanged
+
+pddl:
+```pddl
+(:action go
+    :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
+    :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
+    :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
+)
+```
+
+### Action: get
+- summarize action: The player picks up an item from a location and places it in their inventory.
+- what is needed to do the action: The player must be at the same location as the item.
+- what is the result: The item will be added to the player's inventory, and it will no longer be at the location.
+
+- entities:
+  - entity name: player
+    - before: at a location
+    - after: unchanged
+  - entity name: item
+    - before: at the same location
+    - after: in the player's inventory
+
+pddl:
+```pddl
+(:action get
+    :parameters (?player - player ?item - item ?loc - location)
+    :precondition (and (at ?player ?loc) (at ?item ?loc))
+    :effect (and (inventory ?player ?item) (not (at ?item ?loc)))
+)
+```
+
+### Action: cut_plant
+- summarize action: The player uses scissors to cut down a plant, converting it into a stalk.
+- what is needed to do the action: The player must have scissors in their inventory and be at the location of the plant.
+- what is the result: The plant will be removed from the location, and a stalk will be added to the player's inventory.
+
+- entities:
+  - entity name: player
+    - before: at a location, with scissors in inventory
+    - after: unchanged
+  - entity name: plant
+    - before: at the location
+    - after: removed from the location
+  - entity name: stalk
+    - before: not in the inventory
+    - after: in the player's inventory
+
+pddl:
+```pddl
+(:action cut_plant
+    :parameters (?player - player ?plant - plant ?stalk - stalk ?scissors - scissors ?loc - location)
+    :precondition (and (at ?player ?loc) (at ?plant ?loc) (inventory ?player ?scissors))
+    :effect (and (inventory ?player ?stalk) (not (at ?plant ?loc)))
+)
+```
+
+### Action: peel_stalk
+- summarize action: The player peels the outer layer off a stalk, making it ready to be cut into strips.
+- what is needed to do the action: The player must have the stalk in their inventory and be at a location with the necessary tools (i.e., a shell).
+- what is the result: The stalk will be marked as peeled in the inventory.
+
+- entities:
+  - entity name: player
+    - before: in possession of the stalk and at a location with a shell
+    - after: unchanged
+  - entity name: stalk
+    - before: not peeled
+    - after: peeled
+
+pddl:
+```pddl
+(:action peel_stalk
+    :parameters (?player - player ?stalk - stalk ?shell - shell ?loc - location)
+    :precondition (and (inventory ?player ?stalk) (inventory ?player ?shell))
+    :effect (peeled ?stalk)
+)
+```
+
+### Action: cut_stalk_into_strips
+- summarize action: The player cuts a peeled stalk into strips.
+- what is needed to do the action: The player must have a peeled stalk and scissors in their inventory.
+- what is the result: Strips are added to the inventory, and the stalk is removed.
+
+- entities:
+  - entity name: player
+    - before: in possession of a peeled stalk and scissors
+    - after: unchanged
+  - entity name: stalk
+    - before: peeled, in inventory
+    - after: removed from inventory
+  - entity name: strips
+    - before: not in inventory
+    - after: added to inventory
+
+pddl:
+```pddl
+(:action cut_stalk_into_strips
+    :parameters (?player - player ?stalk - stalk ?strip - strip ?scissors - scissors)
+    :precondition (and (inventory ?player ?stalk) (peeled ?stalk) (inventory ?player ?scissors))
+    :effect (and (inventory ?player ?strip) (not (inventory ?player ?stalk)))
+)
+```
+
+### Action: soak_strips
+- summarize action: The player soaks the strips in water, cleaning them.
+- what is needed to do the action: The player must be at a location with water and must have the strips in inventory.
+- what is the result: The strips will be marked as clean.
+
+- entities:
+  - entity name: player
+    - before: at a location with water and strips in inventory
+    - after: unchanged
+  - entity name: strips
+    - before: not clean
+    - after: clean
+
+pddl:
+```pddl
+(:action soak_strips
+    :parameters (?player - player ?strip - strip ?loc - location)
+    :precondition (and (at ?player ?loc) (inventory ?player ?strip) (has_water ?loc))
+    :effect (clean ?strip)
+)
+```
+
+### Action: dry_out_strips
+- summarize action: The player dries out the cleaned strips.
+- what is needed to do the action: The player must be at a location with the strips and the strips must be clean.
+- what is the result: The strips will be marked as dry.
+
+- entities:
+  - entity name: player
+    - before: at a location with clean strips in inventory
+    - after: unchanged
+  - entity name: strips
+    - before: clean but not dry
+    - after: clean and dry
+
+pddl:
+```pddl
+(:action dry_out_strips
+    :parameters (?player - player ?strip - strip ?loc - location)
+    :precondition (and (at ?player ?loc) (inventory ?player ?strip) (clean ?strip))
+    :effect (dry ?strip)
+)
+```
+
+### Action: weave_strips_into_sheet
+- summarize action: The player weaves the dry strips into a sheet.
+- what is needed to do the action: The player must have dry strips in inventory.
+- what is the result: A sheet will be added to the inventory, and the strips will be removed.
+
+- entities:
+  - entity name: player
+    - before: in possession of dry strips
+    - after: unchanged
+  - entity name: strips
+    - before: dry, in inventory
+    - after: removed from inventory
+  - entity name: sheet
+    - before: not in inventory
+    - after: added to inventory
+
+pddl:
+```pddl
+(:action weave_strips_into_sheet
+    :parameters (?player - player ?strip - strip ?sheet - sheet)
+    :precondition (and (inventory ?player ?strip) (dry ?strip))
+    :effect (and (inventory ?player ?sheet) (not (inventory ?player ?strip)))
+)
+```
+
+### Action: press_sheet
+- summarize action: The player presses the sheet to flatten it.
+- what is needed to do the action: The player must be at a location with a hard surface and have the sheet in inventory.
+- what is the result: The sheet will be marked as flat.
+
+- entities:
+  - entity name: player
+    - before: at a location with a hard surface, sheet in inventory
+    - after: unchanged
+  - entity name: sheet
+    - before: in inventory, not flat
+    - after: in inventory, flat
+
+pddl:
+```pddl
+(:action press_sheet
+    :parameters (?player - player ?sheet - sheet ?loc - location)
+    :precondition (and (at ?player ?loc) (inventory ?player ?sheet) (has_hard_surface ?loc))
+    :effect (flat ?sheet)
+)
+```
+
+### Action: flatten_sheet
+- summarize action: The player further flattens a flat sheet to make it very flat.
+- what is needed to do the action: The player must have a flat sheet in inventory.
+- what is the result: The sheet will be marked as very flat.
+
+- entities:
+  - entity name: player
+    - before: flat sheet in inventory
+    - after: unchanged
+  - entity name: sheet
+    - before: in inventory, flat
+    - after: in inventory, very flat
+
+pddl:
+```pddl
+(:action flatten_sheet
+    :parameters (?player - player ?sheet - sheet)
+    :precondition (and (inventory ?player ?sheet) (flat ?sheet))
+    :effect (very_flat ?sheet)
+)
+```
+
+### Action: polish_sheet
+- summarize action: The player polishes the very flat sheet to make it smooth.
+- what is needed to do the action: The player must have a very flat sheet in inventory.
+- what is the result: The sheet will be marked as smooth.
+
+- entities:
+  - entity name: player
+    - before: very flat sheet in inventory
+    - after: unchanged
+  - entity name: sheet
+    - before: in inventory, very flat
+    - after: in inventory, smooth
+
+pddl:
+```pddl
+(:action polish_sheet
+    :parameters (?player - player ?sheet - sheet)
+    :precondition (and (inventory ?player ?sheet) (very_flat ?sheet))
+    :effect (smooth ?sheet)
+)
+```
+
+### Action: cut_sheet
+- summarize action: The player cuts the smooth sheet to produce the final papyrus product.
+- what is needed to do the action: The player must have a smooth sheet and scissors in inventory.
+- what is the result: The papyrus will be added to the inventory, the smooth sheet will not be in inventory any longer.
+
+- entities:
+  - entity name: player
+    - before: smooth sheet and scissors in inventory
+    - after: unchanged
+  - entity name: smooth sheet
+    - before: smooth and in inventory
+    - after: removed from inventory
+  - entity name: papyrus
+    - before: not in inventory
+    - after: in inventory
+
+pddl:
+```pddl
+(:action cut_sheet
+    :parameters (?player - player ?sheet - sheet ?papyrus - papyrus ?scissors - scissors)
+    :precondition (and (inventory ?player ?sheet) (smooth ?sheet) (inventory ?player ?scissors))
+    :effect (and (inventory ?player ?papyrus) (not (inventory ?player ?sheet)))
+)
+```

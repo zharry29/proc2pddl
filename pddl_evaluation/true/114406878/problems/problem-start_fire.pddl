@@ -37,5 +37,6 @@
       (has_dry_even_area camp)
    )
 
-   (:goal (and (ignited teepee_structure)))
+   ; (:goal (and (ignited teepee_structure)))
+   (:goal (and (inventory npc branch)))
 )

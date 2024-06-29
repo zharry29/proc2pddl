@@ -1,37 +1,134 @@
 (:action go
-  :parameters (?player - player ?dir - direction ?loc1 - location ?loc2 - location)
-  :precondition (and (at ?player ?loc1) (connected ?loc1 ?dir ?loc2))
-  :effect (and (not (at ?player ?loc1)) (at ?player ?loc2))
-)
+    :parameters (?player - player ?to - location)
+    :precondition (not (at ?player ?to))
+    :effect (at ?player ?to))
 
 (:action understand
-  :parameters (?player - player ?concept - concept)
-  :precondition (not (know ?player ?concept))
-  :effect (know ?player ?concept)
-)
+    :parameters (?player - player ?concept - concept)
+    :precondition (not(know ?player ?concept))
+    :effect (know ?player ?concept))
 
 (:action learn
-  :parameters (?player - player ?skill - skill)
-  :precondition (not (learned ?player ?skill))
-  :effect (learned ?player ?skill)
-)
+    :parameters (?player - player ?skill - skill)
+    :precondition (not(learned ?player ?skill))
+    :effect (learned ?player ?skill))
 
 (:action get
-  :parameters (?player - player ?item - item ?loc - location)
-  :precondition (and (at ?player ?loc) (at ?item ?loc))
-  :effect (and (not (at ?item ?loc)) (inventory ?player ?item))
-)
+    :parameters (?player - player ?item - item)
+    :precondition (not (inventory ?player ?item))
+    :effect (inventory ?player ?item))
+
+(:action machine_secured
+    :parameters (?player - player)
+    :precondition (not (authorized ?player))
+    :effect (authorized ?player))
 
 (:action enumeration
   :parameters (?player - player)
-  :precondition (authorized ?player)
-  :effect (collected_all_info ?player)
-)
+  :precondition (not (collected_all_info ?player))
+  :effect (collected_all_info ?player))
+
+(:action got_all_info
+    :parameters (?player - player)
+    :precondition (not (collected_all_info ?player))
+    :effect (collected_all_info ?player))
 
 (:action ping
+    :parameters (?player - player)
+    :precondition (true)
+    :effect (ping_succeed ?player))
+
+(:action check_email_server
+    :parameters (?player - player)
+    :precondition (not (server_checked ?player))
+    :effect (server_checked ?player))
+
+(:action reached_the_remote_system
+    :parameters (?player - player)
+    :precondition (not (at ?player computer))
+    :effect (at ?player computer)
+)
+
+(:action run_port_scan
+    :parameters (?player - player)
+    :precondition (not(port_scanned ?player))
+    :effect (port_scanned ?player)
+)
+
+(:action found_path_in_system
+    :parameters (?player - player)
+    :precondition (and (at ?player computer) (port_scanned ?player))
+    :effect (collected_all_info ?player)
+)
+
+(:action contact_and_trick_a_user
+    :parameters (?player - player)
+    :precondition (not (tricked_user_password ?player))
+    :effect (tricked_user_password ?player)
+)
+
+(:action crack_password_by_social_engineering
+    :parameters (?player - player)
+    :precondition (not (password_cracked ?player))
+    :effect (password_cracked ?player))
+
+(:action send_fake_email
+    :parameters (?player - player)
+    :precondition (not (user_trusted_fake_email ?player))
+    :effect (user_trusted_fake_email ?player))
+
+(:action crack_password_by_phishing
   :parameters (?player - player)
-  :precondition (true) ; placeholder for any specific conditions if introduced
-  :effect (ping_succeed ?player)
+  :precondition (and (not (password_cracked ?player)) (user_trusted_fake_email ?player))
+  :effect (password_cracked ?player)
+)
+
+(:action create_fake_wifi_access
+  :parameters (?player - player)
+  :precondition (not (people_use_unencrypted_connection ?player))
+  :effect (people_use_unencrypted_connection ?player)
+)
+
+(:action crack_password_by_arp_spoofing
+  :parameters (?player - player)
+  :precondition (and (not (password_cracked ?player)) (people_use_unencrypted_connection ?player))
+  :effect (password_cracked ?player)
+)
+
+(:action crack_password_by_brute_force
+  :parameters (?player - player)
+  :precondition (not (password_cracked ?player))
+  :effect (password_cracked ?player)
+)
+
+(:action gain_access_with_password
+  :parameters (?player - player)
+  :precondition (password_cracked ?player)
+  :effect (authorized ?player)
+)
+
+(:action create_buffer_overflow
+  :parameters (?player - player)
+  :precondition (is_root_user ?player)
+  :effect (is_root_user ?player)
+)
+
+(:action take_control_of_system
+  :parameters (?player - player)
+  :precondition (and (is_root_user ?player) (authorized ?player))
+  :effect (is_root_user ?player)
+)
+
+(:action install_malware
+  :parameters (?player - player)
+  :precondition (is_root_user ?player)
+  :effect (is_root_user ?player)
+)
+
+(:action bypass_standard_authentication_system
+  :parameters (?player - player)
+  :precondition (not (authorized ?player))
+  :effect (authorized ?player)
 )
 
 )

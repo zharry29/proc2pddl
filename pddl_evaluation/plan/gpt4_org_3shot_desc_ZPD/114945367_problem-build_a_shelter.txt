@@ -1,0 +1,5 @@
+go ('npc', 'west', 'camp', 'path')
+get_long_branch ('npc', 'long_branch', 'path')
+get_propped_branches ('npc', 'propped_branches', 'path')
+get_twigs_leaves ('npc', 'twigs_leaves', 'path')
+build_shelter ('npc', 'long_branch', 'propped_branches', 'twigs_leaves')
