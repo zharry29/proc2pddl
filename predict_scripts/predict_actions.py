@@ -15,6 +15,7 @@ client = OpenAI(
 )
 
 model_name_map = {
+    "gpt4o": "gpt-4o",
     "gpt4": "gpt-4-32k",
     "gpt3.5": "gpt-3.5-turbo-16k",
 }
@@ -24,19 +25,6 @@ prompt_type_map = {
     "no_text": "instruction_no_text",
     "whole": "instruction_text",
 }
-
-# argparse
-parser = argparse.ArgumentParser()
-parser.add_argument('--model', type=str, default="gpt4", help="gpt model name")
-parser.add_argument('--prompt', type=str, default="whole", help="the type of prompt to use")
-parser.add_argument('--cot', action="store_true", help="whether to use cot prompt")
-
-args = parser.parse_args()
-
-model = model_name_map[args.model]
-prompt = prompt_type_map[args.prompt]
-if args.cot:
-    prompt += "_CoT"
 
 # setup function
 # "gpt-4-32k"
@@ -97,7 +85,7 @@ def postprocess_completion_action(completion):
     return '\n\n'.join(action_code_blocks)+'\n\n)'
 
 def save_output(folder_name, file_name, text):
-  parent_dir = '.'
+  parent_dir = '../pddl_evaluation/pred'
   path = os.path.join(parent_dir, folder_name)
 
   if not os.path.exists(path):
@@ -107,16 +95,32 @@ def save_output(folder_name, file_name, text):
     f.write(text)
 
 def main():
-  model = "gpt-4o"
-  rt_path = '../pddl_data'
-  pred_path = 'gpt4o_3shot_desc_ZPD'
-  pred_raw_path = 'gpt4o_3shot_desc_ZPD_raw'
-  # pred_path = f'{model}_{prompt}'
-  # pred_raw_path = f'{model}_{prompt}_raw'
+  # argparse
+  parser = argparse.ArgumentParser()
+  parser.add_argument('--model', type=str, default="gpt4", help="gpt model name")
+  # parser.add_argument('--prompt', type=str, default="whole", help="the type of prompt to use")
+  parser.add_argument('--instruct_prompt', type=str, default="instruction_ZPD", help="the type of prompt instruction")
+  parser.add_argument('--pddl_prompt', type=str, default="instruction_no_text", help="the type of pddl prompt")
+  # parser.add_argument('--cot', action="store_true", help="whether to use cot prompt")
+  parser.add_argument('--few_shot', action="store_true", help="whether to use few shot examples")
 
-  instruct_prompt_type = "instruction_ZPD"
-  pddl_prompt_type = "instruction_no_text" # "instruction_no_text_CoT", "instruction_pair_CoT"
-  few_shot = True
+  args = parser.parse_args()
+
+  model = model_name_map[args.model]
+  # prompt = prompt_type_map[args.prompt]
+  instruct_prompt_type = args.instruct_prompt # "instruction_ZPD"
+  pddl_prompt_type = args.pddl_prompt #"instruction_no_text"
+  few_shot = args.few_shot
+  pred_path = f'{model}_{instruct_prompt_type[12:]}_{pddl_prompt_type[12:]}_few_shot_{few_shot}'
+  pred_raw_path = f'{model}_{instruct_prompt_type[12:]}_{pddl_prompt_type[12:]}_few_shot_{few_shot}_raw'
+
+  # model = "gpt-4o"
+  rt_path = '../pddl_data'
+  # pred_path = 'gpt4o_3shot_desc_ZPD'
+  # pred_raw_path = 'gpt4o_3shot_desc_ZPD_raw'
+  # instruct_prompt_type = "instruction_ZPD"
+  # pddl_prompt_type = "instruction_no_text" # "instruction_no_text_CoT", "instruction_pair_CoT"
+  # few_shot = True
 
   prompts = build_prompts.read_prompt("prompts.json")
   instruct_prompt = prompts['instruction_task'] +'\n'+ prompts[instruct_prompt_type]
