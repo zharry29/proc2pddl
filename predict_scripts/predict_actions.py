@@ -137,7 +137,6 @@ def main():
   for path, dirs, files in os.walk(rt_path):
         # print(path,dir,files)
         if 'problem' not in path and path!=rt_path:
-            # all([id not in path for id in ['114905535', '114934221', '115230790', '114994170', '114971046','114756331']]):
                 # any([id in path for id in ['114394848', '114985787', '114778947']]):
                 # all([id not in path for id in ['114905535','114756331','115230790','114994170']]):
                 # not '114756331' in path:
