@@ -50,4 +50,34 @@ prints to stdout the number of predicted plans that exactly match the gold plan.
 prints to stdout the accuracy of actions, parameters, preconditions, and effects.
 
 ## Citation
-If you use our work, please cite (TODO)
+If you use our work, please cite:
+
+```
+@inproceedings{zhang-etal-2024-proc2pddl,
+    title = "{PROC}2{PDDL}: Open-Domain Planning Representations from Texts",
+    author = "Zhang, Tianyi  and
+      Zhang, Li  and
+      Hou, Zhaoyi  and
+      Wang, Ziyu  and
+      Gu, Yuling  and
+      Clark, Peter  and
+      Callison-Burch, Chris  and
+      Tandon, Niket",
+    editor = "Dalvi Mishra, Bhavana  and
+      Durrett, Greg  and
+      Jansen, Peter  and
+      Lipkin, Ben  and
+      Neves Ribeiro, Danilo  and
+      Wong, Lionel  and
+      Ye, Xi  and
+      Zhao, Wenting",
+    booktitle = "Proceedings of the 2nd Workshop on Natural Language Reasoning and Structured Explanations (@ACL 2024)",
+    month = aug,
+    year = "2024",
+    address = "Bangkok, Thailand",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.nlrse-1.2",
+    pages = "13--24",
+    abstract = "Planning in a text-based environment continues to be a significant challenge for AI systems. Recent approaches have utilized language models to predict planning domain definitions (e.g., PDDL) but have only been evaluated in closed-domain simulated environments. To address this, we present Proc2PDDL, the first dataset containing open-domain procedural texts paired with expert-annotated PDDL representations. Using this dataset, we evaluate the task of predicting domain actions (parameters, preconditions, and effects). We experiment with various large language models (LLMs) and prompting mechanisms, including a novel instruction inspired by the zone of proximal development (ZPD), which reconstructs the task as incremental basic skills. Our results demonstrate that Proc2PDDL is highly challenging for end-to-end LLMs, with GPT-3.5{'}s success rate close to 0{\%} and GPT-4o{'}s 38{\%}. With ZPD instructions, GPT-4o{'}s success rate increases to 45{\%}, outperforming regular chain-of-thought prompting{'}s 34{\%}. Our analysis systematically examines both syntactic and semantic errors, providing insights into the strengths and weaknesses of language models in generating domain-specific programs.",
+}
+```
